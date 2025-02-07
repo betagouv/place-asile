@@ -2,14 +2,6 @@
 # yarn lockfile v1
 
 
-"@codegouvfr/react-dsfr@^1.18.0":
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-1.18.0.tgz#6b8015fce7a40852464646c98cb113f34cae892c"
-  integrity sha512-fLdjbJfeDYNJjs5w0sce1tkCc6Qh7m/wNi0KHc/3bz0sG8Krw0h8+0xmjjPqiBG0MCS/dHNCOG4XBsxdP2ovIA==
-  dependencies:
-    tsafe "^1.8.5"
-    yargs-parser "^21.1.1"
-
 "@emnapi/runtime@^1.2.0":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@emnapi/runtime/-/runtime-1.3.1.tgz#0fcaa575afc31f455fd33534c19381cfce6c6f60"
@@ -77,6 +69,11 @@
   dependencies:
     "@eslint/core" "^0.10.0"
     levn "^0.4.1"
+
+"@gouvfr/dsfr@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@gouvfr/dsfr/-/dsfr-1.13.0.tgz#5f9661d3093acea8fd4fa9154ad948f051ad5998"
+  integrity sha512-I6JLYfE63dogk5qOx69gMfW/bKsm+daFgfx2QX75isbKBy5khlJdVxOD0A6ohvywvUJlEcZTmVK8rNHeVvGmgw==
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
@@ -2338,11 +2335,6 @@ ts-api-utils@^2.0.1:
   resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-2.0.1.tgz#660729385b625b939aaa58054f45c058f33f10cd"
   integrity sha512-dnlgjFSVetynI8nzgJ+qF62efpglpWRk8isUEWZGWlJYySCTD6aKvbUDu+zbPeDakk3bg5H4XpitHukgfL1m9w==
 
-tsafe@^1.8.5:
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/tsafe/-/tsafe-1.8.5.tgz#cdf9fa3111974ac480d7ee519f8241815e5d22ea"
-  integrity sha512-LFWTWQrW6rwSY+IBNFl2ridGfUzVsPwrZ26T4KUJww/py8rzaQ/SY+MIz6YROozpUCaRcuISqagmlwub9YT9kw==
-
 tsconfig-paths@^3.15.0:
   version "3.15.0"
   resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.15.0.tgz#5299ec605e55b1abb23ec939ef15edaf483070d4"
@@ -2500,11 +2492,6 @@ word-wrap@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.5.tgz#d2c45c6dd4fbce621a66f136cbe328afd0410b34"
   integrity sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==
-
-yargs-parser@^21.1.1:
-  version "21.1.1"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
-  integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
 
 yocto-queue@^0.1.0:
   version "0.1.0"
