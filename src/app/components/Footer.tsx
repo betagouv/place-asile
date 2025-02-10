@@ -73,7 +73,7 @@ export const Footer = () => {
             </li>
             <li className="fr-footer__bottom-item">
               <a className="fr-footer__bottom-link" href="#">
-                Accessibilité : non/partiellement/totalement conforme
+                Accessibilité : partiellement conforme
               </a>
             </li>
             <li className="fr-footer__bottom-item">

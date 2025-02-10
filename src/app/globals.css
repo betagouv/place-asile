@@ -1,3 +1,11 @@
 .w-full {
   width: 100%;
 }
+
+a.leaflet-control-zoom-in {
+  background-image: none;
+}
+
+a.leaflet-control-zoom-out {
+    background-image: none;
+  }
