@@ -11,7 +11,8 @@
     "lint:css": "npx stylelint \"**/*.css\"",
     "test": "vitest --run",
     "test:watch": "vitest --watch",
-    "prepare": "husky"
+    "prepare": "husky",
+    "migrate": "node ./scripts/export-76-json.mjs"
   },
   "dependencies": {
     "@gouvfr/dsfr": "^1.13.0",
@@ -35,6 +36,7 @@
     "eslint-config-next": "15.1.6",
     "husky": "^9.1.7",
     "jsdom": "^26.0.0",
+    "node-xlsx": "^0.24.0",
     "stylelint": "^16.14.1",
     "stylelint-config-standard": "^37.0.0",
     "typescript": "^5",
