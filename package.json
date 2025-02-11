@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "yarn lint:css && yarn lint:ts",
+    "lint:ts": "next lint",
+    "lint:css": "npx stylelint \"**/*.css\"",
     "test": "vitest --run",
     "test:watch": "vitest --watch",
     "prepare": "husky"
@@ -33,6 +35,8 @@
     "eslint-config-next": "15.1.6",
     "husky": "^9.1.7",
     "jsdom": "^26.0.0",
+    "stylelint": "^16.14.1",
+    "stylelint-config-standard": "^37.0.0",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.5"
