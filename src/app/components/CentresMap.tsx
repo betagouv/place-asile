@@ -6,10 +6,16 @@ import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 import { TileLayer } from "react-leaflet/TileLayer";
 import { DEFAULT_MAP_ZOOM, FRANCE_CENTER } from "../constants";
+import { LatLngTuple } from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
+
+const MAX_BOUNDS: LatLngTuple[] = [
+  [38.976492485539424, -5.9326171875],
+  [53.291489065300226, 9.667968750000002],
+];
 
 const CentresMap = () => {
   return (
@@ -19,10 +25,7 @@ const CentresMap = () => {
         zoom={DEFAULT_MAP_ZOOM}
         scrollWheelZoom={true}
         style={{ height: "500px", width: "500px" }}
-        maxBounds={[
-          [38.976492485539424, -5.9326171875],
-          [53.291489065300226, 9.667968750000002],
-        ]}
+        maxBounds={MAX_BOUNDS}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
