@@ -11,6 +11,7 @@ import { LatLngTuple } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
+import { useCentres } from "../hooks/useCentres";
 
 const MAX_BOUNDS: LatLngTuple[] = [
   [38.976492485539424, -5.9326171875],
@@ -18,6 +19,7 @@ const MAX_BOUNDS: LatLngTuple[] = [
 ];
 
 const CentresMap = () => {
+  const markers = useCentres();
   return (
     <>
       <MapContainer
@@ -27,13 +29,12 @@ const CentresMap = () => {
         style={{ height: "500px", width: "500px" }}
         maxBounds={MAX_BOUNDS}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={FRANCE_CENTER}>
-          <Popup>Centre de test</Popup>
-        </Marker>
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {markers.map(({ position, name, id }) => (
+          <Marker position={position} key={id}>
+            <Popup>{name}</Popup>
+          </Marker>
+        ))}
       </MapContainer>
     </>
   );
