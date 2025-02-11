@@ -35,3 +35,23 @@ Pour lancer les tests en continu, exécutez :
 ```bash
 yarn test:watch
 ```
+
+## 🎨 Formattage du code
+
+Pour vérifier que tout le code est bien formatté, exécutez :
+
+```bash
+yarn lint
+```
+
+Pour vérifier qu'uniquement le code JS/TS/TSX est bien formatté, exécutez :
+
+```bash
+yarn lint:ts
+```
+
+Pour vérifier qu'uniquement le code CSS est bien formatté, exécutez :
+
+```bash
+yarn lint:css
+```
