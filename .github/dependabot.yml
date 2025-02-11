@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    ignore:
+      - dependency-name: "eslint*"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "patch"
+          - "minor"
