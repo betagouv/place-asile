@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 import "@gouvfr/dsfr/dist/dsfr.min.css";
+import "@gouvfr/dsfr/dist/utility/icons/icons-map/icons-map.min.css";
+import "@gouvfr/dsfr/dist/utility/icons/icons-document/icons-document.min.css";
 import "./globals.css";
 import { Header } from "./components/common/Header";
 import { Footer } from "./components/common/Footer";
