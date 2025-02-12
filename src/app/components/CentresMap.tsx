@@ -30,11 +30,15 @@ const CentresMap = () => {
         maxBounds={MAX_BOUNDS}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {markers.map(({ position, name, id }) => (
-          <Marker position={position} key={id}>
-            <Popup>{name}</Popup>
-          </Marker>
-        ))}
+        {markers.map(
+          ({ coordinates, adresseHebergement, operateur }, index) => (
+            <Marker position={coordinates || [0, 0]} key={index}>
+              <Popup>
+                {adresseHebergement}, {operateur}
+              </Popup>
+            </Marker>
+          )
+        )}
       </MapContainer>
     </>
   );
