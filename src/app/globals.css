@@ -7,5 +7,9 @@ a.leaflet-control-zoom-in {
 }
 
 a.leaflet-control-zoom-out {
-    background-image: none;
-  }
+  background-image: none;
+}
+
+.text-blue-france {
+  color: var(--text-title-blue-france)
+}
