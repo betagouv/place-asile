@@ -1,0 +1,10 @@
+.no-bg {
+  background-color: unset !important;
+}
+
+.borders {
+  border: 1px solid var(--border-default-grey);
+  border-radius: 10px;
+  border-collapse: unset !important;
+  border-color: var(--border-default-grey) !important;
+}

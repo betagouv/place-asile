@@ -27,3 +27,16 @@ a.leaflet-control-zoom-out {
   justify-content: space-between;
   align-items: center;
 }
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.bg-grey {
+  background-color: var(--background-alt-grey);
+}
+
+.align-center {
+  display: flex;
+  justify-content: center;
+}
