@@ -1,8 +1,8 @@
-import React, { ReactElement } from "react";
-import { Table } from "./common/Table";
-import { Pagination } from "./common/Pagination";
-import { Centre } from "../types/centre.type";
-import { Badge } from "./common/Badge";
+import { ReactElement } from "react";
+import { Table } from "../components/Table";
+import { Pagination } from "../components/Pagination";
+import { Centre } from "../../types/centre.type";
+import { Badge } from "../components/Badge";
 
 export const CentresTable = ({
   centres,

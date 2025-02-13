@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Pagination = () => {
   return (
     <nav role="navigation" className="fr-pagination" aria-label="Pagination">

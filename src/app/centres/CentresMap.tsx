@@ -1,17 +1,17 @@
 "use client";
 
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { MapContainer } from "react-leaflet/MapContainer";
 
 import { TileLayer } from "react-leaflet/TileLayer";
-import { DEFAULT_MAP_ZOOM, FRANCE_CENTER } from "../constants";
+import { DEFAULT_MAP_ZOOM, FRANCE_CENTER } from "../../constants";
 import { LatLngTuple } from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 import { MapMarker } from "./MapMarker";
-import { Centre } from "../types/centre.type";
+import { Centre } from "../../types/centre.type";
 
 const MAX_BOUNDS: LatLngTuple[] = [
   [38.976492485539424, -5.9326171875],

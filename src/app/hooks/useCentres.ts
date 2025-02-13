@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Centre } from "../types/centre.type";
+import { Centre } from "../../types/centre.type";
 
 export const useCentres = () => {
   const [centres, setCentres] = useState<Centre[]>([]);

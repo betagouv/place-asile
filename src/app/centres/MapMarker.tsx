@@ -1,9 +1,9 @@
+import { ReactElement } from "react";
 import { LatLngTuple } from "leaflet";
-import React, { ReactElement } from "react";
 import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 import styles from "./MapMarker.module.css";
-import { Badge } from "./common/Badge";
+import { Badge } from "../components/Badge";
 
 export const MapMarker = ({
   coordinates,
