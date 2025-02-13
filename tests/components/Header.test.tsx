@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { Header } from "../../src/app/components/common/Header";
+import { Header } from "../../src/app/components/Header";
 
 it("Header", () => {
   // WHEN
