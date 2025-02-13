@@ -1,12 +1,14 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { SegmentedControl } from "./components/common/SegmentedControl";
 import { useCentres } from "./hooks/useCentres";
+import { CentresTable } from "./components/CentresTable";
 
 export default function Home() {
   const centres = useCentres();
+  const [selectedVisualization, setSelectedVisualization] = useState("carte");
 
   const CentresMap = useMemo(
     () =>
@@ -19,12 +21,19 @@ export default function Home() {
   return (
     <>
       <div className="space-between fr-mb-1w">
-        <SegmentedControl name="Visualisation" options={options}>
+        <SegmentedControl
+          name="Visualisation"
+          options={options}
+          onChange={setSelectedVisualization}
+        >
           <h1 className="text-blue-france fr-h3 fr-mr-3w fr-mb-0">Centres</h1>
         </SegmentedControl>
         <p className="text-grey fr-mb-0">{centres.length} entrées</p>
       </div>
-      <CentresMap centres={centres} />
+      {selectedVisualization === "carte" && <CentresMap centres={centres} />}
+      {selectedVisualization === "tableau" && (
+        <CentresTable centres={centres} />
+      )}
     </>
   );
 }

@@ -4,6 +4,7 @@ export const SegmentedControl = ({
   children,
   name,
   options,
+  onChange,
 }: Props): ReactElement => {
   return (
     <fieldset className="fr-segmented fr-segmented--sm">
@@ -19,6 +20,7 @@ export const SegmentedControl = ({
               name={name}
               type="radio"
               value={value}
+              onChange={(event) => onChange?.(event.target.value)}
             />
             <label className={`fr-label ${icon} justify-center`} htmlFor={id}>
               {label}
@@ -40,5 +42,6 @@ type Props = PropsWithChildren<
       value: string;
       icon?: string;
     }>;
+    onChange?: (visualization: string) => void;
   }>
 >;
