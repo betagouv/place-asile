@@ -19,7 +19,7 @@ export const Header = () => {
               </div>
               <div className="fr-header__service">
                 <Link href="/" title="Accueil - Place d’asile">
-                  <p className="fr-header__service-title">Place d’asile</p>
+                  <h1 className="fr-header__service-title">Place d’asile</h1>
                 </Link>
                 <p className="fr-header__service-tagline">
                   Piloter le parc de logements pour demandeurs d’asile

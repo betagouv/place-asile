@@ -1,41 +1,37 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { PropsWithChildren, ReactElement } from "react";
+import styles from "./Table.module.css";
 
-export function Table<DataType extends Record<string, ReactNode>>({
-  data,
+export function Table({
+  children,
   title,
   headings,
-}: Props<DataType>): ReactElement {
+  ariaLabelledBy,
+}: Props): ReactElement {
   return (
-    <div className="fr-table fr-mt-0" id="table-md-component">
+    <div
+      className="fr-table fr-mt-0"
+      id="table-md-component"
+      aria-labelledby={ariaLabelledBy}
+    >
       <div className="fr-table__wrapper">
         <div className="fr-table__container">
           <div className="fr-table__content">
-            <table id="table-md">
+            <table id="table-md" className={styles.borders}>
               {title && <caption>{title}</caption>}
               <thead>
                 <tr>
                   {headings.map((heading) => (
-                    <th scope="col" key={`col-${heading.selector}`}>
+                    <th
+                      scope="col"
+                      key={`col-${heading.selector}`}
+                      className={`uppercase text-grey ${styles["no-bg"]}`}
+                    >
                       {heading.label}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody>
-                {data.map((row, rowIndex) => (
-                  <tr
-                    id={`table-md-row-key-${rowIndex}`}
-                    data-row-key={rowIndex}
-                    key={`row-${rowIndex}`}
-                  >
-                    {Object.values(headings).map((heading, cellIndex) => (
-                      <td key={`cell-${rowIndex}-${cellIndex}`}>
-                        {row[heading.selector]}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
+              <tbody>{children}</tbody>
             </table>
           </div>
         </div>
@@ -44,8 +40,8 @@ export function Table<DataType extends Record<string, ReactNode>>({
   );
 }
 
-type Props<DataType> = {
-  data: DataType[];
+type Props = PropsWithChildren<{
   title?: string;
   headings: { label: string; selector: string }[];
-};
+  ariaLabelledBy: string;
+}>;
