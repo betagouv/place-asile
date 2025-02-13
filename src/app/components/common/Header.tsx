@@ -22,7 +22,7 @@ export const Header = () => {
                   <p className="fr-header__service-title">Place d’asile</p>
                 </Link>
                 <p className="fr-header__service-tagline">
-                  Faciliter l’hébergement des demandeurs d’asile
+                  Piloter le parc de logements pour demandeurs d’asile
                 </p>
               </div>
             </div>
