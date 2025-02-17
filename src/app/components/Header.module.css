@@ -1,6 +1,4 @@
-.icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 8px;
+.title {
+  line-height: 1rem;
+  font-size: 14px;
 }

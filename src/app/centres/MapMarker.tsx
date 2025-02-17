@@ -12,6 +12,8 @@ export const MapMarker = ({
   type,
   nbPlaces,
   typologie,
+  codePostal,
+  commune,
 }: Props): ReactElement => {
   return (
     <Marker position={coordinates || [0, 0]}>
@@ -20,7 +22,9 @@ export const MapMarker = ({
         <p className="fr-text text-blue-france fr-text-title--blue-france fr-m-0">
           <strong>{operateur}</strong> - {nbPlaces} places
         </p>
-        <p className="fr-text--xs fr-m-0">{adresseHebergement}</p>
+        <p className="fr-text--xs fr-m-0">
+          {adresseHebergement}, {codePostal} {commune}
+        </p>
         <Badge>{typologie}</Badge>
       </Popup>
     </Marker>
@@ -34,4 +38,6 @@ type Props = {
   type: string;
   nbPlaces: number;
   typologie: string;
+  codePostal: string;
+  commune: string;
 };

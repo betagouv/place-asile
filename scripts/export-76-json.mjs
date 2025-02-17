@@ -2,8 +2,7 @@ import xlsx from 'node-xlsx';
 import path from 'path';
 import fs from 'fs';
 import {fileURLToPath} from 'url';
-
-const CENTER_76_DEPARTMENT = "lon=1,0135&lat=49.3918";
+import { exportConfig } from './export-config.mjs';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -17,8 +16,8 @@ const computeTypologie = (rawTypologie) => {
   return mapping[rawTypologie]
 }
 
-const getCentresFromXslx = () => {
-  const sheets = xlsx.parse(`${dirname}/asile-76.xlsx`);
+const getCentresFromXslx = (filename) => {
+  const sheets = xlsx.parse(`${dirname}/${filename}`);
   const firstSheet = sheets[0].data
   const centres = firstSheet.map(line => {
     return {
@@ -31,28 +30,37 @@ const getCentresFromXslx = () => {
       nbHebergements: line[8],
       typologie: computeTypologie(line[10])
     }
-  })
-  return centres.slice(1, 346)
+  }).filter(centre => centre.operateur)
+  centres.shift()
+  return centres
 }
 
-const convertAddressToCoordinates = async (address) => {
+const convertAddressToCoordinates = async (address, geographicCenter) => {
   const result = await fetch(
-    `https://api-adresse.data.gouv.fr/search/?q=${address}&autocomplete=0&limit=1&${CENTER_76_DEPARTMENT}`
+    `https://api-adresse.data.gouv.fr/search/?q=${address}&autocomplete=0&limit=1&${geographicCenter}`
   );
   const data = await result.json();
   return data?.features?.[0]?.geometry?.coordinates
 }
 
-const runMigration = async () => {
-  console.log("========== Start of migration ==========");
-  const centres = getCentresFromXslx()
+const runMigration = async (geographicCenter, filename) => {
+  const centres = getCentresFromXslx(filename)
   for (const centre of centres) {
-    console.log("Récupération des coordonnées de :", centre.adresseHebergement)
-    const coordinates = await convertAddressToCoordinates(centre.adresseHebergement);
+    const adresseComplete = `${centre.adresseHebergement} ${centre.codePostalHebergement} ${centre.communeHebergement}`;
+    console.log("Récupération de :", adresseComplete)
+    const coordinates = await convertAddressToCoordinates(adresseComplete, geographicCenter);
     centre.coordinates = coordinates?.reverse()
   }
   fs.writeFileSync(`${dirname}/export-76.json`, JSON.stringify(centres))
-  console.log("========== End of migration ==========");
 }
 
-runMigration()
+const migrateAll = async () => {
+  console.log("========== Début de la migration ==========");
+  for (const department of exportConfig) {
+    console.log(`> Migration de ${department.name}`)
+    runMigration(department.center, department.filename)
+  }
+  console.log("========== Fin de la migration ==========");
+}
+
+migrateAll()

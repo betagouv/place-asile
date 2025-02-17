@@ -28,7 +28,10 @@ const CentresMap = ({ centres }: Props): ReactElement => {
         style={{ height: "80vh", width: "80vw" }}
         maxBounds={MAX_BOUNDS}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          minZoom={DEFAULT_MAP_ZOOM}
+        />
         {centres.map(
           (
             {
@@ -38,6 +41,8 @@ const CentresMap = ({ centres }: Props): ReactElement => {
               type,
               nbPlaces,
               typologie,
+              codePostalHebergement,
+              communeHebergement,
             },
             index
           ) => (
@@ -48,6 +53,8 @@ const CentresMap = ({ centres }: Props): ReactElement => {
               type={type}
               nbPlaces={nbPlaces}
               typologie={typologie}
+              codePostal={codePostalHebergement}
+              commune={communeHebergement}
               key={index}
             />
           )
