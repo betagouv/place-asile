@@ -5,16 +5,18 @@ export const Header = () => {
   return (
     <header role="banner" className="border-bottom">
       <div className="space-between">
-        <div className="left-menu">
+        <div className="left-menu fr-py-1w">
           <Link
             className="align-center"
             href="/"
             title="Accueil - Place d’asile"
           >
             <span
-              className={`fr-icon-map-pin-user-line text-blue-france ${styles.icon}`}
+              className={`fr-icon-map-pin-user-line text-blue-france fr-mr-1w align-center`}
             />
-            <h1 className="fr-header__service-title text-blue-france fr-my-1w fr-text--sm uppercase">
+            <h1
+              className={`text-blue-france fr-my-1w uppercase ${styles.title}`}
+            >
               Place
               <br />
               d’asile
