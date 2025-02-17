@@ -20,8 +20,8 @@ export default function Centres() {
   );
 
   return (
-    <>
-      <div className="space-between fr-mb-1w">
+    <div className="w-full">
+      <div className="space-between fr-py-1w fr-px-2w border-bottom">
         <SegmentedControl
           name="Visualisation"
           options={options}
@@ -40,7 +40,7 @@ export default function Centres() {
       {selectedVisualization === "tableau" && (
         <CentresTable centres={centres} ariaLabelledBy="centres-titre" />
       )}
-    </>
+    </div>
   );
 }
 

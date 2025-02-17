@@ -1,6 +1,12 @@
-import Link from "next/link";
+"use client";
 
-export const Menu = () => {
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ReactElement } from "react";
+
+export const Menu = (): ReactElement => {
+  const pathname = usePathname();
+
   const menuItems = [
     {
       icon: "fr-icon-community-line",
@@ -19,16 +25,28 @@ export const Menu = () => {
     },
   ];
 
+  const getActiveClass = (url: string): string => {
+    return pathname === url ? "fr-sidemenu__item--active" : "";
+  };
+
+  const getAriaCurrent = (url: string): "page" | boolean => {
+    return pathname === url ? "page" : false;
+  };
+
   return (
-    <nav className="fr-sidemenu fr-pt-2w">
+    <nav className="fr-sidemenu fr-p-2w left-menu no-shrink">
       <ul className="fr-sidemenu__list">
         {menuItems.map((menuItem) => (
-          <li className="fr-sidemenu__item" key={menuItem.label}>
+          <li
+            className={`fr-sidemenu__item ${getActiveClass(menuItem.url)}`}
+            key={menuItem.label}
+          >
             <Link
-              className={`fr-sidemenu__link ${menuItem.icon}`}
+              className="fr-sidemenu__link"
               href={menuItem.url}
+              aria-current={getAriaCurrent(menuItem.url)}
             >
-              {menuItem.label}
+              <span className={menuItem.icon}>{menuItem.label}</span>
             </Link>
           </li>
         ))}
