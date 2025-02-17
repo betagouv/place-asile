@@ -55,3 +55,11 @@ Pour vérifier qu'uniquement le code CSS est bien formatté, exécutez :
 ```bash
 yarn lint:css
 ```
+
+## 🗃️ Migration des données
+
+Pour lancer, vous pouvez modifier la configuration de `scripts/export-config.mjs` la migration des données, exécutez :
+
+```bash
+yarn migrate
+```
