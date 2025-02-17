@@ -1,13 +1,9 @@
+[href] {
+  background-image: none;
+}
+
 .w-full {
   width: 100%;
-}
-
-a.leaflet-control-zoom-in {
-  background-image: none;
-}
-
-a.leaflet-control-zoom-out {
-  background-image: none;
 }
 
 .text-blue-france {
@@ -39,8 +35,22 @@ a.leaflet-control-zoom-out {
 .align-center {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .d-flex {
   display: flex;
+}
+
+.left-menu {
+  border-right: 1px solid var(--border-default-grey);
+  width: 15vw;
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--border-default-grey);
+}
+
+.no-shrink {
+  flex-shrink: 0;
 }

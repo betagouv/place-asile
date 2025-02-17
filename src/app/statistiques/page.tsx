@@ -1,3 +1,5 @@
 export default function Statistiques() {
-  return <h2 className="text-blue-france">👷 Construction en cours 👷</h2>;
+  return (
+    <h2 className="text-blue-france fr-p-2w">👷 Construction en cours 👷</h2>
+  );
 }
