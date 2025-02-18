@@ -3,11 +3,15 @@ import { Table } from "../components/Table";
 import { Pagination } from "../components/Pagination";
 import { Centre } from "../../types/centre.type";
 import { Badge } from "../components/Badge";
+import { usePagination } from "../hooks/usePagination";
 
 export const CentresTable = ({
   centres,
   ariaLabelledBy,
 }: Props): ReactElement => {
+  const { currentPage, setCurrentPage, totalPages, currentData } =
+    usePagination<Centre>(centres);
+
   const headings = [
     { label: "Type", selector: "type" },
     { label: "Opérateur", selector: "operateur" },
@@ -19,11 +23,14 @@ export const CentresTable = ({
   return (
     <div className="fr-p-1w bg-grey">
       <Table headings={headings} ariaLabelledBy={ariaLabelledBy}>
-        {centres.map((centre, index) => (
+        {currentData.map((centre, index) => (
           <tr id={`table-row-key-${index}`} data-row-key={index} key={index}>
             <td className="text-grey">{centre.type}</td>
             <td>{centre.operateur}</td>
-            <td className="text-grey">{centre.adresseHebergement}</td>
+            <td className="text-grey">
+              {centre.adresseHebergement}, {centre.codePostalHebergement}{" "}
+              {centre.communeHebergement}
+            </td>
             <td>
               <Badge>{centre.typologie}</Badge>
             </td>
@@ -32,7 +39,11 @@ export const CentresTable = ({
         ))}
       </Table>
       <div className="align-center">
-        <Pagination />
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );
