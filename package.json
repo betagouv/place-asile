@@ -12,7 +12,7 @@
     "test": "vitest --run",
     "test:watch": "vitest --watch",
     "prepare": "husky",
-    "migrate": "node ./scripts/export-76-json.mjs"
+    "migrate": "node ./scripts/export-to-json.mjs"
   },
   "dependencies": {
     "@gouvfr/dsfr": "^1.13.0",

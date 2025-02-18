@@ -23,7 +23,7 @@ export const Map = ({ children }: PropsWithChildren): ReactElement => {
         center={FRANCE_CENTER}
         zoom={DEFAULT_MAP_ZOOM}
         scrollWheelZoom={true}
-        style={{ height: "80vh", width: "80vw" }}
+        style={{ height: "84vh", width: "84vw" }}
         maxBounds={MAX_BOUNDS}
       >
         <TileLayer
