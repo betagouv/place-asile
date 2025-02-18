@@ -5,7 +5,7 @@ import { Popup } from "react-leaflet/Popup";
 import styles from "./MapMarker.module.css";
 import { Badge } from "../components/Badge";
 
-export const MapMarker = ({
+export const CentreMarker = ({
   coordinates,
   adresseHebergement,
   operateur,
