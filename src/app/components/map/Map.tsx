@@ -7,12 +7,9 @@ import { TileLayer } from "react-leaflet/TileLayer";
 import { LatLngTuple } from "leaflet";
 
 import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
-import "leaflet-defaulticon-compatibility";
-import "next-leaflet-cluster/lib/assets/MarkerCluster.css";
-import "next-leaflet-cluster/lib/assets/MarkerCluster.Default.css";
 
-import { DEFAULT_MAP_ZOOM, FRANCE_CENTER } from "../../constants";
+import { DEFAULT_MAP_ZOOM, FRANCE_CENTER } from "../../../constants";
+import { createGroupIcon } from "./GroupMarker";
 
 const MAX_BOUNDS: LatLngTuple[] = [
   [38.976492485539424, -5.9326171875],
@@ -33,7 +30,11 @@ export const Map = ({ children }: PropsWithChildren): ReactElement => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           minZoom={DEFAULT_MAP_ZOOM}
         />
-        <MarkerClusterGroup chunkedLoading={true} showCoverageOnHover={false}>
+        <MarkerClusterGroup
+          chunkedLoading={true}
+          showCoverageOnHover={false}
+          iconCreateFunction={createGroupIcon}
+        >
           {children}
         </MarkerClusterGroup>
       </MapContainer>

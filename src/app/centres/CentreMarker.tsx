@@ -4,6 +4,8 @@ import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 import styles from "./MapMarker.module.css";
 import { Badge } from "../components/Badge";
+import { singleMarkerIcon } from "../components/map/SingleMarker";
+import React from "react";
 
 export const CentreMarker = ({
   coordinates,
@@ -16,7 +18,7 @@ export const CentreMarker = ({
   commune,
 }: Props): ReactElement => {
   return (
-    <Marker position={coordinates || [0, 0]}>
+    <Marker position={coordinates || [0, 0]} icon={singleMarkerIcon}>
       <Popup className={styles.container} closeButton={false}>
         <p className="fr-text--xs fr-m-0">{type}</p>
         <p className="fr-text text-blue-france fr-text-title--blue-france fr-m-0">

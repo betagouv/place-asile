@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 
 import { CentreMarker } from "./CentreMarker";
 import { Centre } from "../../types/centre.type";
-import { Map } from "../components/Map";
+import { Map } from "../components/map/Map";
 
 const CentresMap = ({ centres }: Props): ReactElement => {
   return (
