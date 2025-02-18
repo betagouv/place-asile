@@ -58,7 +58,7 @@ yarn lint:css
 
 ## 🗃️ Migration des données
 
-Pour lancer, vous pouvez modifier la configuration de `scripts/export-config.mjs` la migration des données, exécutez :
+Pour lancer la migration des données, vous pouvez modifier la configuration de `scripts/export-config.mjs`, puis exécutez :
 
 ```bash
 yarn migrate
