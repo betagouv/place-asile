@@ -23,10 +23,10 @@ export function Table({
                   {headings.map((heading) => (
                     <th
                       scope="col"
-                      key={`col-${heading.selector}`}
+                      key={`col-${heading}`}
                       className={`uppercase text-grey ${styles["no-bg"]}`}
                     >
-                      {heading.label}
+                      {heading}
                     </th>
                   ))}
                 </tr>
@@ -42,6 +42,6 @@ export function Table({
 
 type Props = PropsWithChildren<{
   title?: string;
-  headings: { label: string; selector: string }[];
+  headings: string[];
   ariaLabelledBy: string;
 }>;
