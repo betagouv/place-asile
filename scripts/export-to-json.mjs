@@ -13,7 +13,8 @@ const computeTypologie = (rawTypologie) => {
   }
   const mapping = {
     "D": "Diffus",
-    "D regr": "Diffus regroupé",
+    "D regr": "Diffus",
+    "R": "Collectif",
     "Collectif": "Collectif"
   }
   return mapping[rawTypologie]

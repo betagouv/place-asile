@@ -28,5 +28,20 @@ export const exportConfig = [
       nbHebergements: -1,
       typologie: 6
     }
+  },
+  {
+    name: "Loire-Atlantique - 44",
+    center: "lon=1.4056&lat=47.2141",
+    filename: "44.xlsx",
+    mapping: {
+      operateur: 9,
+      type: 8,
+      nbPlaces: 13,
+      adresseHebergement: 5,
+      codePostalHebergement: 6,
+      communeHebergement: 7,
+      nbHebergements: 11,
+      typologie: 10
+    }
   }
 ]
