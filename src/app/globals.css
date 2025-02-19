@@ -51,6 +51,11 @@
   flex-shrink: 0;
 }
 
+.align-right {
+  display: flex;
+  justify-content: end;
+}
+
 .leaflet-marker-pane > div {
   background-color: unset;
   border: 0;

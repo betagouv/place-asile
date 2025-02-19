@@ -10,4 +10,5 @@ export type Centre = {
   nbHebergements: number;
   typologie: string;
   coordinates: LatLngTuple;
+  id: number;
 };

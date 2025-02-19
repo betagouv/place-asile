@@ -20,6 +20,7 @@ const CentresMap = ({ centres }: Props): ReactElement => {
             typologie,
             codePostalHebergement,
             communeHebergement,
+            id,
           },
           index
         ) => (
@@ -32,6 +33,7 @@ const CentresMap = ({ centres }: Props): ReactElement => {
             typologie={typologie}
             codePostal={codePostalHebergement}
             commune={communeHebergement}
+            id={id}
             key={index}
           />
         )

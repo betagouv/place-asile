@@ -4,6 +4,7 @@ import { Pagination } from "../components/Pagination";
 import { Centre } from "../../types/centre.type";
 import { usePagination } from "../hooks/usePagination";
 import { TypologieBadge } from "./TypologieBadge";
+import Link from "next/link";
 
 export const CentresTable = ({
   centres,
@@ -13,11 +14,12 @@ export const CentresTable = ({
     usePagination<Centre>(centres);
 
   const headings = [
-    { label: "Type", selector: "type" },
-    { label: "Opérateur", selector: "operateur" },
-    { label: "Adresse administrative", selector: "adresseHebergement" },
-    { label: "Répartition", selector: "typologie" },
-    { label: "Places", selector: "nbPlaces" },
+    "Type",
+    "Opérateur",
+    "Adresse administrative",
+    "Répartition",
+    "Places",
+    "Détails",
   ];
 
   return (
@@ -35,6 +37,15 @@ export const CentresTable = ({
               <TypologieBadge typologie={centre.typologie} />
             </td>
             <td className="text-grey">{centre.nbPlaces}</td>
+            <td className="text-grey">
+              <Link
+                className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
+                title={`Détails de ${centre.adresseHebergement}`}
+                href={`centres/${centre.id}`}
+              >
+                Détails de {centre.adresseHebergement}
+              </Link>
+            </td>
           </tr>
         ))}
       </Table>

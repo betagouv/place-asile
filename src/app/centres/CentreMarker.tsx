@@ -4,7 +4,8 @@ import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 import { singleMarkerIcon } from "../components/map/SingleMarker";
 import { TypologieBadge } from "./TypologieBadge";
-import styles from "./MapMarker.module.css";
+import styles from "./CentreMarker.module.css";
+import Link from "next/link";
 
 export const CentreMarker = ({
   coordinates,
@@ -15,6 +16,7 @@ export const CentreMarker = ({
   typologie,
   codePostal,
   commune,
+  id,
 }: Props): ReactElement => {
   return (
     <Marker position={coordinates || [0, 0]} icon={singleMarkerIcon}>
@@ -27,6 +29,15 @@ export const CentreMarker = ({
           {adresseHebergement}, {codePostal} {commune}
         </p>
         <TypologieBadge typologie={typologie} />
+        <div className="align-right">
+          <Link
+            className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
+            title={`Détails de ${adresseHebergement}`}
+            href={`centres/${id}`}
+          >
+            Détails de {adresseHebergement}
+          </Link>
+        </div>
       </Popup>
     </Marker>
   );
@@ -41,4 +52,5 @@ type Props = {
   typologie: string;
   codePostal: string;
   commune: string;
+  id: number;
 };
