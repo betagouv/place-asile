@@ -2,10 +2,9 @@ import { ReactElement } from "react";
 import { LatLngTuple } from "leaflet";
 import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
-import styles from "./MapMarker.module.css";
-import { Badge } from "../components/Badge";
 import { singleMarkerIcon } from "../components/map/SingleMarker";
-import React from "react";
+import { TypologieBadge } from "./TypologieBadge";
+import styles from "./MapMarker.module.css";
 
 export const CentreMarker = ({
   coordinates,
@@ -27,7 +26,7 @@ export const CentreMarker = ({
         <p className="fr-text--xs fr-m-0">
           {adresseHebergement}, {codePostal} {commune}
         </p>
-        <Badge>{typologie}</Badge>
+        <TypologieBadge typologie={typologie} />
       </Popup>
     </Marker>
   );

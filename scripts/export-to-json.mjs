@@ -62,7 +62,8 @@ const migrateAll = async () => {
     const centres = await runMigration(department.center, department.filename, department.mapping)
     allCentres.push(...centres);
   }
-  fs.writeFileSync(`${dirname}/export.json`, JSON.stringify(allCentres))
+  const centresWithIds = allCentres.map((centre, index) => ({...centre, id: index + 1}))
+  fs.writeFileSync(`${dirname}/export.json`, JSON.stringify(centresWithIds))
   console.log("========== Fin de la migration ==========");
 }
 
