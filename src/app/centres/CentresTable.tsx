@@ -2,8 +2,8 @@ import { ReactElement } from "react";
 import { Table } from "../components/Table";
 import { Pagination } from "../components/Pagination";
 import { Centre } from "../../types/centre.type";
-import { Badge } from "../components/Badge";
 import { usePagination } from "../hooks/usePagination";
+import { TypologieBadge } from "./TypologieBadge";
 
 export const CentresTable = ({
   centres,
@@ -32,7 +32,7 @@ export const CentresTable = ({
               {centre.communeHebergement}
             </td>
             <td>
-              <Badge>{centre.typologie}</Badge>
+              <TypologieBadge typologie={centre.typologie} />
             </td>
             <td className="text-grey">{centre.nbPlaces}</td>
           </tr>
