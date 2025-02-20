@@ -1,35 +1,6 @@
-[href] {
-  background-image: none;
-}
-
+/* Display */
 .w-full {
   width: 100%;
-}
-
-.text-blue-france {
-  color: var(--text-title-blue-france)
-}
-
-.text-grey {
-  color: var(--text-mention-grey)
-}
-
-.space-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.uppercase {
-  text-transform: uppercase;
-}
-
-.bg-grey {
-  background-color: var(--background-alt-grey);
-}
-
-.bg-white {
-  background-color: white;
 }
 
 .align-center {
@@ -42,13 +13,10 @@
   display: flex;
 }
 
-.left-menu {
-  border-right: 1px solid var(--border-default-grey);
-  width: 15vw;
-}
-
-.border-bottom {
-  border-bottom: 1px solid var(--border-default-grey);
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .no-shrink {
@@ -60,6 +28,39 @@
   justify-content: end;
 }
 
+/* Colors */
+.text-blue-france {
+  color: var(--text-title-blue-france)
+}
+
+.text-grey {
+  color: var(--text-mention-grey)
+}
+
+.bg-grey {
+  background-color: var(--background-alt-grey);
+}
+
+.bg-white {
+  background-color: white;
+}
+
+/* Other */
+
+.left-menu {
+  border-right: 1px solid var(--border-default-grey);
+  width: 15vw;
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--border-default-grey);
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* Overrides */
 .leaflet-marker-pane > div {
   background-color: unset;
   border: 0;
@@ -67,4 +68,8 @@
 
 .leaflet-container a {
   color: var(--text-title-blue-france) !important;
+}
+
+[href] {
+  background-image: none;
 }
