@@ -28,6 +28,10 @@
   background-color: var(--background-alt-grey);
 }
 
+.bg-white {
+  background-color: white;
+}
+
 .align-center {
   display: flex;
   justify-content: center;
@@ -59,4 +63,8 @@
 .leaflet-marker-pane > div {
   background-color: unset;
   border: 0;
+}
+
+.leaflet-container a {
+  color: var(--text-title-blue-france) !important;
 }
