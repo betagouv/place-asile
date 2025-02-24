@@ -56,10 +56,28 @@ Pour vérifier qu'uniquement le code CSS est bien formatté, exécutez :
 yarn lint:css
 ```
 
-## 🗃️ Migration des données
+## 🗃️ Données
 
-Pour lancer la migration des données, vous pouvez modifier la configuration de `scripts/export-config.mjs`, puis exécutez :
+Pour extraireles données des fichiers xlsx, vous pouvez modifier la configuration de `scripts/extract-config.mjs`, puis exécutez :
 
 ```bash
-yarn migrate
+yarn extract
+```
+
+Ce projet utilise [`Prisma`](https://www.prisma.io/docs) pour interagir avec la base de données. Pour lancer la création de la base de données, remplissez d'abord la variable `DATABASE_URL` dans `.env` avec les identifiants de base de données. Puis, lancez la commande suivante pour construire la base de données :
+
+```bash
+yarn prisma:migrate
+```
+
+Pour remplir la base avec des premières données, lancez :
+
+```bash
+yarn prisma:seed
+```
+
+Enfin, vous pouvez vérifier le contenu de la base de données en exécutant :
+
+```bash
+yarn prisma:studio
 ```

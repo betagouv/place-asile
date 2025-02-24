@@ -2,7 +2,7 @@ import xlsx from 'node-xlsx';
 import path from 'path';
 import fs from 'fs';
 import {fileURLToPath} from 'url';
-import { exportConfig } from './export-config.mjs';
+import { extractConfig } from './extract-config.mjs';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -26,11 +26,11 @@ const getCentresFromXslx = (filename, mapping) => {
   return firstSheet.map(line => ({
     operateur: line[mapping.operateur] || "",
     type: line[mapping.type] || "",
-    nbPlaces: line[mapping.nbPlaces] || "",
+    nbPlaces: line[mapping.nbPlaces] || 0,
     adresseHebergement: line[mapping.adresseHebergement] || "",
     codePostalHebergement: line[mapping.codePostalHebergement] || "",
     communeHebergement: line[mapping.communeHebergement] || "",
-    nbHebergements: line[mapping.nbHebergements] || "",
+    nbHebergements: line[mapping.nbHebergements] || 0,
     typologie: computeTypologie(line[mapping.typologie]) || ""
   })).filter(centre => centre.operateur)
 }
@@ -49,7 +49,8 @@ const runMigration = async (geographicCenter, filename, mapping) => {
     const adresseComplete = `${centre.adresseHebergement} ${centre.codePostalHebergement} ${centre.communeHebergement}`;
     console.log("Récupération de :", adresseComplete)
     const coordinates = await convertAddressToCoordinates(adresseComplete, geographicCenter);
-    centre.coordinates = coordinates?.reverse()
+    centre.latitude = coordinates?.[0] || 0;
+    centre.longitude = coordinates?.[1] || 0;
   }
   return centres;
 }
@@ -57,13 +58,12 @@ const runMigration = async (geographicCenter, filename, mapping) => {
 const migrateAll = async () => {
   console.log("========== Début de la migration ==========");
   const allCentres = [];
-  for (const department of exportConfig) {
+  for (const department of extractConfig) {
     console.log(`> Migration de ${department.name}`)
     const centres = await runMigration(department.center, department.filename, department.mapping)
     allCentres.push(...centres);
   }
-  const centresWithIds = allCentres.map((centre, index) => ({...centre, id: index + 1}))
-  fs.writeFileSync(`${dirname}/export.json`, JSON.stringify(centresWithIds))
+  fs.writeFileSync(`${dirname}/export.json`, JSON.stringify(allCentres))
   console.log("========== Fin de la migration ==========");
 }
 
