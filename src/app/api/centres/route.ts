@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
-import centres from "../../../../scripts/export.json";
+import prisma from "../../../../lib/prisma";
 
 export async function GET() {
-  return NextResponse.json(centres);
+  const centres = await prisma.structure.findMany();
+  const centresWithCoordinates = centres.map((centre) => ({
+    ...centre,
+    coordinates: [centre.longitude, centre.latitude],
+  }));
+  return NextResponse.json(centresWithCoordinates);
 }
