@@ -12,13 +12,21 @@
     "test": "vitest --run",
     "test:watch": "vitest --watch",
     "prepare": "husky",
-    "migrate": "node ./scripts/export-to-json.mjs"
+    "extract": "node ./scripts/extract-from-xlsx.mjs",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:seed": "npx prisma db seed",
+    "prisma:studio": "npx prisma studio"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@gouvfr/dsfr": "^1.13.0",
+    "@prisma/client": "^6.4.1",
     "leaflet": "^1.9.4",
     "next": "15.1.7",
     "next-leaflet-cluster": "^1.0.0",
+    "prisma": "^6.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0"
@@ -39,6 +47,7 @@
     "node-xlsx": "^0.24.0",
     "stylelint": "^16.14.1",
     "stylelint-config-standard": "^37.0.0",
+    "tsx": "^4.19.3",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.5"
