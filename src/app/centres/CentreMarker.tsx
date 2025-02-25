@@ -19,7 +19,7 @@ export const CentreMarker = ({
   id,
 }: Props): ReactElement => {
   return (
-    <Marker position={coordinates || [0, 0]} icon={singleMarkerIcon}>
+    <Marker position={coordinates} icon={singleMarkerIcon}>
       <Popup className={styles.container} closeButton={false}>
         <p className="fr-text--xs fr-m-0">{type}</p>
         <p className="fr-text text-blue-france fr-text-title--blue-france fr-m-0">

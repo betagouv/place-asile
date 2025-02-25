@@ -49,8 +49,8 @@ const runMigration = async (geographicCenter, filename, mapping) => {
     const adresseComplete = `${centre.adresseHebergement} ${centre.codePostalHebergement} ${centre.communeHebergement}`;
     console.log("Récupération de :", adresseComplete)
     const coordinates = await convertAddressToCoordinates(adresseComplete, geographicCenter);
-    centre.latitude = coordinates?.[0] || 0;
-    centre.longitude = coordinates?.[1] || 0;
+    centre.longitude = coordinates?.[0] || 0;
+    centre.latitude = coordinates?.[1] || 0;
   }
   return centres;
 }
