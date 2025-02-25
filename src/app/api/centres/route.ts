@@ -5,7 +5,7 @@ export async function GET() {
   const centres = await prisma.structure.findMany();
   const centresWithCoordinates = centres.map((centre) => ({
     ...centre,
-    coordinates: [centre.longitude, centre.latitude],
+    coordinates: [centre.latitude, centre.longitude],
   }));
   return NextResponse.json(centresWithCoordinates);
 }

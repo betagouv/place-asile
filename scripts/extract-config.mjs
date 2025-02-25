@@ -1,4 +1,4 @@
-export const exportConfig = [
+export const extractConfig = [
   {
     name: "Seine maritime - 76",
     center: "lon=1,0135&lat=49.3918",

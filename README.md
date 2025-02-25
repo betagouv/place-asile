@@ -58,7 +58,7 @@ yarn lint:css
 
 ## 🗃️ Données
 
-Pour extraireles données des fichiers xlsx, vous pouvez modifier la configuration de `scripts/extract-config.mjs`, puis exécutez :
+Pour extraire les données des fichiers xlsx, vous pouvez modifier la configuration de `scripts/extract-config.mjs`, puis exécutez :
 
 ```bash
 yarn extract
