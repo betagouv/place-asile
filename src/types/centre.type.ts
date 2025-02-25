@@ -12,3 +12,8 @@ export type Centre = {
   coordinates: LatLngTuple;
   id: number;
 };
+
+export type CentreWithCoordinates = Centre & {
+  latitude: number;
+  longitude: number;
+};
