@@ -28,5 +28,5 @@ export default async function CentreDetails({ params }: Params) {
 }
 
 type Params = {
-  params: { id: number };
+  params: Promise<{ id: number }>;
 };
