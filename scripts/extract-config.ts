@@ -1,4 +1,4 @@
-export const extractConfig = [
+export const extractConfig: ExtractConfig[] = [
   {
     name: "Seine maritime - 76",
     center: "lon=1,0135&lat=49.3918",
@@ -11,8 +11,8 @@ export const extractConfig = [
       codePostalHebergement: 6,
       communeHebergement: 7,
       nbHebergements: 8,
-      typologie: 10
-    }
+      typologie: 10,
+    },
   },
   {
     name: "Orne - 61",
@@ -26,8 +26,8 @@ export const extractConfig = [
       codePostalHebergement: -1,
       communeHebergement: -1,
       nbHebergements: -1,
-      typologie: 6
-    }
+      typologie: 6,
+    },
   },
   {
     name: "Loire-Atlantique - 44",
@@ -41,7 +41,14 @@ export const extractConfig = [
       codePostalHebergement: 6,
       communeHebergement: 7,
       nbHebergements: 11,
-      typologie: 10
-    }
-  }
-]
+      typologie: 10,
+    },
+  },
+];
+
+type ExtractConfig = {
+  name: string;
+  center: string;
+  filename: string;
+  mapping: Record<string, number>;
+};
