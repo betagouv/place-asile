@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import { Table } from "../../components/Table";
-import { Pagination } from "../../components/Pagination";
+import { Table } from "../../components/common/Table";
+import { Pagination } from "../../components/common/Pagination";
 import { Centre } from "../../../types/centre.type";
 import { usePagination } from "../../hooks/usePagination";
 import { TypologieBadge } from "./TypologieBadge";
