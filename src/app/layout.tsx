@@ -1,7 +1,4 @@
 import type { Metadata } from "next";
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
-import { Menu } from "./components/Menu";
 
 import "@gouvfr/dsfr/dist/dsfr.min.css";
 import "@gouvfr/dsfr/dist/utility/icons/icons-buildings/icons-buildings.min.css";
@@ -24,14 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html data-fr-scheme="light" dir="ltr" lang="fr">
-      <body>
-        <Header />
-        <main className="w-full d-flex" id="content">
-          <Menu />
-          <div className="w-full">{children}</div>
-        </main>
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
-import { Table } from "../components/Table";
-import { Pagination } from "../components/Pagination";
-import { Centre } from "../../types/centre.type";
-import { usePagination } from "../hooks/usePagination";
+import { Table } from "../../components/Table";
+import { Pagination } from "../../components/Pagination";
+import { Centre } from "../../../types/centre.type";
+import { usePagination } from "../../hooks/usePagination";
 import { TypologieBadge } from "./TypologieBadge";
 import Link from "next/link";
 

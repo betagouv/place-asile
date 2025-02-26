@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { Badge, BadgeType } from "../components/Badge";
+import { Badge, BadgeType } from "../../components/Badge";
 
 export const TypologieBadge = ({ typologie }: Props): ReactElement => {
   const getBadgeType = (typologie: string): BadgeType => {
