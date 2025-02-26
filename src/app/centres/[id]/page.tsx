@@ -1,8 +1,11 @@
 import { Centre } from "@/types/centre.type";
 import { CentreHeader } from "./CentreHeader";
 import { DescriptionBlock } from "./DescriptionBlock";
+import { ReactElement } from "react";
 
-export default async function CentreDetails({ params }: Params) {
+export default async function CentreDetails({
+  params,
+}: Params): Promise<ReactElement> {
   const { id } = await params;
   const result = await fetch(`${process.env.NEXT_URL}/api/centres/${id}`);
   const centre: Centre = await result.json();

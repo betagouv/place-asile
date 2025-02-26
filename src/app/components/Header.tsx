@@ -1,7 +1,8 @@
 import Link from "next/link";
 import styles from "./Header.module.css";
+import { ReactElement } from "react";
 
-export const Header = () => {
+export const Header = (): ReactElement => {
   return (
     <header role="banner" className="border-bottom">
       <div className="space-between">

@@ -1,6 +1,6 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactElement } from "react";
 
-export const Badge = ({ children, type }: Props) => {
+export const Badge = ({ children, type }: Props): ReactElement => {
   const getTypeClass = (type: BadgeType | undefined): string => {
     if (!type) {
       return "fr-badge--success";
