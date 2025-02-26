@@ -1,9 +1,20 @@
-import { expect, it, describe } from "vitest";
+import { expect, it, describe, Mock } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Menu } from "@/app/components/Menu";
+import client from "next-auth/react";
+
+vitest.mock("next-auth/react");
 
 describe("Menu", () => {
   it("should show header elements when rendered", () => {
+    // GIVEN
+    const mockSession = {
+      expires: "1",
+      user: { email: "test@example.com", name: "John Doe" },
+    };
+
+    (client.useSession as Mock).mockReturnValueOnce([mockSession, false]);
+
     // WHEN
     render(<Menu />);
 
