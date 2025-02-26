@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { ReactElement, useMemo, useState } from "react";
-import { SegmentedControl } from "../components/SegmentedControl";
-import { useCentres } from "../hooks/useCentres";
+import { SegmentedControl } from "../../components/SegmentedControl";
+import { useCentres } from "../../hooks/useCentres";
 import { CentresTable } from "./CentresTable";
 
 export default function Centres(): ReactElement {
