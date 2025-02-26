@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import { LatLngTuple } from "leaflet";
 import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
-import { singleMarkerIcon } from "../components/map/SingleMarker";
+import { singleMarkerIcon } from "../../components/map/SingleMarker";
 import { TypologieBadge } from "./TypologieBadge";
 import styles from "./CentreMarker.module.css";
 import Link from "next/link";
