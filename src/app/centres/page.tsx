@@ -1,12 +1,12 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import { SegmentedControl } from "../components/SegmentedControl";
 import { useCentres } from "../hooks/useCentres";
 import { CentresTable } from "./CentresTable";
 
-export default function Centres() {
+export default function Centres(): ReactElement {
   const centres = useCentres();
   const [selectedVisualization, setSelectedVisualization] = useState("carte");
 
