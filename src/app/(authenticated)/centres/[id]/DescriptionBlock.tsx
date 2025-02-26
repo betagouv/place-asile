@@ -1,4 +1,4 @@
-import { Block } from "@/app/components/Block";
+import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
 import { TypologieBadge } from "../TypologieBadge";
 
