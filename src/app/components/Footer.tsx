@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { ReactElement } from "react";
 
-export const Footer = () => {
+export const Footer = (): ReactElement => {
   return (
     <footer className="fr-footer" role="contentinfo" id="footer-7361">
       <div className="fr-container">
