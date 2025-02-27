@@ -33,8 +33,9 @@ export const Pagination = ({
         <li>
           <a
             className="fr-pagination__link"
+            role="link"
             href="#"
-            title="Page 2"
+            title={`Page ${currentPage + 1}/${totalPages + 1}`}
             onClick={() => setCurrentPage(currentPage)}
           >
             {currentPage + 1}/{totalPages + 1}
@@ -43,6 +44,7 @@ export const Pagination = ({
         <li>
           <a
             className="fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label"
+            role="link"
             href={currentPage + 1 >= totalPages ? undefined : "#"}
             aria-disabled={currentPage + 1 <= totalPages}
             onClick={() => setCurrentPage(currentPage + 1)}
@@ -53,6 +55,7 @@ export const Pagination = ({
         <li>
           <a
             className="fr-pagination__link fr-pagination__link--last"
+            role="link"
             href={currentPage >= totalPages ? undefined : "#"}
             aria-disabled={currentPage >= totalPages}
             onClick={() => setCurrentPage(totalPages)}
