@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { extractConfig } from "./extract-config.js";
-import { CentreWithCoordinates } from "@/types/centre.type.js";
+import { StructureWithCoordinates } from "@/types/structure.type.js";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -21,7 +21,7 @@ const computeTypologie = (rawTypologie: string): string => {
   return mapping[rawTypologie];
 };
 
-const getCentresFromXslx = (
+const getStructuresFromXslx = (
   filename: string,
   mapping: Record<string, number>
 ) => {
@@ -38,7 +38,7 @@ const getCentresFromXslx = (
       nbHebergements: line[mapping.nbHebergements] || 0,
       typologie: computeTypologie(line[mapping.typologie]) || "",
     }))
-    .filter((centre) => centre.operateur);
+    .filter((structure) => structure.operateur);
 };
 
 const convertAddressToCoordinates = async (
@@ -57,37 +57,37 @@ const runMigration = async (
   filename: string,
   mapping: Record<string, number>
 ) => {
-  const centres = getCentresFromXslx(filename, mapping);
-  for (const centre of centres) {
-    const adresseComplete = `${centre.adresseHebergement} ${centre.codePostalHebergement} ${centre.communeHebergement}`;
+  const structures = getStructuresFromXslx(filename, mapping);
+  for (const structure of structures) {
+    const adresseComplete = `${structure.adresseHebergement} ${structure.codePostalHebergement} ${structure.communeHebergement}`;
     console.log("Récupération de :", adresseComplete);
     const coordinates = await convertAddressToCoordinates(
       adresseComplete,
       geographicCenter
     );
-    (centre as CentreWithCoordinates).longitude = coordinates?.[0] || 0;
-    (centre as CentreWithCoordinates).latitude = coordinates?.[1] || 0;
+    (structure as StructureWithCoordinates).longitude = coordinates?.[0] || 0;
+    (structure as StructureWithCoordinates).latitude = coordinates?.[1] || 0;
   }
-  return centres;
+  return structures;
 };
 
 export const extractFromXslx = async (writeOnDisk: boolean) => {
   console.log("========== Début de la migration ==========");
-  const allCentres = [];
+  const allStructures = [];
   for (const department of extractConfig) {
     console.log(`> Migration de ${department.name}`);
-    const centres = await runMigration(
+    const structures = await runMigration(
       department.center,
       department.filename,
       department.mapping
     );
-    allCentres.push(...centres);
+    allStructures.push(...structures);
   }
   console.log("========== Fin de la migration ==========");
   if (writeOnDisk) {
-    fs.writeFileSync(`${dirname}/export.json`, JSON.stringify(allCentres));
+    fs.writeFileSync(`${dirname}/export.json`, JSON.stringify(allStructures));
   }
-  return allCentres;
+  return allStructures;
 };
 
 if (require.main === module) {

@@ -4,10 +4,10 @@ import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 import { singleMarkerIcon } from "../../components/map/SingleMarker";
 import { TypologieBadge } from "./TypologieBadge";
-import styles from "./CentreMarker.module.css";
+import styles from "./StructureMarker.module.css";
 import Link from "next/link";
 
-export const CentreMarker = ({
+export const StructureMarker = ({
   coordinates,
   adresseHebergement,
   operateur,
@@ -33,7 +33,7 @@ export const CentreMarker = ({
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
             title={`Détails de ${adresseHebergement}`}
-            href={`centres/${id}`}
+            href={`structures/${id}`}
           >
             Détails de {adresseHebergement}
           </Link>

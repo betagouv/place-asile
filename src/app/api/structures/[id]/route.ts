@@ -3,10 +3,10 @@ import prisma from "../../../../../lib/prisma";
 
 export async function GET(request: NextRequest) {
   const id = request.nextUrl.pathname.split("/").pop();
-  const centre = await prisma.structure.findUnique({
+  const structure = await prisma.structure.findUnique({
     where: {
       id: Number(id),
     },
   });
-  return NextResponse.json(centre);
+  return NextResponse.json(structure);
 }
