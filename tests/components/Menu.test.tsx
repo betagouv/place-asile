@@ -8,9 +8,11 @@ describe("Menu", () => {
     render(<Menu />);
 
     // THEN
-    const centres = screen.getByRole("link", { name: "Centres" });
-    expect(centres).toHaveAttribute("href", "/centres");
-    expect(centres).toBeInTheDocument();
+    const structures = screen.getByRole("link", {
+      name: "Structures d’hébergement",
+    });
+    expect(structures).toHaveAttribute("href", "/structures");
+    expect(structures).toBeInTheDocument();
     const operateurs = screen.getByRole("link", { name: "Opérateurs" });
     expect(operateurs).toHaveAttribute("href", "/operateurs");
     expect(operateurs).toBeInTheDocument();

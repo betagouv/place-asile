@@ -10,8 +10,8 @@ export const Menu = (): ReactElement => {
   const menuItems = [
     {
       icon: "fr-icon-community-line",
-      label: "Centres",
-      url: "/centres",
+      label: "Structures d’hébergement",
+      url: "/structures",
     },
     {
       icon: "fr-icon-user-setting-line",
