@@ -28,6 +28,14 @@
   justify-content: end;
 }
 
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
 /* Colors */
 .text-blue-france {
   color: var(--text-title-blue-france)

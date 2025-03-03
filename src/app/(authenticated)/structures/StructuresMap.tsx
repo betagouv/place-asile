@@ -3,8 +3,9 @@
 import { ReactElement } from "react";
 
 import { StructureMarker } from "./StructureMarker";
-import { Structure } from "../../../types/structure.type";
+import { StructureAdministrative } from "../../../types/structure.type";
 import { Map } from "../../components/map/Map";
+import { computeNbPlaces } from "@/app/utils/structure.util";
 
 const StructuresMap = ({ structures }: Props): ReactElement => {
   return (
@@ -13,26 +14,23 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
         (
           {
             coordinates,
-            adresseHebergement,
+            adresseOperateur,
             operateur,
             type,
-            nbPlaces,
+            attachedStructures,
             typologie,
-            codePostalHebergement,
-            communeHebergement,
             id,
           },
           index
         ) => (
           <StructureMarker
             coordinates={coordinates}
-            adresseHebergement={adresseHebergement}
+            adresseOperateur={adresseOperateur}
             operateur={operateur}
             type={type}
-            nbPlaces={nbPlaces}
+            nbPlaces={computeNbPlaces(attachedStructures)}
+            attachedStructures={attachedStructures}
             typologie={typologie}
-            codePostal={codePostalHebergement}
-            commune={communeHebergement}
             id={id}
             key={index}
           />
@@ -43,7 +41,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
 };
 
 type Props = {
-  structures: Structure[];
+  structures: StructureAdministrative[];
 };
 
 export default StructuresMap;
