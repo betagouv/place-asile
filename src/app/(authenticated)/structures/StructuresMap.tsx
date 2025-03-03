@@ -2,14 +2,14 @@
 
 import { ReactElement } from "react";
 
-import { CentreMarker } from "./CentreMarker";
-import { Centre } from "../../../types/centre.type";
+import { StructureMarker } from "./StructureMarker";
+import { Structure } from "../../../types/structure.type";
 import { Map } from "../../components/map/Map";
 
-const CentresMap = ({ centres }: Props): ReactElement => {
+const StructuresMap = ({ structures }: Props): ReactElement => {
   return (
     <Map>
-      {centres.map(
+      {structures.map(
         (
           {
             coordinates,
@@ -24,7 +24,7 @@ const CentresMap = ({ centres }: Props): ReactElement => {
           },
           index
         ) => (
-          <CentreMarker
+          <StructureMarker
             coordinates={coordinates}
             adresseHebergement={adresseHebergement}
             operateur={operateur}
@@ -43,7 +43,7 @@ const CentresMap = ({ centres }: Props): ReactElement => {
 };
 
 type Props = {
-  centres: Centre[];
+  structures: Structure[];
 };
 
-export default CentresMap;
+export default StructuresMap;

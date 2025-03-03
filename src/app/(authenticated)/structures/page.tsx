@@ -3,16 +3,16 @@
 import dynamic from "next/dynamic";
 import { ReactElement, useMemo, useState } from "react";
 import { SegmentedControl } from "../../components/common/SegmentedControl";
-import { useCentres } from "../../hooks/useCentres";
-import { CentresTable } from "./CentresTable";
+import { useStructures } from "../../hooks/useStructures";
+import { StructuresTable } from "./StructuresTable";
 
-export default function Centres(): ReactElement {
-  const centres = useCentres();
+export default function Structures(): ReactElement {
+  const structures = useStructures();
   const [selectedVisualization, setSelectedVisualization] = useState("carte");
 
-  const CentresMap = useMemo(
+  const StructuresMap = useMemo(
     () =>
-      dynamic(() => import("./CentresMap"), {
+      dynamic(() => import("./StructuresMap"), {
         loading: () => <p>Chargement de la carte en cours...</p>,
         ssr: false,
       }),
@@ -21,24 +21,29 @@ export default function Centres(): ReactElement {
 
   return (
     <div className="w-full">
-      <div className="space-between fr-py-1w fr-px-2w border-bottom">
+      <div className="space-between fr-p-2w border-bottom">
         <SegmentedControl
           name="Visualisation"
           options={options}
           onChange={setSelectedVisualization}
         >
           <h2
-            className="text-blue-france fr-h3 fr-mr-3w fr-mb-0"
-            id="centres-titre"
+            className="text-blue-france fr-h5 fr-mr-3w fr-mb-0"
+            id="structures-titre"
           >
-            Centres
+            Structures d’hébergement
           </h2>
         </SegmentedControl>
-        <p className="text-grey fr-mb-0">{centres.length} entrées</p>
+        <p className="text-grey fr-mb-0">{structures.length} entrées</p>
       </div>
-      {selectedVisualization === "carte" && <CentresMap centres={centres} />}
+      {selectedVisualization === "carte" && (
+        <StructuresMap structures={structures} />
+      )}
       {selectedVisualization === "tableau" && (
-        <CentresTable centres={centres} ariaLabelledBy="centres-titre" />
+        <StructuresTable
+          structures={structures}
+          ariaLabelledBy="structures-titre"
+        />
       )}
     </div>
   );

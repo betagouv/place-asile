@@ -1,6 +1,6 @@
 import { LatLngTuple } from "leaflet";
 
-export type Centre = {
+export type Structure = {
   operateur: string;
   type: string;
   nbPlaces: number;
@@ -13,7 +13,7 @@ export type Centre = {
   id: number;
 };
 
-export type CentreWithCoordinates = Centre & {
+export type StructureWithCoordinates = Structure & {
   latitude: number;
   longitude: number;
 };
