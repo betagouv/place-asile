@@ -1,49 +1,65 @@
 import { ReactElement } from "react";
 import { Table } from "../../components/common/Table";
 import { Pagination } from "../../components/common/Pagination";
-import { Structure } from "../../../types/structure.type";
+import { StructureAdministrative } from "../../../types/structure.type";
 import { usePagination } from "../../hooks/usePagination";
 import { TypologieBadge } from "./TypologieBadge";
 import Link from "next/link";
+import {
+  computeNbPlaces,
+  getPlacesByCommunes,
+} from "@/app/utils/structure.util";
 
 export const StructuresTable = ({
   structures,
   ariaLabelledBy,
 }: Props): ReactElement => {
   const { currentPage, setCurrentPage, totalPages, currentData } =
-    usePagination<Structure>(structures);
+    usePagination<StructureAdministrative>(structures);
 
   const headings = [
     "Type",
     "Opérateur",
-    "Adresse administrative",
-    "Répartition",
     "Places",
+    "Répartition",
+    "Commune",
     "Détails",
   ];
+
+  const getCommuneLabel = (structure: StructureAdministrative) => {
+    const placesByCommune = getPlacesByCommunes(structure.attachedStructures);
+    const mainCommune = Object.keys(placesByCommune)[0];
+    return (
+      <>
+        <span>{mainCommune} </span>
+        {Object.keys(mainCommune).length > 1 && (
+          <span className="underline text-grey">
+            + {Object.keys(mainCommune).length} autres
+          </span>
+        )}
+      </>
+    );
+  };
 
   return (
     <div className="fr-p-1w bg-grey">
       <Table headings={headings} ariaLabelledBy={ariaLabelledBy}>
         {currentData.map((structure, index) => (
           <tr id={`table-row-key-${index}`} data-row-key={index} key={index}>
-            <td className="text-grey">{structure.type}</td>
+            <td>{structure.type}</td>
             <td>{structure.operateur}</td>
-            <td className="text-grey">
-              {structure.adresseHebergement}, {structure.codePostalHebergement}{" "}
-              {structure.communeHebergement}
-            </td>
+            <td>{computeNbPlaces(structure.attachedStructures)}</td>
             <td>
               <TypologieBadge typologie={structure.typologie} />
             </td>
-            <td className="text-grey">{structure.nbPlaces}</td>
-            <td className="text-grey">
+            <td>{getCommuneLabel(structure)}</td>
+            <td>
               <Link
                 className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
-                title={`Détails de ${structure.adresseHebergement}`}
+                title={`Détails de la structure ${structure.id}`}
                 href={`structures/${structure.id}`}
               >
-                Détails de {structure.adresseHebergement}
+                Détails de la structure {structure.id}
               </Link>
             </td>
           </tr>
@@ -61,6 +77,6 @@ export const StructuresTable = ({
 };
 
 type Props = {
-  structures: Structure[];
+  structures: StructureAdministrative[];
   ariaLabelledBy: string;
 };

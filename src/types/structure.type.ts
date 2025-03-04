@@ -1,6 +1,7 @@
 import { LatLngTuple } from "leaflet";
 
 export type Structure = {
+  id: number;
   operateur: string;
   type: string;
   nbPlaces: number;
@@ -10,10 +11,20 @@ export type Structure = {
   nbHebergements: number;
   typologie: string;
   coordinates: LatLngTuple;
-  id: number;
+  adresseOperateur: string;
 };
 
-export type StructureWithCoordinates = Structure & {
+export type StructureWithLatLng = Structure & {
   latitude: number;
   longitude: number;
+};
+
+export type StructureAdministrative = {
+  id: number;
+  adresseOperateur: string;
+  operateur: string;
+  type: string;
+  typologie: string;
+  coordinates: LatLngTuple;
+  attachedStructures: StructureWithLatLng[];
 };
