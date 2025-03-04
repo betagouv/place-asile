@@ -23,9 +23,11 @@ export const Pagination = ({
           <a
             className="fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label"
             href={currentPage - 1 < 0 ? undefined : "#"}
-            aria-disabled={currentPage - 1 < 0}
+            aria-disabled={currentPage - 1 >= 0}
             role="link"
-            onClick={() => setCurrentPage(currentPage - 1)}
+            onClick={() =>
+              currentPage - 1 >= 0 && setCurrentPage(currentPage - 1)
+            }
           >
             Page précédente
           </a>
@@ -36,18 +38,19 @@ export const Pagination = ({
             role="link"
             href="#"
             title={`Page ${currentPage + 1}/${totalPages + 1}`}
-            onClick={() => setCurrentPage(currentPage)}
           >
-            {currentPage + 1}/{totalPages + 1}
+            Page {currentPage + 1}/{totalPages + 1}
           </a>
         </li>
         <li>
           <a
             className="fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label"
             role="link"
-            href={currentPage + 1 >= totalPages ? undefined : "#"}
+            href={currentPage + 1 > totalPages ? undefined : "#"}
             aria-disabled={currentPage + 1 <= totalPages}
-            onClick={() => setCurrentPage(currentPage + 1)}
+            onClick={() =>
+              currentPage + 1 <= totalPages && setCurrentPage(currentPage + 1)
+            }
           >
             Page suivante
           </a>

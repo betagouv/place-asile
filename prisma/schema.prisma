@@ -19,6 +19,7 @@ model Structure {
   type                  String
   nbPlaces              Int
   adresseHebergement    String
+  adresseOperateur      String
   codePostalHebergement String
   communeHebergement    String
   nbHebergements        Int

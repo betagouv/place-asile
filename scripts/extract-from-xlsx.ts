@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { extractConfig } from "./extract-config.js";
-import { StructureWithCoordinates } from "@/types/structure.type.js";
+import { StructureWithLatLng } from "@/types/structure.type.js";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -36,6 +36,7 @@ const getStructuresFromXslx = (
       codePostalHebergement: line[mapping.codePostalHebergement] || "",
       communeHebergement: line[mapping.communeHebergement] || "",
       nbHebergements: line[mapping.nbHebergements] || 0,
+      adresseOperateur: line[mapping.adresseOperateur] || "",
       typologie: computeTypologie(line[mapping.typologie]) || "",
     }))
     .filter((structure) => structure.operateur);
@@ -59,14 +60,18 @@ const runMigration = async (
 ) => {
   const structures = getStructuresFromXslx(filename, mapping);
   for (const structure of structures) {
-    const adresseComplete = `${structure.adresseHebergement} ${structure.codePostalHebergement} ${structure.communeHebergement}`;
-    console.log("Récupération de :", adresseComplete);
-    const coordinates = await convertAddressToCoordinates(
-      adresseComplete,
-      geographicCenter
-    );
-    (structure as StructureWithCoordinates).longitude = coordinates?.[0] || 0;
-    (structure as StructureWithCoordinates).latitude = coordinates?.[1] || 0;
+    console.log("Récupération de :", structure.adresseOperateur);
+    if (!structure.adresseOperateur) {
+      (structure as StructureWithLatLng).longitude = 0;
+      (structure as StructureWithLatLng).latitude = 0;
+    } else {
+      const coordinates = await convertAddressToCoordinates(
+        structure.adresseOperateur,
+        geographicCenter
+      );
+      (structure as StructureWithLatLng).longitude = coordinates?.[0] || 0;
+      (structure as StructureWithLatLng).latitude = coordinates?.[1] || 0;
+    }
   }
   return structures;
 };

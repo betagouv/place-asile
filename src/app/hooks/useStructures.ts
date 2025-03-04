@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Structure } from "../../types/structure.type";
+import { StructureAdministrative } from "../../types/structure.type";
 
-export const useStructures = (): Structure[] => {
-  const [structures, setStructures] = useState<Structure[]>([]);
+export const useStructures = (): StructureAdministrative[] => {
+  const [structures, setStructures] = useState<StructureAdministrative[]>([]);
   useEffect(() => {
     const getStructures = async () => {
       const result = await fetch("/api/structures");
