@@ -19,5 +19,23 @@ describe("Menu", () => {
     const statistiques = screen.getByRole("link", { name: "Statistiques" });
     expect(statistiques).toHaveAttribute("href", "/statistiques");
     expect(statistiques).toBeInTheDocument();
+    const confidentialite = screen.getByRole("link", {
+      name: "Politique de confidentialité",
+    });
+    expect(confidentialite).toHaveAttribute("href", "/confidentialite");
+    expect(confidentialite).toBeInTheDocument();
+    const accessibilite = screen.getByRole("link", {
+      name: "Accessibilité : partiellement conforme",
+    });
+    expect(accessibilite).toHaveAttribute("href", "/accessibilite");
+    expect(accessibilite).toBeInTheDocument();
+    const codeSource = screen.getByRole("link", { name: "Code source" });
+    expect(codeSource).toHaveAttribute(
+      "href",
+      "https://github.com/betagouv/place-asile"
+    );
+    expect(codeSource).toHaveAttribute("target", "_blank");
+    expect(codeSource).toHaveAttribute("rel", "noopener external");
+    expect(codeSource).toBeInTheDocument();
   });
 });

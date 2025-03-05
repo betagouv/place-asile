@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactElement } from "react";
+import { ExternalLink } from "./common/ExternalLink";
 
 export const Menu = (): ReactElement => {
   const pathname = usePathname();
@@ -25,6 +26,22 @@ export const Menu = (): ReactElement => {
     },
   ];
 
+  const secondaryMenuItems = [
+    {
+      label: "Politique de confidentialité",
+      url: "/confidentialite",
+    },
+    {
+      label: "Accessibilité : partiellement conforme",
+      url: "/accessibilite",
+    },
+    {
+      label: "Code source",
+      url: "https://github.com/betagouv/place-asile",
+      isExternalLink: true,
+    },
+  ];
+
   const getActiveClass = (url: string): string => {
     return pathname === url ? "fr-sidemenu__item--active" : "";
   };
@@ -34,7 +51,7 @@ export const Menu = (): ReactElement => {
   };
 
   return (
-    <nav className="fr-sidemenu fr-p-2w left-menu no-shrink">
+    <nav className="fr-sidemenu fr-p-2w left-menu no-shrink d-flex flex-column">
       <ul className="fr-sidemenu__list">
         {menuItems.map((menuItem) => (
           <li
@@ -48,6 +65,20 @@ export const Menu = (): ReactElement => {
             >
               <span className={menuItem.icon}>{menuItem.label}</span>
             </Link>
+          </li>
+        ))}
+      </ul>
+      <div className="grow" />
+      <ul>
+        {secondaryMenuItems.map((menuItem) => (
+          <li className="text-grey fr-text--xs" key={menuItem.label}>
+            {menuItem.isExternalLink ? (
+              <ExternalLink title={menuItem.label} url={menuItem.url} />
+            ) : (
+              <Link href={menuItem.url}>
+                <span>{menuItem.label}</span>
+              </Link>
+            )}
           </li>
         ))}
       </ul>

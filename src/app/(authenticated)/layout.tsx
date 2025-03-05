@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
 import { Menu } from "../components/Menu";
 
 export const metadata: Metadata = {
@@ -20,7 +19,6 @@ export default function RootLayout({
         <Menu />
         <div className="w-full">{children}</div>
       </main>
-      <Footer />
     </>
   );
 }
