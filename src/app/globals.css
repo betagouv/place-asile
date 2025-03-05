@@ -13,6 +13,10 @@
   display: flex;
 }
 
+.flex-column {
+  flex-direction: column;
+}
+
 .space-between {
   display: flex;
   justify-content: space-between;
@@ -35,6 +39,11 @@
 .underline {
   text-decoration: underline;
 }
+
+.grow {
+  flex-grow: 1;
+}
+
 
 /* Colors */
 .text-blue-france {
