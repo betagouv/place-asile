@@ -14,16 +14,97 @@ datasource db {
 }
 
 model Structure {
-  id                    Int     @id @default(autoincrement())
-  operateur             String
-  type                  String
-  nbPlaces              Int
-  adresseHebergement    String
-  adresseOperateur      String
-  codePostalHebergement String
-  communeHebergement    String
-  nbHebergements        Int
-  typologie             String
-  latitude              Decimal
-  longitude             Decimal
+  id                           Int    @id @default(autoincrement())
+  dnaCode                      String @unique
+  operateur                    String
+  type                         String
+  nbPlaces                     Int
+  adresse                      String
+  codePostal                   String
+  commune                      String
+  departement                  String
+  latitude                     Decimal
+  longitude                    Decimal
+  repartition                  String
+  nom                          String?
+  debutConvention              DateTime
+  finConvention                DateTime
+  qpv                          Boolean
+  cpom                         Boolean
+  creationDate                 DateTime
+  finessCode                   String
+  lgbt                         Boolean
+  fvv                          Boolean
+  teh                          Boolean
+  public                       String
+  periodeAutorisationStart     DateTime
+  periodeAutorisationEnd       DateTime
+  cpomStart                    DateTime
+  cpomEnd                      DateTime
+  nbPlacesLibres               Int
+  nbPlacesVacantes             Int
+  controles                    Controle[]
+  evaluations                  Evaluation[]
+  evenementsIndesirablesGraves EvenementIndesirableGrave[]
+  logements                    Logement[]
+  places                       Place[]
+}
+
+model Controle {
+  id               Int  @id @default(autoincrement())
+  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode String
+  date             DateTime
+  type             ControleType
+}
+
+model Evaluation {
+  id               Int  @id @default(autoincrement())
+  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode String
+  date             DateTime
+  note             Int
+}
+
+model EvenementIndesirableGrave {
+  id               Int  @id @default(autoincrement())
+  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode String
+  numeroDossier    String
+  evenementDate    DateTime
+  declarationDate  DateTime
+  type             EvenementIndesirableGraveType
+}
+
+model Logement {
+  id               Int  @id @default(autoincrement())
+  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode String
+  adresse          String
+  codePostal       String
+  ville            String
+  qpv              Boolean
+  logementSocial   Boolean
+}
+
+model Place {
+  id               Int  @id @default(autoincrement())
+  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode String
+  nbPlacesTotal    Int
+  year             DateTime
+  pmr              Int
+  qpv              Int
+  logementSocial   Int
+}
+
+enum ControleType {
+  INOPINE
+  PROGRAMME
+}
+
+enum EvenementIndesirableGraveType {
+  VOL
+  COMPORTEMENT_VIOLENT
+  PROBLEME_RH
 }

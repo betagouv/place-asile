@@ -7,7 +7,7 @@ import { useStructures } from "../../hooks/useStructures";
 import { StructuresTable } from "./StructuresTable";
 
 export default function Structures(): ReactElement {
-  const structuresAdministratives = useStructures();
+  const structures = useStructures();
   const [selectedVisualization, setSelectedVisualization] = useState("carte");
 
   const StructuresMap = useMemo(
@@ -34,14 +34,14 @@ export default function Structures(): ReactElement {
             Structures d’hébergement
           </h2>
         </SegmentedControl>
-        <p className="text-grey fr-mb-0">{structuresAdministratives.length} entrées</p>
+        <p className="text-grey fr-mb-0">{structures.length} entrées</p>
       </div>
       {selectedVisualization === "carte" && (
-        <StructuresMap structures={structuresAdministratives} />
+        <StructuresMap structures={structures} />
       )}
       {selectedVisualization === "tableau" && (
         <StructuresTable
-          structures={structuresAdministratives}
+          structures={structures}
           ariaLabelledBy="structures-titre"
         />
       )}

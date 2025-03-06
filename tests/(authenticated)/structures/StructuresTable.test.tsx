@@ -1,53 +1,28 @@
 import { within, render, screen } from "@testing-library/react";
 import { StructuresTable } from "../../../src/app/(authenticated)/structures/StructuresTable";
-import { LatLngTuple } from "leaflet";
-import { StructureAdministrative } from "@/types/structure.type";
-import { createStructures } from "../../test-utils/structure.factory";
+import { createStructure } from "../../test-utils/structure.factory";
+import { Structure } from "@/types/structure.type";
+import { createLogement } from "../../test-utils/logement.factory";
 
 describe("StructuresTable", () => {
   it("should show table headings and content elements when rendered", () => {
     // GIVEN
-    const structuresAdministratives: StructureAdministrative[] = [
-      {
-        id: 1,
-        operateur: "Adoma",
-        type: "CADA",
-        typologie: "Diffus",
-        coordinates: [48.8670239, 2.3612011] as LatLngTuple,
-        adresseOperateur: "123, avenue de la République, 75011 Paris",
-        attachedStructures: createStructures({
-          adresseOperateur: "123, avenue de la République, 75011 Paris",
-        }),
-      },
-      {
-        id: 2,
-        operateur: "Adoma",
-        type: "CAES",
-        typologie: "Collectif",
-        coordinates: [48.8670239, 2.3612011] as LatLngTuple,
-        adresseOperateur: "124, avenue de la République, 75011 Paris",
-        attachedStructures: createStructures({
-          adresseOperateur: "124, avenue de la République, 75011 Paris",
-        }),
-      },
-      {
-        id: 3,
-        operateur: "CDS",
-        type: "HUDA",
-        typologie: "Collectif",
-        coordinates: [48.8670239, 2.3612011] as LatLngTuple,
-        adresseOperateur: "125, avenue de la République, 75011 Paris",
-        attachedStructures: createStructures({
-          adresseOperateur: "125, avenue de la République, 75011 Paris",
-        }),
-      },
-    ];
+    const logement1 = createLogement({});
+    const logement2 = createLogement({});
+    const logement3 = createLogement({});
+    const structure1 = createStructure({});
+    const structure2 = createStructure({});
+    const structure3 = createStructure({});
+    structure1.logements = [logement1];
+    structure2.logements = [logement2];
+    structure3.logements = [logement3];
+    const structures: Structure[] = [structure1, structure2, structure3];
     const ariaLabelledBy = "";
 
     // WHEN
     render(
       <StructuresTable
-        structures={structuresAdministratives}
+        structures={structures}
         ariaLabelledBy={ariaLabelledBy}
       />
     );
@@ -65,29 +40,29 @@ describe("StructuresTable", () => {
     const firstStructureCells = within(structureRows[1]).getAllByRole("cell");
     expect(firstStructureCells[0]).toHaveAccessibleName("CADA");
     expect(firstStructureCells[1]).toHaveAccessibleName("Adoma");
-    expect(firstStructureCells[2]).toHaveAccessibleName("10");
+    expect(firstStructureCells[2]).toHaveAccessibleName("5");
     expect(firstStructureCells[3]).toHaveAccessibleName("Diffus");
     expect(firstStructureCells[4]).toHaveAccessibleName("Paris + 5 autres");
     expect(firstStructureCells[5]).toHaveAccessibleName(
       "Détails de la structure 1"
     );
     const secondStructureCells = within(structureRows[2]).getAllByRole("cell");
-    expect(secondStructureCells[0]).toHaveAccessibleName("CAES");
+    expect(secondStructureCells[0]).toHaveAccessibleName("CADA");
     expect(secondStructureCells[1]).toHaveAccessibleName("Adoma");
-    expect(secondStructureCells[2]).toHaveAccessibleName("10");
-    expect(secondStructureCells[3]).toHaveAccessibleName("Collectif");
+    expect(secondStructureCells[2]).toHaveAccessibleName("5");
+    expect(secondStructureCells[3]).toHaveAccessibleName("Diffus");
     expect(secondStructureCells[4]).toHaveAccessibleName("Paris + 5 autres");
     expect(secondStructureCells[5]).toHaveAccessibleName(
-      "Détails de la structure 2"
+      "Détails de la structure 1"
     );
     const thirdStructureCells = within(structureRows[3]).getAllByRole("cell");
-    expect(thirdStructureCells[0]).toHaveAccessibleName("HUDA");
-    expect(thirdStructureCells[1]).toHaveAccessibleName("CDS");
-    expect(thirdStructureCells[2]).toHaveAccessibleName("10");
-    expect(thirdStructureCells[3]).toHaveAccessibleName("Collectif");
+    expect(thirdStructureCells[0]).toHaveAccessibleName("CADA");
+    expect(thirdStructureCells[1]).toHaveAccessibleName("Adoma");
+    expect(thirdStructureCells[2]).toHaveAccessibleName("5");
+    expect(thirdStructureCells[3]).toHaveAccessibleName("Diffus");
     expect(thirdStructureCells[4]).toHaveAccessibleName("Paris + 5 autres");
     expect(thirdStructureCells[5]).toHaveAccessibleName(
-      "Détails de la structure 3"
+      "Détails de la structure 1"
     );
     const pagination = screen.getByRole("navigation");
     const pages = within(pagination).getAllByRole("link");

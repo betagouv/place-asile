@@ -1,11 +1,9 @@
 "use client";
 
 import { ReactElement } from "react";
-
 import { StructureMarker } from "./StructureMarker";
-import { StructureAdministrative } from "../../../types/structure.type";
+import { Structure } from "../../../types/structure.type";
 import { Map } from "../../components/map/Map";
-import { computeNbPlaces } from "@/app/utils/structure.util";
 
 const StructuresMap = ({ structures }: Props): ReactElement => {
   return (
@@ -13,25 +11,40 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
       {structures.map(
         (
           {
+            id,
+            dnaCode,
             coordinates,
-            adresseOperateur,
             operateur,
             type,
-            attachedStructures,
-            typologie,
-            id,
+            nbPlaces,
+            repartition,
+            nom,
+            commune,
+            departement,
+            logements,
+            debutConvention,
+            finConvention,
+            qpv,
+            cpom,
           },
           index
         ) => (
           <StructureMarker
+            id={id}
+            dnaCode={dnaCode}
             coordinates={coordinates}
-            adresseOperateur={adresseOperateur}
             operateur={operateur}
             type={type}
-            nbPlaces={computeNbPlaces(attachedStructures)}
-            attachedStructures={attachedStructures}
-            typologie={typologie}
-            id={id}
+            nbPlaces={nbPlaces}
+            repartition={repartition}
+            nom={nom}
+            commune={commune}
+            departement={departement}
+            logements={logements || []}
+            debutConvention={debutConvention}
+            finConvention={finConvention}
+            qpv={qpv}
+            cpom={cpom}
             key={index}
           />
         )
@@ -41,7 +54,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
 };
 
 type Props = {
-  structures: StructureAdministrative[];
+  structures: Structure[];
 };
 
 export default StructuresMap;

@@ -1,63 +1,45 @@
-import { StructureWithLatLng } from "@/types/structure.type";
+import { Structure } from "@/types/structure.type";
 import { LatLngTuple } from "leaflet";
 
-export const createStructures = ({
-  adresseOperateur,
+export const createStructure = ({
+  adresse,
   nbPlaces,
-}: CreateStructuresArgs): StructureWithLatLng[] => {
-  return [
-    {
-      operateur: "Adoma",
-      type: "CADA",
-      nbPlaces: nbPlaces ?? 5,
-      adresseHebergement: "1, avenue de la République",
-      adresseOperateur:
-        adresseOperateur ?? "123, avenue de la République, 75011 Paris",
-      codePostalHebergement: "75011",
-      communeHebergement: "Paris",
-      nbHebergements: 1,
-      typologie: "Diffus",
-      coordinates: [48.8670239, 2.3612011] as LatLngTuple,
-      id: 1,
-      latitude: 0,
-      longitude: 0,
-    },
-    {
-      operateur: "Adoma",
-      type: "CAES",
-      nbPlaces: nbPlaces ?? 3,
-      adresseHebergement: "2, avenue de la République",
-      adresseOperateur:
-        adresseOperateur ?? "123, avenue de la République, 75011 Paris",
-      codePostalHebergement: "75011",
-      communeHebergement: "Paris",
-      nbHebergements: 2,
-      typologie: "Collectif",
-      coordinates: [48.8670239, 2.3612011] as LatLngTuple,
-      id: 2,
-      latitude: 0,
-      longitude: 0,
-    },
-    {
-      operateur: "CDS",
-      type: "HUDA",
-      nbPlaces: nbPlaces ?? 2,
-      adresseHebergement: "3, avenue de la République",
-      adresseOperateur:
-        adresseOperateur ?? "123, avenue de la République, 75011 Paris",
-      codePostalHebergement: "75011",
-      communeHebergement: "Paris",
-      nbHebergements: 2,
-      typologie: "Collectif",
-      coordinates: [48.8670239, 2.3612011] as LatLngTuple,
-      id: 3,
-      latitude: 0,
-      longitude: 0,
-    },
-  ];
+}: CreateStructuresArgs): Structure => {
+  return {
+    id: 1,
+    dnaCode: "C0001",
+    operateur: "Adoma",
+    type: "CADA",
+    nbPlaces: nbPlaces ?? 5,
+    adresse: adresse ?? "1, avenue de la République",
+    codePostal: "75011",
+    commune: "Paris",
+    departement: "75",
+    repartition: "Diffus",
+    coordinates: [48.8670239, 2.3612011] as LatLngTuple,
+    latitude: 0,
+    longitude: 0,
+    nom: "Les Mimosas",
+    debutConvention: new Date("01/02/2024"),
+    finConvention: new Date("01/02/2027"),
+    qpv: true,
+    cpom: true,
+    creationDate: new Date("01/02/2007"),
+    finessCode: "F12345",
+    lgbt: true,
+    fvv: false,
+    teh: true,
+    public: "Tout public",
+    periodeAutorisationStart: new Date("01/02/2022"),
+    periodeAutorisationEnd: new Date("01/02/2025"),
+    cpomStart: new Date("01/02/2025"),
+    cpomEnd: new Date("01/02/2025"),
+    nbPlacesLibres: 2,
+    nbPlacesVacantes: 1,
+  };
 };
 
 type CreateStructuresArgs = {
-  adresseOperateur?: string;
+  adresse?: string;
   nbPlaces?: number;
 };
