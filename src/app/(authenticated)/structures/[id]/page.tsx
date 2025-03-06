@@ -22,8 +22,7 @@ export default async function StructureDetails({
       <div className="bg-grey fr-p-1w">
         <DescriptionBlock
           nbPlaces={structure.nbPlaces}
-          nbHebergements={structure.nbHebergements}
-          typologie={structure.typologie}
+          repartition={structure.repartition}
         />
       </div>
     </>

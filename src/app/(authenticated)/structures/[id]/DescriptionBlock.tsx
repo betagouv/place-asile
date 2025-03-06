@@ -1,11 +1,10 @@
 import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
-import { TypologieBadge } from "../TypologieBadge";
+import { RepartitionBadge } from "../RepartitionBadge";
 
 export const DescriptionBlock = ({
   nbPlaces,
-  nbHebergements,
-  typologie,
+  repartition,
 }: Props): ReactElement => {
   return (
     <Block title="Description" iconClass="fr-icon-menu-2-fill">
@@ -13,13 +12,9 @@ export const DescriptionBlock = ({
         <strong className="fr-pr-2w">Nombre de places</strong>
         {nbPlaces || "Non renseigné"}
       </div>
-      <div className="fr-mb-1w">
-        <strong className="fr-pr-2w">Nombre d’hébergements</strong>
-        {nbHebergements || "Non renseigné"}
-      </div>
       <div>
         <strong className="fr-pr-2w">Répartition</strong>
-        <TypologieBadge typologie={typologie} />
+        <RepartitionBadge repartition={repartition} />
       </div>
     </Block>
   );
@@ -27,6 +22,5 @@ export const DescriptionBlock = ({
 
 type Props = {
   nbPlaces: number;
-  nbHebergements: number;
-  typologie: string;
+  repartition: string;
 };

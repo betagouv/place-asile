@@ -1,21 +1,18 @@
 import { ReactElement } from "react";
 import { Table } from "../../components/common/Table";
 import { Pagination } from "../../components/common/Pagination";
-import { StructureAdministrative } from "../../../types/structure.type";
 import { usePagination } from "../../hooks/usePagination";
-import { TypologieBadge } from "./TypologieBadge";
+import { RepartitionBadge } from "./RepartitionBadge";
 import Link from "next/link";
-import {
-  computeNbPlaces,
-  getPlacesByCommunes,
-} from "@/app/utils/structure.util";
+import { getPlacesByCommunes } from "@/app/utils/structure.util";
+import { Structure } from "@/types/structure.type";
 
 export const StructuresTable = ({
   structures,
   ariaLabelledBy,
 }: Props): ReactElement => {
   const { currentPage, setCurrentPage, totalPages, currentData } =
-    usePagination<StructureAdministrative>(structures);
+    usePagination<Structure>(structures);
 
   const headings = [
     "Type",
@@ -26,8 +23,8 @@ export const StructuresTable = ({
     "Détails",
   ];
 
-  const getCommuneLabel = (structure: StructureAdministrative) => {
-    const placesByCommune = getPlacesByCommunes(structure.attachedStructures);
+  const getCommuneLabel = (structure: Structure) => {
+    const placesByCommune = getPlacesByCommunes(structure.logements || []);
     const mainCommune = Object.keys(placesByCommune)[0];
     return (
       <>
@@ -48,9 +45,9 @@ export const StructuresTable = ({
           <tr id={`table-row-key-${index}`} data-row-key={index} key={index}>
             <td>{structure.type}</td>
             <td>{structure.operateur}</td>
-            <td>{computeNbPlaces(structure.attachedStructures)}</td>
+            <td>{structure.nbPlaces}</td>
             <td>
-              <TypologieBadge typologie={structure.typologie} />
+              <RepartitionBadge repartition={structure.repartition} />
             </td>
             <td>{getCommuneLabel(structure)}</td>
             <td>
@@ -77,6 +74,6 @@ export const StructuresTable = ({
 };
 
 type Props = {
-  structures: StructureAdministrative[];
+  structures: Structure[];
   ariaLabelledBy: string;
 };

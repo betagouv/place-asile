@@ -3,24 +3,32 @@ import { LatLngTuple } from "leaflet";
 import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 import { singleMarkerIcon } from "../../components/map/SingleMarker";
-import { TypologieBadge } from "./TypologieBadge";
+import { RepartitionBadge } from "./RepartitionBadge";
 import styles from "./StructureMarker.module.css";
 import Link from "next/link";
-import { Structure } from "@/types/structure.type";
 import { getPlacesByCommunes } from "@/app/utils/structure.util";
+import { Logement } from "@/types/logement.type";
+import { Badge } from "@/app/components/common/Badge";
 
 export const StructureMarker = ({
   id,
+  dnaCode,
   coordinates,
-  adresseOperateur,
   operateur,
   type,
   nbPlaces,
-  typologie,
-  attachedStructures,
+  repartition,
+  nom,
+  commune,
+  departement,
+  logements,
+  debutConvention,
+  finConvention,
+  qpv,
+  cpom,
 }: Props): ReactElement => {
   const getCommunesLabel = (): ReactElement => {
-    const placesByCommunes = getPlacesByCommunes(attachedStructures);
+    const placesByCommunes = getPlacesByCommunes(logements);
     return (
       <>
         {Object.entries(placesByCommunes).map(
@@ -39,25 +47,37 @@ export const StructureMarker = ({
   return (
     <Marker position={coordinates} icon={singleMarkerIcon}>
       <Popup className={styles.container} closeButton={false}>
-        <p className="fr-text--xs fr-m-0">{type}</p>
+        <p className="fr-text--xs fr-m-0">DNA {dnaCode}</p>
         <p className="fr-text text-blue-france fr-text-title--blue-france fr-m-0">
-          <strong>{operateur}</strong> - {nbPlaces} places
+          <strong>
+            {type} - {operateur}
+          </strong>{" "}
+          {nbPlaces} places
         </p>
         <p className="fr-text--xs text-blue-france fr-m-0">
-          {adresseOperateur}
+          {nom}, {commune}, {departement}
         </p>
         <p className="fr-text--xs fr-mt-0">
           <strong>Dans les communes de : </strong>
           <span>{getCommunesLabel()}</span>
         </p>
-        <TypologieBadge typologie={typologie} />
+        <p className="fr-text--xs fr-mt-0">
+          <strong>Convention en cours : </strong>
+          <span>
+            {new Date(debutConvention).toLocaleDateString()} -{" "}
+            {new Date(finConvention).toLocaleDateString()}
+          </span>
+        </p>
+        <RepartitionBadge repartition={repartition} />
+        {qpv && <Badge type="success">QPV</Badge>}
+        {cpom && <Badge type="success">CPOM</Badge>}
         <div className="align-right">
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
-            title={`Détails de ${adresseOperateur}`}
+            title={`Détails de ${nom}`}
             href={`structures/${id}`}
           >
-            Détails de {adresseOperateur}
+            Détails de {nom}
           </Link>
         </div>
       </Popup>
@@ -67,11 +87,18 @@ export const StructureMarker = ({
 
 type Props = {
   id: number;
+  dnaCode: string;
   coordinates: LatLngTuple;
-  adresseOperateur: string;
   operateur: string;
   type: string;
   nbPlaces: number;
-  typologie: string;
-  attachedStructures: Structure[];
+  repartition: string;
+  nom: string | null;
+  commune: string;
+  departement: string;
+  logements: Logement[];
+  debutConvention: Date;
+  finConvention: Date;
+  qpv: boolean;
+  cpom: boolean;
 };

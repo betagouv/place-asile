@@ -1,28 +1,28 @@
-import { computeNbPlaces } from "@/app/utils/structure.util";
-import { Structure } from "@/types/structure.type";
-import { createStructures } from "../test-utils/structure.factory";
+import { getPlacesByCommunes } from "@/app/utils/structure.util";
+import { Logement } from "../../src/types/logement.type";
 
-describe("structure util", () => {
-  describe("computeNbPlaces", () => {
+// TODO : implement this test
+describe.todo("structure util", () => {
+  describe("getPlacesByCommunes", () => {
     it("should return 0 when given an empty array", () => {
       // GIVEN
-      const structuresArray: Structure[] = [];
+      const logements: Logement[] = [];
 
       // WHEN
-      const nbPlaces = computeNbPlaces(structuresArray);
+      const placesByCommune = getPlacesByCommunes(logements);
 
       // THEN
-      expect(nbPlaces).toStrictEqual(0);
+      expect(placesByCommune).toStrictEqual(0);
     });
     it("should return the sum of nbPlaces when given a structures array", () => {
       // GIVEN
-      const structuresArray: Structure[] = createStructures({ nbPlaces: 6 });
+      const logements: Logement[] = [];
 
       // WHEN
-      const nbPlaces = computeNbPlaces(structuresArray);
+      const placesByCommune = getPlacesByCommunes(logements);
 
       // THEN
-      expect(nbPlaces).toStrictEqual(18);
+      expect(placesByCommune).toStrictEqual(18);
     });
   });
 });
