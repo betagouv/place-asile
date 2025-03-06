@@ -12,7 +12,6 @@
     "test": "vitest --run",
     "test:watch": "vitest --watch",
     "prepare": "husky",
-    "extract": "tsx ./scripts/extract-from-xlsx.ts",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:seed": "npx prisma db seed",
     "prisma:studio": "npx prisma studio"

@@ -1,27 +1,19 @@
-import { Structure } from "@/types/structure.type";
 import { sortKeysByValue } from "./common.util";
-
-export const computeNbPlaces = (attachedStructures: Structure[]): number => {
-  return attachedStructures.reduce((accumulator, attachedStructure) => {
-    return accumulator + attachedStructure.nbPlaces;
-  }, 0);
-};
+import { Logement } from "@prisma/client";
 
 export const getPlacesByCommunes = (
-  structures: Structure[]
+  logements: Logement[]
 ): Record<string, number> => {
-  const placesByCommune = structures.reduce(
-    (accumulator: Record<string, number>, currentStructure) => {
+  const placesByCommune = logements.reduce(
+    (accumulator: Record<string, number>, currentLogement) => {
       const existingCommune = Object.keys(accumulator).find(
-        (commune) => commune === currentStructure.communeHebergement
+        (commune) => commune === currentLogement.ville
       );
 
       if (!existingCommune) {
-        accumulator[currentStructure.communeHebergement] =
-          currentStructure.nbPlaces;
+        accumulator[currentLogement.ville] = 1;
       } else {
-        accumulator[currentStructure.communeHebergement] +=
-          currentStructure.nbPlaces;
+        accumulator[currentLogement.ville] += 1;
       }
       return accumulator;
     },
