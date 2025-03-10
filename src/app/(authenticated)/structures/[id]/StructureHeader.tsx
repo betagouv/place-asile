@@ -4,9 +4,10 @@ import { ReactElement } from "react";
 export const StructureHeader = ({
   type,
   operateur,
-  adresse,
-  codePostal,
+  nbPlaces,
+  nom,
   commune,
+  departement,
 }: Props): ReactElement => {
   return (
     <div className="d-flex border-bottom fr-p-1w">
@@ -19,10 +20,13 @@ export const StructureHeader = ({
       </Link>
       <div>
         <h2 className="text-blue-france fr-h6 fr-mb-0">
-          {type} - {operateur}
+          <strong className="fr-pr-2w">
+            {type} - {operateur}
+          </strong>
+          {nbPlaces} places
         </h2>
-        <p className="fr-mb-0 text-grey fr-text">
-          {adresse}, {codePostal} {commune}
+        <p className="fr-mb-0 text-blue-france fr-text">
+          {nom}, {commune}, {departement}
         </p>
       </div>
     </div>
@@ -32,7 +36,8 @@ export const StructureHeader = ({
 type Props = {
   type: string;
   operateur: string;
-  adresse: string;
-  codePostal: string;
+  nbPlaces: number;
+  nom: string | null;
   commune: string;
+  departement: string;
 };

@@ -20,6 +20,7 @@ export const StructureMarker = ({
   repartition,
   nom,
   commune,
+  codePostal,
   departement,
   logements,
   debutConvention,
@@ -49,13 +50,13 @@ export const StructureMarker = ({
       <Popup className={styles.container} closeButton={false}>
         <p className="fr-text--xs fr-m-0">DNA {dnaCode}</p>
         <p className="fr-text text-blue-france fr-text-title--blue-france fr-m-0">
-          <strong>
+          <strong className="fr-pr-2w">
             {type} - {operateur}
-          </strong>{" "}
+          </strong>
           {nbPlaces} places
         </p>
         <p className="fr-text--xs text-blue-france fr-m-0">
-          {nom}, {commune}, {departement}
+          {nom}, {commune}, {departement} ({codePostal.substring(0, 2)})
         </p>
         <p className="fr-text--xs fr-mt-0">
           <strong>Dans les communes de : </strong>
@@ -68,9 +69,15 @@ export const StructureMarker = ({
             {new Date(finConvention).toLocaleDateString()}
           </span>
         </p>
-        <RepartitionBadge repartition={repartition} />
-        {qpv && <Badge type="success">QPV</Badge>}
-        {cpom && <Badge type="success">CPOM</Badge>}
+        <span className="fr-pr-1w">
+          <RepartitionBadge repartition={repartition} />
+        </span>
+        {qpv && (
+          <span className="fr-pr-1w">
+            <Badge type="warning">QPV</Badge>
+          </span>
+        )}
+        {cpom && <Badge type="new">CPOM</Badge>}
         <div className="align-right">
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
@@ -95,6 +102,7 @@ type Props = {
   repartition: string;
   nom: string | null;
   commune: string;
+  codePostal: string;
   departement: string;
   logements: Logement[];
   debutConvention: Date;
