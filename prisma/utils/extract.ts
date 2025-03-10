@@ -1,7 +1,17 @@
 import xlsx from "node-xlsx";
+import { Repartition } from "@prisma/client";
 
-const convertToBoolean = (value: string) => {
+const convertToBoolean = (value: string): boolean => {
   return value === "Oui";
+};
+
+const convertToRepartition = (repartition: string): Repartition => {
+  const repartitions: Record<string, Repartition> = {
+    Diffus: Repartition.DIFFUS,
+    Collectif: Repartition.COLLECTIF,
+    Mixte: Repartition.MIXTE,
+  };
+  return repartitions[repartition];
 };
 
 export const extractStructuresFromCsv = async () => {
@@ -14,7 +24,7 @@ export const extractStructuresFromCsv = async () => {
       operateur: line[1],
       type: line[2],
       nbPlaces: Number(line[3]),
-      repartition: line[4],
+      repartition: convertToRepartition(line[4]),
       adresse: line[5],
       commune: line[6],
       codePostal: line[7],
@@ -52,6 +62,7 @@ export const extractLogementsFromCsv = async () => {
       ville: line[3],
       qpv: convertToBoolean(line[4]),
       logementSocial: convertToBoolean(line[5]),
+      nbPlaces: Number(line[6]),
     }))
     .filter((structure) => structure.structureDnaCode);
 };

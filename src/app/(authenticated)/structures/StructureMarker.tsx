@@ -56,7 +56,8 @@ export const StructureMarker = ({
           {nbPlaces} places
         </p>
         <p className="fr-text--xs text-blue-france fr-m-0">
-          {nom}, {commune}, {departement} ({codePostal.substring(0, 2)})
+          {nom ? `${nom}, ` : ""}
+          {commune}, {departement} ({codePostal.substring(0, 2)})
         </p>
         <p className="fr-text--xs fr-mt-0">
           <strong>Dans les communes de : </strong>
