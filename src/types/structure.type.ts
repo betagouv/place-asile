@@ -4,6 +4,7 @@ import { Evaluation } from "./evaluation.type";
 import { EvenementIndesirableGrave } from "./evenementIndesirableGrave.type";
 import { Logement } from "./logement.type";
 import { Place } from "./place.type";
+import { Contact } from "./contact.type";
 
 export type Structure = {
   id: number;
@@ -17,7 +18,7 @@ export type Structure = {
   departement: string;
   latitude: number;
   longitude: number;
-  repartition: string;
+  repartition: Repartition;
   nom: string | null;
   debutConvention: Date;
   finConvention: Date;
@@ -41,9 +42,16 @@ export type Structure = {
   evenementsIndesirablesGraves?: EvenementIndesirableGrave[];
   logements?: Logement[];
   places?: Place[];
+  contacts?: Contact[];
 };
 
 export type StructureWithLatLng = Structure & {
   latitude: number;
   longitude: number;
 };
+
+export enum Repartition {
+  DIFFUS = "Diffus",
+  COLLECTIF = "Collectif",
+  MIXTE = "Mixte",
+}

@@ -17,6 +17,10 @@ export class StructureRepository {
       where: {
         id,
       },
+      include: {
+        logements: true,
+        contacts: true,
+      },
     });
   }
 }
