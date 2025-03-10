@@ -25,7 +25,7 @@ model Structure {
   departement                  String
   latitude                     Decimal
   longitude                    Decimal
-  repartition                  String
+  repartition                  Repartition
   nom                          String?
   debutConvention              DateTime
   finConvention                DateTime
@@ -63,6 +63,9 @@ model Evaluation {
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode String
   date             DateTime
+  notePersonne     Int
+  notePro          Int
+  noteESSMS        Int
   note             Int
 }
 
@@ -85,6 +88,7 @@ model Logement {
   ville            String
   qpv              Boolean
   logementSocial   Boolean
+  nbPlaces         Int
 }
 
 model Place {
@@ -96,6 +100,12 @@ model Place {
   pmr              Int
   qpv              Int
   logementSocial   Int
+}
+
+enum Repartition {
+  DIFFUS
+  COLLECTIF
+  MIXTE
 }
 
 enum ControleType {

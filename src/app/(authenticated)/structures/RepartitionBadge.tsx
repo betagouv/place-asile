@@ -1,9 +1,10 @@
 import { ReactElement } from "react";
 import { Badge, BadgeType } from "../../components/common/Badge";
+import { Repartition } from "@prisma/client";
 
 export const RepartitionBadge = ({ repartition }: Props): ReactElement => {
   const getBadgeType = (repartition: string): BadgeType => {
-    return repartition === "Diffus" ? "success" : "info";
+    return repartition === Repartition.DIFFUS ? "success" : "info";
   };
   return <Badge type={getBadgeType(repartition)}>{repartition}</Badge>;
 };

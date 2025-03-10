@@ -11,9 +11,9 @@ export const getPlacesByCommunes = (
       );
 
       if (!existingCommune) {
-        accumulator[currentLogement.ville] = 1;
+        accumulator[currentLogement.ville] = currentLogement.nbPlaces;
       } else {
-        accumulator[currentLogement.ville] += 1;
+        accumulator[currentLogement.ville] += currentLogement.nbPlaces;
       }
       return accumulator;
     },
