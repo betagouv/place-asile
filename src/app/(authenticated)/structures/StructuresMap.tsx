@@ -20,6 +20,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
             repartition,
             nom,
             commune,
+            codePostal,
             departement,
             logements,
             debutConvention,
@@ -39,6 +40,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
             repartition={repartition}
             nom={nom}
             commune={commune}
+            codePostal={codePostal}
             departement={departement}
             logements={logements || []}
             debutConvention={debutConvention}
