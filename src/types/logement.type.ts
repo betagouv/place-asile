@@ -6,4 +6,5 @@ export type Logement = {
   ville: string;
   qpv: boolean;
   logementSocial: boolean;
+  nbPlaces: number;
 };
