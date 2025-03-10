@@ -48,6 +48,7 @@ model Structure {
   evenementsIndesirablesGraves EvenementIndesirableGrave[]
   logements                    Logement[]
   places                       Place[]
+  contacts                     Contact[]
 }
 
 model Controle {
@@ -100,6 +101,16 @@ model Place {
   pmr              Int
   qpv              Int
   logementSocial   Int
+}
+
+model Contact {
+  id               Int  @id @default(autoincrement())
+  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode String
+  prenom           String
+  nom              String
+  telephone        String
+  email            String
 }
 
 enum Repartition {

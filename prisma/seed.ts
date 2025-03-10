@@ -1,8 +1,9 @@
-import { Logement, PrismaClient, Structure } from "@prisma/client";
+import { PrismaClient, Structure } from "@prisma/client";
 import { wipeTables } from "./utils/wipe";
 import {
   extractLogementsFromCsv,
   extractStructuresFromCsv,
+  extractContactsFromCsv,
 } from "./utils/extract";
 
 const prisma = new PrismaClient();
@@ -32,7 +33,16 @@ const seedLogements = async () => {
   const logements = await extractLogementsFromCsv();
   for (const logement of logements) {
     await prisma.logement.create({
-      data: logement as Logement,
+      data: logement,
+    });
+  }
+};
+
+const seedContacts = async () => {
+  const contacts = await extractContactsFromCsv();
+  for (const contact of contacts) {
+    await prisma.contact.create({
+      data: contact,
     });
   }
 };
@@ -41,6 +51,7 @@ export async function seed(): Promise<void> {
   await wipeTables(prisma);
   await seedStructures();
   await seedLogements();
+  await seedContacts();
 }
 
 seed();

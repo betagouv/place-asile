@@ -1,5 +1,5 @@
+import { Logement } from "@/types/logement.type";
 import { sortKeysByValue } from "./common.util";
-import { Logement } from "@prisma/client";
 
 export const getPlacesByCommunes = (
   logements: Logement[]
