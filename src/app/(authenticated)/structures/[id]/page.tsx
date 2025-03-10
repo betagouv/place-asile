@@ -15,14 +15,28 @@ export default async function StructureDetails({
       <StructureHeader
         type={structure.type}
         operateur={structure.operateur}
-        adresse={structure.adresseHebergement}
-        codePostal={structure.codePostalHebergement}
-        commune={structure.communeHebergement}
+        nbPlaces={structure.nbPlaces}
+        nom={structure.nom}
+        commune={structure.commune}
+        departement={structure.departement}
       />
       <div className="bg-grey fr-p-1w">
         <DescriptionBlock
-          nbPlaces={structure.nbPlaces}
+          creationDate={structure.creationDate}
+          dnaCode={structure.dnaCode}
+          operateur={structure.operateur}
+          publicType={structure.public}
+          adresse={structure.adresse}
+          nom={structure.nom}
+          codePostal={structure.codePostal}
+          commune={structure.commune}
           repartition={structure.repartition}
+          type={structure.type}
+          finessCode={structure.finessCode}
+          cpom={structure.cpom}
+          lgbt={structure.lgbt}
+          fvv={structure.fvv}
+          teh={structure.teh}
         />
       </div>
     </>

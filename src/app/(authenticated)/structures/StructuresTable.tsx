@@ -15,11 +15,13 @@ export const StructuresTable = ({
     usePagination<Structure>(structures);
 
   const headings = [
+    "DNA",
     "Type",
     "Opérateur",
     "Places",
-    "Répartition",
+    "Bâti",
     "Commune",
+    "Convention en cours",
     "Détails",
   ];
 
@@ -43,6 +45,7 @@ export const StructuresTable = ({
       <Table headings={headings} ariaLabelledBy={ariaLabelledBy}>
         {currentData.map((structure, index) => (
           <tr id={`table-row-key-${index}`} data-row-key={index} key={index}>
+            <td>{structure.dnaCode}</td>
             <td>{structure.type}</td>
             <td>{structure.operateur}</td>
             <td>{structure.nbPlaces}</td>
@@ -50,6 +53,10 @@ export const StructuresTable = ({
               <RepartitionBadge repartition={structure.repartition} />
             </td>
             <td>{getCommuneLabel(structure)}</td>
+            <td>
+              {new Date(structure.debutConvention).toLocaleDateString()} -{" "}
+              {new Date(structure.finConvention).toLocaleDateString()}
+            </td>
             <td>
               <Link
                 className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
