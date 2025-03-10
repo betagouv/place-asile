@@ -1,5 +1,5 @@
 import xlsx from "node-xlsx";
-import { Repartition } from "@prisma/client";
+import { Logement, Repartition, Structure, Contact } from "@prisma/client";
 
 const convertToBoolean = (value: string): boolean => {
   return value === "Oui";
@@ -14,7 +14,9 @@ const convertToRepartition = (repartition: string): Repartition => {
   return repartitions[repartition];
 };
 
-export const extractStructuresFromCsv = async () => {
+export const extractStructuresFromCsv = async (): Promise<
+  Omit<Structure, "id" | "latitude" | "longitude">[]
+> => {
   const sheets = xlsx.parse(`${__dirname}/../data/structures.csv`);
   const firstSheet = sheets[0].data;
   firstSheet.shift();
@@ -50,7 +52,9 @@ export const extractStructuresFromCsv = async () => {
     .filter((structure) => structure.operateur);
 };
 
-export const extractLogementsFromCsv = async () => {
+export const extractLogementsFromCsv = async (): Promise<
+  Omit<Logement, "id">[]
+> => {
   const sheets = xlsx.parse(`${__dirname}/../data/logements.csv`);
   const firstSheet = sheets[0].data;
   firstSheet.shift();
@@ -63,6 +67,23 @@ export const extractLogementsFromCsv = async () => {
       qpv: convertToBoolean(line[4]),
       logementSocial: convertToBoolean(line[5]),
       nbPlaces: Number(line[6]),
+    }))
+    .filter((structure) => structure.structureDnaCode);
+};
+
+export const extractContactsFromCsv = async (): Promise<
+  Omit<Contact, "id">[]
+> => {
+  const sheets = xlsx.parse(`${__dirname}/../data/contacts.csv`);
+  const firstSheet = sheets[0].data;
+  firstSheet.shift();
+  return firstSheet
+    .map((line) => ({
+      structureDnaCode: line[0],
+      prenom: line[1],
+      nom: line[2],
+      telephone: line[3],
+      email: line[4],
     }))
     .filter((structure) => structure.structureDnaCode);
 };

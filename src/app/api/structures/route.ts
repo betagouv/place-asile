@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { StructureRepository } from "./structure.repository";
 import { Structure } from "@prisma/client";
-import { StructureWithLatLng } from "@/types/structure.type";
+import { Repartition, StructureWithLatLng } from "@/types/structure.type";
 
 export async function GET() {
   const structureRepository = new StructureRepository();
@@ -15,6 +15,7 @@ const addCoordinates = (structures: Structure[]): StructureWithLatLng[] => {
     ...structure,
     latitude: structure.latitude.toNumber(),
     longitude: structure.longitude.toNumber(),
+    repartition: structure.repartition as Repartition,
     coordinates: [
       structure.latitude.toNumber(),
       structure.longitude.toNumber(),

@@ -2,6 +2,9 @@ import { Structure } from "@/types/structure.type";
 import { StructureHeader } from "./StructureHeader";
 import { DescriptionBlock } from "./DescriptionBlock";
 import { ReactElement } from "react";
+import { CalendarBlock } from "./CalendarBlock";
+import { TypePlaceBlock } from "./TypePlaceBlock";
+import { ControlBlock } from "./ControlBlock";
 
 export default async function StructureDetails({
   params,
@@ -21,23 +24,36 @@ export default async function StructureDetails({
         departement={structure.departement}
       />
       <div className="bg-grey fr-p-1w">
-        <DescriptionBlock
-          creationDate={structure.creationDate}
-          dnaCode={structure.dnaCode}
-          operateur={structure.operateur}
-          publicType={structure.public}
-          adresse={structure.adresse}
-          nom={structure.nom}
-          codePostal={structure.codePostal}
-          commune={structure.commune}
-          repartition={structure.repartition}
-          type={structure.type}
-          finessCode={structure.finessCode}
-          cpom={structure.cpom}
-          lgbt={structure.lgbt}
-          fvv={structure.fvv}
-          teh={structure.teh}
-        />
+        <div className="fr-pb-1w">
+          <DescriptionBlock
+            creationDate={structure.creationDate}
+            dnaCode={structure.dnaCode}
+            operateur={structure.operateur}
+            publicType={structure.public}
+            adresse={structure.adresse}
+            nom={structure.nom}
+            codePostal={structure.codePostal}
+            commune={structure.commune}
+            repartition={structure.repartition}
+            type={structure.type}
+            finessCode={structure.finessCode}
+            cpom={structure.cpom}
+            lgbt={structure.lgbt}
+            fvv={structure.fvv}
+            teh={structure.teh}
+            contacts={structure.contacts || []}
+            logements={structure.logements || []}
+          />
+        </div>
+        <div className="fr-pb-1w">
+          <CalendarBlock />
+        </div>
+        <div className="fr-pb-1w">
+          <TypePlaceBlock />
+        </div>
+        <div className="fr-pb-1w">
+          <ControlBlock />
+        </div>
       </div>
     </>
   );

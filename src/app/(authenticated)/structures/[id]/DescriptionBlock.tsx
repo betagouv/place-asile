@@ -1,5 +1,10 @@
 import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
+import { AdresseViewer } from "./AdresseViewer";
+import { Contact } from "@/types/contact.type";
+import { LogementsViewer } from "./LogementsViewer";
+import { Repartition } from "@/types/structure.type";
+import { Logement } from "@/types/logement.type";
 
 export const DescriptionBlock = ({
   creationDate,
@@ -17,6 +22,8 @@ export const DescriptionBlock = ({
   lgbt,
   fvv,
   teh,
+  contacts,
+  logements,
 }: Props): ReactElement => {
   const getVulnerabiliteLabel = () => {
     const vulnerabilites: string[] = [];
@@ -96,21 +103,17 @@ export const DescriptionBlock = ({
       </div>
       <hr />
       <div className="fr-mb-1w">
-        <strong className="fr-pr-2w">Adresse administrative</strong>
-        <span className="fr-pr-1w">
-          {nom}, {adresse}, {codePostal} {commune}
-        </span>
-        <button className="fr-btn fr-btn--sm fr-btn--icon-left fr-btn--tertiary-no-outline fr-icon-eye-line">
-          Voir les contacts
-        </button>
+        <AdresseViewer
+          nom={nom}
+          adresse={adresse}
+          codePostal={codePostal}
+          commune={commune}
+          contacts={contacts}
+        />
       </div>
       <hr />
       <div>
-        <strong className="fr-pr-2w">Type de bâti</strong>
-        <span className="fr-pr-1w">{repartition}</span>
-        <button className="fr-btn fr-btn--sm fr-btn--icon-left fr-btn--tertiary-no-outline fr-icon-eye-line">
-          Voir la liste des hébergements
-        </button>
+        <LogementsViewer repartition={repartition} logements={logements} />
       </div>
     </Block>
   );
@@ -125,11 +128,13 @@ type Props = {
   nom: string | null;
   codePostal: string;
   commune: string;
-  repartition: string;
+  repartition: Repartition;
   type: string;
   finessCode: string;
   cpom: boolean;
   lgbt: boolean;
   fvv: boolean;
   teh: boolean;
+  contacts: Contact[];
+  logements: Logement[];
 };

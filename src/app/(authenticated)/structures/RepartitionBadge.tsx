@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Badge, BadgeType } from "../../components/common/Badge";
-import { Repartition } from "@prisma/client";
+import { Repartition } from "@/types/structure.type";
 
 export const RepartitionBadge = ({ repartition }: Props): ReactElement => {
   const getBadgeType = (repartition: string): BadgeType => {
