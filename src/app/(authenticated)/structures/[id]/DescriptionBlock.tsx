@@ -20,23 +20,18 @@ export const DescriptionBlock = ({
   finessCode,
   cpom,
   lgbt,
-  fvv,
-  teh,
+  fvvTeh,
   contacts,
   logements,
 }: Props): ReactElement => {
   const getVulnerabiliteLabel = () => {
     const vulnerabilites: string[] = [];
-    const categories = [
-      { isInCentre: lgbt, label: "LGBT" },
-      { isInCentre: fvv, label: "FVV" },
-      { isInCentre: teh, label: "TEH" },
-    ];
-    categories.forEach((category) => {
-      if (category.isInCentre) {
-        vulnerabilites.push(category.label);
-      }
-    });
+    if (lgbt) {
+      vulnerabilites.push("LGBT");
+    }
+    if (fvvTeh) {
+      vulnerabilites.push("FVV", "TEH");
+    }
     return vulnerabilites.join(", ");
   };
 
@@ -133,8 +128,7 @@ type Props = {
   finessCode: string;
   cpom: boolean;
   lgbt: boolean;
-  fvv: boolean;
-  teh: boolean;
+  fvvTeh: boolean;
   contacts: Contact[];
   logements: Logement[];
 };

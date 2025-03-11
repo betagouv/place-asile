@@ -39,8 +39,7 @@ export default async function StructureDetails({
             finessCode={structure.finessCode}
             cpom={structure.cpom}
             lgbt={structure.lgbt}
-            fvv={structure.fvv}
-            teh={structure.teh}
+            fvvTeh={structure.fvvTeh}
             contacts={structure.contacts || []}
             logements={structure.logements || []}
           />

@@ -34,15 +34,12 @@ model Structure {
   creationDate                 DateTime
   finessCode                   String
   lgbt                         Boolean
-  fvv                          Boolean
-  teh                          Boolean
+  fvvTeh                       Boolean
   public                       String
   periodeAutorisationStart     DateTime
   periodeAutorisationEnd       DateTime
   cpomStart                    DateTime
   cpomEnd                      DateTime
-  nbPlacesLibres               Int
-  nbPlacesVacantes             Int
   controles                    Controle[]
   evaluations                  Evaluation[]
   evenementsIndesirablesGraves EvenementIndesirableGrave[]
@@ -111,6 +108,7 @@ model Contact {
   nom              String
   telephone        String
   email            String
+  role             String
 }
 
 enum Repartition {
