@@ -32,7 +32,7 @@ export const AdresseViewer = ({
           {contacts.map((contact) => (
             <div key={contact.email}>
               <strong className="fr-pr-3w">
-                {contact.prenom} {contact.nom}
+                {contact.prenom} {contact.nom} ({contact.role})
               </strong>
               <span className="fr-pr-3w">{contact.email}</span>
               <span>{contact.telephone}</span>

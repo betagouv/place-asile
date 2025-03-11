@@ -1,4 +1,4 @@
-import { Structure } from "@/types/structure.type";
+import { Repartition, Structure } from "@/types/structure.type";
 import { LatLngTuple } from "leaflet";
 
 export const createStructure = ({
@@ -15,7 +15,7 @@ export const createStructure = ({
     codePostal: "75011",
     commune: "Paris",
     departement: "75",
-    repartition: "Diffus",
+    repartition: Repartition.DIFFUS,
     coordinates: [48.8670239, 2.3612011] as LatLngTuple,
     latitude: 0,
     longitude: 0,
@@ -27,15 +27,12 @@ export const createStructure = ({
     creationDate: new Date("01/02/2007"),
     finessCode: "F12345",
     lgbt: true,
-    fvv: false,
-    teh: true,
+    fvvTeh: false,
     public: "Tout public",
     periodeAutorisationStart: new Date("01/02/2022"),
     periodeAutorisationEnd: new Date("01/02/2025"),
     cpomStart: new Date("01/02/2025"),
     cpomEnd: new Date("01/02/2025"),
-    nbPlacesLibres: 2,
-    nbPlacesVacantes: 1,
   };
 };
 

@@ -27,15 +27,12 @@ export type Structure = {
   creationDate: Date;
   finessCode: string;
   lgbt: boolean;
-  fvv: boolean;
-  teh: boolean;
+  fvvTeh: boolean;
   public: string;
   periodeAutorisationStart: Date;
   periodeAutorisationEnd: Date;
   cpomStart: Date;
   cpomEnd: Date;
-  nbPlacesLibres: number;
-  nbPlacesVacantes: number;
   coordinates: LatLngTuple;
   controles?: Controle[];
   evaluations?: Evaluation[];

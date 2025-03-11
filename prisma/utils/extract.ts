@@ -39,15 +39,12 @@ export const extractStructuresFromCsv = async (): Promise<
       creationDate: new Date(line[14]),
       finessCode: line[15],
       lgbt: convertToBoolean(line[16]),
-      fvv: convertToBoolean(line[17]),
-      teh: convertToBoolean(line[18]),
-      public: line[19],
-      periodeAutorisationStart: new Date(line[20]),
-      periodeAutorisationEnd: new Date(line[21]),
-      cpomStart: new Date(line[22]),
-      cpomEnd: new Date(line[23]),
-      nbPlacesLibres: Number(line[24]),
-      nbPlacesVacantes: Number(line[25]),
+      fvvTeh: convertToBoolean(line[17]),
+      public: line[18],
+      periodeAutorisationStart: new Date(line[19]),
+      periodeAutorisationEnd: new Date(line[20]),
+      cpomStart: new Date(line[21]),
+      cpomEnd: new Date(line[22]),
     }))
     .filter((structure) => structure.operateur);
 };
@@ -84,6 +81,7 @@ export const extractContactsFromCsv = async (): Promise<
       nom: line[2],
       telephone: line[3],
       email: line[4],
+      role: line[5],
     }))
     .filter((structure) => structure.structureDnaCode);
 };
