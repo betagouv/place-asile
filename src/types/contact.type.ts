@@ -5,4 +5,5 @@ export type Contact = {
   nom: string;
   telephone: number;
   email: number;
+  role: string;
 };

@@ -26,7 +26,7 @@ export const StructureHeader = ({
           {nbPlaces} places
         </h2>
         <p className="fr-mb-0 text-blue-france fr-text">
-          {nom}, {commune}, {departement}
+          {nom ? `${nom}, ` : ""} {commune}, {departement}
         </p>
       </div>
     </div>
