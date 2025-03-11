@@ -22,6 +22,7 @@
   "dependencies": {
     "@gouvfr/dsfr": "^1.13.0",
     "@prisma/client": "^6.4.1",
+    "dayjs": "^1.11.13",
     "leaflet": "^1.9.4",
     "next": "15.2.1",
     "next-leaflet-cluster": "^1.0.0",
