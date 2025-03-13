@@ -69,7 +69,7 @@ export const StructuresTable = ({
           </tr>
         ))}
       </Table>
-      <div className="align-center">
+      <div className="align-justify-center">
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
