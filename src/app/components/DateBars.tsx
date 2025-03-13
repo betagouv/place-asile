@@ -1,7 +1,10 @@
+"use client";
+
 import { ReactElement } from "react";
-import styles from "./DateBars.module.css";
+import { DateBar, DatePair } from "./DateBar";
 import dayjs from "dayjs";
 
+// TODO : delete this component and dayjs
 export const DateBars = ({ datePairs }: Props): ReactElement => {
   const getTimeDifference = (datePair: DatePair): number => {
     return dayjs(datePair.endDate).diff(datePair.startDate, "day");
@@ -11,27 +14,42 @@ export const DateBars = ({ datePairs }: Props): ReactElement => {
     return datePairs.map(getTimeDifference);
   };
 
-  const getBarSize = (datePair: DatePair, datePairs: DatePair[]) => {
+  const getTodayOffset = (datePairs: DatePair[]): number => {
     const timeDifferences = getTimeDifferences(datePairs);
     const maxDifference = Math.max(...timeDifferences);
-    return (getTimeDifference(datePair) / maxDifference) * 100;
+    const dates = datePairs.flatMap((datePair) => [
+      datePair.startDate,
+      datePair.endDate,
+    ]);
+    const minDate = dates.sort(
+      (firstDate, secondDate) =>
+        new Date(firstDate).getTime() - new Date(secondDate).getTime()
+    )[0];
+    const todayDiff = dayjs(new Date()).diff(minDate, "day");
+    return (todayDiff / maxDifference) * 100;
   };
 
   return (
     <div>
+      <div className="d-flex">
+        <div className="fr-col fr-col-2" />
+        <div className="fr-col fr-col-8">
+          <strong
+            className="fr-text--xs text-grey uppercase"
+            style={{
+              marginLeft: `${getTodayOffset(datePairs)}%`,
+            }}
+          >
+            Aujourd’hui
+          </strong>
+        </div>
+      </div>
       {datePairs.map((datePair, index) => (
         <div key={index} className="d-flex">
           <div className="fr-col fr-col-2 align-right">
             <strong className="fr-pr-1w">{datePair.label}</strong>
           </div>
-          <div className="fr-col fr-col-10 d-flex align-center">
-            {new Date(datePair.startDate).toLocaleDateString()}
-            <div
-              className={styles["date-bar"]}
-              style={{ width: `${getBarSize(datePair, datePairs)}%` }}
-            />
-            {new Date(datePair.endDate).toLocaleDateString()}
-          </div>
+          <DateBar datePair={datePair} datePairs={datePairs} />
         </div>
       ))}
     </div>
@@ -40,10 +58,4 @@ export const DateBars = ({ datePairs }: Props): ReactElement => {
 
 type Props = {
   datePairs: DatePair[];
-};
-
-type DatePair = {
-  startDate: Date;
-  endDate: Date;
-  label: string;
 };

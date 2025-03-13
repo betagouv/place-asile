@@ -1,5 +1,5 @@
 import { Block } from "@/app/components/common/Block";
-import { DateBars } from "@/app/components/DateBars";
+import { Timeline } from "@/app/components/Timeline";
 import { ReactElement } from "react";
 
 export const CalendarBlock = ({
@@ -25,7 +25,7 @@ export const CalendarBlock = ({
   ];
   return (
     <Block title="Calendrier" iconClass="fr-icon-calendar-2-line">
-      <DateBars datePairs={datePairs} />
+      <Timeline datePairs={datePairs} />
     </Block>
   );
 };

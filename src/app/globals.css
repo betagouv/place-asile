@@ -3,9 +3,14 @@
   width: 100%;
 }
 
-.align-center {
+.align-justify-center {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.align-center {
+  display: flex;
   align-items: center;
 }
 
