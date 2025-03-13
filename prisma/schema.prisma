@@ -63,7 +63,7 @@ model Evaluation {
   date             DateTime
   notePersonne     Int
   notePro          Int
-  noteESSMS        Int
+  noteStructure    Int
   note             Int
 }
 
