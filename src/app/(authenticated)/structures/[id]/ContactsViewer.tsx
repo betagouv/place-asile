@@ -3,7 +3,7 @@
 import { Contact } from "@/types/contact.type";
 import { ReactElement, useState } from "react";
 
-export const AdresseViewer = ({
+export const ContactsViewer = ({
   nom,
   adresse,
   codePostal,

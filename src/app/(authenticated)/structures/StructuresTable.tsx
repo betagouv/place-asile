@@ -4,7 +4,10 @@ import { Pagination } from "../../components/common/Pagination";
 import { usePagination } from "../../hooks/usePagination";
 import { RepartitionBadge } from "./RepartitionBadge";
 import Link from "next/link";
-import { getPlacesByCommunes } from "@/app/utils/structure.util";
+import {
+  getPlacesByCommunes,
+  getRepartition,
+} from "@/app/utils/structure.util";
 import { Structure } from "@/types/structure.type";
 
 export const StructuresTable = ({
@@ -26,7 +29,7 @@ export const StructuresTable = ({
   ];
 
   const getCommuneLabel = (structure: Structure) => {
-    const placesByCommune = getPlacesByCommunes(structure.logements || []);
+    const placesByCommune = getPlacesByCommunes(structure.adresses || []);
     const mainCommune = Object.keys(placesByCommune)[0];
     return (
       <>
@@ -50,7 +53,7 @@ export const StructuresTable = ({
             <td>{structure.operateur}</td>
             <td>{structure.nbPlaces}</td>
             <td>
-              <RepartitionBadge repartition={structure.repartition} />
+              <RepartitionBadge repartition={getRepartition(structure)} />
             </td>
             <td>{getCommuneLabel(structure)}</td>
             <td>
