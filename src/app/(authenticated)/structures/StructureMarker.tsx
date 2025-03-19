@@ -1,14 +1,16 @@
+import Link from "next/link";
 import { ReactElement } from "react";
 import { LatLngTuple } from "leaflet";
 import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 import { singleMarkerIcon } from "../../components/map/SingleMarker";
 import { RepartitionBadge } from "./RepartitionBadge";
-import styles from "./StructureMarker.module.css";
-import Link from "next/link";
 import { getPlacesByCommunes } from "@/app/utils/structure.util";
-import { Logement } from "@/types/logement.type";
+import { Adresse, Repartition } from "@/types/adresse.type";
 import { Badge } from "@/app/components/common/Badge";
+import { StructureType } from "@/types/structure.type";
+
+import styles from "./StructureMarker.module.css";
 
 export const StructureMarker = ({
   id,
@@ -22,14 +24,13 @@ export const StructureMarker = ({
   commune,
   codePostal,
   departement,
-  logements,
+  adresses,
   debutConvention,
   finConvention,
-  qpv,
   cpom,
 }: Props): ReactElement => {
   const getCommunesLabel = (): ReactElement => {
-    const placesByCommunes = getPlacesByCommunes(logements);
+    const placesByCommunes = getPlacesByCommunes(adresses);
     return (
       <>
         {Object.entries(placesByCommunes).map(
@@ -73,11 +74,6 @@ export const StructureMarker = ({
         <span className="fr-pr-1w">
           <RepartitionBadge repartition={repartition} />
         </span>
-        {qpv && (
-          <span className="fr-pr-1w">
-            <Badge type="warning">QPV</Badge>
-          </span>
-        )}
         {cpom && <Badge type="new">CPOM</Badge>}
         <div className="align-right">
           <Link
@@ -98,16 +94,15 @@ type Props = {
   dnaCode: string;
   coordinates: LatLngTuple;
   operateur: string;
-  type: string;
+  type: StructureType;
   nbPlaces: number;
-  repartition: string;
+  repartition: Repartition;
   nom: string | null;
   commune: string;
   codePostal: string;
   departement: string;
-  logements: Logement[];
+  adresses: Adresse[];
   debutConvention: Date;
   finConvention: Date;
-  qpv: boolean;
   cpom: boolean;
 };

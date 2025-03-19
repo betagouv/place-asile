@@ -1,10 +1,10 @@
 import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
-import { AdresseViewer } from "./AdresseViewer";
+import { ContactsViewer } from "./ContactsViewer";
 import { Contact } from "@/types/contact.type";
-import { LogementsViewer } from "./LogementsViewer";
-import { Repartition } from "@/types/structure.type";
-import { Logement } from "@/types/logement.type";
+import { AdressesViewer } from "./AdressesViewer";
+import { PublicType, StructureType } from "@/types/structure.type";
+import { Adresse, Repartition } from "@/types/adresse.type";
 
 export const DescriptionBlock = ({
   creationDate,
@@ -22,7 +22,7 @@ export const DescriptionBlock = ({
   lgbt,
   fvvTeh,
   contacts,
-  logements,
+  adresses,
 }: Props): ReactElement => {
   const getVulnerabiliteLabel = () => {
     const vulnerabilites: string[] = [];
@@ -47,7 +47,7 @@ export const DescriptionBlock = ({
         <div className="fr-col">
           <div className="fr-mb-1w">
             <strong className="fr-pr-2w">Type de structure</strong>
-            {type}
+            {StructureType[type]}
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@ export const DescriptionBlock = ({
       </div>
       <hr />
       <div className="fr-mb-1w">
-        <AdresseViewer
+        <ContactsViewer
           nom={nom}
           adresse={adresse}
           codePostal={codePostal}
@@ -108,7 +108,7 @@ export const DescriptionBlock = ({
       </div>
       <hr />
       <div>
-        <LogementsViewer repartition={repartition} logements={logements} />
+        <AdressesViewer repartition={repartition} adresses={adresses} />
       </div>
     </Block>
   );
@@ -118,17 +118,17 @@ type Props = {
   creationDate: Date;
   dnaCode: string;
   operateur: string;
-  publicType: string;
+  publicType: PublicType;
   adresse: string;
   nom: string | null;
   codePostal: string;
   commune: string;
   repartition: Repartition;
-  type: string;
+  type: StructureType;
   finessCode: string;
   cpom: boolean;
   lgbt: boolean;
   fvvTeh: boolean;
   contacts: Contact[];
-  logements: Logement[];
+  adresses: Adresse[];
 };

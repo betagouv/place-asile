@@ -5,6 +5,7 @@ import { ReactElement } from "react";
 import { CalendarBlock } from "./CalendarBlock";
 import { TypePlaceBlock } from "./TypePlaceBlock";
 import { ControlBlock } from "./ControlBlock";
+import { getRepartition } from "@/app/utils/structure.util";
 
 export default async function StructureDetails({
   params,
@@ -20,8 +21,8 @@ export default async function StructureDetails({
         operateur={structure.operateur}
         nbPlaces={structure.nbPlaces}
         nom={structure.nom}
-        commune={structure.commune}
-        departement={structure.departement}
+        commune={structure.communeAdministrative}
+        departement={structure.departementAdministratif}
       />
       <div className="bg-grey fr-p-1w">
         <div className="fr-pb-1w">
@@ -30,18 +31,18 @@ export default async function StructureDetails({
             dnaCode={structure.dnaCode}
             operateur={structure.operateur}
             publicType={structure.public}
-            adresse={structure.adresse}
+            adresse={structure.adresseAdministrative}
             nom={structure.nom}
-            codePostal={structure.codePostal}
-            commune={structure.commune}
-            repartition={structure.repartition}
+            codePostal={structure.codePostalAdministratif}
+            commune={structure.communeAdministrative}
+            repartition={getRepartition(structure)}
             type={structure.type}
             finessCode={structure.finessCode}
             cpom={structure.cpom}
             lgbt={structure.lgbt}
             fvvTeh={structure.fvvTeh}
             contacts={structure.contacts || []}
-            logements={structure.logements || []}
+            adresses={structure.adresses || []}
           />
         </div>
         <div className="fr-pb-1w">

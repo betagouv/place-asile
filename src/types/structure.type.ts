@@ -2,33 +2,31 @@ import { LatLngTuple } from "leaflet";
 import { Controle } from "./controle.type";
 import { Evaluation } from "./evaluation.type";
 import { EvenementIndesirableGrave } from "./evenementIndesirableGrave.type";
-import { Logement } from "./logement.type";
-import { Place } from "./place.type";
+import { Adresse } from "./adresse.type";
 import { Contact } from "./contact.type";
+import { Pmr } from "./pmr.type";
 
 export type Structure = {
   id: number;
   dnaCode: string;
   operateur: string;
-  type: string;
+  type: StructureType;
   nbPlaces: number;
-  adresse: string;
-  codePostal: string;
-  commune: string;
-  departement: string;
+  adresseAdministrative: string;
+  codePostalAdministratif: string;
+  communeAdministrative: string;
+  departementAdministratif: string;
   latitude: number;
   longitude: number;
-  repartition: Repartition;
   nom: string | null;
   debutConvention: Date;
   finConvention: Date;
-  qpv: boolean;
   cpom: boolean;
   creationDate: Date;
   finessCode: string;
   lgbt: boolean;
   fvvTeh: boolean;
-  public: string;
+  public: PublicType;
   periodeAutorisationStart: Date;
   periodeAutorisationEnd: Date;
   cpomStart: Date;
@@ -37,9 +35,9 @@ export type Structure = {
   controles?: Controle[];
   evaluations?: Evaluation[];
   evenementsIndesirablesGraves?: EvenementIndesirableGrave[];
-  logements?: Logement[];
-  places?: Place[];
+  adresses?: Adresse[];
   contacts?: Contact[];
+  pmrs?: Pmr[];
 };
 
 export type StructureWithLatLng = Structure & {
@@ -47,8 +45,16 @@ export type StructureWithLatLng = Structure & {
   longitude: number;
 };
 
-export enum Repartition {
-  DIFFUS = "Diffus",
-  COLLECTIF = "Collectif",
-  MIXTE = "Mixte",
+export enum PublicType {
+  TOUT_PUBLIC = "Tout public",
+  FAMILLE = "Famille",
+  PERSONNES_ISOLEES = "Personnes isolées",
+}
+
+export enum StructureType {
+  CADA = "CADA",
+  HUDA = "HUDA",
+  CPH = "CPH",
+  CAES = "CAES",
+  PRAHDA = "PRAHDA",
 }

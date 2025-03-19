@@ -2,20 +2,20 @@ import { within, render, screen } from "@testing-library/react";
 import { StructuresTable } from "../../../src/app/(authenticated)/structures/StructuresTable";
 import { createStructure } from "../../test-utils/structure.factory";
 import { Structure } from "@/types/structure.type";
-import { createLogement } from "../../test-utils/logement.factory";
+import { createAdresse } from "../../test-utils/adresse.factory";
 
 describe("StructuresTable", () => {
   it("should show table headings and content elements when rendered", () => {
     // GIVEN
-    const logement1 = createLogement({});
-    const logement2 = createLogement({});
-    const logement3 = createLogement({});
+    const adresse1 = createAdresse({});
+    const adresse2 = createAdresse({});
+    const adresse3 = createAdresse({});
     const structure1 = createStructure({});
     const structure2 = createStructure({});
     const structure3 = createStructure({});
-    structure1.logements = [logement1];
-    structure2.logements = [logement2];
-    structure3.logements = [logement3];
+    structure1.adresses = [adresse1];
+    structure2.adresses = [adresse2];
+    structure3.adresses = [adresse3];
     const structures: Structure[] = [structure1, structure2, structure3];
     const ariaLabelledBy = "";
 

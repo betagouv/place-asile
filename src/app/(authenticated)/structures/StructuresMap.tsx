@@ -4,53 +4,31 @@ import { ReactElement } from "react";
 import { StructureMarker } from "./StructureMarker";
 import { Structure } from "../../../types/structure.type";
 import { Map } from "../../components/map/Map";
+import { getRepartition } from "@/app/utils/structure.util";
 
 const StructuresMap = ({ structures }: Props): ReactElement => {
   return (
     <Map>
-      {structures.map(
-        (
-          {
-            id,
-            dnaCode,
-            coordinates,
-            operateur,
-            type,
-            nbPlaces,
-            repartition,
-            nom,
-            commune,
-            codePostal,
-            departement,
-            logements,
-            debutConvention,
-            finConvention,
-            qpv,
-            cpom,
-          },
-          index
-        ) => (
-          <StructureMarker
-            id={id}
-            dnaCode={dnaCode}
-            coordinates={coordinates}
-            operateur={operateur}
-            type={type}
-            nbPlaces={nbPlaces}
-            repartition={repartition}
-            nom={nom}
-            commune={commune}
-            codePostal={codePostal}
-            departement={departement}
-            logements={logements || []}
-            debutConvention={debutConvention}
-            finConvention={finConvention}
-            qpv={qpv}
-            cpom={cpom}
-            key={index}
-          />
-        )
-      )}
+      {structures.map((structure) => (
+        <StructureMarker
+          id={structure.id}
+          dnaCode={structure.dnaCode}
+          coordinates={structure.coordinates}
+          operateur={structure.operateur}
+          type={structure.type}
+          nbPlaces={structure.nbPlaces}
+          repartition={getRepartition(structure)}
+          nom={structure.nom}
+          commune={structure.communeAdministrative}
+          codePostal={structure.codePostalAdministratif}
+          departement={structure.departementAdministratif}
+          adresses={structure.adresses || []}
+          debutConvention={structure.debutConvention}
+          finConvention={structure.finConvention}
+          cpom={structure.cpom}
+          key={structure.id}
+        />
+      ))}
     </Map>
   );
 };

@@ -1,9 +1,10 @@
 import { PrismaClient, Structure } from "@prisma/client";
 import { wipeTables } from "./utils/wipe";
 import {
-  extractLogementsFromCsv,
+  extractAdressesFromCsv,
   extractStructuresFromCsv,
   extractContactsFromCsv,
+  extractTypologiesFromCsv,
 } from "./utils/extract";
 
 const prisma = new PrismaClient();
@@ -20,7 +21,9 @@ const convertAddressToCoordinates = async (address: string) => {
 const seedStructures = async () => {
   const structures = await extractStructuresFromCsv();
   for (const structure of structures) {
-    const coordinates = await convertAddressToCoordinates(structure.adresse);
+    const coordinates = await convertAddressToCoordinates(
+      structure.adresseAdministrative
+    );
     (structure as Structure).longitude = coordinates?.[0] || 0;
     (structure as Structure).latitude = coordinates?.[1] || 0;
     await prisma.structure.create({
@@ -29,11 +32,11 @@ const seedStructures = async () => {
   }
 };
 
-const seedLogements = async () => {
-  const logements = await extractLogementsFromCsv();
-  for (const logement of logements) {
-    await prisma.logement.create({
-      data: logement,
+const seedAdresses = async () => {
+  const adresses = await extractAdressesFromCsv();
+  for (const adresse of adresses) {
+    await prisma.adresse.create({
+      data: adresse,
     });
   }
 };
@@ -47,11 +50,21 @@ const seedContacts = async () => {
   }
 };
 
+const seedTypologies = async () => {
+  const typologies = await extractTypologiesFromCsv();
+  for (const typologie of typologies) {
+    await prisma.typologie.create({
+      data: typologie,
+    });
+  }
+};
+
 export async function seed(): Promise<void> {
   await wipeTables(prisma);
   await seedStructures();
-  await seedLogements();
+  await seedAdresses();
   await seedContacts();
+  await seedTypologies();
 }
 
 seed();
