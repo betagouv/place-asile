@@ -44,7 +44,7 @@ export const StructuresTable = ({
   };
 
   return (
-    <div className="fr-p-1w bg-grey">
+    <div className="fr-p-1w bg-grey h-full">
       <Table headings={headings} ariaLabelledBy={ariaLabelledBy}>
         {currentData.map((structure, index) => (
           <tr id={`table-row-key-${index}`} data-row-key={index} key={index}>

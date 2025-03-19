@@ -19,7 +19,7 @@ export default async function StructureDetails({
       <StructureHeader
         type={structure.type}
         operateur={structure.operateur}
-        nbPlaces={structure.nbPlaces}
+        dnaCode={structure.dnaCode}
         nom={structure.nom}
         commune={structure.communeAdministrative}
         departement={structure.departementAdministratif}

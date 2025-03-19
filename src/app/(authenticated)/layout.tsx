@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Header } from "../components/Header";
 import { Menu } from "../components/Menu";
 
 export const metadata: Metadata = {
@@ -13,12 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <Header />
-      <main className="w-full d-flex" id="content">
-        <Menu />
-        <div className="w-full">{children}</div>
-      </main>
-    </>
+    <main className="w-full d-flex h-100vh" id="content">
+      <Menu />
+      <div className="w-full">{children}</div>
+    </main>
   );
 }
