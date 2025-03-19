@@ -17,25 +17,23 @@ model Structure {
   id                           Int    @id @default(autoincrement())
   dnaCode                      String @unique
   operateur                    String
-  type                         String
+  type                         StructureType
   nbPlaces                     Int
-  adresse                      String
-  codePostal                   String
-  commune                      String
-  departement                  String
+  adresseAdministrative        String
+  codePostalAdministratif      String
+  communeAdministrative        String
+  departementAdministratif     String
   latitude                     Decimal
   longitude                    Decimal
-  repartition                  Repartition
   nom                          String?
   debutConvention              DateTime
   finConvention                DateTime
-  qpv                          Boolean
   cpom                         Boolean
   creationDate                 DateTime
   finessCode                   String
   lgbt                         Boolean
   fvvTeh                       Boolean
-  public                       String
+  public                       PublicType
   periodeAutorisationStart     DateTime
   periodeAutorisationEnd       DateTime
   cpomStart                    DateTime
@@ -43,9 +41,9 @@ model Structure {
   controles                    Controle[]
   evaluations                  Evaluation[]
   evenementsIndesirablesGraves EvenementIndesirableGrave[]
-  logements                    Logement[]
-  places                       Place[]
+  adresses                     Adresse[]
   contacts                     Contact[]
+  pmrs                         Pmr[]
 }
 
 model Controle {
@@ -77,25 +75,23 @@ model EvenementIndesirableGrave {
   type             EvenementIndesirableGraveType
 }
 
-model Logement {
+model Adresse {
   id               Int  @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode String
   adresse          String
   codePostal       String
-  ville            String
-  qpv              Boolean
-  logementSocial   Boolean
-  nbPlaces         Int
+  commune          String
+  repartition      Repartition
+  typologies       Typologie[]
 }
 
-model Place {
+model Typologie {
   id               Int  @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
-  structureDnaCode String
+  adresse          Adresse @relation(fields: [adresseId], references: [id])
+  adresseId        Int
   nbPlacesTotal    Int
-  year             DateTime
-  pmr              Int
+  date             DateTime
   qpv              Int
   logementSocial   Int
 }
@@ -109,6 +105,14 @@ model Contact {
   telephone        String
   email            String
   role             String
+}
+
+model Pmr {
+  id               Int  @id @default(autoincrement())
+  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode String
+  date             DateTime
+  nbPlaces         Int
 }
 
 enum Repartition {
@@ -126,4 +130,18 @@ enum EvenementIndesirableGraveType {
   VOL
   COMPORTEMENT_VIOLENT
   PROBLEME_RH
+}
+
+enum PublicType {
+  TOUT_PUBLIC
+  FAMILLE
+  PERSONNES_ISOLEES
+}
+
+enum StructureType {
+  CADA
+  HUDA 
+  CPH 
+  CAES
+  PRAHDA
 }

@@ -4,10 +4,18 @@ import prisma from "../../../../lib/prisma";
 export class StructureRepository {
   constructor() {}
 
-  public async findAllWithLogements(): Promise<Structure[]> {
+  public async findAll(): Promise<Structure[]> {
     return prisma.structure.findMany({
       include: {
-        logements: true,
+        adresses: {
+          include: {
+            typologies: {
+              orderBy: {
+                date: "desc",
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -18,7 +26,15 @@ export class StructureRepository {
         id,
       },
       include: {
-        logements: true,
+        adresses: {
+          include: {
+            typologies: {
+              orderBy: {
+                date: "desc",
+              },
+            },
+          },
+        },
         contacts: true,
       },
     });

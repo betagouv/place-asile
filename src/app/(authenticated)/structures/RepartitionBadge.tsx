@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Badge, BadgeType } from "../../components/common/Badge";
-import { Repartition } from "@/types/structure.type";
+import { Repartition } from "@/types/adresse.type";
 
 export const RepartitionBadge = ({ repartition }: Props): ReactElement => {
   const getBadgeType = (repartition: string): BadgeType => {
@@ -10,5 +10,5 @@ export const RepartitionBadge = ({ repartition }: Props): ReactElement => {
 };
 
 type Props = {
-  repartition: string;
+  repartition: Repartition;
 };

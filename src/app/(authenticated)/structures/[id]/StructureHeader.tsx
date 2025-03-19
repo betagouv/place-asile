@@ -1,3 +1,4 @@
+import { StructureType } from "@/types/structure.type";
 import Link from "next/link";
 import { ReactElement } from "react";
 
@@ -34,7 +35,7 @@ export const StructureHeader = ({
 };
 
 type Props = {
-  type: string;
+  type: StructureType;
   operateur: string;
   nbPlaces: number;
   nom: string | null;

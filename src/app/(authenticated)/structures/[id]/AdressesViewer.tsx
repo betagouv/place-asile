@@ -1,52 +1,53 @@
 "use client";
 
 import { Badge } from "@/app/components/common/Badge";
-import { Logement } from "@/types/logement.type";
-import { Repartition } from "@/types/structure.type";
+import { Adresse, Repartition } from "@/types/adresse.type";
 import { ReactElement, useState } from "react";
 
-export const LogementsViewer = ({
+export const AdressesViewer = ({
   repartition,
-  logements,
+  adresses,
 }: Props): ReactElement => {
-  const [showLogements, setShowLogements] = useState(false);
+  const [showAdresses, setShowAdresses] = useState(false);
 
   return (
     <>
       <strong className="fr-pr-2w">Type de bâti</strong>
       <span className="fr-pr-1w">{repartition}</span>
-      {logements.some(({ qpv }) => qpv) && (
+      {adresses.some(({ typologies }) => typologies?.[0]?.qpv) && (
         <span className="fr-pr-1w">
           <Badge type="warning">QPV</Badge>
         </span>
       )}
-      {logements.some(({ logementSocial }) => logementSocial) && (
+      {adresses.some(({ typologies }) => typologies?.[0]?.logementSocial) && (
         <Badge type="new">Logement social</Badge>
       )}
       <button
         className={`fr-btn fr-btn--sm fr-btn--icon-left fr-btn--tertiary-no-outline ${
-          showLogements ? "fr-icon-eye-off-line" : "fr-icon-eye-line"
+          showAdresses ? "fr-icon-eye-off-line" : "fr-icon-eye-line"
         }`}
-        onClick={() => setShowLogements(!showLogements)}
+        onClick={() => setShowAdresses(!showAdresses)}
       >
-        {showLogements
+        {showAdresses
           ? "Masquer la liste des hébergements"
           : "Voir la liste des hébergements"}
       </button>
-      {showLogements && (
+      {showAdresses && (
         <div className="text-grey">
-          {logements.map((logement) => (
-            <div key={logement.id}>
+          {adresses.map((adresse) => (
+            <div key={adresse.id}>
               <span className="fr-pr-3w">
-                {logement.adresse}, {logement.codePostal} {logement.ville}{" "}
-                <span className="italic">({logement.nbPlaces} places)</span>
+                {adresse.adresse}, {adresse.codePostal} {adresse.commune}{" "}
+                <span className="italic">
+                  ({adresse.typologies?.[0]?.nbPlacesTotal} places)
+                </span>
               </span>
-              {logement.qpv && (
+              {adresse.typologies?.[0]?.qpv && (
                 <span className="fr-pr-1w">
                   <Badge type="warning">QPV</Badge>
                 </span>
               )}
-              {logement.logementSocial && (
+              {adresse.typologies?.[0]?.logementSocial && (
                 <Badge type="new">Logement social</Badge>
               )}
             </div>
@@ -59,5 +60,5 @@ export const LogementsViewer = ({
 
 type Props = {
   repartition: Repartition;
-  logements: Logement[];
+  adresses: Adresse[];
 };
