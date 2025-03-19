@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactElement } from "react";
 import { ExternalLink } from "./common/ExternalLink";
+import { Logo } from "./Logo";
 
 export const Menu = (): ReactElement => {
   const pathname = usePathname();
@@ -28,6 +29,10 @@ export const Menu = (): ReactElement => {
 
   const secondaryMenuItems = [
     {
+      label: "Aide",
+      url: "/",
+    },
+    {
       label: "Politique de confidentialité",
       url: "/confidentialite",
     },
@@ -43,16 +48,19 @@ export const Menu = (): ReactElement => {
   ];
 
   const getActiveClass = (url: string): string => {
-    return pathname === url ? "fr-sidemenu__item--active" : "";
+    return pathname?.includes(url) ? "fr-sidemenu__item--active" : "";
   };
 
   const getAriaCurrent = (url: string): "page" | boolean => {
-    return pathname === url ? "page" : false;
+    return pathname?.includes(url) ? "page" : false;
   };
 
   return (
-    <nav className="fr-sidemenu fr-p-2w left-menu no-shrink d-flex flex-column">
-      <ul className="fr-sidemenu__list">
+    <nav className="fr-sidemenu fr-pr-0 left-menu no-shrink d-flex flex-column">
+      <div className="border-bottom fr-p-1w">
+        <Logo />
+      </div>
+      <ul className="fr-sidemenu__list fr-p-2w ">
         {menuItems.map((menuItem) => (
           <li
             className={`fr-sidemenu__item ${getActiveClass(menuItem.url)}`}
@@ -69,7 +77,7 @@ export const Menu = (): ReactElement => {
         ))}
       </ul>
       <div className="grow" />
-      <ul>
+      <ul className="fr-p-2w">
         {secondaryMenuItems.map((menuItem) => (
           <li className="text-grey fr-text--xs" key={menuItem.label}>
             {menuItem.isExternalLink ? (

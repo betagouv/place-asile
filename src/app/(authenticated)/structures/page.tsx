@@ -20,7 +20,7 @@ export default function Structures(): ReactElement {
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       <div className="space-between fr-p-2w border-bottom">
         <SegmentedControl
           name="Visualisation"
