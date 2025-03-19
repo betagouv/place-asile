@@ -3,6 +3,14 @@
   width: 100%;
 }
 
+.h-full {
+  height: 100%;
+}
+
+.h-100vh {
+  height: 100vh;
+}
+
 .align-justify-center {
   display: flex;
   justify-content: center;
@@ -109,4 +117,8 @@
 
 hr {
   padding: 6px;
+}
+
+body {
+  height: 100%;
 }
