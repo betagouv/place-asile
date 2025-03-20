@@ -5,9 +5,12 @@ import { usePathname } from "next/navigation";
 import { ReactElement } from "react";
 import { ExternalLink } from "./common/ExternalLink";
 import { Logo } from "./Logo";
+import { signOut, useSession } from "next-auth/react";
 
 export const Menu = (): ReactElement => {
   const pathname = usePathname();
+  const session = useSession();
+  console.log(">>>>>>>>>>>>", session);
 
   const menuItems = [
     {
@@ -77,6 +80,10 @@ export const Menu = (): ReactElement => {
         ))}
       </ul>
       <div className="grow" />
+      =====
+      {session.data?.user?.name}
+      =====
+      <button onClick={() => signOut()}>Deconnexion</button>
       <ul className="fr-p-2w">
         {secondaryMenuItems.map((menuItem) => (
           <li className="text-grey fr-text--xs" key={menuItem.label}>
