@@ -56,7 +56,7 @@ export const extractStructuresFromCsv = async (): Promise<
       finConvention: new Date(line[10]),
       cpom: convertToBoolean(line[11]),
       creationDate: new Date(line[12]),
-      finessCode: line[13],
+      finessCode: String(line[13]),
       lgbt: convertToBoolean(line[14]),
       fvvTeh: convertToBoolean(line[15]),
       public: convertToPublicType(line[16]),

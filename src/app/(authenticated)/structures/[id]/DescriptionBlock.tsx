@@ -86,7 +86,7 @@ export const DescriptionBlock = ({
         <div className="fr-col">
           <div className="fr-mb-1w">
             <strong className="fr-pr-2w">Public</strong>
-            {publicType}
+            {PublicType[publicType as unknown as keyof typeof PublicType]}
           </div>
         </div>
         <div className="fr-col">
