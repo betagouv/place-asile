@@ -20,7 +20,7 @@ export const AdressesViewer = ({
         </span>
       )}
       {adresses.some(({ typologies }) => typologies?.[0]?.logementSocial) && (
-        <Badge type="new">Logement social</Badge>
+        <Badge type="warning">Logement social</Badge>
       )}
       <button
         className={`fr-btn fr-btn--sm fr-btn--icon-left fr-btn--tertiary-no-outline ${
@@ -48,7 +48,7 @@ export const AdressesViewer = ({
                 </span>
               )}
               {adresse.typologies?.[0]?.logementSocial && (
-                <Badge type="new">Logement social</Badge>
+                <Badge type="warning">Logement social</Badge>
               )}
             </div>
           ))}
