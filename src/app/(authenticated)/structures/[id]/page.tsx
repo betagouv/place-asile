@@ -56,7 +56,15 @@ export default async function StructureDetails({
           />
         </section>
         <section className="fr-pb-1w" id="places">
-          <TypePlaceBlock />
+          <TypePlaceBlock
+            placesAutorisees={structure.nbPlaces}
+            // TODO add real values
+            placesPmr={structure?.pmrs?.[0].nbPlaces || 10}
+            placesLgbt={15}
+            placesFvvTeh={20}
+            placesQPV={25}
+            placesLogementsSociaux={30}
+          />
         </section>
         <section className="fr-pb-1w" id="controle">
           <ControlBlock />
