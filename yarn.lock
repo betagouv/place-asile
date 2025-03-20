@@ -548,6 +548,11 @@
     "@eslint/core" "^0.10.0"
     levn "^0.4.1"
 
+"@gouvfr/dsfr-chart@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@gouvfr/dsfr-chart/-/dsfr-chart-2.0.3.tgz#e048fec01362b7c8bb7133efe52e2112f54cbc57"
+  integrity sha512-Mh+0B6yCmA7nkZK8bB4xTDjsM8IcKMcrCsVAM7R/u2M8uA6l3unxLqHt5fSZQqOdym9ZcFCaXzxJihukoaXpig==
+
 "@gouvfr/dsfr@^1.13.0":
   version "1.13.0"
   resolved "https://registry.npmjs.org/@gouvfr/dsfr/-/dsfr-1.13.0.tgz"
