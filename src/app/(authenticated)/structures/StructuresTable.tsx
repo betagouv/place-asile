@@ -21,9 +21,9 @@ export const StructuresTable = ({
     "DNA",
     "Type",
     "Opérateur",
-    "Places",
+    "Places aut.",
     "Bâti",
-    "Commune",
+    "Communes",
     "Convention en cours",
     "Détails",
   ];

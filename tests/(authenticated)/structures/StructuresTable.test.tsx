@@ -33,9 +33,9 @@ describe("StructuresTable", () => {
     expect(columnHeaders[0]).toHaveAccessibleName("DNA");
     expect(columnHeaders[1]).toHaveAccessibleName("Type");
     expect(columnHeaders[2]).toHaveAccessibleName("Opérateur");
-    expect(columnHeaders[3]).toHaveAccessibleName("Places");
+    expect(columnHeaders[3]).toHaveAccessibleName("Places aut.");
     expect(columnHeaders[4]).toHaveAccessibleName("Bâti");
-    expect(columnHeaders[5]).toHaveAccessibleName("Commune");
+    expect(columnHeaders[5]).toHaveAccessibleName("Communes");
     expect(columnHeaders[6]).toHaveAccessibleName("Convention en cours");
     expect(columnHeaders[7]).toHaveAccessibleName("Détails");
     const structureRows = screen.getAllByRole("row");
