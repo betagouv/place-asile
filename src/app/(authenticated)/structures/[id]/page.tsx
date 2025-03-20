@@ -56,7 +56,7 @@ export default async function StructureDetails({
           />
         </section>
         <section className="fr-pb-1w" id="places">
-          <TypePlaceBlock />
+          <TypePlaceBlock placesAutorisees={structure.nbPlaces} />
         </section>
         <section className="fr-pb-1w" id="controle">
           <ControlBlock />
