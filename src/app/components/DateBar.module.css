@@ -1,7 +1,30 @@
-.date-bar {
-  background-color: var(--artwork-minor-blue-france);
-  height: 10px;
-  border-radius: 5px;
-  margin-right: 1rem;
+.initial-offset {
   margin-left: 1rem;
+  background-color: var(--background-disabled-grey);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  height: 10px;
+  width: 25px;
+  flex-shrink: 0;
+}
+
+.date-bar {
+  background-color: var(--yellow-moutarde-850-200);
+  height: 10px;
+  margin-right: 1rem;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.today {
+  margin-left: 5rem;
+}
+
+.today::after {
+  border-right: 2px dotted var(--border-contrast-grey);
+  height: 4.5rem;
+  position: absolute;
+  content: "";
+  margin-left: -2.5rem;
+  margin-top: 1.5rem;
 }

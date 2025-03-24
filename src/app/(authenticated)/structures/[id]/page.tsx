@@ -47,12 +47,12 @@ export default async function StructureDetails({
         </div>
         <div className="fr-pb-1w">
           <CalendarBlock
-            periodeAutorisationStart={structure.periodeAutorisationStart}
-            periodeAutorisationEnd={structure.periodeAutorisationEnd}
+            debutPeriodeAutorisation={structure.debutPeriodeAutorisation}
+            finPeriodeAutorisation={structure.finPeriodeAutorisation}
             debutConvention={structure.debutConvention}
             finConvention={structure.finConvention}
-            cpomStart={structure.cpomStart}
-            cpomEnd={structure.cpomStart}
+            debutCpom={structure.debutCpom}
+            finCpom={structure.finCpom}
           />
         </div>
         <div className="fr-pb-1w">

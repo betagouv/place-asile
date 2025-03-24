@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactElement } from "react";
 
-export const Badge = ({ children, type }: Props): ReactElement => {
+export const Badge = ({ children, type, icon }: Props): ReactElement => {
   const getTypeClass = (type: BadgeType | undefined): string => {
     if (!type) {
       return "fr-badge--success";
@@ -16,9 +16,9 @@ export const Badge = ({ children, type }: Props): ReactElement => {
   };
   return (
     <p
-      className={`fr-badge ${getTypeClass(
-        type
-      )} fr-badge--no-icon fr-badge--sm fr-m-0`}
+      className={`fr-badge ${getTypeClass(type)} ${
+        icon ? "" : "fr-badge--no-icon"
+      } fr-badge--sm fr-m-0`}
     >
       {children}
     </p>
@@ -26,6 +26,7 @@ export const Badge = ({ children, type }: Props): ReactElement => {
 };
 
 type Props = PropsWithChildren<{
+  icon?: boolean;
   type?: BadgeType;
 }>;
 

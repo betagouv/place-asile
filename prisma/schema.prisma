@@ -26,18 +26,18 @@ model Structure {
   latitude                     Decimal
   longitude                    Decimal
   nom                          String?
-  debutConvention              DateTime
-  finConvention                DateTime
+  debutConvention              DateTime?
+  finConvention                DateTime?
   cpom                         Boolean
   creationDate                 DateTime
-  finessCode                   String
+  finessCode                   String?
   lgbt                         Boolean
   fvvTeh                       Boolean
   public                       PublicType
-  periodeAutorisationStart     DateTime
-  periodeAutorisationEnd       DateTime
-  cpomStart                    DateTime
-  cpomEnd                      DateTime
+  debutPeriodeAutorisation     DateTime?
+  finPeriodeAutorisation       DateTime?
+  debutCpom                    DateTime?
+  finCpom                      DateTime?
   controles                    Controle[]
   evaluations                  Evaluation[]
   evenementsIndesirablesGraves EvenementIndesirableGrave[]
