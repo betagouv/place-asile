@@ -125,7 +125,7 @@ type Props = {
   commune: string;
   repartition: Repartition;
   type: StructureType;
-  finessCode: string;
+  finessCode: string | null;
   cpom: boolean;
   lgbt: boolean;
   fvvTeh: boolean;

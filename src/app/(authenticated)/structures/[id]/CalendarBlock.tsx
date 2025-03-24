@@ -1,40 +1,45 @@
 import { Block } from "@/app/components/common/Block";
-import { Timeline } from "@/app/components/Timeline";
+import { DateBars } from "@/app/components/DateBars";
 import { ReactElement } from "react";
 
 export const CalendarBlock = ({
-  periodeAutorisationStart,
-  periodeAutorisationEnd,
+  debutPeriodeAutorisation,
+  finPeriodeAutorisation,
   debutConvention,
   finConvention,
-  cpomStart,
-  cpomEnd,
+  debutCpom,
+  finCpom,
 }: Props): ReactElement => {
-  const datePairs = [
-    {
+  const datePairs = [];
+  if (debutPeriodeAutorisation && finPeriodeAutorisation) {
+    datePairs.push({
       label: "Période d’autorisation",
-      startDate: periodeAutorisationStart,
-      endDate: periodeAutorisationEnd,
-    },
-    {
+      startDate: debutPeriodeAutorisation,
+      endDate: finPeriodeAutorisation,
+    });
+  }
+  if (debutConvention && finConvention) {
+    datePairs.push({
       label: "Convention en cours",
       startDate: debutConvention,
       endDate: finConvention,
-    },
-    { label: "CPOM", startDate: cpomStart, endDate: cpomEnd },
-  ];
+    });
+  }
+  if (debutCpom && finCpom) {
+    datePairs.push({ label: "CPOM", startDate: debutCpom, endDate: finCpom });
+  }
   return (
     <Block title="Calendrier" iconClass="fr-icon-calendar-2-line">
-      <Timeline datePairs={datePairs} />
+      <DateBars datePairs={datePairs} />
     </Block>
   );
 };
 
 type Props = {
-  periodeAutorisationStart: Date;
-  periodeAutorisationEnd: Date;
-  debutConvention: Date;
-  finConvention: Date;
-  cpomStart: Date;
-  cpomEnd: Date;
+  debutPeriodeAutorisation: Date | null;
+  finPeriodeAutorisation: Date | null;
+  debutConvention: Date | null;
+  finConvention: Date | null;
+  debutCpom: Date | null;
+  finCpom: Date | null;
 };

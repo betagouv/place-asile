@@ -3576,11 +3576,6 @@ react-dom@^19.0.0:
   dependencies:
     scheduler "^0.25.0"
 
-react-google-charts@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/react-google-charts/-/react-google-charts-5.2.1.tgz#d9cbe8ed45d7c0fafefea5c7c3361bee76648454"
-  integrity sha512-mCbPiObP8yWM5A9ogej7Qp3/HX4EzOwuEzUYvcfHtL98Xt4V/brD14KgfDzSNNtyD48MNXCpq5oVaYKt0ykQUQ==
-
 react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
