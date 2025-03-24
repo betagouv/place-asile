@@ -64,13 +64,15 @@ export const StructureMarker = ({
           <strong>Dans les communes de : </strong>
           <span>{getCommunesLabel()}</span>
         </p>
-        <p className="fr-text--xs fr-mt-0">
-          <strong>Convention en cours : </strong>
-          <span>
-            {new Date(debutConvention).toLocaleDateString()} -{" "}
-            {new Date(finConvention).toLocaleDateString()}
-          </span>
-        </p>
+        {debutConvention && finConvention && (
+          <p className="fr-text--xs fr-mt-0">
+            <strong>Convention en cours : </strong>
+            <span>
+              {new Date(debutConvention).toLocaleDateString()} -{" "}
+              {new Date(finConvention).toLocaleDateString()}
+            </span>
+          </p>
+        )}
         <span className="fr-pr-1w">
           <RepartitionBadge repartition={repartition} />
         </span>
@@ -102,7 +104,7 @@ type Props = {
   codePostal: string;
   departement: string;
   adresses: Adresse[];
-  debutConvention: Date;
-  finConvention: Date;
+  debutConvention: Date | null;
+  finConvention: Date | null;
   cpom: boolean;
 };

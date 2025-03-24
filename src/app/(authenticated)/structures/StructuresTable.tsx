@@ -56,10 +56,14 @@ export const StructuresTable = ({
               <RepartitionBadge repartition={getRepartition(structure)} />
             </td>
             <td>{getCommuneLabel(structure)}</td>
-            <td>
-              {new Date(structure.debutConvention).toLocaleDateString()} -{" "}
-              {new Date(structure.finConvention).toLocaleDateString()}
-            </td>
+            {structure.debutConvention && structure.finConvention ? (
+              <td>
+                {new Date(structure.debutConvention).toLocaleDateString()} -{" "}
+                {new Date(structure.finConvention).toLocaleDateString()}
+              </td>
+            ) : (
+              <td>~</td>
+            )}
             <td>
               <Link
                 className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"

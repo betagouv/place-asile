@@ -22,7 +22,7 @@ const seedStructures = async () => {
   const structures = await extractStructuresFromCsv();
   for (const structure of structures) {
     const coordinates = await convertAddressToCoordinates(
-      structure.adresseAdministrative
+      `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`
     );
     (structure as Structure).longitude = coordinates?.[0] || 0;
     (structure as Structure).latitude = coordinates?.[1] || 0;

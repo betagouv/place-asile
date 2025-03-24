@@ -30,10 +30,10 @@ export const createStructure = ({
     lgbt: true,
     fvvTeh: false,
     public: PublicType.TOUT_PUBLIC,
-    periodeAutorisationStart: new Date("01/02/2022"),
-    periodeAutorisationEnd: new Date("01/02/2025"),
-    cpomStart: new Date("01/02/2025"),
-    cpomEnd: new Date("01/02/2025"),
+    debutPeriodeAutorisation: new Date("01/02/2022"),
+    finPeriodeAutorisation: new Date("01/02/2025"),
+    debutCpom: new Date("01/02/2025"),
+    finCpom: new Date("01/02/2025"),
     adresses: adresses ?? [],
   };
 };
