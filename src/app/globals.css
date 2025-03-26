@@ -57,6 +57,13 @@
   flex-grow: 1;
 }
 
+.weight-normal {
+  font-weight: 400;
+}
+
+.weight-bold {
+  font-weight: 700;
+}
 
 /* Colors */
 .text-blue-france {
@@ -65,6 +72,10 @@
 
 .text-grey {
   color: var(--text-mention-grey)
+}
+
+.text-black {
+  color: var(--text-title-grey)
 }
 
 .bg-grey {
@@ -121,4 +132,8 @@ hr {
 
 body {
   height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
 }
