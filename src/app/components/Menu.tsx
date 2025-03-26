@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { ReactElement } from "react";
 import { ExternalLink } from "./common/ExternalLink";
 import { Logo } from "./Logo";
+import { User } from "./User";
 
 export const Menu = (): ReactElement => {
   const pathname = usePathname();
@@ -77,6 +78,9 @@ export const Menu = (): ReactElement => {
         ))}
       </ul>
       <div className="grow" />
+      <div className="fr-p-2w">
+        <User />
+      </div>
       <ul className="fr-p-2w">
         {secondaryMenuItems.map((menuItem) => (
           <li className="text-grey fr-text--xs" key={menuItem.label}>
