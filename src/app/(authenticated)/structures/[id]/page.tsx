@@ -19,13 +19,13 @@ export default async function StructureDetails({
       <StructureHeader
         type={structure.type}
         operateur={structure.operateur}
-        dnaCode={structure.dnaCode}
+        nbPlaces={structure.nbPlaces}
         nom={structure.nom}
         commune={structure.communeAdministrative}
         departement={structure.departementAdministratif}
       />
       <div className="bg-grey fr-p-1w">
-        <div className="fr-pb-1w">
+        <section className="fr-pb-1w" id="description">
           <DescriptionBlock
             creationDate={structure.creationDate}
             dnaCode={structure.dnaCode}
@@ -44,8 +44,8 @@ export default async function StructureDetails({
             contacts={structure.contacts || []}
             adresses={structure.adresses || []}
           />
-        </div>
-        <div className="fr-pb-1w">
+        </section>
+        <section className="fr-pb-1w" id="calendrier">
           <CalendarBlock
             debutPeriodeAutorisation={structure.debutPeriodeAutorisation}
             finPeriodeAutorisation={structure.finPeriodeAutorisation}
@@ -54,13 +54,13 @@ export default async function StructureDetails({
             debutCpom={structure.debutCpom}
             finCpom={structure.finCpom}
           />
-        </div>
-        <div className="fr-pb-1w">
+        </section>
+        <section className="fr-pb-1w" id="places">
           <TypePlaceBlock />
-        </div>
-        <div className="fr-pb-1w">
+        </section>
+        <section className="fr-pb-1w" id="controle">
           <ControlBlock />
-        </div>
+        </section>
       </div>
     </>
   );
