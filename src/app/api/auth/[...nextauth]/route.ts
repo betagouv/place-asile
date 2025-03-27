@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions, User } from "next-auth";
 import { v4 as uuidv4 } from "uuid";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
