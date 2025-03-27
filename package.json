@@ -14,13 +14,16 @@
     "prepare": "husky",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:seed": "npx prisma db seed",
-    "prisma:studio": "npx prisma studio"
+    "prisma:studio": "npx prisma studio",
+    "predev": "react-dsfr update-icons",
+    "prebuild": "react-dsfr update-icons"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@gouvfr/dsfr": "^1.13.0",
+    "@codegouvfr/react-dsfr": "^1.22.1",
+    "@gouvfr/dsfr-chart": "1.0.0",
     "@prisma/client": "^6.5.0",
     "dayjs": "^1.11.13",
     "leaflet": "^1.9.4",
@@ -48,6 +51,7 @@
     "husky": "^9.1.7",
     "jsdom": "^26.0.0",
     "node-xlsx": "^0.24.0",
+    "sass": "^1.86.0",
     "stylelint": "^16.16.0",
     "stylelint-config-standard": "^37.0.0",
     "tsx": "^4.19.3",
