@@ -26,6 +26,7 @@ const authOptions: NextAuthOptions = {
       };
     },
   },
+  secret: process.env.SECRET,
   providers: [
     {
       id: "proconnect",
