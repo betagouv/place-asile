@@ -1,0 +1,7 @@
+.container {
+  width: 200px;
+}
+
+.container > div > pie-chart > div > div > div > div:nth-child(n + 4) {
+  display: none !important;
+}
