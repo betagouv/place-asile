@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^1.22.1",
-    "@gouvfr/dsfr-chart": "1.0.0",
+    "@gouvfr/dsfr-chart": "2.0.3",
     "@prisma/client": "^6.5.0",
     "dayjs": "^1.11.13",
     "leaflet": "^1.9.4",
