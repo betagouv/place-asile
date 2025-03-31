@@ -18,6 +18,8 @@ model Structure {
   nbPlaces                     Int
   placesACreer                 Int
   placesAFermer                Int
+  echeancePlacesACreer         DateTime
+  echeancePlacesAFermer        DateTime
   adresseAdministrative        String
   codePostalAdministratif      String
   communeAdministrative        String
@@ -127,7 +129,7 @@ model Activite {
   remiseEnEtat      Int
   sousOccupation    Int
   travaux           Int	
-  placesOccupees    Int	
+  placesVacantes    Int	
   placesPIBPI       Int	
   placesPIdeboutees Int
 }

@@ -11,7 +11,7 @@ export const User = (): ReactElement => {
       <div className={`${styles.avatar} fr-icon-user-line`} />
       <div>
         <p className="fr-text--sm text-blue-france">
-          {session.data?.user?.name || "..."}
+          {session.data?.user?.name || session.data?.user?.email}
         </p>
         <button
           className="fr-text--xs fr-p-0 fr-icon-logout-box-r-line fr-btn--icon-right"
