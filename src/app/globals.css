@@ -83,7 +83,7 @@
 }
 
 .bg-white {
-  background-color: white;
+  background-color: var(--grey-1000-50);
 }
 
 /* Other */
