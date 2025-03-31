@@ -3,6 +3,8 @@ export type Typologie = {
   adresseId: number;
   nbPlacesTotal: number;
   date: Date;
-  qpv: boolean;
-  logementSocial: boolean;
+  qpv: number;
+  logementSocial: number;
+  lgbt: number;
+  fvvTeh: number;
 };

@@ -13,6 +13,8 @@ export const createStructure = ({
     operateur: "Adoma",
     type: StructureType.CADA,
     nbPlaces: nbPlaces ?? 5,
+    placesACreer: 3,
+    placesAFermer: 2,
     adresseAdministrative:
       adresseAdministrative ?? "1, avenue de la République",
     codePostalAdministratif: "75011",

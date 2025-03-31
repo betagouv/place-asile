@@ -15,6 +15,7 @@
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:seed": "npx prisma db seed",
     "prisma:studio": "npx prisma studio",
+    "prisma:reset": "npx prisma migrate reset",
     "predev": "react-dsfr update-icons",
     "prebuild": "react-dsfr update-icons"
   },
