@@ -66,10 +66,10 @@ export const extractStructuresFromCsv = async (): Promise<
     operateur: line[1],
     type: convertToStructureType(line[2]),
     nbPlaces: Number(line[3]),
-    adresseAdministrative: line[4],
-    communeAdministrative: line[5],
+    adresseAdministrative: line[4].trim(),
+    communeAdministrative: line[5].trim(),
     codePostalAdministratif: String(line[6]),
-    departementAdministratif: line[7],
+    departementAdministratif: line[7].trim(),
     nom: line[8],
     debutConvention: line[9] ? new Date(line[9]) : null,
     finConvention: line[10] ? new Date(line[10]) : null,
@@ -83,6 +83,8 @@ export const extractStructuresFromCsv = async (): Promise<
     finPeriodeAutorisation: line[18] ? new Date(line[18]) : null,
     debutCpom: line[19] ? new Date(line[19]) : null,
     finCpom: line[20] ? new Date(line[20]) : null,
+    placesACreer: Number(line[21]),
+    placesAFermer: Number(line[22]),
   }));
 };
 
@@ -124,5 +126,7 @@ export const extractTypologiesFromCsv = async (): Promise<
     nbPlacesTotal: line[3],
     qpv: line[4],
     logementSocial: line[5],
+    lgbt: line[6],
+    fvvTeh: line[7],
   }));
 };

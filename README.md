@@ -76,6 +76,12 @@ Pour remplir la base avec des premières données, lancez :
 yarn prisma:seed
 ```
 
+En cas de besoin, la base de données peut être vidée avec :
+
+```bash
+yarn prisma:reset
+```
+
 Enfin, vous pouvez vérifier le contenu de la base de données en exécutant :
 
 ```bash

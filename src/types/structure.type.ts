@@ -5,6 +5,7 @@ import { EvenementIndesirableGrave } from "./evenementIndesirableGrave.type";
 import { Adresse } from "./adresse.type";
 import { Contact } from "./contact.type";
 import { Pmr } from "./pmr.type";
+import { Activite } from "./activite.type";
 
 export type Structure = {
   id: number;
@@ -12,6 +13,8 @@ export type Structure = {
   operateur: string;
   type: StructureType;
   nbPlaces: number;
+  placesACreer: number;
+  placesAFermer: number;
   adresseAdministrative: string;
   codePostalAdministratif: string;
   communeAdministrative: string;
@@ -38,6 +41,7 @@ export type Structure = {
   adresses?: Adresse[];
   contacts?: Contact[];
   pmrs?: Pmr[];
+  activites?: Activite[];
 };
 
 export type StructureWithLatLng = Structure & {

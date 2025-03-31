@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,6 +16,8 @@ model Structure {
   operateur                    String
   type                         StructureType
   nbPlaces                     Int
+  placesACreer                 Int
+  placesAFermer                Int
   adresseAdministrative        String
   codePostalAdministratif      String
   communeAdministrative        String
@@ -44,6 +43,7 @@ model Structure {
   adresses                     Adresse[]
   contacts                     Contact[]
   pmrs                         Pmr[]
+  activites                    Activite[]
 }
 
 model Controle {
@@ -94,6 +94,8 @@ model Typologie {
   date             DateTime
   qpv              Int
   logementSocial   Int
+  lgbt             Int
+  fvvTeh           Int
 }
 
 model Contact {
@@ -113,6 +115,21 @@ model Pmr {
   structureDnaCode String
   date             DateTime
   nbPlaces         Int
+}
+
+model Activite {
+  id                Int  @id @default(autoincrement())
+  structure         Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode  String
+  date              DateTime
+  nbPlaces          Int
+  desinsectisation  Int
+  remiseEnEtat      Int
+  sousOccupation    Int
+  travaux           Int	
+  placesOccupees    Int	
+  placesPIBPI       Int	
+  placesPIdeboutees Int
 }
 
 enum Repartition {

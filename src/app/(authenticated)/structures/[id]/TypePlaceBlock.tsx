@@ -29,10 +29,12 @@ export const TypePlaceBlock = ({
           fill={true}
           color={["yellow-tournesol", "beige-gris-galet"]}
         >
-          <strong>{placesPmr}</strong> places PMR{" "}
-          <span className="text-grey">
-            ({Math.floor((placesPmr / placesAutorisees) * 100)}%)
-          </span>
+          <div className="fr-pt-1w">
+            <strong>{placesPmr}</strong> places PMR{" "}
+            <span className="text-grey">
+              ({Math.floor((placesPmr / placesAutorisees) * 100)}%)
+            </span>
+          </div>
         </PieChart>
         <PieChart
           x={[
@@ -48,14 +50,16 @@ export const TypePlaceBlock = ({
           fill={true}
           color={["yellow-tournesol", "yellow-moutarde", "beige-gris-galet"]}
         >
-          <strong>{placesLgbt}</strong> places LGBT{" "}
-          <span className="text-grey">
-            ({Math.floor((placesLgbt / placesAutorisees) * 100)}%)
-          </span>{" "}
-          et <strong>{placesFvvTeh}</strong> places FVV-TEH{" "}
-          <span className="text-grey">
-            ({Math.floor((placesFvvTeh / placesAutorisees) * 100)}%)
-          </span>
+          <div className="fr-pt-1w">
+            <strong>{placesLgbt}</strong> places LGBT{" "}
+            <span className="text-grey">
+              ({Math.floor((placesLgbt / placesAutorisees) * 100)}%)
+            </span>{" "}
+            et <strong>{placesFvvTeh}</strong> places FVV-TEH{" "}
+            <span className="text-grey">
+              ({Math.floor((placesFvvTeh / placesAutorisees) * 100)}%)
+            </span>
+          </div>
         </PieChart>
         <PieChart
           x={[
@@ -66,10 +70,12 @@ export const TypePlaceBlock = ({
           fill={true}
           color={["yellow-tournesol", "beige-gris-galet"]}
         >
-          <strong>{placesQPV}</strong> places QPV{" "}
-          <span className="text-grey">
-            ({Math.floor((placesQPV / placesAutorisees) * 100)}%)
-          </span>
+          <div className="fr-pt-1w">
+            <strong>{placesQPV}</strong> places QPV{" "}
+            <span className="text-grey">
+              ({Math.floor((placesQPV / placesAutorisees) * 100)}%)
+            </span>
+          </div>
         </PieChart>
         <PieChart
           x={[
@@ -83,10 +89,12 @@ export const TypePlaceBlock = ({
           fill={true}
           color={["yellow-tournesol", "beige-gris-galet"]}
         >
-          <strong>{placesLogementsSociaux}</strong> places logements sociaux{" "}
-          <span className="text-grey">
-            ({Math.floor((placesLogementsSociaux / placesAutorisees) * 100)}%)
-          </span>
+          <div className="fr-pt-1w">
+            <strong>{placesLogementsSociaux}</strong> places logements sociaux{" "}
+            <span className="text-grey">
+              ({Math.floor((placesLogementsSociaux / placesAutorisees) * 100)}%)
+            </span>
+          </div>
         </PieChart>
       </div>
     </Block>
