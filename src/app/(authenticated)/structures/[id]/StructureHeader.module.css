@@ -1,6 +1,6 @@
 .container {
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: var(--grey-1000-50);
   z-index: 1;
 }
