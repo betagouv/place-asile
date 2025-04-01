@@ -5,7 +5,14 @@ import { ReactElement } from "react";
 import { CalendarBlock } from "./CalendarBlock";
 import { TypePlaceBlock } from "./TypePlaceBlock";
 import { ControlBlock } from "./ControlBlock";
-import { getRepartition } from "@/app/utils/structure.util";
+import {
+  getCurrentPlacesFvvTeh,
+  getCurrentPlacesLgbt,
+  getCurrentPlacesLogementsSociaux,
+  getCurrentPlacesQpv,
+  getRepartition,
+} from "@/app/utils/structure.util";
+import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
 
 export default async function StructureDetails({
   params,
@@ -16,6 +23,7 @@ export default async function StructureDetails({
 
   return (
     <>
+      <StartDsfrOnHydration />
       <StructureHeader
         type={structure.type}
         operateur={structure.operateur}
@@ -57,13 +65,18 @@ export default async function StructureDetails({
         </section>
         <section className="fr-pb-1w" id="places">
           <TypePlaceBlock
+            adresses={structure.adresses || []}
+            pmrs={structure.pmrs || []}
             placesAutorisees={structure.nbPlaces}
-            // TODO add real values
+            placesACreer={structure.placesACreer}
+            placesAFermer={structure.placesAFermer}
+            echeancePlacesACreer={structure.echeancePlacesACreer}
+            echeancePlacesAFermer={structure.echeancePlacesAFermer}
             placesPmr={structure?.pmrs?.[0].nbPlaces || 10}
-            placesLgbt={15}
-            placesFvvTeh={20}
-            placesQPV={25}
-            placesLogementsSociaux={30}
+            placesLgbt={getCurrentPlacesLgbt(structure)}
+            placesFvvTeh={getCurrentPlacesFvvTeh(structure)}
+            placesQPV={getCurrentPlacesQpv(structure)}
+            placesLogementsSociaux={getCurrentPlacesLogementsSociaux(structure)}
           />
         </section>
         <section className="fr-pb-1w" id="controle">

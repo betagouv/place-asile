@@ -85,6 +85,8 @@ export const extractStructuresFromCsv = async (): Promise<
     finCpom: line[20] ? new Date(line[20]) : null,
     placesACreer: Number(line[21]),
     placesAFermer: Number(line[22]),
+    echeancePlacesACreer: line[23] ? new Date(line[23]) : null,
+    echeancePlacesAFermer: line[24] ? new Date(line[24]) : null,
   }));
 };
 

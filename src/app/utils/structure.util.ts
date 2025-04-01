@@ -1,6 +1,7 @@
 import { Adresse, Repartition } from "@/types/adresse.type";
 import { sortKeysByValue } from "./common.util";
 import { Structure } from "@/types/structure.type";
+import { Typologie } from "@/types/typologie.type";
 
 export const getPlacesByCommunes = (
   adresses: Adresse[]
@@ -40,4 +41,37 @@ export const getRepartition = (structure: Structure): Repartition => {
   } else {
     return Repartition.COLLECTIF;
   }
+};
+
+const getCurrentPlacesByProperty = (
+  structure: Structure,
+  accessor: keyof Typologie
+) => {
+  const mostRecentYearTypologies = structure.adresses?.map(
+    (adresse) => adresse.typologies?.[0]
+  );
+  const placesByAccessor = mostRecentYearTypologies?.reduce(
+    (totalCount, currentTypologie) =>
+      totalCount + ((currentTypologie?.[accessor] as number) || 0),
+    0
+  );
+  return placesByAccessor || 0;
+};
+
+export const getCurrentPlacesLgbt = (structure: Structure): number => {
+  return getCurrentPlacesByProperty(structure, "lgbt");
+};
+
+export const getCurrentPlacesFvvTeh = (structure: Structure): number => {
+  return getCurrentPlacesByProperty(structure, "fvvTeh");
+};
+
+export const getCurrentPlacesQpv = (structure: Structure): number => {
+  return getCurrentPlacesByProperty(structure, "qpv");
+};
+
+export const getCurrentPlacesLogementsSociaux = (
+  structure: Structure
+): number => {
+  return getCurrentPlacesByProperty(structure, "logementSocial");
 };

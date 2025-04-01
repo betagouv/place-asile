@@ -15,6 +15,8 @@ export const createStructure = ({
     nbPlaces: nbPlaces ?? 5,
     placesACreer: 3,
     placesAFermer: 2,
+    echeancePlacesACreer: new Date("01/02/2026"),
+    echeancePlacesAFermer: new Date("01/02/2027"),
     adresseAdministrative:
       adresseAdministrative ?? "1, avenue de la République",
     codePostalAdministratif: "75011",
