@@ -8,7 +8,7 @@ export const InformationCard = ({
   return (
     <div className={`fr-px-3w fr-py-1w ${styles.card}`}>
       <div className="fr-h4 fr-mb-0">{primaryInformation}</div>
-      <div>{secondaryInformation}</div>
+      <div className="text-center">{secondaryInformation}</div>
     </div>
   );
 };

@@ -15,6 +15,8 @@ export type Structure = {
   nbPlaces: number;
   placesACreer: number;
   placesAFermer: number;
+  echeancePlacesACreer: Date;
+  echeancePlacesAFermer: Date;
   adresseAdministrative: string;
   codePostalAdministratif: string;
   communeAdministrative: string;

@@ -36,6 +36,10 @@
   align-items: center;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .no-shrink {
   flex-shrink: 0;
 }
