@@ -3,6 +3,7 @@ import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { Table } from "@codegouvfr/react-dsfr/Table";
 import { Adresse } from "@/types/adresse.type";
 import { Pmr } from "@/types/pmr.type";
+import styles from "../../../components/common/Accordion.module.css";
 
 export const TypePlaceHistory = ({ adresses, pmrs }: Props): ReactElement => {
   const getTableData = () => {
@@ -30,10 +31,9 @@ export const TypePlaceHistory = ({ adresses, pmrs }: Props): ReactElement => {
   };
 
   return (
-    <Accordion label="Historique">
+    <Accordion label="Historique" className={styles["custom-accordion"]}>
       <Table
         bordered={true}
-        colorVariant="blue-ecume"
         className="fr-m-0"
         caption=""
         data={getTableData()}

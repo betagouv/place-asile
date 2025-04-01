@@ -4,11 +4,5 @@ export type EvenementIndesirableGrave = {
   numeroDossier: string;
   evenementDate: Date;
   declarationDate: Date;
-  type: EvenementIndesirableGraveType;
+  type: string;
 };
-
-enum EvenementIndesirableGraveType {
-  VOL,
-  COMPORTEMENT_VIOLENT,
-  PROBLEME_RH,
-}

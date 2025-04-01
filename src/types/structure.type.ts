@@ -13,10 +13,10 @@ export type Structure = {
   operateur: string;
   type: StructureType;
   nbPlaces: number;
-  placesACreer: number;
-  placesAFermer: number;
-  echeancePlacesACreer: Date;
-  echeancePlacesAFermer: Date;
+  placesACreer?: number;
+  placesAFermer?: number;
+  echeancePlacesACreer?: Date;
+  echeancePlacesAFermer?: Date;
   adresseAdministrative: string;
   codePostalAdministratif: string;
   communeAdministrative: string;

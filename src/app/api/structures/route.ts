@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { StructureRepository } from "./structure.repository";
+import { findAll } from "./structure.repository";
 import { Structure } from "@prisma/client";
 import {
   StructureWithLatLng,
@@ -8,8 +8,7 @@ import {
 } from "@/types/structure.type";
 
 export async function GET() {
-  const structureRepository = new StructureRepository();
-  const structures = await structureRepository.findAll();
+  const structures = await findAll();
   const structuresWithCoordinates = addCoordinates(structures);
   return NextResponse.json(structuresWithCoordinates);
 }
