@@ -16,10 +16,10 @@ model Structure {
   operateur                    String
   type                         StructureType
   nbPlaces                     Int
-  placesACreer                 Int
-  placesAFermer                Int
-  echeancePlacesACreer         DateTime
-  echeancePlacesAFermer        DateTime
+  placesACreer                 Int?
+  placesAFermer                Int?
+  echeancePlacesACreer         DateTime?
+  echeancePlacesAFermer        DateTime?
   adresseAdministrative        String
   codePostalAdministratif      String
   communeAdministrative        String
@@ -74,7 +74,7 @@ model EvenementIndesirableGrave {
   numeroDossier    String
   evenementDate    DateTime
   declarationDate  DateTime
-  type             EvenementIndesirableGraveType
+  type             String
 }
 
 model Adresse {
@@ -143,12 +143,6 @@ enum Repartition {
 enum ControleType {
   INOPINE
   PROGRAMME
-}
-
-enum EvenementIndesirableGraveType {
-  VOL
-  COMPORTEMENT_VIOLENT
-  PROBLEME_RH
 }
 
 enum PublicType {

@@ -31,20 +31,24 @@ export const TypePlaceBlock = ({
             secondaryInformation="places autorisées"
           />
         </div>
-        <div className="fr-pr-2w">
+        {echeancePlacesACreer && (
+          <div className="fr-pr-2w">
+            <InformationCard
+              primaryInformation={`dont ${placesACreer}`}
+              secondaryInformation={`places à créer au ${new Date(
+                echeancePlacesACreer
+              ).toLocaleDateString()}`}
+            />
+          </div>
+        )}
+        {echeancePlacesAFermer && (
           <InformationCard
-            primaryInformation={`dont ${placesACreer}`}
-            secondaryInformation={`places à créer au ${new Date(
-              echeancePlacesACreer
+            primaryInformation={`dont ${placesAFermer}`}
+            secondaryInformation={`places à fermer au ${new Date(
+              echeancePlacesAFermer
             ).toLocaleDateString()}`}
           />
-        </div>
-        <InformationCard
-          primaryInformation={`dont ${placesAFermer}`}
-          secondaryInformation={`places à fermer au ${new Date(
-            echeancePlacesAFermer
-          ).toLocaleDateString()}`}
-        />
+        )}
       </div>
       <div className="fr-pt-3w d-flex">
         <TypePlaceCharts
@@ -65,15 +69,15 @@ export const TypePlaceBlock = ({
 
 type Props = {
   placesAutorisees: number;
-  placesACreer: number;
-  placesAFermer: number;
+  placesACreer?: number;
+  placesAFermer?: number;
   placesPmr: number;
   placesLgbt: number;
   placesFvvTeh: number;
   placesQPV: number;
   placesLogementsSociaux: number;
-  echeancePlacesACreer: Date;
-  echeancePlacesAFermer: Date;
+  echeancePlacesACreer?: Date;
+  echeancePlacesAFermer?: Date;
   adresses: Adresse[];
   pmrs: Pmr[];
 };

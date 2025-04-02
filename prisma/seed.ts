@@ -5,6 +5,10 @@ import {
   extractStructuresFromCsv,
   extractContactsFromCsv,
   extractTypologiesFromCsv,
+  extractControlesFromCsv,
+  extractEvaluationsFromCsv,
+  extractEIGsFromCsv,
+  extractPMRsFromCsv,
 } from "./utils/extract";
 
 const prisma = new PrismaClient();
@@ -59,12 +63,52 @@ const seedTypologies = async () => {
   }
 };
 
+const seedControles = async () => {
+  const controles = await extractControlesFromCsv();
+  for (const controle of controles) {
+    await prisma.controle.create({
+      data: controle,
+    });
+  }
+};
+
+const seedEvaluations = async () => {
+  const evaluations = await extractEvaluationsFromCsv();
+  for (const evaluation of evaluations) {
+    await prisma.evaluation.create({
+      data: evaluation,
+    });
+  }
+};
+
+const seedEIGs = async () => {
+  const eigs = await extractEIGsFromCsv();
+  for (const eig of eigs) {
+    await prisma.evenementIndesirableGrave.create({
+      data: eig,
+    });
+  }
+};
+
+const seedPmrs = async () => {
+  const pmrs = await extractPMRsFromCsv();
+  for (const pmr of pmrs) {
+    await prisma.pmr.create({
+      data: pmr,
+    });
+  }
+};
+
 export async function seed(): Promise<void> {
   await wipeTables(prisma);
   await seedStructures();
   await seedAdresses();
   await seedContacts();
   await seedTypologies();
+  await seedControles();
+  await seedEvaluations();
+  await seedEIGs();
+  await seedPmrs();
 }
 
 seed();

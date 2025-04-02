@@ -72,7 +72,7 @@ export default async function StructureDetails({
             placesAFermer={structure.placesAFermer}
             echeancePlacesACreer={structure.echeancePlacesACreer}
             echeancePlacesAFermer={structure.echeancePlacesAFermer}
-            placesPmr={structure?.pmrs?.[0].nbPlaces || 10}
+            placesPmr={structure?.pmrs?.[0]?.nbPlaces || 10}
             placesLgbt={getCurrentPlacesLgbt(structure)}
             placesFvvTeh={getCurrentPlacesFvvTeh(structure)}
             placesQPV={getCurrentPlacesQpv(structure)}
@@ -80,7 +80,13 @@ export default async function StructureDetails({
           />
         </section>
         <section className="fr-pb-1w" id="controle">
-          <ControlBlock />
+          <ControlBlock
+            evaluations={structure.evaluations || []}
+            controles={structure.controles || []}
+            evenementsIndesirablesGraves={
+              structure.evenementsIndesirablesGraves || []
+            }
+          />
         </section>
       </div>
     </>

@@ -7,6 +7,11 @@ import {
   PublicType,
   Typologie,
   StructureType,
+  Controle,
+  ControleType,
+  Evaluation,
+  EvenementIndesirableGrave,
+  Pmr,
 } from "@prisma/client";
 
 const convertToBoolean = (value: string): boolean => {
@@ -42,6 +47,14 @@ const convertToStructureType = (structureType: string): StructureType => {
   return typesStructures[structureType.trim()];
 };
 
+const convertToControleType = (controleType: string): ControleType => {
+  const typesControles: Record<string, ControleType> = {
+    Inopiné: ControleType.INOPINE,
+    Programmé: ControleType.PROGRAMME,
+  };
+  return typesControles[controleType.trim()];
+};
+
 const getSheet = (sheetIndex: number) => {
   const sheets = xlsx.parse(`${__dirname}/../data/DB.xlsx`, {
     cellDates: true,
@@ -55,6 +68,10 @@ const getSheet = (sheetIndex: number) => {
 const STRUCTURE_INDEX = 0;
 const ADRESSE_INDEX = 1;
 const CONTACT_INDEX = 2;
+const CONTROLE_INDEX = 3;
+const EVALUATION_INDEX = 4;
+const EIG_INDEX = 5;
+const PMR_INDEX = 6;
 const TYPOLOGIE_INDEX = 7;
 
 export const extractStructuresFromCsv = async (): Promise<
@@ -115,6 +132,53 @@ export const extractContactsFromCsv = async (): Promise<
     telephone: String(line[3]),
     email: line[4],
     role: line[5],
+  }));
+};
+
+export const extractControlesFromCsv = async (): Promise<
+  Omit<Controle, "id">[]
+> => {
+  const sheet = getSheet(CONTROLE_INDEX);
+  return sheet.map((line) => ({
+    structureDnaCode: line[0],
+    date: new Date(line[1]),
+    type: convertToControleType(line[2]),
+  }));
+};
+
+export const extractEvaluationsFromCsv = async (): Promise<
+  Omit<Evaluation, "id">[]
+> => {
+  const sheet = getSheet(EVALUATION_INDEX);
+  return sheet.map((line) => ({
+    structureDnaCode: line[0],
+    date: new Date(line[1]),
+    notePersonne: Number(line[2]),
+    notePro: Number(line[3]),
+    noteStructure: Number(line[4]),
+    note: Number(line[5]),
+  }));
+};
+
+export const extractEIGsFromCsv = async (): Promise<
+  Omit<EvenementIndesirableGrave, "id">[]
+> => {
+  const sheet = getSheet(EIG_INDEX);
+  return sheet.map((line) => ({
+    structureDnaCode: line[0],
+    numeroDossier: String(line[1]),
+    evenementDate: new Date(line[2]),
+    declarationDate: new Date(line[3]),
+    type: line[4],
+  }));
+};
+
+export const extractPMRsFromCsv = async (): Promise<Omit<Pmr, "id">[]> => {
+  const sheet = getSheet(PMR_INDEX);
+  return sheet.map((line) => ({
+    structureDnaCode: line[0],
+    date: new Date(line[1]),
+    nbPlaces: Number(line[2]),
   }));
 };
 

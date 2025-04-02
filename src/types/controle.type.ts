@@ -5,7 +5,7 @@ export type Controle = {
   type: ControleType;
 };
 
-enum ControleType {
-  INOPINE,
-  PROGRAMME,
+export enum ControleType {
+  INOPINE = "Inopiné",
+  PROGRAMME = "Programmé",
 }
