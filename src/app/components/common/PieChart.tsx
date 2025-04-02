@@ -16,9 +16,10 @@ export const PieChart = ({
   color,
   fill,
   children,
+  width = 200,
 }: Props): ReactElement => {
   return (
-    <div className={styles.container}>
+    <div style={{ width: `${width}px` }} className={styles.container}>
       <DsfrPieChart x={x} y={y} color={color} fill={fill} />
       {children}
     </div>
@@ -30,4 +31,5 @@ type Props = PropsWithChildren<{
   y: number[];
   color?: ChartColor[];
   fill?: boolean;
+  width?: number;
 }>;

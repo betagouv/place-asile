@@ -10,7 +10,7 @@ export const User = (): ReactElement => {
     <div className="align-center">
       <div className={`${styles.avatar} fr-icon-user-line`} />
       <div>
-        <p className="fr-text--sm text-blue-france">
+        <p className="fr-text--sm text-title-blue-france">
           {session.data?.user?.name || session.data?.user?.email}
         </p>
         <button

@@ -11,3 +11,15 @@ export const sortKeysByValue = (
       {}
     );
 };
+
+export const getPercentage = (
+  partialValue: number,
+  totalValue: number
+): string => {
+  const percentage = (partialValue / totalValue) * 100;
+  if (percentage < 1) {
+    return "< 1%";
+  } else {
+    return `${Math.floor(percentage)}%`;
+  }
+};
