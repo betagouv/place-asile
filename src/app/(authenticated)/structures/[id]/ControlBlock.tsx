@@ -89,6 +89,7 @@ export const ControlBlock = ({
               target="_blank"
               rel="noopener external"
               title="Démarches simplifiées"
+              className="underline"
             >
               Démarches simplifiées
             </Link>{" "}

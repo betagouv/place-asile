@@ -7,6 +7,7 @@ export type Activite = {
   remiseEnEtat: number;
   sousOccupation: number;
   travaux: number;
+  placesIndisponibles: number;
   placesVacantes: number;
   placesPIBPI: number;
   placesPIdeboutees: number;

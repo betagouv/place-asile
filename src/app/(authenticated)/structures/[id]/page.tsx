@@ -13,6 +13,7 @@ import {
   getRepartition,
 } from "@/app/utils/structure.util";
 import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
+import { ActivityBlock } from "./ActivityBlock";
 
 export default async function StructureDetails({
   params,
@@ -87,6 +88,9 @@ export default async function StructureDetails({
               structure.evenementsIndesirablesGraves || []
             }
           />
+        </section>
+        <section className="fr-pb-1w" id="activites">
+          <ActivityBlock activites={structure.activites || []} />
         </section>
       </div>
     </>
