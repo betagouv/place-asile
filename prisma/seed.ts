@@ -9,7 +9,8 @@ import {
   extractEvaluationsFromCsv,
   extractEIGsFromCsv,
   extractPMRsFromCsv,
-} from "./utils/extract";
+} from "./utils/csv-extract";
+import { extractActivitesFromOds } from "./utils/activites-extract";
 
 const prisma = new PrismaClient();
 
@@ -23,7 +24,7 @@ const convertAddressToCoordinates = async (address: string) => {
 };
 
 const seedStructures = async () => {
-  const structures = await extractStructuresFromCsv();
+  const structures = extractStructuresFromCsv();
   for (const structure of structures) {
     const coordinates = await convertAddressToCoordinates(
       `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`
@@ -36,79 +37,29 @@ const seedStructures = async () => {
   }
 };
 
-const seedAdresses = async () => {
-  const adresses = await extractAdressesFromCsv();
-  for (const adresse of adresses) {
-    await prisma.adresse.create({
-      data: adresse,
-    });
-  }
-};
-
-const seedContacts = async () => {
-  const contacts = await extractContactsFromCsv();
-  for (const contact of contacts) {
-    await prisma.contact.create({
-      data: contact,
-    });
-  }
-};
-
-const seedTypologies = async () => {
-  const typologies = await extractTypologiesFromCsv();
-  for (const typologie of typologies) {
-    await prisma.typologie.create({
-      data: typologie,
-    });
-  }
-};
-
-const seedControles = async () => {
-  const controles = await extractControlesFromCsv();
-  for (const controle of controles) {
-    await prisma.controle.create({
-      data: controle,
-    });
-  }
-};
-
-const seedEvaluations = async () => {
-  const evaluations = await extractEvaluationsFromCsv();
-  for (const evaluation of evaluations) {
-    await prisma.evaluation.create({
-      data: evaluation,
-    });
-  }
-};
-
-const seedEIGs = async () => {
-  const eigs = await extractEIGsFromCsv();
-  for (const eig of eigs) {
-    await prisma.evenementIndesirableGrave.create({
-      data: eig,
-    });
-  }
-};
-
-const seedPmrs = async () => {
-  const pmrs = await extractPMRsFromCsv();
-  for (const pmr of pmrs) {
-    await prisma.pmr.create({
-      data: pmr,
-    });
-  }
-};
-
 export async function seed(): Promise<void> {
+  console.log(">>> 🗑️ Wiping existing data...");
   await wipeTables(prisma);
+  console.log(">>> 🌱 Seeding structures...");
   await seedStructures();
-  await seedAdresses();
-  await seedContacts();
-  await seedTypologies();
-  await seedControles();
-  await seedEvaluations();
-  await seedEIGs();
-  await seedPmrs();
+  console.log(">>> 🌱 Seeding adresses...");
+  await prisma.adresse.createMany({ data: extractAdressesFromCsv() });
+  console.log(">>> 🌱 Seeding contacts...");
+  await prisma.contact.createMany({ data: extractContactsFromCsv() });
+  console.log(">>> 🌱 Seeding typologies...");
+  await prisma.typologie.createMany({ data: extractTypologiesFromCsv() });
+  console.log(">>> 🌱 Seeding contrôles...");
+  await prisma.controle.createMany({ data: extractControlesFromCsv() });
+  console.log(">>> 🌱 Seeding évaluations...");
+  await prisma.evaluation.createMany({ data: extractEvaluationsFromCsv() });
+  console.log(">>> 🌱 Seeding EIGs...");
+  await prisma.evenementIndesirableGrave.createMany({
+    data: extractEIGsFromCsv(),
+  });
+  console.log(">>> 🌱 Seeding PMRs...");
+  await prisma.pmr.createMany({ data: extractPMRsFromCsv() });
+  console.log(">>> 🌱 Seeding activités...");
+  await prisma.activite.createMany({ data: extractActivitesFromOds() });
 }
 
 seed();

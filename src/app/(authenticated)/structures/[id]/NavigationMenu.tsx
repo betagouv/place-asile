@@ -6,6 +6,7 @@ const menuElements = [
   { label: "Calendrier", section: "#calendrier" },
   { label: "Type de places", section: "#places" },
   { label: "Contrôle qualité", section: "#controle" },
+  { label: "Activites", section: "#activites" },
 ];
 
 export const NavigationMenu = (): ReactElement => {
