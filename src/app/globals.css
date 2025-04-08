@@ -1,3 +1,6 @@
+/* stylelint-disable-next-line import-notation */
+@import "tailwindcss";
+
 /* Display */
 .w-full {
   width: 100%;
@@ -71,15 +74,15 @@
 
 /* Colors */
 .text-blue-france {
-  color: var(--text-title-blue-france)
+  color: var(--text-title-blue-france);
 }
 
 .text-grey {
-  color: var(--text-mention-grey)
+  color: var(--text-mention-grey);
 }
 
 .text-black {
-  color: var(--text-title-grey)
+  color: var(--text-title-grey);
 }
 
 .bg-grey {
