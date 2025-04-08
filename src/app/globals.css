@@ -53,14 +53,6 @@
   justify-content: end;
 }
 
-.italic {
-  font-style: italic;
-}
-
-.underline {
-  text-decoration: underline;
-}
-
 .grow {
   flex-grow: 1;
 }

@@ -74,9 +74,10 @@ const EIG_INDEX = 5;
 const PMR_INDEX = 6;
 const TYPOLOGIE_INDEX = 7;
 
-export const extractStructuresFromCsv = async (): Promise<
-  Omit<Structure, "id" | "latitude" | "longitude">[]
-> => {
+export const extractStructuresFromCsv = (): Omit<
+  Structure,
+  "id" | "latitude" | "longitude"
+>[] => {
   const sheet = getSheet(STRUCTURE_INDEX);
   return sheet.map((line) => ({
     dnaCode: line[0],
@@ -107,9 +108,7 @@ export const extractStructuresFromCsv = async (): Promise<
   }));
 };
 
-export const extractAdressesFromCsv = async (): Promise<
-  Omit<Adresse, "id">[]
-> => {
+export const extractAdressesFromCsv = (): Omit<Adresse, "id">[] => {
   const sheet = getSheet(ADRESSE_INDEX);
   return sheet.map((line) => ({
     id: line[0],
@@ -121,9 +120,7 @@ export const extractAdressesFromCsv = async (): Promise<
   }));
 };
 
-export const extractContactsFromCsv = async (): Promise<
-  Omit<Contact, "id">[]
-> => {
+export const extractContactsFromCsv = (): Omit<Contact, "id">[] => {
   const sheet = getSheet(CONTACT_INDEX);
   return sheet.map((line) => ({
     structureDnaCode: line[0],
@@ -135,9 +132,7 @@ export const extractContactsFromCsv = async (): Promise<
   }));
 };
 
-export const extractControlesFromCsv = async (): Promise<
-  Omit<Controle, "id">[]
-> => {
+export const extractControlesFromCsv = (): Omit<Controle, "id">[] => {
   const sheet = getSheet(CONTROLE_INDEX);
   return sheet.map((line) => ({
     structureDnaCode: line[0],
@@ -146,9 +141,7 @@ export const extractControlesFromCsv = async (): Promise<
   }));
 };
 
-export const extractEvaluationsFromCsv = async (): Promise<
-  Omit<Evaluation, "id">[]
-> => {
+export const extractEvaluationsFromCsv = (): Omit<Evaluation, "id">[] => {
   const sheet = getSheet(EVALUATION_INDEX);
   return sheet.map((line) => ({
     structureDnaCode: line[0],
@@ -160,9 +153,10 @@ export const extractEvaluationsFromCsv = async (): Promise<
   }));
 };
 
-export const extractEIGsFromCsv = async (): Promise<
-  Omit<EvenementIndesirableGrave, "id">[]
-> => {
+export const extractEIGsFromCsv = (): Omit<
+  EvenementIndesirableGrave,
+  "id"
+>[] => {
   const sheet = getSheet(EIG_INDEX);
   return sheet.map((line) => ({
     structureDnaCode: line[0],
@@ -173,7 +167,7 @@ export const extractEIGsFromCsv = async (): Promise<
   }));
 };
 
-export const extractPMRsFromCsv = async (): Promise<Omit<Pmr, "id">[]> => {
+export const extractPMRsFromCsv = (): Omit<Pmr, "id">[] => {
   const sheet = getSheet(PMR_INDEX);
   return sheet.map((line) => ({
     structureDnaCode: line[0],
@@ -182,9 +176,7 @@ export const extractPMRsFromCsv = async (): Promise<Omit<Pmr, "id">[]> => {
   }));
 };
 
-export const extractTypologiesFromCsv = async (): Promise<
-  Omit<Typologie, "id">[]
-> => {
+export const extractTypologiesFromCsv = (): Omit<Typologie, "id">[] => {
   const sheet = getSheet(TYPOLOGIE_INDEX);
   return sheet.map((line) => ({
     adresseId: line[0],

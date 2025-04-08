@@ -2,9 +2,9 @@ import { Structure } from "@/types/structure.type";
 import { StructureHeader } from "./StructureHeader";
 import { DescriptionBlock } from "./DescriptionBlock";
 import { ReactElement } from "react";
-import { CalendarBlock } from "./CalendarBlock";
+import { CalendrierBlock } from "./CalendrierBlock";
 import { TypePlaceBlock } from "./TypePlaceBlock";
-import { ControlBlock } from "./ControlBlock";
+import { ControlesBlock } from "./ControlesBlock";
 import {
   getCurrentPlacesFvvTeh,
   getCurrentPlacesLgbt,
@@ -13,6 +13,7 @@ import {
   getRepartition,
 } from "@/app/utils/structure.util";
 import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
+import { ActivitesBlock } from "./ActivitesBlock";
 
 export default async function StructureDetails({
   params,
@@ -54,7 +55,7 @@ export default async function StructureDetails({
           />
         </section>
         <section className="fr-pb-1w" id="calendrier">
-          <CalendarBlock
+          <CalendrierBlock
             debutPeriodeAutorisation={structure.debutPeriodeAutorisation}
             finPeriodeAutorisation={structure.finPeriodeAutorisation}
             debutConvention={structure.debutConvention}
@@ -80,13 +81,16 @@ export default async function StructureDetails({
           />
         </section>
         <section className="fr-pb-1w" id="controle">
-          <ControlBlock
+          <ControlesBlock
             evaluations={structure.evaluations || []}
             controles={structure.controles || []}
             evenementsIndesirablesGraves={
               structure.evenementsIndesirablesGraves || []
             }
           />
+        </section>
+        <section className="fr-pb-1w" id="activites">
+          <ActivitesBlock activites={structure.activites || []} />
         </section>
       </div>
     </>

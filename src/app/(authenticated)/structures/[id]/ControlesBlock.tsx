@@ -13,7 +13,7 @@ import styles from "../../../components/common/Accordion.module.css";
 import Link from "next/link";
 import { AccordionTitle } from "@/app/components/AccordionTitle";
 
-export const ControlBlock = ({
+export const ControlesBlock = ({
   evaluations,
   controles,
   evenementsIndesirablesGraves,
@@ -90,7 +90,7 @@ export const ControlBlock = ({
               rel="noopener external"
               title="Démarches simplifiées"
             >
-              Démarches simplifiées
+              <span className="underline">Démarches simplifiées</span>
             </Link>{" "}
             avec le numéro de dossier correspondant.
           </span>

@@ -2,7 +2,7 @@ import { Block } from "@/app/components/common/Block";
 import { DateBars } from "@/app/components/DateBars";
 import { ReactElement } from "react";
 
-export const CalendarBlock = ({
+export const CalendrierBlock = ({
   debutPeriodeAutorisation,
   finPeriodeAutorisation,
   debutConvention,
