@@ -1,5 +1,6 @@
-/* stylelint-disable-next-line import-notation */
+/* stylelint-disable import-notation */
 @import "tailwindcss";
+@import "./css/dsfr-tailwind.css";
 
 /* Display */
 .w-full {
