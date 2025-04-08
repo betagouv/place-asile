@@ -48,6 +48,11 @@ export const findOne = async (id: number): Promise<Structure | null> => {
           date: "desc",
         },
       },
+      activites: {
+        orderBy: {
+          date: "desc",
+        },
+      },
       evenementsIndesirablesGraves: true,
     },
   });

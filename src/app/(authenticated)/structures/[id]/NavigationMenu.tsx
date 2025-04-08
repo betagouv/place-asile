@@ -6,6 +6,7 @@ const menuElements = [
   { label: "Calendrier", section: "#calendrier" },
   { label: "Type de places", section: "#places" },
   { label: "Contrôle qualité", section: "#controle" },
+  { label: "Activites", section: "#activites" },
 ];
 
 export const NavigationMenu = (): ReactElement => {
@@ -15,7 +16,7 @@ export const NavigationMenu = (): ReactElement => {
         {menuElements.map((menuElement) => (
           <li key={menuElement.label} className="fr-nav__item">
             <Link
-              className="fr-nav__link text-blue-france weight-bold"
+              className="fr-nav__link text-title-blue-france weight-bold"
               href={menuElement.section}
             >
               {menuElement.label}

@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { PieChart } from "@/app/components/common/PieChart";
+import { getPercentage } from "@/app/utils/common.util";
 
 export const TypePlaceCharts = ({
   placesAutorisees,
@@ -20,7 +21,7 @@ export const TypePlaceCharts = ({
         <div className="fr-pt-1w text-center">
           <strong>{placesPmr}</strong> places PMR{" "}
           <span className="text-grey">
-            ({Math.floor((placesPmr / placesAutorisees) * 100)}%)
+            ({getPercentage(placesPmr, placesAutorisees)})
           </span>
         </div>
       </PieChart>
@@ -37,11 +38,11 @@ export const TypePlaceCharts = ({
         <div className="fr-pt-1w text-center">
           <strong>{placesLgbt}</strong> places LGBT{" "}
           <span className="text-grey">
-            ({Math.floor((placesLgbt / placesAutorisees) * 100)}%)
+            ({getPercentage(placesLgbt, placesAutorisees)})
           </span>{" "}
           et <strong>{placesFvvTeh}</strong> places FVV-TEH{" "}
           <span className="text-grey">
-            ({Math.floor((placesFvvTeh / placesAutorisees) * 100)}%)
+            ({getPercentage(placesFvvTeh, placesAutorisees)})
           </span>
         </div>
       </PieChart>
@@ -54,7 +55,7 @@ export const TypePlaceCharts = ({
         <div className="fr-pt-1w text-center">
           <strong>{placesQPV}</strong> places QPV{" "}
           <span className="text-grey">
-            ({Math.floor((placesQPV / placesAutorisees) * 100)}%)
+            ({getPercentage(placesQPV, placesAutorisees)})
           </span>
         </div>
       </PieChart>
@@ -67,7 +68,7 @@ export const TypePlaceCharts = ({
         <div className="fr-pt-1w text-center">
           <strong>{placesLogementsSociaux}</strong> places logements sociaux{" "}
           <span className="text-grey">
-            ({Math.floor((placesLogementsSociaux / placesAutorisees) * 100)}%)
+            ({getPercentage(placesLogementsSociaux, placesAutorisees)})
           </span>
         </div>
       </PieChart>

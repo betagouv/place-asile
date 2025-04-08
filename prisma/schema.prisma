@@ -120,18 +120,20 @@ model Pmr {
 }
 
 model Activite {
-  id                Int  @id @default(autoincrement())
-  structure         Structure @relation(fields: [structureDnaCode], references: [dnaCode])
-  structureDnaCode  String
-  date              DateTime
-  nbPlaces          Int
-  desinsectisation  Int
-  remiseEnEtat      Int
-  sousOccupation    Int
-  travaux           Int	
-  placesVacantes    Int	
-  placesPIBPI       Int	
-  placesPIdeboutees Int
+  id                  Int  @id @default(autoincrement())
+  structure           Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode    String
+  date                DateTime
+  nbPlaces            Int
+  desinsectisation    Int
+  remiseEnEtat        Int
+  sousOccupation      Int
+  travaux             Int
+  placesHorsDnaNg     Int
+  placesIndisponibles Int
+  placesVacantes      Int	
+  placesPIBPI         Int	
+  placesPIdeboutees   Int
 }
 
 enum Repartition {
