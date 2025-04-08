@@ -1,3 +1,7 @@
+/* stylelint-disable import-notation */
+@import "tailwindcss";
+@import "./css/dsfr-tailwind.css";
+
 /* Display */
 .w-full {
   width: 100%;
@@ -71,15 +75,15 @@
 
 /* Colors */
 .text-blue-france {
-  color: var(--text-title-blue-france)
+  color: var(--text-title-blue-france);
 }
 
 .text-grey {
-  color: var(--text-mention-grey)
+  color: var(--text-mention-grey);
 }
 
 .text-black {
-  color: var(--text-title-grey)
+  color: var(--text-title-grey);
 }
 
 .bg-grey {
