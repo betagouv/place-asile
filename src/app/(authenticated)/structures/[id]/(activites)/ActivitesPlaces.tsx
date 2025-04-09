@@ -1,8 +1,8 @@
 "use client";
 
+import { ReactElement } from "react";
 import { PieChart } from "@/app/components/common/PieChart";
 import { getPercentage } from "@/app/utils/common.util";
-import { ReactElement } from "react";
 
 export const ActivitesPlaces = ({
   nbPlaces,
@@ -23,10 +23,14 @@ export const ActivitesPlaces = ({
           width={350}
         />
         <div className="fr-pt-1w text-center">
-          <strong>{nbPlaces}</strong> places ouvertes
+          <strong>{nbPlaces}</strong> places enregistrées DNA
           <div>
             <strong>{placesIndisponibles}</strong> indisponibles (
             {getPercentage(placesIndisponibles, nbPlaces)})
+          </div>
+          <div>
+            <strong>{nbPlaces - placesIndisponibles}</strong> disponibles (
+            {getPercentage(nbPlaces - placesIndisponibles, nbPlaces)})
           </div>
         </div>
       </div>

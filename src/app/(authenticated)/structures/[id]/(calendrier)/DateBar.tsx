@@ -2,7 +2,7 @@
 
 import { ReactElement } from "react";
 import dayjs from "dayjs";
-import { Badge } from "./common/Badge";
+import { Badge } from "@/app/components/common/Badge";
 import styles from "./DateBar.module.css";
 
 export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {

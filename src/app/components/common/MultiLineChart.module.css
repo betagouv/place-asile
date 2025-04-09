@@ -1,0 +1,3 @@
+.container > div > multiline-chart > div > div > div > div:nth-child(n + 4) {
+  display: none !important;
+}
