@@ -57,11 +57,11 @@ export const Menu = (): ReactElement => {
   };
 
   return (
-    <nav className="fr-sidemenu fr-pr-0 left-menu no-shrink d-flex flex-column">
-      <div className="border-bottom fr-p-1w">
+    <nav className="fr-sidemenu pb-6 pe-0 h-screen sticky flex flex-col top-0 min-w-[15.16rem] border-r border-default-grey ">
+      <div className="border-b border-default-grey min-h-[4.1rem] grid">
         <Logo />
       </div>
-      <ul className="fr-sidemenu__list fr-p-2w ">
+      <ul className="fr-sidemenu__list p-4">
         {menuItems.map((menuItem) => (
           <li
             className={`fr-sidemenu__item ${getActiveClass(menuItem.url)}`}
@@ -77,11 +77,10 @@ export const Menu = (): ReactElement => {
           </li>
         ))}
       </ul>
-      <div className="grow" />
-      <div className="fr-p-2w">
+      <div className="p-4 mt-auto">
         <User />
       </div>
-      <ul className="fr-p-2w">
+      <ul className="p-4">
         {secondaryMenuItems.map((menuItem) => (
           <li className="text-grey fr-text--xs" key={menuItem.label}>
             {menuItem.isExternalLink ? (
