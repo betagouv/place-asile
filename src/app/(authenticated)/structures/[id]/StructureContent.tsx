@@ -124,7 +124,11 @@ export default function StructureContent({ structure }: StructureContentProps) {
           style={{ scrollMarginTop: `${structureHeaderHeight}px` }}
           id="activites"
         >
-          <ActivitesBlock activites={structure.activites || []} />
+          <ActivitesBlock
+            activites={structure.activites || []}
+            debutConvention={structure.debutConvention}
+            finConvention={structure.finConvention}
+          />
         </section>
       </div>
     </>
