@@ -8,6 +8,7 @@ import {
   getPlacesByCommunes,
   getRepartition,
 } from "@/app/utils/structure.util";
+import { formatDate } from "@/app/utils/date.util";
 import { Structure } from "@/types/structure.type";
 
 export const StructuresTable = ({
@@ -58,8 +59,8 @@ export const StructuresTable = ({
             <td>{getCommuneLabel(structure)}</td>
             {structure.debutConvention && structure.finConvention ? (
               <td>
-                {new Date(structure.debutConvention).toLocaleDateString()} -{" "}
-                {new Date(structure.finConvention).toLocaleDateString()}
+                {formatDate(structure.debutConvention)} -{" "}
+                {formatDate(structure.finConvention)}
               </td>
             ) : (
               <td>~</td>
