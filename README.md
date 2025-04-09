@@ -89,7 +89,7 @@ yarn prisma:studio
 ```
 
 
-## Patch DSFR
+## 💅 Patch DSFR
 
 En cas de mise à jour du DSFR, *il faut mettre à jour le patch*.
 
