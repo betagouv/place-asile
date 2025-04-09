@@ -57,7 +57,7 @@ export const Menu = (): ReactElement => {
   };
 
   return (
-    <nav className="fr-sidemenu pb-6 pe-0 h-screen sticky flex flex-col top-0 min-w-[15.16rem] border-r border-default-grey ">
+    <nav className="fr-sidemenu pb-6 pe-0 h-screen sticky flex flex-col top-0 w-[15vw] border-r border-default-grey ">
       <div className="border-b border-default-grey min-h-[4.1rem] grid">
         <Logo />
       </div>

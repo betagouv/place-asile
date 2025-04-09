@@ -46,10 +46,6 @@
   text-align: center;
 }
 
-.no-shrink {
-  flex-shrink: 0;
-}
-
 .align-right {
   display: flex;
   justify-content: end;
@@ -89,10 +85,6 @@
 }
 
 /* Other */
-.left-menu {
-  border-right: 1px solid var(--border-default-grey);
-  width: 15vw;
-}
 
 .border-bottom {
   border-bottom: 1px solid var(--border-default-grey);
