@@ -1,4 +1,6 @@
 /* stylelint-disable import-notation */
+@layer theme, base, place-asile, dsfr, components, utilities;
+
 @import "tailwindcss";
 @import "./css/dsfr-tailwind.css";
 

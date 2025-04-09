@@ -87,3 +87,31 @@ Enfin, vous pouvez vérifier le contenu de la base de données en exécutant :
 ```bash
 yarn prisma:studio
 ```
+
+
+## Patch DSFR
+
+En cas de mise à jour du DSFR, *il faut mettre à jour le patch*.
+
+### Pourquoi ?
+Par défaut le DSFR applique le CSS en dehors d'un layer ce qui pose des conflits avec Tailwind.
+Il faut donc modifier le css du DSFR pour qu'il soit englobé dans un layer.
+Et ce à chaque mise à jour du React-Dsfr.
+
+### Voici les étapes à suivre :
+
+1. Mettre à jour le package @codegouvfr/react-dsfr
+2. Editer le fichier node_modules/@codegouvfr/react-dsfr/dsfr/dsfr.min.css en englobant le CSS dans un layer
+```css
+@layer dsfr {
+  /* le CSS */
+}
+```
+3. Patcher le package
+```bash
+npx patch-package @codegouvfr/react-dsfr
+```
+4. Vérifier le patch dans `patches/@codegouvfr+react-dsfr+{version}.patch`
+5. Commit le patch
+6. Le patch sera appliqué à chaque `yarn install`
+7. Champagne !

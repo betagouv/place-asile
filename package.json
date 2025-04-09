@@ -17,7 +17,8 @@
     "prisma:studio": "npx prisma studio",
     "prisma:reset": "npx prisma migrate reset",
     "predev": "react-dsfr update-icons",
-    "prebuild": "react-dsfr update-icons"
+    "prebuild": "react-dsfr update-icons",
+    "postinstall": "patch-package"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -57,6 +58,8 @@
     "husky": "^9.1.7",
     "jsdom": "^26.0.0",
     "node-xlsx": "^0.24.0",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "sass": "^1.86.3",
     "stylelint": "^16.18.0",
     "stylelint-config-standard": "^37.0.0",
