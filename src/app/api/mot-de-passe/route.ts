@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     res.cookies.set("mot-de-passe", password, {
       httpOnly: true,
       path: "/",
-      maxAge: 60 * 60 * 24, // 1 day
+      maxAge: 60 * 60 * 24 * 7, // 1 week
     });
     return res;
   }
