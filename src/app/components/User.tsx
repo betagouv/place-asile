@@ -7,7 +7,7 @@ export const User = (): ReactElement => {
   const session = useSession();
 
   return (
-    <div className="align-center">
+    <div className="flex items-center">
       <div className={`${styles.avatar} fr-icon-user-line`} />
       <div>
         <p className="fr-text--sm text-title-blue-france">

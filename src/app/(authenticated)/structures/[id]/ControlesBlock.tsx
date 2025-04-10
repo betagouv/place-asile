@@ -9,7 +9,7 @@ import { EvaluationTable } from "./EvaluationTable";
 import { ControleTable } from "./ControleTable";
 import { EIGTable } from "./EIGTable";
 import dayjs from "dayjs";
-import styles from "../../../components/common/Accordion.module.css";
+import styles from "@/app/components/common/Accordion.module.css";
 import Link from "next/link";
 import { AccordionTitle } from "@/app/components/AccordionTitle";
 
@@ -29,7 +29,7 @@ export const ControlesBlock = ({
 
   return (
     <Block title="Controle qualité" iconClass="fr-icon-search-line">
-      <div className="d-flex">
+      <div className="flex">
         <div className="fr-pr-2w">
           <InformationCard
             primaryInformation={`${getLastVisitInMonths()} mois`}

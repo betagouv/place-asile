@@ -24,7 +24,7 @@ export const TypePlaceBlock = ({
 }: Props): ReactElement => {
   return (
     <Block title="Type de places" iconClass="fr-icon-map-pin-2-line">
-      <div className="d-flex">
+      <div className="flex">
         <div className="fr-pr-2w">
           <InformationCard
             primaryInformation={placesAutorisees}
@@ -50,7 +50,7 @@ export const TypePlaceBlock = ({
           />
         )}
       </div>
-      <div className="fr-pt-3w d-flex">
+      <div className="fr-pt-3w flex">
         <TypePlaceCharts
           placesAutorisees={placesAutorisees}
           placesPmr={placesPmr}

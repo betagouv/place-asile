@@ -14,7 +14,7 @@ export const ActivitesPlaces = ({
   const placesDisponibles = nbPlaces - placesIndisponibles;
   const placesOccupees = placesDisponibles - placesVacantes;
   return (
-    <div className="align-center fr-pt-3w">
+    <div className="flex items-center fr-pt-3w">
       <div>
         <PieChart
           x={[]}

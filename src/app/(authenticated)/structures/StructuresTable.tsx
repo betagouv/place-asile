@@ -36,7 +36,7 @@ export const StructuresTable = ({
       <>
         <span>{mainCommune} </span>
         {Object.keys(mainCommune).length > 1 && (
-          <span className="underline text-grey">
+          <span className="underline text-mention-grey">
             + {Object.keys(mainCommune).length} autres
           </span>
         )}
@@ -77,7 +77,7 @@ export const StructuresTable = ({
           </tr>
         ))}
       </Table>
-      <div className="align-justify-center">
+      <div className="flex justify-center items-center">
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

@@ -20,7 +20,7 @@ export const TypePlaceCharts = ({
       >
         <div className="fr-pt-1w text-center">
           <strong>{placesPmr}</strong> places PMR{" "}
-          <span className="text-grey">
+          <span className="text-mention-grey">
             ({getPercentage(placesPmr, placesAutorisees)})
           </span>
         </div>
@@ -37,11 +37,11 @@ export const TypePlaceCharts = ({
       >
         <div className="fr-pt-1w text-center">
           <strong>{placesLgbt}</strong> places LGBT{" "}
-          <span className="text-grey">
+          <span className="text-mention-grey">
             ({getPercentage(placesLgbt, placesAutorisees)})
           </span>{" "}
           et <strong>{placesFvvTeh}</strong> places FVV-TEH{" "}
-          <span className="text-grey">
+          <span className="text-mention-grey">
             ({getPercentage(placesFvvTeh, placesAutorisees)})
           </span>
         </div>
@@ -54,7 +54,7 @@ export const TypePlaceCharts = ({
       >
         <div className="fr-pt-1w text-center">
           <strong>{placesQPV}</strong> places QPV{" "}
-          <span className="text-grey">
+          <span className="text-mention-grey">
             ({getPercentage(placesQPV, placesAutorisees)})
           </span>
         </div>
@@ -67,7 +67,7 @@ export const TypePlaceCharts = ({
       >
         <div className="fr-pt-1w text-center">
           <strong>{placesLogementsSociaux}</strong> places logements sociaux{" "}
-          <span className="text-grey">
+          <span className="text-mention-grey">
             ({getPercentage(placesLogementsSociaux, placesAutorisees)})
           </span>
         </div>

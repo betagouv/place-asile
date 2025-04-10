@@ -82,7 +82,7 @@ export const Menu = (): ReactElement => {
       </div>
       <ul className="p-4">
         {secondaryMenuItems.map((menuItem) => (
-          <li className="text-grey fr-text--xs" key={menuItem.label}>
+          <li className="text-mention-grey fr-text--xs" key={menuItem.label}>
             {menuItem.isExternalLink ? (
               <ExternalLink title={menuItem.label} url={menuItem.url} />
             ) : (

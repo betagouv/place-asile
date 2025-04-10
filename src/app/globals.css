@@ -4,78 +4,7 @@
 @import "tailwindcss";
 @import "./css/dsfr-tailwind.css";
 
-/* Display */
-.w-full {
-  width: 100%;
-}
-
-.h-full {
-  height: 100%;
-}
-
-.h-100vh {
-  height: 100vh;
-}
-
-.align-justify-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.align-center {
-  display: flex;
-  align-items: center;
-}
-
-.d-flex {
-  display: flex;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-.space-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.align-right {
-  display: flex;
-  justify-content: end;
-}
-
-.grow {
-  flex-grow: 1;
-}
-
-.weight-normal {
-  font-weight: 400;
-}
-
-.weight-bold {
-  font-weight: 700;
-}
-
 /* Colors */
-.text-blue-france {
-  color: var(--text-title-blue-france);
-}
-
-.text-grey {
-  color: var(--text-mention-grey);
-}
-
-.text-black {
-  color: var(--text-title-grey);
-}
-
 .bg-grey {
   background-color: var(--background-alt-grey);
 }
@@ -88,10 +17,6 @@
 
 .border-bottom {
   border-bottom: 1px solid var(--border-default-grey);
-}
-
-.uppercase {
-  text-transform: uppercase;
 }
 
 /* ProConnect */
