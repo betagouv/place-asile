@@ -21,7 +21,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <head>
         <DsfrHead />
       </head>
-      <body>
+      <body className="overscroll-none">
         <DsfrProvider lang={lang}>
           <Providers>{children}</Providers>
         </DsfrProvider>
