@@ -13,14 +13,18 @@ export default function Structures(): ReactElement {
   const StructuresMap = useMemo(
     () =>
       dynamic(() => import("./StructuresMap"), {
-        loading: () => <p>Chargement de la carte en cours...</p>,
+        loading: () => (
+          <p className="h-full w-full flex items-center justify-center">
+            Chargement de la carte en cours...
+          </p>
+        ),
         ssr: false,
       }),
     []
   );
 
   return (
-    <div className="w-full h-full">
+    <div className="h-screen w-full flex flex-col">
       <div className="space-between fr-p-2w border-bottom">
         <SegmentedControl
           name="Visualisation"
