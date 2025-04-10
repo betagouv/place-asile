@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 export default function AjoutStructure(): ReactElement {
   return (
     <div>
-      <h1>Ajout d&apos;une structure</h1>
+      <h1>Ajout d’une structure</h1>
     </div>
   );
 }
