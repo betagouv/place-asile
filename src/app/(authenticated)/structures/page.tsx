@@ -25,20 +25,20 @@ export default function Structures(): ReactElement {
 
   return (
     <div className="h-screen w-full flex flex-col">
-      <div className="space-between fr-p-2w border-bottom">
+      <div className="flex justify-between fr-p-2w border-bottom">
         <SegmentedControl
           name="Visualisation"
           options={options}
           onChange={setSelectedVisualization}
         >
           <h2
-            className="text-blue-france fr-h5 fr-mr-3w fr-mb-0"
+            className="text-title-blue-france fr-h5 fr-mr-3w fr-mb-0"
             id="structures-titre"
           >
             Structures d’hébergement
           </h2>
         </SegmentedControl>
-        <p className="text-grey fr-mb-0">{structures.length} entrées</p>
+        <p className="text-mention-grey fr-mb-0">{structures.length} entrées</p>
       </div>
       {selectedVisualization === "carte" && (
         <StructuresMap structures={structures} />

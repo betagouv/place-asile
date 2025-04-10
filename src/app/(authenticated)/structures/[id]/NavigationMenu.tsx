@@ -16,7 +16,7 @@ export const NavigationMenu = (): ReactElement => {
         {menuElements.map((menuElement) => (
           <li key={menuElement.label} className="fr-nav__item">
             <Link
-              className="fr-nav__link text-title-blue-france weight-bold"
+              className="fr-nav__link text-title-blue-france font-bold"
               href={menuElement.section}
             >
               {menuElement.label}
