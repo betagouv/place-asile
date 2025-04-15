@@ -50,13 +50,13 @@ export const StructureMarker = ({
     <Marker position={coordinates} icon={singleMarkerIcon}>
       <Popup className={styles.container} closeButton={false}>
         <p className="fr-text--xs fr-m-0">DNA {dnaCode}</p>
-        <p className="fr-text text-blue-france fr-text-title--blue-france fr-m-0">
+        <p className="fr-text text-title-blue-france fr-text-title--blue-france fr-m-0">
           <strong className="fr-pr-2w">
             {type} - {operateur}
           </strong>
           {nbPlaces} places
         </p>
-        <p className="fr-text--xs text-blue-france fr-m-0">
+        <p className="fr-text--xs text-title-blue-france fr-m-0">
           {nom ? `${nom}, ` : ""}
           {commune}, {departement} ({codePostal.substring(0, 2)})
         </p>
@@ -77,7 +77,7 @@ export const StructureMarker = ({
           <RepartitionBadge repartition={repartition} />
         </span>
         {cpom && <Badge type="new">CPOM</Badge>}
-        <div className="align-right">
+        <div className="flex justify-end">
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
             title={`Détails de ${nom}`}

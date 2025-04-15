@@ -28,7 +28,7 @@ export const ContactsViewer = ({
         {showContacts ? "Masquer les contacts" : "Voir les contacts"}
       </button>
       {showContacts && (
-        <div className="text-grey">
+        <div className="text-mention-grey">
           {contacts.map((contact) => (
             <div key={contact.email}>
               <strong className="fr-pr-3w">

@@ -33,7 +33,7 @@ export const AdressesViewer = ({
           : "Voir la liste des hébergements"}
       </button>
       {showAdresses && (
-        <div className="text-grey">
+        <div className="text-mention-grey">
           {adresses.map((adresse) => (
             <div key={adresse.id}>
               <span className="fr-pr-3w">

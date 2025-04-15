@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <main className="h-full w-full" id="content">
       <Header />
-      <div className="align-justify-center">{children}</div>
+      <div className="flex justify-center items-center">{children}</div>
       <Footer />
     </main>
   );
