@@ -24,7 +24,7 @@ export function Table({
                     <th
                       scope="col"
                       key={`col-${heading}`}
-                      className={`uppercase text-grey ${styles["no-bg"]}`}
+                      className={`uppercase text-mention-grey ${styles["no-bg"]}`}
                     >
                       {heading}
                     </th>

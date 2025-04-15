@@ -23,7 +23,7 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
   const isWarningDisplayed = dayjs(datePair.endDate).diff(dayjs(), "month") < 3;
 
   return (
-    <div className="fr-col fr-col-10 align-center">
+    <div className="fr-col fr-col-10 flex items-center">
       <span>{new Date(datePair.startDate).toLocaleDateString()}</span>
       <div className={styles["initial-offset"]}></div>
       <div
