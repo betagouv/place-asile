@@ -1,4 +1,8 @@
-import { getPercentage, sortKeysByValue } from "@/app/utils/common.util";
+import {
+  computeAverage,
+  getPercentage,
+  sortKeysByValue,
+} from "@/app/utils/common.util";
 
 describe("common util", () => {
   describe("sortKeysByValue", () => {
@@ -53,6 +57,28 @@ describe("common util", () => {
 
       // THEN
       expect(percentage).toBe("33%");
+    });
+  });
+  describe("computeAverage", () => {
+    it("should return 0 when given an empty array", () => {
+      // GIVEN
+      const array: number[] = [];
+
+      // WHEN
+      const result = computeAverage(array);
+
+      // THEN
+      expect(result).toBe(0);
+    });
+    it("should return the average when given a corrrect array of numbers", () => {
+      // GIVEN
+      const array = [3, 8, 5, 1, 0];
+
+      // WHEN
+      const result = computeAverage(array);
+
+      // THEN
+      expect(result).toBe(3.4);
     });
   });
 });

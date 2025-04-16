@@ -23,3 +23,14 @@ export const getPercentage = (
     return `${Math.floor(percentage)}%`;
   }
 };
+
+export const computeAverage = (array: number[]): number => {
+  if (array.length === 0) {
+    return 0;
+  }
+  return (
+    array.reduce(
+      (firstElement, secondElement) => firstElement + secondElement
+    ) / array.length
+  );
+};
