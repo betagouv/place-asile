@@ -12,4 +12,5 @@ export type Activite = {
   placesVacantes: number;
   placesPIBPI: number;
   placesPIdeboutees: number;
+  placesIndues: number;
 };

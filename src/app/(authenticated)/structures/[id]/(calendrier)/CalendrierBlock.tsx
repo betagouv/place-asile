@@ -1,5 +1,5 @@
 import { Block } from "@/app/components/common/Block";
-import { DateBars } from "@/app/components/DateBars";
+import { DateBars } from "@/app/(authenticated)/structures/[id]/(calendrier)/DateBars";
 import { ReactElement } from "react";
 
 export const CalendrierBlock = ({

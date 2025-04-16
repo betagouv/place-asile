@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { CalendrierBlock } from "./CalendrierBlock";
-import { TypePlaceBlock } from "./TypePlaceBlock";
-import { ControlesBlock } from "./ControlesBlock";
+import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
+import { TypePlaceBlock } from "./(type-places)/TypePlaceBlock";
+import { ControlesBlock } from "./(controles)/ControlesBlock";
 import {
   getCurrentPlacesFvvTeh,
   getCurrentPlacesLgbt,
@@ -11,9 +11,9 @@ import {
   getCurrentPlacesQpv,
   getRepartition,
 } from "@/app/utils/structure.util";
-import { StructureHeader } from "./StructureHeader";
-import { DescriptionBlock } from "./DescriptionBlock";
-import { ActivitesBlock } from "./ActivitesBlock";
+import { StructureHeader } from "./(header)/StructureHeader";
+import { DescriptionBlock } from "./(description)/DescriptionBlock";
+import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { Structure } from "@/types/structure.type";
 
 export default function StructureContent({ structure }: StructureContentProps) {
@@ -124,7 +124,11 @@ export default function StructureContent({ structure }: StructureContentProps) {
           style={{ scrollMarginTop: `${structureHeaderHeight}px` }}
           id="activites"
         >
-          <ActivitesBlock activites={structure.activites || []} />
+          <ActivitesBlock
+            activites={structure.activites || []}
+            debutConvention={structure.debutConvention}
+            finConvention={structure.finConvention}
+          />
         </section>
       </div>
     </>
