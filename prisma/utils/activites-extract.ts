@@ -34,18 +34,15 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
     travaux: metadata.travauxIndex
       ? Number(line[metadata.travauxIndex]) || 0
       : 0,
-    placesHorsDnaNg: metadata.placesHorsDnaNgIndex
-      ? Number(line[metadata.placesHorsDnaNgIndex]) || 0
-      : 0,
     placesIndisponibles: metadata.placesIndisponiblesIndex
       ? Number(line[metadata.placesIndisponiblesIndex]) || 0
       : 0,
     placesVacantes: getPlacesVacantes(metadata, line) || 0,
-    placesPIBPI: metadata.placesPIBPIIndex
-      ? Number(line[metadata.placesPIBPIIndex]) || 0
+    presencesInduesBPI: metadata.presencesInduesBPIIndex
+      ? Number(line[metadata.presencesInduesBPIIndex]) || 0
       : 0,
-    placesPIdeboutees: metadata.placesPIdebouteesIndex
-      ? Number(line[metadata.placesPIdebouteesIndex]) || 0
+    presencesInduesDeboutees: metadata.presencesInduesDebouteesIndex
+      ? Number(line[metadata.presencesInduesDebouteesIndex]) || 0
       : 0,
   }));
 };

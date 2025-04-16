@@ -4,18 +4,19 @@ export type StructureWithActivites = Prisma.StructureGetPayload<{
   include: { activites: true };
 }>;
 
-export const addPlacesIndues = (structure: StructureWithActivites) => {
-  const activitesWithPlacesIndues = structure.activites.map((activite) => {
-    const placesIndues =
-      (activite?.placesPIBPI || 0) + (activite?.placesPIdeboutees || 0);
+export const addPresencesIndues = (structure: StructureWithActivites) => {
+  const activitesWithPresencesIndues = structure.activites.map((activite) => {
+    const presencesIndues =
+      (activite?.presencesInduesBPI || 0) +
+      (activite?.presencesInduesDeboutees || 0);
     return {
       ...activite,
-      placesIndues,
+      presencesIndues,
     };
   });
 
   return {
     ...structure,
-    activites: activitesWithPlacesIndues,
+    activites: activitesWithPresencesIndues,
   };
 };

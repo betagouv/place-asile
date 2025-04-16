@@ -8,8 +8,8 @@ export const ActivitesPlaces = ({
   nbPlaces,
   placesIndisponibles,
   placesVacantes,
-  placesPIBPI,
-  placesPIdeboutees,
+  presencesInduesBPI,
+  presencesInduesDeboutees,
 }: Props): ReactElement => {
   const placesDisponibles = nbPlaces - placesIndisponibles;
   const placesOccupees = placesDisponibles - placesVacantes;
@@ -59,9 +59,9 @@ export const ActivitesPlaces = ({
         <PieChart
           x={[]}
           y={[
-            placesPIBPI,
-            placesPIdeboutees,
-            placesOccupees - placesPIBPI - placesPIdeboutees,
+            presencesInduesBPI,
+            presencesInduesDeboutees,
+            placesOccupees - presencesInduesBPI - presencesInduesDeboutees,
           ]}
           color={["blue-france", "blue-ecume", "blue-cumulus"]}
           width={350}
@@ -69,12 +69,12 @@ export const ActivitesPlaces = ({
         <div className="fr-pt-1w text-center">
           <strong>{placesOccupees}</strong> places occupées
           <div>
-            <strong>{placesPIBPI}</strong> en présence indue BPI (
-            {getPercentage(placesPIBPI, placesOccupees)})
+            <strong>{presencesInduesBPI}</strong> en présence indue BPI (
+            {getPercentage(presencesInduesBPI, placesOccupees)})
           </div>
           <div>
-            <strong>{placesPIdeboutees}</strong> en présence indue deboutée (
-            {getPercentage(placesPIdeboutees, placesOccupees)})
+            <strong>{presencesInduesDeboutees}</strong> en présence indue
+            deboutée ({getPercentage(presencesInduesDeboutees, placesOccupees)})
           </div>
         </div>
       </div>
@@ -86,6 +86,6 @@ type Props = {
   nbPlaces: number;
   placesIndisponibles: number;
   placesVacantes: number;
-  placesPIBPI: number;
-  placesPIdeboutees: number;
+  presencesInduesBPI: number;
+  presencesInduesDeboutees: number;
 };
