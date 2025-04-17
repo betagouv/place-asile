@@ -9,18 +9,18 @@ export const ActivitesTypes = ({
   const tags = [
     {
       label: "Présences indues BPI",
-      onClick: () => setTypeActivite("placesPIBPI"),
-      value: "placesPIBPI",
+      onClick: () => setTypeActivite("presencesInduesBPI"),
+      value: "presencesInduesBPI",
     },
     {
       label: "Présences indues déboutées",
-      onClick: () => setTypeActivite("placesPIdeboutees"),
-      value: "placesPIdeboutees",
+      onClick: () => setTypeActivite("presencesInduesDeboutees"),
+      value: "presencesInduesDeboutees",
     },
     {
       label: "Présences indues totales",
-      onClick: () => setTypeActivite("placesIndues"),
-      value: "placesIndues",
+      onClick: () => setTypeActivite("presencesIndues"),
+      value: "presencesIndues",
     },
     {
       label: "Vacantes",
