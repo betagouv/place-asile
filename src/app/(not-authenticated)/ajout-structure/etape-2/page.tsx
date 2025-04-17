@@ -3,12 +3,12 @@
 
 import { useForm, useStore } from "@tanstack/react-form";
 import { step2Schema } from "../validation/validation";
-import Input from "@codegouvfr/react-dsfr/Input";
 import Button from "@codegouvfr/react-dsfr/Button";
 import { useEffect, useMemo } from "react";
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import InputWithValidation from "@/app/components/forms/InputWithValidation";
 
 export default function Step1Form() {
   const router = useRouter();
@@ -31,7 +31,13 @@ export default function Step1Form() {
       years: localStorageValues.years || 0,
     },
     validators: {
-      onChange: step2Schema,
+      onSubmit: (values) => {
+        const result = step2Schema.safeParse(values);
+        if (!result.success) {
+          return result.error.formErrors.fieldErrors;
+        }
+        return;
+      },
     },
   });
 
@@ -64,74 +70,22 @@ export default function Step1Form() {
           form.handleSubmit();
         }}
       >
-        <form.Field
+        <InputWithValidation
           name="company"
-          children={(field) => {
-            console.log(field.state.meta.errors);
-            return (
-              <>
-                <Input
-                  nativeInputProps={{
-                    name: "company",
-                    type: "text",
-                    required: true,
-                    value: form.state.values.company,
-                    onChange: (e) => {
-                      if (typeof window !== "undefined") {
-                        localStorageValues.company = e.target.value;
-                        localStorage.setItem(
-                          "ajout-structure",
-                          JSON.stringify(localStorageValues)
-                        );
-                      }
-                      field.handleChange(e.target.value);
-                    },
-                  }}
-                  label="Nom de l'entreprise"
-                  state={
-                    field.state.meta.errors?.length > 0 ? "error" : "default"
-                  }
-                  stateRelatedMessage={field.state.meta.errors
-                    ?.map((error) => error && error.message)
-                    .join("\n")}
-                />
-              </>
-            );
-          }}
+          type="text"
+          label="Nom de l'entreprise"
+          form={form}
+          schema={step2Schema}
+          localstorageKey="ajout-structure"
         />
-        <form.Field
+
+        <InputWithValidation
           name="years"
-          children={(field) => {
-            return (
-              <>
-                <Input
-                  nativeInputProps={{
-                    name: "years",
-                    type: "text",
-                    required: true,
-                    value: form.state.values.years,
-                    onChange: (e) => {
-                      if (typeof window !== "undefined") {
-                        localStorageValues.years = e.target.value;
-                        localStorage.setItem(
-                          "ajout-structure",
-                          JSON.stringify(localStorageValues)
-                        );
-                      }
-                      field.handleChange(e.target.value);
-                    },
-                  }}
-                  label="Années d'expérience"
-                  state={
-                    field.state.meta.errors?.length > 0 ? "error" : "default"
-                  }
-                  stateRelatedMessage={field.state.meta.errors
-                    ?.map((error) => error && error.message)
-                    .join("\n")}
-                />
-              </>
-            );
-          }}
+          type="text"
+          label="Années d'expérience"
+          form={form}
+          schema={step2Schema}
+          localstorageKey="ajout-structure"
         />
 
         <form.Subscribe
