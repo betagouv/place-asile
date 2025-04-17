@@ -7,10 +7,7 @@ import { singleMarkerIcon } from "../../components/map/SingleMarker";
 import { RepartitionBadge } from "./RepartitionBadge";
 import { getPlacesByCommunes } from "@/app/utils/structure.util";
 import { Adresse, Repartition } from "@/types/adresse.type";
-import { Badge } from "@/app/components/common/Badge";
 import { StructureType } from "@/types/structure.type";
-
-import styles from "./StructureMarker.module.css";
 
 export const StructureMarker = ({
   id,
@@ -27,7 +24,6 @@ export const StructureMarker = ({
   adresses,
   debutConvention,
   finConvention,
-  cpom,
 }: Props): ReactElement => {
   const getCommunesLabel = (): ReactElement => {
     const placesByCommunes = getPlacesByCommunes(adresses);
@@ -48,36 +44,40 @@ export const StructureMarker = ({
 
   return (
     <Marker position={coordinates} icon={singleMarkerIcon}>
-      <Popup className={styles.container} closeButton={false}>
-        <p className="fr-text--xs fr-m-0">DNA {dnaCode}</p>
-        <p className="fr-text text-title-blue-france fr-text-title--blue-france fr-m-0">
+      <Popup
+        className="[&>div]:rounded-none! [&>div>div]:m-6!"
+        closeButton={false}
+      >
+        <div className="text-sm fr-m-0 text-mention-grey">
+          <strong>Code DNA</strong> {dnaCode}
+        </div>
+        <div className="text-xl text-title-blue-france m-0">
           <strong className="fr-pr-2w">
             {type} - {operateur}
           </strong>
           {nbPlaces} places
-        </p>
-        <p className="fr-text--xs text-title-blue-france fr-m-0">
+        </div>
+        <div className="text-title-blue-france">
           {nom ? `${nom}, ` : ""}
           {commune}, {departement} ({codePostal.substring(0, 2)})
-        </p>
-        <p className="fr-text--xs fr-mt-0">
-          <strong>Dans les communes de : </strong>
-          <span>{getCommunesLabel()}</span>
-        </p>
+        </div>
         {debutConvention && finConvention && (
-          <p className="fr-text--xs fr-mt-0">
+          <div className="text-sm mt-1 mb-0">
             <strong>Convention en cours : </strong>
             <span>
               {new Date(debutConvention).toLocaleDateString()} -{" "}
               {new Date(finConvention).toLocaleDateString()}
             </span>
-          </p>
+          </div>
         )}
-        <span className="fr-pr-1w">
-          <RepartitionBadge repartition={repartition} />
-        </span>
-        {cpom && <Badge type="new">CPOM</Badge>}
-        <div className="flex justify-end">
+        <div className="text-sm mt-1 mb-0">
+          <strong>Bâti </strong>
+          <span className="pr-1">
+            <RepartitionBadge repartition={repartition} />
+          </span>
+          <span>{getCommunesLabel()}</span>
+        </div>
+        <div className="flex justify-end mt-2">
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
             title={`Détails de ${nom}`}
@@ -106,5 +106,4 @@ type Props = {
   adresses: Adresse[];
   debutConvention: Date | null;
   finConvention: Date | null;
-  cpom: boolean;
 };

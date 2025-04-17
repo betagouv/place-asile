@@ -5,9 +5,9 @@ import { Repartition } from "@/types/adresse.type";
 export const RepartitionBadge = ({ repartition }: Props): ReactElement => {
   const getBadgeType = (repartition: Repartition): BadgeType => {
     const typesByRepartition: Record<Repartition, BadgeType> = {
-      [Repartition.DIFFUS]: "success",
+      [Repartition.DIFFUS]: "new",
       [Repartition.COLLECTIF]: "info",
-      [Repartition.MIXTE]: "new",
+      [Repartition.MIXTE]: "warning",
     };
     return typesByRepartition[repartition];
   };
