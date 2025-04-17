@@ -25,7 +25,6 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
           adresses={structure.adresses || []}
           debutConvention={structure.debutConvention}
           finConvention={structure.finConvention}
-          cpom={structure.cpom}
           key={structure.id}
         />
       ))}
