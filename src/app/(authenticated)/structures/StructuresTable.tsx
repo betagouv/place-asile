@@ -36,7 +36,7 @@ export const StructuresTable = ({
       <>
         <span>{mainCommune} </span>
         {Object.keys(mainCommune).length > 1 && (
-          <span className="underline text-mention-grey">
+          <span className="underline text-mention-grey inline-flex ms-1">
             + {Object.keys(mainCommune).length} autres
           </span>
         )}
@@ -45,10 +45,15 @@ export const StructuresTable = ({
   };
 
   return (
-    <div className="fr-p-1w bg-grey h-full">
+    <div className="p-4 bg-grey h-full">
       <Table headings={headings} ariaLabelledBy={ariaLabelledBy}>
         {currentData.map((structure, index) => (
-          <tr id={`table-row-key-${index}`} data-row-key={index} key={index}>
+          <tr
+            id={`table-row-key-${index}`}
+            data-row-key={index}
+            key={index}
+            className="border-t-1 border-default-grey"
+          >
             <td>{structure.dnaCode}</td>
             <td>{structure.type}</td>
             <td>{structure.operateur}</td>
@@ -63,7 +68,9 @@ export const StructuresTable = ({
                 {formatDate(structure.finConvention)}
               </td>
             ) : (
-              <td>~</td>
+              <td className="flex justify-center">
+                <div className="w-2 h-2 bg-disabled-grey rounded-lg m-4" />
+              </td>
             )}
             <td>
               <Link
@@ -77,7 +84,7 @@ export const StructuresTable = ({
           </tr>
         ))}
       </Table>
-      <div className="flex justify-center items-center">
+      <div className="pt-4 flex justify-center items-center">
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
