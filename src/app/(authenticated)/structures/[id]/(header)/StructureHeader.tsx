@@ -2,7 +2,6 @@ import { StructureType } from "@/types/structure.type";
 import Link from "next/link";
 import { ReactElement, forwardRef, ForwardedRef } from "react";
 import { NavigationMenu } from "./NavigationMenu";
-import styles from "./StructureHeader.module.css";
 
 const StructureHeaderComponent = forwardRef(
   (
@@ -10,7 +9,7 @@ const StructureHeaderComponent = forwardRef(
     ref: ForwardedRef<HTMLDivElement>
   ): ReactElement => {
     return (
-      <div className={styles.container} ref={ref}>
+      <div className="sticky top-0 z-2 bg-lifted-grey" ref={ref}>
         <div className="flex border-bottom fr-p-1w">
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-left-s-line"

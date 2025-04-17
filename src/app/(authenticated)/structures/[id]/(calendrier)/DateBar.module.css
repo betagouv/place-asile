@@ -20,7 +20,7 @@
   margin-left: 5rem;
 }
 
-.today::after {
+.today span {
   border-right: 2px dotted var(--border-contrast-grey);
   height: 4.5rem;
   position: absolute;
