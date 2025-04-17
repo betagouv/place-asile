@@ -19,7 +19,7 @@ export const MultiLineChart = ({
 }: Props): ReactElement => {
   return (
     <div style={{ width: `${width}px` }} className={styles.container}>
-      <DsfrMultiLineChart x={x} y={y} color={color} />
+      <DsfrMultiLineChart x={x} y={y} color={color} key={y.toString()} />
       {children}
     </div>
   );

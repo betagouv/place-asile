@@ -33,8 +33,8 @@ export const ActivitesBlock = ({
           nbPlaces={activites[0]?.nbPlaces}
           placesIndisponibles={activites[0]?.placesIndisponibles}
           placesVacantes={activites[0]?.placesVacantes}
-          placesPIBPI={activites[0]?.placesPIBPI}
-          placesPIdeboutees={activites[0]?.placesPIdeboutees}
+          presencesInduesBPI={activites[0]?.presencesInduesBPI}
+          presencesInduesDeboutees={activites[0]?.presencesInduesDeboutees}
         />
       </div>
       <div className="fr-pb-3w">
@@ -43,7 +43,6 @@ export const ActivitesBlock = ({
           remiseEnEtat={activites[0]?.remiseEnEtat}
           sousOccupation={activites[0]?.sousOccupation}
           travaux={activites[0]?.travaux}
-          placesHorsDnaNg={activites[0]?.placesHorsDnaNg}
         />
       </div>
       <ActivitesHistorique

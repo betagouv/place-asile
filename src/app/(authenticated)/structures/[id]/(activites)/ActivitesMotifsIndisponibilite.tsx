@@ -8,7 +8,6 @@ export const ActivitesMotifsIndisponibilite = ({
   remiseEnEtat,
   sousOccupation,
   travaux,
-  placesHorsDnaNg,
 }: Props): ReactElement => {
   const getTableData = () => {
     return [
@@ -16,7 +15,6 @@ export const ActivitesMotifsIndisponibilite = ({
       ["Remise en état de l'unité", remiseEnEtat],
       ["Sous-occupation", sousOccupation],
       ["Travaux", travaux],
-      ["Public hors DNA-NG", placesHorsDnaNg],
     ];
   };
   return (
@@ -40,5 +38,4 @@ type Props = {
   remiseEnEtat: number;
   sousOccupation: number;
   travaux: number;
-  placesHorsDnaNg: number;
 };

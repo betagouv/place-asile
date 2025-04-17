@@ -12,10 +12,10 @@ import { computeAverage } from "@/app/utils/common.util";
 const typesActivite: Partial<
   Record<keyof Activite, { label: string; seuil: number | null }>
 > = {
-  placesPIBPI: { label: "Places indues BPI", seuil: 3 },
-  placesPIdeboutees: { label: "Places indues déboutées", seuil: 4 },
+  presencesInduesBPI: { label: "Présences indues BPI", seuil: 3 },
+  presencesInduesDeboutees: { label: "Présences indues déboutées", seuil: 4 },
   // TODO : update "seuil" to real values
-  placesIndues: { label: "Places indues totales", seuil: 3 },
+  presencesIndues: { label: "Présences indues totales", seuil: 3 },
   placesVacantes: { label: "Places vacantes", seuil: 3 },
   placesIndisponibles: { label: "Places indisponibles", seuil: 3 },
   nbPlaces: { label: "Places totales", seuil: null },
@@ -30,7 +30,7 @@ export const ActivitesHistorique = ({
     getMonthsBetween(debutConvention, finConvention)
   );
   const [typeActivite, setTypeActivite] =
-    useState<keyof Activite>("placesPIBPI");
+    useState<keyof Activite>("presencesInduesBPI");
 
   const getCurrentActivite = (
     activites: Activite[],
