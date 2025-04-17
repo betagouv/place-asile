@@ -29,10 +29,12 @@ export const getRepartition = (structure: Structure): Repartition => {
     (adresse) => adresse.repartition
   );
   const isDiffus = repartitions?.some(
-    (repartition) => repartition === Repartition.DIFFUS
+    (repartition) =>
+      repartition.toUpperCase() === Repartition.DIFFUS.toUpperCase()
   );
   const isCollectif = repartitions?.some(
-    (repartition) => repartition === Repartition.COLLECTIF
+    (repartition) =>
+      repartition.toUpperCase() === Repartition.COLLECTIF.toUpperCase()
   );
   if (isDiffus && isCollectif) {
     return Repartition.MIXTE;
