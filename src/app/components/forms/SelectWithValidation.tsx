@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import { useController, UseControllerProps } from "react-hook-form";
 import Select from "@codegouvfr/react-dsfr/Select";
@@ -9,6 +8,7 @@ export default function SelectWithValidation({
   label,
   required,
   children,
+  disabled,
 }: SelectWithValidationProps) {
   const { field, fieldState } = useController({
     name,
@@ -24,6 +24,7 @@ export default function SelectWithValidation({
       nativeSelectProps={{
         ...field,
       }}
+      disabled={disabled}
       state={fieldState.invalid ? "error" : "default"}
       stateRelatedMessage={fieldState.error?.message}
     >
@@ -32,10 +33,11 @@ export default function SelectWithValidation({
   );
 }
 
-type SelectWithValidationProps = UseControllerProps<any> & {
+type SelectWithValidationProps = UseControllerProps & {
   name: string;
   label: string;
-  control: any;
+  control: UseControllerProps["control"];
   required?: boolean;
   children: React.ReactNode;
+  disabled?: boolean;
 };
