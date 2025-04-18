@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import { useController, UseControllerProps } from "react-hook-form";
-import Input from "@codegouvfr/react-dsfr/Input";
+import Select from "@codegouvfr/react-dsfr/Select";
 
-export default function InputWithValidation({
+export default function SelectWithValidation({
   name,
   control,
-  type,
   label,
   required,
-}: InputWithValidationProps) {
+  children,
+}: SelectWithValidationProps) {
   const { field, fieldState } = useController({
     name,
     control,
@@ -19,22 +19,23 @@ export default function InputWithValidation({
   });
 
   return (
-    <Input
-      nativeInputProps={{
-        type,
+    <Select
+      label={label}
+      nativeSelectProps={{
         ...field,
       }}
-      label={label}
       state={fieldState.invalid ? "error" : "default"}
       stateRelatedMessage={fieldState.error?.message}
-    />
+    >
+      {children}
+    </Select>
   );
 }
 
-type InputWithValidationProps = UseControllerProps<any> & {
+type SelectWithValidationProps = UseControllerProps<any> & {
   name: string;
-  type: string;
   label: string;
   control: any;
   required?: boolean;
+  children: React.ReactNode;
 };
