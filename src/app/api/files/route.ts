@@ -1,0 +1,78 @@
+"use server";
+
+import { NextRequest, NextResponse } from "next/server";
+import { getDownloadLink, uploadFile, validateUpload } from "./file.service";
+import { createOne } from "./file.repository";
+
+export async function POST(req: Request) {
+  const formData = await req.formData();
+  const file = formData.get("file") as File;
+  const category = formData.get("category") as string;
+  const date = new Date(formData.get("date")!.toString());
+  // TODO: find a way to seed FileUploads at prisma:migrate
+  // TODO: find a more elegant way to validate data
+
+  const validationResult = validateUpload(file.type, file.size);
+
+  if (validationResult) {
+    return NextResponse.json({ error: validationResult }, { status: 400 });
+  }
+
+  if (!category) {
+    return NextResponse.json(
+      { error: "Aucune catégorie fournie" },
+      { status: 400 }
+    );
+  }
+
+  if (!date) {
+    return NextResponse.json({ error: "Aucune date fournie" }, { status: 400 });
+  }
+
+  if (!file) {
+    return NextResponse.json(
+      { error: "Aucun fichier fourni" },
+      { status: 400 }
+    );
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const uploadResult = await uploadFile(
+    process.env.S3_BUCKET_NAME!,
+    file.name,
+    Buffer.from(arrayBuffer),
+    file.type
+  );
+
+  const createdFileUpload = await createOne({
+    key: uploadResult.key,
+    mimeType: uploadResult.mimeType,
+    originalName: uploadResult.originalName,
+    category,
+    date,
+    fileSize: file.size,
+  });
+
+  return NextResponse.json({
+    ...uploadResult,
+    id: createdFileUpload?.id,
+    fileSize: file.size,
+  });
+}
+
+export async function GET(req: NextRequest) {
+  const fileName = req.nextUrl.searchParams.get("fileName");
+
+  try {
+    const result = await getDownloadLink(
+      process.env.S3_BUCKET_NAME!,
+      fileName!
+    );
+    return NextResponse.json({ url: result });
+  } catch (error) {
+    console.error(error);
+    throw new Error(
+      "Impossible de récupérer le lien de téléchargement du fichier"
+    );
+  }
+}
