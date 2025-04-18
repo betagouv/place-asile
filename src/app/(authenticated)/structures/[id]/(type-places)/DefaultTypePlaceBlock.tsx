@@ -8,7 +8,7 @@ import { TypePlaceCharts } from "./TypePlaceCharts";
 import { Adresse } from "@/types/adresse.type";
 import { Pmr } from "@/types/pmr.type";
 
-export const TypePlaceBlock = ({
+export const DefaultTypePlaceBlock = ({
   placesAutorisees,
   placesACreer,
   placesAFermer,

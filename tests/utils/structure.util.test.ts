@@ -1,4 +1,5 @@
 import {
+  getLastVisitInMonths,
   getPlacesByCommunes,
   getRepartition,
 } from "@/app/utils/structure.util";
@@ -6,6 +7,11 @@ import { Adresse, Repartition } from "../../src/types/adresse.type";
 import { createAdresse } from "../test-utils/adresse.factory";
 import { createTypologie } from "../test-utils/typologie.factory";
 import { createStructure } from "../test-utils/structure.factory";
+import { Evaluation } from "@/types/evaluation.type";
+import { Controle } from "@/types/controle.type";
+import { createEvaluation } from "../test-utils/evaluation.factory";
+import dayjs from "dayjs";
+import { createControle } from "../test-utils/controle.factory";
 
 describe("structure util", () => {
   describe("getPlacesByCommunes", () => {
@@ -92,6 +98,79 @@ describe("structure util", () => {
 
       // THEN
       expect(repartition).toBe(Repartition.MIXTE);
+    });
+  });
+  describe("getLastVisitInMonths", () => {
+    it("should return 0 when both arrays are empty", () => {
+      // GIVEN
+      const evaluations: Evaluation[] = [];
+      const controles: Controle[] = [];
+
+      // WHEN
+      const result = getLastVisitInMonths(evaluations, controles);
+
+      // THEN
+      expect(result).toBe(0);
+    });
+
+    it("should return the difference in months from the most recent evaluation when controles array is empty", () => {
+      // GIVEN
+      const evaluations: Evaluation[] = [
+        createEvaluation({ date: dayjs().subtract(2, "month").toDate() }),
+      ];
+      const controles: Controle[] = [];
+
+      // WHEN
+      const result = getLastVisitInMonths(evaluations, controles);
+
+      // THEN
+      expect(result).toBe(2);
+    });
+
+    it("should return the difference in months from the most recent controle when evaluations array is empty", () => {
+      // GIVEN
+      const evaluations: Evaluation[] = [];
+      const controles: Controle[] = [
+        createControle({ date: dayjs().subtract(1, "month").toDate() }),
+      ];
+
+      // WHEN
+      const result = getLastVisitInMonths(evaluations, controles);
+
+      // THEN
+      expect(result).toBe(1);
+    });
+
+    it("should return the difference in months from the most recent evaluation when it is later than the last controle", () => {
+      // GIVEN
+      const evaluations: Evaluation[] = [
+        createEvaluation({ date: dayjs().subtract(1, "month").toDate() }),
+      ];
+      const controles: Controle[] = [
+        createControle({ date: dayjs().subtract(3, "month").toDate() }),
+      ];
+
+      // WHEN
+      const result = getLastVisitInMonths(evaluations, controles);
+
+      // THEN
+      expect(result).toBe(1);
+    });
+
+    it("should return the difference in months from the most recent controle when it is later than the last evaluation", () => {
+      // GIVEN
+      const evaluations: Evaluation[] = [
+        createEvaluation({ date: dayjs().subtract(4, "month").toDate() }),
+      ];
+      const controles: Controle[] = [
+        createControle({ date: dayjs().subtract(2, "month").toDate() }),
+      ];
+
+      // WHEN
+      const result = getLastVisitInMonths(evaluations, controles);
+
+      // THEN
+      expect(result).toBe(2);
     });
   });
 });

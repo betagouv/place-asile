@@ -2,6 +2,9 @@ import { Adresse, Repartition } from "@/types/adresse.type";
 import { sortKeysByValue } from "./common.util";
 import { Structure } from "@/types/structure.type";
 import { Typologie } from "@/types/typologie.type";
+import dayjs from "dayjs";
+import { Controle } from "@/types/controle.type";
+import { Evaluation } from "@/types/evaluation.type";
 
 export const getPlacesByCommunes = (
   adresses: Adresse[]
@@ -76,4 +79,25 @@ export const getCurrentPlacesLogementsSociaux = (
   structure: Structure
 ): number => {
   return getCurrentPlacesByProperty(structure, "logementSocial");
+};
+
+export const getLastVisitInMonths = (
+  evaluations: Evaluation[],
+  controles: Controle[]
+): number => {
+  let mostRecentVisit = null;
+  if (evaluations.length === 0 && controles.length === 0) {
+    return 0;
+  } else if (evaluations.length === 0) {
+    mostRecentVisit = dayjs(controles[0]?.date);
+  } else if (controles.length === 0) {
+    mostRecentVisit = dayjs(evaluations[0]?.date);
+  } else {
+    mostRecentVisit = dayjs(evaluations[0]?.date).isBefore(
+      dayjs(controles[0]?.date)
+    )
+      ? dayjs(controles[0]?.date)
+      : dayjs(evaluations[0]?.date);
+  }
+  return dayjs().diff(mostRecentVisit, "month");
 };
