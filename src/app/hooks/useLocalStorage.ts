@@ -26,5 +26,21 @@ export function useLocalStorage<T>(key: string | null, initialValue: T) {
     }
   };
 
-  return [currentValue, updateLocalStorageValue] as const;
+  const resetLocalStorageValues = (key: string) => {
+    if (!key || typeof localStorage === "undefined") {
+      return;
+    }
+    try {
+      localStorage.removeItem(key);
+      setCurrentValue(initialValue);
+    } catch (error) {
+      console.error("Error resetting localStorage:", error);
+    }
+  };
+
+  return [
+    currentValue,
+    updateLocalStorageValue,
+    resetLocalStorageValues,
+  ] as const;
 }
