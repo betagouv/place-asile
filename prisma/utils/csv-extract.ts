@@ -93,7 +93,7 @@ export const extractStructuresFromCsv = (): Omit<
     finConvention: line[10] ? new Date(line[10]) : null,
     cpom: convertToBoolean(line[11]),
     creationDate: new Date(line[12]),
-    finessCode: String(line[13]),
+    finessCode: line[13] ? String(line[13]) : null,
     lgbt: convertToBoolean(line[14]),
     fvvTeh: convertToBoolean(line[15]),
     public: convertToPublicType(line[16]),

@@ -14,6 +14,7 @@ export const DateBars = ({ datePairs }: Props): ReactElement => {
             className={`fr-text--xs text-mention-grey uppercase ${styles.today}`}
           >
             Aujourd’hui
+            <span style={{ height: `${datePairs.length * 1.5}rem` }}></span>
           </strong>
         </div>
       </div>
