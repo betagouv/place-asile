@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import { useController, UseControllerProps } from "react-hook-form";
 import Input from "@codegouvfr/react-dsfr/Input";
@@ -31,10 +30,10 @@ export default function InputWithValidation({
   );
 }
 
-type InputWithValidationProps = UseControllerProps<any> & {
+type InputWithValidationProps = UseControllerProps & {
   name: string;
   type: string;
   label: string;
-  control: any;
+  control: UseControllerProps["control"];
   required?: boolean;
 };
