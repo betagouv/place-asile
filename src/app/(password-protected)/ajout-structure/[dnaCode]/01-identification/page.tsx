@@ -1,5 +1,7 @@
+"use client";
+
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
-import FormInformations from "../forms/FormInformations";
+import FormIdentification from "@/app/(password-protected)/ajout-structure/forms/FormIdentification";
 
 export default function StepInfo() {
   return (
@@ -10,7 +12,7 @@ export default function StepInfo() {
         stepCount={4}
         title="Identification de la structure"
       />
-      <FormInformations />
+      <FormIdentification />
     </>
   );
 }

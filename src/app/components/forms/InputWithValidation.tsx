@@ -1,39 +1,102 @@
+"use client";
+
 import * as React from "react";
-import { useController, UseControllerProps } from "react-hook-form";
+import {
+  useController,
+  UseControllerProps,
+  Control,
+  FieldValues,
+} from "react-hook-form";
 import Input from "@codegouvfr/react-dsfr/Input";
 
-export default function InputWithValidation({
+export default function InputWithValidation<
+  TFieldValues extends FieldValues = FieldValues
+>({
   name,
   control,
   type,
   label,
   required,
-}: InputWithValidationProps) {
+  hintText,
+  disabled,
+  addon,
+  className,
+  state,
+  stateRelatedMessage,
+}: InputWithValidationProps<TFieldValues>) {
+  // Use the form context if control is not provided
+  const finalControl = control;
+
   const { field, fieldState } = useController({
     name,
-    control,
+    control: finalControl,
     rules: {
       required,
     },
   });
 
+  // For date inputs, we need to handle the format conversion
+  // HTML date inputs require YYYY-MM-DD format internally
+  // But we want to display and store dates as DD/MM/YYYY
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (type === "date") {
+      const htmlDateValue = e.target.value; // YYYY-MM-DD
+      if (htmlDateValue) {
+        // Convert YYYY-MM-DD to DD/MM/YYYY
+        const [year, month, day] = htmlDateValue.split("-");
+        const formattedDate = `${day}/${month}/${year}`;
+        field.onChange(formattedDate);
+      } else {
+        field.onChange("");
+      }
+    } else {
+      field.onChange(e.target.value);
+    }
+  };
+
+  // Convert DD/MM/YYYY to YYYY-MM-DD for HTML date input
+  const getHtmlDateValue = () => {
+    if (type === "date" && field.value && typeof field.value === "string") {
+      // Check if it's already in DD/MM/YYYY format
+      const dateParts = field.value.split("/");
+      if (dateParts.length === 3) {
+        const [day, month, year] = dateParts;
+        return `${year}-${month}-${day}`;
+      }
+    }
+    return field.value || "";
+  };
+
   return (
     <Input
       nativeInputProps={{
         type,
-        ...field,
+        onChange: type === "date" ? handleDateChange : field.onChange,
+        value: type === "date" ? getHtmlDateValue() : field.value || "",
       }}
+      {...field}
       label={label}
-      state={fieldState.invalid ? "error" : "default"}
-      stateRelatedMessage={fieldState.error?.message}
+      hintText={hintText}
+      disabled={disabled}
+      addon={addon}
+      className={className}
+      state={state || (fieldState.invalid ? "error" : "default")}
+      stateRelatedMessage={stateRelatedMessage || fieldState.error?.message}
     />
   );
 }
 
-type InputWithValidationProps = UseControllerProps & {
-  name: string;
-  type: string;
-  label: string;
-  control: UseControllerProps["control"];
-  required?: boolean;
-};
+type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
+  Partial<UseControllerProps<TFieldValues>> & {
+    name: string;
+    type: string;
+    label: string;
+    control?: Control<TFieldValues>;
+    required?: boolean;
+    hintText?: string;
+    disabled?: boolean;
+    addon?: React.ReactNode;
+    className?: string;
+    state?: "default" | "error" | "success";
+    stateRelatedMessage?: string;
+  };
