@@ -1,4 +1,4 @@
-import { string, z } from "zod";
+import { z } from "zod";
 import { PublicType, StructureType } from "@/types/structure.type";
 import { Repartition } from "@/types/adresse.type";
 import "@/app/utils/zodErrorMap"; // Import the French error map
