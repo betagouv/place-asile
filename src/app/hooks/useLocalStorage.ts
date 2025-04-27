@@ -38,9 +38,9 @@ export function useLocalStorage<T>(key: string | null, initialValue: T) {
     }
   };
 
-  return [
+  return {
     currentValue,
     updateLocalStorageValue,
     resetLocalStorageValues,
-  ] as const;
+  };
 }

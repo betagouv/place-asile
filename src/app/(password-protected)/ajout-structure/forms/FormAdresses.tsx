@@ -16,7 +16,10 @@ export default function FormAdresses() {
   const params = useParams();
   const previousRoute = `/ajout-structure/${params.dnaCode}/03-type-places`;
 
-  const [localStorageValues] = useLocalStorage("ajout-structure-adresses", {});
+  const { currentValue: localStorageValues } = useLocalStorage(
+    "ajout-structure-adresses",
+    {}
+  );
 
   const [typeBatis, setTypeBatis] = useState(
     localStorageValues?.typeBatis || false

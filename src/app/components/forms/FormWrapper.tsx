@@ -48,10 +48,10 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   showSubmitButton = true,
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
-  const [localStorageValues, updateLocalStorageValues] = useLocalStorage(
-    localStorageKey,
-    {}
-  );
+  const {
+    currentValue: localStorageValues,
+    updateLocalStorageValue: updateLocalStorageValues,
+  } = useLocalStorage(localStorageKey, {});
 
   const mergedDefaultValues = {
     ...localStorageValues,

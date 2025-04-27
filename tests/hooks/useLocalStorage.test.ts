@@ -36,7 +36,7 @@ describe("useLocalStorage", () => {
     const { result } = renderHook(() => useLocalStorage(key, initialValue));
 
     // THEN
-    expect(result.current[0]).toEqual(initialValue);
+    expect(result.current.currentValue).toEqual(initialValue);
     expect(localStorageMock.getItem).toHaveBeenCalledWith(key);
   });
 
@@ -53,7 +53,7 @@ describe("useLocalStorage", () => {
     const { result } = renderHook(() => useLocalStorage(key, initialValue));
 
     // THEN
-    expect(result.current[0]).toEqual(storedValue);
+    expect(result.current.currentValue).toEqual(storedValue);
     expect(localStorageMock.getItem).toHaveBeenCalledWith(key);
   });
 
@@ -66,16 +66,12 @@ describe("useLocalStorage", () => {
     // WHEN
     const { result } = renderHook(() => useLocalStorage(key, initialValue));
 
-    // THEN - Initial state
-    expect(result.current[0]).toEqual(initialValue);
-
-    // Update the value
     act(() => {
-      result.current[1](newValue);
+      result.current.updateLocalStorageValue(newValue);
     });
 
-    // THEN - After update
-    expect(result.current[0]).toEqual(newValue);
+    // THEN
+    expect(result.current.currentValue).toEqual(newValue);
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       key,
       JSON.stringify(newValue)
@@ -100,7 +96,8 @@ describe("useLocalStorage", () => {
     const { result } = renderHook(() => useLocalStorage(key, initialValue));
 
     // THEN
-    expect(result.current[0]).toEqual(initialValue);
+    expect(result.current.currentValue).toEqual(initialValue);
+    expect(localStorageMock.getItem).toHaveBeenCalledWith(key);
     expect(console.error).toHaveBeenCalled();
 
     // Restore console.error
@@ -127,7 +124,7 @@ describe("useLocalStorage", () => {
 
     // Update the value
     act(() => {
-      result.current[1](newValue);
+      result.current.updateLocalStorageValue(newValue);
     });
 
     // THEN
@@ -147,16 +144,16 @@ describe("useLocalStorage", () => {
     const { result } = renderHook(() => useLocalStorage(key, initialValue));
 
     // THEN - Initial state should be undefined
-    expect(result.current[0]).toBeUndefined();
+    expect(result.current.currentValue).toBeUndefined();
     expect(localStorageMock.getItem).not.toHaveBeenCalled();
 
     // Update the value - should not affect localStorage
     act(() => {
-      result.current[1](newValue);
+      result.current.updateLocalStorageValue(newValue);
     });
 
     // THEN - After update, value should still be undefined and localStorage should not be called
-    expect(result.current[0]).toBeUndefined();
+    expect(result.current.currentValue).toBeUndefined();
     expect(localStorageMock.setItem).not.toHaveBeenCalled();
   });
 });
