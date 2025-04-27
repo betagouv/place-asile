@@ -104,12 +104,20 @@ export const IdentificationSchema = z.object({
 });
 
 const singleAdresseSchema = z.object({
-  adresse: z.string(),
-  codePostal: z.string(),
-  commune: z.string(),
+  adresseComplete: z.string().nonempty("L'adresse est obligatoire"),
+  adresse: z.string().nonempty("La rue est obligatoire"),
+  codePostal: z.string().nonempty("Le code postal est obligatoire"),
+  commune: z.string().nonempty("La commune est obligatoire"),
+  departement: z.string().nonempty("Le département est obligatoire"),
   repartition: z.nativeEnum(Repartition),
   places: z.number(),
   typologies: z.array(z.any()).optional(),
+});
+
+const extendedAdresseSchema = singleAdresseSchema.extend({
+  places: z.any(),
+  repartition: z.nativeEnum(Repartition),
+  typologies: z.array(z.enum(["logementSocial", "qpv"])),
 });
 
 export const AdressesSchema = z.object({
@@ -124,5 +132,5 @@ export const AdressesSchema = z.object({
       "Le type de batis doit être de type : " +
       Object.values(Repartition).join(", "),
   }),
-  adresses: z.array(singleAdresseSchema).optional(),
+  adresses: z.array(extendedAdresseSchema).optional(),
 });
