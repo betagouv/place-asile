@@ -44,8 +44,12 @@ export default function InputWithValidation<
       if (htmlDateValue) {
         // Convert YYYY-MM-DD to DD/MM/YYYY
         const [year, month, day] = htmlDateValue.split("-");
-        const formattedDate = `${day}/${month}/${year}`;
-        field.onChange(formattedDate);
+        if (year && month && day) {
+          const formattedDate = `${day}/${month}/${year}`;
+          field.onChange(formattedDate);
+        } else {
+          field.onChange("");
+        }
       } else {
         field.onChange("");
       }
@@ -61,7 +65,13 @@ export default function InputWithValidation<
       const dateParts = field.value.split("/");
       if (dateParts.length === 3) {
         const [day, month, year] = dateParts;
-        return `${year}-${month}-${day}`;
+        // Ensure we have valid values before creating the date string
+        if (day && month && year) {
+          // Pad with leading zeros if needed
+          const paddedDay = day.padStart(2, '0');
+          const paddedMonth = month.padStart(2, '0');
+          return `${year}-${paddedMonth}-${paddedDay}`;
+        }
       }
     }
     return field.value || "";
@@ -73,6 +83,7 @@ export default function InputWithValidation<
         type,
         onChange: type === "date" ? handleDateChange : field.onChange,
         value: type === "date" ? getHtmlDateValue() : field.value || "",
+        onBlur: field.onBlur,
       }}
       {...field}
       label={label}

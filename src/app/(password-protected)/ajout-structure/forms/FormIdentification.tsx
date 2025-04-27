@@ -2,7 +2,7 @@
 
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { PublicType, StructureType } from "@/types/structure.type";
 import { AnimatePresence, motion } from "motion/react";
@@ -10,18 +10,34 @@ import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 import { useParams } from "next/navigation";
 import { IdentificationSchema } from "@/app/(password-protected)/ajout-structure/validation/validation";
 import FormWrapper from "@/app/components/forms/FormWrapper";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 
 export default function FormIdentification() {
   const params = useParams();
   const nextRoute = `/ajout-structure/${params.dnaCode}/02-adresses`;
 
+  const { currentValue: localStorageValues } = useLocalStorage(
+    `ajout-structure-${params.dnaCode}-identification`,
+    {}
+  );
+
+  // Initialize with default values to ensure inputs are always controlled
   const [isManagedByAFilial, setIsManagedByAFilial] = useState(false);
   const [hasCPOM, setHasCPOM] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    if (localStorageValues && !isInitialized) {
+      setIsManagedByAFilial(!!localStorageValues.filiale);
+      setHasCPOM(!!localStorageValues.debutCpom);
+      setIsInitialized(true);
+    }
+  }, [localStorageValues, isInitialized]);
 
   return (
     <FormWrapper
       schema={IdentificationSchema}
-      localStorageKey="ajout-structure-identification"
+      localStorageKey={`ajout-structure-${params.dnaCode}-identification`}
       nextRoute={nextRoute}
       mode="onBlur"
     >
@@ -31,10 +47,9 @@ export default function FormIdentification() {
             <legend className="text-xl font-bold mb-4 text-title-blue-france">
               Description
             </legend>
-            {/*  */}
 
             <input
-              type="text"
+              type="hidden"
               {...register("dnaCode")}
               defaultValue={params.dnaCode}
             />
@@ -44,8 +59,10 @@ export default function FormIdentification() {
                   label: "Cette structure est gérée par une filiale.",
                   nativeInputProps: {
                     name: "managed-by-a-filial",
-                    value: isManagedByAFilial ? "true" : "false",
-                    onChange: (e) => setIsManagedByAFilial(e.target.checked),
+                    checked: isManagedByAFilial,
+                    onChange: (e) => {
+                      setIsManagedByAFilial(e.target.checked);
+                    },
                   },
                 },
               ]}

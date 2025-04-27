@@ -30,12 +30,10 @@ export default function FormAdresses() {
     setShowExtraFields(typeBatis === "Collectif" || typeBatis === "Mixte");
   }, [typeBatis]);
 
-  console.log(typeBatis);
-
   return (
     <FormWrapper
       schema={AdressesSchema}
-      localStorageKey="ajout-structure-adresses"
+      localStorageKey={`ajout-structure-${params.dnaCode}-adresses`}
       nextRoute={previousRoute}
       mode="onBlur"
       defaultValues={{
