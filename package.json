@@ -24,14 +24,14 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^1.22.4",
+    "@codegouvfr/react-dsfr": "^1.22.5",
     "@gouvfr/dsfr-chart": "1.0.0",
     "@prisma/client": "^6.6.0",
     "@tailwindcss/postcss": "^4.1.4",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "leaflet": "^1.9.4",
-    "next": "15.3.0",
+    "next": "15.3.1",
     "next-auth": "^4.24.11",
     "next-leaflet-cluster": "^1.0.0",
     "postcss": "^8.5.3",
@@ -52,7 +52,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^4.4.0",
+    "@vitejs/plugin-react": "^4.4.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "husky": "^9.1.7",
@@ -60,12 +60,12 @@
     "node-xlsx": "^0.24.0",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
-    "sass": "^1.86.3",
-    "stylelint": "^16.18.0",
+    "sass": "^1.87.0",
+    "stylelint": "^16.19.1",
     "stylelint-config-standard": "^38.0.0",
     "tsx": "^4.19.3",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.1.1"
+    "vitest": "^3.1.2"
   }
 }
