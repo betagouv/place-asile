@@ -11,6 +11,9 @@ import { IdentificationSchema } from "@/app/(password-protected)/ajout-structure
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import autoAnimate from "@formkit/auto-animate";
+import { z } from "zod";
+
+type IdentificationFormValues = z.infer<typeof IdentificationSchema>;
 
 export default function FormIdentification() {
   const params = useParams();
@@ -23,10 +26,9 @@ export default function FormIdentification() {
     }
   }, [filialesContainerRef]);
 
-  const { currentValue: localStorageValues } = useLocalStorage(
-    `ajout-structure-${params.dnaCode}-identification`,
-    {}
-  );
+  const { currentValue: localStorageValues } = useLocalStorage<
+    Partial<IdentificationFormValues>
+  >(`ajout-structure-${params.dnaCode}-identification`, {});
 
   // Initialize with default values to ensure inputs are always controlled
   const [isManagedByAFiliale, setIsManagedByAFiliale] = useState(false);

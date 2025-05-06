@@ -2,16 +2,6 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 
-export type AutocompleteSuggestion = {
-  id?: string;
-  label: string;
-  key: string;
-};
-
-export type AutocompleteHandle = {
-  resetSuggestions: () => void;
-  setShowSuggestions: (show: boolean) => void;
-};
 export function useAutocomplete<T extends AutocompleteSuggestion>(
   fetchSuggestions: (query: string) => Promise<T[]>,
   debounceMs: number = 300
@@ -77,3 +67,14 @@ export function useAutocomplete<T extends AutocompleteSuggestion>(
     autocompleteRef,
   };
 }
+
+export type AutocompleteSuggestion = {
+  id?: string;
+  label: string;
+  key: string;
+};
+
+export type AutocompleteHandle = {
+  resetSuggestions: () => void;
+  setShowSuggestions: (show: boolean) => void;
+};

@@ -51,10 +51,9 @@ export default function FormAdresses() {
     []
   );
 
-  const { currentValue: localStorageValues } = useLocalStorage(
-    `ajout-structure-${params.dnaCode}-adresses`,
-    {}
-  );
+  const { currentValue: localStorageValues } = useLocalStorage<
+    typeof defaultValues
+  >(`ajout-structure-${params.dnaCode}-adresses`, {} as typeof defaultValues);
   const mergedDefaultValues = useMemo(() => {
     if (!localStorageValues || Object.keys(localStorageValues).length === 0) {
       return defaultValues;
@@ -235,7 +234,7 @@ export default function FormAdresses() {
                       }
                     />
 
-                    {addresses.map((address, index) => (
+                    {addresses.map((_, index) => (
                       <div
                         className="flex max-sm:flex-col gap-6"
                         key={`address-${index}`}

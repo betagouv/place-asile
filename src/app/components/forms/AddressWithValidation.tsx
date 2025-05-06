@@ -10,7 +10,10 @@ import {
 } from "react-hook-form";
 import Input from "@codegouvfr/react-dsfr/Input";
 import { Autocomplete } from "./Autocomplete";
-import { useAutocomplete, AutocompleteSuggestion } from "@/app/hooks/useAutocomplete";
+import {
+  useAutocomplete,
+  AutocompleteSuggestion,
+} from "@/app/hooks/useAutocomplete";
 import { useAddressSuggestion } from "@/app/hooks/useAddressSuggestion";
 
 export default function AddressWithValidation<

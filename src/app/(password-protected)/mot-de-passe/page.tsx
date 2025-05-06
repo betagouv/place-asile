@@ -1,6 +1,14 @@
-import { ReactElement } from "react";
+import { ReactElement, Suspense } from "react";
 import PasswordForm from "./PasswordForm";
 
-export default function MotDePasse(): ReactElement {
+function PasswordFormWrapper(): ReactElement {
   return <PasswordForm />;
+}
+
+export default function MotDePasse(): ReactElement {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <PasswordFormWrapper />
+    </Suspense>
+  );
 }

@@ -1,9 +1,18 @@
 import { useState } from "react";
 
-export function useLocalStorage<T>(key: string | null, initialValue: T) {
-  const [currentValue, setCurrentValue] = useState(() => {
+export type UseLocalStorageReturn<T> = {
+  currentValue: T | undefined;
+  updateLocalStorageValue: (value: T) => void;
+  resetLocalStorageValues: (key: string) => void;
+};
+
+export function useLocalStorage<T>(
+  key: string | null,
+  initialValue: T
+): UseLocalStorageReturn<T> {
+  const [currentValue, setCurrentValue] = useState<T | undefined>(() => {
     if (!key || typeof localStorage === "undefined") {
-      return;
+      return undefined;
     }
     try {
       const item = localStorage.getItem(key);
