@@ -31,7 +31,8 @@ export const Menu = (): ReactElement => {
   const secondaryMenuItems = [
     {
       label: "Aide",
-      url: "/",
+      url: "mailto:placedasile@beta.gouv.fr",
+      isExternalLink: true,
     },
     {
       label: "Politique de confidentialité",
