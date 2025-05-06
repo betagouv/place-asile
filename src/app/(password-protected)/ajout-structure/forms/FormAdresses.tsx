@@ -14,6 +14,7 @@ import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import Button from "@codegouvfr/react-dsfr/Button";
 import { useRef } from "react";
 import autoAnimate from "@formkit/auto-animate";
+import Upload from "@/app/components/forms/Upload";
 
 export default function FormAdresses() {
   const params = useParams();
@@ -200,14 +201,7 @@ export default function FormAdresses() {
                           Liste des hébergements (d’après notre modèle à
                           télécharger uniquement)
                         </p>
-                        <div className="flex flex-col gap-1 bg-alt-blue-france p-4 rounded">
-                          <input type="file" className="border bg-white" />
-                          <input
-                            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                            type="file"
-                            multiple
-                          />
-                        </div>
+                        <Upload name="adresses" accept=".csv" />
                       </div>
                     </div>
                     <Notice
