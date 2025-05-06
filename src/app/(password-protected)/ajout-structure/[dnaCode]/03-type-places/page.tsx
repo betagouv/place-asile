@@ -6,7 +6,7 @@ export default function StepInfo() {
   return (
     <>
       <Stepper
-        currentStep={2}
+        currentStep={3}
         nextTitle="Types de places"
         stepCount={4}
         title="Adresses"

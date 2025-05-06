@@ -34,6 +34,7 @@ export default function InputWithValidation<
     },
   });
 
+  // TODO @ledjay: check if dayjs can handle this
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (type === "date") {
       const htmlDateValue = e.target.value;

@@ -2,19 +2,26 @@
 
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { PublicType, StructureType } from "@/types/structure.type";
-import { AnimatePresence, motion } from "motion/react";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 import { useParams } from "next/navigation";
 import { IdentificationSchema } from "@/app/(password-protected)/ajout-structure/validation/validation";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import autoAnimate from "@formkit/auto-animate";
 
 export default function FormIdentification() {
   const params = useParams();
   const nextRoute = `/ajout-structure/${params.dnaCode}/02-adresses`;
+  const filialesContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (filialesContainerRef.current) {
+      autoAnimate(filialesContainerRef.current);
+    }
+  }, [filialesContainerRef]);
 
   const { currentValue: localStorageValues } = useLocalStorage(
     `ajout-structure-${params.dnaCode}-identification`,
@@ -22,13 +29,13 @@ export default function FormIdentification() {
   );
 
   // Initialize with default values to ensure inputs are always controlled
-  const [isManagedByAFilial, setIsManagedByAFilial] = useState(false);
+  const [isManagedByAFiliale, setIsManagedByAFiliale] = useState(false);
   const [hasCPOM, setHasCPOM] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     if (localStorageValues && !isInitialized) {
-      setIsManagedByAFilial(!!localStorageValues.filiale);
+      setIsManagedByAFiliale(!!localStorageValues.filiale);
       setHasCPOM(!!localStorageValues.debutCpom);
       setIsInitialized(true);
     }
@@ -58,10 +65,10 @@ export default function FormIdentification() {
                 {
                   label: "Cette structure est gérée par une filiale.",
                   nativeInputProps: {
-                    name: "managed-by-a-filial",
-                    checked: isManagedByAFilial,
+                    name: "managed-by-a-filiale",
+                    checked: isManagedByAFiliale,
                     onChange: (e) => {
-                      setIsManagedByAFilial(e.target.checked);
+                      setIsManagedByAFiliale(e.target.checked);
                     },
                   },
                 },
@@ -90,23 +97,16 @@ export default function FormIdentification() {
                 label="Opérateur"
               />
 
-              <AnimatePresence>
-                {isManagedByAFilial && (
-                  <motion.div
-                    initial={{ scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    transition={{ duration: 0.1 }}
-                  >
-                    <InputWithValidation
-                      name="filiale"
-                      control={control}
-                      type="text"
-                      label="Filiale"
-                    />
-                  </motion.div>
+              <div ref={filialesContainerRef}>
+                {isManagedByAFiliale && (
+                  <InputWithValidation
+                    name="filiale"
+                    control={control}
+                    type="text"
+                    label="Filiale"
+                  />
                 )}
-              </AnimatePresence>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -120,7 +120,7 @@ export default function FormIdentification() {
                 name="finessCode"
                 control={control}
                 type="text"
-                label="Code FINESSE"
+                label="Code FINESS"
               />
               <SelectWithValidation
                 name="public"
@@ -137,15 +137,13 @@ export default function FormIdentification() {
             </div>
 
             <ToggleSwitch
-              inputTitle="the-title"
+              inputTitle="CPOM"
               label="Actuellement, la structure fait-elle partie d’un CPOM ?"
               labelPosition="left"
               showCheckedHint={false}
               className="w-fit"
-              checked={hasCPOM ? true : false}
-              onChange={(value) => {
-                setHasCPOM(value);
-              }}
+              checked={hasCPOM}
+              onChange={setHasCPOM}
             />
 
             <label className="flex gap-6">

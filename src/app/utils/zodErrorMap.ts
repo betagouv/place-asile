@@ -1,7 +1,13 @@
 import { z } from "zod";
 
+// Define the type based on Zod's type structure
+type ErrorMapCtx = z.ErrorMapCtx;
+
 // French error messages for Zod
-export const frenchErrorMap: z.ZodErrorMap = (issue, ctx) => {
+export const frenchErrorMap = (
+  issue: z.ZodIssueOptionalMessage,
+  ctx: ErrorMapCtx
+): { message: string } => {
   // Default error message in French
   let message = "Champ invalide";
 
@@ -19,18 +25,18 @@ export const frenchErrorMap: z.ZodErrorMap = (issue, ctx) => {
       )}`;
       break;
     case "unrecognized_keys":
-      message = `Clé(s) non reconnue(s) : ${issue.keys.join(", ")}`;
+      message = `Clé(s) non reconnue(s) : ${issue.keys?.join(", ")}`;
       break;
     case "invalid_union":
       message = "Entrée invalide";
       break;
     case "invalid_union_discriminator":
-      message = `Valeur discriminante invalide, attendue : ${issue.options.join(
+      message = `Valeur discriminante invalide, attendue : ${issue.options?.join(
         ", "
       )}`;
       break;
     case "invalid_enum_value":
-      message = `Valeur invalide, attendue : ${issue.options.join(" | ")}`;
+      message = `Valeur invalide, attendue : ${issue.options?.join(" | ")}`;
       break;
     case "invalid_arguments":
       message = "Arguments de fonction invalides";

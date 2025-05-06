@@ -9,14 +9,22 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { Repartition } from "@/types/adresse.type";
-import { AnimatePresence, motion } from "framer-motion";
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import Button from "@codegouvfr/react-dsfr/Button";
+import { useRef } from "react";
+import autoAnimate from "@formkit/auto-animate";
 
 export default function FormAdresses() {
   const params = useParams();
-  const previousRoute = `/ajout-structure/${params.dnaCode}/03-type-places`;
+  const previousRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
+  const hebergementsContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (hebergementsContainerRef.current) {
+      autoAnimate(hebergementsContainerRef.current);
+    }
+  }, [hebergementsContainerRef]);
 
   // Move defaultValues into useMemo to prevent recreation on every render
   const defaultValues = useMemo(
@@ -26,7 +34,7 @@ export default function FormAdresses() {
       codePostalAdministratif: "",
       communeAdministrative: "",
       departementAdministratif: "",
-      typeBatis: Repartition.DIFFUS,
+      typeBati: Repartition.DIFFUS,
       adresses: [
         {
           adresseComplete: "",
@@ -47,18 +55,13 @@ export default function FormAdresses() {
     `ajout-structure-${params.dnaCode}-adresses`,
     {}
   );
-
-  // Merge defaultValues with localStorage values
   const mergedDefaultValues = useMemo(() => {
     if (!localStorageValues || Object.keys(localStorageValues).length === 0) {
       return defaultValues;
     }
-
-    // Deep merge the default values with localStorage values
     return {
       ...defaultValues,
       ...localStorageValues,
-      // Ensure adresses array exists and has at least one item
       adresses: localStorageValues.adresses?.length
         ? localStorageValues.adresses
         : defaultValues.adresses,
@@ -70,10 +73,9 @@ export default function FormAdresses() {
 
   useEffect(() => {
     if (localStorageValues && !isInitialized) {
-      console.log(localStorageValues);
       setShowExtraFields(
-        localStorageValues.typeBatis === Repartition.COLLECTIF ||
-          localStorageValues.typeBatis === Repartition.MIXTE
+        localStorageValues.typeBati === Repartition.COLLECTIF ||
+          localStorageValues.typeBati === Repartition.MIXTE
       );
       setIsInitialized(true);
     }
@@ -102,11 +104,8 @@ export default function FormAdresses() {
             places: 0,
             typologies: [],
           };
-          // Get current addresses from the form
           const currentAddresses = getValues("adresses") || [];
-          // Add the new address
           const updatedAddresses = [...currentAddresses, newAddress];
-          // Update the form state without triggering validation
           setValue("adresses", updatedAddresses, {
             shouldValidate: false,
           });
@@ -149,18 +148,18 @@ export default function FormAdresses() {
                 </div>
                 <AddressWithValidation
                   control={control}
-                  fullAddressName="adresseAdministrativeComplete"
-                  zipCodeName="codePostalAdministratif"
-                  streetName="adresseAdministrative"
-                  cityName="communeAdministrative"
-                  countyName="departementAdministratif"
+                  fullAddress="adresseAdministrativeComplete"
+                  zipCode="codePostalAdministratif"
+                  street="adresseAdministrative"
+                  city="communeAdministrative"
+                  department="departementAdministratif"
                   label="Adresse administrative"
                 />
 
                 <SelectWithValidation
-                  name="typeBatis"
+                  name="typeBati"
                   control={control}
-                  label="Type de batis"
+                  label="Type de bati"
                   onChange={(value) => {
                     setShowExtraFields(
                       value === "Collectif" || value === "Mixte"
@@ -178,25 +177,10 @@ export default function FormAdresses() {
                 </SelectWithValidation>
               </div>
             </fieldset>
-            <AnimatePresence>
+
+            <div ref={hebergementsContainerRef}>
               {showExtraFields && (
-                <motion.div
-                  initial={{ height: 0, overflow: "hidden" }}
-                  animate={{ height: "auto", overflow: "visible" }}
-                  exit={{ height: 0, overflow: "hidden" }}
-                  transition={{
-                    height: {
-                      duration: 0.25,
-                      type: "tween",
-                      ease: "circOut",
-                    },
-                    overflow: {
-                      delay: 0.25,
-                      type: "tween",
-                      ease: "circOut",
-                    },
-                  }}
-                >
+                <>
                   <hr />
                   <fieldset className="flex flex-col gap-6">
                     <legend className="text-xl font-bold mb-4 text-title-blue-france">
@@ -221,7 +205,6 @@ export default function FormAdresses() {
                           <input type="file" className="border bg-white" />
                           <input
                             className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                            id="multiple_files"
                             type="file"
                             multiple
                           />
@@ -238,9 +221,8 @@ export default function FormAdresses() {
                       title=""
                       description={
                         <>
-                          Vous pouvez vérifier si une adresse fait partie d{"'"}
-                          un Quartier Prioritaire de la politique de la Ville
-                          (QPV){" "}
+                          Vous pouvez vérifier si une adresse fait partie d’ un
+                          Quartier Prioritaire de la politique de la Ville (QPV){" "}
                           <a
                             target="_blank"
                             rel="noopener noreferrer"
@@ -260,11 +242,13 @@ export default function FormAdresses() {
                       >
                         <AddressWithValidation
                           control={control}
-                          fullAddressName={`adresses.${index}.adresseComplete`}
-                          zipCodeName={`adresses.${index}.codePostal`}
-                          streetName={`adresses.${index}.adresse`}
-                          countyName={`adresses.${index}.departement`}
-                          cityName={`adresses.${index}.commune`}
+                          fullAddress={`adresses.${index}.adresseComplete`}
+                          zipCode={`adresses.${index}.codePostal`}
+                          street={`adresses.${index}.adresse`}
+                          department={`adresses.${index}.departement`}
+                          city={`adresses.${index}.commune`}
+                          latitude={`adresses.${index}.latitude`}
+                          longitude={`adresses.${index}.longitude`}
                           label="Adresse"
                           className="w-1/3"
                         />
@@ -342,9 +326,9 @@ export default function FormAdresses() {
                       + Ajouter un hébergement
                     </button>
                   </fieldset>
-                </motion.div>
+                </>
               )}
-            </AnimatePresence>
+            </div>
           </>
         );
       }}

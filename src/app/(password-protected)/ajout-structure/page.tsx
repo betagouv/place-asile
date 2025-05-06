@@ -2,11 +2,7 @@ import { Metadata } from "next";
 import { ReactElement } from "react";
 
 export default function AjoutStructure(): ReactElement {
-  return (
-    <div>
-      <h1>Ajout d’une structure</h1>
-    </div>
-  );
+  return <h1>Ajout d’une structure</h1>;
 }
 
 export const metadata: Metadata = {

@@ -1,11 +1,9 @@
 import { z } from "zod";
 import { PublicType, StructureType } from "@/types/structure.type";
 import { Repartition } from "@/types/adresse.type";
-import "@/app/utils/zodErrorMap"; // Import the French error map
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
-// Configure dayjs to use custom parse format
 dayjs.extend(customParseFormat);
 
 const contactSchema = z.object({
@@ -16,31 +14,25 @@ const contactSchema = z.object({
   telephone: z.string().min(1, "Le téléphone est requis"),
 });
 
-// Function to validate and parse dates in multiple formats
 const parseDateString = (dateString: string): string | undefined => {
   if (!dateString) return undefined;
 
-  // Try to parse as DD/MM/YYYY
   if (dayjs(dateString, "DD/MM/YYYY", true).isValid()) {
-    return dateString; // Already in the correct format
+    return dateString;
   }
 
-  // Try to parse as YYYY-MM-DD
   if (dayjs(dateString, "YYYY-MM-DD", true).isValid()) {
-    // Convert to DD/MM/YYYY format
     return dayjs(dateString).format("DD/MM/YYYY");
   }
 
-  // Invalid date format
   return undefined;
 };
 
-// Create a reusable date field preprocessor
 const createDateFieldValidator = () =>
   z.preprocess(
     (val) => {
       if (typeof val === "string") {
-        return parseDateString(val) || val; // Return original value if parsing fails, to trigger validation error
+        return parseDateString(val) || val;
       }
       return undefined;
     },
@@ -53,7 +45,6 @@ const createDateFieldValidator = () =>
       .optional()
   );
 
-// Required date field validator
 const createRequiredDateFieldValidator = () =>
   z.preprocess(
     (val) => {
@@ -126,7 +117,7 @@ export const AdressesSchema = z.object({
   codePostalAdministratif: z.string(),
   communeAdministrative: z.string(),
   departementAdministratif: z.string(),
-  typeBatis: z.nativeEnum(Repartition, {
+  typeBati: z.nativeEnum(Repartition, {
     required_error: "Le type de batis est requis",
     invalid_type_error:
       "Le type de batis doit être de type : " +

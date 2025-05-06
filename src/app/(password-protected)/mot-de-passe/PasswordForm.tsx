@@ -37,11 +37,6 @@ export default function PasswordForm(): ReactElement {
 
   return (
     <>
-      <style>{`
-      body {
-       background-color: var(--color-background-default-grey-hover); 
-      }
-      `}</style>
       <Header />
       <main className="p-8 min-h-[50vh]  grid place-items-center fr-container max-w-2xl">
         <form

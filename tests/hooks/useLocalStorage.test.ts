@@ -1,6 +1,9 @@
 import { renderHook, act } from "@testing-library/react";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, vi, afterAll } from "vitest";
+
+// Sauvegarder la référence originale de localStorage
+const originalLocalStorage = window.localStorage;
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -19,12 +22,18 @@ const localStorageMock = (() => {
   };
 })();
 
-Object.defineProperty(window, "localStorage", { value: localStorageMock });
+// Utiliser vi.mock pour remplacer localStorage
+vi.stubGlobal("localStorage", localStorageMock);
 
 describe("useLocalStorage", () => {
   beforeEach(() => {
     localStorageMock.clear();
     vi.clearAllMocks();
+  });
+
+  // Restaurer la valeur originale après tous les tests
+  afterAll(() => {
+    vi.stubGlobal("localStorage", originalLocalStorage);
   });
 
   it("should use the initial value when localStorage is empty", () => {
@@ -152,7 +161,6 @@ describe("useLocalStorage", () => {
       result.current.updateLocalStorageValue(newValue);
     });
 
-    // THEN - After update, value should still be undefined and localStorage should not be called
     expect(result.current.currentValue).toBeUndefined();
     expect(localStorageMock.setItem).not.toHaveBeenCalled();
   });
