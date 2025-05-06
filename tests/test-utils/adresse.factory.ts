@@ -1,5 +1,5 @@
 import { Adresse, Repartition } from "@/types/adresse.type";
-import { Typologie } from "@/types/typologie.type";
+import { AdresseTypologie } from "@/types/adresse-typologie.type";
 
 export const createAdresse = ({
   id,
@@ -23,6 +23,6 @@ type CreateLogementsArgs = {
   id?: number;
   adresse?: string;
   commune?: string;
-  typologies?: Typologie[];
+  typologies?: AdresseTypologie[];
   repartition?: Repartition;
 };

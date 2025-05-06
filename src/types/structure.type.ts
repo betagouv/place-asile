@@ -4,7 +4,7 @@ import { Evaluation } from "./evaluation.type";
 import { EvenementIndesirableGrave } from "./evenementIndesirableGrave.type";
 import { Adresse } from "./adresse.type";
 import { Contact } from "./contact.type";
-import { Pmr } from "./pmr.type";
+import { StructureTypologie } from "./structure-typologie.type";
 import { Activite } from "./activite.type";
 
 export type Structure = {
@@ -42,7 +42,7 @@ export type Structure = {
   evenementsIndesirablesGraves?: EvenementIndesirableGrave[];
   adresses?: Adresse[];
   contacts?: Contact[];
-  pmrs?: Pmr[];
+  typologies?: StructureTypologie[];
   activites?: Activite[];
 };
 

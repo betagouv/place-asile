@@ -5,13 +5,13 @@ import {
   Structure,
   Contact,
   PublicType,
-  Typologie,
+  AdresseTypologie,
   StructureType,
   Controle,
   ControleType,
   Evaluation,
   EvenementIndesirableGrave,
-  Pmr,
+  StructureTypologie,
 } from "@prisma/client";
 
 const convertToBoolean = (value: string): boolean => {
@@ -71,8 +71,8 @@ const CONTACT_INDEX = 2;
 const CONTROLE_INDEX = 3;
 const EVALUATION_INDEX = 4;
 const EIG_INDEX = 5;
-const PMR_INDEX = 6;
-const TYPOLOGIE_INDEX = 7;
+const STRUCTURE_TYPOLOGIE_INDEX = 6;
+const ADRESSE_TYPOLOGIE_INDEX = 7;
 
 export const extractStructuresFromCsv = (): Omit<
   Structure,
@@ -167,24 +167,30 @@ export const extractEIGsFromCsv = (): Omit<
   }));
 };
 
-export const extractPMRsFromCsv = (): Omit<Pmr, "id">[] => {
-  const sheet = getSheet(PMR_INDEX);
+export const extractStructureTypologiesFromCsv = (): Omit<
+  StructureTypologie,
+  "id"
+>[] => {
+  const sheet = getSheet(STRUCTURE_TYPOLOGIE_INDEX);
   return sheet.map((line) => ({
     structureDnaCode: line[0],
     date: new Date(line[1]),
-    nbPlaces: Number(line[2]),
+    pmr: Number(line[2]),
+    lgbt: Number(line[3]),
+    fvvTeh: Number(line[4]),
   }));
 };
 
-export const extractTypologiesFromCsv = (): Omit<Typologie, "id">[] => {
-  const sheet = getSheet(TYPOLOGIE_INDEX);
+export const extractAdresseTypologiesFromCsv = (): Omit<
+  AdresseTypologie,
+  "id"
+>[] => {
+  const sheet = getSheet(ADRESSE_TYPOLOGIE_INDEX);
   return sheet.map((line) => ({
     adresseId: line[0],
     date: new Date(line[2]),
     nbPlacesTotal: line[3],
     qpv: line[4],
     logementSocial: line[5],
-    lgbt: line[6],
-    fvvTeh: line[7],
   }));
 };

@@ -5,7 +5,7 @@ import {
 } from "@/app/utils/structure.util";
 import { Adresse, Repartition } from "../../src/types/adresse.type";
 import { createAdresse } from "../test-utils/adresse.factory";
-import { createTypologie } from "../test-utils/typologie.factory";
+import { createAdresseTypologie } from "../test-utils/adresse-typologie.factory";
 import { createStructure } from "../test-utils/structure.factory";
 import { Evaluation } from "@/types/evaluation.type";
 import { Controle } from "@/types/controle.type";
@@ -27,10 +27,22 @@ describe("structure util", () => {
     });
     it("should return correct places by commune when given a adresses array", () => {
       // GIVEN
-      const typologie1 = createTypologie({ adresseId: 1, nbPlacesTotal: 2 });
-      const typologie2 = createTypologie({ adresseId: 2, nbPlacesTotal: 3 });
-      const typologie3 = createTypologie({ adresseId: 3, nbPlacesTotal: 1 });
-      const typologie4 = createTypologie({ adresseId: 4, nbPlacesTotal: 1 });
+      const typologie1 = createAdresseTypologie({
+        adresseId: 1,
+        nbPlacesTotal: 2,
+      });
+      const typologie2 = createAdresseTypologie({
+        adresseId: 2,
+        nbPlacesTotal: 3,
+      });
+      const typologie3 = createAdresseTypologie({
+        adresseId: 3,
+        nbPlacesTotal: 1,
+      });
+      const typologie4 = createAdresseTypologie({
+        adresseId: 4,
+        nbPlacesTotal: 1,
+      });
 
       const adresses: Adresse[] = [
         createAdresse({ id: 1, commune: "Paris", typologies: [typologie1] }),
