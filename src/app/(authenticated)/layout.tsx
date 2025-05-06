@@ -14,7 +14,6 @@ export default function RootLayout({
   return (
     <main className="w-full flex" id="content">
       <Menu />
-
       <div className="w-full">{children}</div>
     </main>
   );
