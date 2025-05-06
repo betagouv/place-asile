@@ -4,8 +4,6 @@ import { StructureHeader } from "./(header)/StructureHeader";
 import { DefaultDescriptionBlock } from "./(description)/DefaultDescriptionBlock";
 import {
   getRepartition,
-  getCurrentPlacesLgbt,
-  getCurrentPlacesFvvTeh,
   getCurrentPlacesQpv,
   getCurrentPlacesLogementsSociaux,
 } from "@/app/utils/structure.util";
@@ -73,15 +71,15 @@ export const HudaStructure = ({
         >
           <DefaultTypePlaceBlock
             adresses={structure.adresses || []}
-            pmrs={structure.pmrs || []}
+            structureTypologies={structure.typologies || []}
             placesAutorisees={structure.nbPlaces}
             placesACreer={structure.placesACreer}
             placesAFermer={structure.placesAFermer}
             echeancePlacesACreer={structure.echeancePlacesACreer}
             echeancePlacesAFermer={structure.echeancePlacesAFermer}
-            placesPmr={structure?.pmrs?.[0]?.nbPlaces || 10}
-            placesLgbt={getCurrentPlacesLgbt(structure)}
-            placesFvvTeh={getCurrentPlacesFvvTeh(structure)}
+            placesPmr={structure?.typologies?.[0]?.pmr || 0}
+            placesLgbt={structure?.typologies?.[0]?.lgbt || 0}
+            placesFvvTeh={structure?.typologies?.[0]?.fvvTeh || 0}
             placesQPV={getCurrentPlacesQpv(structure)}
             placesLogementsSociaux={getCurrentPlacesLogementsSociaux(structure)}
           />

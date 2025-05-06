@@ -1,9 +1,9 @@
-import { Typologie } from "@/types/typologie.type";
+import { AdresseTypologie } from "@/types/adresse-typologie.type";
 
-export const createTypologie = ({
+export const createAdresseTypologie = ({
   adresseId,
   nbPlacesTotal,
-}: CreateTypologiesArgs): Typologie => {
+}: CreateTypologiesArgs): AdresseTypologie => {
   return {
     id: 1,
     adresseId: adresseId ?? 1,
@@ -11,8 +11,6 @@ export const createTypologie = ({
     date: new Date("01/01/2023"),
     qpv: 3,
     logementSocial: 2,
-    lgbt: 5,
-    fvvTeh: 0,
   };
 };
 

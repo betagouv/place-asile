@@ -44,7 +44,7 @@ model Structure {
   evenementsIndesirablesGraves EvenementIndesirableGrave[]
   adresses                     Adresse[]
   contacts                     Contact[]
-  pmrs                         Pmr[]
+  structureTypologies          StructureTypologie[]
   activites                    Activite[]
 }
 
@@ -78,17 +78,17 @@ model EvenementIndesirableGrave {
 }
 
 model Adresse {
-  id               Int  @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
-  structureDnaCode String
-  adresse          String
-  codePostal       String
-  commune          String
-  repartition      Repartition
-  typologies       Typologie[]
+  id                 Int  @id @default(autoincrement())
+  structure          Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode   String
+  adresse            String
+  codePostal         String
+  commune            String
+  repartition        Repartition
+  adresseTypologies AdresseTypologie[]
 }
 
-model Typologie {
+model AdresseTypologie {
   id               Int  @id @default(autoincrement())
   adresse          Adresse @relation(fields: [adresseId], references: [id])
   adresseId        Int
@@ -96,8 +96,6 @@ model Typologie {
   date             DateTime
   qpv              Int
   logementSocial   Int
-  lgbt             Int
-  fvvTeh           Int
 }
 
 model Contact {
@@ -111,12 +109,14 @@ model Contact {
   role             String
 }
 
-model Pmr {
+model StructureTypologie {
   id               Int  @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode String
   date             DateTime
-  nbPlaces         Int
+  pmr              Int
+  lgbt             Int
+  fvvTeh           Int
 }
 
 model Activite {

@@ -6,7 +6,7 @@ export const findAll = async (): Promise<Structure[]> => {
     include: {
       adresses: {
         include: {
-          typologies: {
+          adresseTypologies: {
             orderBy: {
               date: "desc",
             },
@@ -25,7 +25,7 @@ export const findOne = async (id: number): Promise<Structure | null> => {
     include: {
       adresses: {
         include: {
-          typologies: {
+          adresseTypologies: {
             orderBy: {
               date: "desc",
             },
@@ -33,7 +33,7 @@ export const findOne = async (id: number): Promise<Structure | null> => {
         },
       },
       contacts: true,
-      pmrs: {
+      structureTypologies: {
         orderBy: {
           date: "desc",
         },

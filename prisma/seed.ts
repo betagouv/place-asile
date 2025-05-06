@@ -4,11 +4,11 @@ import {
   extractAdressesFromCsv,
   extractStructuresFromCsv,
   extractContactsFromCsv,
-  extractTypologiesFromCsv,
+  extractAdresseTypologiesFromCsv,
   extractControlesFromCsv,
   extractEvaluationsFromCsv,
   extractEIGsFromCsv,
-  extractPMRsFromCsv,
+  extractStructureTypologiesFromCsv,
 } from "./utils/csv-extract";
 import { extractActivitesFromOds } from "./utils/activites-extract";
 
@@ -46,8 +46,10 @@ export async function seed(): Promise<void> {
   await prisma.adresse.createMany({ data: extractAdressesFromCsv() });
   console.log(">>> 🌱 Seeding contacts...");
   await prisma.contact.createMany({ data: extractContactsFromCsv() });
-  console.log(">>> 🌱 Seeding typologies...");
-  await prisma.typologie.createMany({ data: extractTypologiesFromCsv() });
+  console.log(">>> 🌱 Seeding adresse typologies...");
+  await prisma.adresseTypologie.createMany({
+    data: extractAdresseTypologiesFromCsv(),
+  });
   console.log(">>> 🌱 Seeding contrôles...");
   await prisma.controle.createMany({ data: extractControlesFromCsv() });
   console.log(">>> 🌱 Seeding évaluations...");
@@ -56,8 +58,10 @@ export async function seed(): Promise<void> {
   await prisma.evenementIndesirableGrave.createMany({
     data: extractEIGsFromCsv(),
   });
-  console.log(">>> 🌱 Seeding PMRs...");
-  await prisma.pmr.createMany({ data: extractPMRsFromCsv() });
+  console.log(">>> 🌱 Seeding structure typologies...");
+  await prisma.structureTypologie.createMany({
+    data: extractStructureTypologiesFromCsv(),
+  });
   console.log(">>> 🌱 Seeding activités...");
   await prisma.activite.createMany({ data: extractActivitesFromOds() });
 }

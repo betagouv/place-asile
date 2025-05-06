@@ -6,7 +6,7 @@ import { InformationCard } from "@/app/components/InformationCard";
 import { TypePlaceHistory } from "./TypePlaceHistory";
 import { TypePlaceCharts } from "./TypePlaceCharts";
 import { Adresse } from "@/types/adresse.type";
-import { Pmr } from "@/types/pmr.type";
+import { StructureTypologie } from "@/types/structure-typologie.type";
 
 export const DefaultTypePlaceBlock = ({
   placesAutorisees,
@@ -20,7 +20,7 @@ export const DefaultTypePlaceBlock = ({
   echeancePlacesACreer,
   echeancePlacesAFermer,
   adresses,
-  pmrs,
+  structureTypologies,
 }: Props): ReactElement => {
   return (
     <Block title="Type de places" iconClass="fr-icon-map-pin-2-line">
@@ -61,7 +61,10 @@ export const DefaultTypePlaceBlock = ({
         />
       </div>
       <div className="fr-pt-3w">
-        <TypePlaceHistory adresses={adresses} pmrs={pmrs} />
+        <TypePlaceHistory
+          adresses={adresses}
+          structureTypologies={structureTypologies}
+        />
       </div>
     </Block>
   );
@@ -79,5 +82,5 @@ type Props = {
   echeancePlacesACreer?: Date;
   echeancePlacesAFermer?: Date;
   adresses: Adresse[];
-  pmrs: Pmr[];
+  structureTypologies: StructureTypologie[];
 };
