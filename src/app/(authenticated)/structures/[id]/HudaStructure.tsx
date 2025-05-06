@@ -11,6 +11,7 @@ import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
 import { DefaultTypePlaceBlock } from "./(type-places)/DefaultTypePlaceBlock";
 import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock";
+import { NotesBlock } from "./(notes)/NotesBlock";
 
 export const HudaStructure = ({
   structure,
@@ -104,6 +105,12 @@ export const HudaStructure = ({
             debutConvention={structure.debutConvention}
             finConvention={structure.finConvention}
           />
+        </section>
+        <section
+          style={{ scrollMarginTop: `${structureHeaderHeight}px` }}
+          id="notes"
+        >
+          <NotesBlock notes={structure.notes} />
         </section>
       </div>
     </>

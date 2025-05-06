@@ -39,6 +39,7 @@ model Structure {
   finPeriodeAutorisation       DateTime?
   debutCpom                    DateTime?
   finCpom                      DateTime?
+  notes                        String?
   controles                    Controle[]
   evaluations                  Evaluation[]
   evenementsIndesirablesGraves EvenementIndesirableGrave[]

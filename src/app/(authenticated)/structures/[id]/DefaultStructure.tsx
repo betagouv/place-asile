@@ -11,6 +11,7 @@ import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
 import { DefaultControlesBlock } from "./(controles)/DefaultControlesBlock";
 import { DefaultTypePlaceBlock } from "./(type-places)/DefaultTypePlaceBlock";
+import { NotesBlock } from "./(notes)/NotesBlock";
 
 export const DefaultStructure = ({
   structure,
@@ -105,6 +106,12 @@ export const DefaultStructure = ({
             debutConvention={structure.debutConvention}
             finConvention={structure.finConvention}
           />
+        </section>
+        <section
+          style={{ scrollMarginTop: `${structureHeaderHeight}px` }}
+          id="notes"
+        >
+          <NotesBlock notes={structure.notes} />
         </section>
       </div>
     </>
