@@ -187,7 +187,6 @@ export default function AddressWithValidation<
         {zipCode && (
           <input
             {...zipCodeFieldResult.field}
-            data-testid="zipCode-input"
             aria-hidden="true"
             type="hidden"
           />
@@ -195,42 +194,25 @@ export default function AddressWithValidation<
         {street && (
           <input
             {...streetFieldResult.field}
-            data-testid="street-input"
             aria-hidden="true"
             type="hidden"
           />
         )}
         {city && (
-          <input
-            {...cityFieldResult.field}
-            data-testid="city-input"
-            aria-hidden="true"
-            type="hidden"
-          />
+          <input {...cityFieldResult.field} aria-hidden="true" type="hidden" />
         )}
         {department && (
           <input
             {...departmentFieldResult.field}
-            data-testid="department-input"
             aria-hidden="true"
             type="hidden"
           />
         )}
         {latitude && (
-          <input
-            {...latFieldResult.field}
-            data-testid="lat-input"
-            aria-hidden="true"
-            type="hidden"
-          />
+          <input {...latFieldResult.field} aria-hidden="true" type="hidden" />
         )}
         {longitude && (
-          <input
-            {...longFieldResult.field}
-            data-testid="long-input"
-            aria-hidden="true"
-            type="hidden"
-          />
+          <input {...longFieldResult.field} aria-hidden="true" type="hidden" />
         )}
       </div>
     </div>

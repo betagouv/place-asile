@@ -207,7 +207,7 @@ export default function FormAdresses() {
                     <Notice
                       severity="info"
                       title="Pour le champ “places”,"
-                      description="veuillez renseigner le nombre de places autorisées total pour l’adresse correspondante."
+                      description="veuillez renseigner le nombre total de places autorisées pour l’adresse correspondante."
                     />
                     <Notice
                       severity="info"
@@ -255,7 +255,7 @@ export default function FormAdresses() {
                         <SelectWithValidation
                           name={`adresses.${index}.repartition`}
                           control={control}
-                          label="Type de batis"
+                          label="Type de bâti"
                           required
                         >
                           <option value="">Sélectionnez une option</option>

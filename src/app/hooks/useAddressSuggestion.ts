@@ -1,5 +1,3 @@
-"use client";
-
 export function useAddressSuggestion() {
   return async (query: string): Promise<AddressSuggestion[]> => {
     if (!query || query.length < 3) {

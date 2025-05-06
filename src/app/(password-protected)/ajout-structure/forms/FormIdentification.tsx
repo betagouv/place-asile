@@ -1,5 +1,5 @@
 "use client";
-
+// TODO @ledjay : split this file for code clarity
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useEffect, useState, useRef } from "react";

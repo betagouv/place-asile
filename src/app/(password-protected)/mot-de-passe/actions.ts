@@ -1,20 +1,15 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { ONE_WEEK_IN_SECONDS } from "@/constants";
 
 export async function verifyPassword(
-  password: string,
-  redirectTo: string
-): Promise<{ success: boolean; redirectTo?: string; redirected?: boolean }> {
+  password: string
+): Promise<{ success: boolean; message?: string }> {
   try {
     const isValid = password === process.env.PAGE_PASSWORD;
 
-    console.log("isValid", isValid);
-
     if (isValid) {
-      // Set an authentication cookie when password is valid
       const cookieStore = await cookies();
       cookieStore.set("mot-de-passe", password, {
         httpOnly: true,
@@ -22,20 +17,15 @@ export async function verifyPassword(
         maxAge: ONE_WEEK_IN_SECONDS,
       });
 
-      // Return success and redirectTo for client-side navigation
-      return { success: true, redirectTo };
+      return { success: true };
     }
 
-    return { success: isValid };
+    return { success: false, message: "Mot de passe incorrect" };
   } catch (error) {
-    console.error("Error verifying password:", error);
-    return { success: false };
+    console.error("Error setting password cookie:", error);
+    return {
+      success: false,
+      message: "Une erreur est survenue. Veuillez réessayer.",
+    };
   }
-}
-
-// Separate function for redirection to be called after the response is processed
-export async function redirectAfterPasswordVerification(
-  redirectTo: string
-): Promise<void> {
-  redirect(redirectTo);
 }
