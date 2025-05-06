@@ -105,6 +105,7 @@ export const extractStructuresFromCsv = (): Omit<
     placesAFermer: Number(line[22]),
     echeancePlacesACreer: line[23] ? new Date(line[23]) : null,
     echeancePlacesAFermer: line[24] ? new Date(line[24]) : null,
+    notes: line[25],
   }));
 };
 

@@ -7,6 +7,7 @@ import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
 import { PrahdaTypePlaceBlock } from "./(type-places)/PrahdaTypePlaceBlock";
 import { PrahdaDescriptionBlock } from "./(description)/PrahdaDescriptionBlock";
 import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock";
+import { NotesBlock } from "./(notes)/NotesBlock";
 
 export const PrahdaStructure = ({
   structure,
@@ -82,6 +83,12 @@ export const PrahdaStructure = ({
             debutConvention={structure.debutConvention}
             finConvention={structure.finConvention}
           />
+        </section>
+        <section
+          style={{ scrollMarginTop: `${structureHeaderHeight}px` }}
+          id="notes"
+        >
+          <NotesBlock notes={structure.notes} />
         </section>
       </div>
     </>
