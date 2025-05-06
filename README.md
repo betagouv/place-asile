@@ -115,3 +115,9 @@ npx patch-package @codegouvfr/react-dsfr
 5. Commit le patch
 6. Le patch sera appliqué à chaque `yarn install`
 7. Champagne !
+
+## 🔓 Gestion des pages protégées par mot de passe
+
+Pour le moment seule la route `/ajout-structure` est protégée par mot de passe.
+
+Pour définir le mot de passe il suffit d'ajouter la variable `PAGE_PASSWORD` dans le fichier `.env`.
