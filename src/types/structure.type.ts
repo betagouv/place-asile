@@ -13,10 +13,10 @@ export type Structure = {
   operateur: string;
   type: StructureType;
   nbPlaces: number;
-  placesACreer?: number;
-  placesAFermer?: number;
-  echeancePlacesACreer?: Date;
-  echeancePlacesAFermer?: Date;
+  placesACreer: number | null;
+  placesAFermer: number | null;
+  echeancePlacesACreer: Date | null;
+  echeancePlacesAFermer: Date | null;
   adresseAdministrative: string;
   codePostalAdministratif: string;
   communeAdministrative: string;
@@ -37,7 +37,7 @@ export type Structure = {
   debutCpom: Date | null;
   finCpom: Date | null;
   coordinates: LatLngTuple;
-  notes: string;
+  notes: string | null;
   controles?: Controle[];
   evaluations?: Evaluation[];
   evenementsIndesirablesGraves?: EvenementIndesirableGrave[];

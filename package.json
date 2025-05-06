@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "check:ts": "npx tsc --noEmit",
     "lint": "yarn lint:css && yarn lint:ts",
     "lint:ts": "next lint",
     "lint:css": "npx stylelint \"**/*.css\"",
