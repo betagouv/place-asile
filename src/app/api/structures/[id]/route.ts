@@ -13,3 +13,13 @@ export async function GET(request: NextRequest) {
   );
   return NextResponse.json(structureWithPresencesIndues);
 }
+
+export async function HEAD(request: NextRequest) {
+  const id = request.nextUrl.pathname.split("/").pop();
+  const structure = await findOne(Number(id));
+  if (structure) {
+    return new NextResponse(null, { status: 204 });
+  } else {
+    return new NextResponse(null, { status: 404 });
+  }
+}
