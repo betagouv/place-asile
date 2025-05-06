@@ -37,6 +37,7 @@ export type Structure = {
   debutCpom: Date | null;
   finCpom: Date | null;
   coordinates: LatLngTuple;
+  notes: string;
   controles?: Controle[];
   evaluations?: Evaluation[];
   evenementsIndesirablesGraves?: EvenementIndesirableGrave[];

@@ -26,9 +26,8 @@ const convertAddressToCoordinates = async (address: string) => {
 const seedStructures = async () => {
   const structures = extractStructuresFromCsv();
   for (const structure of structures) {
-    const coordinates = await convertAddressToCoordinates(
-      `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`
-    );
+    const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
+    const coordinates = await convertAddressToCoordinates(fullAdress);
     (structure as Structure).longitude = coordinates?.[0] || 0;
     (structure as Structure).latitude = coordinates?.[1] || 0;
     await prisma.structure.create({

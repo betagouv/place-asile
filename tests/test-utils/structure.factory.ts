@@ -39,6 +39,7 @@ export const createStructure = ({
     debutCpom: new Date("01/02/2025"),
     finCpom: new Date("01/02/2025"),
     adresses: adresses ?? [],
+    notes: "Note 1",
   };
 };
 
