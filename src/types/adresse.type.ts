@@ -1,4 +1,4 @@
-import { Typologie } from "./typologie.type";
+import { AdresseTypologie } from "./adresse-typologie.type";
 
 export type Adresse = {
   id: number;
@@ -7,7 +7,7 @@ export type Adresse = {
   codePostal: string;
   commune: string;
   repartition: Repartition;
-  typologies?: Typologie[];
+  typologies?: AdresseTypologie[];
 };
 
 export enum Repartition {

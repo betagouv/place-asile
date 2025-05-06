@@ -1,7 +1,7 @@
 import { Adresse, Repartition } from "@/types/adresse.type";
 import { sortKeysByValue } from "./common.util";
 import { Structure } from "@/types/structure.type";
-import { Typologie } from "@/types/typologie.type";
+import { AdresseTypologie } from "@/types/adresse-typologie.type";
 import dayjs from "dayjs";
 import { Controle } from "@/types/controle.type";
 import { Evaluation } from "@/types/evaluation.type";
@@ -50,7 +50,7 @@ export const getRepartition = (structure: Structure): Repartition => {
 
 const getCurrentPlacesByProperty = (
   structure: Structure,
-  accessor: keyof Typologie
+  accessor: keyof AdresseTypologie
 ) => {
   const mostRecentYearTypologies = structure.adresses?.map(
     (adresse) => adresse.typologies?.[0]
@@ -61,14 +61,6 @@ const getCurrentPlacesByProperty = (
     0
   );
   return placesByAccessor || 0;
-};
-
-export const getCurrentPlacesLgbt = (structure: Structure): number => {
-  return getCurrentPlacesByProperty(structure, "lgbt");
-};
-
-export const getCurrentPlacesFvvTeh = (structure: Structure): number => {
-  return getCurrentPlacesByProperty(structure, "fvvTeh");
 };
 
 export const getCurrentPlacesQpv = (structure: Structure): number => {
