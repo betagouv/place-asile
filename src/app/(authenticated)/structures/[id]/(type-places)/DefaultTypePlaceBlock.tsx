@@ -72,15 +72,15 @@ export const DefaultTypePlaceBlock = ({
 
 type Props = {
   placesAutorisees: number;
-  placesACreer?: number;
-  placesAFermer?: number;
+  placesACreer: number | null;
+  placesAFermer: number | null;
   placesPmr: number;
   placesLgbt: number;
   placesFvvTeh: number;
   placesQPV: number;
   placesLogementsSociaux: number;
-  echeancePlacesACreer?: Date;
-  echeancePlacesAFermer?: Date;
+  echeancePlacesACreer: Date | null;
+  echeancePlacesAFermer: Date | null;
   adresses: Adresse[];
   structureTypologies: StructureTypologie[];
 };
