@@ -10,5 +10,5 @@ export const NotesBlock = ({ notes }: Props): ReactElement => {
 };
 
 type Props = {
-  notes: string;
+  notes: string | null;
 };

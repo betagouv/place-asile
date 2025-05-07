@@ -24,9 +24,5 @@ const addCoordinates = (structures: Structure[]): StructureWithLatLng[] => {
       structure.latitude.toNumber(),
       structure.longitude.toNumber(),
     ],
-    placesACreer: structure.placesACreer as number,
-    placesAFermer: structure.placesAFermer as number,
-    echeancePlacesACreer: structure.echeancePlacesACreer as Date,
-    echeancePlacesAFermer: structure.echeancePlacesAFermer as Date,
   }));
 };
