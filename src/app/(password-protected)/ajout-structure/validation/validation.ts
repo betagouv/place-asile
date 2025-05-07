@@ -125,3 +125,34 @@ export const AdressesSchema = z.object({
   }),
   adresses: z.array(extendedAdresseSchema).optional(),
 });
+
+export const PlacesSchema = z.object({
+  autorisees: z.preprocess(
+    (val) => (val === "" ? undefined : Number(val)),
+    z.number()
+  ),
+  pmr: z
+    .preprocess(
+      (val) => (val === "" ? undefined : Number(val)),
+      z.number().optional()
+    )
+    .optional(),
+  lgbt: z
+    .preprocess(
+      (val) => (val === "" ? undefined : Number(val)),
+      z.number().optional()
+    )
+    .optional(),
+  fvvTeh: z
+    .preprocess(
+      (val) => (val === "" ? undefined : Number(val)),
+      z.number().optional()
+    )
+    .optional(),
+});
+
+export const TypePlacesSchema = z.object({
+  "2023": PlacesSchema,
+  "2024": PlacesSchema,
+  "2025": PlacesSchema,
+});

@@ -19,6 +19,7 @@ import Upload from "@/app/components/forms/Upload";
 export default function FormAdresses() {
   const params = useParams();
   const previousRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
+  const nextRoute = `/ajout-structure/${params.dnaCode}/03-type-places`;
   const hebergementsContainerRef = useRef(null);
 
   useEffect(() => {
@@ -85,7 +86,7 @@ export default function FormAdresses() {
     <FormWrapper
       schema={AdressesSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-adresses`}
-      nextRoute={previousRoute}
+      nextRoute={nextRoute}
       mode="onBlur"
       defaultValues={mergedDefaultValues}
     >
