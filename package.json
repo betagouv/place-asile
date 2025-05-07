@@ -34,6 +34,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "leaflet": "^1.9.4",
+    "minio": "^8.0.5",
     "next": "15.3.1",
     "next-auth": "^4.24.11",
     "next-leaflet-cluster": "^1.0.0",
