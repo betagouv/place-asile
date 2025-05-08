@@ -156,3 +156,36 @@ export const TypePlacesSchema = z.object({
   "2024": PlacesSchema,
   "2025": PlacesSchema,
 });
+
+export const DocumentsTypeStrict = z.object({
+  budgetProjet: z.string(),
+  budgetRectificatif: z.string(),
+  compteAdministratif: z.string(),
+  rapportActivite: z.string(),
+  rapportBudgetaire: z.string(),
+});
+
+export const DocumentsSchemaStrict = z.object({
+  less5Years: z.boolean(),
+  "2021": DocumentsTypeStrict,
+  "2022": DocumentsTypeStrict,
+  "2023": DocumentsTypeStrict,
+  "2024": DocumentsTypeStrict,
+  "2025": DocumentsTypeStrict,
+});
+
+export const DocumentsTypeFlexible = z.object({
+  budgetProjet: z.string().optional(),
+  budgetRectificatif: z.string().optional(),
+  compteAdministratif: z.string().optional(),
+  rapportActivite: z.string().optional(),
+  rapportBudgetaire: z.string().optional(),
+});
+
+export const DocumentsSchemaFlexible = z.object({
+  "2021": DocumentsTypeFlexible,
+  "2022": DocumentsTypeFlexible,
+  "2023": DocumentsTypeFlexible,
+  "2024": DocumentsTypeFlexible,
+  "2025": DocumentsTypeFlexible,
+});

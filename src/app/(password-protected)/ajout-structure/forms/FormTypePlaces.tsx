@@ -11,6 +11,7 @@ import { Table } from "@/app/components/common/Table";
 export default function FormTypePlaces() {
   const params = useParams();
   const previousRoute = `/ajout-structure/${params.dnaCode}/02-addresses`;
+  const nextRoute = `/ajout-structure/${params.dnaCode}/04-documents`;
 
   const years = useMemo(() => [2023, 2024, 2025] as const, []);
 
@@ -26,7 +27,7 @@ export default function FormTypePlaces() {
     <FormWrapper
       schema={TypePlacesSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-type-places`}
-      nextRoute={previousRoute}
+      nextRoute={nextRoute}
       mode="onBlur"
       defaultValues={mergedDefaultValues}
       className="gap-2"

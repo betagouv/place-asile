@@ -78,8 +78,8 @@ const Upload = ({
         ref={fileInputRef}
         onAbort={handleAbort}
         onChange={handleFileChange}
-        {...props}
       />
+      <input type="text" {...props} />
     </div>
   );
 };
