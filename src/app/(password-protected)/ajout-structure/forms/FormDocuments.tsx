@@ -133,7 +133,7 @@ export default function FormDocuments() {
 }
 
 type YearProps = PropsWithChildren & {
-  year: number;
+  year: string;
 };
 
 const Year = ({ children, year }: YearProps): ReactElement => {
