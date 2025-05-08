@@ -2,7 +2,7 @@
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
 import FormTypePlaces from "../../forms/FormTypePlaces";
 
-export default function StepInfo() {
+export default function StepTypePlaces() {
   return (
     <>
       <Stepper

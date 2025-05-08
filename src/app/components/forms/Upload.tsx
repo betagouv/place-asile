@@ -8,12 +8,24 @@ const Upload = ({
   onFileChange,
   onAbort,
   className,
+  value,
   ...props
 }: UploadProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const fileInputContainerRef = useRef(null);
+
+  const initialState = value ? "success" : "idle";
+  const [state, setState] = useState(initialState as UploadStates);
+
+  useEffect(() => {
+    if (value && state !== "success") {
+      setState("success");
+    } else if (!value && state === "success") {
+      setState("idle");
+    }
+  }, [value, state]);
 
   useEffect(() => {
     if (fileInputContainerRef.current) {
@@ -23,8 +35,6 @@ const Upload = ({
       autoAnimate(buttonRef.current);
     }
   }, [fileInputContainerRef, buttonRef]);
-
-  const [state, setState] = useState("idle" as UploadStates);
 
   const handleBrowse = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -42,7 +52,7 @@ const Upload = ({
     // mock a timeout
     setTimeout(() => {
       setState("success");
-    }, 5000);
+    }, 2000);
     if (file) {
       onFileChange?.(file);
     }
@@ -71,7 +81,7 @@ const Upload = ({
           </Button>
         </span>
       )}
-      {state === "success" && <span>Fichier chargé</span>}
+      {state === "success" && <span>Fichier chargé: {value}</span>}
       <input
         className="block display-none w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
         type="file"
@@ -79,7 +89,7 @@ const Upload = ({
         onAbort={handleAbort}
         onChange={handleFileChange}
       />
-      <input type="text" {...props} />
+      <input type="text" value={value || ""} {...props} />
     </div>
   );
 };

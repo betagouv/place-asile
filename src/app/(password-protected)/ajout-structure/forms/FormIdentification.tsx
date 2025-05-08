@@ -7,13 +7,13 @@ import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { PublicType, StructureType } from "@/types/structure.type";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 import { useParams } from "next/navigation";
-import { IdentificationSchema } from "@/app/(password-protected)/ajout-structure/validation/validation";
+import {
+  IdentificationFormValues,
+  IdentificationSchema,
+} from "@/app/(password-protected)/ajout-structure/validation/validation";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import autoAnimate from "@formkit/auto-animate";
-import { z } from "zod";
-
-type IdentificationFormValues = z.infer<typeof IdentificationSchema>;
 
 export default function FormIdentification() {
   const params = useParams();

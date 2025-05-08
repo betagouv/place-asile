@@ -9,9 +9,9 @@ import {
 } from "react-hook-form";
 import Upload from "./Upload";
 
-export default function SelectWithValidation<
+export default function UploadWithValidation<
   TFieldValues extends FieldValues = FieldValues
->({ name, control, required }: SelectWithValidationProps<TFieldValues>) {
+>({ name, control, required }: UploadWithValidationProps<TFieldValues>) {
   const finalControl = control;
 
   const { field } = useController({
@@ -22,31 +22,12 @@ export default function SelectWithValidation<
     },
   });
 
-  return (
-    // <Select
-    //   label={label}
-    //   nativeSelectProps={{
-    //     ...field,
-    //     onChange: (e) => {
-    //       field.onChange(e);
-    //       onChange?.(e.target.value);
-    //     },
-    //   }}
-    //   disabled={disabled}
-    //   state={fieldState.invalid ? "error" : "default"}
-    //   stateRelatedMessage={fieldState.error?.message}
-    // >
-    //   {children}
-    // </Select>
-
-    <Upload {...field} />
-  );
+  return <Upload {...field} />;
 }
 
-type SelectWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
+type UploadWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
   Partial<UseControllerProps<TFieldValues>> & {
     name: string;
-    label: string;
     control?: Control<TFieldValues>;
     required?: boolean;
   };

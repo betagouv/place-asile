@@ -63,6 +63,7 @@ const createRequiredDateFieldValidator = () =>
       )
   );
 
+export type IdentificationFormValues = z.infer<typeof IdentificationSchema>;
 export const IdentificationSchema = z.object({
   dnaCode: z.string().min(1, "Code DNA requis"),
   operateur: z.string().min(1, "L'opérateur est requis"),
@@ -108,9 +109,11 @@ const singleAdresseSchema = z.object({
 const extendedAdresseSchema = singleAdresseSchema.extend({
   places: z.any(),
   repartition: z.nativeEnum(Repartition),
-  typologies: z.array(z.enum(["logementSocial", "qpv"])),
+  qpv: z.boolean().optional(),
+  logementSocial: z.boolean().optional(),
 });
 
+export type AdressesFormValues = z.infer<typeof AdressesSchema>;
 export const AdressesSchema = z.object({
   nom: z.string().optional(),
   adresseAdministrative: z.string(),
@@ -126,6 +129,7 @@ export const AdressesSchema = z.object({
   adresses: z.array(extendedAdresseSchema).optional(),
 });
 
+export type PlacesFormValues = z.infer<typeof PlacesSchema>;
 export const PlacesSchema = z.object({
   autorisees: z.preprocess(
     (val) => (val === "" ? undefined : Number(val)),
@@ -151,12 +155,14 @@ export const PlacesSchema = z.object({
     .optional(),
 });
 
+export type TypePlacesFormValues = z.infer<typeof TypePlacesSchema>;
 export const TypePlacesSchema = z.object({
   "2023": PlacesSchema,
   "2024": PlacesSchema,
   "2025": PlacesSchema,
 });
 
+export type DocumentsTypeStrict = z.infer<typeof DocumentsSchemaStrict>;
 export const DocumentsTypeStrict = z.object({
   budgetProjet: z.string(),
   budgetRectificatif: z.string(),
@@ -165,6 +171,7 @@ export const DocumentsTypeStrict = z.object({
   rapportBudgetaire: z.string(),
 });
 
+export type DocumentsSchemaStrict = z.infer<typeof DocumentsSchemaStrict>;
 export const DocumentsSchemaStrict = z.object({
   less5Years: z.boolean(),
   "2021": DocumentsTypeStrict,
@@ -174,6 +181,7 @@ export const DocumentsSchemaStrict = z.object({
   "2025": DocumentsTypeStrict,
 });
 
+export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsTypeFlexible = z.object({
   budgetProjet: z.string().optional(),
   budgetRectificatif: z.string().optional(),
@@ -182,6 +190,7 @@ export const DocumentsTypeFlexible = z.object({
   rapportBudgetaire: z.string().optional(),
 });
 
+export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsSchemaFlexible = z.object({
   "2021": DocumentsTypeFlexible,
   "2022": DocumentsTypeFlexible,

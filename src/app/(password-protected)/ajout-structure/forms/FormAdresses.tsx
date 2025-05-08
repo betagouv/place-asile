@@ -15,6 +15,7 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import { useRef } from "react";
 import autoAnimate from "@formkit/auto-animate";
 import Upload from "@/app/components/forms/Upload";
+import { Controller } from "react-hook-form";
 
 export default function FormAdresses() {
   const params = useParams();
@@ -46,7 +47,8 @@ export default function FormAdresses() {
           departement: "",
           repartition: Repartition.DIFFUS,
           places: 0,
-          typologies: [],
+          logementSocial: false,
+          qpv: false,
         },
       ],
     }),
@@ -103,7 +105,8 @@ export default function FormAdresses() {
             departement: "",
             repartition: Repartition.DIFFUS,
             places: 0,
-            typologies: [],
+            logementSocial: false,
+            qpv: false,
           };
           const currentAddresses = getValues("adresses") || [];
           const updatedAddresses = [...currentAddresses, newAddress];
@@ -271,28 +274,43 @@ export default function FormAdresses() {
                             Particularités
                           </label>
                           <div className="flex w-full gap-4 items-center min-h-[2.6rem]">
-                            <Checkbox
-                              options={[
-                                {
-                                  label: "Logement social",
-                                  nativeInputProps: {
-                                    name: `adresses.${index}.typologies`,
-                                    value: "logementSocial",
-                                  },
-                                },
-                              ]}
+                            <Controller
+                              control={control}
+                              name={`adresses.${index}.logementSocial`}
+                              render={({ field }) => (
+                                <Checkbox
+                                  options={[
+                                    {
+                                      label: "Logement social",
+                                      nativeInputProps: {
+                                        name: field.name,
+                                        checked: field.value,
+                                        onChange: field.onChange,
+                                      },
+                                    },
+                                  ]}
+                                />
+                              )}
                             />
-                            <Checkbox
-                              options={[
-                                {
-                                  label: "QPV",
-                                  nativeInputProps: {
-                                    name: `adresses.${index}.typologies`,
-                                    value: "qpv",
-                                  },
-                                },
-                              ]}
+                            <Controller
+                              control={control}
+                              name={`adresses.${index}.qpv`}
+                              render={({ field }) => (
+                                <Checkbox
+                                  options={[
+                                    {
+                                      label: "QPV",
+                                      nativeInputProps: {
+                                        name: field.name,
+                                        checked: field.value,
+                                        onChange: field.onChange,
+                                      },
+                                    },
+                                  ]}
+                                />
+                              )}
                             />
+
                             {index !== 0 && (
                               <Button
                                 iconId="fr-icon-delete-line"

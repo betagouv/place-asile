@@ -2,7 +2,7 @@
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
 import FormDocuments from "../../forms/FormDocuments";
 
-export default function StepInfo() {
+export default function StepDocuments() {
   return (
     <>
       <Stepper

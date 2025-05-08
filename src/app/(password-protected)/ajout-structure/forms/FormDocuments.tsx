@@ -1,5 +1,5 @@
 "use client";
-import { PropsWithChildren, ReactElement, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Controller } from "react-hook-form";
@@ -11,12 +11,14 @@ import {
   DocumentsSchemaStrict,
   DocumentsSchemaFlexible,
 } from "../validation/validation";
-import Upload from "@/app/components/forms/Upload";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
+import { Year } from "../components/Year";
+import { UploadItem } from "../components/UploadItem";
 
 export default function FormDocuments() {
   const params = useParams();
   const previousRoute = `/ajout-structure/${params.dnaCode}/03-type-places`;
+  const nextRoute = `/ajout-structure/${params.dnaCode}/05-verification`;
 
   const years = useMemo(
     () => ["2025", "2024", "2023", "2022", "2021"] as const,
@@ -57,7 +59,7 @@ export default function FormDocuments() {
       key={less5Years ? "schema-flexible" : "schema-strict"} // 🔑 force un remount
       schema={selectedSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
-      nextRoute={previousRoute}
+      nextRoute={nextRoute}
       mode="onBlur"
       defaultValues={mergedDefaultValues}
       className="gap-0"
@@ -70,7 +72,7 @@ export default function FormDocuments() {
               className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2 mb-8"
             >
               <i className="fr-icon-arrow-left-s-line before:w-4"></i>
-              Étape précédente
+              Revenir au formulaire
             </Link>
 
             <p>
@@ -100,26 +102,41 @@ export default function FormDocuments() {
 
             {years.map((year) => (
               <Year key={year} year={year}>
+                <p className="text-disabled-grey mb-0 text-xs col-span-3">
+                  Taille maximale par fichier : 10 Mo. Formats supportés : pdf,
+                  xls, xlsx, csv et ods.
+                </p>
                 <UploadItem title={`Projet de budget pour ${year}`}>
                   <UploadWithValidation
                     name={`${year}.budgetProjet`}
                     control={control}
-                    label="huhu"
                   />
                 </UploadItem>
                 <UploadItem title={`Budget rectificatif ${year}`}>
-                  <Upload />
+                  <UploadWithValidation
+                    name={`${year}.budgetRectificatif`}
+                    control={control}
+                  />
                 </UploadItem>
                 {year !== "2025" && (
                   <>
                     <UploadItem title={`Compte administratif pour  ${year}`}>
-                      <Upload name="" />
+                      <UploadWithValidation
+                        name={`${year}.compteAdministratif`}
+                        control={control}
+                      />
                     </UploadItem>
                     <UploadItem title="Rapport d’activité">
-                      <Upload name="" />
+                      <UploadWithValidation
+                        name={`${year}.rapportActivite`}
+                        control={control}
+                      />
                     </UploadItem>
                     <UploadItem title="Rapport budgétaire">
-                      <Upload name="" />
+                      <UploadWithValidation
+                        name={`${year}.rapportBudgetaire`}
+                        control={control}
+                      />
                     </UploadItem>
                   </>
                 )}
@@ -131,35 +148,3 @@ export default function FormDocuments() {
     </FormWrapper>
   );
 }
-
-type YearProps = PropsWithChildren & {
-  year: string;
-};
-
-const Year = ({ children, year }: YearProps): ReactElement => {
-  return (
-    <fieldset className="flex flex-col gap-4 border-default-grey border-b pb-8 mb-6">
-      <h2 className="text-title-blue-france text-xl mb-0">{year}</h2>
-      <p className="text-disabled-grey mb-0 text-xs">
-        Taille maximale par fichier : 10 Mo. Formats supportés : pdf, xls, xlsx,
-        csv et ods.
-      </p>
-      <div className="grid grid-cols-3 gap-10">{children}</div>
-    </fieldset>
-  );
-};
-
-type UploadItemProps = PropsWithChildren & {
-  title: string;
-};
-
-const UploadItem = ({ children, title }: UploadItemProps): ReactElement => {
-  return (
-    <div className="flex flex-col gap-2">
-      <h3 className="text-title-blue-france text-sm font-medium mb-0 ">
-        {title}
-      </h3>
-      {children}
-    </div>
-  );
-};
