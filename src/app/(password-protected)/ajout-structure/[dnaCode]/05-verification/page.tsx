@@ -1,0 +1,140 @@
+"use client";
+import Button from "@codegouvfr/react-dsfr/Button";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+
+import { Identification } from "./components/Identification";
+import { StepResume } from "./components/StepResume";
+import { Adresses } from "./components/Adresses";
+import { TypePlaces } from "./components/TypePlaces";
+import { DocumentsFinanciers } from "./components/DocumentsFinanciers";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import {
+  AdressesFormValues,
+  IdentificationFormValues,
+  TypePlacesFormValues,
+  DocumentsSchemaFlexible,
+} from "../../validation/validation";
+
+export default function StepVerification() {
+  const params = useParams();
+  const previousRoute = `/ajout-structure/${params.dnaCode}/04-documents`;
+
+  const {
+    currentValue: identificationValues,
+    resetLocalStorageValues: resetIdentification,
+  } = useLocalStorage<Partial<IdentificationFormValues>>(
+    `ajout-structure-${params.dnaCode}-identification`,
+    {}
+  );
+
+  const {
+    currentValue: adressesValues,
+    resetLocalStorageValues: resetAdresses,
+  } = useLocalStorage<Partial<AdressesFormValues>>(
+    `ajout-structure-${params.dnaCode}-adresses`,
+    {}
+  );
+
+  const {
+    currentValue: typePlacesValues,
+    resetLocalStorageValues: resetTypePlaces,
+  } = useLocalStorage<Partial<TypePlacesFormValues>>(
+    `ajout-structure-${params.dnaCode}-type-places`,
+    {}
+  );
+
+  const {
+    currentValue: documentsFinanciersValues,
+    resetLocalStorageValues: resetDocuments,
+  } = useLocalStorage<Partial<DocumentsSchemaFlexible>>(
+    `ajout-structure-${params.dnaCode}-documents`,
+    {}
+  );
+
+  const handleSubmit = () => {
+    // TODO:Maybe a last frontend validation ?
+
+    console.log("Submit");
+    const allValues = {
+      ...identificationValues,
+      ...adressesValues,
+      ...typePlacesValues,
+      ...documentsFinanciersValues,
+    };
+    console.log("allValues", allValues);
+    // TODO:Send allValues to API
+  };
+
+  const handleCancel = () => {
+    const confirmReset = window.confirm(
+      "Attention : Toutes les données saisies vont être effacées. Êtes-vous sûr·e de vouloir continuer ?"
+    );
+
+    if (confirmReset) {
+      resetIdentification(`ajout-structure-${params.dnaCode}-identification`);
+      resetAdresses(`ajout-structure-${params.dnaCode}-adresses`);
+      resetTypePlaces(`ajout-structure-${params.dnaCode}-type-places`);
+      resetDocuments(`ajout-structure-${params.dnaCode}-documents`);
+
+      window.location.reload();
+    }
+  };
+
+  return (
+    <>
+      <div>
+        <h1 className=" text-title-blue-france text-xl mb-0 flex gap-2">
+          <i className="ri-list-check-3 before:w-4"></i>
+          Vérification des données
+        </h1>
+        <p>
+          Veuillez vérifier que l’ensemble des données saisies sont correctes
+        </p>
+      </div>
+      <div className="bg-white p-6 rounded-lg border border-default-grey">
+        <Link
+          href={previousRoute}
+          className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2 mb-8"
+        >
+          <i className="fr-icon-arrow-left-s-line before:w-4"></i>
+          Étape précédente
+        </Link>
+
+        <StepResume
+          className="mt-10"
+          title="Identification de la structure"
+          link={`/ajout-structure/${params.dnaCode}/01-identification`}
+        >
+          <Identification />
+        </StepResume>
+        <StepResume
+          title="Adresses"
+          link={`/ajout-structure/${params.dnaCode}/02-adresses`}
+        >
+          <Adresses />
+        </StepResume>
+        <StepResume
+          title="Types de places"
+          link={`/ajout-structure/${params.dnaCode}/03-type-places`}
+        >
+          <TypePlaces />
+        </StepResume>
+        <StepResume
+          title="Documents financiers"
+          link={`/ajout-structure/${params.dnaCode}/04-documents`}
+        >
+          <DocumentsFinanciers />
+        </StepResume>
+        <div className="flex justify-end gap-4 mt-6">
+          <Button priority="secondary" onClick={handleCancel}>
+            Annuler
+          </Button>
+          <Button type="submit" onClick={handleSubmit}>
+            Valider et terminer
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+}

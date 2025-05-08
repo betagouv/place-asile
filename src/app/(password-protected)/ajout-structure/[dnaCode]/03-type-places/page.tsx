@@ -1,18 +1,18 @@
 "use client";
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
-import FormAdresses from "../../forms/FormAdresses";
+import FormTypePlaces from "../../forms/FormTypePlaces";
 
-export default function StepInfo() {
+export default function StepTypePlaces() {
   return (
     <>
       <Stepper
         currentStep={3}
-        nextTitle="Types de places"
+        nextTitle="Documents financiers"
         stepCount={4}
-        title="Adresses"
+        title="Types de places"
       />
 
-      <FormAdresses />
+      <FormTypePlaces />
     </>
   );
 }
