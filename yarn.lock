@@ -189,10 +189,10 @@
     "@babel/helper-string-parser" "^7.27.1"
     "@babel/helper-validator-identifier" "^7.27.1"
 
-"@codegouvfr/react-dsfr@^1.23.3":
-  version "1.23.3"
-  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-1.23.3.tgz#02f2bc129038422b3d940cced9fb44d17bc5e073"
-  integrity sha512-+JUGPh4jblfmmUAswjRxFghLMsuh+COzozzBthGjt5gYJ8xYBRHtHpD1ZQDCZc2QcxbSY2yhpMGPuGaofBm2sQ==
+"@codegouvfr/react-dsfr@^1.23.4":
+  version "1.23.4"
+  resolved "https://registry.yarnpkg.com/@codegouvfr/react-dsfr/-/react-dsfr-1.23.4.tgz#a2bd7afcf6f6d2caba362a43576c07bdf155bb1c"
+  integrity sha512-DPAKstdVaUokYGMA2zmINM3Gmi3+zKG8x4okTETDRHbXqzr+G8DjslMNffwCVWW9CUHLSA/JIeyvQQFF2fxZ0A==
   dependencies:
     tsafe "^1.8.5"
     yargs-parser "^21.1.1"
@@ -1273,21 +1273,21 @@
     "@types/geojson" "*"
 
 "@types/node@^22":
-  version "22.15.17"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.17.tgz#355ccec95f705b664e4332bb64a7f07db30b7055"
-  integrity sha512-wIX2aSZL5FE+MR0JlvF87BNVrtFWf6AE6rxSE9X7OwnVvoyCQjpzSRJ+M87se/4QCkCiebQAqrJ0y6fwIyi7nw==
+  version "22.15.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.18.tgz#2f8240f7e932f571c2d45f555ba0b6c3f7a75963"
+  integrity sha512-v1DKRfUdyW+jJhZNEI1PYy29S2YRxMV5AOO/x/SjKmW0acCIOqmbj6Haf9eHAhsPmrhlHSxEhv/1WszcLWV4cg==
   dependencies:
     undici-types "~6.21.0"
 
 "@types/react-dom@^19":
-  version "19.1.3"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-19.1.3.tgz#3f0c60804441bf34d19f8dd0d44405c0c0e21bfa"
-  integrity sha512-rJXC08OG0h3W6wDMFxQrZF00Kq6qQvw0djHRdzl3U5DnIERz0MRce3WVc7IS6JYBwtaP/DwYtRRjVlvivNveKg==
+  version "19.1.5"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-19.1.5.tgz#cdfe2c663742887372f54804b16e8dbc26bd794a"
+  integrity sha512-CMCjrWucUBZvohgZxkjd6S9h0nZxXjzus6yDfUb+xLxYM7VvjKNH1tQrE9GWLql1XoOP4/Ds3bwFqShHUYraGg==
 
 "@types/react@^19":
-  version "19.1.3"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-19.1.3.tgz#c75a24b775a63280b02c66a55a3cfa04f4022cf7"
-  integrity sha512-dLWQ+Z0CkIvK1J8+wrDPwGxEYFA4RAyHoZPxHVGspYmFVnwGSNT24cGIhFJrtfRnWVuW8X7NO52gCXmhkVUWGQ==
+  version "19.1.4"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-19.1.4.tgz#4d125f014d6ac26b4759775698db118701e314fe"
+  integrity sha512-EB1yiiYdvySuIITtD5lhW4yPyJ31RkJkkDw794LaQYrxCSaQV/47y5o1FMC4zF9ZyjUjzJMZwbovEnT5yHTW6g==
   dependencies:
     csstype "^3.0.2"
 
