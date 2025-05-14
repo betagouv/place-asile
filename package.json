@@ -25,7 +25,7 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^1.23.3",
+    "@codegouvfr/react-dsfr": "^1.23.4",
     "@formkit/auto-animate": "^0.8.2",
     "@gouvfr/dsfr-chart": "1.0.0",
     "@hookform/resolvers": "^5.0.1",
