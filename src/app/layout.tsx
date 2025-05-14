@@ -15,6 +15,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {
+  console.log("Environnement :", process.env.NODE_ENV);
+
   const lang = "fr";
   return (
     <html {...getHtmlAttributes({ lang })} dir="ltr">
