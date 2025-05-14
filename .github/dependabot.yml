@@ -12,3 +12,4 @@ updates:
         update-types:
           - "patch"
           - "minor"
+    target-branch: "dev"
