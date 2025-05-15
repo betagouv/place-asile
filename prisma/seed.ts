@@ -1,18 +1,19 @@
 import { PrismaClient, Structure } from "@prisma/client";
 import { wipeTables } from "./utils/wipe";
-import {
-  extractAdressesFromCsv,
+import { CsvExtract } from "./utils/csv-extract";
+import { extractActivitesFromOds } from "./utils/activites-extract";
+
+const prisma = new PrismaClient();
+const {
   extractStructuresFromCsv,
+  extractAdressesFromCsv,
   extractContactsFromCsv,
   extractAdresseTypologiesFromCsv,
   extractControlesFromCsv,
   extractEvaluationsFromCsv,
   extractEIGsFromCsv,
   extractStructureTypologiesFromCsv,
-} from "./utils/csv-extract";
-import { extractActivitesFromOds } from "./utils/activites-extract";
-
-const prisma = new PrismaClient();
+} = new CsvExtract();
 
 const convertAddressToCoordinates = async (address: string) => {
   console.log(`> Converting ${address}`);
