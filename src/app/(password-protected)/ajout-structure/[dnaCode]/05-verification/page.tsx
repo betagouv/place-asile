@@ -55,7 +55,6 @@ export default function StepVerification() {
   const handleSubmit = () => {
     // TODO:Maybe a last frontend validation ?
 
-    console.log("Submit");
     const allValues = {
       ...identificationValues,
       ...adressesValues,

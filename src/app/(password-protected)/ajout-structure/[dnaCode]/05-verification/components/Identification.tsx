@@ -23,7 +23,7 @@ export const Identification = () => {
       </div>
       <div className="grid grid-cols-2 border-b border-default-grey pb-2 mb-3">
         <p className="flex gap-4 mb-0">
-          <b>Code Finess</b> {localStorageValues?.finessCode}
+          <b>Code FINESS</b> {localStorageValues?.finessCode}
         </p>
         <p className="flex gap-4 mb-0">
           <b>Public</b> {localStorageValues?.public}

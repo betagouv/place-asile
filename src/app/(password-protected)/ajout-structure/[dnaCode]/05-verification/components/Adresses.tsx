@@ -24,9 +24,12 @@ export const Adresses = () => {
       <h3 className="text-title-blue-france w-full flex justify-between text-lg">
         Hébergements
       </h3>
-      {localStorageValues?.adresses?.map((hebergement, i) => {
+      {localStorageValues?.adresses?.map((hebergement, index) => {
         return (
-          <p key={`${i}-${hebergement.codePostal}`} className="flex gap-1 mb-2">
+          <p
+            key={`${index}-${hebergement.codePostal}`}
+            className="flex gap-1 mb-2"
+          >
             {hebergement?.adresseComplete && (
               <span>{hebergement?.adresseComplete}</span>
             )}

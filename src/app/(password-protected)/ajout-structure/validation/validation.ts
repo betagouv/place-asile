@@ -197,4 +197,5 @@ export const DocumentsSchemaFlexible = z.object({
   "2023": DocumentsTypeFlexible,
   "2024": DocumentsTypeFlexible,
   "2025": DocumentsTypeFlexible,
+  // TODO: Gérer les années dynamiquement
 });

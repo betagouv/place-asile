@@ -56,7 +56,8 @@ export default function FormDocuments() {
 
   return (
     <FormWrapper
-      key={less5Years ? "schema-flexible" : "schema-strict"} // 🔑 force un remount
+      // ⚠ La clé permet de forcer un remount du formulaire pour que le changement de schema soit pris en compte
+      key={less5Years ? "schema-flexible" : "schema-strict"}
       schema={selectedSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
       nextRoute={nextRoute}
@@ -88,9 +89,9 @@ export default function FormDocuments() {
                 <ToggleSwitch
                   label="Ma structure a moins de 5 ans d’existence sur le programme 303."
                   checked={value}
-                  onChange={(v) => {
-                    onChange(v);
-                    handle5YearsChange(v);
+                  onChange={(value) => {
+                    onChange(value);
+                    handle5YearsChange(value);
                   }}
                   name={name}
                   className="w-fit mb-8"
