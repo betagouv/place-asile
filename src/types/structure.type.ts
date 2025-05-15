@@ -1,11 +1,12 @@
 import { LatLngTuple } from "leaflet";
 import { Controle } from "./controle.type";
 import { Evaluation } from "./evaluation.type";
-import { EvenementIndesirableGrave } from "./evenementIndesirableGrave.type";
+import { EvenementIndesirableGrave } from "./evenement-indesirable-grave.type";
 import { Adresse } from "./adresse.type";
 import { Contact } from "./contact.type";
 import { StructureTypologie } from "./structure-typologie.type";
 import { Activite } from "./activite.type";
+import { FileUpload } from "./file-upload.type";
 
 export type Structure = {
   id: number;
@@ -45,6 +46,7 @@ export type Structure = {
   contacts?: Contact[];
   typologies?: StructureTypologie[];
   activites?: Activite[];
+  fileUploads?: FileUpload[];
 };
 
 export type StructureWithLatLng = Structure & {

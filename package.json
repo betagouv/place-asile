@@ -21,7 +21,7 @@
     "prisma:seed": "npx prisma db seed",
     "prisma:studio": "npx prisma studio",
     "prisma:reset": "npx prisma migrate reset",
-    "predev": "react-dsfr update-icons",
+    "predev": "react-dsfr update-icons --silent",
     "prebuild": "react-dsfr update-icons",
     "postinstall": "patch-package"
   },
@@ -39,6 +39,7 @@
     "dayjs": "^1.11.13",
     "leaflet": "^1.9.4",
     "next": "15.3.2",
+    "minio": "^8.0.5",
     "next-auth": "^4.24.11",
     "next-leaflet-cluster": "^1.0.0",
     "postcss": "^8.5.3",

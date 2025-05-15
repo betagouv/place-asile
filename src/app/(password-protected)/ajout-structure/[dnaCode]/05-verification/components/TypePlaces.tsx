@@ -1,0 +1,37 @@
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { TypePlacesSchema } from "../../../validation/validation";
+import { useParams } from "next/navigation";
+import { z } from "zod";
+import { Table } from "@/app/components/common/Table";
+import { useMemo } from "react";
+
+type TypePlacesFormValues = z.infer<typeof TypePlacesSchema>;
+export const TypePlaces = () => {
+  const params = useParams();
+  const { currentValue: localStorageValues } = useLocalStorage<
+    Partial<TypePlacesFormValues>
+  >(`ajout-structure-${params.dnaCode}-type-places`, {});
+
+  const years = useMemo(() => [2023, 2024, 2025] as const, []);
+
+  return (
+    <Table
+      headings={["Année", "Autorisées", "PMR", "LGBT", "FVV/TEH"]}
+      ariaLabelledBy=""
+      className="[&_th]:px-0 text-center w-1/3"
+    >
+      {years.map((year) => (
+        <tr
+          key={year}
+          className="w-full [&_input]:max-w-[4rem] border-t border-default-grey "
+        >
+          <td className="align-middle py-4">{year}</td>
+          <td className="!py-4">{localStorageValues?.[year]?.autorisees}</td>
+          <td className="!py-1">{localStorageValues?.[year]?.pmr}</td>
+          <td className="!py-1">{localStorageValues?.[year]?.lgbt}</td>
+          <td className="!py-1">{localStorageValues?.[year]?.fvvTeh}</td>
+        </tr>
+      ))}
+    </Table>
+  );
+};

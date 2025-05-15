@@ -47,6 +47,7 @@ model Structure {
   contacts                     Contact[]
   structureTypologies          StructureTypologie[]
   activites                    Activite[]
+  fileUploads                  FileUpload[]
 }
 
 model Controle {
@@ -134,6 +135,18 @@ model Activite {
   placesVacantes           Int	
   presencesInduesBPI       Int	
   presencesInduesDeboutees Int
+}
+
+model FileUpload {
+  id                       Int  @id @default(autoincrement())
+  structure                Structure? @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode         String?
+  key                      String
+  mimeType                 String
+  fileSize                 Int
+  originalName             String
+  date                     DateTime
+  category                 String
 }
 
 enum Repartition {
