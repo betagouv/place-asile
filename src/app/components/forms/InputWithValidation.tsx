@@ -8,6 +8,7 @@ import {
   FieldValues,
 } from "react-hook-form";
 import Input from "@codegouvfr/react-dsfr/Input";
+import InputSimple from "../ui/InputSimple";
 
 export default function InputWithValidation<
   TFieldValues extends FieldValues = FieldValues
@@ -23,6 +24,7 @@ export default function InputWithValidation<
   className,
   state,
   stateRelatedMessage,
+  variant,
 }: InputWithValidationProps<TFieldValues>) {
   const finalControl = control;
 
@@ -72,7 +74,21 @@ export default function InputWithValidation<
     return field.value || "";
   };
 
-  return (
+  return variant === "simple" ? (
+    <InputSimple
+      nativeInputProps={{
+        type,
+        onChange: type === "date" ? handleDateChange : field.onChange,
+        value: type === "date" ? getHtmlDateValue() : field.value || "",
+        onBlur: field.onBlur,
+      }}
+      {...field}
+      label={label}
+      className={className}
+      state={state || (fieldState.invalid ? "error" : "default")}
+      stateRelatedMessage={stateRelatedMessage || fieldState.error?.message}
+    />
+  ) : (
     <Input
       nativeInputProps={{
         type,
@@ -105,4 +121,5 @@ type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     className?: string;
     state?: "default" | "error" | "success";
     stateRelatedMessage?: string;
+    variant?: "simple";
   };

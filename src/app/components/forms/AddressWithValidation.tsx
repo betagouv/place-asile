@@ -209,10 +209,22 @@ export default function AddressWithValidation<
           />
         )}
         {latitude && (
-          <input {...latFieldResult.field} aria-hidden="true" type="hidden" />
+          <input
+            {...latFieldResult.field}
+            value={latFieldResult.field.value ?? ""}
+            onChange={latFieldResult.field.onChange}
+            aria-hidden="true"
+            type="hidden"
+          />
         )}
         {longitude && (
-          <input {...longFieldResult.field} aria-hidden="true" type="hidden" />
+          <input
+            {...longFieldResult.field}
+            value={longFieldResult.field.value ?? ""}
+            onChange={longFieldResult.field.onChange}
+            aria-hidden="true"
+            type="hidden"
+          />
         )}
       </div>
     </div>

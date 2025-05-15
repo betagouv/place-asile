@@ -23,7 +23,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <head>
         <DsfrHead />
       </head>
-      <body className="overscroll-none">
+      <body className="overscroll-none bg-default-grey-hover">
         <DsfrProvider lang={lang}>
           <Providers>{children}</Providers>
         </DsfrProvider>

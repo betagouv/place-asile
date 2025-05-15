@@ -1,3 +1,4 @@
+import { cn } from "@/app/utils/classname.util";
 import { PropsWithChildren, ReactElement } from "react";
 
 export const Table = ({
@@ -5,9 +6,15 @@ export const Table = ({
   title,
   headings,
   ariaLabelledBy,
+  className,
 }: Props): ReactElement => {
   return (
-    <div className="w-full bg-lifted-grey border-1 border-default-grey rounded-lg">
+    <div
+      className={cn(
+        "w-full bg-lifted-grey border-1 border-default-grey rounded-lg",
+        className
+      )}
+    >
       <table aria-labelledby={ariaLabelledBy} className="w-full">
         {title && <caption>{title}</caption>}
         <thead>
@@ -35,4 +42,5 @@ type Props = PropsWithChildren<{
   title?: string;
   headings: string[];
   ariaLabelledBy: string;
+  className?: string;
 }>;
