@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Table } from "@codegouvfr/react-dsfr/Table";
-import { EvenementIndesirableGrave } from "@/types/evenementIndesirableGrave.type";
+import { EvenementIndesirableGrave } from "@/types/evenement-indesirable-grave.type";
 
 export const EIGTable = ({
   evenementsIndesirablesGraves,

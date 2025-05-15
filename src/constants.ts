@@ -8,3 +8,13 @@ export const DEFAULT_PAGE_SIZE = 10;
 
 // Cookie expiration times
 export const ONE_WEEK_IN_SECONDS = 60 * 60 * 24 * 7;
+
+export const FILE_UPLOAD_EXPIRATION_DELAY = 60 * 60; // 1 hour
+export const ALLOWED_MIME_TYPES = [
+  "application/pdf",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.oasis.opendocument.spreadsheet",
+  "text/csv",
+];
+export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 Mo

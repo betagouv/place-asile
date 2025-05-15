@@ -1,7 +1,7 @@
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
 import { Evaluation } from "@/types/evaluation.type";
-import { EvenementIndesirableGrave } from "@/types/evenementIndesirableGrave.type";
+import { EvenementIndesirableGrave } from "@/types/evenement-indesirable-grave.type";
 import { ReactElement } from "react";
 import { EvaluationTable } from "./EvaluationTable";
 import { EIGTable } from "./EIGTable";

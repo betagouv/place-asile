@@ -63,6 +63,7 @@ const createRequiredDateFieldValidator = () =>
       )
   );
 
+export type IdentificationFormValues = z.infer<typeof IdentificationSchema>;
 export const IdentificationSchema = z.object({
   dnaCode: z.string().min(1, "Code DNA requis"),
   operateur: z.string().min(1, "L'opérateur est requis"),
@@ -108,9 +109,11 @@ const singleAdresseSchema = z.object({
 const extendedAdresseSchema = singleAdresseSchema.extend({
   places: z.any(),
   repartition: z.nativeEnum(Repartition),
-  typologies: z.array(z.enum(["logementSocial", "qpv"])),
+  qpv: z.boolean().optional(),
+  logementSocial: z.boolean().optional(),
 });
 
+export type AdressesFormValues = z.infer<typeof AdressesSchema>;
 export const AdressesSchema = z.object({
   nom: z.string().optional(),
   adresseAdministrative: z.string(),
@@ -124,4 +127,75 @@ export const AdressesSchema = z.object({
       Object.values(Repartition).join(", "),
   }),
   adresses: z.array(extendedAdresseSchema).optional(),
+});
+
+export type PlacesFormValues = z.infer<typeof PlacesSchema>;
+export const PlacesSchema = z.object({
+  autorisees: z.preprocess(
+    (val) => (val === "" ? undefined : Number(val)),
+    z.number()
+  ),
+  pmr: z
+    .preprocess(
+      (val) => (val === "" ? undefined : Number(val)),
+      z.number().optional()
+    )
+    .optional(),
+  lgbt: z
+    .preprocess(
+      (val) => (val === "" ? undefined : Number(val)),
+      z.number().optional()
+    )
+    .optional(),
+  fvvTeh: z
+    .preprocess(
+      (val) => (val === "" ? undefined : Number(val)),
+      z.number().optional()
+    )
+    .optional(),
+});
+
+export type TypePlacesFormValues = z.infer<typeof TypePlacesSchema>;
+export const TypePlacesSchema = z.object({
+  "2023": PlacesSchema,
+  "2024": PlacesSchema,
+  "2025": PlacesSchema,
+});
+
+export type DocumentsTypeStrict = z.infer<typeof DocumentsSchemaStrict>;
+export const DocumentsTypeStrict = z.object({
+  budgetProjet: z.string(),
+  budgetRectificatif: z.string(),
+  compteAdministratif: z.string(),
+  rapportActivite: z.string(),
+  rapportBudgetaire: z.string(),
+});
+
+export type DocumentsSchemaStrict = z.infer<typeof DocumentsSchemaStrict>;
+export const DocumentsSchemaStrict = z.object({
+  less5Years: z.boolean(),
+  "2021": DocumentsTypeStrict,
+  "2022": DocumentsTypeStrict,
+  "2023": DocumentsTypeStrict,
+  "2024": DocumentsTypeStrict,
+  "2025": DocumentsTypeStrict,
+});
+
+export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
+export const DocumentsTypeFlexible = z.object({
+  budgetProjet: z.string().optional(),
+  budgetRectificatif: z.string().optional(),
+  compteAdministratif: z.string().optional(),
+  rapportActivite: z.string().optional(),
+  rapportBudgetaire: z.string().optional(),
+});
+
+export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;
+export const DocumentsSchemaFlexible = z.object({
+  "2021": DocumentsTypeFlexible,
+  "2022": DocumentsTypeFlexible,
+  "2023": DocumentsTypeFlexible,
+  "2024": DocumentsTypeFlexible,
+  "2025": DocumentsTypeFlexible,
+  // TODO: Gérer les années dynamiquement
 });
