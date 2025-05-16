@@ -102,7 +102,7 @@ describe("useFileUpload", () => {
       });
       expect(mockFetch).toHaveBeenNthCalledWith(
         2,
-        "/api/files?fileName=file-123"
+        "/api/files/file-123?getLink=true"
       );
       expect(uploadResult).toEqual({
         ...mockUploadResponse,
@@ -174,7 +174,7 @@ describe("useFileUpload", () => {
       );
       expect(mockFetch).toHaveBeenNthCalledWith(
         2,
-        `/api/files?fileName=${fileKey}`
+        `/api/files/${encodeURIComponent(fileKey)}?getLink=true`
       );
       expect(fileResult).toEqual({
         ...mockFileResponse,
@@ -203,7 +203,9 @@ describe("useFileUpload", () => {
 
       // THEN
       expect(mockFetch).toHaveBeenCalledTimes(1);
-      expect(mockFetch).toHaveBeenCalledWith(`/api/files?fileName=${fileName}`);
+      expect(mockFetch).toHaveBeenCalledWith(
+        `/api/files/${encodeURIComponent(fileName)}?getLink=true`
+      );
       expect(downloadUrl).toEqual(mockDownloadUrl);
     });
   });
@@ -228,7 +230,7 @@ describe("useFileUpload", () => {
       // THEN
       expect(mockFetch).toHaveBeenCalledTimes(1);
       expect(mockFetch).toHaveBeenCalledWith(
-        `/api/files/${encodeURIComponent(fileKey)}/delete`,
+        `/api/files/${encodeURIComponent(fileKey)}`,
         {
           method: "DELETE",
         }
@@ -241,7 +243,7 @@ describe("useFileUpload", () => {
 
       mockFetch.mockResolvedValueOnce({
         ok: false,
-        json: () => Promise.resolve({ error: "Delete failed" }),
+        json: () => Promise.resolve({ error: "Erreur lors de la suppression" }),
       });
 
       // WHEN
@@ -249,7 +251,7 @@ describe("useFileUpload", () => {
 
       // THEN
       await expect(result.current.deleteFile(fileKey)).rejects.toThrow(
-        "Delete failed"
+        "Erreur lors de la suppression"
       );
 
       expect(mockFetch).toHaveBeenCalledTimes(1);
