@@ -35,7 +35,7 @@ export const StructuresTable = ({
     return (
       <>
         <span>{mainCommune} </span>
-        {Object.keys(mainCommune).length > 1 && (
+        {mainCommune && Object.keys(mainCommune).length > 1 && (
           <span className="underline text-mention-grey inline-flex ms-1">
             + {Object.keys(mainCommune).length} autres
           </span>

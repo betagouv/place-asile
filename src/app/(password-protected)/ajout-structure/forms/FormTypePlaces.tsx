@@ -20,6 +20,7 @@ export default function FormTypePlaces() {
     `ajout-structure-${params.dnaCode}-type-places`,
     {}
   );
+
   const mergedDefaultValues = useMemo(() => {
     return localStorageValues || {};
   }, [localStorageValues]);
@@ -34,7 +35,7 @@ export default function FormTypePlaces() {
       className="gap-2"
       submitButtonText="Étape suivante"
     >
-      {({ control }) => {
+      {({ control, register }) => {
         return (
           <>
             <Link
@@ -62,7 +63,7 @@ export default function FormTypePlaces() {
               ariaLabelledBy=""
               className="[&_th]:px-0 text-center w-fit "
             >
-              {years.map((year) => (
+              {years.map((year, index) => (
                 <tr
                   key={year}
                   className="w-full [&_input]:max-w-[4rem] border-t border-default-grey "
@@ -70,7 +71,7 @@ export default function FormTypePlaces() {
                   <td className="align-middle py-4">{year}</td>
                   <td className="!py-4">
                     <InputWithValidation
-                      name={`${year}.autorisees`}
+                      name={`typologies.${index}.autorisees`}
                       control={control}
                       type="number"
                       label=""
@@ -80,7 +81,7 @@ export default function FormTypePlaces() {
                   </td>
                   <td className="!py-1">
                     <InputWithValidation
-                      name={`${year}.pmr`}
+                      name={`typologies.${index}.pmr`}
                       control={control}
                       type="number"
                       label=""
@@ -90,7 +91,7 @@ export default function FormTypePlaces() {
                   </td>
                   <td className="!py-1">
                     <InputWithValidation
-                      name={`${year}.lgbt`}
+                      name={`typologies.${index}.lgbt`}
                       control={control}
                       type="number"
                       label=""
@@ -100,12 +101,18 @@ export default function FormTypePlaces() {
                   </td>
                   <td className="!py-1">
                     <InputWithValidation
-                      name={`${year}.fvvTeh`}
+                      name={`typologies.${index}.fvvTeh`}
                       control={control}
                       type="number"
                       label=""
                       className="mb-0 mx-auto items-center  "
                       variant="simple"
+                    />
+                    <input
+                      // value={new Date(year, 0, 1, 13).toISOString()} TODO: gérer cette date
+                      aria-hidden="true"
+                      type="hidden"
+                      {...register(`typologies.${index}.date`)}
                     />
                   </td>
                 </tr>

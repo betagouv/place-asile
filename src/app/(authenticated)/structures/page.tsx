@@ -1,14 +1,26 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { SegmentedControl } from "../../components/common/SegmentedControl";
 import { useStructures } from "../../hooks/useStructures";
 import { StructuresTable } from "./StructuresTable";
+import { Structure } from "@/types/structure.type";
 
 export default function Structures(): ReactElement {
-  const structures = useStructures();
+  const [structures, setStructures] = useState<Structure[]>([]);
+  const { getStructures } = useStructures();
   const [selectedVisualization, setSelectedVisualization] = useState("carte");
+
+  // TODO : déplacer côté serveur
+  useEffect(() => {
+    const loadStructures = async () => {
+      const result = await getStructures();
+      setStructures(result);
+    };
+    loadStructures();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const StructuresMap = useMemo(
     () =>

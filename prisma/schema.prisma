@@ -141,12 +141,12 @@ model FileUpload {
   id                       Int  @id @default(autoincrement())
   structure                Structure? @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode         String?
-  key                      String
+  key                      String @unique
   mimeType                 String
   fileSize                 Int
   originalName             String
-  date                     DateTime
-  category                 String
+  date                     DateTime?
+  category                 String?
 }
 
 enum Repartition {

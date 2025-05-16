@@ -49,6 +49,9 @@ const createRequiredDateFieldValidator = () =>
   z.preprocess(
     (val) => {
       if (typeof val === "string") {
+        console.log(">>>>>>>>>>", parseDateString(val) || val);
+        console.log("==========", dayjs(val, "DD/MM/YYYY", true));
+        console.log("----------", dayjs(val, "DD/MM/YYYY", true).isValid());
         return parseDateString(val) || val;
       }
       return undefined;
@@ -81,8 +84,8 @@ export const IdentificationSchema = z.object({
     invalid_type_error:
       "Le public doit être de type : " + Object.values(PublicType).join(", "),
   }),
-  filiale: z.string().optional(),
-  cpom: z.boolean().optional(),
+  filiale: z.string().optional(), // TODO: handle filiales
+  cpom: z.boolean().optional(), // TODO: remove optionals
   lgbt: z.boolean().optional(),
   fvvTeh: z.boolean().optional(),
   contactPrincipal: contactSchema,
@@ -153,49 +156,36 @@ export const PlacesSchema = z.object({
       z.number().optional()
     )
     .optional(),
+  date: createRequiredDateFieldValidator(),
 });
 
 export type TypePlacesFormValues = z.infer<typeof TypePlacesSchema>;
 export const TypePlacesSchema = z.object({
-  "2023": PlacesSchema,
-  "2024": PlacesSchema,
-  "2025": PlacesSchema,
+  typologies: z.array(PlacesSchema),
 });
 
 export type DocumentsTypeStrict = z.infer<typeof DocumentsSchemaStrict>;
 export const DocumentsTypeStrict = z.object({
-  budgetProjet: z.string(),
-  budgetRectificatif: z.string(),
-  compteAdministratif: z.string(),
-  rapportActivite: z.string(),
-  rapportBudgetaire: z.string(),
+  key: z.string(),
+  date: createRequiredDateFieldValidator(),
+  category: z.string(),
 });
 
 export type DocumentsSchemaStrict = z.infer<typeof DocumentsSchemaStrict>;
 export const DocumentsSchemaStrict = z.object({
   less5Years: z.boolean(),
-  "2021": DocumentsTypeStrict,
-  "2022": DocumentsTypeStrict,
-  "2023": DocumentsTypeStrict,
-  "2024": DocumentsTypeStrict,
-  "2025": DocumentsTypeStrict,
+  fileUploads: z.array(DocumentsTypeStrict),
 });
 
 export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsTypeFlexible = z.object({
-  budgetProjet: z.string().optional(),
-  budgetRectificatif: z.string().optional(),
-  compteAdministratif: z.string().optional(),
-  rapportActivite: z.string().optional(),
-  rapportBudgetaire: z.string().optional(),
+  key: z.string(),
+  date: createRequiredDateFieldValidator(),
+  category: z.string(),
 });
 
 export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsSchemaFlexible = z.object({
-  "2021": DocumentsTypeFlexible,
-  "2022": DocumentsTypeFlexible,
-  "2023": DocumentsTypeFlexible,
-  "2024": DocumentsTypeFlexible,
-  "2025": DocumentsTypeFlexible,
-  // TODO: Gérer les années dynamiquement
+  less5Years: z.boolean(),
+  fileUploads: z.array(DocumentsTypeFlexible),
 });

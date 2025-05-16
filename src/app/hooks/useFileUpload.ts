@@ -11,15 +11,9 @@ export type FileUploadWithLink = FileUploadResponse & {
 };
 
 export const useFileUpload = () => {
-  const uploadFile = async (
-    file: File,
-    date: Date,
-    category: string
-  ): Promise<FileUploadWithLink> => {
+  const uploadFile = async (file: File): Promise<FileUploadWithLink> => {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("date", date.toString());
-    formData.append("category", category);
     const response = await fetch("/api/files", {
       method: "POST",
       body: formData,

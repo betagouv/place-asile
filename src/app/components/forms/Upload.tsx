@@ -13,7 +13,6 @@ const Upload = ({
   value,
   accept,
   onChange,
-  category,
   ...props
 }: UploadProps) => {
   const { uploadFile, getFile, deleteFile } = useFileUpload();
@@ -60,7 +59,7 @@ const Upload = ({
     }
     const file = event.target.files[0];
     try {
-      const result = await uploadFile(file, new Date(), category || "");
+      const result = await uploadFile(file);
       const fileData = await getFile(result.key);
 
       const stringKey = String(result.key);
@@ -218,7 +217,6 @@ type UploadState =
 
 type UploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, "multiple"> & {
   fileData?: FileDataType;
-  category: string;
 };
 
 type FileDataType = FileUploadResponse & {

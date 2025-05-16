@@ -20,16 +20,24 @@ export const TypePlaces = () => {
       ariaLabelledBy=""
       className="[&_th]:px-0 text-center w-1/3"
     >
-      {years.map((year) => (
+      {years.map((year, index) => (
         <tr
           key={year}
           className="w-full [&_input]:max-w-[4rem] border-t border-default-grey "
         >
           <td className="align-middle py-4">{year}</td>
-          <td className="!py-4">{localStorageValues?.[year]?.autorisees}</td>
-          <td className="!py-1">{localStorageValues?.[year]?.pmr}</td>
-          <td className="!py-1">{localStorageValues?.[year]?.lgbt}</td>
-          <td className="!py-1">{localStorageValues?.[year]?.fvvTeh}</td>
+          <td className="!py-4">
+            {localStorageValues?.typologies?.[index]?.autorisees}
+          </td>
+          <td className="!py-1">
+            {localStorageValues?.typologies?.[index]?.pmr}
+          </td>
+          <td className="!py-1">
+            {localStorageValues?.typologies?.[index]?.lgbt}
+          </td>
+          <td className="!py-1">
+            {localStorageValues?.typologies?.[index]?.fvvTeh}
+          </td>
         </tr>
       ))}
     </Table>
