@@ -3,7 +3,7 @@ export type Contact = {
   structureDnaCode: string;
   prenom: string;
   nom: string;
-  telephone: number;
+  telephone: string;
   email: number;
   role: string;
 };
