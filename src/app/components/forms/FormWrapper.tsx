@@ -112,19 +112,28 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
           {typeof children === "function" ? children(methods) : children}
 
           {showSubmitButton && (
-            <div className="flex justify-end gap-4 mt-6">
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  methods.reset();
-                }}
-                priority="secondary"
-              >
-                Annuler
-              </Button>
-              <Button type="submit" disabled={!formState.isValid}>
-                {submitButtonText}
-              </Button>
+            <div>
+              <div className="flex justify-end gap-4 mt-6">
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    methods.reset();
+                  }}
+                  priority="secondary"
+                >
+                  Annuler
+                </Button>
+                <Button type="submit" disabled={!formState.isValid}>
+                  {submitButtonText}
+                </Button>
+              </div>
+              <p className="cta_message text-mention-grey text-sm text-right mt-2">
+                Si vous ne parvenez pas à remplir certains champs,{" "}
+                <a href="mailto:contact@placeasile.fr" className="underline">
+                  contactez-nous
+                </a>
+                .
+              </p>
             </div>
           )}
         </form>

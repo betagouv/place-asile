@@ -89,8 +89,8 @@ export const IdentificationSchema = z.object({
   contactSecondaire: contactSchema.partial(),
   debutPeriodeAutorisation: createDateFieldValidator(),
   finPeriodeAutorisation: createDateFieldValidator(),
-  debutConvention: createDateFieldValidator(),
-  finConvention: createDateFieldValidator(),
+  debutConvention: createDateFieldValidator().optional(),
+  finConvention: createDateFieldValidator().optional(),
   debutCpom: createDateFieldValidator(),
   finCpom: createDateFieldValidator(),
 });
