@@ -1,7 +1,7 @@
 "use server";
 
-import { NextRequest, NextResponse } from "next/server";
-import { getDownloadLink, uploadFile, validateUpload } from "./file.service";
+import { NextResponse } from "next/server";
+import { uploadFile, validateUpload } from "./file.service";
 import { createOne } from "./file.repository";
 
 export async function POST(req: Request) {
@@ -58,21 +58,4 @@ export async function POST(req: Request) {
     id: createdFileUpload?.id,
     fileSize: file.size,
   });
-}
-
-export async function GET(req: NextRequest) {
-  const fileName = req.nextUrl.searchParams.get("fileName");
-
-  try {
-    const result = await getDownloadLink(
-      process.env.S3_BUCKET_NAME!,
-      fileName!
-    );
-    return NextResponse.json({ url: result });
-  } catch (error) {
-    console.error(error);
-    throw new Error(
-      "Impossible de récupérer le lien de téléchargement du fichier"
-    );
-  }
 }

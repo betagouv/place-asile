@@ -36,7 +36,6 @@ export default function FormDocuments() {
     return localStorageValues || { less5Years: false };
   }, [localStorageValues]);
 
-  // État local pour refléter le switch
   const [less5Years, setLess5Years] = useState(
     mergedDefaultValues?.less5Years || false
   );
@@ -61,7 +60,7 @@ export default function FormDocuments() {
       schema={selectedSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
       nextRoute={nextRoute}
-      mode="onBlur"
+      mode="onChange"
       defaultValues={mergedDefaultValues}
       className="gap-0"
     >
@@ -111,12 +110,14 @@ export default function FormDocuments() {
                   <UploadWithValidation
                     name={`${year}.budgetProjet`}
                     control={control}
+                    category="budgetProjet"
                   />
                 </UploadItem>
                 <UploadItem title={`Budget rectificatif ${year}`}>
                   <UploadWithValidation
                     name={`${year}.budgetRectificatif`}
                     control={control}
+                    category="budgetRectificatif"
                   />
                 </UploadItem>
                 {year !== "2025" && (
@@ -125,18 +126,21 @@ export default function FormDocuments() {
                       <UploadWithValidation
                         name={`${year}.compteAdministratif`}
                         control={control}
+                        category="compteAdministratif"
                       />
                     </UploadItem>
                     <UploadItem title="Rapport d’activité">
                       <UploadWithValidation
                         name={`${year}.rapportActivite`}
                         control={control}
+                        category="rapportActivite"
                       />
                     </UploadItem>
                     <UploadItem title="Rapport budgétaire">
                       <UploadWithValidation
                         name={`${year}.rapportBudgetaire`}
                         control={control}
+                        category="rapportBudgetaire"
                       />
                     </UploadItem>
                   </>

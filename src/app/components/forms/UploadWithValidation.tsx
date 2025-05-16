@@ -11,7 +11,12 @@ import Upload from "./Upload";
 
 export default function UploadWithValidation<
   TFieldValues extends FieldValues = FieldValues
->({ name, control, required }: UploadWithValidationProps<TFieldValues>) {
+>({
+  name,
+  control,
+  required,
+  category,
+}: UploadWithValidationProps<TFieldValues>) {
   const finalControl = control;
 
   const { field } = useController({
@@ -22,7 +27,7 @@ export default function UploadWithValidation<
     },
   });
 
-  return <Upload {...field} />;
+  return <Upload {...field} onChange={field.onChange} category={category} />;
 }
 
 type UploadWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
@@ -30,4 +35,5 @@ type UploadWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     name: string;
     control?: Control<TFieldValues>;
     required?: boolean;
+    category: string;
   };
