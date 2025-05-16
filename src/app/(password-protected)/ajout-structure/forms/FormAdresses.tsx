@@ -205,7 +205,11 @@ export default function FormAdresses() {
                           Liste des hébergements (d’après notre modèle à
                           télécharger uniquement)
                         </p>
-                        <Upload name="adresses" accept=".csv" />
+                        <Upload
+                          name="adresses"
+                          accept=".csv"
+                          category="adresses"
+                        />
                       </div>
                     </div>
                     <Notice
