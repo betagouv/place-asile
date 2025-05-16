@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build && npx @tailwindcss/cli -o build.css --minify",
     "start": "next start",
     "check:ts": "npx tsc --noEmit",
     "lint": "yarn lint:css && yarn lint:ts",
