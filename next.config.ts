@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
+  turbopack: {
+    resolveExtensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: "10mb",
