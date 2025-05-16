@@ -6,8 +6,6 @@ import { ReactElement } from "react";
 import { ExternalLink } from "./common/ExternalLink";
 import { Logo } from "./Logo";
 import { User } from "./User";
-import { FileUploader } from "./FileUploader";
-
 export const Menu = (): ReactElement => {
   const pathname = usePathname();
 
@@ -63,7 +61,6 @@ export const Menu = (): ReactElement => {
       <div className="border-b border-default-grey min-h-[4.1rem] grid">
         <Logo />
       </div>
-      <FileUploader />
 
       <ul className="fr-sidemenu__list p-4">
         {menuItems.map((menuItem) => (
