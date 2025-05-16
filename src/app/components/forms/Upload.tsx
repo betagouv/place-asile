@@ -12,6 +12,7 @@ const Upload = ({
   value,
   accept,
   onChange,
+  category,
   ...props
 }: UploadProps) => {
   const { uploadFile, getFile, deleteFile } = useFileUpload();
@@ -58,7 +59,7 @@ const Upload = ({
     }
     const file = event.target.files[0];
     try {
-      const result = await uploadFile(file, new Date(), "CPOM");
+      const result = await uploadFile(file, new Date(), category || "");
       const fileData = await getFile(result.key);
 
       const stringKey = String(result.key);
@@ -93,34 +94,9 @@ const Upload = ({
     fileInputRef.current?.click();
   };
 
-  const handleAbort = async () => {
-    setState("loading");
-
-    try {
-      if (valueState) {
-        await deleteFile(valueState);
-      }
-
-      setState("idle");
-      setFileData(undefined);
-      setValueState("");
-      setErrorMessage("");
-
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      onChange?.({
-        target: { value: "" },
-      } as React.ChangeEvent<HTMLInputElement>);
-    } catch {
-      setState("error");
-      setErrorMessage("Erreur lors de la suppression du fichier");
-    }
-  };
-
   const handleDelete = async (e: React.MouseEvent) => {
     e.preventDefault();
-    setState("loading");
+    setState("deleting");
     try {
       if (valueState) {
         await deleteFile(valueState);
@@ -203,11 +179,15 @@ const Upload = ({
           <p>{errorMessage}</p>
         </span>
       )}
+      {state === "deleting" && (
+        <span className="flex items-center justify-center gap-2">
+          Suppression en cours...
+        </span>
+      )}
       <input
         className="hidden"
         type="file"
         ref={fileInputRef}
-        onAbort={handleAbort}
         onChange={handleFileChange}
         accept={accept}
       />
@@ -227,10 +207,17 @@ const Upload = ({
 
 export default Upload;
 
-type UploadStates = "idle" | "loading" | "success" | "error" | "uploaded";
+type UploadStates =
+  | "idle"
+  | "loading"
+  | "success"
+  | "error"
+  | "uploaded"
+  | "deleting";
 
 type UploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, "multiple"> & {
   fileData?: FileDataType;
+  category: string;
 };
 
 type FileDataType = FileUploadResponse & {

@@ -110,12 +110,14 @@ export default function FormDocuments() {
                   <UploadWithValidation
                     name={`${year}.budgetProjet`}
                     control={control}
+                    category="budgetProjet"
                   />
                 </UploadItem>
                 <UploadItem title={`Budget rectificatif ${year}`}>
                   <UploadWithValidation
                     name={`${year}.budgetRectificatif`}
                     control={control}
+                    category="budgetRectificatif"
                   />
                 </UploadItem>
                 {year !== "2025" && (
@@ -124,18 +126,21 @@ export default function FormDocuments() {
                       <UploadWithValidation
                         name={`${year}.compteAdministratif`}
                         control={control}
+                        category="compteAdministratif"
                       />
                     </UploadItem>
                     <UploadItem title="Rapport d’activité">
                       <UploadWithValidation
                         name={`${year}.rapportActivite`}
                         control={control}
+                        category="rapportActivite"
                       />
                     </UploadItem>
                     <UploadItem title="Rapport budgétaire">
                       <UploadWithValidation
                         name={`${year}.rapportBudgetaire`}
                         control={control}
+                        category="rapportBudgetaire"
                       />
                     </UploadItem>
                   </>

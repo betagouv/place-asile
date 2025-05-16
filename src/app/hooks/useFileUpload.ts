@@ -65,5 +65,5 @@ export const useFileUpload = () => {
     return await response.json();
   };
 
-  return { uploadFile, getFile, deleteFile };
+  return { uploadFile, getFile, deleteFile, getDownloadLink };
 };
