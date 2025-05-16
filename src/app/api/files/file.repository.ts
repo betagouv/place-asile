@@ -22,3 +22,31 @@ type CreateOneArgs = {
   date: Date;
   fileSize: number;
 };
+
+export const findOneByKey = async (key: string): Promise<FileUpload | null> => {
+  return prisma.fileUpload.findFirst({
+    where: {
+      key,
+    },
+  });
+};
+
+export const deleteOneByKey = async (
+  key: string
+): Promise<FileUpload | null> => {
+  const file = await prisma.fileUpload.findFirst({
+    where: {
+      key,
+    },
+  });
+
+  if (!file) {
+    return null;
+  }
+
+  return prisma.fileUpload.delete({
+    where: {
+      id: Number(file.id),
+    },
+  });
+};

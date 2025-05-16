@@ -44,6 +44,18 @@ export const uploadFile = async (
   }
 };
 
+export const deleteFile = async (
+  bucketName: string,
+  fileName: string
+): Promise<void> => {
+  try {
+    await minioClient.removeObject(bucketName, fileName);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erreur lors de la suppression du fichier");
+  }
+};
+
 export const getDownloadLink = async (
   bucketName: string,
   fileName: string

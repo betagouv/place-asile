@@ -36,7 +36,6 @@ export default function FormDocuments() {
     return localStorageValues || { less5Years: false };
   }, [localStorageValues]);
 
-  // État local pour refléter le switch
   const [less5Years, setLess5Years] = useState(
     mergedDefaultValues?.less5Years || false
   );
@@ -61,7 +60,7 @@ export default function FormDocuments() {
       schema={selectedSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
       nextRoute={nextRoute}
-      mode="onBlur"
+      mode="onChange"
       defaultValues={mergedDefaultValues}
       className="gap-0"
     >

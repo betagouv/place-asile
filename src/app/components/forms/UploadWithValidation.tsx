@@ -22,7 +22,7 @@ export default function UploadWithValidation<
     },
   });
 
-  return <Upload {...field} />;
+  return <Upload {...field} onChange={field.onChange} />;
 }
 
 type UploadWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
