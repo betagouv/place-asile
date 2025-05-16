@@ -15,10 +15,14 @@ import {
   TypePlacesFormValues,
   DocumentsSchemaFlexible,
 } from "../../validation/validation";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function StepVerification() {
+  const router = useRouter();
   const params = useParams();
   const previousRoute = `/ajout-structure/${params.dnaCode}/04-documents`;
+  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
 
   const {
     currentValue: identificationValues,
@@ -63,6 +67,14 @@ export default function StepVerification() {
     };
     console.log("allValues", allValues);
     // TODO:Send allValues to API
+    setState("loading");
+    try {
+      setTimeout(() => {
+        router.push(`/ajout-structure/${params.dnaCode}/06-confirmation`);
+      }, 1000);
+    } catch {
+      setState("error");
+    }
   };
 
   const handleCancel = () => {
@@ -125,13 +137,28 @@ export default function StepVerification() {
         >
           <DocumentsFinanciers />
         </StepResume>
-        <div className="flex justify-end gap-4 mt-6">
-          <Button priority="secondary" onClick={handleCancel}>
-            Annuler
-          </Button>
-          <Button type="submit" onClick={handleSubmit}>
-            Valider et terminer
-          </Button>
+        <div>
+          <div className="flex justify-end gap-4 mt-6">
+            <Button priority="secondary" onClick={handleCancel}>
+              Annuler
+            </Button>
+            <Button
+              type="submit"
+              onClick={handleSubmit}
+              disabled={state === "loading"}
+            >
+              {state === "loading"
+                ? "Enregistrement en cours..."
+                : "Valider et terminer"}
+            </Button>
+          </div>
+          <p className="cta_message text-mention-grey text-sm text-right mt-2">
+            Si vous ne parvenez pas à remplir certains champs,{" "}
+            <a href="mailto:contact@placeasile.fr" className="underline">
+              contactez-nous
+            </a>
+            .
+          </p>
         </div>
       </div>
     </>

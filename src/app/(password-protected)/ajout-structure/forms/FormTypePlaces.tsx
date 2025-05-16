@@ -7,6 +7,7 @@ import Link from "next/link";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { Table } from "@/app/components/common/Table";
+import Notice from "@codegouvfr/react-dsfr/Notice";
 
 export default function FormTypePlaces() {
   const params = useParams();
@@ -31,13 +32,14 @@ export default function FormTypePlaces() {
       mode="onBlur"
       defaultValues={mergedDefaultValues}
       className="gap-2"
+      submitButtonText="Étape suivante"
     >
       {({ control }) => {
         return (
           <>
             <Link
               href={previousRoute}
-              className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2"
+              className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2 mb-8"
             >
               <i className="fr-icon-arrow-left-s-line before:w-4"></i>
               Étape précédente
@@ -45,8 +47,16 @@ export default function FormTypePlaces() {
 
             <p>
               Veuillez renseigner l’historique du nombre de places pour chaque
-              typologie de ces trois dernières années.
+              typologie au 1er janvier de ces trois dernières années.
             </p>
+
+            <Notice
+              severity="info"
+              title=""
+              className="rounded [&_p]:flex  [&_p]:items-center mb-8"
+              description="PMR : Personnes à Mobilité Réduite – LGBT : Lesbiennes, Gays, Bisexuels et Transgenres – FVV : Femmes Victimes de Violences–TEH : Traîte des Êtres Humains"
+            />
+
             <Table
               headings={["Année", "Autorisées", "PMR", "LGBT", "FVV/TEH"]}
               ariaLabelledBy=""

@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Controller } from "react-hook-form";
-import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
@@ -14,6 +13,7 @@ import {
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { Year } from "../components/Year";
 import { UploadItem } from "../components/UploadItem";
+import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 
 export default function FormDocuments() {
   const params = useParams();
@@ -60,9 +60,10 @@ export default function FormDocuments() {
       schema={selectedSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
       nextRoute={nextRoute}
-      mode="onChange"
+      mode="onTouched"
       defaultValues={mergedDefaultValues}
       className="gap-0"
+      submitButtonText="Vérifier"
     >
       {({ control }) => {
         return (
@@ -85,17 +86,22 @@ export default function FormDocuments() {
               name="less5Years"
               defaultValue={less5Years}
               render={({ field: { onChange, value, name } }) => (
-                <ToggleSwitch
-                  label="Ma structure a moins de 5 ans d’existence sur le programme 303."
-                  checked={value}
-                  onChange={(value) => {
-                    onChange(value);
-                    handle5YearsChange(value);
-                  }}
-                  name={name}
-                  className="w-fit mb-8"
-                  labelPosition="left"
-                  showCheckedHint={false}
+                <Checkbox
+                  className="mb-8"
+                  options={[
+                    {
+                      label:
+                        "Ma structure a moins de 5 ans d’existence sur le programme 303, je ne peux pas fournir autant d’historique.",
+                      nativeInputProps: {
+                        name: name,
+                        checked: value,
+                        onChange: (value) => {
+                          onChange(value.target.value);
+                          handle5YearsChange(value.target.value === "true");
+                        },
+                      },
+                    },
+                  ]}
                 />
               )}
             />
@@ -105,7 +111,19 @@ export default function FormDocuments() {
                 <p className="text-disabled-grey mb-0 text-xs col-span-3">
                   Taille maximale par fichier : 10 Mo. Formats supportés : pdf,
                   xls, xlsx, csv et ods.
+                  <br />
+                  Votre fichier est trop lourd ?{" "}
+                  <a
+                    target="_blank"
+                    className="underline"
+                    rel="noopener noreferrer"
+                    href="https://stirling-pdf.framalab.org/compress-pdf?lang=fr_FR"
+                  >
+                    Compressez-le
+                  </a>
+                  .
                 </p>
+
                 <UploadItem title={`Projet de budget pour ${year}`}>
                   <UploadWithValidation
                     name={`${year}.budgetProjet`}
