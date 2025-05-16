@@ -1,4 +1,5 @@
 import "./globals.css"; // IMPORTANT cet import doit rester en premier pour que les layers css soient respectés
+import "../../build.css";
 
 import type { Metadata } from "next";
 import { PropsWithChildren } from "react";
