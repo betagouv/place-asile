@@ -1,4 +1,5 @@
 "use client";
+
 import Button from "@codegouvfr/react-dsfr/Button";
 import autoAnimate from "@formkit/auto-animate";
 import React, { InputHTMLAttributes, useEffect, useRef, useState } from "react";
@@ -17,9 +18,9 @@ const Upload = ({
 }: UploadProps) => {
   const { uploadFile, getFile, deleteFile } = useFileUpload();
 
-  const [state, setState] = useState<UploadStates>("idle");
+  const [state, setState] = useState<UploadState>("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [fileData, setFileData] = useState<FileDataType | undefined>(undefined);
+  const [file, setFile] = useState<FileDataType | undefined>(undefined);
   const [valueState, setValueState] = useState<string>("");
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const Upload = ({
         setState("loading");
         try {
           const fileData = await getFile(initialValue as string);
-          setFileData(fileData as FileDataType);
+          setFile(fileData as FileDataType);
           setState("success");
         } catch {
           setState("error");
@@ -64,7 +65,7 @@ const Upload = ({
 
       const stringKey = String(result.key);
       setValueState(stringKey);
-      setFileData(fileData);
+      setFile(fileData);
       setState("success");
       setErrorMessage("");
 
@@ -103,7 +104,7 @@ const Upload = ({
       }
 
       setState("idle");
-      setFileData(undefined);
+      setFile(undefined);
       setValueState("");
       setErrorMessage("");
 
@@ -148,10 +149,10 @@ const Upload = ({
         <span className="flex items-center justify-center gap-2">
           <i className="fr-icon-file-text-fill text-action-high-blue-france" />
           <span className="flex flex-col">
-            <a href={fileData?.fileUrl}>{fileData?.originalName}</a>
-            {fileData?.fileSize && (
+            <a href={file?.fileUrl}>{file?.originalName}</a>
+            {file?.fileSize && (
               <span className="text-xs text-default-grey tabular-nums">
-                {prettyBytes(fileData?.fileSize, { locale: "fr" })}
+                {prettyBytes(file?.fileSize, { locale: "fr" })}
               </span>
             )}
           </span>
@@ -207,7 +208,7 @@ const Upload = ({
 
 export default Upload;
 
-type UploadStates =
+type UploadState =
   | "idle"
   | "loading"
   | "success"

@@ -45,21 +45,22 @@ export const useFileUpload = () => {
     };
   };
 
-  const getDownloadLink = async (fileName: string): Promise<string> => {
-    const response = await fetch(`/api/files?fileName=${fileName}`);
+  const getDownloadLink = async (key: string): Promise<string> => {
+    const encodedKey = encodeURIComponent(key);
+    const response = await fetch(`/api/files/${encodedKey}?getLink=true`);
     const result = await response.json();
     return result.url;
   };
 
   const deleteFile = async (key: string): Promise<void> => {
     const encodedKey = encodeURIComponent(key);
-    const response = await fetch(`/api/files/${encodedKey}/delete`, {
+    const response = await fetch(`/api/files/${encodedKey}`, {
       method: "DELETE",
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || "Delete failed");
+      throw new Error(errorData.error || "Erreur lors de la suppression");
     }
 
     return await response.json();
