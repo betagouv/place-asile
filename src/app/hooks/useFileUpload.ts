@@ -26,7 +26,7 @@ export const useFileUpload = () => {
     });
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || "Upload failed");
+      throw new Error(errorData.error || "Envoi du fichier échoué");
     }
     const result = await response.json();
     return {

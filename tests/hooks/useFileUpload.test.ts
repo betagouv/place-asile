@@ -120,7 +120,7 @@ describe("useFileUpload", () => {
 
       mockFetch.mockResolvedValueOnce({
         ok: false,
-        json: () => Promise.resolve({ error: "Upload failed" }),
+        json: () => Promise.resolve({ error: "Envoi du fichier échoué" }),
       });
 
       // WHEN
@@ -129,7 +129,7 @@ describe("useFileUpload", () => {
       // THEN
       await expect(
         result.current.uploadFile(mockFile, mockDate, mockCategory)
-      ).rejects.toThrow("Upload failed");
+      ).rejects.toThrow("Envoi du fichier échoué");
 
       expect(mockFetch).toHaveBeenCalledTimes(1);
     });
