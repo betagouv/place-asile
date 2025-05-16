@@ -9,19 +9,30 @@ import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
-// Create a more robust FormData mock
-const mockAppend = vi.fn();
-const mockFormDataInstance = {
-  append: mockAppend,
-};
+class MockFormData implements FormData {
+  append = vi.fn();
+  delete = vi.fn();
+  get = vi.fn();
+  getAll = vi.fn();
+  has = vi.fn();
+  set = vi.fn();
+  forEach = vi.fn();
+  entries = vi.fn(() => [][Symbol.iterator]());
+  keys = vi.fn(() => [][Symbol.iterator]());
+  values = vi.fn(() => [][Symbol.iterator]());
+  [Symbol.iterator] = vi.fn(() => [][Symbol.iterator]());
+}
 
-// Replace the global FormData constructor
-global.FormData = vi.fn(() => mockFormDataInstance);
+const mockFormDataInstance = new MockFormData();
+
+global.FormData = vi.fn(
+  () => mockFormDataInstance
+) as unknown as typeof FormData;
 
 describe("useFileUpload", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockAppend.mockClear();
+    mockFormDataInstance.append.mockClear();
   });
 
   afterEach(() => {
@@ -70,9 +81,18 @@ describe("useFileUpload", () => {
 
       // THEN
       // Verify FormData append calls
-      expect(mockAppend).toHaveBeenCalledWith("file", mockFile);
-      expect(mockAppend).toHaveBeenCalledWith("date", mockDate.toString());
-      expect(mockAppend).toHaveBeenCalledWith("category", mockCategory);
+      expect(mockFormDataInstance.append).toHaveBeenCalledWith(
+        "file",
+        mockFile
+      );
+      expect(mockFormDataInstance.append).toHaveBeenCalledWith(
+        "date",
+        mockDate.toString()
+      );
+      expect(mockFormDataInstance.append).toHaveBeenCalledWith(
+        "category",
+        mockCategory
+      );
 
       // Verify fetch calls
       expect(mockFetch).toHaveBeenCalledTimes(2);
