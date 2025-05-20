@@ -91,6 +91,7 @@ export default function FormAdresses() {
       nextRoute={nextRoute}
       mode="onBlur"
       defaultValues={mergedDefaultValues}
+      submitButtonText="Étape suivante"
     >
       {({ control, setValue, getValues, watch }) => {
         // Use this to ensure the component re-renders when addresses change
@@ -128,14 +129,21 @@ export default function FormAdresses() {
           <>
             <Link
               href={previousRoute}
-              className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2"
+              className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2 mb-8"
             >
               <i className="fr-icon-arrow-left-s-line before:w-4"></i>
               Étape précédente
             </Link>
+
+            <Notice
+              severity="info"
+              title=""
+              className="rounded [&_p]:flex  [&_p]:items-center"
+              description="L’ensemble des adresses sont des données sensibles qui sont protégées selon les normes du gouvernement. Elles ne seront communiquées qu’aux agents et agentes de DDETS."
+            />
             <fieldset className="flex flex-col gap-6">
               <legend className="text-xl font-bold mb-4 text-title-blue-france">
-                Adresses
+                Adresse administrative
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="flex flex-col gap-1">
@@ -231,7 +239,9 @@ export default function FormAdresses() {
                             className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2"
                           >
                             sur ce lien.
-                          </a>
+                          </a>{" "}
+                          Si une adresse ne donne pas de résultat, veuillez
+                          laisser la case décochée.
                         </>
                       }
                     />
