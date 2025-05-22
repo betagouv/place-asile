@@ -137,10 +137,17 @@ const extendedAdresseSchemaStrict = singleAdresseSchemaStrict.extend({
 export type AdressesFormValues = z.infer<typeof AdressesSchema>;
 export const AdressesSchema = z.object({
   nom: z.string().optional(),
-  adresseAdministrative: z.string(),
-  codePostalAdministratif: z.string(),
-  communeAdministrative: z.string(),
-  departementAdministratif: z.string(),
+  adresseAdministrativeComplete: z
+    .string()
+    .nonempty("L'adresse est obligatoire"),
+  adresseAdministrative: z.string().nonempty("L'adresse est obligatoire"),
+  codePostalAdministratif: z
+    .string()
+    .nonempty("Le code postal est obligatoire"),
+  communeAdministrative: z.string().nonempty("La commune est obligatoire"),
+  departementAdministratif: z
+    .string()
+    .nonempty("Le département est obligatoire"),
   typeBati: z.nativeEnum(Repartition, {
     required_error: "Le type de batis est requis",
     invalid_type_error:
