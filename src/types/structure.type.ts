@@ -12,6 +12,7 @@ export type Structure = {
   id: number;
   dnaCode: string;
   operateur: string;
+  filiale: string | null;
   type: StructureType;
   nbPlaces: number;
   placesACreer: number | null;

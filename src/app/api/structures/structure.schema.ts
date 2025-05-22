@@ -59,6 +59,7 @@ const fileUploadSchema = z.object({
 export const structureCreationSchema = z.object({
   dnaCode: z.string().min(1, "Le code DNA est requis"),
   operateur: z.string().min(1, "L'opérateur est requis"),
+  filiale: z.string().optional(),
   type: z.nativeEnum(StructureType),
   nbPlaces: z
     .number()

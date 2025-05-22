@@ -11,6 +11,7 @@ export const createStructure = ({
     id: 1,
     dnaCode: "C0001",
     operateur: "Adoma",
+    filiale: null,
     type: StructureType.CADA,
     nbPlaces: nbPlaces ?? 5,
     placesACreer: 3,

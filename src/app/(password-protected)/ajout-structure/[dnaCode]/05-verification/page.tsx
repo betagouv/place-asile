@@ -66,7 +66,6 @@ export default function StepVerification() {
       ...typePlacesValues,
       ...documentsFinanciersValues,
     };
-    console.log("allValues", allValues);
     await addStructure(allValues);
 
     setState("loading");

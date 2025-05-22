@@ -52,6 +52,7 @@ export const useStructures = (): UseStructureResult => {
     return {
       dnaCode: values.dnaCode,
       operateur: values.operateur,
+      filiale: values.filiale,
       type: values.type,
       nbPlaces: Number(values.typologies?.[0].autorisees),
       adresseAdministrative: values.adresseAdministrative,
@@ -93,8 +94,7 @@ export const useStructures = (): UseStructureResult => {
       method: "POST",
       body: JSON.stringify(structure),
     });
-    const result = await response.json();
-    console.log(">>>>>>>", result);
+    return response.json();
   };
 
   return { getStructures, addStructure };

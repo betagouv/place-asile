@@ -75,6 +75,7 @@ export const createOne = async (
     data: {
       dnaCode: structure.dnaCode,
       operateur: structure.operateur,
+      filiale: structure.filiale,
       latitude: Prisma.Decimal(coordinates.latitude || 0),
       longitude: Prisma.Decimal(coordinates.longitude || 0),
       type: convertToStructureType(structure.type),

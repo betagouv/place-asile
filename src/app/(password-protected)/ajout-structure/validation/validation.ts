@@ -49,9 +49,6 @@ const createRequiredDateFieldValidator = () =>
   z.preprocess(
     (val) => {
       if (typeof val === "string") {
-        console.log(">>>>>>>>>>", parseDateString(val) || val);
-        console.log("==========", dayjs(val, "DD/MM/YYYY", true));
-        console.log("----------", dayjs(val, "DD/MM/YYYY", true).isValid());
         return parseDateString(val) || val;
       }
       return undefined;
@@ -84,10 +81,10 @@ export const IdentificationSchema = z.object({
     invalid_type_error:
       "Le public doit être de type : " + Object.values(PublicType).join(", "),
   }),
-  filiale: z.string().optional(), // TODO: handle filiales
-  cpom: z.boolean().optional(), // TODO: remove optionals
-  lgbt: z.boolean().optional(),
-  fvvTeh: z.boolean().optional(),
+  filiale: z.string().optional(),
+  cpom: z.boolean(),
+  lgbt: z.boolean(),
+  fvvTeh: z.boolean(),
   contactPrincipal: contactSchema,
   contactSecondaire: contactSchema.partial(),
   debutPeriodeAutorisation: createDateFieldValidator(),
