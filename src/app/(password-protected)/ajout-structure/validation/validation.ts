@@ -154,6 +154,8 @@ export const AdressesSchema = z.object({
       "Le type de batis doit être de type : " +
       Object.values(Repartition).join(", "),
   }),
+  // Add adresses field to the base schema with optional array
+  adresses: z.array(z.any()).optional(),
 });
 
 export const AdressesSchemaStrict = AdressesSchema.extend({
