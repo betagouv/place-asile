@@ -8,7 +8,7 @@ import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { Table } from "@/app/components/common/Table";
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import { useYearDate } from "@/app/hooks/useYearDate";
+import { getYearDate } from "@/app/utils/date.util";
 
 export default function FormTypePlaces() {
   const params = useParams();
@@ -112,7 +112,7 @@ export default function FormTypePlaces() {
                     <input
                       // value={new Date(year, 0, 1, 13).toISOString()} TODO: gérer cette date
                       aria-hidden="true"
-                      defaultValue={useYearDate(String(year))}
+                      defaultValue={getYearDate(String(year))}
                       type="hidden"
                       {...register(`typologies.${index}.date`)}
                     />

@@ -14,7 +14,7 @@ import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { Year } from "../components/Year";
 import { UploadItem } from "../components/UploadItem";
 import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
-import { useYearDate } from "@/app/hooks/useYearDate";
+import { getYearDate } from "@/app/utils/date.util";
 
 export default function FormDocuments() {
   const params = useParams();
@@ -53,8 +53,6 @@ export default function FormDocuments() {
       less5Years: checked,
     });
   };
-
-  const getYearDate = useYearDate;
 
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (
