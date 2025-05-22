@@ -8,7 +8,6 @@ export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get("file") as File;
   // TODO: find a way to seed FileUploads at prisma:migrate
-  // TODO: find a more elegant way to validate data
 
   const validationResult = validateUpload(file.type, file.size);
 

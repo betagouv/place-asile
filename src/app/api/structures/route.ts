@@ -16,8 +16,7 @@ export async function POST(request: NextRequest) {
     await createOne(result);
     return NextResponse.json("Structure créée avec succès", { status: 201 });
   } catch (error) {
-    console.log("==========", error);
-    // TODO : renvoyer les erreurs de zod dans un format utilisable par le front
+    console.error(error);
     return NextResponse.json(error, { status: 400 });
   }
 }

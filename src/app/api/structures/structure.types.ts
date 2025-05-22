@@ -1,6 +1,7 @@
 export type CreateStructure = {
   dnaCode: string;
   operateur: string;
+  filiale?: string;
   type: string;
   nbPlaces: number;
   adresseAdministrative: string;
