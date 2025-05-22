@@ -216,9 +216,9 @@ export const DocumentsSchemaStrict = z.object({
 
 export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsTypeFlexible = z.object({
-  key: z.string(),
-  date: createRequiredDateFieldValidator(),
-  category: z.string(),
+  key: z.string().optional(),
+  date: createRequiredDateFieldValidator().optional(),
+  category: z.string().optional(),
 });
 
 export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;

@@ -68,6 +68,8 @@ export default function FormDocuments() {
       submitButtonText="Vérifier"
     >
       {({ control, register }) => {
+        console.log("selectedSchema", selectedSchema);
+
         return (
           <>
             <Link
@@ -87,7 +89,7 @@ export default function FormDocuments() {
               control={control}
               name="less5Years"
               defaultValue={less5Years}
-              render={({ field: { onChange, value, name } }) => (
+              render={({ field }) => (
                 <Checkbox
                   className="mb-8"
                   options={[
@@ -95,11 +97,11 @@ export default function FormDocuments() {
                       label:
                         "Ma structure a moins de 5 ans d’existence sur le programme 303, je ne peux pas fournir autant d’historique.",
                       nativeInputProps: {
-                        name: name,
-                        checked: value,
-                        onChange: (value) => {
-                          onChange(value.target.value);
-                          handle5YearsChange(value.target.value === "true");
+                        name: field.name,
+                        checked: field.value,
+                        onChange: (e) => {
+                          field.onChange(e.target.checked);
+                          handle5YearsChange(e.target.checked);
                         },
                       },
                     },
