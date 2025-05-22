@@ -19,6 +19,7 @@ import { useRef } from "react";
 import autoAnimate from "@formkit/auto-animate";
 import Upload from "@/app/components/forms/Upload";
 import { Controller } from "react-hook-form";
+import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
 
 export default function FormAdresses() {
   const params = useParams();
@@ -212,10 +213,21 @@ export default function FormAdresses() {
                         Veuillez renseigner l’ensemble des adresses
                         d’hébergement de la structure. <br />
                         Vous pouvez le faire directement en remplissant les
-                        champs ci-dessous ou vous pouvez compléter notre modèle
-                        à télécharger depuis un logiciel tableur, l’importer
-                        puis vérifier le remplissage automatique des champs qui
-                        s’opérera.
+                        champs ci-dessous ou vous pouvez compléter{" "}
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={
+                            typeBati === Repartition.DIFFUS
+                              ? MODELE_DIFFUS_LINK
+                              : MODELE_MIXTE_LINK
+                          }
+                          className="underline"
+                        >
+                          notre modèle à télécharger
+                        </a>{" "}
+                        depuis un logiciel tableur, l’importer puis vérifier le
+                        remplissage automatique des champs qui s’opérera.
                       </p>
                       <div className="flex flex-col gap-2">
                         <p className="text-action-high-blue-france font-bold mb-0">
