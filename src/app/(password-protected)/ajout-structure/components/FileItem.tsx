@@ -1,17 +1,39 @@
-import { ReactElement } from "react";
+import { useFileUpload } from "@/app/hooks/useFileUpload";
+import { ReactElement, useEffect, useState } from "react";
+import prettyBytes from "pretty-bytes";
 
-export const FileItem = ({ file, title }: FileItemProps): ReactElement => {
+export const FileItem = ({ fileKey, title }: Props): ReactElement => {
+  const [name, setName] = useState("");
+  const [size, setSize] = useState(0);
+  const { getFile } = useFileUpload();
+
+  const getFileData = async (key?: string) => {
+    if (!key) {
+      return;
+    }
+    const fileData = await getFile(key);
+    setName(fileData.originalName);
+    setSize(fileData.fileSize);
+  };
+
+  useEffect(() => {
+    getFileData(fileKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="flex flex-col gap-2">
       <h3 className="text-title-blue-france text-sm font-medium mb-0 ">
         {title}
       </h3>
-      {file ? (
+      {fileKey ? (
         <p className="flex gap-2 items-center ">
           <i className="fr-icon-file-text-fill text-action-high-blue-france"></i>
           <span className="flex flex-col gap-1">
-            <span className="text-sm">{file.name}</span>
-            <span className="text-xs text-disabled-grey">{file.size} Mo</span>
+            <span className="text-sm">{name}</span>
+            <span className="text-xs text-disabled-grey">
+              {prettyBytes(size, { locale: "fr" })}
+            </span>
           </span>
         </p>
       ) : (
@@ -23,10 +45,7 @@ export const FileItem = ({ file, title }: FileItemProps): ReactElement => {
   );
 };
 
-type FileItemProps = {
+type Props = {
   title: string;
-  file?: {
-    name: string;
-    size: number;
-  };
+  fileKey?: string;
 };

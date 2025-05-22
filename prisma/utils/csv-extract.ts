@@ -64,6 +64,7 @@ export class CsvExtract {
     return sheet.map((line) => ({
       dnaCode: line[0],
       operateur: line[1],
+      filiale: "",
       type: convertToStructureType(line[2]),
       nbPlaces: Number(line[3]),
       adresseAdministrative: line[4].trim(),

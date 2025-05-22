@@ -18,6 +18,7 @@
     "test:watch": "vitest --watch",
     "prepare": "husky",
     "prisma:migrate": "npx prisma migrate dev",
+    "prisma:deploy": "npx prisma migrate deploy",
     "prisma:seed": "npx prisma db seed",
     "prisma:studio": "npx prisma studio",
     "prisma:reset": "npx prisma migrate reset",
