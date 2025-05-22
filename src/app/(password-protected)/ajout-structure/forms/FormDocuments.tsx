@@ -14,6 +14,7 @@ import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { Year } from "../components/Year";
 import { UploadItem } from "../components/UploadItem";
 import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
+import { getYearDate } from "@/app/utils/date.util";
 
 export default function FormDocuments() {
   const params = useParams();
@@ -53,10 +54,6 @@ export default function FormDocuments() {
     });
   };
 
-  const getYearDate = (year: string): string => {
-    return new Date(Number(year), 0, 1, 13).toLocaleDateString();
-  };
-
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (
     <FormWrapper
@@ -71,6 +68,8 @@ export default function FormDocuments() {
       submitButtonText="Vérifier"
     >
       {({ control, register }) => {
+        console.log("selectedSchema", selectedSchema);
+
         return (
           <>
             <Link
@@ -90,7 +89,7 @@ export default function FormDocuments() {
               control={control}
               name="less5Years"
               defaultValue={less5Years}
-              render={({ field: { onChange, value, name } }) => (
+              render={({ field }) => (
                 <Checkbox
                   className="mb-8"
                   options={[
@@ -98,11 +97,11 @@ export default function FormDocuments() {
                       label:
                         "Ma structure a moins de 5 ans d’existence sur le programme 303, je ne peux pas fournir autant d’historique.",
                       nativeInputProps: {
-                        name: name,
-                        checked: value,
-                        onChange: (value) => {
-                          onChange(value.target.value);
-                          handle5YearsChange(value.target.value === "true");
+                        name: field.name,
+                        checked: field.value,
+                        onChange: (e) => {
+                          field.onChange(e.target.checked);
+                          handle5YearsChange(e.target.checked);
                         },
                       },
                     },

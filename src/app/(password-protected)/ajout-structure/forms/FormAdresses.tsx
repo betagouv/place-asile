@@ -1,7 +1,10 @@
 "use client";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import React, { useState, useEffect, useMemo } from "react";
-import { AdressesSchema } from "../validation/validation";
+import {
+  AdressesSchemaFlexible,
+  AdressesSchemaStrict,
+} from "../validation/validation";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
@@ -37,7 +40,7 @@ export default function FormAdresses() {
       codePostalAdministratif: "",
       communeAdministrative: "",
       departementAdministratif: "",
-      typeBati: Repartition.DIFFUS,
+      typeBati: Repartition.COLLECTIF,
       adresses: [
         {
           adresseComplete: "",
@@ -45,7 +48,7 @@ export default function FormAdresses() {
           codePostal: "",
           commune: "",
           departement: "",
-          repartition: Repartition.DIFFUS,
+          repartition: Repartition.COLLECTIF,
           places: 0,
           logementSocial: false,
           qpv: false,
@@ -72,21 +75,24 @@ export default function FormAdresses() {
   }, [localStorageValues, defaultValues]);
 
   const [showExtraFields, setShowExtraFields] = useState(false);
+
   const [isInitialized, setIsInitialized] = useState(false);
+
+  const selectedSchema = useMemo(
+    () => (showExtraFields ? AdressesSchemaStrict : AdressesSchemaFlexible),
+    [showExtraFields]
+  );
 
   useEffect(() => {
     if (localStorageValues && !isInitialized) {
-      setShowExtraFields(
-        localStorageValues.typeBati === Repartition.COLLECTIF ||
-          localStorageValues.typeBati === Repartition.MIXTE
-      );
+      setShowExtraFields(localStorageValues.typeBati !== Repartition.COLLECTIF);
       setIsInitialized(true);
     }
   }, [localStorageValues, isInitialized]);
 
   return (
     <FormWrapper
-      schema={AdressesSchema}
+      schema={selectedSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-adresses`}
       nextRoute={nextRoute}
       mode="onBlur"
@@ -94,10 +100,11 @@ export default function FormAdresses() {
       submitButtonText="Étape suivante"
     >
       {({ control, setValue, getValues, watch }) => {
-        // Use this to ensure the component re-renders when addresses change
-        const addresses = watch("adresses") || [];
-
+        const typeBati = watch("typeBati");
         const handleAddAddress = () => {
+          if (!selectedSchema) {
+            return;
+          }
           const newAddress = {
             adresseComplete: "",
             adresse: "",
@@ -117,6 +124,9 @@ export default function FormAdresses() {
         };
 
         const handleRemoveAddress = (index: number) => {
+          if (!selectedSchema) {
+            return;
+          }
           const currentAddresses = getValues("adresses") || [];
           const updatedAddresses = [...currentAddresses];
           updatedAddresses.splice(index, 1);
@@ -173,9 +183,7 @@ export default function FormAdresses() {
                   control={control}
                   label="Type de bati"
                   onChange={(value) => {
-                    setShowExtraFields(
-                      value === "Collectif" || value === "Mixte"
-                    );
+                    setShowExtraFields(value !== Repartition.COLLECTIF);
                   }}
                   required
                 >
@@ -191,7 +199,8 @@ export default function FormAdresses() {
             </fieldset>
 
             <div ref={hebergementsContainerRef}>
-              {showExtraFields && (
+              {/* Only render on client-side and when condition is met */}
+              {isInitialized && typeBati !== Repartition.COLLECTIF && (
                 <>
                   <hr />
                   <fieldset className="flex flex-col gap-6">
@@ -242,7 +251,7 @@ export default function FormAdresses() {
                       }
                     />
 
-                    {addresses.map((_, index) => (
+                    {(getValues("adresses") || []).map((_, index) => (
                       <div
                         className="flex max-sm:flex-col gap-6"
                         key={`address-${index}`}
