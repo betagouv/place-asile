@@ -98,7 +98,7 @@ export const IdentificationSchema = z.object({
   finCpom: createDateFieldValidator(),
 });
 
-const singleAdresseSchema = z.object({
+const singleAdresseSchemaStrict = z.object({
   adresseComplete: z.string().nonempty("L'adresse est obligatoire"),
   adresse: z.string().nonempty("La rue est obligatoire"),
   codePostal: z.string().nonempty("Le code postal est obligatoire"),
@@ -109,7 +109,25 @@ const singleAdresseSchema = z.object({
   typologies: z.array(z.any()).optional(),
 });
 
-const extendedAdresseSchema = singleAdresseSchema.extend({
+const singleAdresseSchemaFlexible = z.object({
+  adresseComplete: z.string().optional(),
+  adresse: z.string().optional(),
+  codePostal: z.string().optional(),
+  commune: z.string().optional(),
+  departement: z.string().optional(),
+  repartition: z.nativeEnum(Repartition).optional(),
+  places: z.number().optional(),
+  typologies: z.array(z.any()).optional(),
+});
+
+const extendedAdresseSchemaFlexible = singleAdresseSchemaFlexible.extend({
+  places: z.any(),
+  repartition: z.nativeEnum(Repartition),
+  qpv: z.boolean().optional(),
+  logementSocial: z.boolean().optional(),
+});
+
+const extendedAdresseSchemaStrict = singleAdresseSchemaStrict.extend({
   places: z.any(),
   repartition: z.nativeEnum(Repartition),
   qpv: z.boolean().optional(),
@@ -129,8 +147,18 @@ export const AdressesSchema = z.object({
       "Le type de batis doit être de type : " +
       Object.values(Repartition).join(", "),
   }),
-  adresses: z.array(extendedAdresseSchema).optional(),
 });
+
+export const AdressesSchemaStrict = AdressesSchema.extend({
+  adresses: z.array(extendedAdresseSchemaStrict),
+});
+
+export const AdressesSchemaFlexible = AdressesSchema.extend({
+  adresses: z.array(extendedAdresseSchemaFlexible),
+});
+
+export type AdressesFormValuesStrict = z.infer<typeof AdressesSchemaStrict>;
+export type AdressesFormValuesFlexible = z.infer<typeof AdressesSchemaFlexible>;
 
 export type PlacesFormValues = z.infer<typeof PlacesSchema>;
 export const PlacesSchema = z.object({
