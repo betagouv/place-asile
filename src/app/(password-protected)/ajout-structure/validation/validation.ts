@@ -95,7 +95,7 @@ export const IdentificationSchema = z.object({
   finCpom: createDateFieldValidator(),
 });
 
-const singleAdresseSchema = z.object({
+const singleAdresseSchemaStrict = z.object({
   adresseComplete: z.string().nonempty("L'adresse est obligatoire"),
   adresse: z.string().nonempty("La rue est obligatoire"),
   codePostal: z.string().nonempty("Le code postal est obligatoire"),
@@ -106,7 +106,25 @@ const singleAdresseSchema = z.object({
   typologies: z.array(z.any()).optional(),
 });
 
-const extendedAdresseSchema = singleAdresseSchema.extend({
+const singleAdresseSchemaFlexible = z.object({
+  adresseComplete: z.string().optional(),
+  adresse: z.string().optional(),
+  codePostal: z.string().optional(),
+  commune: z.string().optional(),
+  departement: z.string().optional(),
+  repartition: z.nativeEnum(Repartition).optional(),
+  places: z.number().optional(),
+  typologies: z.array(z.any()).optional(),
+});
+
+const extendedAdresseSchemaFlexible = singleAdresseSchemaFlexible.extend({
+  places: z.any(),
+  repartition: z.nativeEnum(Repartition),
+  qpv: z.boolean().optional(),
+  logementSocial: z.boolean().optional(),
+});
+
+const extendedAdresseSchemaStrict = singleAdresseSchemaStrict.extend({
   places: z.any(),
   repartition: z.nativeEnum(Repartition),
   qpv: z.boolean().optional(),
@@ -116,18 +134,37 @@ const extendedAdresseSchema = singleAdresseSchema.extend({
 export type AdressesFormValues = z.infer<typeof AdressesSchema>;
 export const AdressesSchema = z.object({
   nom: z.string().optional(),
-  adresseAdministrative: z.string(),
-  codePostalAdministratif: z.string(),
-  communeAdministrative: z.string(),
-  departementAdministratif: z.string(),
+  adresseAdministrativeComplete: z
+    .string()
+    .nonempty("L'adresse est obligatoire"),
+  adresseAdministrative: z.string().nonempty("L'adresse est obligatoire"),
+  codePostalAdministratif: z
+    .string()
+    .nonempty("Le code postal est obligatoire"),
+  communeAdministrative: z.string().nonempty("La commune est obligatoire"),
+  departementAdministratif: z
+    .string()
+    .nonempty("Le département est obligatoire"),
   typeBati: z.nativeEnum(Repartition, {
     required_error: "Le type de batis est requis",
     invalid_type_error:
       "Le type de batis doit être de type : " +
       Object.values(Repartition).join(", "),
   }),
-  adresses: z.array(extendedAdresseSchema).optional(),
+  // Add adresses field to the base schema with optional array
+  adresses: z.array(z.any()).optional(),
 });
+
+export const AdressesSchemaStrict = AdressesSchema.extend({
+  adresses: z.array(extendedAdresseSchemaStrict),
+});
+
+export const AdressesSchemaFlexible = AdressesSchema.extend({
+  adresses: z.array(extendedAdresseSchemaFlexible),
+});
+
+export type AdressesFormValuesStrict = z.infer<typeof AdressesSchemaStrict>;
+export type AdressesFormValuesFlexible = z.infer<typeof AdressesSchemaFlexible>;
 
 export type PlacesFormValues = z.infer<typeof PlacesSchema>;
 export const PlacesSchema = z.object({
@@ -176,9 +213,9 @@ export const DocumentsSchemaStrict = z.object({
 
 export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsTypeFlexible = z.object({
-  key: z.string(),
-  date: createRequiredDateFieldValidator(),
-  category: z.string(),
+  key: z.string().optional(),
+  date: createRequiredDateFieldValidator().optional(),
+  category: z.string().optional(),
 });
 
 export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;
