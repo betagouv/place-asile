@@ -1,18 +1,21 @@
 import xlsx from "node-xlsx";
 import {
   Adresse,
-  Repartition,
   Structure,
   Contact,
-  PublicType,
   AdresseTypologie,
-  StructureType,
   Controle,
   ControleType,
   Evaluation,
   EvenementIndesirableGrave,
   StructureTypologie,
 } from "@prisma/client";
+
+import {
+  convertToStructureType,
+  convertToPublicType,
+  convertToRepartition,
+} from "../../src/app/api/structures/structure.util";
 
 const STRUCTURE_INDEX = 0;
 const ADRESSE_INDEX = 1;
@@ -39,35 +42,6 @@ export class CsvExtract {
     return value === "Oui";
   };
 
-  private convertToRepartition = (repartition: string): Repartition => {
-    const repartitions: Record<string, Repartition> = {
-      Diffus: Repartition.DIFFUS,
-      Collectif: Repartition.COLLECTIF,
-      Mixte: Repartition.MIXTE,
-    };
-    return repartitions[repartition.trim()];
-  };
-
-  private convertToPublicType = (typePublic: string): PublicType => {
-    const typesPublic: Record<string, PublicType> = {
-      "tout public": PublicType.TOUT_PUBLIC,
-      famille: PublicType.FAMILLE,
-      "personnes isolées": PublicType.PERSONNES_ISOLEES,
-    };
-    return typesPublic[typePublic.trim().toLowerCase()];
-  };
-
-  private convertToStructureType = (structureType: string): StructureType => {
-    const typesStructures: Record<string, StructureType> = {
-      CADA: StructureType.CADA,
-      HUDA: StructureType.HUDA,
-      CPH: StructureType.CPH,
-      CAES: StructureType.CAES,
-      PRAHDA: StructureType.PRAHDA,
-    };
-    return typesStructures[structureType.trim()];
-  };
-
   private convertToControleType = (controleType: string): ControleType => {
     const typesControles: Record<string, ControleType> = {
       Inopiné: ControleType.INOPINE,
@@ -90,7 +64,7 @@ export class CsvExtract {
     return sheet.map((line) => ({
       dnaCode: line[0],
       operateur: line[1],
-      type: this.convertToStructureType(line[2]),
+      type: convertToStructureType(line[2]),
       nbPlaces: Number(line[3]),
       adresseAdministrative: line[4].trim(),
       communeAdministrative: line[5].trim(),
@@ -104,7 +78,7 @@ export class CsvExtract {
       finessCode: line[13] ? String(line[13]) : null,
       lgbt: this.convertToBoolean(line[14]),
       fvvTeh: this.convertToBoolean(line[15]),
-      public: this.convertToPublicType(line[16]),
+      public: convertToPublicType(line[16]),
       debutPeriodeAutorisation: line[17] ? new Date(line[17]) : null,
       finPeriodeAutorisation: line[18] ? new Date(line[18]) : null,
       debutCpom: line[19] ? new Date(line[19]) : null,
@@ -125,7 +99,7 @@ export class CsvExtract {
       adresse: line[2],
       codePostal: String(line[3]),
       commune: line[4],
-      repartition: this.convertToRepartition(line[5]),
+      repartition: convertToRepartition(line[5]),
     }));
   };
 

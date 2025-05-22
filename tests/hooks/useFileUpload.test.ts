@@ -45,8 +45,6 @@ describe("useFileUpload", () => {
       const mockFile = new File(["test content"], "test.txt", {
         type: "text/plain",
       });
-      const mockDate = new Date("2023-01-01");
-      const mockCategory = "documents";
 
       const mockUploadResponse: FileUploadResponse = {
         key: "file-123",
@@ -72,11 +70,7 @@ describe("useFileUpload", () => {
 
       let uploadResult: FileUploadWithLink | undefined;
       await act(async () => {
-        uploadResult = await result.current.uploadFile(
-          mockFile,
-          mockDate,
-          mockCategory
-        );
+        uploadResult = await result.current.uploadFile(mockFile);
       });
 
       // THEN
@@ -84,14 +78,6 @@ describe("useFileUpload", () => {
       expect(mockFormDataInstance.append).toHaveBeenCalledWith(
         "file",
         mockFile
-      );
-      expect(mockFormDataInstance.append).toHaveBeenCalledWith(
-        "date",
-        mockDate.toString()
-      );
-      expect(mockFormDataInstance.append).toHaveBeenCalledWith(
-        "category",
-        mockCategory
       );
 
       // Verify fetch calls
@@ -115,8 +101,6 @@ describe("useFileUpload", () => {
       const mockFile = new File(["test content"], "test.txt", {
         type: "text/plain",
       });
-      const mockDate = new Date("2023-01-01");
-      const mockCategory = "documents";
 
       mockFetch.mockResolvedValueOnce({
         ok: false,
@@ -127,9 +111,9 @@ describe("useFileUpload", () => {
       const { result } = renderHook(() => useFileUpload());
 
       // THEN
-      await expect(
-        result.current.uploadFile(mockFile, mockDate, mockCategory)
-      ).rejects.toThrow("Envoi du fichier échoué");
+      await expect(result.current.uploadFile(mockFile)).rejects.toThrow(
+        "Envoi du fichier échoué"
+      );
 
       expect(mockFetch).toHaveBeenCalledTimes(1);
     });

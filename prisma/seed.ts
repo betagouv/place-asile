@@ -1,7 +1,8 @@
-import { PrismaClient, Structure } from "@prisma/client";
+import { PrismaClient, Prisma, Structure } from "@prisma/client";
 import { wipeTables } from "./utils/wipe";
 import { CsvExtract } from "./utils/csv-extract";
 import { extractActivitesFromOds } from "./utils/activites-extract";
+import { getCoordinates } from "@/app/utils/adresse.util";
 
 const prisma = new PrismaClient();
 const {
@@ -15,22 +16,18 @@ const {
   extractStructureTypologiesFromCsv,
 } = new CsvExtract();
 
-const convertAddressToCoordinates = async (address: string) => {
-  console.log(`> Converting ${address}`);
-  const result = await fetch(
-    `https://api-adresse.data.gouv.fr/search/?q=${address}&autocomplete=0&limit=1`
-  );
-  const data = await result.json();
-  return data?.features?.[0]?.geometry?.coordinates;
-};
-
 const seedStructures = async () => {
   const structures = extractStructuresFromCsv();
   for (const structure of structures) {
     const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
-    const coordinates = await convertAddressToCoordinates(fullAdress);
-    (structure as Structure).longitude = coordinates?.[0] || 0;
-    (structure as Structure).latitude = coordinates?.[1] || 0;
+    console.log(`> Converting ${fullAdress}`);
+    const coordinates = await getCoordinates(fullAdress);
+    (structure as Structure).longitude = Prisma.Decimal(
+      coordinates.longitude || 0
+    );
+    (structure as Structure).latitude = Prisma.Decimal(
+      coordinates.latitude || 0
+    );
     await prisma.structure.create({
       data: structure as Structure,
     });

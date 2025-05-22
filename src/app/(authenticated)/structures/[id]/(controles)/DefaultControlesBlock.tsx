@@ -30,7 +30,7 @@ export const DefaultControlesBlock = ({
         </div>
         <div className="pr-2">
           <InformationCard
-            primaryInformation={`${evaluations[0].note}/5`}
+            primaryInformation={`${evaluations[0]?.note}/5`}
             secondaryInformation="de moyenne à la dernière évaluation"
           />
         </div>
@@ -40,18 +40,18 @@ export const DefaultControlesBlock = ({
         />
       </div>
       <div className="pt-3">
-        <ControleAccordion title="Évaluations" lastVisit={evaluations[0].date}>
+        <ControleAccordion title="Évaluations" lastVisit={evaluations[0]?.date}>
           <EvaluationTable evaluations={evaluations} />
         </ControleAccordion>
         <ControleAccordion
           title="Inspections-contrôles"
-          lastVisit={controles[0].date}
+          lastVisit={controles[0]?.date}
         >
           <ControleTable controles={controles} />
         </ControleAccordion>
         <ControleAccordion
           title="Événements indésirables graves"
-          lastVisit={evenementsIndesirablesGraves[0].evenementDate}
+          lastVisit={evenementsIndesirablesGraves[0]?.evenementDate}
         >
           <>
             <EIGTable

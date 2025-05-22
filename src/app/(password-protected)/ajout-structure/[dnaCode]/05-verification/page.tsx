@@ -17,8 +17,10 @@ import {
 } from "../../validation/validation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useStructures } from "@/app/hooks/useStructures";
 
 export default function StepVerification() {
+  const { addStructure } = useStructures();
   const router = useRouter();
   const params = useParams();
   const previousRoute = `/ajout-structure/${params.dnaCode}/04-documents`;
@@ -56,9 +58,8 @@ export default function StepVerification() {
     {}
   );
 
-  const handleSubmit = () => {
-    // TODO:Maybe a last frontend validation ?
-
+  const handleSubmit = async () => {
+    // TODO: Maybe a last frontend validation ?
     const allValues = {
       ...identificationValues,
       ...adressesValues,
@@ -66,7 +67,8 @@ export default function StepVerification() {
       ...documentsFinanciersValues,
     };
     console.log("allValues", allValues);
-    // TODO:Send allValues to API
+    await addStructure(allValues);
+
     setState("loading");
     try {
       setTimeout(() => {
