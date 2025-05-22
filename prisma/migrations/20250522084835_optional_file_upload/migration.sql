@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "FileUpload" ALTER COLUMN "date" DROP NOT NULL,
+ALTER COLUMN "category" DROP NOT NULL;

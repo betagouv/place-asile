@@ -21,13 +21,17 @@ export const DocumentsFinanciers = () => {
   // TODO: handle FileItems data from localStorage or API ?
   return (
     <>
-      {years.map((year) => (
+      {years.map((year, index) => (
         <Year key={year} year={year}>
           <FileItem
             title={`Projet de budget pour ${year}`}
             file={
-              localStorageValues?.[year]?.budgetProjet
-                ? { name: localStorageValues[year]?.budgetProjet, size: 0 }
+              localStorageValues?.fileUploads?.[index]?.key
+                ? {
+                    name: localStorageValues.fileUploads?.[index]?.key,
+                    // TODO : mettre une vraie valeur ici
+                    size: 0,
+                  }
                 : undefined
             }
           />
@@ -35,9 +39,9 @@ export const DocumentsFinanciers = () => {
           <FileItem
             title={`Budget rectificatif ${year}`}
             file={
-              localStorageValues?.[year]?.budgetRectificatif
+              localStorageValues?.fileUploads?.[index]?.key
                 ? {
-                    name: localStorageValues[year]?.budgetRectificatif,
+                    name: localStorageValues.fileUploads?.[index]?.key,
                     size: 0,
                   }
                 : undefined
@@ -48,9 +52,9 @@ export const DocumentsFinanciers = () => {
               <FileItem
                 title={`Compte administratif pour ${year}`}
                 file={
-                  localStorageValues?.[year]?.compteAdministratif
+                  localStorageValues?.fileUploads?.[index]?.key
                     ? {
-                        name: localStorageValues[year]?.compteAdministratif,
+                        name: localStorageValues.fileUploads?.[index]?.key,
                         size: 0,
                       }
                     : undefined
@@ -59,9 +63,9 @@ export const DocumentsFinanciers = () => {
               <FileItem
                 title="Rapport d'activité"
                 file={
-                  localStorageValues?.[year]?.rapportActivite
+                  localStorageValues?.fileUploads?.[index]?.key
                     ? {
-                        name: localStorageValues[year]?.rapportActivite,
+                        name: localStorageValues.fileUploads?.[index]?.key,
                         size: 0,
                       }
                     : undefined
@@ -70,9 +74,9 @@ export const DocumentsFinanciers = () => {
               <FileItem
                 title="Rapport budgétaire"
                 file={
-                  localStorageValues?.[year]?.rapportBudgetaire
+                  localStorageValues?.fileUploads?.[index]?.key
                     ? {
-                        name: localStorageValues[year]?.rapportBudgetaire,
+                        name: localStorageValues.fileUploads?.[index]?.key,
                         size: 0,
                       }
                     : undefined

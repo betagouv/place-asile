@@ -1,4 +1,9 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Structure } from "@prisma/client";
+import {
+  StructureWithLatLng,
+  StructureType,
+  PublicType,
+} from "@/types/structure.type";
 
 export type StructureWithActivites = Prisma.StructureGetPayload<{
   include: { activites: true };
@@ -19,4 +24,20 @@ export const addPresencesIndues = (structure: StructureWithActivites) => {
     ...structure,
     activites: activitesWithPresencesIndues,
   };
+};
+
+export const addCoordinates = (
+  structures: Structure[]
+): StructureWithLatLng[] => {
+  return structures.map((structure) => ({
+    ...structure,
+    latitude: structure.latitude.toNumber(),
+    longitude: structure.longitude.toNumber(),
+    type: structure.type as StructureType,
+    public: structure.public as PublicType,
+    coordinates: [
+      structure.latitude.toNumber(),
+      structure.longitude.toNumber(),
+    ],
+  }));
 };

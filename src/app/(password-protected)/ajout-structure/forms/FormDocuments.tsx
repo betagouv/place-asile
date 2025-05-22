@@ -53,6 +53,11 @@ export default function FormDocuments() {
     });
   };
 
+  const getYearDate = (year: string): string => {
+    return new Date(Number(year), 0, 1, 13).toLocaleDateString();
+  };
+
+  // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (
     <FormWrapper
       // ⚠ La clé permet de forcer un remount du formulaire pour que le changement de schema soit pris en compte
@@ -65,7 +70,7 @@ export default function FormDocuments() {
       className="gap-0"
       submitButtonText="Vérifier"
     >
-      {({ control }) => {
+      {({ control, register }) => {
         return (
           <>
             <Link
@@ -106,7 +111,7 @@ export default function FormDocuments() {
               )}
             />
 
-            {years.map((year) => (
+            {years.map((year, index) => (
               <Year key={year} year={year}>
                 <p className="text-disabled-grey mb-0 text-xs col-span-3">
                   Taille maximale par fichier : 10 Mo. Formats supportés : pdf,
@@ -126,39 +131,94 @@ export default function FormDocuments() {
 
                 <UploadItem title={`Projet de budget pour ${year}`}>
                   <UploadWithValidation
-                    name={`${year}.budgetProjet`}
+                    name={`fileUploads.${index}.key`}
                     control={control}
-                    category="budgetProjet"
+                  />
+                  <input
+                    type="hidden"
+                    aria-hidden="true"
+                    defaultValue={"projetBudget"}
+                    {...register(`fileUploads.${index}.category`)}
+                  />
+                  <input
+                    type="hidden"
+                    aria-hidden="true"
+                    defaultValue={getYearDate(year)}
+                    {...register(`fileUploads.${index}.date`)}
                   />
                 </UploadItem>
                 <UploadItem title={`Budget rectificatif ${year}`}>
                   <UploadWithValidation
-                    name={`${year}.budgetRectificatif`}
+                    name={`fileUploads.${index}.key`}
                     control={control}
-                    category="budgetRectificatif"
+                  />
+                  <input
+                    type="hidden"
+                    aria-hidden="true"
+                    defaultValue={"budgetRectificatif"}
+                    {...register(`fileUploads.${index}.category`)}
+                  />
+                  <input
+                    type="hidden"
+                    aria-hidden="true"
+                    defaultValue={getYearDate(year)}
+                    {...register(`fileUploads.${index}.date`)}
                   />
                 </UploadItem>
                 {year !== "2025" && (
                   <>
                     <UploadItem title={`Compte administratif pour  ${year}`}>
                       <UploadWithValidation
-                        name={`${year}.compteAdministratif`}
+                        name={`fileUploads.${index}.key`}
                         control={control}
-                        category="compteAdministratif"
+                      />
+                      <input
+                        type="hidden"
+                        aria-hidden="true"
+                        defaultValue={"compteAdministratif"}
+                        {...register(`fileUploads.${index}.category`)}
+                      />
+                      <input
+                        type="hidden"
+                        aria-hidden="true"
+                        defaultValue={getYearDate(year)}
+                        {...register(`fileUploads.${index}.date`)}
                       />
                     </UploadItem>
                     <UploadItem title="Rapport d’activité">
                       <UploadWithValidation
-                        name={`${year}.rapportActivite`}
+                        name={`fileUploads.${index}.key`}
                         control={control}
-                        category="rapportActivite"
+                      />
+                      <input
+                        type="hidden"
+                        aria-hidden="true"
+                        defaultValue={"rapportActivite"}
+                        {...register(`fileUploads.${index}.category`)}
+                      />
+                      <input
+                        type="hidden"
+                        aria-hidden="true"
+                        defaultValue={getYearDate(year)}
+                        {...register(`fileUploads.${index}.date`)}
                       />
                     </UploadItem>
                     <UploadItem title="Rapport budgétaire">
                       <UploadWithValidation
-                        name={`${year}.rapportBudgetaire`}
+                        name={`fileUploads.${index}.key`}
                         control={control}
-                        category="rapportBudgetaire"
+                      />
+                      <input
+                        type="hidden"
+                        aria-hidden="true"
+                        defaultValue={"rapportBudgetaire"}
+                        {...register(`fileUploads.${index}.category`)}
+                      />
+                      <input
+                        type="hidden"
+                        aria-hidden="true"
+                        defaultValue={getYearDate(year)}
+                        {...register(`fileUploads.${index}.date`)}
                       />
                     </UploadItem>
                   </>

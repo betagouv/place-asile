@@ -7,8 +7,6 @@ import { createOne } from "./file.repository";
 export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get("file") as File;
-  const category = formData.get("category") as string;
-  const date = new Date(formData.get("date")!.toString());
   // TODO: find a way to seed FileUploads at prisma:migrate
   // TODO: find a more elegant way to validate data
 
@@ -16,17 +14,6 @@ export async function POST(req: Request) {
 
   if (validationResult) {
     return NextResponse.json({ error: validationResult }, { status: 400 });
-  }
-
-  if (!category) {
-    return NextResponse.json(
-      { error: "Aucune catégorie fournie" },
-      { status: 400 }
-    );
-  }
-
-  if (!date) {
-    return NextResponse.json({ error: "Aucune date fournie" }, { status: 400 });
   }
 
   if (!file) {
@@ -48,8 +35,6 @@ export async function POST(req: Request) {
     key: uploadResult.key,
     mimeType: uploadResult.mimeType,
     originalName: uploadResult.originalName,
-    category,
-    date,
     fileSize: file.size,
   });
 
