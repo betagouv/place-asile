@@ -84,10 +84,10 @@ export default function StepVerification() {
     );
 
     if (confirmReset) {
-      resetIdentification(`ajout-structure-${params.dnaCode}-identification`);
-      resetAdresses(`ajout-structure-${params.dnaCode}-adresses`);
-      resetTypePlaces(`ajout-structure-${params.dnaCode}-type-places`);
-      resetDocuments(`ajout-structure-${params.dnaCode}-documents`);
+      resetIdentification();
+      resetAdresses();
+      resetTypePlaces();
+      resetDocuments();
 
       window.location.reload();
     }
