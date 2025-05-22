@@ -14,6 +14,7 @@ import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { Year } from "../components/Year";
 import { UploadItem } from "../components/UploadItem";
 import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
+import { useYearDate } from "@/app/hooks/useYearDate";
 
 export default function FormDocuments() {
   const params = useParams();
@@ -53,9 +54,7 @@ export default function FormDocuments() {
     });
   };
 
-  const getYearDate = (year: string): string => {
-    return new Date(Number(year), 0, 1, 13).toLocaleDateString();
-  };
+  const getYearDate = useYearDate;
 
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (

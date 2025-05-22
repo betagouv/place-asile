@@ -8,10 +8,11 @@ import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { Table } from "@/app/components/common/Table";
 import Notice from "@codegouvfr/react-dsfr/Notice";
+import { useYearDate } from "@/app/hooks/useYearDate";
 
 export default function FormTypePlaces() {
   const params = useParams();
-  const previousRoute = `/ajout-structure/${params.dnaCode}/02-addresses`;
+  const previousRoute = `/ajout-structure/${params.dnaCode}/02-adresses`;
   const nextRoute = `/ajout-structure/${params.dnaCode}/04-documents`;
 
   const years = useMemo(() => [2023, 2024, 2025] as const, []);
@@ -111,6 +112,7 @@ export default function FormTypePlaces() {
                     <input
                       // value={new Date(year, 0, 1, 13).toISOString()} TODO: gérer cette date
                       aria-hidden="true"
+                      defaultValue={useYearDate(String(year))}
                       type="hidden"
                       {...register(`typologies.${index}.date`)}
                     />

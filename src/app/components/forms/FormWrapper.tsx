@@ -65,7 +65,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     criteriaMode: "all",
   });
 
-  const { handleSubmit, control, formState } = methods;
+  const { handleSubmit, control } = methods;
 
   const handleFormErrors = (errors: FieldErrors<z.infer<TSchema>>) => {
     console.error("Form validation errors:", errors);
@@ -123,9 +123,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                 >
                   Annuler
                 </Button>
-                <Button type="submit" disabled={!formState.isValid}>
-                  {submitButtonText}
-                </Button>
+                <Button type="submit">{submitButtonText}</Button>
               </div>
               <p className="cta_message text-mention-grey text-sm text-right mt-2">
                 Si vous ne parvenez pas à remplir certains champs,{" "}
