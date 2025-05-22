@@ -172,24 +172,18 @@ export const PlacesSchema = z.object({
     (val) => (val === "" ? undefined : Number(val)),
     z.number()
   ),
-  pmr: z
-    .preprocess(
-      (val) => (val === "" ? undefined : Number(val)),
-      z.number().optional()
-    )
-    .optional(),
-  lgbt: z
-    .preprocess(
-      (val) => (val === "" ? undefined : Number(val)),
-      z.number().optional()
-    )
-    .optional(),
-  fvvTeh: z
-    .preprocess(
-      (val) => (val === "" ? undefined : Number(val)),
-      z.number().optional()
-    )
-    .optional(),
+  pmr: z.preprocess(
+    (val) => (val === "" ? undefined : Number(val)),
+    z.number()
+  ),
+  lgbt: z.preprocess(
+    (val) => (val === "" ? undefined : Number(val)),
+    z.number()
+  ),
+  fvvTeh: z.preprocess(
+    (val) => (val === "" ? undefined : Number(val)),
+    z.number()
+  ),
   date: createRequiredDateFieldValidator(),
 });
 
