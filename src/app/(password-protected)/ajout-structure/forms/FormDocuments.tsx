@@ -68,8 +68,6 @@ export default function FormDocuments() {
       submitButtonText="Vérifier"
     >
       {({ control, register }) => {
-        console.log("selectedSchema", selectedSchema);
-
         return (
           <>
             <Link
@@ -77,7 +75,7 @@ export default function FormDocuments() {
               className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2 mb-8"
             >
               <i className="fr-icon-arrow-left-s-line before:w-4"></i>
-              Revenir au formulaire
+              Etape précédente
             </Link>
 
             <p>
