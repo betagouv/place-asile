@@ -6,6 +6,7 @@ import {
   UseControllerProps,
   Control,
   FieldValues,
+  Path,
 } from "react-hook-form";
 import Input from "@codegouvfr/react-dsfr/Input";
 import InputSimple from "../ui/InputSimple";
@@ -17,7 +18,6 @@ export default function InputWithValidation<
   control,
   type,
   label,
-  required,
   hintText,
   disabled,
   addon,
@@ -31,9 +31,6 @@ export default function InputWithValidation<
   const { field, fieldState } = useController({
     name,
     control: finalControl,
-    rules: {
-      required,
-    },
   });
 
   // TODO @ledjay: check if dayjs can handle this
@@ -110,11 +107,10 @@ export default function InputWithValidation<
 
 type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
   Partial<UseControllerProps<TFieldValues>> & {
-    name: string;
+    name: Path<TFieldValues>; // Use Path type for proper type checking
     type: string;
     label: string;
     control?: Control<TFieldValues>;
-    required?: boolean;
     hintText?: string;
     disabled?: boolean;
     addon?: React.ReactNode;

@@ -83,7 +83,7 @@ export default function FormDocuments() {
       schema={selectedSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
       nextRoute={nextRoute}
-      mode="onTouched"
+      mode="onChange"
       defaultValues={mergedDefaultValues}
       className="gap-0"
       submitButtonText={

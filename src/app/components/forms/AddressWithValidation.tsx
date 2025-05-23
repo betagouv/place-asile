@@ -152,6 +152,7 @@ export default function AddressWithValidation<
             ...fullAddressField,
             onChange: handleFullAddressChange,
             value: fullAddressField.value || "",
+            autoComplete: "off",
             type: "text",
             onFocus: () => {
               if (suggestions.length > 0) {
