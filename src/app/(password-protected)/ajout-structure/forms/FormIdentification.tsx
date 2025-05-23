@@ -18,7 +18,12 @@ import Notice from "@codegouvfr/react-dsfr/Notice";
 
 export default function FormIdentification() {
   const params = useParams();
-  const nextRoute = `/ajout-structure/${params.dnaCode}/02-adresses`;
+  const searchParams = new URLSearchParams(window.location.search);
+  const isEditMode = searchParams.get("mode") === "edit";
+
+  const nextRoute = isEditMode
+    ? `/ajout-structure/${params.dnaCode}/05-verification`
+    : `/ajout-structure/${params.dnaCode}/02-adresses`;
   const filialesContainerRef = useRef(null);
 
   useEffect(() => {
@@ -54,7 +59,9 @@ export default function FormIdentification() {
       localStorageKey={`ajout-structure-${params.dnaCode}-identification`}
       nextRoute={nextRoute}
       mode="onBlur"
-      submitButtonText="Étape suivante"
+      submitButtonText={
+        isEditMode ? "Modifier et revenir à la vérification" : "Étape suivante"
+      }
     >
       {({ register, control, watch, setValue }) => {
         const cpom = watch("cpom");
@@ -74,6 +81,8 @@ export default function FormIdentification() {
                   {
                     <a
                       href="mailto:placedasile@beta.gouv.fr"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="underline"
                     >
                       placedasile@beta.gouv.fr
