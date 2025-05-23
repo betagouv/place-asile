@@ -1,6 +1,6 @@
 import { Adresse, Repartition } from "@/types/adresse.type";
 import { sortKeysByValue } from "./common.util";
-import { Structure } from "@/types/structure.type";
+import { Structure, StructureType } from "@/types/structure.type";
 import { AdresseTypologie } from "@/types/adresse-typologie.type";
 import dayjs from "dayjs";
 import { Controle } from "@/types/controle.type";
@@ -92,4 +92,8 @@ export const getLastVisitInMonths = (
       : dayjs(evaluations[0]?.date);
   }
   return dayjs().diff(mostRecentVisit, "month");
+};
+
+export const isStructureAutorisee = (type: string | undefined): boolean => {
+  return type === StructureType.CADA || type === StructureType.CPH;
 };

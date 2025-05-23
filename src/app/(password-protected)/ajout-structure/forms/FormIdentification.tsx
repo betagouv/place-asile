@@ -15,6 +15,7 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import autoAnimate from "@formkit/auto-animate";
 import Notice from "@codegouvfr/react-dsfr/Notice";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 export default function FormIdentification() {
   const params = useParams();
@@ -42,9 +43,6 @@ export default function FormIdentification() {
   const [type, setType] = useState<string | undefined>(
     localStorageValues?.type
   );
-
-  const isStructureAutorisee =
-    type === StructureType.CADA || type === StructureType.CPH;
 
   useEffect(() => {
     if (localStorageValues && !isInitialized) {
@@ -155,7 +153,7 @@ export default function FormIdentification() {
                   type="date"
                   label="Date de création"
                 />
-                {isStructureAutorisee && (
+                {isStructureAutorisee(type) && (
                   <InputWithValidation
                     name="finessCode"
                     control={control}
@@ -311,7 +309,7 @@ export default function FormIdentification() {
               <h2 className="text-xl font-bold mb-4 text-title-blue-france">
                 Calendrier
               </h2>
-              {isStructureAutorisee && (
+              {isStructureAutorisee(type) && (
                 <fieldset className="flex flex-col gap-6">
                   <legend className="text-lg font-bold mb-2 text-title-blue-france">
                     Période d’autorisation en cours
