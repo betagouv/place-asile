@@ -75,6 +75,7 @@ export default function FormDocuments() {
     : structureSubventionneesDocuments;
 
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
+  // TODO : changer le nom des documents à uploader pour les structures subventionnées/autorisées
   return (
     <FormWrapper
       // ⚠ La clé permet de forcer un remount du formulaire pour que le changement de schema soit pris en compte
