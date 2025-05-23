@@ -22,8 +22,14 @@ import { Controller } from "react-hook-form";
 
 export default function FormAdresses() {
   const params = useParams();
+  const searchParams = new URLSearchParams(window.location.search);
+  const isEditMode = searchParams.get("mode") === "edit";
+
   const previousRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
-  const nextRoute = `/ajout-structure/${params.dnaCode}/03-type-places`;
+  const nextRoute = isEditMode
+    ? `/ajout-structure/${params.dnaCode}/05-verification`
+    : `/ajout-structure/${params.dnaCode}/03-type-places`;
+
   const hebergementsContainerRef = useRef(null);
 
   useEffect(() => {
@@ -97,7 +103,9 @@ export default function FormAdresses() {
       nextRoute={nextRoute}
       mode="onBlur"
       defaultValues={mergedDefaultValues}
-      submitButtonText="Étape suivante"
+      submitButtonText={
+        isEditMode ? "Modifier et revenir à la vérification" : "Étape suivante"
+      }
     >
       {({ control, setValue, getValues, watch }) => {
         const typeBati = watch("typeBati");

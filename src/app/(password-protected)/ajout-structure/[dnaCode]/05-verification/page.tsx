@@ -116,25 +116,25 @@ export default function StepVerification() {
         <StepResume
           className="mt-10"
           title="Identification de la structure"
-          link={`/ajout-structure/${params.dnaCode}/01-identification`}
+          link={`/ajout-structure/${params.dnaCode}/01-identification?mode=edit`}
         >
           <Identification />
         </StepResume>
         <StepResume
           title="Adresses"
-          link={`/ajout-structure/${params.dnaCode}/02-adresses`}
+          link={`/ajout-structure/${params.dnaCode}/02-adresses?mode=edit`}
         >
           <Adresses />
         </StepResume>
         <StepResume
           title="Types de places"
-          link={`/ajout-structure/${params.dnaCode}/03-type-places`}
+          link={`/ajout-structure/${params.dnaCode}/03-type-places?mode=edit`}
         >
           <TypePlaces />
         </StepResume>
         <StepResume
           title="Documents financiers"
-          link={`/ajout-structure/${params.dnaCode}/04-documents`}
+          link={`/ajout-structure/${params.dnaCode}/04-documents?mode=edit`}
         >
           <DocumentsFinanciers />
         </StepResume>

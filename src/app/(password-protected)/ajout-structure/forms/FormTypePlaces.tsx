@@ -13,8 +13,13 @@ import { cn } from "@/app/utils/classname.util";
 
 export default function FormTypePlaces() {
   const params = useParams();
+  const searchParams = new URLSearchParams(window.location.search);
+  const isEditMode = searchParams.get("mode") === "edit";
+
   const previousRoute = `/ajout-structure/${params.dnaCode}/02-adresses`;
-  const nextRoute = `/ajout-structure/${params.dnaCode}/04-documents`;
+  const nextRoute = isEditMode
+    ? `/ajout-structure/${params.dnaCode}/05-verification`
+    : `/ajout-structure/${params.dnaCode}/04-documents`;
 
   const years = useMemo(() => [2023, 2024, 2025] as const, []);
 
@@ -35,7 +40,9 @@ export default function FormTypePlaces() {
       mode="onBlur"
       defaultValues={mergedDefaultValues}
       className="gap-2"
-      submitButtonText="Étape suivante"
+      submitButtonText={
+        isEditMode ? "Modifier et revenir à la vérification" : "Étape suivante"
+      }
     >
       {({ control, register, formState }) => {
         const hasErrors = Object.values(formState.errors).length > 0;

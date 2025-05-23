@@ -18,7 +18,11 @@ import { getYearDate } from "@/app/utils/date.util";
 
 export default function FormDocuments() {
   const params = useParams();
+  const searchParams = new URLSearchParams(window.location.search);
+  const isEditMode = searchParams.get("mode") === "edit";
+
   const previousRoute = `/ajout-structure/${params.dnaCode}/03-type-places`;
+
   const nextRoute = `/ajout-structure/${params.dnaCode}/05-verification`;
 
   const years = useMemo(
@@ -65,7 +69,9 @@ export default function FormDocuments() {
       mode="onTouched"
       defaultValues={mergedDefaultValues}
       className="gap-0"
-      submitButtonText="Vérifier"
+      submitButtonText={
+        isEditMode ? "Modifier et revenir à la vérification" : "Vérifier"
+      }
     >
       {({ control, register }) => {
         return (
