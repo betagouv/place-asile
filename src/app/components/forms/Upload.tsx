@@ -13,12 +13,18 @@ const Upload = ({
   value,
   accept,
   onChange,
+  state,
+  errorMessage,
   ...props
 }: UploadProps) => {
   const { uploadFile, getFile, deleteFile } = useFileUpload();
 
-  const [state, setState] = useState<UploadState>("idle");
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [currentState, setCurrentState] = useState<UploadState>(
+    state || "idle"
+  );
+  const [currentErrorMessage, setCurrentErrorMessage] = useState<string>(
+    errorMessage || ""
+  );
   const [file, setFile] = useState<FileDataType | undefined>(undefined);
   const [valueState, setValueState] = useState<string>("");
 
@@ -27,14 +33,14 @@ const Upload = ({
 
     if (initialValue) {
       async function syncFileData() {
-        setState("loading");
+        setCurrentState("loading");
         try {
           const fileData = await getFile(initialValue as string);
           setFile(fileData as FileDataType);
-          setState("success");
+          setCurrentState("success");
         } catch {
-          setState("error");
-          setErrorMessage("Erreur lors de la récupération du fichier");
+          setCurrentState("error");
+          setCurrentErrorMessage("Erreur lors de la récupération du fichier");
         }
       }
       syncFileData();
@@ -44,6 +50,12 @@ const Upload = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setCurrentState(state || "idle");
+    setCurrentErrorMessage(errorMessage || "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, errorMessage]);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const fileInputContainerRef = useRef(null);
@@ -51,10 +63,10 @@ const Upload = ({
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ): Promise<null | undefined> => {
-    setState("loading");
+    setCurrentState("loading");
     if (!event.target.files?.[0]) {
-      setState("error");
-      setErrorMessage("Veuillez sélectionner un fichier");
+      setCurrentState("error");
+      setCurrentErrorMessage("Veuillez sélectionner un fichier");
       return;
     }
     const file = event.target.files[0];
@@ -65,8 +77,8 @@ const Upload = ({
       const stringKey = String(result.key);
       setValueState(stringKey);
       setFile(fileData);
-      setState("success");
-      setErrorMessage("");
+      setCurrentState("success");
+      setCurrentErrorMessage("");
 
       onChange?.({
         target: { value: stringKey },
@@ -74,8 +86,8 @@ const Upload = ({
 
       return;
     } catch {
-      setState("error");
-      setErrorMessage("Erreur lors de l'upload du fichier");
+      setCurrentState("error");
+      setCurrentErrorMessage("Erreur lors de l'upload du fichier");
       return;
     }
   };
@@ -96,16 +108,16 @@ const Upload = ({
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.preventDefault();
-    setState("deleting");
+    setCurrentState("deleting");
     try {
       if (valueState) {
         await deleteFile(valueState);
       }
 
-      setState("idle");
+      setCurrentState("idle");
       setFile(undefined);
       setValueState("");
-      setErrorMessage("");
+      setCurrentErrorMessage("");
 
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
@@ -115,93 +127,97 @@ const Upload = ({
         target: { value: "" },
       } as React.ChangeEvent<HTMLInputElement>);
     } catch {
-      setState("error");
-      setErrorMessage("Erreur lors de la suppression du fichier");
+      setCurrentState("error");
+      setCurrentErrorMessage("Erreur lors de la suppression du fichier");
     }
   };
 
   return (
-    <div
-      className={cn(
-        "grid items-center justify-center bg-alt-blue-france p-4 rounded min-h-[4rem]",
-        className
-      )}
-      ref={fileInputContainerRef}
-    >
-      {(state === "idle" || state === "loading") && (
-        <span className="flex items-center justify-center gap-2">
-          {state === "idle" ? "Pas de fichier" : "Chargement..."}
+    <>
+      <div
+        className={cn(
+          "grid items-center justify-center bg-alt-blue-france p-4 rounded min-h-[4rem] h-full",
+          state === "error" &&
+            "border-plain-error !border-l-2  border-0 rounded-l-none",
+          className
+        )}
+        ref={fileInputContainerRef}
+      >
+        {currentState === "idle" || currentState === "loading" ? (
+          <span className="upload-idle flex items-center justify-center gap-2">
+            {currentState === "idle" ? "Pas de fichier" : "Chargement..."}
 
-          <Button
-            size="small"
-            priority="tertiary no outline"
-            className="bg-white"
-            onClick={handleBrowse}
-            disabled={state === "loading"}
-            ref={buttonRef}
-          >
-            {state === "idle" ? "Parcourir" : <Loader />}
-          </Button>
-        </span>
-      )}
-      {state === "success" && (
-        <span className="flex items-center justify-center gap-2">
-          <i className="fr-icon-file-text-fill text-action-high-blue-france" />
-          <span className="flex flex-col">
-            <a href={file?.fileUrl}>{file?.originalName}</a>
-            {file?.fileSize && (
-              <span className="text-xs text-default-grey tabular-nums">
-                {prettyBytes(file?.fileSize, { locale: "fr" })}
-              </span>
-            )}
+            <Button
+              size="small"
+              priority="tertiary no outline"
+              className="bg-white"
+              onClick={handleBrowse}
+              disabled={currentState === "loading"}
+              ref={buttonRef}
+            >
+              {currentState === "idle" ? "Parcourir" : <Loader />}
+            </Button>
           </span>
-          <Button
-            iconId="fr-icon-delete-bin-line"
-            priority="tertiary no outline"
-            size="small"
-            className="!rounded-full !bg-white"
-            title="Supprimer le fichier"
-            onClick={handleDelete}
-          />
-        </span>
-      )}
-      {state === "error" && (
-        <span className="flex items-center justify-center gap-2">
-          <Button
-            size="small"
-            priority="tertiary no outline"
-            className="bg-white"
-            onClick={handleBrowse}
-            ref={buttonRef}
-          >
-            Parcourir
-          </Button>
-          <p>{errorMessage}</p>
-        </span>
-      )}
-      {state === "deleting" && (
-        <span className="flex items-center justify-center gap-2">
-          Suppression en cours...
-        </span>
-      )}
-      <input
-        className="hidden"
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        accept={accept}
-      />
-      <input
-        type="hidden"
-        onChange={(e) => {
-          onChange?.(e);
-          setValueState(e.target.value);
-        }}
-        name={props.name}
-        value={valueState}
-        {...props}
-      />
-    </div>
+        ) : null}
+        {currentState === "success" ? (
+          <span className="upload-success flex items-center justify-center gap-2">
+            <i className="fr-icon-file-text-fill text-action-high-blue-france" />
+            <span className="flex flex-col">
+              <a href={file?.fileUrl}>{file?.originalName}</a>
+              {file?.fileSize && (
+                <span className="text-xs text-default-grey tabular-nums">
+                  {prettyBytes(file?.fileSize, { locale: "fr" })}
+                </span>
+              )}
+            </span>
+            <Button
+              iconId="fr-icon-delete-bin-line"
+              priority="tertiary no outline"
+              size="small"
+              className="!rounded-full !bg-white"
+              title="Supprimer le fichier"
+              onClick={handleDelete}
+            />
+          </span>
+        ) : null}
+        {currentState === "error" ? (
+          <span className="upload-error flex items-center justify-center gap-2">
+            <span className="fr-error-text mt-0">{currentErrorMessage}</span>
+            <Button
+              size="small"
+              priority="tertiary no outline"
+              className="bg-white"
+              onClick={handleBrowse}
+              ref={buttonRef}
+            >
+              Parcourir
+            </Button>
+          </span>
+        ) : null}
+        {currentState === "deleting" ? (
+          <span className="upload-deleting flex items-center justify-center gap-2">
+            Suppression en cours...
+          </span>
+        ) : null}
+        <input
+          className="hidden"
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept={accept}
+        />
+        <input
+          type="hidden"
+          onChange={(e) => {
+            onChange?.(e);
+            setValueState(e.target.value);
+          }}
+          name={props.name}
+          value={valueState}
+          {...props}
+        />
+      </div>
+    </>
   );
 };
 
@@ -217,6 +233,8 @@ type UploadState =
 
 type UploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, "multiple"> & {
   fileData?: FileDataType;
+  errorMessage?: string;
+  state?: UploadState;
 };
 
 type FileDataType = FileUploadResponse & {

@@ -5,7 +5,7 @@ import {
   AdressesSchemaFlexible,
   AdressesSchemaStrict,
 } from "../validation/validation";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
@@ -23,7 +23,7 @@ import { AdressImporter } from "../[dnaCode]/02-adresses/AdressImporter";
 
 export default function FormAdresses() {
   const params = useParams();
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   const isEditMode = searchParams.get("mode") === "edit";
 
   const previousRoute = `/ajout-structure/${params.dnaCode}/01-identification`;

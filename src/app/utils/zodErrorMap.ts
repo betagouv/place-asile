@@ -14,7 +14,7 @@ export const frenchErrorMap = (
   switch (issue.code) {
     case "invalid_type":
       if (issue.received === "undefined" || issue.received === "null") {
-        message = "Champ requis";
+        message = "Ce champ est requis";
       } else {
         message = `Type attendu : ${issue.expected}, reçu : ${issue.received}`;
       }
