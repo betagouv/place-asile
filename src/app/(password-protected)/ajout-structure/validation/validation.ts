@@ -11,7 +11,9 @@ const contactSchema = z.object({
   nom: z.string().nonempty(),
   role: z.string().nonempty(),
   email: z.string().nonempty().email("L'email est invalide"),
-  telephone: z.string().nonempty(),
+  telephone: z
+    .string()
+    .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères"),
 });
 
 const parseDateString = (dateString: string): string | undefined => {
