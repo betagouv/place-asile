@@ -9,11 +9,17 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { Table } from "@/app/components/common/Table";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { getYearDate } from "@/app/utils/date.util";
+import { cn } from "@/app/utils/classname.util";
 
 export default function FormTypePlaces() {
   const params = useParams();
+  const searchParams = new URLSearchParams(window.location.search);
+  const isEditMode = searchParams.get("mode") === "edit";
+
   const previousRoute = `/ajout-structure/${params.dnaCode}/02-adresses`;
-  const nextRoute = `/ajout-structure/${params.dnaCode}/04-documents`;
+  const nextRoute = isEditMode
+    ? `/ajout-structure/${params.dnaCode}/05-verification`
+    : `/ajout-structure/${params.dnaCode}/04-documents`;
 
   const years = useMemo(() => [2023, 2024, 2025] as const, []);
 
@@ -34,9 +40,12 @@ export default function FormTypePlaces() {
       mode="onBlur"
       defaultValues={mergedDefaultValues}
       className="gap-2"
-      submitButtonText="Étape suivante"
+      submitButtonText={
+        isEditMode ? "Modifier et revenir à la vérification" : "Étape suivante"
+      }
     >
-      {({ control, register }) => {
+      {({ control, register, formState }) => {
+        const hasErrors = Object.values(formState.errors).length > 0;
         return (
           <>
             <Link
@@ -62,7 +71,10 @@ export default function FormTypePlaces() {
             <Table
               headings={["Année", "Autorisées", "PMR", "LGBT", "FVV/TEH"]}
               ariaLabelledBy=""
-              className="[&_th]:px-0 text-center w-fit "
+              className={cn(
+                "[&_th]:px-0 text-center w-fit",
+                hasErrors && "border-action-high-error"
+              )}
             >
               {years.map((year, index) => (
                 <tr
@@ -76,7 +88,7 @@ export default function FormTypePlaces() {
                       control={control}
                       type="number"
                       label=""
-                      className="mb-0 mx-auto items-center"
+                      className="mb-0 mx-auto items-center [&_p]:hidden"
                       variant="simple"
                     />
                   </td>
@@ -86,7 +98,7 @@ export default function FormTypePlaces() {
                       control={control}
                       type="number"
                       label=""
-                      className="mb-0 mx-auto items-center"
+                      className="mb-0 mx-auto items-center [&_p]:hidden"
                       variant="simple"
                     />
                   </td>
@@ -96,7 +108,7 @@ export default function FormTypePlaces() {
                       control={control}
                       type="number"
                       label=""
-                      className="mb-0 mx-auto items-center"
+                      className="mb-0 mx-auto items-center [&_p]:hidden"
                       variant="simple"
                     />
                   </td>
@@ -106,7 +118,7 @@ export default function FormTypePlaces() {
                       control={control}
                       type="number"
                       label=""
-                      className="mb-0 mx-auto items-center  "
+                      className="mb-0 mx-auto items-center [&_p]:hidden"
                       variant="simple"
                     />
                     <input
@@ -120,6 +132,11 @@ export default function FormTypePlaces() {
                 </tr>
               ))}
             </Table>
+            {hasErrors && (
+              <p className="text-label-red-marianne">
+                Toutes les cases doivent être remplies
+              </p>
+            )}
           </>
         );
       }}

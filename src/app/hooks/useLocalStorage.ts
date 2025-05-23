@@ -3,7 +3,7 @@ import { useState } from "react";
 export type UseLocalStorageReturn<T> = {
   currentValue: T | undefined;
   updateLocalStorageValue: (value: T) => void;
-  resetLocalStorageValues: (key: string) => void;
+  resetLocalStorageValues: () => void;
 };
 
 export function useLocalStorage<T>(
@@ -35,7 +35,7 @@ export function useLocalStorage<T>(
     }
   };
 
-  const resetLocalStorageValues = (key: string) => {
+  const resetLocalStorageValues = () => {
     if (!key || typeof localStorage === "undefined") {
       return;
     }

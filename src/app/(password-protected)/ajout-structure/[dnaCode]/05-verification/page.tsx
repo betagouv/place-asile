@@ -84,10 +84,10 @@ export default function StepVerification() {
     );
 
     if (confirmReset) {
-      resetIdentification(`ajout-structure-${params.dnaCode}-identification`);
-      resetAdresses(`ajout-structure-${params.dnaCode}-adresses`);
-      resetTypePlaces(`ajout-structure-${params.dnaCode}-type-places`);
-      resetDocuments(`ajout-structure-${params.dnaCode}-documents`);
+      resetIdentification();
+      resetAdresses();
+      resetTypePlaces();
+      resetDocuments();
 
       window.location.reload();
     }
@@ -116,25 +116,25 @@ export default function StepVerification() {
         <StepResume
           className="mt-10"
           title="Identification de la structure"
-          link={`/ajout-structure/${params.dnaCode}/01-identification`}
+          link={`/ajout-structure/${params.dnaCode}/01-identification?mode=edit`}
         >
           <Identification />
         </StepResume>
         <StepResume
           title="Adresses"
-          link={`/ajout-structure/${params.dnaCode}/02-adresses`}
+          link={`/ajout-structure/${params.dnaCode}/02-adresses?mode=edit`}
         >
           <Adresses />
         </StepResume>
         <StepResume
           title="Types de places"
-          link={`/ajout-structure/${params.dnaCode}/03-type-places`}
+          link={`/ajout-structure/${params.dnaCode}/03-type-places?mode=edit`}
         >
           <TypePlaces />
         </StepResume>
         <StepResume
           title="Documents financiers"
-          link={`/ajout-structure/${params.dnaCode}/04-documents`}
+          link={`/ajout-structure/${params.dnaCode}/04-documents?mode=edit`}
         >
           <DocumentsFinanciers />
         </StepResume>
@@ -155,7 +155,12 @@ export default function StepVerification() {
           </div>
           <p className="cta_message text-mention-grey text-sm text-right mt-2">
             Si vous ne parvenez pas à remplir certains champs,{" "}
-            <a href="mailto:contact@placeasile.fr" className="underline">
+            <a
+              href="mailto:placedasile@beta.gouv.fr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
               contactez-nous
             </a>
             .

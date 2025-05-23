@@ -44,9 +44,14 @@ export const Identification = () => {
       <div className="border-b border-default-grey pb-2 mb-3">
         <p className="flex gap-4 mb-0">
           <b>Contact principal</b>
-          {localStorageValues?.contactPrincipal?.nom && (
-            <span>{localStorageValues?.contactPrincipal?.nom}</span>
+          {(localStorageValues?.contactPrincipal?.nom ||
+            localStorageValues?.contactPrincipal?.prenom) && (
+            <span>
+              {localStorageValues?.contactPrincipal?.prenom}{" "}
+              {localStorageValues?.contactPrincipal?.nom}
+            </span>
           )}
+
           {localStorageValues?.contactPrincipal?.role && (
             <span>({localStorageValues?.contactPrincipal?.role})</span>
           )}
@@ -61,8 +66,12 @@ export const Identification = () => {
       <div className="border-b border-default-grey pb-2 mb-3">
         <p className="flex gap-4 mb-0">
           <b>Contact secondaire</b>
-          {localStorageValues?.contactSecondaire?.nom && (
-            <span>{localStorageValues?.contactSecondaire?.nom}</span>
+          {(localStorageValues?.contactSecondaire?.nom ||
+            localStorageValues?.contactSecondaire?.prenom) && (
+            <span>
+              {localStorageValues?.contactSecondaire?.prenom}{" "}
+              {localStorageValues?.contactSecondaire?.nom}
+            </span>
           )}
           {localStorageValues?.contactSecondaire?.role && (
             <span>({localStorageValues?.contactSecondaire?.role})</span>
