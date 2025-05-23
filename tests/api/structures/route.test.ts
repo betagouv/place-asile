@@ -3,6 +3,7 @@ import { createMocks } from "node-mocks-http";
 import { POST } from "@/app/api/structures/route";
 import { createStructure } from "../../test-utils/structure.factory";
 
+// TODO : implémenter ces tests
 describe.skip("API Route: /api/structures", () => {
   it("should return 400 when given an empty JSON", async () => {
     const { req, res } = createMocks({

@@ -17,9 +17,9 @@ import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import Button from "@codegouvfr/react-dsfr/Button";
 import { useRef } from "react";
 import autoAnimate from "@formkit/auto-animate";
-import Upload from "@/app/components/forms/Upload";
 import { Controller } from "react-hook-form";
 import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
+import { AdressImporter } from "../[dnaCode]/02-adresses/AdressImporter";
 
 export default function FormAdresses() {
   const params = useParams();
@@ -242,7 +242,11 @@ export default function FormAdresses() {
                           Liste des hébergements (d’après notre modèle à
                           télécharger uniquement)
                         </p>
-                        <Upload name="adresses" accept=".csv" />
+                        <AdressImporter
+                          getValues={getValues}
+                          setValue={setValue}
+                          typeBati={typeBati}
+                        />
                       </div>
                     </div>
                     <Notice
