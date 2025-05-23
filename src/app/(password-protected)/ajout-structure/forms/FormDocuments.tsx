@@ -1,7 +1,7 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { Controller } from "react-hook-form";
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
@@ -11,11 +11,8 @@ import {
   DocumentsSchemaFlexible,
   IdentificationFormValues,
 } from "../validation/validation";
-// import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { Year } from "../components/Year";
-// import { UploadItem } from "../components/UploadItem";
 import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
-// import { getYearDate } from "@/app/utils/date.util";
 import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
@@ -25,7 +22,7 @@ import {
 
 export default function FormDocuments() {
   const params = useParams();
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   const isEditMode = searchParams.get("mode") === "edit";
 
   const previousRoute = `/ajout-structure/${params.dnaCode}/03-type-places`;
@@ -73,6 +70,29 @@ export default function FormDocuments() {
   const documents = isStructureAutorisee(currentValue?.type)
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
+
+  // Pre-calculate document indices to handle re-renders properly
+  const documentIndices = useMemo(() => {
+    const indices: Record<string, number> = {};
+    let counter = 0;
+
+    years.forEach((year) => {
+      const currentYear = new Date().getFullYear().toString();
+
+      documents.forEach((document) => {
+        // Only count documents that will be displayed
+        if (
+          (currentYear === "2025" && document.currentYear) ||
+          year !== currentYear
+        ) {
+          const key = `${document.value}-${year}`;
+          indices[key] = counter++;
+        }
+      });
+    });
+
+    return indices;
+  }, [documents, years]);
 
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   // TODO : changer le nom des documents à uploader pour les structures subventionnées/autorisées
@@ -131,59 +151,50 @@ export default function FormDocuments() {
               )}
             />
 
-            {years.map((year, index) => (
-              <Year key={year} year={year}>
-                <p className="text-disabled-grey mb-0 text-xs col-span-3">
-                  Taille maximale par fichier : 10 Mo. Formats supportés : pdf,
-                  xls, xlsx, csv et ods.
-                  <br />
-                  Votre fichier est trop lourd ?{" "}
-                  <a
-                    target="_blank"
-                    className="underline"
-                    rel="noopener noreferrer"
-                    href="https://stirling-pdf.framalab.org/compress-pdf?lang=fr_FR"
-                  >
-                    Compressez-le
-                  </a>
-                  .
-                </p>
-                {documents
-                  .filter((document) => document.currentYear)
-                  .map((document) => {
-                    return (
-                      <DocumentItem
-                        key={document.value}
-                        year={year}
-                        control={control}
-                        index={index}
-                        register={register}
-                        categoryLabel={document.label}
-                        categoryValue={document.value}
-                      />
-                    );
+            {years.map((year) => {
+              // Use the same counter across all years
+              return (
+                <Year key={year} year={year}>
+                  <p className="text-disabled-grey mb-0 text-xs col-span-3">
+                    Taille maximale par fichier : 10 Mo. Formats supportés :
+                    pdf, xls, xlsx, csv et ods.
+                    <br />
+                    Votre fichier est trop lourd ?{" "}
+                    <a
+                      target="_blank"
+                      className="underline"
+                      rel="noopener noreferrer"
+                      href="https://stirling-pdf.framalab.org/compress-pdf?lang=fr_FR"
+                    >
+                      Compressez-le
+                    </a>
+                    .
+                  </p>
+                  {documents.map((document) => {
+                    const currentYear = new Date().getFullYear().toString();
+                    if (
+                      (currentYear === "2025" && document.currentYear) ||
+                      year !== currentYear
+                    ) {
+                      const documentKey = `${document.value}-${year}`;
+                      const currentDocIndex = documentIndices[documentKey];
+                      return (
+                        <DocumentItem
+                          key={`${document.value}-${year}`}
+                          year={year}
+                          control={control}
+                          index={currentDocIndex}
+                          register={register}
+                          categoryLabel={document.label}
+                          categoryValue={document.value}
+                        />
+                      );
+                    }
+                    return null;
                   })}
-                {year !== new Date().getFullYear().toString() && (
-                  <>
-                    {documents
-                      .filter((document) => !document.currentYear)
-                      .map((document) => {
-                        return (
-                          <DocumentItem
-                            key={document.value}
-                            year={year}
-                            control={control}
-                            index={index}
-                            register={register}
-                            categoryLabel={document.label}
-                            categoryValue={document.value}
-                          />
-                        );
-                      })}
-                  </>
-                )}
-              </Year>
-            ))}
+                </Year>
+              );
+            })}
           </>
         );
       }}
