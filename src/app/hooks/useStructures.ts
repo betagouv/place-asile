@@ -43,7 +43,7 @@ export const useStructures = (): UseStructureResult => {
     return adresses.map((adresse) => {
       return {
         ...adresse,
-        typologies: [],
+        typologies: [], // TODO add real values here
       };
     });
   };

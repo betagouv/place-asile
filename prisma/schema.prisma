@@ -88,7 +88,7 @@ model Adresse {
   codePostal         String
   commune            String
   repartition        Repartition
-  adresseTypologies AdresseTypologie[]
+  adresseTypologies  AdresseTypologie[]
 }
 
 model AdresseTypologie {

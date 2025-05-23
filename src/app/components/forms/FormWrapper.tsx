@@ -10,13 +10,12 @@ import {
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useEffect, ReactNode, useState } from "react";
+import { useEffect, ReactNode } from "react";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { useRouter } from "next/navigation";
 import Button from "@codegouvfr/react-dsfr/Button";
 import { cn } from "@/app/utils/classname.util";
 import { FormProvider } from "@/app/context/FormContext";
-import Alert from "@codegouvfr/react-dsfr/Alert";
 
 // Define more specific types for the schema
 type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
@@ -52,7 +51,6 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   const {
     currentValue: localStorageValues,
     updateLocalStorageValue: updateLocalStorageValues,
-    resetLocalStorageValues,
   } = useLocalStorage(localStorageKey, {});
 
   const mergedDefaultValues = {
@@ -62,24 +60,12 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
 
   const methods = useForm<z.infer<TSchema>>({
     resolver: zodResolver(schema),
-
     mode,
     defaultValues: mergedDefaultValues as z.infer<TSchema>,
     criteriaMode: "all",
   });
 
-  const { handleSubmit, control, reset } = methods;
-
-  const handleReset = () => {
-    if (
-      window.confirm(
-        "Attention : Toutes les données saisies sur cette étape vont être effacées. Êtes-vous sûr·e de vouloir continuer ?"
-      )
-    ) {
-      resetLocalStorageValues();
-      reset(defaultValues as z.infer<TSchema>);
-    }
-  };
+  const { handleSubmit, control } = methods;
 
   const handleFormErrors = (errors: FieldErrors<z.infer<TSchema>>) => {
     console.error("Form validation errors:", errors);
@@ -110,12 +96,6 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     }
   }, [formValues, updateLocalStorageValues, onFormChange]);
 
-  // State for alert
-  const [showAlert, setShowAlert] = useState(false);
-
-  const showSavedAlert = () => setShowAlert(true);
-  const hideAlert = () => setShowAlert(false);
-
   return (
     <HookFormProvider {...methods}>
       <FormProvider formMethods={methods}>
@@ -132,53 +112,27 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
           {typeof children === "function" ? children(methods) : children}
 
           {showSubmitButton && (
-            <>
-              {showAlert && (
-                <Alert
-                  className="mb-4"
-                  severity="success"
-                  title="Enregistré pour plus tard"
-                  description="Votre progression a été enregistrée. Les données sont sauvegardées localement dans votre navigateur."
-                  closable
-                  onClose={hideAlert}
-                />
-              )}
-              <div>
-                <div className="flex justify-end gap-4 mt-6">
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleReset();
-                    }}
-                    priority="secondary"
-                  >
-                    Annuler
-                  </Button>
-                  <Button
-                    priority="secondary"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      showSavedAlert();
-                    }}
-                  >
-                    Terminer plus tard
-                  </Button>
-                  <Button type="submit">{submitButtonText}</Button>
-                </div>
-                <p className="cta_message text-mention-grey text-sm text-right mt-2">
-                  Si vous ne parvenez pas à remplir certains champs,{" "}
-                  <a
-                    href="mailto:placedasile@beta.gouv.fr"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                  >
-                    contactez-nous par mail
-                  </a>{" "}
-                  ou au 06 82 89 11 97.
-                </p>
+            <div>
+              <div className="flex justify-end gap-4 mt-6">
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    methods.reset();
+                  }}
+                  priority="secondary"
+                >
+                  Annuler
+                </Button>
+                <Button type="submit">{submitButtonText}</Button>
               </div>
-            </>
+              <p className="cta_message text-mention-grey text-sm text-right mt-2">
+                Si vous ne parvenez pas à remplir certains champs,{" "}
+                <a href="mailto:contact@placeasile.fr" className="underline">
+                  contactez-nous
+                </a>
+                .
+              </p>
+            </div>
           )}
         </form>
       </FormProvider>
