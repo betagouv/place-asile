@@ -39,6 +39,12 @@ export default function FormIdentification() {
   // Initialize with default values to ensure inputs are always controlled
   const [isManagedByAFiliale, setIsManagedByAFiliale] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [type, setType] = useState<string | undefined>(
+    localStorageValues?.type
+  );
+
+  const isStructureAutorisee =
+    type === StructureType.CADA || type === StructureType.CPH;
 
   useEffect(() => {
     if (localStorageValues && !isInitialized) {
@@ -111,6 +117,7 @@ export default function FormIdentification() {
                   control={control}
                   label="Type"
                   required
+                  onChange={(event) => setType(event)}
                 >
                   <option value="">Sélectionnez un type</option>
                   {Object.values(StructureType).map((type) => (
@@ -146,12 +153,14 @@ export default function FormIdentification() {
                   type="date"
                   label="Date de création"
                 />
-                <InputWithValidation
-                  name="finessCode"
-                  control={control}
-                  type="text"
-                  label="Code FINESS"
-                />
+                {isStructureAutorisee && (
+                  <InputWithValidation
+                    name="finessCode"
+                    control={control}
+                    type="text"
+                    label="Code FINESS"
+                  />
+                )}
                 <SelectWithValidation
                   name="public"
                   control={control}
@@ -300,26 +309,28 @@ export default function FormIdentification() {
               <h2 className="text-xl font-bold mb-4 text-title-blue-france">
                 Calendrier
               </h2>
-              <fieldset className="flex flex-col gap-6">
-                <legend className="text-lg font-bold mb-2 text-title-blue-france">
-                  Période d’autorisation en cours
-                </legend>
-                <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
-                  <InputWithValidation
-                    name="debutPeriodeAutorisation"
-                    control={control}
-                    type="date"
-                    label="Date de début"
-                  />
+              {isStructureAutorisee && (
+                <fieldset className="flex flex-col gap-6">
+                  <legend className="text-lg font-bold mb-2 text-title-blue-france">
+                    Période d’autorisation en cours
+                  </legend>
+                  <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
+                    <InputWithValidation
+                      name="debutPeriodeAutorisation"
+                      control={control}
+                      type="date"
+                      label="Date de début"
+                    />
 
-                  <InputWithValidation
-                    name="finPeriodeAutorisation"
-                    control={control}
-                    type="date"
-                    label="Date de fin"
-                  />
-                </div>
-              </fieldset>
+                    <InputWithValidation
+                      name="finPeriodeAutorisation"
+                      control={control}
+                      type="date"
+                      label="Date de fin"
+                    />
+                  </div>
+                </fieldset>
+              )}
 
               <fieldset className="flex flex-col gap-6">
                 <legend className="text-lg font-bold mb-2 text-title-blue-france">

@@ -18,3 +18,7 @@ export const ALLOWED_MIME_TYPES = [
   "text/csv",
 ];
 export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 Mo
+export const MODELE_DIFFUS_LINK =
+  "https://docs.google.com/spreadsheets/d/1KZ2pfg94eHckhd0FpeAQovRP4lBNcSr3/edit";
+export const MODELE_MIXTE_LINK =
+  "https://docs.google.com/spreadsheets/d/1DQY7qjKdCNQk8LUWIvPXg0e0AO5n_Q7r/edit";
