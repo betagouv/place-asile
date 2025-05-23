@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { PublicType, StructureType } from "@/types/structure.type";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import {
   IdentificationFormValues,
   IdentificationSchema,
@@ -19,7 +19,7 @@ import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 export default function FormIdentification() {
   const params = useParams();
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   const isEditMode = searchParams.get("mode") === "edit";
 
   const nextRoute = isEditMode

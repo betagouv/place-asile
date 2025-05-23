@@ -2,7 +2,7 @@
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import React, { useMemo } from "react";
 import { TypePlacesSchema } from "../validation/validation";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
@@ -13,7 +13,7 @@ import { cn } from "@/app/utils/classname.util";
 
 export default function FormTypePlaces() {
   const params = useParams();
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   const isEditMode = searchParams.get("mode") === "edit";
 
   const previousRoute = `/ajout-structure/${params.dnaCode}/02-adresses`;

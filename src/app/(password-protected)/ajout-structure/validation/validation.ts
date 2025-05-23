@@ -7,11 +7,13 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
 const contactSchema = z.object({
-  prenom: z.string().min(1, "Le prénom est requis"),
-  nom: z.string().min(1, "Le nom est requis"),
-  role: z.string().min(1, "La fonction est requise"),
-  email: z.string().email("L'email est invalide"),
-  telephone: z.string().min(1, "Le téléphone est requis"),
+  prenom: z.string().nonempty(),
+  nom: z.string().nonempty(),
+  role: z.string().nonempty(),
+  email: z.string().nonempty().email("L'email est invalide"),
+  telephone: z
+    .string()
+    .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères"),
 });
 
 const parseDateString = (dateString: string): string | undefined => {
@@ -54,9 +56,7 @@ const createRequiredDateFieldValidator = () =>
       return undefined;
     },
     z
-      .string({
-        required_error: "Ce champ est requis",
-      })
+      .string()
       .refine(
         (val) => dayjs(val, "DD/MM/YYYY", true).isValid(),
         "Format de date invalide (JJ/MM/AAAA)"
@@ -65,24 +65,22 @@ const createRequiredDateFieldValidator = () =>
 
 export type IdentificationFormValues = z.infer<typeof IdentificationSchema>;
 export const IdentificationSchema = z.object({
-  dnaCode: z.string().min(1, "Code DNA requis"),
-  operateur: z.string().min(1, "L'opérateur est requis"),
+  dnaCode: z.string().nonempty(),
+  operateur: z.string().nonempty(),
   type: z.preprocess(
     (val) => (val === "" ? undefined : val),
     z.nativeEnum(StructureType, {
-      required_error: "Le type est requis",
       invalid_type_error: "Le type doit être un type de structure valide",
     })
   ),
   creationDate: createRequiredDateFieldValidator(),
   finessCode: z.string().optional().or(z.literal("")),
   public: z.nativeEnum(PublicType, {
-    required_error: "Le public est requis",
     invalid_type_error:
       "Le public doit être de type : " + Object.values(PublicType).join(", "),
   }),
   filiale: z.string().optional(),
-  cpom: z.boolean(),
+  cpom: z.boolean().optional(),
   lgbt: z.boolean(),
   fvvTeh: z.boolean(),
   contactPrincipal: contactSchema,
@@ -96,11 +94,11 @@ export const IdentificationSchema = z.object({
 });
 
 const singleAdresseSchemaStrict = z.object({
-  adresseComplete: z.string().nonempty("L'adresse est obligatoire"),
-  adresse: z.string().nonempty("La rue est obligatoire"),
-  codePostal: z.string().nonempty("Le code postal est obligatoire"),
-  commune: z.string().nonempty("La commune est obligatoire"),
-  departement: z.string().nonempty("Le département est obligatoire"),
+  adresseComplete: z.string().nonempty(),
+  adresse: z.string().nonempty(),
+  codePostal: z.string().nonempty(),
+  commune: z.string().nonempty(),
+  departement: z.string().nonempty(),
   repartition: z.nativeEnum(Repartition),
   places: z.number(),
   typologies: z.array(z.any()).optional(),
@@ -134,23 +132,12 @@ const extendedAdresseSchemaStrict = singleAdresseSchemaStrict.extend({
 export type AdressesFormValues = z.infer<typeof AdressesSchema>;
 export const AdressesSchema = z.object({
   nom: z.string().optional(),
-  adresseAdministrativeComplete: z
-    .string()
-    .nonempty("L'adresse est obligatoire"),
-  adresseAdministrative: z.string().nonempty("L'adresse est obligatoire"),
-  codePostalAdministratif: z
-    .string()
-    .nonempty("Le code postal est obligatoire"),
-  communeAdministrative: z.string().nonempty("La commune est obligatoire"),
-  departementAdministratif: z
-    .string()
-    .nonempty("Le département est obligatoire"),
-  typeBati: z.nativeEnum(Repartition, {
-    required_error: "Le type de batis est requis",
-    invalid_type_error:
-      "Le type de batis doit être de type : " +
-      Object.values(Repartition).join(", "),
-  }),
+  adresseAdministrativeComplete: z.string().nonempty(),
+  adresseAdministrative: z.string().nonempty(),
+  codePostalAdministratif: z.string().nonempty(),
+  communeAdministrative: z.string().nonempty(),
+  departementAdministratif: z.string().nonempty(),
+  typeBati: z.nativeEnum(Repartition),
   // Add adresses field to the base schema with optional array
   adresses: z.array(z.any()).optional(),
 });
