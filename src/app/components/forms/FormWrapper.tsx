@@ -178,14 +178,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                   ou au 06 82 89 11 97.
                 </p>
               </div>
-              <p className="cta_message text-mention-grey text-sm text-right mt-2">
-                Si vous ne parvenez pas à remplir certains champs,{" "}
-                <a href="mailto:contact@placeasile.fr" className="underline">
-                  contactez-nous par mail
-                </a>{" "}
-                ou au 06 82 89 11 97.
-              </p>
-            </div>
+            </>
           )}
         </form>
       </FormProvider>
