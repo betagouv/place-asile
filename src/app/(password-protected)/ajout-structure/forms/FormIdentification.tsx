@@ -81,6 +81,8 @@ export default function FormIdentification() {
                   {
                     <a
                       href="mailto:placedasile@beta.gouv.fr"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="underline"
                     >
                       placedasile@beta.gouv.fr
