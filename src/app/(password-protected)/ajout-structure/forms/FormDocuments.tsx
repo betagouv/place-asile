@@ -9,12 +9,19 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import {
   DocumentsSchemaStrict,
   DocumentsSchemaFlexible,
+  IdentificationFormValues,
 } from "../validation/validation";
-import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
+// import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { Year } from "../components/Year";
-import { UploadItem } from "../components/UploadItem";
+// import { UploadItem } from "../components/UploadItem";
 import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
-import { getYearDate } from "@/app/utils/date.util";
+// import { getYearDate } from "@/app/utils/date.util";
+import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+import {
+  structureAutoriseesDocuments,
+  structureSubventionneesDocuments,
+} from "../[dnaCode]/04-documents/documents";
 
 export default function FormDocuments() {
   const params = useParams();
@@ -57,6 +64,15 @@ export default function FormDocuments() {
       less5Years: checked,
     });
   };
+
+  const { currentValue } = useLocalStorage<Partial<IdentificationFormValues>>(
+    `ajout-structure-${params.dnaCode}-identification`,
+    {}
+  );
+
+  const documents = isStructureAutorisee(currentValue?.type)
+    ? structureAutoriseesDocuments
+    : structureSubventionneesDocuments;
 
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (
@@ -131,99 +147,38 @@ export default function FormDocuments() {
                   </a>
                   .
                 </p>
-
-                <UploadItem title={`Projet de budget pour ${year}`}>
-                  <UploadWithValidation
-                    name={`fileUploads.${index}.key`}
-                    control={control}
-                  />
-                  <input
-                    type="hidden"
-                    aria-hidden="true"
-                    defaultValue={"projetBudget"}
-                    {...register(`fileUploads.${index}.category`)}
-                  />
-                  <input
-                    type="hidden"
-                    aria-hidden="true"
-                    defaultValue={getYearDate(year)}
-                    {...register(`fileUploads.${index}.date`)}
-                  />
-                </UploadItem>
-                <UploadItem title={`Budget rectificatif ${year}`}>
-                  <UploadWithValidation
-                    name={`fileUploads.${index}.key`}
-                    control={control}
-                  />
-                  <input
-                    type="hidden"
-                    aria-hidden="true"
-                    defaultValue={"budgetRectificatif"}
-                    {...register(`fileUploads.${index}.category`)}
-                  />
-                  <input
-                    type="hidden"
-                    aria-hidden="true"
-                    defaultValue={getYearDate(year)}
-                    {...register(`fileUploads.${index}.date`)}
-                  />
-                </UploadItem>
-                {year !== "2025" && (
+                {documents
+                  .filter((document) => document.currentYear)
+                  .map((document) => {
+                    return (
+                      <DocumentItem
+                        key={document.value}
+                        year={year}
+                        control={control}
+                        index={index}
+                        register={register}
+                        categoryLabel={document.label}
+                        categoryValue={document.value}
+                      />
+                    );
+                  })}
+                {year !== new Date().getFullYear().toString() && (
                   <>
-                    <UploadItem title={`Compte administratif pour  ${year}`}>
-                      <UploadWithValidation
-                        name={`fileUploads.${index}.key`}
-                        control={control}
-                      />
-                      <input
-                        type="hidden"
-                        aria-hidden="true"
-                        defaultValue={"compteAdministratif"}
-                        {...register(`fileUploads.${index}.category`)}
-                      />
-                      <input
-                        type="hidden"
-                        aria-hidden="true"
-                        defaultValue={getYearDate(year)}
-                        {...register(`fileUploads.${index}.date`)}
-                      />
-                    </UploadItem>
-                    <UploadItem title="Rapport d’activité">
-                      <UploadWithValidation
-                        name={`fileUploads.${index}.key`}
-                        control={control}
-                      />
-                      <input
-                        type="hidden"
-                        aria-hidden="true"
-                        defaultValue={"rapportActivite"}
-                        {...register(`fileUploads.${index}.category`)}
-                      />
-                      <input
-                        type="hidden"
-                        aria-hidden="true"
-                        defaultValue={getYearDate(year)}
-                        {...register(`fileUploads.${index}.date`)}
-                      />
-                    </UploadItem>
-                    <UploadItem title="Rapport budgétaire">
-                      <UploadWithValidation
-                        name={`fileUploads.${index}.key`}
-                        control={control}
-                      />
-                      <input
-                        type="hidden"
-                        aria-hidden="true"
-                        defaultValue={"rapportBudgetaire"}
-                        {...register(`fileUploads.${index}.category`)}
-                      />
-                      <input
-                        type="hidden"
-                        aria-hidden="true"
-                        defaultValue={getYearDate(year)}
-                        {...register(`fileUploads.${index}.date`)}
-                      />
-                    </UploadItem>
+                    {documents
+                      .filter((document) => !document.currentYear)
+                      .map((document) => {
+                        return (
+                          <DocumentItem
+                            key={document.value}
+                            year={year}
+                            control={control}
+                            index={index}
+                            register={register}
+                            categoryLabel={document.label}
+                            categoryValue={document.value}
+                          />
+                        );
+                      })}
                   </>
                 )}
               </Year>
