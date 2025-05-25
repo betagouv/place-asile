@@ -2,7 +2,7 @@
 // TODO @ledjay : split this file for code clarity
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { PublicType, StructureType } from "@/types/structure.type";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
@@ -33,9 +33,22 @@ export default function FormIdentification() {
     }
   }, [filialesContainerRef]);
 
+  const defaultValues = useMemo(() => {
+    return {
+      cpom: false,
+    };
+  }, []);
+
   const { currentValue: localStorageValues } = useLocalStorage<
     Partial<IdentificationFormValues>
   >(`ajout-structure-${params.dnaCode}-identification`, {});
+
+  const mergedDefaultValues = useMemo(() => {
+    return {
+      ...defaultValues,
+      ...localStorageValues,
+    };
+  }, [defaultValues, localStorageValues]);
 
   // Initialize with default values to ensure inputs are always controlled
   const [isManagedByAFiliale, setIsManagedByAFiliale] = useState(false);
@@ -57,6 +70,7 @@ export default function FormIdentification() {
       localStorageKey={`ajout-structure-${params.dnaCode}-identification`}
       nextRoute={nextRoute}
       mode="onBlur"
+      defaultValues={mergedDefaultValues}
       submitButtonText={
         isEditMode ? "Modifier et revenir à la vérification" : "Étape suivante"
       }

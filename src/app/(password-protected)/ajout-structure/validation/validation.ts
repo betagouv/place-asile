@@ -80,7 +80,7 @@ export const IdentificationSchema = z.object({
       "Le public doit être de type : " + Object.values(PublicType).join(", "),
   }),
   filiale: z.string().optional(),
-  cpom: z.boolean().optional(),
+  cpom: z.boolean(),
   lgbt: z.boolean(),
   fvvTeh: z.boolean(),
   contactPrincipal: contactSchema,
