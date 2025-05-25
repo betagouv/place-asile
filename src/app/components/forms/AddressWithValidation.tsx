@@ -19,6 +19,7 @@ import { useAddressSuggestion } from "@/app/hooks/useAddressSuggestion";
 export default function AddressWithValidation<
   TFieldValues extends FieldValues = FieldValues
 >({
+  id,
   control,
   fullAddress,
   zipCode,
@@ -150,6 +151,7 @@ export default function AddressWithValidation<
         <Input
           nativeInputProps={{
             ...fullAddressField,
+            id,
             onChange: handleFullAddressChange,
             value: fullAddressField.value || "",
             autoComplete: "off",
@@ -249,6 +251,7 @@ type AddressSuggestion = AutocompleteSuggestion & {
 type AddressWithValidationProps<
   TFieldValues extends FieldValues = FieldValues
 > = Partial<UseControllerProps<TFieldValues>> & {
+  id?: string;
   fullAddress: string;
   zipCode?: string;
   street?: string;

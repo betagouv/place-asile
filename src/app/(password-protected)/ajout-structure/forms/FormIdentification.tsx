@@ -111,6 +111,7 @@ export default function FormIdentification() {
 
               <input
                 type="hidden"
+                id="dnaCode"
                 {...register("dnaCode")}
                 defaultValue={params.dnaCode}
               />
@@ -122,6 +123,7 @@ export default function FormIdentification() {
                 className="w-fit [&_label]:gap-2"
                 checked={isManagedByAFiliale}
                 name="managed-by-a-filiale"
+                id="managed-by-a-filiale"
                 onChange={() => setIsManagedByAFiliale(!isManagedByAFiliale)}
               />
 
@@ -132,6 +134,7 @@ export default function FormIdentification() {
                   label="Type"
                   required
                   onChange={(event) => setType(event)}
+                  id="type"
                 >
                   <option value="">Sélectionnez un type</option>
                   {Object.values(StructureType).map((type) => (
@@ -146,6 +149,7 @@ export default function FormIdentification() {
                   control={control}
                   type="text"
                   label="Opérateur"
+                  id="operateur"
                 />
 
                 <div ref={filialesContainerRef}>
@@ -155,6 +159,7 @@ export default function FormIdentification() {
                       control={control}
                       type="text"
                       label="Filiale"
+                      id="filiale"
                     />
                   )}
                 </div>
@@ -166,6 +171,7 @@ export default function FormIdentification() {
                   control={control}
                   type="date"
                   label="Date de création"
+                  id="creationDate"
                 />
                 {isStructureAutorisee(type) && (
                   <InputWithValidation
@@ -173,12 +179,14 @@ export default function FormIdentification() {
                     control={control}
                     type="text"
                     label="Code FINESS"
+                    id="finessCode"
                   />
                 )}
                 <SelectWithValidation
                   name="public"
                   control={control}
                   label="Public"
+                  id="public"
                 >
                   <option value="">Sélectionnez une option</option>
                   {Object.values(PublicType).map((publicType) => (
@@ -245,18 +253,21 @@ export default function FormIdentification() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <InputWithValidation
                   name="contactPrincipal.prenom"
+                  id="contactPrincipal.prenom"
                   control={control}
                   type="text"
                   label="Prénom"
                 />
                 <InputWithValidation
                   name="contactPrincipal.nom"
+                  id="contactPrincipal.nom"
                   control={control}
                   type="text"
                   label="Nom"
                 />
                 <InputWithValidation
                   name="contactPrincipal.role"
+                  id="contactPrincipal.role"
                   control={control}
                   type="text"
                   label="Fonction"
@@ -265,12 +276,14 @@ export default function FormIdentification() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputWithValidation
                   name="contactPrincipal.email"
+                  id="contactPrincipal.email"
                   control={control}
                   type="email"
                   label="Email"
                 />
                 <InputWithValidation
                   name="contactPrincipal.telephone"
+                  id="contactPrincipal.telephone"
                   control={control}
                   type="tel"
                   label="Téléphone"
@@ -285,18 +298,21 @@ export default function FormIdentification() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <InputWithValidation
                   name="contactSecondaire.prenom"
+                  id="contactSecondaire.prenom"
                   control={control}
                   type="text"
                   label="Prénom"
                 />
                 <InputWithValidation
                   name="contactSecondaire.nom"
+                  id="contactSecondaire.nom"
                   control={control}
                   type="text"
                   label="Nom"
                 />
                 <InputWithValidation
                   name="contactSecondaire.role"
+                  id="contactSecondaire.role"
                   control={control}
                   type="text"
                   label="Fonction"
@@ -305,12 +321,14 @@ export default function FormIdentification() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputWithValidation
                   name="contactSecondaire.email"
+                  id="contactSecondaire.email"
                   control={control}
                   type="email"
                   label="Email"
                 />
                 <InputWithValidation
                   name="contactSecondaire.telephone"
+                  id="contactSecondaire.telephone"
                   control={control}
                   type="tel"
                   label="Téléphone"
@@ -331,6 +349,7 @@ export default function FormIdentification() {
                   <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
                     <InputWithValidation
                       name="debutPeriodeAutorisation"
+                      id="debutPeriodeAutorisation"
                       control={control}
                       type="date"
                       label="Date de début"
@@ -338,6 +357,7 @@ export default function FormIdentification() {
 
                     <InputWithValidation
                       name="finPeriodeAutorisation"
+                      id="finPeriodeAutorisation"
                       control={control}
                       type="date"
                       label="Date de fin"
@@ -359,6 +379,7 @@ export default function FormIdentification() {
                 <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
                   <InputWithValidation
                     name="debutConvention"
+                    id="debutConvention"
                     control={control}
                     type="date"
                     label="Date de début"
@@ -366,6 +387,7 @@ export default function FormIdentification() {
 
                   <InputWithValidation
                     name="finConvention"
+                    id="finConvention"
                     control={control}
                     type="date"
                     label="Date de fin"
@@ -382,6 +404,7 @@ export default function FormIdentification() {
                   <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
                     <InputWithValidation
                       name="debutCpom"
+                      id="debutCpom"
                       control={control}
                       type="date"
                       label="Date de début"
@@ -389,6 +412,7 @@ export default function FormIdentification() {
 
                     <InputWithValidation
                       name="finCpom"
+                      id="finCpom"
                       control={control}
                       type="date"
                       label="Date de fin"

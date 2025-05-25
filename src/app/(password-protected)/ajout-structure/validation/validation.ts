@@ -132,7 +132,7 @@ const extendedAdresseSchemaStrict = singleAdresseSchemaStrict.extend({
 export type AdressesFormValues = z.infer<typeof AdressesSchema>;
 export const AdressesSchema = z.object({
   nom: z.string().optional(),
-  adresseAdministrativeComplete: z.string().nonempty(),
+  adresseAdministrativeComplete: z.string().min(3),
   adresseAdministrative: z.string().nonempty(),
   codePostalAdministratif: z.string().nonempty(),
   communeAdministrative: z.string().nonempty(),
