@@ -10,6 +10,7 @@ import prettyBytes from "pretty-bytes";
 
 const Upload = ({
   className,
+  id,
   value,
   accept,
   onChange,
@@ -207,12 +208,15 @@ const Upload = ({
           accept={accept}
         />
         <input
-          type="hidden"
+          type="text"
+          className="h-0 p-0 opacity-0"
+          aria-hidden="true"
           onChange={(e) => {
             onChange?.(e);
             setValueState(e.target.value);
           }}
           name={props.name}
+          id={id}
           value={valueState}
           {...props}
         />
@@ -235,6 +239,7 @@ type UploadProps = Omit<InputHTMLAttributes<HTMLInputElement>, "multiple"> & {
   fileData?: FileDataType;
   errorMessage?: string;
   state?: UploadState;
+  id?: string;
 };
 
 type FileDataType = FileUploadResponse & {

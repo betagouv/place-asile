@@ -63,6 +63,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     mode,
     defaultValues: mergedDefaultValues as z.infer<TSchema>,
     criteriaMode: "all",
+    shouldFocusError: true,
   });
 
   const { handleSubmit, control } = methods;

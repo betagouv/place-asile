@@ -80,7 +80,7 @@ export const IdentificationSchema = z.object({
       "Le public doit être de type : " + Object.values(PublicType).join(", "),
   }),
   filiale: z.string().optional(),
-  cpom: z.boolean().optional(),
+  cpom: z.boolean(),
   lgbt: z.boolean(),
   fvvTeh: z.boolean(),
   contactPrincipal: contactSchema,
@@ -132,7 +132,7 @@ const extendedAdresseSchemaStrict = singleAdresseSchemaStrict.extend({
 export type AdressesFormValues = z.infer<typeof AdressesSchema>;
 export const AdressesSchema = z.object({
   nom: z.string().optional(),
-  adresseAdministrativeComplete: z.string().nonempty(),
+  adresseAdministrativeComplete: z.string().min(3),
   adresseAdministrative: z.string().nonempty(),
   codePostalAdministratif: z.string().nonempty(),
   communeAdministrative: z.string().nonempty(),

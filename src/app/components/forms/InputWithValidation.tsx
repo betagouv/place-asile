@@ -15,6 +15,7 @@ export default function InputWithValidation<
   TFieldValues extends FieldValues = FieldValues
 >({
   name,
+  id,
   control,
   type,
   label,
@@ -74,6 +75,7 @@ export default function InputWithValidation<
   return variant === "simple" ? (
     <InputSimple
       nativeInputProps={{
+        id,
         type,
         onChange: type === "date" ? handleDateChange : field.onChange,
         value: type === "date" ? getHtmlDateValue() : field.value || "",
@@ -88,12 +90,13 @@ export default function InputWithValidation<
   ) : (
     <Input
       nativeInputProps={{
+        ...field,
         type,
         onChange: type === "date" ? handleDateChange : field.onChange,
         value: type === "date" ? getHtmlDateValue() : field.value || "",
         onBlur: field.onBlur,
+        id,
       }}
-      {...field}
       label={label}
       hintText={hintText}
       disabled={disabled}
@@ -108,6 +111,7 @@ export default function InputWithValidation<
 type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
   Partial<UseControllerProps<TFieldValues>> & {
     name: Path<TFieldValues>; // Use Path type for proper type checking
+    id?: string;
     type: string;
     label: string;
     control?: Control<TFieldValues>;

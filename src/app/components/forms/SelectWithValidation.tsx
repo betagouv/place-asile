@@ -13,6 +13,7 @@ export default function SelectWithValidation<
   TFieldValues extends FieldValues = FieldValues
 >({
   name,
+  id,
   control,
   label,
   required,
@@ -35,6 +36,7 @@ export default function SelectWithValidation<
       label={label}
       nativeSelectProps={{
         ...field,
+        id,
         onChange: (e) => {
           field.onChange(e);
           onChange?.(e.target.value);
@@ -52,6 +54,7 @@ export default function SelectWithValidation<
 type SelectWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
   Partial<UseControllerProps<TFieldValues>> & {
     name: string;
+    id?: string;
     label: string;
     control?: Control<TFieldValues>;
     required?: boolean;

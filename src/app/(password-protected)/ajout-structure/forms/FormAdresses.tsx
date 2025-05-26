@@ -281,6 +281,7 @@ export default function FormAdresses() {
                         key={`address-${index}`}
                       >
                         <AddressWithValidation
+                          id={`adresses.${index}.adresseComplete`}
                           control={control}
                           fullAddress={`adresses.${index}.adresseComplete`}
                           zipCode={`adresses.${index}.codePostal`}
@@ -294,6 +295,7 @@ export default function FormAdresses() {
                         />
                         <InputWithValidation
                           name={`adresses.${index}.places`}
+                          id={`adresses.${index}.places`}
                           control={control}
                           type="number"
                           label="Places"
@@ -301,6 +303,7 @@ export default function FormAdresses() {
                         />
                         <SelectWithValidation
                           name={`adresses.${index}.repartition`}
+                          id={`adresses.${index}.repartition`}
                           control={control}
                           label="Type de bâti"
                           required
