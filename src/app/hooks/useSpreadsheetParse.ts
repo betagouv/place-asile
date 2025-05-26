@@ -20,9 +20,11 @@ export const useSpreadsheetParse = (): UseExcelParseResult => {
     rows.shift();
     rows.forEach((row) => {
       const adresse = {
-        ...row,
+        adresse: row.adresse,
+        codePostal: row.codePostal,
+        commune: row.ville,
         adresseComplete: `${row.adresse} ${row.codePostal} ${row.ville}`,
-        departement: "", // TODO : handle departement
+        departement: String(row.codePostal).substring(0, 2),
         repartition:
           repartitionColumnIndex === -1 ? Repartition.DIFFUS : row.repartition,
         places: row.places,

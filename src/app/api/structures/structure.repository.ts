@@ -71,7 +71,7 @@ export const createOne = async (
 ): Promise<Structure> => {
   const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
   const coordinates = await getCoordinates(fullAdress);
-  return prisma.structure.create({
+  const newStructure = prisma.structure.create({
     data: {
       dnaCode: structure.dnaCode,
       operateur: structure.operateur,
@@ -117,4 +117,6 @@ export const createOne = async (
       },
     },
   });
+  newStructure.then(console.log);
+  return newStructure;
 };
