@@ -20,6 +20,7 @@ export default function SelectWithValidation<
   children,
   disabled,
   onChange,
+  hidden = false,
 }: SelectWithValidationProps<TFieldValues>) {
   const finalControl = control;
 
@@ -31,7 +32,15 @@ export default function SelectWithValidation<
     },
   });
 
-  return (
+  return hidden ? (
+    <input
+      {...field}
+      value={field.value ?? ""}
+      onChange={field.onChange}
+      aria-hidden="true"
+      type="hidden"
+    />
+  ) : (
     <Select
       label={label}
       nativeSelectProps={{
@@ -61,4 +70,5 @@ type SelectWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     children: React.ReactNode;
     disabled?: boolean;
     onChange?: (value: string) => void;
+    hidden?: boolean;
   };

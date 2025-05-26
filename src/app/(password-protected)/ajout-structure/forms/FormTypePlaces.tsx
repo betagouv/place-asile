@@ -88,6 +88,7 @@ export default function FormTypePlaces() {
                       id={`typologies.${index}.autorisees`}
                       control={control}
                       type="number"
+                      min={0}
                       label=""
                       className="mb-0 mx-auto items-center [&_p]:hidden"
                       variant="simple"
@@ -99,6 +100,7 @@ export default function FormTypePlaces() {
                       id={`typologies.${index}.pmr`}
                       control={control}
                       type="number"
+                      min={0}
                       label=""
                       className="mb-0 mx-auto items-center [&_p]:hidden"
                       variant="simple"
@@ -110,6 +112,7 @@ export default function FormTypePlaces() {
                       id={`typologies.${index}.lgbt`}
                       control={control}
                       type="number"
+                      min={0}
                       label=""
                       className="mb-0 mx-auto items-center [&_p]:hidden"
                       variant="simple"
@@ -121,6 +124,7 @@ export default function FormTypePlaces() {
                       id={`typologies.${index}.fvvTeh`}
                       control={control}
                       type="number"
+                      min={0}
                       label=""
                       className="mb-0 mx-auto items-center [&_p]:hidden"
                       variant="simple"

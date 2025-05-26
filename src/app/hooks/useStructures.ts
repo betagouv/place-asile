@@ -44,12 +44,19 @@ export const useStructures = (): UseStructureResult => {
     if (!adresses) {
       return [];
     }
-    return adresses.map((adresse) => {
-      return {
-        ...adresse,
-        typologies: [], // TODO add real values here
-      };
-    });
+    return adresses
+      .filter(
+        (adresse) =>
+          adresse.adresse !== "" &&
+          adresse.codePostal !== "" &&
+          adresse.commune !== ""
+      )
+      .map((adresse) => {
+        return {
+          ...adresse,
+          typologies: [], // TODO add real values here
+        };
+      });
   };
 
   const mapToStructure = (values: FormValues): DeepPartial<Structure> => {
@@ -95,13 +102,18 @@ export const useStructures = (): UseStructureResult => {
     };
   };
 
-  const addStructure = async (values: FormValues): Promise<void> => {
+  const addStructure = async (values: FormValues): Promise<boolean> => {
     const structure = mapToStructure(values);
-    const response = await fetch("/api/structures", {
-      method: "POST",
-      body: JSON.stringify(structure),
-    });
-    return response.json();
+    try {
+      const response = await fetch("/api/structures", {
+        method: "POST",
+        body: JSON.stringify(structure),
+      });
+      return response.status < 400;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   };
 
   return { getStructures, addStructure };
@@ -109,7 +121,7 @@ export const useStructures = (): UseStructureResult => {
 
 type UseStructureResult = {
   getStructures: () => Promise<Structure[]>;
-  addStructure: (values: FormValues) => Promise<void>;
+  addStructure: (values: FormValues) => Promise<boolean>;
 };
 
 type FormValues = Partial<

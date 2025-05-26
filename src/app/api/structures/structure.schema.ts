@@ -11,7 +11,7 @@ const adresseTypologieSchema = z.object({
   date: z.coerce.date({
     message: "La date de la typologie d'adresse est requise",
   }),
-  qpv: z.number().int(),
+  qpv: z.number().int(), // TODO : Gérer la validation de la valeur 0
   logementSocial: z.number().int(),
 });
 
