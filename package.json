@@ -30,7 +30,7 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^1.23.4",
+    "@codegouvfr/react-dsfr": "^1.23.14",
     "@formkit/auto-animate": "^0.8.2",
     "@gouvfr/dsfr-chart": "1.0.0",
     "@hookform/resolvers": "^5.0.1",
@@ -54,18 +54,18 @@
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.3",
     "uuid": "^11.1.0",
-    "zod": "^3.24.2"
+    "zod": "^3.25.28"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
-    "@types/leaflet": "^1.9.17",
+    "@types/leaflet": "^1.9.18",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^4.4.1",
+    "@vitejs/plugin-react": "^4.5.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "husky": "^9.1.7",
@@ -80,6 +80,6 @@
     "tsx": "^4.19.4",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.1.2"
+    "vitest": "^3.1.4"
   }
 }
