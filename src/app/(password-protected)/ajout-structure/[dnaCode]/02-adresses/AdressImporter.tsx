@@ -29,6 +29,7 @@ export const AdressImporter = ({
       try {
         const newAdresses = await parseFunction(file);
         const currentAddresses = getValues("adresses") || [];
+        // TODO : faire l'ajout dans dans le premier champ adresse
         const updatedAddresses = [...currentAddresses, ...newAdresses];
         setValue("adresses", updatedAddresses, {
           shouldValidate: false,
@@ -48,6 +49,7 @@ export const AdressImporter = ({
         type="file"
         id="adresses-upload"
         accept={SPREADSHEET_MIME_TYPES.join(",")}
+        className="file:bg-white file:p-2 file:rounded file:mr-2 file:cursor-pointer"
         onChange={() => onAdressesUpload(getValues, setValue, typeBati)}
       />
       {parsingError && (

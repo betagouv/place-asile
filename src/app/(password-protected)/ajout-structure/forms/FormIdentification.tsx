@@ -137,11 +137,15 @@ export default function FormIdentification() {
                   id="type"
                 >
                   <option value="">Sélectionnez un type</option>
-                  {Object.values(StructureType).map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
+                  {Object.values(StructureType)
+                    .filter(
+                      (structureType) => structureType !== StructureType.PRAHDA
+                    )
+                    .map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
                 </SelectWithValidation>
 
                 <InputWithValidation
@@ -198,8 +202,8 @@ export default function FormIdentification() {
               </div>
 
               <label className="flex gap-6">
-                Actuellement, la structure dispose-t-elle de places spécalisées
-                / labelisées ?
+                Actuellement, la structure dispose-t-elle de places spécialisées
+                / labellisées ?
                 <Checkbox
                   options={[
                     {
@@ -368,14 +372,17 @@ export default function FormIdentification() {
 
               <fieldset className="flex flex-col gap-6">
                 <legend className="text-lg font-bold mb-2 text-title-blue-france">
-                  Convention en cours (optionnel)
+                  Convention en cours
+                  {isStructureAutorisee(type) ? " (optionnel)" : ""}
                 </legend>
-                <Notice
-                  severity="info"
-                  title=""
-                  className="rounded [&_p]:flex  [&_p]:items-center"
-                  description="Uniquement si votre structure a fait l’objet d’une convention."
-                />
+                {isStructureAutorisee(type) && (
+                  <Notice
+                    severity="info"
+                    title=""
+                    className="rounded [&_p]:flex  [&_p]:items-center"
+                    description="Uniquement si votre structure a fait l’objet d’une convention."
+                  />
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
                   <InputWithValidation
                     name="debutConvention"

@@ -193,6 +193,20 @@ export default function FormAdresses() {
                   label="Type de bati"
                   onChange={(value) => {
                     setShowExtraFields(value !== Repartition.COLLECTIF);
+                    if (value === Repartition.DIFFUS) {
+                      const currentAddresses = getValues("adresses") || [];
+                      const updatedAddresses = currentAddresses.map(
+                        (adresse) => {
+                          return {
+                            ...adresse,
+                            repartition: Repartition.DIFFUS,
+                          };
+                        }
+                      );
+                      setValue("adresses", updatedAddresses, {
+                        shouldValidate: false,
+                      });
+                    }
                   }}
                   required
                 >
@@ -298,6 +312,7 @@ export default function FormAdresses() {
                           id={`adresses.${index}.places`}
                           control={control}
                           type="number"
+                          min={0}
                           label="Places"
                           className="w-1/12 mb-0"
                         />
@@ -306,6 +321,7 @@ export default function FormAdresses() {
                           id={`adresses.${index}.repartition`}
                           control={control}
                           label="Type de bâti"
+                          hidden={typeBati === Repartition.DIFFUS}
                           required
                         >
                           <option value="">Sélectionnez une option</option>

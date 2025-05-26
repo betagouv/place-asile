@@ -54,7 +54,6 @@ const Upload = ({
   useEffect(() => {
     setCurrentState(state || "idle");
     setCurrentErrorMessage(errorMessage || "");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, errorMessage]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
