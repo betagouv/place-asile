@@ -8,6 +8,10 @@ import {
 import { DeepPartial } from "@/types/global";
 import { Contact } from "@/types/contact.type";
 import { Adresse } from "@/types/adresse.type";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 export const useStructures = (): UseStructureResult => {
   const getStructures = async (): Promise<Structure[]> => {
@@ -17,7 +21,7 @@ export const useStructures = (): UseStructureResult => {
   };
 
   const handleDate = (date: string | undefined): string | null => {
-    return date ? new Date(date).toISOString() : null;
+    return date ? dayjs(date, "DD/MM/YYYY").toISOString() : null;
   };
 
   const handleContacts = (
@@ -63,7 +67,10 @@ export const useStructures = (): UseStructureResult => {
       debutConvention: handleDate(values.debutConvention),
       finConvention: handleDate(values.finConvention),
       cpom: values.cpom,
-      creationDate: new Date(values.creationDate || "").toISOString(),
+      creationDate: dayjs(
+        values.creationDate || "",
+        "DD/MM/YYYY"
+      ).toISOString(),
       finessCode: values.finessCode,
       lgbt: values.lgbt,
       fvvTeh: values.fvvTeh,
