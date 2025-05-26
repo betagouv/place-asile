@@ -51,7 +51,9 @@ export const handleAdresses = (
 ): Omit<Adresse, "id" | "structureDnaCode">[] => {
   return adresses.map((adresse) => {
     return {
-      ...adresse,
+      adresse: adresse.adresse,
+      codePostal: adresse.codePostal,
+      commune: adresse.commune,
       repartition: convertToRepartition(adresse.repartition),
     };
   });

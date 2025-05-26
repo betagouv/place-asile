@@ -11,12 +11,8 @@ const adresseTypologieSchema = z.object({
   date: z.coerce.date({
     message: "La date de la typologie d'adresse est requise",
   }),
-  qpv: z.number().int().positive().min(1, "Le nombre de places QPV est requis"),
-  logementSocial: z
-    .number()
-    .int()
-    .positive()
-    .min(1, "Le nombre de places en logement social est requis"),
+  qpv: z.number().int(),
+  logementSocial: z.number().int(),
 });
 
 const adresseSchema = z.object({
@@ -37,17 +33,9 @@ const contactSchema = z.object({
 
 const structureTypologieSchema = z.object({
   date: z.coerce.date({ message: "La date de la typologie est requise" }),
-  pmr: z.number().int().positive().min(1, "Le nombre de places PMR est requis"),
-  lgbt: z
-    .number()
-    .int()
-    .positive()
-    .min(1, "Le nombre de places LGBT est requis"),
-  fvvTeh: z
-    .number()
-    .int()
-    .positive()
-    .min(1, "Le nombre de places FVV-TEH est requis"),
+  pmr: z.number().int(),
+  lgbt: z.number().int(),
+  fvvTeh: z.number().int(),
 });
 
 const fileUploadSchema = z.object({
