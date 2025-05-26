@@ -16,6 +16,7 @@ export const DocumentItem = ({
     <UploadItem title={`${categoryLabel} pour ${year}`}>
       <UploadWithValidation
         name={`fileUploads.${index}.key`}
+        id={`fileUploads.${index}.key`}
         control={control}
       />
       <input

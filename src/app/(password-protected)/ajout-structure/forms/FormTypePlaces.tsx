@@ -85,6 +85,7 @@ export default function FormTypePlaces() {
                   <td className="!py-4">
                     <InputWithValidation
                       name={`typologies.${index}.autorisees`}
+                      id={`typologies.${index}.autorisees`}
                       control={control}
                       type="number"
                       label=""
@@ -95,6 +96,7 @@ export default function FormTypePlaces() {
                   <td className="!py-1">
                     <InputWithValidation
                       name={`typologies.${index}.pmr`}
+                      id={`typologies.${index}.pmr`}
                       control={control}
                       type="number"
                       label=""
@@ -105,6 +107,7 @@ export default function FormTypePlaces() {
                   <td className="!py-1">
                     <InputWithValidation
                       name={`typologies.${index}.lgbt`}
+                      id={`typologies.${index}.lgbt`}
                       control={control}
                       type="number"
                       label=""
@@ -115,6 +118,7 @@ export default function FormTypePlaces() {
                   <td className="!py-1">
                     <InputWithValidation
                       name={`typologies.${index}.fvvTeh`}
+                      id={`typologies.${index}.fvvTeh`}
                       control={control}
                       type="number"
                       label=""
