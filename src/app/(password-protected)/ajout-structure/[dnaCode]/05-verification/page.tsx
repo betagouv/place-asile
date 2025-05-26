@@ -59,21 +59,20 @@ export default function StepVerification() {
   );
 
   const handleSubmit = async () => {
-    // TODO: Maybe a last frontend validation ?
+    setState("loading");
     const allValues = {
       ...identificationValues,
       ...adressesValues,
       ...typePlacesValues,
       ...documentsFinanciersValues,
     };
-    await addStructure(allValues);
 
-    setState("loading");
-    try {
-      setTimeout(() => {
-        router.push(`/ajout-structure/${params.dnaCode}/06-confirmation`);
-      }, 1000);
-    } catch {
+    const result = await addStructure(allValues);
+
+    if (result) {
+      router.push(`/ajout-structure/${params.dnaCode}/06-confirmation`);
+    } else {
+      console.error(result);
       setState("error");
     }
   };
@@ -93,6 +92,7 @@ export default function StepVerification() {
     }
   };
 
+  // TODO : améliorer le message d'erreur en cas de réponse négative du backend
   return (
     <>
       <div>
@@ -138,6 +138,13 @@ export default function StepVerification() {
         >
           <DocumentsFinanciers />
         </StepResume>
+        {state === "error" && (
+          <div className="flex justify-end">
+            <p className="text-default-error">
+              Une erreur s’est produite. Veuillez réessayer ultérieurement.
+            </p>
+          </div>
+        )}
         <div>
           <div className="flex justify-end gap-4 mt-6">
             <Button priority="secondary" onClick={handleCancel}>

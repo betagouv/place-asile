@@ -18,6 +18,7 @@ export default function InputWithValidation<
   id,
   control,
   type,
+  min,
   label,
   hintText,
   disabled,
@@ -79,6 +80,7 @@ export default function InputWithValidation<
         type,
         onChange: type === "date" ? handleDateChange : field.onChange,
         value: type === "date" ? getHtmlDateValue() : field.value || "",
+        min,
         onBlur: field.onBlur,
       }}
       {...field}
@@ -95,6 +97,7 @@ export default function InputWithValidation<
         onChange: type === "date" ? handleDateChange : field.onChange,
         value: type === "date" ? getHtmlDateValue() : field.value || "",
         onBlur: field.onBlur,
+        min,
         id,
       }}
       label={label}
@@ -113,6 +116,7 @@ type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     name: Path<TFieldValues>; // Use Path type for proper type checking
     id?: string;
     type: string;
+    min?: number;
     label: string;
     control?: Control<TFieldValues>;
     hintText?: string;
