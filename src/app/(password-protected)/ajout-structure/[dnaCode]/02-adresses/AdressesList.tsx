@@ -17,6 +17,7 @@ import {
   UseFormWatch,
 } from "react-hook-form";
 import { AdressesFormValues } from "../../validation/validation";
+import Link from "next/link";
 
 interface AdressesListProps {
   watch: UseFormWatch<AdressesFormValues>;
@@ -75,9 +76,7 @@ const AdressesList = ({
               structure. <br />
               Vous pouvez le faire directement en remplissant les champs
               ci-dessous ou vous pouvez compléter{" "}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
                 href={
                   typeBati === Repartition.DIFFUS
                     ? MODELE_DIFFUS_LINK
@@ -86,7 +85,7 @@ const AdressesList = ({
                 className="underline"
               >
                 notre modèle à télécharger
-              </a>{" "}
+              </Link>{" "}
               depuis un logiciel tableur, l’importer puis vérifier le
               remplissage automatique des champs qui s’opérera.
             </p>
