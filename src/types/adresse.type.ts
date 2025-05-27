@@ -11,7 +11,7 @@ export type Adresse = {
 };
 
 export enum Repartition {
-  DIFFUS = "Diffus",
   COLLECTIF = "Collectif",
+  DIFFUS = "Diffus",
   MIXTE = "Mixte",
 }
