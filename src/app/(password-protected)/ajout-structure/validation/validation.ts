@@ -93,7 +93,7 @@ export const IdentificationSchema = z.object({
   finCpom: createDateFieldValidator(),
 });
 
-const singleAdresseSchemaStrict = z.object({
+const singleAdresseSchema = z.object({
   adresseComplete: z.string().nonempty(),
   adresse: z.string().nonempty(),
   codePostal: z.string().nonempty(),
@@ -104,25 +104,7 @@ const singleAdresseSchemaStrict = z.object({
   typologies: z.array(z.any()).optional(),
 });
 
-const singleAdresseSchemaFlexible = z.object({
-  adresseComplete: z.string().optional(),
-  adresse: z.string().optional(),
-  codePostal: z.string().optional(),
-  commune: z.string().optional(),
-  departement: z.string().optional(),
-  repartition: z.nativeEnum(Repartition).optional(),
-  places: z.number().optional(),
-  typologies: z.array(z.any()).optional(),
-});
-
-const extendedAdresseSchemaFlexible = singleAdresseSchemaFlexible.extend({
-  places: z.any(),
-  repartition: z.nativeEnum(Repartition),
-  qpv: z.boolean().optional(),
-  logementSocial: z.boolean().optional(),
-});
-
-const extendedAdresseSchemaStrict = singleAdresseSchemaStrict.extend({
+const extendedAdresseSchema = singleAdresseSchema.extend({
   places: z.any(),
   repartition: z.nativeEnum(Repartition),
   qpv: z.boolean().optional(),
@@ -137,21 +119,9 @@ export const AdressesSchema = z.object({
   codePostalAdministratif: z.string().nonempty(),
   communeAdministrative: z.string().nonempty(),
   departementAdministratif: z.string().nonempty(),
-  typeBati: z.nativeEnum(Repartition),
-  // Add adresses field to the base schema with optional array
-  adresses: z.array(z.any()).optional(),
+  typeBati: z.nativeEnum(Repartition).optional(),
+  adresses: z.array(extendedAdresseSchema).optional(),
 });
-
-export const AdressesSchemaStrict = AdressesSchema.extend({
-  adresses: z.array(extendedAdresseSchemaStrict),
-});
-
-export const AdressesSchemaFlexible = AdressesSchema.extend({
-  adresses: z.array(extendedAdresseSchemaFlexible),
-});
-
-export type AdressesFormValuesStrict = z.infer<typeof AdressesSchemaStrict>;
-export type AdressesFormValuesFlexible = z.infer<typeof AdressesSchemaFlexible>;
 
 export type PlacesFormValues = z.infer<typeof PlacesSchema>;
 export const PlacesSchema = z.object({
