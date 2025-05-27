@@ -27,7 +27,7 @@ export default function FormDocuments() {
   const isEditMode = searchParams.get("mode") === "edit";
 
   const previousRoute = `/ajout-structure/${params.dnaCode}/03-type-places`;
-
+  const resetRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
   const nextRoute = `/ajout-structure/${params.dnaCode}/05-verification`;
 
   const years = useMemo(
@@ -86,6 +86,7 @@ export default function FormDocuments() {
       schema={selectedSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
       nextRoute={nextRoute}
+      resetRoute={resetRoute}
       mode="onChange"
       defaultValues={mergedDefaultValues}
       className="gap-0"

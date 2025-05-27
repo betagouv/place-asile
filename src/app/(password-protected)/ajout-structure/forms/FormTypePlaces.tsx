@@ -17,6 +17,7 @@ export default function FormTypePlaces() {
   const isEditMode = searchParams.get("mode") === "edit";
 
   const previousRoute = `/ajout-structure/${params.dnaCode}/02-adresses`;
+  const resetRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
   const nextRoute = isEditMode
     ? `/ajout-structure/${params.dnaCode}/05-verification`
     : `/ajout-structure/${params.dnaCode}/04-documents`;
@@ -37,6 +38,7 @@ export default function FormTypePlaces() {
       schema={TypePlacesSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-type-places`}
       nextRoute={nextRoute}
+      resetRoute={resetRoute}
       mode="onBlur"
       defaultValues={mergedDefaultValues}
       className="gap-2"

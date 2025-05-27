@@ -20,6 +20,7 @@ export default function FormAdresses() {
   const isEditMode = searchParams.get("mode") === "edit";
 
   const previousRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
+  const resetRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
   const nextRoute = isEditMode
     ? `/ajout-structure/${params.dnaCode}/05-verification`
     : `/ajout-structure/${params.dnaCode}/03-type-places`;
@@ -71,6 +72,7 @@ export default function FormAdresses() {
       schema={AdressesSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-adresses`}
       nextRoute={nextRoute}
+      resetRoute={resetRoute}
       mode="onBlur"
       defaultValues={mergedDefaultValues}
       submitButtonText={

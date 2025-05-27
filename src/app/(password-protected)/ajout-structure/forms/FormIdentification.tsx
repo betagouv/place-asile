@@ -22,6 +22,7 @@ export default function FormIdentification() {
   const searchParams = useSearchParams();
   const isEditMode = searchParams.get("mode") === "edit";
 
+  const resetRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
   const nextRoute = isEditMode
     ? `/ajout-structure/${params.dnaCode}/05-verification`
     : `/ajout-structure/${params.dnaCode}/02-adresses`;
@@ -69,6 +70,7 @@ export default function FormIdentification() {
       schema={IdentificationSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-identification`}
       nextRoute={nextRoute}
+      resetRoute={resetRoute}
       mode="onBlur"
       defaultValues={mergedDefaultValues}
       submitButtonText={
