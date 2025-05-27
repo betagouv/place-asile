@@ -88,6 +88,7 @@ export default function StepVerification() {
       resetTypePlaces();
       resetDocuments();
 
+      router.push(`/ajout-structure/${params.dnaCode}/01-identification`);
       window.location.reload();
     }
   };
