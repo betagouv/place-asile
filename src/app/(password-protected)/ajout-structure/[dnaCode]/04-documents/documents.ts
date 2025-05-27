@@ -53,7 +53,7 @@ export const structureSubventionneesDocuments: StructureDocument[] = [
   },
 ];
 
-type StructureDocument = {
+export type StructureDocument = {
   label: string;
   value: string;
   currentYear: boolean;

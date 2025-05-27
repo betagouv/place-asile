@@ -116,16 +116,19 @@ export default function FormIdentification() {
                 defaultValue={params.dnaCode}
               />
 
-              <ToggleSwitch
-                label="Cette structure est-elle gérée par une filiale d’opérateur (ex: YSOS, filiale d’Adoma) ?"
-                labelPosition="left"
-                showCheckedHint={true}
-                className="w-fit [&_label]:gap-2"
-                checked={isManagedByAFiliale}
-                name="managed-by-a-filiale"
-                id="managed-by-a-filiale"
-                onChange={() => setIsManagedByAFiliale(!isManagedByAFiliale)}
-              />
+              <div className="flex">
+                <ToggleSwitch
+                  label="Cette structure est-elle gérée par une filiale d’opérateur (ex: YSOS, filiale d’Adoma) ?"
+                  labelPosition="left"
+                  showCheckedHint={false}
+                  className="w-fit [&_label]:gap-2"
+                  checked={isManagedByAFiliale}
+                  name="managed-by-a-filiale"
+                  id="managed-by-a-filiale"
+                  onChange={() => setIsManagedByAFiliale(!isManagedByAFiliale)}
+                />
+                <p className="pl-2">{isManagedByAFiliale ? "Oui" : "Non"}</p>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <SelectWithValidation
@@ -225,16 +228,18 @@ export default function FormIdentification() {
                   ]}
                 />
               </label>
-
-              <ToggleSwitch
-                inputTitle="CPOM"
-                label="Actuellement, la structure fait-elle partie d’un CPOM ?"
-                labelPosition="left"
-                showCheckedHint={false}
-                className="w-fit"
-                checked={cpom ? true : false}
-                onChange={(event) => setValue("cpom", event)}
-              />
+              <div className="flex">
+                <ToggleSwitch
+                  inputTitle="CPOM"
+                  label="Actuellement, la structure fait-elle partie d’un CPOM ?"
+                  labelPosition="left"
+                  showCheckedHint={false}
+                  className="w-fit"
+                  checked={cpom ? true : false}
+                  onChange={(event) => setValue("cpom", event)}
+                />
+                <p className="pl-2">{cpom ? "Oui" : "Non"}</p>
+              </div>
             </fieldset>
 
             <hr />

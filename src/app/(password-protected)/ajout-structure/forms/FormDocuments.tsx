@@ -19,6 +19,7 @@ import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "../[dnaCode]/04-documents/documents";
+import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
 
 export default function FormDocuments() {
   const params = useParams();
@@ -71,28 +72,11 @@ export default function FormDocuments() {
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
 
-  // Pre-calculate document indices to handle re-renders properly
-  const documentIndices = useMemo(() => {
-    const indices: Record<string, number> = {};
-    let counter = 0;
-
-    years.forEach((year) => {
-      const currentYear = new Date().getFullYear().toString();
-
-      documents.forEach((document) => {
-        // Only count documents that will be displayed
-        if (
-          (currentYear === "2025" && document.currentYear) ||
-          year !== currentYear
-        ) {
-          const key = `${document.value}-${year}`;
-          indices[key] = counter++;
-        }
-      });
-    });
-
-    return indices;
-  }, [documents, years]);
+  const { getDocumentIndexes } = useDocumentIndex();
+  const documentIndexes = getDocumentIndexes(
+    years as unknown as string[],
+    documents
+  );
 
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (
@@ -176,7 +160,7 @@ export default function FormDocuments() {
                       year !== currentYear
                     ) {
                       const documentKey = `${document.value}-${year}`;
-                      const currentDocIndex = documentIndices[documentKey];
+                      const currentDocIndex = documentIndexes[documentKey];
                       return (
                         <DocumentItem
                           key={`${document.value}-${year}`}
