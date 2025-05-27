@@ -31,6 +31,7 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   onFormChange?: (values: z.infer<TSchema>) => void;
   submitButtonText?: string;
   nextRoute?: string;
+  resetRoute?: string;
   showSubmitButton?: boolean;
 };
 
@@ -46,6 +47,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   onFormChange,
   submitButtonText = "Continuer",
   nextRoute,
+  resetRoute,
   showSubmitButton = true,
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
@@ -79,6 +81,10 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     ) {
       resetLocalStorageValues();
       reset(defaultValues as z.infer<TSchema>);
+      if (resetRoute) {
+        router.push(resetRoute);
+        window.location.reload();
+      }
     }
   };
 
@@ -168,10 +174,15 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                 </div>
                 <p className="cta_message text-mention-grey text-sm text-right mt-2">
                   Si vous ne parvenez pas à remplir certains champs,{" "}
-                  <a href="mailto:contact@placeasile.fr" className="underline">
-                    contactez-nous
-                  </a>
-                  .
+                  <a
+                    href="mailto:placedasile@beta.gouv.fr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline"
+                  >
+                    contactez-nous par mail
+                  </a>{" "}
+                  ou au 01 72 71 65 38.
                 </p>
               </div>
             </>
