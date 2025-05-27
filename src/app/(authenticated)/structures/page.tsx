@@ -12,7 +12,6 @@ export default function Structures(): ReactElement {
   const { getStructures } = useStructures();
   const [selectedVisualization, setSelectedVisualization] = useState("carte");
 
-  // TODO : déplacer côté serveur
   useEffect(() => {
     const loadStructures = async () => {
       const result = await getStructures();

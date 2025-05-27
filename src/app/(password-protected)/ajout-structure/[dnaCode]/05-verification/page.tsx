@@ -92,7 +92,6 @@ export default function StepVerification() {
     }
   };
 
-  // TODO : améliorer le message d'erreur en cas de réponse négative du backend
   return (
     <>
       <div>
@@ -139,9 +138,13 @@ export default function StepVerification() {
           <DocumentsFinanciers />
         </StepResume>
         {state === "error" && (
-          <div className="flex justify-end">
+          <div className="flex items-end flex-col">
+            <p className="text-default-error m-0">
+              Une erreur s’est produite. Vos données restent sauvegardées dans
+              le navigateur.
+            </p>
             <p className="text-default-error">
-              Une erreur s’est produite. Veuillez réessayer ultérieurement.
+              Veuillez réessayer de les soumettre ultérieurement.
             </p>
           </div>
         )}

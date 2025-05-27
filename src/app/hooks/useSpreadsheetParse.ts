@@ -78,7 +78,7 @@ const schema: Schema = {
     type: String,
     required: true,
   },
-  Répartition: {
+  "Type de bâti": {
     prop: "repartition",
     type: String,
     oneOf: [Repartition.DIFFUS, Repartition.COLLECTIF],

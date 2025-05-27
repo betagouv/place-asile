@@ -13,6 +13,7 @@ import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "../../04-documents/documents";
+import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
 
 type DocumentsFinanciersFormValues = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsFinanciers = (): ReactElement => {
@@ -34,28 +35,12 @@ export const DocumentsFinanciers = (): ReactElement => {
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
 
-  // TODO : refactor this function
-  const documentIndices = useMemo(() => {
-    const indices: Record<string, number> = {};
-    let counter = 0;
+  const { getDocumentIndexes } = useDocumentIndex();
 
-    years.forEach((year) => {
-      const currentYear = new Date().getFullYear().toString();
-
-      documents.forEach((document) => {
-        // Only count documents that will be displayed
-        if (
-          (currentYear === "2025" && document.currentYear) ||
-          year !== currentYear
-        ) {
-          const key = `${document.value}-${year}`;
-          indices[key] = counter++;
-        }
-      });
-    });
-
-    return indices;
-  }, [documents, years]);
+  const documentIndexes = getDocumentIndexes(
+    years as unknown as string[],
+    documents
+  );
 
   return (
     <>
@@ -68,7 +53,7 @@ export const DocumentsFinanciers = (): ReactElement => {
               year !== currentYear
             ) {
               const documentKey = `${document.value}-${year}`;
-              const currentDocIndex = documentIndices[documentKey];
+              const currentDocIndex = documentIndexes[documentKey];
               return (
                 <FileItem
                   key={`${document.value}-${year}`}

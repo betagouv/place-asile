@@ -130,7 +130,6 @@ export default function FormTypePlaces() {
                       variant="simple"
                     />
                     <input
-                      // value={new Date(year, 0, 1, 13).toISOString()} TODO: gérer cette date
                       aria-hidden="true"
                       defaultValue={getYearDate(String(year))}
                       type="hidden"
