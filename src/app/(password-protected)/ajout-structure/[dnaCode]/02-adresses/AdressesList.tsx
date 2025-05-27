@@ -95,6 +95,10 @@ const AdressesList = ({
                 Liste des hébergements (d’après notre modèle à télécharger
                 uniquement)
               </p>
+              <p className="text-disabled-grey mb-0 text-xs col-span-3">
+                Taille maximale par fichier : 10 Mo. Formats supportés : xls,
+                xlsx, et csv.
+              </p>
               <AdressImporter
                 getValues={getValues}
                 setValue={setValue}
