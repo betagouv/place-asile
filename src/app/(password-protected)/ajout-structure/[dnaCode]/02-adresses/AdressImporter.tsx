@@ -29,11 +29,20 @@ export const AdressImporter = ({
       try {
         const newAdresses = await parseFunction(file);
         const currentAddresses = getValues("adresses") || [];
-        // TODO : faire l'ajout dans dans le premier champ adresse
-        const updatedAddresses = [...currentAddresses, ...newAdresses];
-        setValue("adresses", updatedAddresses, {
-          shouldValidate: false,
-        });
+        if (
+          currentAddresses.length === 1 &&
+          currentAddresses[0].adresse === ""
+        ) {
+          const updatedAddresses = [...newAdresses];
+          setValue("adresses", updatedAddresses, {
+            shouldValidate: false,
+          });
+        } else {
+          const updatedAddresses = [...currentAddresses, ...newAdresses];
+          setValue("adresses", updatedAddresses, {
+            shouldValidate: false,
+          });
+        }
       } catch (error) {
         const sanitizedError = (error as string)
           .toString()
