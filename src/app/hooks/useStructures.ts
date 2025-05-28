@@ -10,6 +10,7 @@ import { Contact } from "@/types/contact.type";
 import { Adresse } from "@/types/adresse.type";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { FormAdresse } from "../utils/adresse.util";
 
 dayjs.extend(customParseFormat);
 
@@ -39,8 +40,8 @@ export const useStructures = (): UseStructureResult => {
   };
 
   const handleAdresses = (
-    adresses: Partial<Adresse>[] | undefined
-  ): Partial<Adresse>[] => {
+    adresses: Partial<FormAdresse>[] | undefined
+  ): DeepPartial<Adresse>[] => {
     if (!adresses) {
       return [];
     }
@@ -53,8 +54,20 @@ export const useStructures = (): UseStructureResult => {
       )
       .map((adresse) => {
         return {
-          ...adresse,
-          typologies: [], // TODO add real values here
+          adresse: adresse.adresse,
+          codePostal: adresse.codePostal,
+          commune: adresse.commune,
+          repartition: adresse.repartition,
+          typologies: [
+            {
+              nbPlacesTotal: Number(adresse.places),
+              date: new Date().toISOString(),
+              qpv: adresse.qpv ? Number(adresse.places) : 0,
+              logementSocial: adresse.logementSocial
+                ? Number(adresse.places)
+                : 0,
+            },
+          ],
         };
       });
   };

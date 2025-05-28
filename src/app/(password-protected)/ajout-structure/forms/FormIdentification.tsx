@@ -131,7 +131,7 @@ export default function FormIdentification() {
 
               <div className="flex">
                 <ToggleSwitch
-                  label="Cette structure est-elle gérée par une filiale d’opérateur (ex: YSOS, filiale d’Adoma) ?"
+                  label="Cette structure est-elle gérée par une filiale d’opérateur (ex: YSOS, filiale de SOS) ?"
                   labelPosition="left"
                   showCheckedHint={false}
                   className="w-fit [&_label]:gap-2"

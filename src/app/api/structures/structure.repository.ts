@@ -115,29 +115,35 @@ export const createOne = async (
     },
   });
 
-  const processedAddresses = handleAdresses(
-    structure.dnaCode,
-    structure.adresses
-  );
+  const adresses = handleAdresses(structure.dnaCode, structure.adresses);
 
-  await prisma.adresse.createMany({
-    data: processedAddresses,
-  });
-
-  if (structure.fileUploads.length > 0) {
-    await Promise.all(
-      structure.fileUploads.map((fileUpload) =>
-        prisma.fileUpload.update({
-          where: { key: fileUpload.key },
-          data: {
-            date: fileUpload.date,
-            category: fileUpload.category,
-            structureDnaCode: structure.dnaCode,
-          },
-        })
-      )
-    );
+  for (const adresse of adresses) {
+    await prisma.adresse.create({
+      data: {
+        adresse: adresse.adresse,
+        codePostal: adresse.codePostal,
+        commune: adresse.commune,
+        repartition: adresse.repartition,
+        structureDnaCode: adresse.structureDnaCode,
+        adresseTypologies: {
+          create: adresse.adresseTypologies,
+        },
+      },
+    });
   }
+
+  await Promise.all(
+    structure.fileUploads.map((fileUpload) =>
+      prisma.fileUpload.update({
+        where: { key: fileUpload.key },
+        data: {
+          date: fileUpload.date,
+          category: fileUpload.category,
+          structureDnaCode: structure.dnaCode,
+        },
+      })
+    )
+  );
 
   const updatedStructure = await findOne(newStructure.id);
   if (!updatedStructure) {

@@ -1,5 +1,6 @@
 import { Repartition } from "@/types/adresse.type";
 import readXlsxFile, { Schema } from "read-excel-file";
+import { FormAdresse } from "../utils/adresse.util";
 
 export const useSpreadsheetParse = (): UseExcelParseResult => {
   const parseSpreadsheet = async (
@@ -91,15 +92,4 @@ type ParseXlsxResult = Promise<FormAdresse[]>;
 type UseExcelParseResult = {
   parseAdressesDiffuses: (file: File) => ParseXlsxResult;
   parseAdressesMixtes: (file: File) => ParseXlsxResult;
-};
-
-type FormAdresse = {
-  adresse: string;
-  adresseComplete: string;
-  codePostal: string;
-  commune: string;
-  repartition: Repartition;
-  places: number;
-  qpv: boolean;
-  logementSocial: boolean;
 };

@@ -5,7 +5,7 @@ import {
   Repartition,
   StructureType,
 } from "@prisma/client";
-import { CreateAdresse } from "./structure.types";
+import { CreateAdresse, CreateAdresseTypologie } from "./structure.types";
 
 export const convertToRepartition = (repartition: string): Repartition => {
   const repartitions: Record<string, Repartition> = {
@@ -49,7 +49,7 @@ export const convertToControleType = (controleType: string): ControleType => {
 export const handleAdresses = (
   dnaCode: string,
   adresses: CreateAdresse[]
-): Omit<Adresse, "id">[] => {
+): Omit<AdresseWithTypologies, "id">[] => {
   return adresses.map((adresse) => {
     return {
       adresse: adresse.adresse,
@@ -57,6 +57,11 @@ export const handleAdresses = (
       commune: adresse.commune,
       repartition: convertToRepartition(adresse.repartition),
       structureDnaCode: dnaCode,
+      adresseTypologies: adresse.typologies,
     };
   });
+};
+
+export type AdresseWithTypologies = Adresse & {
+  adresseTypologies: CreateAdresseTypologie[];
 };

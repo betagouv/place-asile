@@ -1,3 +1,5 @@
+import { Repartition } from "@/types/adresse.type";
+
 export const getCoordinates = async (address: string): Promise<Coordinates> => {
   const result = await fetch(
     `https://api-adresse.data.gouv.fr/search/?q=${address}&autocomplete=0&limit=1`
@@ -13,4 +15,15 @@ export const getCoordinates = async (address: string): Promise<Coordinates> => {
 type Coordinates = {
   latitude: number | undefined;
   longitude: number | undefined;
+};
+
+export type FormAdresse = {
+  adresse: string;
+  adresseComplete: string;
+  codePostal: string;
+  commune: string;
+  repartition: Repartition;
+  places: number;
+  qpv: boolean;
+  logementSocial: boolean;
 };
