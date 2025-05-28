@@ -29,9 +29,10 @@ export default function AddressWithValidation<
   latitude,
   longitude,
   required = false,
-  disabled = false,
   className,
   label,
+  disabled = false,
+  onSelectSuggestion,
 }: AddressWithValidationProps<TFieldValues>) {
   const finalControl = control;
 
@@ -143,12 +144,14 @@ export default function AddressWithValidation<
     }
 
     resetSuggestions();
+    onSelectSuggestion?.();
   };
 
   return (
     <div className={className}>
       <div className="relative">
         <Input
+          disabled={disabled}
           nativeInputProps={{
             ...fullAddressField,
             id,
@@ -171,7 +174,6 @@ export default function AddressWithValidation<
             role: "combobox",
           }}
           label={label || "Adresse complète"}
-          disabled={disabled}
           state={fullAddressFieldState.invalid ? "error" : "default"}
           stateRelatedMessage={fullAddressFieldState.error?.message}
         />
@@ -265,4 +267,5 @@ type AddressWithValidationProps<
   disabled?: boolean;
   className?: string;
   control?: Control<TFieldValues>;
+  onSelectSuggestion?: () => void;
 };
