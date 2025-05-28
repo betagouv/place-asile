@@ -131,7 +131,7 @@ export default function FormIdentification() {
 
               <div className="flex">
                 <ToggleSwitch
-                  label="Cette structure est-elle gérée par une filiale d’opérateur (ex: YSOS, filiale de SOS) ?"
+                  label="Cette structure appartient-elle à une filiale d’opérateur (ex: YSOS, filiale de SOS) ?"
                   labelPosition="left"
                   showCheckedHint={false}
                   className="w-fit [&_label]:gap-2"
@@ -218,8 +218,8 @@ export default function FormIdentification() {
               </div>
 
               <label className="flex gap-6">
-                Actuellement, la structure dispose-t-elle de places spécialisées
-                / labellisées ?
+                Actuellement, la structure dispose-t-elle de places labellisées
+                / spécialisées ?
                 <Checkbox
                   options={[
                     {
@@ -265,7 +265,7 @@ export default function FormIdentification() {
               severity="info"
               title=""
               className="rounded [&_p]:flex [&_p]:items-center"
-              description="Veuillez renseigner en contact principal la personne responsable de la structure et en contact secondaire la personne responsable de l’opérationnel et/ou financier."
+              description="Veuillez renseigner en contact principal la personne responsable de la structure et en contact secondaire la personne en charge du suivi opérationnel et/ou de la gestion budgétaire et financière."
             />
 
             <fieldset className="flex flex-col gap-6">
@@ -388,38 +388,6 @@ export default function FormIdentification() {
                 </fieldset>
               )}
 
-              <fieldset className="flex flex-col gap-6">
-                <legend className="text-lg font-bold mb-2 text-title-blue-france">
-                  Convention en cours
-                  {isStructureAutorisee(type) ? " (optionnel)" : ""}
-                </legend>
-                {isStructureAutorisee(type) && (
-                  <Notice
-                    severity="info"
-                    title=""
-                    className="rounded [&_p]:flex  [&_p]:items-center"
-                    description="Uniquement si votre structure a fait l’objet d’une convention."
-                  />
-                )}
-                <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
-                  <InputWithValidation
-                    name="debutConvention"
-                    id="debutConvention"
-                    control={control}
-                    type="date"
-                    label="Date de début"
-                  />
-
-                  <InputWithValidation
-                    name="finConvention"
-                    id="finConvention"
-                    control={control}
-                    type="date"
-                    label="Date de fin"
-                  />
-                </div>
-              </fieldset>
-
               {cpom && (
                 <fieldset className="flex flex-col gap-6">
                   <legend className="text-lg font-bold mb-2 text-title-blue-france">
@@ -445,6 +413,38 @@ export default function FormIdentification() {
                   </div>
                 </fieldset>
               )}
+
+              <fieldset className="flex flex-col gap-6">
+                <legend className="text-lg font-bold mb-2 text-title-blue-france">
+                  Convention en cours
+                  {isStructureAutorisee(type) ? " (optionnel)" : ""}
+                </legend>
+                {isStructureAutorisee(type) && (
+                  <Notice
+                    severity="info"
+                    title=""
+                    className="rounded [&_p]:flex  [&_p]:items-center"
+                    description="Uniquement si votre structure est sous convention."
+                  />
+                )}
+                <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
+                  <InputWithValidation
+                    name="debutConvention"
+                    id="debutConvention"
+                    control={control}
+                    type="date"
+                    label="Date de début"
+                  />
+
+                  <InputWithValidation
+                    name="finConvention"
+                    id="finConvention"
+                    control={control}
+                    type="date"
+                    label="Date de fin"
+                  />
+                </div>
+              </fieldset>
             </div>
           </>
         );

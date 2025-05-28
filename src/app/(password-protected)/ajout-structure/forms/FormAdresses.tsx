@@ -170,7 +170,7 @@ export default function FormAdresses() {
               severity="info"
               title=""
               className="rounded [&_p]:flex  [&_p]:items-center"
-              description="L’ensemble des adresses sont des données sensibles qui sont protégées selon les normes du gouvernement. Elles ne seront communiquées qu’aux agents et agentes de DDETS."
+              description="L’ensemble des adresses sont des données sensibles qui sont protégées selon les normes du gouvernement. Elles ne seront communiquées qu’à l'État."
             />
             <fieldset className="flex flex-col gap-6">
               <legend className="text-xl font-bold mb-4 text-title-blue-france">
@@ -204,7 +204,7 @@ export default function FormAdresses() {
                 <SelectWithValidation
                   name="typeBati"
                   control={control}
-                  label="Type de bati"
+                  label="Type de bâti"
                   onChange={handleTypeBatiChange}
                   required
                 >
