@@ -3,9 +3,8 @@ import prisma from "../../../../lib/prisma";
 import { getCoordinates } from "@/app/utils/adresse.util";
 import {
   convertToPublicType,
-  convertToRepartition,
   convertToStructureType,
-  // handleAdresses,
+  handleAdresses,
 } from "./structure.util";
 import { CreateStructure } from "./structure.types";
 
@@ -98,11 +97,6 @@ export const createOne = async (
       finPeriodeAutorisation: structure.finPeriodeAutorisation,
       debutCpom: structure.debutCpom,
       finCpom: structure.finCpom,
-      // adresses: {
-      //   createMany: {
-      //     data: handleAdresses(structure.adresses),
-      //   },
-      // },
       contacts: {
         createMany: {
           data: structure.contacts,
@@ -121,35 +115,14 @@ export const createOne = async (
     },
   });
 
-  // const processedAddresses = handleAdresses(
-  //   structure.dnaCode,
-  //   structure.adresses
-  // );
-
-  await Promise.all(
-    structure.adresses.map((adresse) =>
-      prisma.adresse.create({
-        data: {
-          adresse: adresse.adresse,
-          codePostal: adresse.codePostal,
-          commune: adresse.commune,
-          repartition: convertToRepartition(adresse.repartition),
-          structure: {
-            connect: {
-              dnaCode: structure.dnaCode,
-            },
-          },
-        },
-        include: {
-          structure: true,
-        },
-      })
-    )
+  const processedAddresses = handleAdresses(
+    structure.dnaCode,
+    structure.adresses
   );
 
-  // await prisma.adresse.createMany({
-  //   data: processedAddresses,
-  // });
+  await prisma.adresse.createMany({
+    data: processedAddresses,
+  });
 
   if (structure.fileUploads.length > 0) {
     await Promise.all(
