@@ -34,11 +34,23 @@ export default function FormIdentification() {
     }
   }, [filialesContainerRef]);
 
+  const defaultType = useMemo(() => {
+    if (!params.dnaCode) return undefined;
+    const dnaCode = params.dnaCode as string;
+
+    if (dnaCode.startsWith("C")) return StructureType.CADA;
+    if (dnaCode.startsWith("H")) return StructureType.HUDA;
+    if (dnaCode.startsWith("K")) return StructureType.CAES;
+    if (dnaCode.startsWith("R")) return StructureType.CPH;
+    return undefined;
+  }, [params.dnaCode]);
+
   const defaultValues = useMemo(() => {
     return {
       cpom: false,
+      type: defaultType,
     };
-  }, []);
+  }, [defaultType]);
 
   const { currentValue: localStorageValues } = useLocalStorage<
     Partial<IdentificationFormValues>
@@ -51,7 +63,6 @@ export default function FormIdentification() {
     };
   }, [defaultValues, localStorageValues]);
 
-  // Initialize with default values to ensure inputs are always controlled
   const [isManagedByAFiliale, setIsManagedByAFiliale] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const [type, setType] = useState<string | undefined>(
