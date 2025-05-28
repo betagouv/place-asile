@@ -10,8 +10,6 @@ import AddressWithValidation from "@/app/components/forms/AddressWithValidation"
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { Repartition } from "@/types/adresse.type";
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
-import { useRef } from "react";
-import autoAnimate from "@formkit/auto-animate";
 import AdressesList from "../[dnaCode]/02-adresses/AdressesList";
 
 export default function FormAdresses() {
@@ -25,14 +23,6 @@ export default function FormAdresses() {
     ? `/ajout-structure/${params.dnaCode}/05-verification`
     : `/ajout-structure/${params.dnaCode}/03-type-places`;
 
-  const hebergementsContainerRef = useRef(null);
-
-  useEffect(() => {
-    if (hebergementsContainerRef.current) {
-      autoAnimate(hebergementsContainerRef.current);
-    }
-  }, [hebergementsContainerRef]);
-
   // Move defaultValues into useMemo to prevent recreation on every render
   const defaultValues = useMemo(
     () => ({
@@ -42,6 +32,19 @@ export default function FormAdresses() {
       communeAdministrative: "",
       departementAdministratif: "",
       typeBati: undefined,
+      adresses: [
+        {
+          adresseComplete: "",
+          adresse: "",
+          codePostal: "",
+          commune: "",
+          departement: "",
+          repartition: Repartition.DIFFUS,
+          places: 0,
+          logementSocial: false,
+          qpv: false,
+        },
+      ],
     }),
     []
   );
@@ -79,49 +82,78 @@ export default function FormAdresses() {
         isEditMode ? "Modifier et revenir à la vérification" : "Étape suivante"
       }
     >
-      {({ control, setValue, getValues, watch }) => {
-        const typeBati = watch("typeBati") as Repartition | undefined;
-
+      {({ control, setValue, getValues, watch, setError }) => {
         const handleTypeBatiChange = (value: string) => {
-          if (
-            value === Repartition.COLLECTIF ||
-            value === undefined ||
-            value === ""
-          ) {
-            // TODO: @ledjay mettre en place une confirmation avant de supprimer les adresses
-            setValue("adresses", [], { shouldValidate: false });
+          const currentAdresses = getValues("adresses") || [];
+
+          if (value !== Repartition.COLLECTIF) {
+            setValue("sameAddress", false);
+          }
+
+          if (currentAdresses.length === 0) {
+            setValue(
+              "adresses",
+              [
+                {
+                  adresseComplete: "",
+                  adresse: "",
+                  codePostal: "",
+                  commune: "",
+                  departement: "",
+                  repartition: value as Repartition,
+                  places: 0,
+                  logementSocial: false,
+                  qpv: false,
+                },
+              ],
+              { shouldValidate: false }
+            );
           } else {
-            const currentAdresses = getValues("adresses") || [];
-            if (currentAdresses.length === 0) {
-              setValue(
-                "adresses",
-                [
-                  {
-                    adresseComplete: "",
-                    adresse: "",
-                    codePostal: "",
-                    commune: "",
-                    departement: "",
-                    repartition: value as Repartition,
-                    places: 0,
-                    logementSocial: false,
-                    qpv: false,
-                  },
-                ],
-                { shouldValidate: false }
-              );
-            } else {
+            const updatedAdresses = currentAdresses.map((adresse) => ({
+              ...adresse,
+              repartition: value as Repartition,
+            }));
+
+            setValue("adresses", updatedAdresses, {
+              shouldValidate: false,
+            });
+          }
+
+          // We remove all addresses except the first one if the type bati is COLLECTIF
+          if (value === Repartition.COLLECTIF) {
+            const updatedAdresses = currentAdresses.slice(0, 1);
+            console.log("currentAdresses", currentAdresses);
+            console.log("updatedAdresses", updatedAdresses);
+            setValue("adresses", updatedAdresses, {
+              shouldValidate: false,
+            });
+          }
+        };
+
+        // If type bati is DIFFUS and sameAddress is true, update the first address in sync with the administrative address
+        const handleAddressAdministrativeChange = () => {
+          if (
+            watch("typeBati") === Repartition.COLLECTIF &&
+            watch("sameAddress")
+          ) {
+            setTimeout(() => {
               const currentAdresses = getValues("adresses") || [];
-
-              const updatedAdresses = currentAdresses.map((adresse) => ({
-                ...adresse,
-                repartition: value as Repartition,
-              }));
-
-              setValue("adresses", updatedAdresses, {
-                shouldValidate: false,
-              });
-            }
+              if (currentAdresses.length > 0) {
+                const updatedAdresses = [
+                  {
+                    ...currentAdresses[0],
+                    adresseComplete: getValues("adresseAdministrativeComplete"),
+                    adresse: getValues("adresseAdministrative"),
+                    codePostal: getValues("codePostalAdministratif"),
+                    commune: getValues("communeAdministrative"),
+                    departement: getValues("departementAdministratif"),
+                  },
+                ];
+                setValue("adresses", updatedAdresses, {
+                  shouldValidate: true,
+                });
+              }
+            }, 100);
           }
         };
 
@@ -161,11 +193,13 @@ export default function FormAdresses() {
                 <AddressWithValidation
                   control={control}
                   fullAddress="adresseAdministrativeComplete"
+                  id="adresseAdministrativeComplete"
                   zipCode="codePostalAdministratif"
                   street="adresseAdministrative"
                   city="communeAdministrative"
                   department="departementAdministratif"
                   label="Adresse administrative"
+                  onSelectSuggestion={handleAddressAdministrativeChange}
                 />
 
                 <SelectWithValidation
@@ -186,19 +220,13 @@ export default function FormAdresses() {
               </div>
             </fieldset>
 
-            <div ref={hebergementsContainerRef}>
-              {/* Only render on client-side and when condition is met */}
-              {isInitialized &&
-                typeBati !== undefined &&
-                typeBati !== Repartition.COLLECTIF && (
-                  <AdressesList
-                    watch={watch}
-                    control={control}
-                    setValue={setValue}
-                    getValues={getValues}
-                  />
-                )}
-            </div>
+            <AdressesList
+              watch={watch}
+              control={control}
+              setValue={setValue}
+              getValues={getValues}
+              setError={setError}
+            />
           </>
         );
       }}
