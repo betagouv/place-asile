@@ -120,7 +120,7 @@ export default function FormDocuments() {
                   options={[
                     {
                       label:
-                        "Ma structure a moins de 5 ans d’existence sur le programme 303, je ne peux pas fournir autant d’historique.",
+                        "Ma structure a moins de 5 ans d’existence sur le programme 303, je ne peux fournir que certaines années demandées.",
                       nativeInputProps: {
                         name: field.name,
                         checked: field.value,
