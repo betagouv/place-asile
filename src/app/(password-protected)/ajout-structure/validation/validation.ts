@@ -120,6 +120,7 @@ export const AdressesSchema = z.object({
   communeAdministrative: z.string().nonempty(),
   departementAdministratif: z.string().nonempty(),
   typeBati: z.nativeEnum(Repartition).optional(),
+  sameAddress: z.boolean().optional(),
   adresses: z.array(extendedAdresseSchema).optional(),
 });
 
