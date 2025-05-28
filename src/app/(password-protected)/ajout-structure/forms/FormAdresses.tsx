@@ -122,8 +122,7 @@ export default function FormAdresses() {
           // We remove all addresses except the first one if the type bati is COLLECTIF
           if (value === Repartition.COLLECTIF) {
             const updatedAdresses = currentAdresses.slice(0, 1);
-            console.log("currentAdresses", currentAdresses);
-            console.log("updatedAdresses", updatedAdresses);
+
             setValue("adresses", updatedAdresses, {
               shouldValidate: false,
             });

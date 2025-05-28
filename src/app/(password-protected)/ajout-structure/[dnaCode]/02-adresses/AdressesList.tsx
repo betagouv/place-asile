@@ -78,7 +78,6 @@ const AdressesList = ({
 
   const handleSameAddressChange = () => {
     if (!sameAddress && (adminAddress === "" || adminAddress === undefined)) {
-      console.log(typeof adminAddress);
       const adminAddressElement = document.getElementById(
         "adresseAdministrativeComplete"
       );
@@ -299,7 +298,7 @@ const AdressesList = ({
                       handleRemoveAddress(index);
                     }}
                     priority="tertiary no outline"
-                    title="Label button"
+                    title="Supprimer l'hébergement"
                   />
                 )}
               </div>
