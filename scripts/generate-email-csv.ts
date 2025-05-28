@@ -14,7 +14,10 @@ sheet.shift();
 
 const structures = sheet
   .filter((line) => {
-    return line[1] === "Normandie" || line[1] === "Pays de la Loire";
+    const isPrahda = String(line[4]).startsWith("P");
+    return (
+      !isPrahda && (line[1] === "Normandie" || line[1] === "Pays de la Loire")
+    );
   })
   .map((line) => {
     const newLine = line.splice(2, 3);

@@ -48,6 +48,7 @@ export const useSpreadsheetParse = (): UseExcelParseResult => {
   return { parseAdressesDiffuses, parseAdressesMixtes };
 };
 
+// TODO : améliorer la fiabilité de ce schema
 const schema: Schema = {
   Adresse: {
     prop: "adresse",
