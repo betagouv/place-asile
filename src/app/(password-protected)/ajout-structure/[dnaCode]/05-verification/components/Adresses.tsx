@@ -21,9 +21,12 @@ export const Adresses = () => {
         {localStorageValues?.codePostalAdministratif}{" "}
         {localStorageValues?.communeAdministrative}
       </p>
-      <h3 className="text-title-blue-france w-full flex justify-between text-lg">
-        Hébergements
-      </h3>
+      {localStorageValues?.adresses &&
+        localStorageValues.adresses.length > 0 && (
+          <h3 className="text-title-blue-france w-full flex justify-between text-lg">
+            Hébergements
+          </h3>
+        )}
       {localStorageValues?.adresses?.map((hebergement, index) => {
         return (
           <p

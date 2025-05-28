@@ -47,14 +47,16 @@ export const convertToControleType = (controleType: string): ControleType => {
 };
 
 export const handleAdresses = (
+  dnaCode: string,
   adresses: CreateAdresse[]
-): Omit<Adresse, "id" | "structureDnaCode">[] => {
+): Omit<Adresse, "id">[] => {
   return adresses.map((adresse) => {
     return {
       adresse: adresse.adresse,
       codePostal: adresse.codePostal,
       commune: adresse.commune,
       repartition: convertToRepartition(adresse.repartition),
+      structureDnaCode: dnaCode,
     };
   });
 };
