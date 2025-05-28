@@ -139,7 +139,7 @@ const AdressesList = ({
                       ? MODELE_DIFFUS_LINK
                       : MODELE_MIXTE_LINK
                   }
-                  className="underline"
+                  className="underline text-title-blue-france"
                 >
                   notre modèle à télécharger
                 </Link>{" "}
@@ -176,18 +176,18 @@ const AdressesList = ({
             <>
               Concernant les particularités, les logements sociaux correspondent
               aux logement loués à un bailleur social. Vous pouvez vérifier si
-              une adresse fait partie d’un Quartier Prioritaire de la politique
-              de la Ville (QPV){" "}
+              une adresse est dans un Quartier Prioritaire de la politique de la
+              Ville (QPV){" "}
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 href="https://sig.ville.gouv.fr/"
                 className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2"
               >
-                sur ce lien.
-              </a>{" "}
-              Si une adresse ne donne pas de résultat, veuillez laisser la case
-              décochée.
+                sur ce lien
+              </a>
+              . Si une adresse ne donne pas de résultat, veuillez laisser la
+              case décochée.
             </>
           }
         />
@@ -241,11 +241,13 @@ const AdressesList = ({
               required
             >
               <option value="">Sélectionnez une option</option>
-              {Object.values(Repartition).map((repartition) => (
-                <option key={repartition} value={repartition}>
-                  {repartition}
-                </option>
-              ))}
+              {Object.values(Repartition)
+                .filter((repartition) => repartition !== Repartition.MIXTE)
+                .map((repartition) => (
+                  <option key={repartition} value={repartition}>
+                    {repartition}
+                  </option>
+                ))}
             </SelectWithValidation>
             <div className="flex grow flex-col gap-2">
               <label htmlFor={`adresses.${index}.typologies`}>
