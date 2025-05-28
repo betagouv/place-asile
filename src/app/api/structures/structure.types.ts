@@ -56,7 +56,7 @@ type CreateStructureTypologie = {
   fvvTeh: number;
 };
 
-type CreateAdresseTypologie = {
+export type CreateAdresseTypologie = {
   nbPlacesTotal: number;
   date: Date;
   qpv: number;
