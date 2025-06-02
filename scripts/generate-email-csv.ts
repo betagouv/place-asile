@@ -6,8 +6,7 @@ const sheets = xlsx.parse(`${__dirname}/operateurs.xlsx`, {
   blankrows: false,
 });
 
-const sheet = sheets[2].data;
-sheet.shift();
+const sheet = sheets[0].data;
 sheet.shift();
 sheet.shift();
 sheet.shift();
@@ -16,13 +15,13 @@ const structures = sheet
   .filter((line) => {
     const isPrahda = String(line[4]).startsWith("P");
     return (
-      !isPrahda && (line[1] === "Normandie" || line[1] === "Pays de la Loire")
+      !isPrahda && (line[0] === "Normandie" || line[0] === "Pays de la Loire")
     );
   })
   .map((line) => {
     const newLine = line.splice(2, 3);
     newLine.push(
-      `https://placedasile.gouv.fr/ajout-structure/${newLine[2]}/01-identification`
+      `https://placedasile.beta.gouv.fr/ajout-structure/${newLine[2]}/01-identification`
     );
     return newLine;
   });

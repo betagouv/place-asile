@@ -10,10 +10,14 @@ export const DocumentItem = ({
   index,
   register,
   categoryLabel,
+  categorySubLabel,
   categoryValue,
 }: Props): ReactElement => {
   return (
-    <UploadItem title={`${categoryLabel} pour ${year}`}>
+    <UploadItem
+      title={`${categoryLabel} pour ${year}`}
+      subTitle={categorySubLabel}
+    >
       <UploadWithValidation
         name={`fileUploads.${index}.key`}
         id={`fileUploads.${index}.key`}
@@ -43,5 +47,6 @@ type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>;
   categoryLabel: string;
+  categorySubLabel?: string;
   categoryValue: string;
 };
