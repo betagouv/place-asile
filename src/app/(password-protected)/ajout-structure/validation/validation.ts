@@ -158,10 +158,6 @@ export const DocumentsTypeStrict = z.object({
 });
 
 export type DocumentsSchemaStrict = z.infer<typeof DocumentsSchemaStrict>;
-export const DocumentsSchemaStrict = z.object({
-  less5Years: z.boolean(),
-  fileUploads: z.array(DocumentsTypeStrict),
-});
 
 export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsTypeFlexible = z.object({
@@ -174,4 +170,41 @@ export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsSchemaFlexible = z.object({
   less5Years: z.boolean(),
   fileUploads: z.array(DocumentsTypeFlexible),
+});
+
+export const DocumentsTypeConditional = z
+  .object({
+    key: z.string().optional(),
+    date: createRequiredDateFieldValidator().optional(),
+    category: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.category !== "budgetRectificatif") {
+      if (!data.key) {
+        ctx.addIssue({
+          path: ["key"],
+          code: z.ZodIssueCode.custom,
+          message: "Ce champ est requis",
+        });
+      }
+      if (!data.date) {
+        ctx.addIssue({
+          path: ["date"],
+          code: z.ZodIssueCode.custom,
+          message: "Ce champ est requis",
+        });
+      }
+      if (!data.category) {
+        ctx.addIssue({
+          path: ["category"],
+          code: z.ZodIssueCode.custom,
+          message: "Ce champ est requis",
+        });
+      }
+    }
+  });
+
+export const DocumentsSchemaStrict = z.object({
+  less5Years: z.boolean(),
+  fileUploads: z.array(DocumentsTypeConditional),
 });
