@@ -173,6 +173,7 @@ export default function FormDocuments() {
                           index={currentDocIndex}
                           register={register}
                           categoryLabel={document.label}
+                          categorySubLabel={document.subLabel}
                           categoryValue={document.value}
                         />
                       );
