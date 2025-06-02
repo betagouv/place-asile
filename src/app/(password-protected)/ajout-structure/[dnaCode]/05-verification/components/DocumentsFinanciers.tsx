@@ -22,18 +22,23 @@ export const DocumentsFinanciers = (): ReactElement => {
     Partial<DocumentsFinanciersFormValues>
   >(`ajout-structure-${params.dnaCode}-documents`, {});
 
-  const years = useMemo(
-    () => ["2025", "2024", "2023", "2022", "2021"] as const,
-    []
-  );
-
   const { currentValue: identificationValues } = useLocalStorage<
     Partial<IdentificationFormValues>
   >(`ajout-structure-${params.dnaCode}-identification`, {});
 
-  const documents = isStructureAutorisee(identificationValues?.type)
+  const isAutorisee = isStructureAutorisee(identificationValues?.type);
+
+  const documents = isAutorisee
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
+
+  const years = useMemo(
+    () =>
+      isAutorisee
+        ? ["2025", "2024", "2023", "2022", "2021"]
+        : (["2023", "2022", "2021"] as const),
+    [isAutorisee]
+  );
 
   const { getDocumentIndexes } = useDocumentIndex();
 
@@ -47,11 +52,8 @@ export const DocumentsFinanciers = (): ReactElement => {
       {years.map((year) => (
         <Year key={year} year={year}>
           {documents.map((document) => {
-            const currentYear = new Date().getFullYear().toString();
-            if (
-              (currentYear === "2025" && document.currentYear) ||
-              year !== currentYear
-            ) {
+            const todayYear = new Date().getFullYear();
+            if (Number(year) <= todayYear - document.yearIndex) {
               const documentKey = `${document.value}-${year}`;
               const currentDocIndex = documentIndexes[documentKey];
               return (

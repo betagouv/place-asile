@@ -2,59 +2,59 @@ export const structureAutoriseesDocuments: StructureDocument[] = [
   {
     label: "Budget prévisionnel demandé",
     value: "budgetPrevisionnelDemande",
-    currentYear: true,
-  },
-  {
-    label: "Budget prévisionnel retenu",
-    value: "budgetPrevisionnelRetenu",
-    currentYear: true,
+    yearIndex: 0,
   },
   {
     label: "Rapport budgétaire",
     value: "rapportBudgetaire",
-    currentYear: true,
+    yearIndex: 0,
   },
   {
-    label: "Budget réctificatif (optionnel)",
+    label: "Budget prévisionnel retenu",
+    value: "budgetPrevisionnelRetenu",
+    yearIndex: 1,
+  },
+  {
+    label: "Budget réctificatif (optionnel)", // TODO : gérer cette catégorie
     value: "budgetRectificatif",
-    currentYear: false,
+    yearIndex: 1,
   },
   {
     label: "Compte administratif soumis",
     value: "compteAdministratifSoumis",
-    currentYear: false,
-  },
-  {
-    label: "Compte administratif retenu",
-    value: "compteAdministratifRetenu",
-    currentYear: false,
+    yearIndex: 1,
   },
   {
     label: "Rapport d'activité",
     value: "rapportActivite",
-    currentYear: false,
+    yearIndex: 1,
+  },
+  {
+    label: "Compte administratif retenu",
+    value: "compteAdministratifRetenu",
+    yearIndex: 3,
   },
 ];
 export const structureSubventionneesDocuments: StructureDocument[] = [
   {
     label: "Demande de subvention",
     value: "demandeSubvention",
-    currentYear: true,
+    yearIndex: 2,
   },
   {
     label: "Compte-rendu financier",
     value: "compteRenduFinancier",
-    currentYear: false,
+    yearIndex: 2,
   },
   {
     label: "Rapport d'activité de l'opérateur",
     value: "rapportActiviteOperateur",
-    currentYear: false,
+    yearIndex: 2,
   },
 ];
 
 export type StructureDocument = {
   label: string;
   value: string;
-  currentYear: boolean;
+  yearIndex: number;
 };

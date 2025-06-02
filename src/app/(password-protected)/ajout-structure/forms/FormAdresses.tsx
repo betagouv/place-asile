@@ -170,7 +170,7 @@ export default function FormAdresses() {
               severity="info"
               title=""
               className="rounded [&_p]:flex  [&_p]:items-center"
-              description="L’ensemble des adresses sont des données sensibles qui sont protégées selon les normes du gouvernement. Elles ne seront communiquées qu’aux agents concernés."
+              description="L’ensemble des adresses ne seront communiquées qu’aux agentes et agents en charge de cette politique publique."
             />
             <fieldset className="flex flex-col gap-6">
               <legend className="text-xl font-bold mb-4 text-title-blue-france">
