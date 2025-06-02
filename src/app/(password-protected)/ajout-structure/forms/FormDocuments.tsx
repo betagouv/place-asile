@@ -30,11 +30,6 @@ export default function FormDocuments() {
   const resetRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
   const nextRoute = `/ajout-structure/${params.dnaCode}/05-verification`;
 
-  const years = useMemo(
-    () => ["2025", "2024", "2023", "2022", "2021"] as const,
-    []
-  );
-
   const {
     currentValue: localStorageValues,
     updateLocalStorageValue: updateLocalStorageValues,
@@ -68,9 +63,20 @@ export default function FormDocuments() {
     {}
   );
 
-  const documents = isStructureAutorisee(currentValue?.type)
+  const isAutorisee = isStructureAutorisee(currentValue?.type);
+
+  const documents = isAutorisee
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
+
+  // TODO : à refacto avec un système d'années n-1, n-2, etc
+  const years = useMemo(
+    () =>
+      isAutorisee
+        ? ["2025", "2024", "2023", "2022", "2021"]
+        : (["2023", "2022", "2021"] as const),
+    [isAutorisee]
+  );
 
   const { getDocumentIndexes } = useDocumentIndex();
   const documentIndexes = getDocumentIndexes(
@@ -155,11 +161,8 @@ export default function FormDocuments() {
                     .
                   </p>
                   {documents.map((document) => {
-                    const currentYear = new Date().getFullYear().toString();
-                    if (
-                      (currentYear === "2025" && document.currentYear) ||
-                      year !== currentYear
-                    ) {
+                    const todayYear = new Date().getFullYear();
+                    if (Number(year) <= todayYear - document.yearIndex) {
                       const documentKey = `${document.value}-${year}`;
                       const currentDocIndex = documentIndexes[documentKey];
                       return (

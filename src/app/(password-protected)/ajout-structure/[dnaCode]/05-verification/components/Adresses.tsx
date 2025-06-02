@@ -36,7 +36,7 @@ export const Adresses = () => {
             {hebergement?.adresseComplete && (
               <span>{hebergement?.adresseComplete}</span>
             )}
-            {hebergement?.places && <span>({hebergement?.places})</span>}
+            {hebergement?.places && <span>({hebergement?.places} places)</span>}
             {hebergement?.repartition && (
               <span>– {hebergement?.repartition}</span>
             )}

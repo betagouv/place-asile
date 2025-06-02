@@ -94,6 +94,7 @@ export const getLastVisitInMonths = (
   return dayjs().diff(mostRecentVisit, "month");
 };
 
+// TODO : écrire un test pour cette fonction
 export const isStructureAutorisee = (type: string | undefined): boolean => {
   return type === StructureType.CADA || type === StructureType.CPH;
 };

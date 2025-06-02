@@ -13,10 +13,6 @@ export default function StepConfirmation() {
         Merci pour votre participation, ces informations nous sont très
         précieuses.
       </p>
-      <p>
-        Vous pouvez enregistrer le récapitulatif au format PDF si vous le
-        souhaitez.
-      </p>
     </div>
   );
 }
