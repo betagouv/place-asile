@@ -2,6 +2,8 @@ import {
   getLastVisitInMonths,
   getPlacesByCommunes,
   getRepartition,
+  isStructureAutorisee,
+  isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { Adresse, Repartition } from "../../src/types/adresse.type";
 import { createAdresse } from "../test-utils/adresse.factory";
@@ -12,6 +14,7 @@ import { Controle } from "@/types/controle.type";
 import { createEvaluation } from "../test-utils/evaluation.factory";
 import dayjs from "dayjs";
 import { createControle } from "../test-utils/controle.factory";
+import { StructureType } from "@prisma/client";
 
 describe("structure util", () => {
   describe("getPlacesByCommunes", () => {
@@ -183,6 +186,80 @@ describe("structure util", () => {
 
       // THEN
       expect(result).toBe(2);
+    });
+  });
+  describe("isStructureAutorisee", () => {
+    it("should return true when given a CADA", () => {
+      // WHEN
+      const result = isStructureAutorisee(StructureType.CADA);
+
+      // THEN
+      expect(result).toBe(true);
+    });
+    it("should return true when given a CPH", () => {
+      // WHEN
+      const result = isStructureAutorisee(StructureType.CPH);
+
+      // THEN
+      expect(result).toBe(true);
+    });
+    it("should return false when given a CAES", () => {
+      // WHEN
+      const result = isStructureAutorisee(StructureType.CAES);
+
+      // THEN
+      expect(result).toBe(false);
+    });
+    it("should return false when given a HUDA", () => {
+      // WHEN
+      const result = isStructureAutorisee(StructureType.HUDA);
+
+      // THEN
+      expect(result).toBe(false);
+    });
+    it("should return false when given a PRAHDA", () => {
+      // WHEN
+      const result = isStructureAutorisee(StructureType.PRAHDA);
+
+      // THEN
+      expect(result).toBe(false);
+    });
+  });
+  describe("isStructureSubventionnee", () => {
+    it("should return false when given a CADA", () => {
+      // WHEN
+      const result = isStructureSubventionnee(StructureType.CADA);
+
+      // THEN
+      expect(result).toBe(false);
+    });
+    it("should return false when given a CPH", () => {
+      // WHEN
+      const result = isStructureSubventionnee(StructureType.CPH);
+
+      // THEN
+      expect(result).toBe(false);
+    });
+    it("should return true when given a CAES", () => {
+      // WHEN
+      const result = isStructureSubventionnee(StructureType.CAES);
+
+      // THEN
+      expect(result).toBe(true);
+    });
+    it("should return true when given a HUDA", () => {
+      // WHEN
+      const result = isStructureSubventionnee(StructureType.HUDA);
+
+      // THEN
+      expect(result).toBe(true);
+    });
+    it("should return false when given a PRAHDA", () => {
+      // WHEN
+      const result = isStructureSubventionnee(StructureType.PRAHDA);
+
+      // THEN
+      expect(result).toBe(false);
     });
   });
 });

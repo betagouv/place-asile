@@ -107,7 +107,6 @@ const AdressesList = ({
         adresse: watch("adresseAdministrative"),
         codePostal: watch("codePostalAdministratif"),
         commune: watch("communeAdministrative"),
-        departement: watch("departementAdministratif"),
         repartition: watch("typeBati") || Repartition.DIFFUS,
       },
     ]);
