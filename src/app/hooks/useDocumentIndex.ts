@@ -9,13 +9,9 @@ export const useDocumentIndex = () => {
     let counter = 0;
 
     years.forEach((year) => {
-      const currentYear = new Date().getFullYear().toString();
-
       documents.forEach((document) => {
-        if (
-          (currentYear === "2025" && document.currentYear) ||
-          year !== currentYear
-        ) {
+        const todayYear = new Date().getFullYear();
+        if (Number(year) <= todayYear - document.yearIndex) {
           const key = `${document.value}-${year}`;
           indexes[key] = counter++;
         }
