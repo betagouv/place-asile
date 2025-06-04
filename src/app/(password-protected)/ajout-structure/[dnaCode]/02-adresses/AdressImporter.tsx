@@ -3,6 +3,7 @@ import { ReactElement, useState } from "react";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 import { useSpreadsheetParse } from "@/app/hooks/useSpreadsheetParse";
 import { Repartition } from "@/types/adresse.type";
+import { AdressesFormValues } from "../../validation/validation";
 
 export const AdressImporter = ({
   getValues,
@@ -13,10 +14,8 @@ export const AdressImporter = ({
   const { parseAdressesDiffuses, parseAdressesMixtes } = useSpreadsheetParse();
 
   const onAdressesUpload = async (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getValues: UseFormGetValues<any>, // TODO : Remove Eslint disable here
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setValue: UseFormSetValue<any>,
+    getValues: UseFormGetValues<AdressesFormValues>,
+    setValue: UseFormSetValue<AdressesFormValues>,
     typeBati: Repartition
   ): Promise<void> => {
     const input = document.getElementById("adresses-upload");
@@ -69,9 +68,7 @@ export const AdressImporter = ({
 };
 
 type Props = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getValues: UseFormGetValues<any>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setValue: UseFormSetValue<any>;
+  getValues: UseFormGetValues<AdressesFormValues>;
+  setValue: UseFormSetValue<AdressesFormValues>;
   typeBati: Repartition;
 };

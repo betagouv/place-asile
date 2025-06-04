@@ -3,6 +3,7 @@ import { UploadItem } from "../../components/UploadItem";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearDate } from "@/app/utils/date.util";
 import { Control, UseFormRegister } from "react-hook-form";
+import { DocumentsSchemaFlexible } from "../../validation/validation";
 
 export const DocumentItem = ({
   year,
@@ -41,11 +42,9 @@ export const DocumentItem = ({
 
 type Props = {
   year: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any>;
+  control: Control<DocumentsSchemaFlexible>;
   index: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  register: UseFormRegister<any>;
+  register: UseFormRegister<DocumentsSchemaFlexible>;
   categoryLabel: string;
   categorySubLabel?: string;
   categoryValue: string;

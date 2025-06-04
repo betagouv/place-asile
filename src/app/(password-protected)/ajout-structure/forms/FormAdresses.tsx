@@ -99,7 +99,6 @@ export default function FormAdresses() {
                   adresse: "",
                   codePostal: "",
                   commune: "",
-                  departement: "",
                   repartition: value as Repartition,
                   places: 0,
                   logementSocial: false,
