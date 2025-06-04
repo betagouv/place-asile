@@ -188,18 +188,22 @@ export default function FormAdresses() {
                     ex. Les Coquelicots
                   </span>
                 </div>
-                <AddressWithValidation
-                  control={control}
-                  fullAddress="adresseAdministrativeComplete"
-                  id="adresseAdministrativeComplete"
-                  zipCode="codePostalAdministratif"
-                  street="adresseAdministrative"
-                  city="communeAdministrative"
-                  department="departementAdministratif"
-                  label="Adresse administrative"
-                  onSelectSuggestion={handleAddressAdministrativeChange}
-                />
-
+                <div className="flex flex-col gap-1">
+                  <AddressWithValidation
+                    control={control}
+                    fullAddress="adresseAdministrativeComplete"
+                    id="adresseAdministrativeComplete"
+                    zipCode="codePostalAdministratif"
+                    street="adresseAdministrative"
+                    city="communeAdministrative"
+                    department="departementAdministratif"
+                    label="Adresse principale de la structure"
+                    onSelectSuggestion={handleAddressAdministrativeChange}
+                  />
+                  <span className="text-[#666666] text-sm">
+                    présente dans les documents de contractualisation
+                  </span>
+                </div>
                 <SelectWithValidation
                   name="typeBati"
                   control={control}

@@ -12,7 +12,7 @@ export const TypePlaces = () => {
     Partial<TypePlacesFormValues>
   >(`ajout-structure-${params.dnaCode}-type-places`, {});
 
-  const years = useMemo(() => [2023, 2024, 2025] as const, []);
+  const years = useMemo(() => [2025, 2024, 2023] as const, []);
 
   return (
     <Table
