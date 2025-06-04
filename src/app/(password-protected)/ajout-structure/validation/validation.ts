@@ -98,7 +98,6 @@ const singleAdresseSchema = z.object({
   adresse: z.string().nonempty(),
   codePostal: z.string().nonempty(),
   commune: z.string().nonempty(),
-  departement: z.string().nonempty(),
   repartition: z.nativeEnum(Repartition),
   places: z.number(),
   typologies: z.array(z.any()).optional(),
