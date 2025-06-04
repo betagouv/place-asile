@@ -15,7 +15,10 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import autoAnimate from "@formkit/auto-animate";
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import { isStructureSubventionnee } from "@/app/utils/structure.util";
+import {
+  isStructureAutorisee,
+  isStructureSubventionnee,
+} from "@/app/utils/structure.util";
 
 export default function FormIdentification() {
   const params = useParams();
@@ -392,7 +395,7 @@ export default function FormIdentification() {
               <h2 className="text-xl font-bold mb-4 text-title-blue-france">
                 Calendrier
               </h2>
-              {isStructureSubventionnee(type) && (
+              {isStructureAutorisee(type) && (
                 <fieldset className="flex flex-col gap-6">
                   <legend className="text-lg font-bold mb-2 text-title-blue-france">
                     Période d’autorisation en cours
@@ -446,9 +449,9 @@ export default function FormIdentification() {
               <fieldset className="flex flex-col gap-6">
                 <legend className="text-lg font-bold mb-2 text-title-blue-france">
                   Convention en cours
-                  {isStructureSubventionnee(type) ? " (optionnel)" : ""}
+                  {isStructureAutorisee(type) ? " (optionnel)" : ""}
                 </legend>
-                {isStructureSubventionnee(type) && (
+                {isStructureAutorisee(type) && (
                   <Notice
                     severity="info"
                     title=""
