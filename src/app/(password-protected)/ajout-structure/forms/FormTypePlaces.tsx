@@ -22,7 +22,7 @@ export default function FormTypePlaces() {
     ? `/ajout-structure/${params.dnaCode}/05-verification`
     : `/ajout-structure/${params.dnaCode}/04-documents`;
 
-  const years = useMemo(() => [2023, 2024, 2025] as const, []);
+  const years = useMemo(() => [2025, 2024, 2023] as const, []);
 
   const { currentValue: localStorageValues } = useLocalStorage(
     `ajout-structure-${params.dnaCode}-type-places`,
@@ -67,7 +67,7 @@ export default function FormTypePlaces() {
               severity="info"
               title=""
               className="rounded [&_p]:flex  [&_p]:items-center mb-8"
-              description="PMR : Personnes à Mobilité Réduite – LGBT : Lesbiennes, Gays, Bisexuels et Transgenres – FVV : Femmes Victimes de Violences–TEH : Traîte des Êtres Humains"
+              description="PMR : Personnes à Mobilité Réduite – LGBT : Lesbiennes, Gays, Bisexuels et Transgenres (ici places définies comme spécialisées) – FVV : Femmes Victimes de Violences, TEH : Traîte des Êtres Humains (ici places définies comme labellisées)"
             />
 
             <Table

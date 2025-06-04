@@ -261,7 +261,6 @@ type AddressWithValidationProps<
   department?: string;
   latitude?: string;
   longitude?: string;
-
   label?: string;
   required?: boolean;
   disabled?: boolean;
