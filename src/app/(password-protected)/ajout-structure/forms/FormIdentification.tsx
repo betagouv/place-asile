@@ -35,13 +35,23 @@ export default function FormIdentification() {
   }, [filialesContainerRef]);
 
   const defaultType = useMemo(() => {
-    if (!params.dnaCode) return undefined;
+    if (!params.dnaCode) {
+      return undefined;
+    }
     const dnaCode = params.dnaCode as string;
 
-    if (dnaCode.startsWith("C")) return StructureType.CADA;
-    if (dnaCode.startsWith("H")) return StructureType.HUDA;
-    if (dnaCode.startsWith("K")) return StructureType.CAES;
-    if (dnaCode.startsWith("R")) return StructureType.CPH;
+    if (dnaCode.startsWith("C")) {
+      return StructureType.CADA;
+    }
+    if (dnaCode.startsWith("H")) {
+      return StructureType.HUDA;
+    }
+    if (dnaCode.startsWith("K")) {
+      return StructureType.CAES;
+    }
+    if (dnaCode.startsWith("R")) {
+      return StructureType.CPH;
+    }
     return undefined;
   }, [params.dnaCode]);
 
@@ -66,7 +76,7 @@ export default function FormIdentification() {
   const [isManagedByAFiliale, setIsManagedByAFiliale] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const [type, setType] = useState<string | undefined>(
-    localStorageValues?.type
+    localStorageValues?.type ?? defaultType
   );
 
   useEffect(() => {
@@ -76,6 +86,20 @@ export default function FormIdentification() {
     }
   }, [localStorageValues, isInitialized]);
 
+  // Synchronise type avec localStorage OU defaultType, à chaque changement de dnaCode
+  useEffect(() => {
+    // Quand le dnaCode ou le localStorage change, on recalcule type
+    setType(localStorageValues?.type ?? defaultType);
+  }, [localStorageValues?.type, defaultType]);
+
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  // TODO : Refacto ce composant pour isoler la logique du localStorage et éviter les problèmes de réhydratation
+  if (!isClient) {
+    return null;
+  }
   return (
     <FormWrapper
       schema={IdentificationSchema}
@@ -190,7 +214,7 @@ export default function FormIdentification() {
                   name="creationDate"
                   control={control}
                   type="date"
-                  label="Date de création"
+                  label="Date de création de la structure"
                   id="creationDate"
                 />
                 {isStructureSubventionnee(type) && (
@@ -216,7 +240,12 @@ export default function FormIdentification() {
                   ))}
                 </SelectWithValidation>
               </div>
-
+              <Notice
+                severity="info"
+                title=""
+                className="rounded [&_p]:flex [&_p]:items-center"
+                description="LGBT : Lesbiennes, Gays, Bisexuels et Transgenres – FVV : Femmes Victimes de Violences–TEH : Traîte des Êtres Humains"
+              />
               <label className="flex gap-6">
                 Actuellement, la structure dispose-t-elle de places labellisées
                 / spécialisées ?
