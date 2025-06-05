@@ -2,6 +2,7 @@ import { Prisma, Structure } from "@prisma/client";
 import prisma from "../../../../lib/prisma";
 import { getCoordinates } from "@/app/utils/adresse.util";
 import {
+  convertToFileUploadCategory,
   convertToPublicType,
   convertToStructureType,
   handleAdresses,
@@ -138,7 +139,7 @@ export const createOne = async (
         where: { key: fileUpload.key },
         data: {
           date: fileUpload.date,
-          category: fileUpload.category,
+          category: convertToFileUploadCategory(fileUpload.category),
           structureDnaCode: structure.dnaCode,
         },
       })

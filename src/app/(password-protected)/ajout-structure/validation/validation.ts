@@ -3,6 +3,7 @@ import { PublicType, StructureType } from "@/types/structure.type";
 import { Repartition } from "@/types/adresse.type";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { FileUploadCategory } from "@/types/file-upload.type";
 
 dayjs.extend(customParseFormat);
 
@@ -153,7 +154,11 @@ export type DocumentsTypeStrict = z.infer<typeof DocumentsSchemaStrict>;
 export const DocumentsTypeStrict = z.object({
   key: z.string(),
   date: createRequiredDateFieldValidator(),
-  category: z.string(),
+  category: z.nativeEnum(FileUploadCategory, {
+    invalid_type_error:
+      "La catégorie du document doit être de type : " +
+      Object.values(PublicType).join(", "),
+  }),
 });
 
 export type DocumentsSchemaStrict = z.infer<typeof DocumentsSchemaStrict>;
@@ -162,7 +167,13 @@ export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsTypeFlexible = z.object({
   key: z.string().optional(),
   date: createRequiredDateFieldValidator().optional(),
-  category: z.string().optional(),
+  category: z
+    .nativeEnum(FileUploadCategory, {
+      invalid_type_error:
+        "La catégorie du document doit être de type : " +
+        Object.values(PublicType).join(", "),
+    })
+    .optional(),
 });
 
 export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;
@@ -175,10 +186,19 @@ export const DocumentsTypeConditional = z
   .object({
     key: z.string().optional(),
     date: createRequiredDateFieldValidator().optional(),
-    category: z.string().optional(),
+    category: z
+      .nativeEnum(FileUploadCategory, {
+        invalid_type_error:
+          "La catégorie du document doit être de type : " +
+          Object.values(PublicType).join(", "),
+      })
+      .optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.category !== "budgetRectificatif") {
+    if (
+      data.category !== FileUploadCategory.BUDGET_RECTIFICATIF &&
+      data.category !== FileUploadCategory.RAPPORT_BUDGETAIRE
+    ) {
       if (!data.key) {
         ctx.addIssue({
           path: ["key"],
