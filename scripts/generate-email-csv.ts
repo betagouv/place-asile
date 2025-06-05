@@ -19,7 +19,7 @@ const structures = sheet
     );
   })
   .map((line) => {
-    const newLine = line.splice(2, 3);
+    const newLine = line.splice(2, 6);
     newLine.push(
       `https://placedasile.beta.gouv.fr/ajout-structure/${newLine[2]}/01-identification`
     );
