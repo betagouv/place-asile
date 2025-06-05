@@ -1,6 +1,7 @@
 import {
   Adresse,
   ControleType,
+  FileUploadCategory,
   PublicType,
   Repartition,
   StructureType,
@@ -44,6 +45,24 @@ export const convertToControleType = (controleType: string): ControleType => {
     Programmé: ControleType.PROGRAMME,
   };
   return typesControles[controleType.trim()];
+};
+
+export const convertToFileUploadCategory = (
+  category: string
+): FileUploadCategory => {
+  const categories: Record<string, FileUploadCategory> = {
+    budgetPrevisionnelDemande: FileUploadCategory.BUDGET_PREVISIONNEL_DEMANDE,
+    rapportBudgetaire: FileUploadCategory.RAPPORT_BUDGETAIRE,
+    budgetPrevisionnelRetenu: FileUploadCategory.BUDGET_PREVISIONNEL_RETENU,
+    budgetRectificatif: FileUploadCategory.BUDGET_RECTIFICATIF,
+    compteAdministratifSoumis: FileUploadCategory.COMPTE_ADMINISTRATIF_SOUMIS,
+    rapportActivite: FileUploadCategory.RAPPORT_ACTIVITE,
+    compteAdministratifRetenu: FileUploadCategory.COMPTE_ADMINISTRATIF_RETENU,
+    demandeSubvention: FileUploadCategory.DEMANDE_SUBVENTION,
+    compteRenduFinancier: FileUploadCategory.COMPTE_RENDU_FINANCIER,
+    rapportActiviteOperateur: FileUploadCategory.RAPPORT_ACTIVITE_OPERATEUR,
+  };
+  return categories[category];
 };
 
 export const handleAdresses = (
