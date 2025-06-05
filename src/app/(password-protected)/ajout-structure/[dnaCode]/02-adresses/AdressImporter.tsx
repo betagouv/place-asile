@@ -42,6 +42,7 @@ export const AdressImporter = ({
             shouldValidate: false,
           });
         }
+        setParsingError("");
       } catch (error) {
         const sanitizedError = (error as string)
           .toString()

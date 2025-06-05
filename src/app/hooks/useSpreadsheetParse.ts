@@ -5,9 +5,11 @@ import { FormAdresse } from "../utils/adresse.util";
 export const useSpreadsheetParse = (): UseExcelParseResult => {
   const parseSpreadsheet = async (
     file: File,
-    repartitionColumnIndex: number
+    repartitionColumnIndex: number,
+    isMixte: boolean
   ): ParseXlsxResult => {
     const adresses: FormAdresse[] = [];
+    const schema = getSchema(isMixte);
     const { rows, errors } = await readXlsxFile(file, { schema });
     const filteredErrors = errors.filter((error) => error.row !== 2);
     if (filteredErrors.length > 0) {
@@ -38,18 +40,17 @@ export const useSpreadsheetParse = (): UseExcelParseResult => {
   };
 
   const parseAdressesDiffuses = async (file: File): ParseXlsxResult => {
-    return parseSpreadsheet(file, -1);
+    return parseSpreadsheet(file, -1, false);
   };
 
   const parseAdressesMixtes = (file: File): ParseXlsxResult => {
-    return parseSpreadsheet(file, 6);
+    return parseSpreadsheet(file, 6, true);
   };
 
   return { parseAdressesDiffuses, parseAdressesMixtes };
 };
 
-// TODO : améliorer la fiabilité de ce schema
-const schema: Schema = {
+const getSchema = (isMixte: boolean): Schema => ({
   Adresse: {
     prop: "adresse",
     type: String,
@@ -73,20 +74,22 @@ const schema: Schema = {
   "Logement social": {
     prop: "logementSocial",
     type: String,
+    oneOf: ["Oui", "Non"],
     required: true,
   },
   QPV: {
     prop: "qpv",
     type: String,
+    oneOf: ["Oui", "Non"],
     required: true,
   },
   "Type de bâti": {
     prop: "repartition",
     type: String,
     oneOf: [Repartition.DIFFUS, Repartition.COLLECTIF],
-    required: false,
+    required: isMixte,
   },
-};
+});
 
 type ParseXlsxResult = Promise<FormAdresse[]>;
 
