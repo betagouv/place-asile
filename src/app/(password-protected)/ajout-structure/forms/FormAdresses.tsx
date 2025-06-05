@@ -221,14 +221,15 @@ export default function FormAdresses() {
                 </SelectWithValidation>
               </div>
             </fieldset>
-
-            <AdressesList
-              watch={watch}
-              control={control}
-              setValue={setValue}
-              getValues={getValues}
-              setError={setError}
-            />
+            {watch("typeBati") && (
+              <AdressesList
+                watch={watch}
+                control={control}
+                setValue={setValue}
+                getValues={getValues}
+                setError={setError}
+              />
+            )}
           </>
         );
       }}
