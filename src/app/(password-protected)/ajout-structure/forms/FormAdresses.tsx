@@ -201,7 +201,7 @@ export default function FormAdresses() {
                     onSelectSuggestion={handleAddressAdministrativeChange}
                   />
                   <span className="text-[#666666] text-sm">
-                    présente dans les documents de contractualisation
+                    indiquée dans les documents de contractualisation
                   </span>
                 </div>
                 <SelectWithValidation

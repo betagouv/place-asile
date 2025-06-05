@@ -147,7 +147,7 @@ model FileUpload {
   fileSize                 Int
   originalName             String
   date                     DateTime?
-  category                 String?
+  category                 FileUploadCategory?
 }
 
 enum Repartition {
@@ -173,4 +173,17 @@ enum StructureType {
   CPH 
   CAES
   PRAHDA
+}
+
+enum FileUploadCategory {
+  BUDGET_PREVISIONNEL_DEMANDE
+  RAPPORT_BUDGETAIRE
+  BUDGET_PREVISIONNEL_RETENU
+  BUDGET_RECTIFICATIF
+  COMPTE_ADMINISTRATIF_SOUMIS
+  RAPPORT_ACTIVITE
+  COMPTE_ADMINISTRATIF_RETENU
+  DEMANDE_SUBVENTION
+  COMPTE_RENDU_FINANCIER
+  RAPPORT_ACTIVITE_OPERATEUR
 }
