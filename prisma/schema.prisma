@@ -150,6 +150,29 @@ model FileUpload {
   category                 FileUploadCategory?
 }
 
+model Budget {
+  id                                 Int  @id @default(autoincrement())
+  structure                          Structure? @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode                   String
+  date                               DateTime
+  ETP                                Int
+  tauxEncadrement                    Int
+  coutJournalier                     Int
+  dotationDemandee                   Int
+  dotationAccordee                   Int
+  totalProduits                      Int
+  totalCharges                       Int
+  cumulResultatsNetsCPOM             Int
+  repriseEtat                        Int
+  reserveInverstissement             Int
+  chargesNonReconductibles           Int
+  reserveCompensationDeficits        Int
+  reserveCompensationBFR             Int
+  reserveCompensationAmortissements  Int
+  fondsDedies                        Int
+  commentaire                        String?
+}
+
 enum Repartition {
   DIFFUS
   COLLECTIF
