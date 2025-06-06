@@ -49,6 +49,7 @@ model Structure {
   structureTypologies          StructureTypologie[]
   activites                    Activite[]
   fileUploads                  FileUpload[]
+  budgets                       Budget[]
 }
 
 model Controle {
@@ -148,6 +149,29 @@ model FileUpload {
   originalName             String
   date                     DateTime?
   category                 FileUploadCategory?
+}
+
+model Budget {
+  id                                 Int  @id @default(autoincrement())
+  structure                          Structure? @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode                   String
+  date                               DateTime
+  ETP                                Int
+  tauxEncadrement                    Int
+  coutJournalier                     Int
+  dotationDemandee                   Int
+  dotationAccordee                   Int
+  totalProduits                      Int
+  totalCharges                       Int
+  cumulResultatsNetsCPOM             Int
+  repriseEtat                        Int
+  reserveInverstissement             Int
+  chargesNonReconductibles           Int
+  reserveCompensationDeficits        Int
+  reserveCompensationBFR             Int
+  reserveCompensationAmortissements  Int
+  fondsDedies                        Int
+  commentaire                        String?
 }
 
 enum Repartition {
