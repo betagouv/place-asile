@@ -1,0 +1,21 @@
+export type Budget = {
+  id: number;
+  structureDnaCode: string;
+  date: Date;
+  ETP: number;
+  tauxEncadrement: number;
+  coutJournalier: number;
+  dotationDemandee: number;
+  dotationAccordee: number;
+  totalProduits: number;
+  totalCharges: number;
+  cumulResultatsNetsCPOM: number;
+  repriseEtat: number;
+  reserveInverstissement: number;
+  chargesNonReconductibles: number;
+  reserveCompensationDeficits: number;
+  reserveCompensationBFR: number;
+  reserveCompensationAmortissements: number;
+  fondsDedies: number;
+  commentaire?: string;
+};
