@@ -76,7 +76,7 @@ export default function FormIdentification() {
 
   const [isManagedByAFiliale, setIsManagedByAFiliale] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [type, setType] = useState<string | undefined>(
+  const [, setType] = useState<string | undefined>(
     localStorageValues?.type ?? defaultType
   );
 
@@ -115,6 +115,7 @@ export default function FormIdentification() {
     >
       {({ register, control, watch, setValue }) => {
         const cpom = watch("cpom");
+        const type = watch("type");
 
         return (
           <>

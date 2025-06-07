@@ -4,6 +4,7 @@ import { Repartition } from "@/types/adresse.type";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FileUploadCategory } from "@/types/file-upload.type";
+import { isStructureSubventionnee } from "@/app/utils/structure.util";
 
 dayjs.extend(customParseFormat);
 
@@ -31,8 +32,8 @@ const parseDateString = (dateString: string): string | undefined => {
   return undefined;
 };
 
-const createDateFieldValidator = () =>
-  z.preprocess(
+const createDateFieldValidator = () => {
+  return z.preprocess(
     (val) => {
       if (typeof val === "string") {
         return parseDateString(val) || val;
@@ -45,54 +46,59 @@ const createDateFieldValidator = () =>
         (val) => dayjs(val, "DD/MM/YYYY", true).isValid(),
         "Format de date invalide (JJ/MM/AAAA)"
       )
-      .optional()
+      .refine(val => !!val, "Ce champ est obligatoire")
   );
+};
 
-const createRequiredDateFieldValidator = () =>
-  z.preprocess(
-    (val) => {
-      if (typeof val === "string") {
-        return parseDateString(val) || val;
-      }
-      return undefined;
-    },
-    z
-      .string()
-      .refine(
-        (val) => dayjs(val, "DD/MM/YYYY", true).isValid(),
-        "Format de date invalide (JJ/MM/AAAA)"
-      )
-  );
+// createRequiredDateFieldValidator is now replaced by createDateFieldValidator(false)
 
 export type IdentificationFormValues = z.infer<typeof IdentificationSchema>;
-export const IdentificationSchema = z.object({
-  dnaCode: z.string().nonempty(),
-  operateur: z.string().nonempty(),
-  type: z.preprocess(
-    (val) => (val === "" ? undefined : val),
-    z.nativeEnum(StructureType, {
-      invalid_type_error: "Le type doit être un type de structure valide",
-    })
-  ),
-  creationDate: createRequiredDateFieldValidator(),
-  finessCode: z.string().optional().or(z.literal("")),
-  public: z.nativeEnum(PublicType, {
-    invalid_type_error:
-      "Le public doit être de type : " + Object.values(PublicType).join(", "),
-  }),
-  filiale: z.string().optional(),
-  cpom: z.boolean(),
-  lgbt: z.boolean(),
-  fvvTeh: z.boolean(),
-  contactPrincipal: contactSchema,
-  contactSecondaire: contactSchema.partial(),
-  debutPeriodeAutorisation: createDateFieldValidator(),
-  finPeriodeAutorisation: createDateFieldValidator(),
-  debutConvention: createDateFieldValidator().optional(),
-  finConvention: createDateFieldValidator().optional(),
-  debutCpom: createDateFieldValidator(),
-  finCpom: createDateFieldValidator(),
-});
+export const IdentificationSchema = z
+  .object({
+    dnaCode: z.string().nonempty(),
+    operateur: z.string().nonempty(),
+    type: z.preprocess(
+      (val) => (val === "" ? undefined : val),
+      z.nativeEnum(StructureType, {
+        invalid_type_error: "Le type doit être un type de structure valide",
+      })
+    ),
+    creationDate: createDateFieldValidator(),
+    finessCode: z.string().optional().or(z.literal("")),
+    public: z.nativeEnum(PublicType, {
+      invalid_type_error:
+        "Le public doit être de type : " + Object.values(PublicType).join(", "),
+    }),
+    filiale: z.string().optional(),
+    cpom: z.boolean(),
+    lgbt: z.boolean(),
+    fvvTeh: z.boolean(),
+    contactPrincipal: contactSchema,
+    contactSecondaire: contactSchema.partial(),
+    debutPeriodeAutorisation: createDateFieldValidator(),
+    finPeriodeAutorisation: createDateFieldValidator(),
+    debutConvention: createDateFieldValidator().optional(),
+    finConvention: createDateFieldValidator().optional(),
+    debutCpom: createDateFieldValidator(),
+    finCpom: createDateFieldValidator(),
+  })
+  .refine(
+    (data) => {
+      // If structure type is subventionnée, finessCode is required
+      if (
+        isStructureSubventionnee(data.type) &&
+        (!data.finessCode || data.finessCode === "")
+      ) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message:
+        "Le code FINESS est obligatoire pour les structures subventionnées",
+      path: ["finessCode"],
+    }
+  );
 
 const singleAdresseSchema = z.object({
   adresseComplete: z.string().nonempty(),
@@ -142,7 +148,7 @@ export const PlacesSchema = z.object({
     (val) => (val === "" ? undefined : Number(val)),
     z.number()
   ),
-  date: createRequiredDateFieldValidator(),
+  date: createDateFieldValidator(),
 });
 
 export type TypePlacesFormValues = z.infer<typeof TypePlacesSchema>;
@@ -153,7 +159,7 @@ export const TypePlacesSchema = z.object({
 export type DocumentsTypeStrict = z.infer<typeof DocumentsSchemaStrict>;
 export const DocumentsTypeStrict = z.object({
   key: z.string(),
-  date: createRequiredDateFieldValidator(),
+  date: createDateFieldValidator(),
   category: z.nativeEnum(FileUploadCategory, {
     invalid_type_error:
       "La catégorie du document doit être de type : " +
@@ -166,7 +172,7 @@ export type DocumentsSchemaStrict = z.infer<typeof DocumentsSchemaStrict>;
 export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsTypeFlexible = z.object({
   key: z.string().optional(),
-  date: createRequiredDateFieldValidator().optional(),
+  date: createDateFieldValidator().optional(),
   category: z
     .nativeEnum(FileUploadCategory, {
       invalid_type_error:
@@ -185,7 +191,7 @@ export const DocumentsSchemaFlexible = z.object({
 export const DocumentsTypeConditional = z
   .object({
     key: z.string().optional(),
-    date: createRequiredDateFieldValidator().optional(),
+    date: createDateFieldValidator().optional(),
     category: z
       .nativeEnum(FileUploadCategory, {
         invalid_type_error:
