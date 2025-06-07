@@ -56,7 +56,7 @@ const AdressesList = ({
       commune: "",
       departement: "",
       repartition: Repartition.DIFFUS,
-      places: 0,
+      places: undefined as unknown as number,
       logementSocial: false,
       qpv: false,
     };
