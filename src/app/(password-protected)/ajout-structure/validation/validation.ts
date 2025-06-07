@@ -132,12 +132,16 @@ const singleAdresseSchema = z.object({
   codePostal: z.string().nonempty(),
   commune: z.string().nonempty(),
   repartition: z.nativeEnum(Repartition),
-  places: z.number(),
+  places: z
+    .preprocess(
+      (val) => (val === "" ? undefined : Number(val)),
+      z.number().min(0)
+    )
+    .optional(),
   typologies: z.array(z.any()).optional(),
 });
 
 const extendedAdresseSchema = singleAdresseSchema.extend({
-  places: z.any(),
   repartition: z.nativeEnum(Repartition),
   qpv: z.boolean().optional(),
   logementSocial: z.boolean().optional(),
@@ -151,9 +155,24 @@ export const AdressesSchema = z.object({
   codePostalAdministratif: z.string().nonempty(),
   communeAdministrative: z.string().nonempty(),
   departementAdministratif: z.string().nonempty(),
-  typeBati: z.nativeEnum(Repartition).optional(),
+  typeBati: z.nativeEnum(Repartition),
   sameAddress: z.boolean().optional(),
-  adresses: z.array(extendedAdresseSchema).optional(),
+  adresses: z.array(
+    extendedAdresseSchema.superRefine((adresse, ctx) => {
+      // Check if this address has a non-empty adresseComplete but empty places
+      if (
+        adresse.adresseComplete &&
+        adresse.adresseComplete.trim() !== "" &&
+        (adresse.places === undefined || adresse.places === null)
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Requis",
+          path: ["places"],
+        });
+      }
+    })
+  ),
 });
 
 export type PlacesFormValues = z.infer<typeof PlacesSchema>;
