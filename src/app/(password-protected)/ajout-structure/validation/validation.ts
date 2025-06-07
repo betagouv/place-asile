@@ -18,6 +18,7 @@ const contactSchema = z.object({
     .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères"),
 });
 
+// TODO : move this function to a utils file
 const parseDateString = (dateString: string): string | undefined => {
   if (!dateString) return undefined;
 
@@ -32,6 +33,7 @@ const parseDateString = (dateString: string): string | undefined => {
   return undefined;
 };
 
+// TODO : move this function to a reusable zod validator file
 const createDateFieldValidator = () => {
   return z.preprocess(
     (val) => {
@@ -46,11 +48,9 @@ const createDateFieldValidator = () => {
         (val) => dayjs(val, "DD/MM/YYYY", true).isValid(),
         "Format de date invalide (JJ/MM/AAAA)"
       )
-      .refine(val => !!val, "Ce champ est obligatoire")
+      .refine((val) => !!val, "Ce champ est obligatoire")
   );
 };
-
-// createRequiredDateFieldValidator is now replaced by createDateFieldValidator(false)
 
 export type IdentificationFormValues = z.infer<typeof IdentificationSchema>;
 export const IdentificationSchema = z
@@ -79,9 +79,35 @@ export const IdentificationSchema = z
     finPeriodeAutorisation: createDateFieldValidator(),
     debutConvention: createDateFieldValidator().optional(),
     finConvention: createDateFieldValidator().optional(),
-    debutCpom: createDateFieldValidator(),
-    finCpom: createDateFieldValidator(),
+    debutCpom: createDateFieldValidator().optional(),
+    finCpom: createDateFieldValidator().optional(),
   })
+  .refine(
+    (data) => {
+      // If cpom is true, debutCpom is required
+      if (data.cpom && !data.debutCpom) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "La date de début CPOM est obligatoire",
+      path: ["debutCpom"],
+    }
+  )
+  .refine(
+    (data) => {
+      // If cpom is true, finCpom is required
+      if (data.cpom && !data.finCpom) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "La date de fin CPOM est obligatoire",
+      path: ["finCpom"],
+    }
+  )
   .refine(
     (data) => {
       // If structure type is subventionnée, finessCode is required
