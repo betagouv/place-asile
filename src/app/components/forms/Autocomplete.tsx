@@ -1,39 +1,23 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/app/utils/classname.util";
-import {
-  AutocompleteSuggestion,
-  AutocompleteHandle,
-} from "@/app/hooks/useAutocomplete";
+import { AutocompleteSuggestion } from "@/app/hooks/useAutocomplete";
 
-export const Autocomplete = forwardRef(function Autocomplete<
+export const Autocomplete = function Autocomplete<
   T extends AutocompleteSuggestion
->(
-  {
-    suggestions,
-    isLoading,
-    showSuggestions,
-    className = "",
-    listClassName = "",
-    renderSuggestion,
-    onSelect,
-  }: AutocompleteProps<T>,
-  ref: React.Ref<AutocompleteHandle>
-) {
+>({
+  suggestions,
+  isLoading,
+  showSuggestions,
+  className = "",
+  listClassName = "",
+  renderSuggestion,
+  onSelect,
+  emptyMessage,
+}: AutocompleteProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
-
-  useImperativeHandle(ref, () => ({
-    resetSuggestions: () => {},
-    setShowSuggestions: () => {},
-  }));
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -87,7 +71,14 @@ export const Autocomplete = forwardRef(function Autocomplete<
     }
   };
 
-  if (!showSuggestions || suggestions.length === 0) {
+  const shouldShowEmptyMessage =
+    showSuggestions && emptyMessage && suggestions.length === 0;
+
+  if (showSuggestions === false) {
+    return null;
+  }
+
+  if (suggestions.length === 0 && !shouldShowEmptyMessage) {
     return null;
   }
 
@@ -99,7 +90,10 @@ export const Autocomplete = forwardRef(function Autocomplete<
 
   return (
     <div
-      className={cn(className)}
+      className={cn(
+        "shadow-md absolute top-0 bg-white border-gray-300 pb-0 z-10 w-full overflow-y-auto m-0 p-2",
+        className
+      )}
       ref={containerRef}
       onKeyDown={handleKeyDown}
       onBlur={(e) => {
@@ -111,14 +105,23 @@ export const Autocomplete = forwardRef(function Autocomplete<
       }}
       tabIndex={-1}
     >
+      <div
+        className="text-center text-xs bg-gray-50 p-2"
+        aria-live="polite"
+        role="status"
+      >
+        {suggestions.length === 0
+          ? isLoading
+            ? "Chargement..."
+            : emptyMessage
+          : "Sélectionnez une adresse dans la liste"}
+      </div>
+
       <ul
         id="autocomplete-suggestions"
         role="listbox"
         aria-label="Suggestions"
-        className={cn(
-          "absolute bottom-0 translate-y-full shadow-md w-full bg-white border border-gray-300 z-10 overflow-y-auto m-0 p-2 list-none",
-          listClassName
-        )}
+        className={cn("list-none p-0 m-0", listClassName)}
         onClick={(e) => e.stopPropagation()}
       >
         {suggestions.map((suggestion, index) => (
@@ -132,7 +135,11 @@ export const Autocomplete = forwardRef(function Autocomplete<
               activeIndex === index ? "bg-gray-100" : "hover:bg-gray-100",
               index < suggestions.length - 1 ? "border-b border-gray-200" : ""
             )}
-            onClick={() => handleSelectSuggestion(suggestion)}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleSelectSuggestion(suggestion);
+            }}
             onMouseEnter={() => setActiveIndex(index)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
@@ -146,15 +153,9 @@ export const Autocomplete = forwardRef(function Autocomplete<
           </li>
         ))}
       </ul>
-
-      {isLoading && (
-        <div className="text-center py-2" aria-live="polite" role="status">
-          Chargement...
-        </div>
-      )}
     </div>
   );
-});
+};
 
 type AutocompleteProps<T extends AutocompleteSuggestion> = {
   suggestions: T[];
@@ -164,4 +165,5 @@ type AutocompleteProps<T extends AutocompleteSuggestion> = {
   listClassName?: string;
   renderSuggestion?: (suggestion: T) => React.ReactNode;
   onSelect?: (suggestion: T | null) => void;
+  emptyMessage?: string;
 };
