@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   useController,
   UseControllerProps,
@@ -15,6 +14,7 @@ import {
   AutocompleteSuggestion,
 } from "@/app/hooks/useAutocomplete";
 import { useAddressSuggestion } from "@/app/hooks/useAddressSuggestion";
+import { useEffect, useState } from "react";
 
 export default function AddressWithValidation<
   TFieldValues extends FieldValues = FieldValues
@@ -39,7 +39,7 @@ export default function AddressWithValidation<
   const { field: fullAddressField, fieldState: fullAddressFieldState } =
     useController({
       name: fullAddress as Path<TFieldValues>,
-      control: finalControl,
+      control,
       rules: {
         required,
       },
@@ -81,6 +81,22 @@ export default function AddressWithValidation<
 
   const addressSuggestions = useAddressSuggestion();
 
+  // TODO : isolate this logic in a hook
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [hasSelected, setHasSelected] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [manualError, setManualError] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (!isFocused && hasInteracted && !hasSelected && fullAddressField.value) {
+      setManualError(
+        "Veuillez sélectionner une adresse dans la liste déroulante"
+      );
+    } else if (!fullAddressField.value || hasSelected) {
+      setManualError(undefined);
+    }
+  }, [isFocused, hasInteracted, hasSelected, fullAddressField.value]);
+
   const {
     suggestions,
     isLoading,
@@ -88,28 +104,38 @@ export default function AddressWithValidation<
     setShowSuggestions,
     handleInputChange,
     resetSuggestions,
-    autocompleteRef,
   } = useAutocomplete<AddressSuggestion>(addressSuggestions);
 
   const handleFullAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     fullAddressField.onChange(value);
     handleInputChange(value);
+
+    setHasInteracted(true);
+
+    if (value) {
+      setHasSelected(false);
+    }
+
+    setShowSuggestions(true);
   };
 
   const handleSelectSuggestion = (
     suggestion: AutocompleteSuggestion | null
   ) => {
     if (!suggestion) {
-      setShowSuggestions(false);
+      resetSuggestions();
       return;
     }
 
+    setHasSelected(true);
+    setManualError(undefined);
     const addressSuggestion = suggestion as AddressSuggestion;
 
     fullAddressField.onChange(addressSuggestion.label);
-    if (addressSuggestion.postcode && zipCode) {
-      zipCodeFieldResult.field.onChange(addressSuggestion.postcode);
+
+    if (zipCode) {
+      zipCodeFieldResult.field.onChange(addressSuggestion.postcode || "");
     }
 
     if (street) {
@@ -121,17 +147,27 @@ export default function AddressWithValidation<
         streetFieldResult.field.onChange(addressSuggestion.street);
       } else if (addressSuggestion.name) {
         streetFieldResult.field.onChange(addressSuggestion.name);
+      } else {
+        streetFieldResult.field.onChange(
+          addressSuggestion.label.split(",")[0] || ""
+        );
       }
     }
 
-    if (addressSuggestion.city && city) {
-      cityFieldResult.field.onChange(addressSuggestion.city);
+    if (city) {
+      cityFieldResult.field.onChange(addressSuggestion.city || "");
     }
-    if (addressSuggestion.context && department) {
-      const contextParts = addressSuggestion.context.split(",");
-      if (contextParts.length > 0) {
-        const department = contextParts[0].trim();
-        departmentFieldResult.field.onChange(department);
+    if (department) {
+      if (addressSuggestion.context) {
+        const contextParts = addressSuggestion.context.split(",");
+        if (contextParts.length > 0) {
+          const departmentValue = contextParts[0].trim();
+          departmentFieldResult.field.onChange(departmentValue);
+        } else {
+          departmentFieldResult.field.onChange("");
+        }
+      } else {
+        departmentFieldResult.field.onChange("");
       }
     }
 
@@ -143,8 +179,26 @@ export default function AddressWithValidation<
       longFieldResult.field.onChange(addressSuggestion.x.toString());
     }
 
-    resetSuggestions();
+    setShowSuggestions(false);
     onSelectSuggestion?.();
+  };
+
+  const handleBlur = () => {
+    fullAddressField.onBlur();
+    setIsFocused(false);
+    if (hasInteracted && !hasSelected && fullAddressField.value) {
+      setManualError(
+        "Veuillez sélectionner une adresse dans la liste déroulante"
+      );
+    } else {
+      setManualError(undefined);
+    }
+    setShowSuggestions(false);
+  };
+
+  const handleFocus = () => {
+    setShowSuggestions(true);
+    setIsFocused(true);
   };
 
   return (
@@ -159,11 +213,8 @@ export default function AddressWithValidation<
             value: fullAddressField.value || "",
             autoComplete: "off",
             type: "text",
-            onFocus: () => {
-              if (suggestions.length > 0) {
-                setShowSuggestions(true);
-              }
-            },
+            onBlur: handleBlur,
+            onFocus: handleFocus,
             "aria-autocomplete": "list",
             "aria-controls": "autocomplete-suggestions",
             "aria-expanded": showSuggestions && suggestions.length > 0,
@@ -174,17 +225,22 @@ export default function AddressWithValidation<
             role: "combobox",
           }}
           label={label || "Adresse complète"}
-          state={fullAddressFieldState.invalid ? "error" : "default"}
-          stateRelatedMessage={fullAddressFieldState.error?.message}
+          state={
+            fullAddressFieldState.invalid || manualError ? "error" : "default"
+          }
+          stateRelatedMessage={
+            fullAddressFieldState.error?.message || manualError
+          }
         />
 
         <Autocomplete
-          ref={autocompleteRef}
           suggestions={suggestions}
           isLoading={isLoading}
           showSuggestions={showSuggestions}
           onSelect={handleSelectSuggestion}
           listClassName="max-h-60"
+          className="top-18"
+          emptyMessage="Continuez à saisir votre adresse"
         />
       </div>
 
