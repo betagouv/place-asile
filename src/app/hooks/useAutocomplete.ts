@@ -10,7 +10,6 @@ export function useAutocomplete<T extends AutocompleteSuggestion>(
   const [isLoading, setIsLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const autocompleteRef = useRef<AutocompleteHandle>(null);
 
   const handleInputChange = useCallback(
     async (value: string) => {
@@ -20,7 +19,6 @@ export function useAutocomplete<T extends AutocompleteSuggestion>(
       debounceTimerRef.current = setTimeout(async () => {
         if (!value || value.length < 3) {
           setSuggestions([]);
-          setShowSuggestions(false);
           return;
         }
 
@@ -44,9 +42,6 @@ export function useAutocomplete<T extends AutocompleteSuggestion>(
   const resetSuggestions = useCallback(() => {
     setSuggestions([]);
     setShowSuggestions(false);
-    if (autocompleteRef.current) {
-      autocompleteRef.current.resetSuggestions();
-    }
   }, []);
 
   useEffect(() => {
@@ -64,7 +59,6 @@ export function useAutocomplete<T extends AutocompleteSuggestion>(
     setShowSuggestions,
     handleInputChange,
     resetSuggestions,
-    autocompleteRef,
   };
 }
 
@@ -72,9 +66,4 @@ export type AutocompleteSuggestion = {
   id?: string;
   label: string;
   key: string;
-};
-
-export type AutocompleteHandle = {
-  resetSuggestions: () => void;
-  setShowSuggestions: (show: boolean) => void;
 };
