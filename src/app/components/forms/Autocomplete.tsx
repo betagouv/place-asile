@@ -74,7 +74,7 @@ export const Autocomplete = function Autocomplete<
   const shouldShowEmptyMessage =
     showSuggestions && emptyMessage && suggestions.length === 0;
 
-  if (showSuggestions === false) {
+  if (!showSuggestions) {
     return null;
   }
 
@@ -86,6 +86,13 @@ export const Autocomplete = function Autocomplete<
     if (onSelect) {
       onSelect(suggestion);
     }
+  };
+
+  const getAutocompleteHint = () => {
+    if (suggestions.length === 0) {
+      return isLoading ? "Chargement..." : emptyMessage;
+    }
+    return "Sélectionnez une adresse dans la liste";
   };
 
   return (
@@ -110,11 +117,7 @@ export const Autocomplete = function Autocomplete<
         aria-live="polite"
         role="status"
       >
-        {suggestions.length === 0
-          ? isLoading
-            ? "Chargement..."
-            : emptyMessage
-          : "Sélectionnez une adresse dans la liste"}
+        {getAutocompleteHint()}
       </div>
 
       <ul

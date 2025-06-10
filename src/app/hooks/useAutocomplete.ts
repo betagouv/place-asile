@@ -40,7 +40,6 @@ export function useAutocomplete<T extends AutocompleteSuggestion>(
   );
 
   const resetSuggestions = useCallback(() => {
-    console.log("useAutocomplete.resetSuggestions called");
     setSuggestions([]);
     setShowSuggestions(false);
   }, []);

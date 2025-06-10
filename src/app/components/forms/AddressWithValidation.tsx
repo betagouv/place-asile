@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   useController,
   UseControllerProps,
@@ -15,6 +14,7 @@ import {
   AutocompleteSuggestion,
 } from "@/app/hooks/useAutocomplete";
 import { useAddressSuggestion } from "@/app/hooks/useAddressSuggestion";
+import { useEffect, useState } from "react";
 
 export default function AddressWithValidation<
   TFieldValues extends FieldValues = FieldValues
@@ -39,7 +39,7 @@ export default function AddressWithValidation<
   const { field: fullAddressField, fieldState: fullAddressFieldState } =
     useController({
       name: fullAddress as Path<TFieldValues>,
-      control: control,
+      control,
       rules: {
         required,
       },
@@ -81,14 +81,13 @@ export default function AddressWithValidation<
 
   const addressSuggestions = useAddressSuggestion();
 
-  const [hasInteracted, setHasInteracted] = React.useState(false);
-  const [hasSelected, setHasSelected] = React.useState(false);
-  const [isFocused, setIsFocused] = React.useState(false);
-  const [manualError, setManualError] = React.useState<string | undefined>(
-    undefined
-  );
+  // TODO : isolate this logic in a hook
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [hasSelected, setHasSelected] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [manualError, setManualError] = useState<string | undefined>(undefined);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isFocused && hasInteracted && !hasSelected && fullAddressField.value) {
       setManualError(
         "Veuillez sélectionner une adresse dans la liste déroulante"
@@ -204,7 +203,7 @@ export default function AddressWithValidation<
 
   return (
     <div className={className}>
-      <div className="relative ">
+      <div className="relative">
         <Input
           disabled={disabled}
           nativeInputProps={{
