@@ -33,8 +33,8 @@
     "@codegouvfr/react-dsfr": "^1.25.1",
     "@formkit/auto-animate": "^0.8.2",
     "@gouvfr/dsfr-chart": "1.0.0",
-    "@hookform/resolvers": "^5.0.1",
-    "@prisma/client": "^6.8.2",
+    "@hookform/resolvers": "^5.1.0",
+    "@prisma/client": "^6.9.0",
     "@tailwindcss/postcss": "^4.1.8",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
@@ -45,7 +45,7 @@
     "next-leaflet-cluster": "^1.0.0",
     "postcss": "^8.5.4",
     "pretty-bytes": "^7.0.0",
-    "prisma": "^6.8.2",
+    "prisma": "^6.9.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.57.0",
@@ -54,7 +54,7 @@
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.3",
     "uuid": "^11.1.0",
-    "zod": "^3.25.46"
+    "zod": "^3.25.56"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -65,7 +65,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^4.5.0",
+    "@vitejs/plugin-react": "^4.5.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "husky": "^9.1.7",
@@ -80,6 +80,6 @@
     "tsx": "^4.19.4",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.1.4"
+    "vitest": "^3.2.2"
   }
 }
