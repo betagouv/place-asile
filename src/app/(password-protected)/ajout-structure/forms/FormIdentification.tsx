@@ -15,10 +15,7 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import autoAnimate from "@formkit/auto-animate";
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import {
-  isStructureAutorisee,
-  isStructureSubventionnee,
-} from "@/app/utils/structure.util";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 export default function FormIdentification() {
   const params = useParams();
@@ -220,7 +217,7 @@ export default function FormIdentification() {
                   label="Date de création de la structure"
                   id="creationDate"
                 />
-                {isStructureSubventionnee(type) && (
+                {isStructureAutorisee(type) && (
                   <InputWithValidation
                     name="finessCode"
                     control={control}
