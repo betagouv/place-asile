@@ -32,7 +32,7 @@ export const FileItem = ({ fileKey, title }: Props): ReactElement => {
           <span className="flex flex-col gap-1">
             <span className="text-sm">{name}</span>
             <span className="text-xs text-disabled-grey">
-              {prettyBytes(size, { locale: "fr" })}
+              {prettyBytes(size || 0, { locale: "fr" })}
             </span>
           </span>
         </p>
