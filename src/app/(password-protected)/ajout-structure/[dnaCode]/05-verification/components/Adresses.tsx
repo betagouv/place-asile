@@ -16,11 +16,24 @@ export const Adresses = () => {
       <h3 className="text-title-blue-france w-full flex justify-between text-lg">
         Adresse administrative
       </h3>
-      <p>
-        {localStorageValues?.adresseAdministrative}{" "}
-        {localStorageValues?.codePostalAdministratif}{" "}
-        {localStorageValues?.communeAdministrative}
-      </p>
+      <div className="grid border-b border-default-grey pb-2 mb-3">
+        <p className="flex gap-4 mb-0">
+          <b>Nom de la structure</b> {localStorageValues?.nom}
+        </p>
+      </div>
+      <div className="grid border-b border-default-grey pb-2 mb-3">
+        <p className="flex gap-4 mb-0">
+          <b>Adresse principale de la structure</b>{" "}
+          {localStorageValues?.adresseAdministrative}{" "}
+          {localStorageValues?.codePostalAdministratif}{" "}
+          {localStorageValues?.communeAdministrative}
+        </p>
+      </div>
+      <div className="grid border-b border-default-grey pb-2 mb-3">
+        <p className="flex gap-4 mb-0">
+          <b>Type de bâti de la structure</b> {localStorageValues?.typeBati}
+        </p>
+      </div>
       {localStorageValues?.adresses &&
         localStorageValues.adresses.length > 0 && (
           <h3 className="text-title-blue-france w-full flex justify-between text-lg">
