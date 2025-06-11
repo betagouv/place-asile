@@ -16,7 +16,7 @@ import {
   DocumentsSchemaFlexible,
 } from "../../validation/validation";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStructures } from "@/app/hooks/useStructures";
 
 export default function StepVerification() {
@@ -92,6 +92,15 @@ export default function StepVerification() {
       window.location.reload();
     }
   };
+
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  // TODO : Refacto ce composant pour isoler la logique du localStorage et éviter les problèmes de réhydratation
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <>
