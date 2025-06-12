@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Place d'asile - Connexion",
-  description: "Simplifier les demandes d'hébergement des demandeurs d'asile",
+  description: "Piloter le parc de logements pour demandeurs d’asile",
 };
 
 export default function RootLayout({
