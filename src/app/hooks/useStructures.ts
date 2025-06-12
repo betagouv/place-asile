@@ -11,7 +11,6 @@ import { Adresse } from "@/types/adresse.type";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FormAdresse } from "../utils/adresse.util";
-import { FileUploadCategory } from "@prisma/client";
 
 dayjs.extend(customParseFormat);
 
@@ -73,11 +72,6 @@ export const useStructures = (): UseStructureResult => {
       });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const isFileUploadCategory = (value: any): value is FileUploadCategory => {
-    return Object.values(FileUploadCategory).includes(value);
-  };
-
   const mapToStructure = (values: FormValues): DeepPartial<Structure> => {
     return {
       dnaCode: values.dnaCode,
@@ -117,14 +111,7 @@ export const useStructures = (): UseStructureResult => {
         fvvTeh: Number(typologie.fvvTeh),
         date: typologie.date,
       })),
-      fileUploads: values.fileUploads
-        ?.filter((fileUpload) => fileUpload.key)
-        .map((fileUpload) => ({
-          ...fileUpload,
-          category: isFileUploadCategory(fileUpload.category)
-            ? fileUpload.category
-            : undefined,
-        })),
+      fileUploads: values.fileUploads?.filter((fileUpload) => fileUpload.key),
     };
   };
 
