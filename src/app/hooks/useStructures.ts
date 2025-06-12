@@ -115,17 +115,22 @@ export const useStructures = (): UseStructureResult => {
     };
   };
 
-  const addStructure = async (values: FormValues): Promise<boolean> => {
+  const addStructure = async (values: FormValues): Promise<string> => {
     const structure = mapToStructure(values);
     try {
       const response = await fetch("/api/structures", {
         method: "POST",
         body: JSON.stringify(structure),
       });
-      return response.status < 400;
+      if (response.status < 400) {
+        return "OK";
+      } else {
+        const result = await response.json();
+        return JSON.stringify(result);
+      }
     } catch (error) {
       console.error(error);
-      return false;
+      return String(error);
     }
   };
 
@@ -134,7 +139,7 @@ export const useStructures = (): UseStructureResult => {
 
 type UseStructureResult = {
   getStructures: () => Promise<Structure[]>;
-  addStructure: (values: FormValues) => Promise<boolean>;
+  addStructure: (values: FormValues) => Promise<string>;
 };
 
 type FormValues = Partial<

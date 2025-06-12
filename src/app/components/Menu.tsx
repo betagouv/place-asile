@@ -6,6 +6,7 @@ import { ReactElement } from "react";
 import { ExternalLink } from "./common/ExternalLink";
 import { Logo } from "./Logo";
 import { User } from "./User";
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 export const Menu = (): ReactElement => {
   const pathname = usePathname();
 
@@ -30,7 +31,7 @@ export const Menu = (): ReactElement => {
   const secondaryMenuItems = [
     {
       label: "Aide",
-      url: "mailto:placedasile@beta.gouv.fr",
+      url: `mailto:${PLACE_ASILE_CONTACT_EMAIL}`,
       isExternalLink: true,
     },
     {

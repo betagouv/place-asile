@@ -16,6 +16,7 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import autoAnimate from "@formkit/auto-animate";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
 export default function FormIdentification() {
   const params = useParams();
@@ -129,7 +130,7 @@ export default function FormIdentification() {
                   via{" "}
                   {
                     <a
-                      href="mailto:placedasile@beta.gouv.fr"
+                      href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="underline"

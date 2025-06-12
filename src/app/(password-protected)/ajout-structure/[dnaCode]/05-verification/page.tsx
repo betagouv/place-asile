@@ -18,6 +18,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useStructures } from "@/app/hooks/useStructures";
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
 export default function StepVerification() {
   const { addStructure } = useStructures();
@@ -25,6 +26,7 @@ export default function StepVerification() {
   const params = useParams();
   const previousRoute = `/ajout-structure/${params.dnaCode}/04-documents`;
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const [backendError, setBackendError] = useState("");
 
   const {
     currentValue: identificationValues,
@@ -69,10 +71,10 @@ export default function StepVerification() {
 
     const result = await addStructure(allValues);
 
-    if (result) {
+    if (result === "OK") {
       router.push(`/ajout-structure/${params.dnaCode}/06-confirmation`);
     } else {
-      console.error(result);
+      setBackendError(result);
       setState("error");
     }
   };
@@ -101,6 +103,12 @@ export default function StepVerification() {
   if (!isClient) {
     return null;
   }
+
+  const getErrorEmail = (error: string): string => {
+    const subject = "Problème avec le formulaire de Place d'asile";
+    const body = `Bonjour,%0D%0A%0D%0AAjoutez ici des informations supplémentaires...%0D%0A%0D%0ARapport d'erreur: ${error}`;
+    return `mailto:${PLACE_ASILE_CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  };
 
   return (
     <>
@@ -154,7 +162,13 @@ export default function StepVerification() {
               le navigateur.
             </p>
             <p className="text-default-error">
-              Veuillez réessayer de les soumettre ultérieurement.
+              <a
+                href={getErrorEmail(backendError)}
+                className="underline"
+                target="_blank"
+              >
+                Nous prévenir
+              </a>
             </p>
           </div>
         )}
@@ -176,7 +190,7 @@ export default function StepVerification() {
           <p className="cta_message text-mention-grey text-sm text-right mt-2">
             Si vous ne parvenez pas à remplir certains champs,{" "}
             <a
-              href="mailto:placedasile@beta.gouv.fr"
+              href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
               target="_blank"
               rel="noopener noreferrer"
               className="underline"
