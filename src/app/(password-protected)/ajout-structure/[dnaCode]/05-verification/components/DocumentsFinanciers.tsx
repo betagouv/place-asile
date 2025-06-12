@@ -1,8 +1,6 @@
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import {
-  DocumentsSchemaFlexible,
-  IdentificationFormValues,
-} from "../../../validation/validation";
+import { DocumentsSchemaFlexible } from "../../../validation/documentsSchema";
+import { IdentificationFormValues } from "../../../validation/identificationSchema";
 import { useParams } from "next/navigation";
 import { z } from "zod";
 import { ReactElement, useMemo } from "react";
