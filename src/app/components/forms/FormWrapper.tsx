@@ -17,6 +17,7 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import { cn } from "@/app/utils/classname.util";
 import { FormProvider } from "@/app/context/FormContext";
 import Alert from "@codegouvfr/react-dsfr/Alert";
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
 // Define more specific types for the schema
 type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
@@ -175,7 +176,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                 <p className="cta_message text-mention-grey text-sm text-right mt-2">
                   Si vous ne parvenez pas à remplir certains champs,{" "}
                   <a
-                    href="mailto:placedasile@beta.gouv.fr"
+                    href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline"
