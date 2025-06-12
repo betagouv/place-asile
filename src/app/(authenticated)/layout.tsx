@@ -3,7 +3,7 @@ import { Menu } from "../components/Menu";
 
 export const metadata: Metadata = {
   title: "Place d'asile",
-  description: "Simplifier les demandes d'hébergement des demandeurs d'asile",
+  description: "Piloter le parc de logements pour demandeurs d’asile",
 };
 
 export default function RootLayout({
