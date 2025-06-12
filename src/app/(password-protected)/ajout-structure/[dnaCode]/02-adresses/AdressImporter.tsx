@@ -3,7 +3,7 @@ import { ReactElement, useState } from "react";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 import { useSpreadsheetParse } from "@/app/hooks/useSpreadsheetParse";
 import { Repartition } from "@/types/adresse.type";
-import { AdressesFormValues } from "../../validation/validation";
+import { AdressesFormValues } from "../../validation/adressesSchema";
 
 export const AdressImporter = ({
   getValues,

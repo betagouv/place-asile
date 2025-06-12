@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { IdentificationFormValues } from "../../../validation/validation";
+import { IdentificationFormValues } from "../../../validation/identificationSchema";
 import { useParams } from "next/navigation";
 
 export const Identification = () => {
