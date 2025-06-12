@@ -8,8 +8,8 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npx @tailwindcss/cli -i ./src/app/globals.css -o build.css --minify && next build",
-    "start": "next start",
+    "build": "npx @tailwindcss/cli -i ./src/app/globals.css -o build.css --minify && next build && npx tsx copy-assets.ts",
+    "start": "node .next/standalone/server.js",
     "check:ts": "npx tsc --noEmit",
     "lint": "yarn lint:css && yarn lint:ts",
     "lint:ts": "next lint",
