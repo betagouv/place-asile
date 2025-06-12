@@ -36,6 +36,7 @@
     "@hookform/resolvers": "^5.1.0",
     "@prisma/client": "^6.9.0",
     "@sentry/nextjs": "^9.28.1",
+    "@socialgouv/matomo-next": "^1.9.2",
     "@tailwindcss/postcss": "^4.1.8",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
