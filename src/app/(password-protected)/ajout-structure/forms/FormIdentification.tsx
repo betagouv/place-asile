@@ -10,7 +10,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import {
   IdentificationFormValues,
   IdentificationSchema,
-} from "@/app/(password-protected)/ajout-structure/validation/validation";
+} from "../validation/identificationSchema";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import autoAnimate from "@formkit/auto-animate";

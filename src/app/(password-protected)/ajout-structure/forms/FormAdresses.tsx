@@ -1,7 +1,7 @@
 "use client";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import React, { useState, useEffect, useMemo } from "react";
-import { AdressesSchema } from "../validation/validation";
+import { AdressesSchema } from "../validation/adressesSchema";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
