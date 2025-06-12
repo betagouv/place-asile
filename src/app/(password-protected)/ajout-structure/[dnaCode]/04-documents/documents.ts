@@ -65,6 +65,6 @@ export const structureSubventionneesDocuments: StructureDocument[] = [
 export type StructureDocument = {
   label: string;
   subLabel?: string;
-  value: string;
+  value: FileUploadCategory;
   yearIndex: number;
 };
