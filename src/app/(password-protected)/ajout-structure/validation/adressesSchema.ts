@@ -32,11 +32,12 @@ export const AdressesSchema = z
     adresses: z.array(
       adresseSchema.superRefine((adresse, ctx) => {
         // Check if this address has a non-empty adresseComplete but empty places
-
         if (
           adresse.adresseComplete &&
           adresse.adresseComplete.trim() !== "" &&
-          (adresse.places === undefined || adresse.places === null)
+          (adresse.places === undefined ||
+            adresse.places === null ||
+            adresse.places === 0)
         ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
