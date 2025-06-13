@@ -12,6 +12,7 @@ import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
 import { DefaultControlesBlock } from "./(controles)/DefaultControlesBlock";
 import { DefaultTypePlaceBlock } from "./(type-places)/DefaultTypePlaceBlock";
 import { NotesBlock } from "./(notes)/NotesBlock";
+import { FinancesBlock } from "./(finances)/FinancesBlock";
 
 export const DefaultStructure = ({
   structure,
@@ -84,6 +85,12 @@ export const DefaultStructure = ({
             placesQPV={getCurrentPlacesQpv(structure)}
             placesLogementsSociaux={getCurrentPlacesLogementsSociaux(structure)}
           />
+        </section>
+        <section
+          style={{ scrollMarginTop: `${structureHeaderHeight}px` }}
+          id="finances"
+        >
+          <FinancesBlock budgets={structure?.budgets || []} />
         </section>
         <section
           style={{ scrollMarginTop: `${structureHeaderHeight}px` }}
