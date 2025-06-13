@@ -9,8 +9,8 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import {
   DocumentsSchemaStrict,
   DocumentsSchemaFlexible,
-  IdentificationFormValues,
-} from "../validation/validation";
+} from "../validation/documentsSchema";
+
 import { Year } from "../components/Year";
 import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
@@ -20,6 +20,7 @@ import {
   structureSubventionneesDocuments,
 } from "../[dnaCode]/04-documents/documents";
 import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
+import { IdentificationFormValues } from "../validation/identificationSchema";
 
 export default function FormDocuments() {
   const params = useParams();

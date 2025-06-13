@@ -1,7 +1,7 @@
 "use client";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import React, { useState, useEffect, useMemo } from "react";
-import { AdressesSchema } from "../validation/validation";
+import { AdressesSchema } from "../validation/adressesSchema";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
@@ -40,7 +40,7 @@ export default function FormAdresses() {
           commune: "",
           departement: "",
           repartition: Repartition.DIFFUS,
-          places: 0,
+          places: undefined as unknown as number,
           logementSocial: false,
           qpv: false,
         },
@@ -100,7 +100,7 @@ export default function FormAdresses() {
                   codePostal: "",
                   commune: "",
                   repartition: value as Repartition,
-                  places: 0,
+                  places: undefined as unknown as number,
                   logementSocial: false,
                   qpv: false,
                 },

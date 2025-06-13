@@ -3,7 +3,8 @@ import { UploadItem } from "../../components/UploadItem";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearDate } from "@/app/utils/date.util";
 import { Control, UseFormRegister } from "react-hook-form";
-import { DocumentsSchemaFlexible } from "../../validation/validation";
+import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
+import { FileUploadCategory } from "@/types/file-upload.type";
 
 export const DocumentItem = ({
   year,
@@ -47,5 +48,5 @@ type Props = {
   register: UseFormRegister<DocumentsSchemaFlexible>;
   categoryLabel: string;
   categorySubLabel?: string;
-  categoryValue: string;
+  categoryValue: FileUploadCategory;
 };
