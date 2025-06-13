@@ -78,17 +78,17 @@ html {
 
 /* TODO : use DSFR values */
 .ct-series-a .ct-bar {
-  stroke: #FCC63A !important;
+  stroke: #fcc63a !important;
 }
 
 .ct-series-b .ct-bar {
-  stroke: #C3992A !important;
+  stroke: #c3992a !important;
 }
 
 .ct-series-c .ct-bar {
-  stroke: #FBB8F6 !important;
+  stroke: #fbb8f6 !important;
 }
 
 .ct-series-d .ct-bar {
-  stroke: #B6CFFB !important;
+  stroke: #b6cffb !important;
 }

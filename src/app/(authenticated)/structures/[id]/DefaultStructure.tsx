@@ -7,6 +7,7 @@ import { DefaultControlesBlock } from "./(controles)/DefaultControlesBlock";
 import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { NotesBlock } from "./(notes)/NotesBlock";
 import { FinancesBlock } from "./(finances)/FinancesBlock";
+import { Section } from "./components/Section";
 
 export const DefaultStructure = (): ReactElement => {
   return (
