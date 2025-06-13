@@ -38,11 +38,7 @@ export const IdentificationSchema = z
   })
   .refine(
     (data) => {
-      // If cpom is true, debutCpom is required
-      if (data.cpom && !data.debutCpom) {
-        return false;
-      }
-      return true;
+      return !data.cpom || data.debutCpom;
     },
     {
       message: "La date de début CPOM est obligatoire",
@@ -51,11 +47,7 @@ export const IdentificationSchema = z
   )
   .refine(
     (data) => {
-      // If cpom is true, finCpom is required
-      if (data.cpom && !data.finCpom) {
-        return false;
-      }
-      return true;
+      return !data.cpom || data.finCpom;
     },
     {
       message: "La date de fin CPOM est obligatoire",
@@ -64,7 +56,6 @@ export const IdentificationSchema = z
   )
   .refine(
     (data) => {
-      // If structure type is autorisée, debutPeriodeAutorisation is required
       if (
         isStructureAutorisee(data.type) &&
         (!data.debutPeriodeAutorisation || data.debutPeriodeAutorisation === "")
@@ -81,7 +72,6 @@ export const IdentificationSchema = z
   )
   .refine(
     (data) => {
-      // If structure type is autorisée, finPeriodeAutorisation is required
       if (
         isStructureAutorisee(data.type) &&
         (!data.finPeriodeAutorisation || data.finPeriodeAutorisation === "")
@@ -97,7 +87,6 @@ export const IdentificationSchema = z
   )
   .refine(
     (data) => {
-      // If structure type is autorisée, debutConvention is required
       if (
         isStructureSubventionnee(data.type) &&
         (!data.debutConvention || data.debutConvention === "")
@@ -114,7 +103,6 @@ export const IdentificationSchema = z
   )
   .refine(
     (data) => {
-      // If structure type is autorisée, finPeriodeAutorisation is required
       if (
         isStructureSubventionnee(data.type) &&
         (!data.finConvention || data.finConvention === "")
@@ -131,7 +119,6 @@ export const IdentificationSchema = z
   )
   .refine(
     (data) => {
-      // If structure type is autorisée, finessCode is required
       if (
         isStructureAutorisee(data.type) &&
         (!data.finessCode || data.finessCode === "")

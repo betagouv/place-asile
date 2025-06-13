@@ -26,7 +26,7 @@ export const DocumentItem = ({
         control={control}
       />
       <input
-        type="text"
+        type="hidden"
         aria-hidden="true"
         defaultValue={categoryValue}
         {...register(`fileUploads.${index}.category`)}

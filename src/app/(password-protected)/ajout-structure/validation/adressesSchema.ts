@@ -1,7 +1,7 @@
 import { Repartition } from "@/types/adresse.type";
 import z from "zod";
 
-const singleAdresseSchema = z.object({
+const adresseSchema = z.object({
   adresseComplete: z.string().nonempty(),
   adresse: z.string().nonempty(),
   codePostal: z.string().nonempty(),
@@ -14,10 +14,6 @@ const singleAdresseSchema = z.object({
     )
     .optional(),
   typologies: z.array(z.any()).optional(),
-});
-
-const extendedAdresseSchema = singleAdresseSchema.extend({
-  repartition: z.nativeEnum(Repartition),
   qpv: z.boolean().optional(),
   logementSocial: z.boolean().optional(),
 });
@@ -34,7 +30,7 @@ export const AdressesSchema = z
     typeBati: z.nativeEnum(Repartition),
     sameAddress: z.boolean().optional(),
     adresses: z.array(
-      extendedAdresseSchema.superRefine((adresse, ctx) => {
+      adresseSchema.superRefine((adresse, ctx) => {
         // Check if this address has a non-empty adresseComplete but empty places
 
         if (

@@ -27,13 +27,28 @@ export const useStructures = (): UseStructureResult => {
     contactPrincipal: Partial<Contact> | undefined,
     contactSecondaire: Partial<Contact> | undefined
   ): Partial<Contact>[] => {
-    const contacts = [];
-    if (contactPrincipal && Object.keys(contactPrincipal).length > 0) {
+    const contacts: Partial<Contact>[] = [];
+
+    if (contactPrincipal) {
       contacts.push(contactPrincipal);
     }
-    if (contactSecondaire && Object.keys(contactSecondaire).length > 0) {
+
+    if (
+      contactSecondaire &&
+      contactSecondaire.prenom &&
+      contactSecondaire.prenom.trim() !== "" &&
+      contactSecondaire.nom &&
+      contactSecondaire.nom.trim() !== "" &&
+      contactSecondaire.email &&
+      contactSecondaire.email.trim() !== "" &&
+      contactSecondaire.telephone &&
+      contactSecondaire.telephone.trim() !== "" &&
+      contactSecondaire.role &&
+      contactSecondaire.role.trim() !== ""
+    ) {
       contacts.push(contactSecondaire);
     }
+
     return contacts;
   };
 
