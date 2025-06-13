@@ -28,7 +28,7 @@ export const IdentificationSchema = z
     lgbt: z.boolean(),
     fvvTeh: z.boolean(),
     contactPrincipal: contactSchema,
-    contactSecondaire: contactSchema.partial(),
+    contactSecondaire: contactSchema.optional(),
     debutPeriodeAutorisation: createDateFieldValidator().optional(),
     finPeriodeAutorisation: createDateFieldValidator().optional(),
     debutConvention: createDateFieldValidator().optional(),
