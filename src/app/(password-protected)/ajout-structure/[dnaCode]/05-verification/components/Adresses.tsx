@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { AdressesSchema } from "../../../validation/validation";
+import { AdressesSchema } from "../../../validation/adressesSchema";
 import { useParams } from "next/navigation";
 import { z } from "zod";
 import { CustomTag } from "@/app/components/ui/CustomTag";

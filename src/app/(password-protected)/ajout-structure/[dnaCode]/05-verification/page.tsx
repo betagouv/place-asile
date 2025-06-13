@@ -9,15 +9,14 @@ import { Adresses } from "./components/Adresses";
 import { TypePlaces } from "./components/TypePlaces";
 import { DocumentsFinanciers } from "./components/DocumentsFinanciers";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import {
-  AdressesFormValues,
-  IdentificationFormValues,
-  TypePlacesFormValues,
-  DocumentsSchemaFlexible,
-} from "../../validation/validation";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useStructures } from "@/app/hooks/useStructures";
+import { AdressesFormValues } from "../../validation/adressesSchema";
+import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
+import { IdentificationFormValues } from "../../validation/identificationSchema";
+import { TypePlacesFormValues } from "../../validation/typePlacesSchema";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
 export default function StepVerification() {

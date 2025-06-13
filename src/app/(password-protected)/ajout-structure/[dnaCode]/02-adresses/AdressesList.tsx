@@ -15,7 +15,7 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
-import { AdressesFormValues } from "../../validation/validation";
+import { AdressesFormValues } from "../../validation/adressesSchema";
 import Link from "next/link";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 import { useEffect, useRef } from "react";
@@ -56,7 +56,7 @@ const AdressesList = ({
       commune: "",
       departement: "",
       repartition: Repartition.DIFFUS,
-      places: 0,
+      places: undefined as unknown as number,
       logementSocial: false,
       qpv: false,
     };

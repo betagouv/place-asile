@@ -1,16 +1,14 @@
 import { Structure } from "@/types/structure.type";
-import {
-  AdressesFormValues,
-  DocumentsSchemaFlexible,
-  IdentificationFormValues,
-  TypePlacesFormValues,
-} from "../(password-protected)/ajout-structure/validation/validation";
 import { DeepPartial } from "@/types/global";
 import { Contact } from "@/types/contact.type";
 import { Adresse } from "@/types/adresse.type";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FormAdresse } from "../utils/adresse.util";
+import { IdentificationFormValues } from "../(password-protected)/ajout-structure/validation/identificationSchema";
+import { TypePlacesFormValues } from "../(password-protected)/ajout-structure/validation/typePlacesSchema";
+import { AdressesFormValues } from "../(password-protected)/ajout-structure/validation/adressesSchema";
+import { DocumentsSchemaFlexible } from "../(password-protected)/ajout-structure/validation/documentsSchema";
 
 dayjs.extend(customParseFormat);
 
@@ -29,13 +27,28 @@ export const useStructures = (): UseStructureResult => {
     contactPrincipal: Partial<Contact> | undefined,
     contactSecondaire: Partial<Contact> | undefined
   ): Partial<Contact>[] => {
-    const contacts = [];
-    if (contactPrincipal && Object.keys(contactPrincipal).length > 0) {
+    const contacts: Partial<Contact>[] = [];
+
+    if (contactPrincipal) {
       contacts.push(contactPrincipal);
     }
-    if (contactSecondaire && Object.keys(contactSecondaire).length > 0) {
+
+    if (
+      contactSecondaire &&
+      contactSecondaire.prenom &&
+      contactSecondaire.prenom.trim() !== "" &&
+      contactSecondaire.nom &&
+      contactSecondaire.nom.trim() !== "" &&
+      contactSecondaire.email &&
+      contactSecondaire.email.trim() !== "" &&
+      contactSecondaire.telephone &&
+      contactSecondaire.telephone.trim() !== "" &&
+      contactSecondaire.role &&
+      contactSecondaire.role.trim() !== ""
+    ) {
       contacts.push(contactSecondaire);
     }
+
     return contacts;
   };
 
