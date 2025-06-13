@@ -70,6 +70,7 @@ export const extractActivitesFromOds = (): Omit<Activite, "id">[] => {
   return allActivites;
 };
 
+// TODO : delete this and import all data (make link to structure optional in prisma.schema)
 const existingStructureCodes = [
   "C1402",
   "H1401",

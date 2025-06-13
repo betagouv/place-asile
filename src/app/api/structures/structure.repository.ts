@@ -63,6 +63,11 @@ export const findOne = async (id: number): Promise<Structure | null> => {
       },
       evenementsIndesirablesGraves: true,
       fileUploads: true,
+      budgets: {
+        orderBy: {
+          date: "desc",
+        },
+      },
     },
   });
 };

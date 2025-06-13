@@ -7,6 +7,7 @@ import { Contact } from "./contact.type";
 import { StructureTypologie } from "./structure-typologie.type";
 import { Activite } from "./activite.type";
 import { FileUpload } from "./file-upload.type";
+import { Budget } from "./budget.type";
 
 export type Structure = {
   id: number;
@@ -48,6 +49,7 @@ export type Structure = {
   typologies?: StructureTypologie[];
   activites?: Activite[];
   fileUploads?: FileUpload[];
+  budgets?: Budget[];
 };
 
 export type StructureWithLatLng = Structure & {
