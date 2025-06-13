@@ -1,30 +1,29 @@
 import z from "zod";
 
-// Define the base contact schema for required fields
 const baseContactSchema = z.object({
   prenom: z.string(),
   nom: z.string(),
   role: z.string(),
-  email: z.string(),
-  telephone: z.string(),
+  email: z.string().email("Veuillez saisir une adresse email valide"),
+  telephone: z
+    .string()
+    .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères"),
 });
 
-// Define the required contact schema with all validations
 export const requiredContactSchema = z.object({
   prenom: z.string().nonempty("Le prénom est requis"),
   nom: z.string().nonempty("Le nom est requis"),
   role: z.string().nonempty("Le rôle est requis"),
   email: z
     .string()
-    .nonempty("L'email est requis")
-    .email("L'email est invalide"),
+    .nonempty("Veuillez saisir une adresse email valide")
+    .email("Veuillez saisir une adresse email valide"),
   telephone: z
     .string()
     .nonempty("Le téléphone est requis")
     .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères"),
 });
 
-// Create the optional contact schema with all-or-nothing validation
 const optionalContactSchema = baseContactSchema
   .partial()
   .superRefine((data, ctx) => {
@@ -36,7 +35,11 @@ const optionalContactSchema = baseContactSchema
       { name: "prenom", value: prenom, message: "Le prénom est requis" },
       { name: "nom", value: nom, message: "Le nom est requis" },
       { name: "role", value: role, message: "Le rôle est requis" },
-      { name: "email", value: email, message: "L'email est requis" },
+      {
+        name: "email",
+        value: email,
+        message: "Veuillez saisir une adresse email valide",
+      },
       {
         name: "telephone",
         value: telephone,
@@ -60,23 +63,6 @@ const optionalContactSchema = baseContactSchema
           });
         }
       });
-    } else if (filledFields.length === fields.length) {
-      if (email && !/^\S+@\S+\.\S+$/.test(email)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "L'email est invalide",
-          path: ["email"],
-        });
-      }
-
-      if (telephone && telephone.length < 10) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message:
-            "Le numéro de téléphone doit contenir au moins 10 caractères",
-          path: ["telephone"],
-        });
-      }
     }
   });
 
