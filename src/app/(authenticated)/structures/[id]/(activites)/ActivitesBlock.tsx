@@ -1,23 +1,24 @@
 import { Block } from "@/app/components/common/Block";
-import { Activite } from "@/types/activite.type";
 import { ReactElement } from "react";
 import { ActivitesPlaces } from "./ActivitesPlaces";
 import { ActivitesMotifsIndisponibilite } from "./ActivitesMotifsIndisponibilite";
 import Image from "next/image";
 import ofii from "../../../../../../public/ofii.webp";
 import { ActivitesHistorique } from "./ActivitesHistorique";
+import { useStructureContext } from "../context/StructureContext";
 
-export const ActivitesBlock = ({
-  activites,
-  debutConvention,
-  finConvention,
-}: Props): ReactElement => {
+export const ActivitesBlock = (): ReactElement => {
+  // TODO : Refac props from blocks to remove the props and pass them from context
+  const { structure } = useStructureContext();
+
+  const { activites, debutConvention, finConvention } = structure;
+
   return (
     <Block title="Activités" iconClass="fr-icon-team-line">
       <div className="flex">
         <span className="text-title-blue-france">
           Données mensuelles mises à jour le{" "}
-          {new Date(activites?.[0]?.date).toLocaleDateString()}
+          {new Date(activites?.[0]?.date || new Date()).toLocaleDateString()}
         </span>
         <div style={{ position: "relative", width: 40 }}>
           <Image
@@ -30,32 +31,28 @@ export const ActivitesBlock = ({
       </div>
       <div className="fr-pb-3w">
         <ActivitesPlaces
-          nbPlaces={activites[0]?.nbPlaces}
-          placesIndisponibles={activites[0]?.placesIndisponibles}
-          placesVacantes={activites[0]?.placesVacantes}
-          presencesInduesBPI={activites[0]?.presencesInduesBPI}
-          presencesInduesDeboutees={activites[0]?.presencesInduesDeboutees}
+          nbPlaces={activites?.[0]?.nbPlaces || 0}
+          placesIndisponibles={activites?.[0]?.placesIndisponibles || 0}
+          placesVacantes={activites?.[0]?.placesVacantes || 0}
+          presencesInduesBPI={activites?.[0]?.presencesInduesBPI || 0}
+          presencesInduesDeboutees={
+            activites?.[0]?.presencesInduesDeboutees || 0
+          }
         />
       </div>
       <div className="fr-pb-3w">
         <ActivitesMotifsIndisponibilite
-          desinsectisation={activites[0]?.desinsectisation}
-          remiseEnEtat={activites[0]?.remiseEnEtat}
-          sousOccupation={activites[0]?.sousOccupation}
-          travaux={activites[0]?.travaux}
+          desinsectisation={activites?.[0]?.desinsectisation || 0}
+          remiseEnEtat={activites?.[0]?.remiseEnEtat || 0}
+          sousOccupation={activites?.[0]?.sousOccupation || 0}
+          travaux={activites?.[0]?.travaux || 0}
         />
       </div>
       <ActivitesHistorique
-        activites={activites}
-        debutConvention={debutConvention}
-        finConvention={finConvention}
+        activites={activites || []}
+        debutConvention={debutConvention || null}
+        finConvention={finConvention || null}
       />
     </Block>
   );
-};
-
-type Props = {
-  activites: Activite[];
-  debutConvention: Date | null;
-  finConvention: Date | null;
 };

@@ -57,6 +57,10 @@ html {
   scroll-behavior: smooth;
 }
 
+.scroll-margin-header {
+  scroll-margin-top: var(--structure-header-height);
+}
+
 /* Custom animations */
 @keyframes fade-in {
   from {

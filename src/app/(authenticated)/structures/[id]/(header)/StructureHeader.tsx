@@ -1,15 +1,50 @@
-import { StructureType } from "@/types/structure.type";
-import Link from "next/link";
-import { ReactElement, forwardRef, ForwardedRef } from "react";
-import { NavigationMenu } from "./NavigationMenu";
+"use client";
 
-const StructureHeaderComponent = forwardRef(
-  (
-    { type, operateur, nbPlaces, nom, commune, departement }: Props,
-    ref: ForwardedRef<HTMLDivElement>
-  ): ReactElement => {
-    return (
-      <div className="sticky top-0 z-2 bg-lifted-grey" ref={ref}>
+import Link from "next/link";
+import { ReactElement } from "react";
+import { NavigationMenu } from "./NavigationMenu";
+import { useStructureContext } from "../context/StructureContext";
+import { useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
+
+export function StructureHeader(): ReactElement | null {
+  const { structure } = useStructureContext();
+  const structureHeaderRef = useRef<HTMLDivElement>(null);
+  const structureHeaderHeight = useRef(0);
+
+  const pathname = usePathname();
+  const isRootPath = pathname === `/structures/${structure?.id}`;
+
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (structureHeaderRef.current) {
+        const height = structureHeaderRef.current.offsetHeight;
+        structureHeaderHeight.current = height;
+        document.documentElement.style.setProperty(
+          "--structure-header-height",
+          `${height}px`
+        );
+      }
+    };
+
+    updateHeaderHeight();
+
+    window.addEventListener("resize", updateHeaderHeight);
+    return () => {
+      window.removeEventListener("resize", updateHeaderHeight);
+    };
+  }, []);
+
+  const type = structure?.type;
+  const operateur = structure?.operateur;
+  const nbPlaces = structure?.nbPlaces;
+  const nom = structure?.nom;
+  const commune = structure?.communeAdministrative;
+  const departement = structure?.departementAdministratif;
+
+  return structure ? (
+    <>
+      <div className="sticky top-0 z-2 bg-lifted-grey" ref={structureHeaderRef}>
         <div className="flex border-bottom fr-p-1w">
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-left-s-line"
@@ -33,21 +68,8 @@ const StructureHeaderComponent = forwardRef(
             </h3>
           </div>
         </div>
-        <NavigationMenu />
+        {isRootPath ? <NavigationMenu /> : null}
       </div>
-    );
-  }
-);
-
-StructureHeaderComponent.displayName = "StructureHeader";
-
-export const StructureHeader = StructureHeaderComponent;
-
-type Props = {
-  type: StructureType;
-  operateur: string;
-  nbPlaces: number;
-  nom: string | null;
-  commune: string;
-  departement: string;
-};
+    </>
+  ) : null;
+}
