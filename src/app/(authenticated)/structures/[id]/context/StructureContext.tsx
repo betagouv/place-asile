@@ -1,40 +1,67 @@
 "use client";
 
-import { Structure } from "@prisma/client";
+// Import the custom Structure type
+import { Structure } from "@/types/structure.type";
 import { createContext, useContext, ReactNode } from "react";
+// Import the Prisma Structure type for conversion
+import { Structure as PrismaStructure } from "@prisma/client";
 
-// Define the context type
-type StructureContextType = {
+// Internal context type with nullable structure
+type StructureContextInternalType = {
   structure: Structure | null;
 };
 
-// Create the context with default value
-const StructureContext = createContext<StructureContextType>({
+// Public context type that guarantees structure is non-null
+export type StructureContextType = {
+  structure: Structure;
+};
+
+// Create the internal context with default value
+const StructureContextInternal = createContext<StructureContextInternalType>({
   structure: null,
 });
 
-// Create a provider component
 export function StructureProvider({
   children,
-  structure,
+  structure: prismaStructure,
 }: {
   children: ReactNode;
-  structure: Structure | null;
+  structure: PrismaStructure | null;
 }) {
+  // Convert from Prisma structure to our custom Structure type
+  // Our Structure type already has coordinates defined
+  const structure = prismaStructure
+    ? ({
+        ...prismaStructure,
+        coordinates: [
+          Number(prismaStructure.latitude),
+          Number(prismaStructure.longitude),
+        ],
+      } as unknown as Structure)
+    : null;
+
   return (
-    <StructureContext.Provider value={{ structure }}>
+    <StructureContextInternal.Provider value={{ structure }}>
       {children}
-    </StructureContext.Provider>
+    </StructureContextInternal.Provider>
   );
 }
 
 // Create a hook to use the context
-export function useStructureContext() {
-  const context = useContext(StructureContext);
+export function useStructureContext(): StructureContextType {
+  const context = useContext(StructureContextInternal);
 
   if (context === undefined) {
-    throw new Error("useStructure must be used within a StructureProvider");
+    throw new Error(
+      "useStructureContext must be used within a StructureProvider"
+    );
   }
 
-  return context;
+  // Check if structure is null and throw an error if it is
+  if (context.structure === null) {
+    throw new Error("Structure is not available");
+  }
+
+  // Return the context with the non-null structure
+  return { structure: context.structure };
 }

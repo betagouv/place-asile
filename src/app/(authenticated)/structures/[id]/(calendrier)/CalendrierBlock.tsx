@@ -1,15 +1,19 @@
 import { Block } from "@/app/components/common/Block";
 import { DateBars } from "@/app/(authenticated)/structures/[id]/(calendrier)/DateBars";
 import { ReactElement } from "react";
+import { useStructureContext } from "../context/StructureContext";
 
-export const CalendrierBlock = ({
-  debutPeriodeAutorisation,
-  finPeriodeAutorisation,
-  debutConvention,
-  finConvention,
-  debutCpom,
-  finCpom,
-}: Props): ReactElement => {
+export const CalendrierBlock = (): ReactElement => {
+  const { structure } = useStructureContext();
+  const {
+    debutPeriodeAutorisation,
+    finPeriodeAutorisation,
+    debutConvention,
+    finConvention,
+    debutCpom,
+    finCpom,
+  } = structure;
+
   const datePairs = [];
   if (debutPeriodeAutorisation && finPeriodeAutorisation) {
     datePairs.push({
@@ -26,20 +30,15 @@ export const CalendrierBlock = ({
     });
   }
   if (debutCpom && finCpom) {
-    datePairs.push({ label: "CPOM", startDate: debutCpom, endDate: finCpom });
+    datePairs.push({
+      label: "CPOM",
+      startDate: debutCpom,
+      endDate: finCpom,
+    });
   }
   return (
     <Block title="Calendrier" iconClass="fr-icon-calendar-2-line">
       <DateBars datePairs={datePairs} />
     </Block>
   );
-};
-
-type Props = {
-  debutPeriodeAutorisation: Date | null;
-  finPeriodeAutorisation: Date | null;
-  debutConvention: Date | null;
-  finConvention: Date | null;
-  debutCpom: Date | null;
-  finCpom: Date | null;
 };
