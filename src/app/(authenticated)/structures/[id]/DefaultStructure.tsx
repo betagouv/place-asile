@@ -64,12 +64,9 @@ export const DefaultStructure = ({ structure }: Props): ReactElement => {
           placesLogementsSociaux={getCurrentPlacesLogementsSociaux(structure)}
         />
       </Section>
-      <section
-        style={{ scrollMarginTop: `${structureHeaderHeight}px` }}
-        id="finances"
-      >
+      <Section id="finances">
         <FinancesBlock budgets={structure?.budgets || []} />
-      </section>
+      </Section>
       <Section id="controle">
         <DefaultControlesBlock
           evaluations={structure.evaluations || []}
