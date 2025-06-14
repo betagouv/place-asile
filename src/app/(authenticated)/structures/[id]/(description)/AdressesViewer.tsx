@@ -1,14 +1,16 @@
 "use client";
 
 import { Badge } from "@/app/components/common/Badge";
-import { Adresse, Repartition } from "@/types/adresse.type";
 import { ReactElement, useState } from "react";
+import { useStructureContext } from "../context/StructureContext";
+import { getRepartition } from "@/app/utils/structure.util";
 
-export const AdressesViewer = ({
-  repartition,
-  adresses,
-}: Props): ReactElement => {
+export const AdressesViewer = (): ReactElement => {
   const [showAdresses, setShowAdresses] = useState(false);
+
+  const { structure } = useStructureContext();
+  const repartition = getRepartition(structure);
+  const adresses = structure.adresses || [];
 
   return (
     <>
@@ -56,9 +58,4 @@ export const AdressesViewer = ({
       )}
     </>
   );
-};
-
-type Props = {
-  repartition: Repartition;
-  adresses: Adresse[];
 };

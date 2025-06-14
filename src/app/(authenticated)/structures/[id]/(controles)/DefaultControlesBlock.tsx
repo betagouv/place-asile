@@ -1,8 +1,5 @@
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
-import { Controle } from "@/types/controle.type";
-import { Evaluation } from "@/types/evaluation.type";
-import { EvenementIndesirableGrave } from "@/types/evenement-indesirable-grave.type";
 import { ReactElement } from "react";
 import { EvaluationTable } from "./EvaluationTable";
 import { ControleTable } from "./ControleTable";
@@ -10,12 +7,14 @@ import { EIGTable } from "./EIGTable";
 import { getLastVisitInMonths } from "@/app/utils/structure.util";
 import { DemarchesSimplifieesInfo } from "./DemarchesSimplifiesInfo";
 import { ControleAccordion } from "./ControleAccordion";
+import { useStructureContext } from "../context/StructureContext";
 
-export const DefaultControlesBlock = ({
-  evaluations,
-  controles,
-  evenementsIndesirablesGraves,
-}: Props): ReactElement => {
+export const DefaultControlesBlock = (): ReactElement => {
+  const { structure } = useStructureContext();
+  const evaluations = structure.evaluations || [];
+  const controles = structure.controles || [];
+  const evenementsIndesirablesGraves =
+    structure.evenementsIndesirablesGraves || [];
   return (
     <Block title="Controle qualité" iconClass="fr-icon-search-line">
       <div className="flex">
@@ -63,10 +62,4 @@ export const DefaultControlesBlock = ({
       </div>
     </Block>
   );
-};
-
-type Props = {
-  evaluations: Evaluation[];
-  controles: Controle[];
-  evenementsIndesirablesGraves: EvenementIndesirableGrave[];
 };

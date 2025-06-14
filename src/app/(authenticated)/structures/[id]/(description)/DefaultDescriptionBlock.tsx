@@ -1,29 +1,29 @@
 import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
 import { ContactsViewer } from "./ContactsViewer";
-import { Contact } from "@/types/contact.type";
 import { AdressesViewer } from "./AdressesViewer";
-import { PublicType, StructureType } from "@/types/structure.type";
-import { Adresse, Repartition } from "@/types/adresse.type";
+import { useStructureContext } from "../context/StructureContext";
 
-export const DefaultDescriptionBlock = ({
-  creationDate,
-  dnaCode,
-  operateur,
-  publicType,
-  adresse,
-  nom,
-  codePostal,
-  commune,
-  repartition,
-  type,
-  finessCode,
-  cpom,
-  lgbt,
-  fvvTeh,
-  contacts,
-  adresses,
-}: Props): ReactElement => {
+export const DefaultDescriptionBlock = (): ReactElement => {
+  const { structure } = useStructureContext();
+
+  const {
+    creationDate,
+    dnaCode,
+    operateur,
+    public: publicType,
+    adresseAdministrative: adresse,
+    nom,
+    codePostalAdministratif: codePostal,
+    communeAdministrative: commune,
+    type,
+    finessCode,
+    cpom,
+    lgbt,
+    fvvTeh,
+    contacts,
+  } = structure;
+
   const getVulnerabiliteLabel = () => {
     const vulnerabilites: string[] = [];
     if (lgbt) {
@@ -44,7 +44,7 @@ export const DefaultDescriptionBlock = ({
         </div>
         <div className="flex-1">
           <strong className="pr-2">Type de structure</strong>
-          {StructureType[type]}
+          {type}
         </div>
       </div>
       <hr />
@@ -75,7 +75,7 @@ export const DefaultDescriptionBlock = ({
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Public</strong>
-          {PublicType[publicType as unknown as keyof typeof PublicType]}
+          {publicType}
         </div>
         <div className="flex-1">
           <strong className="pr-2">Vulnérabilité</strong>
@@ -89,32 +89,13 @@ export const DefaultDescriptionBlock = ({
           adresse={adresse}
           codePostal={codePostal}
           commune={commune}
-          contacts={contacts}
+          contacts={contacts || []}
         />
       </div>
       <hr />
       <div>
-        <AdressesViewer repartition={repartition} adresses={adresses} />
+        <AdressesViewer />
       </div>
     </Block>
   );
-};
-
-type Props = {
-  creationDate: Date;
-  dnaCode: string;
-  operateur: string;
-  publicType: PublicType;
-  adresse: string;
-  nom: string | null;
-  codePostal: string;
-  commune: string;
-  repartition: Repartition;
-  type: StructureType;
-  finessCode: string | null;
-  cpom: boolean;
-  lgbt: boolean;
-  fvvTeh: boolean;
-  contacts: Contact[];
-  adresses: Adresse[];
 };

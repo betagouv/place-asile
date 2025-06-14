@@ -1,23 +1,24 @@
 import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
 import { ContactsViewer } from "./ContactsViewer";
-import { Contact } from "@/types/contact.type";
 import { PublicType, StructureType } from "@/types/structure.type";
-import { Repartition } from "@/types/adresse.type";
+import { useStructureContext } from "../context/StructureContext";
+import { getRepartition } from "@/app/utils/structure.util";
 
-export const PrahdaDescriptionBlock = ({
-  creationDate,
-  dnaCode,
-  operateur,
-  publicType,
-  adresse,
-  nom,
-  codePostal,
-  commune,
-  repartition,
-  type,
-  contacts,
-}: Props): ReactElement => {
+export const PrahdaDescriptionBlock = (): ReactElement => {
+  const { structure } = useStructureContext();
+  const {
+    creationDate,
+    dnaCode,
+    operateur,
+    public: publicType,
+    adresseAdministrative,
+    nom,
+    codePostalAdministratif,
+    communeAdministrative,
+    type,
+    contacts,
+  } = structure;
   return (
     <Block title="Description" iconClass="fr-icon-menu-2-fill">
       <div className="flex mb-2">
@@ -45,38 +46,26 @@ export const PrahdaDescriptionBlock = ({
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Public</strong>
-          {PublicType[publicType as unknown as keyof typeof PublicType]}
+          {publicType
+            ? PublicType[publicType as unknown as keyof typeof PublicType]
+            : ""}
         </div>
       </div>
       <hr />
       <div className="mb-2">
         <ContactsViewer
           nom={nom}
-          adresse={adresse}
-          codePostal={codePostal}
-          commune={commune}
-          contacts={contacts}
+          adresse={adresseAdministrative}
+          codePostal={codePostalAdministratif}
+          commune={communeAdministrative}
+          contacts={contacts || []}
         />
       </div>
       <hr />
       <div className="flex mb-2">
         <strong className="pr-2">Type de bâti</strong>
-        <span className="pr-1">{repartition}</span>
+        <span className="pr-1">{getRepartition(structure)}</span>
       </div>
     </Block>
   );
-};
-
-type Props = {
-  creationDate: Date;
-  dnaCode: string;
-  operateur: string;
-  publicType: PublicType;
-  adresse: string;
-  nom: string | null;
-  codePostal: string;
-  commune: string;
-  repartition: Repartition;
-  type: StructureType;
-  contacts: Contact[];
 };

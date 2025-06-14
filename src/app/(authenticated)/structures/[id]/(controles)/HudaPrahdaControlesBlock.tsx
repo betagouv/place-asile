@@ -1,18 +1,20 @@
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
-import { Evaluation } from "@/types/evaluation.type";
-import { EvenementIndesirableGrave } from "@/types/evenement-indesirable-grave.type";
 import { ReactElement } from "react";
 import { EvaluationTable } from "./EvaluationTable";
 import { EIGTable } from "./EIGTable";
 import { getLastVisitInMonths } from "@/app/utils/structure.util";
 import { DemarchesSimplifieesInfo } from "./DemarchesSimplifiesInfo";
 import { ControleAccordion } from "./ControleAccordion";
+import { useStructureContext } from "../context/StructureContext";
 
-export const HudaPrahdaControlesBlock = ({
-  evaluations,
-  evenementsIndesirablesGraves,
-}: Props): ReactElement => {
+export const HudaPrahdaControlesBlock = (): ReactElement => {
+  const { structure } = useStructureContext();
+
+  const evaluations = structure.evaluations || [];
+  const evenementsIndesirablesGraves =
+    structure.evenementsIndesirablesGraves || [];
+
   return (
     <Block title="Controle qualité" iconClass="fr-icon-search-line">
       <div className="flex">
@@ -45,9 +47,4 @@ export const HudaPrahdaControlesBlock = ({
       </div>
     </Block>
   );
-};
-
-type Props = {
-  evaluations: Evaluation[];
-  evenementsIndesirablesGraves: EvenementIndesirableGrave[];
 };
