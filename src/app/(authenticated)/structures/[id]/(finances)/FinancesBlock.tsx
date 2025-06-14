@@ -4,6 +4,7 @@ import { BudgetExecutoire } from "./BudgetExecutoire";
 import { useStructureContext } from "../context/StructureContext";
 
 export const FinancesBlock = (): ReactElement => {
+  // TODO : Refac props from blocks to remove the props and pass them from context
   const { structure } = useStructureContext();
 
   return (

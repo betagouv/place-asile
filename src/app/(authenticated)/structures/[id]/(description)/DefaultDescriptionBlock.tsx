@@ -5,6 +5,7 @@ import { AdressesViewer } from "./AdressesViewer";
 import { useStructureContext } from "../context/StructureContext";
 
 export const DefaultDescriptionBlock = (): ReactElement => {
+  // TODO : Refac props from blocks to remove the props and pass them from context
   const { structure } = useStructureContext();
 
   const {
