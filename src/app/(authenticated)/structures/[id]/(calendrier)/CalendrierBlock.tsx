@@ -4,6 +4,7 @@ import { ReactElement } from "react";
 import { useStructureContext } from "../context/StructureContext";
 
 export const CalendrierBlock = (): ReactElement => {
+  // TODO : Refac props from blocks to remove the props and pass them from context
   const { structure } = useStructureContext();
   const {
     debutPeriodeAutorisation,
