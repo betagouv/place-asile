@@ -10,8 +10,8 @@ export const Providers = ({ children }: PropsWithChildren): ReactElement => {
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
       init({
-        url: process.env.MATOMO_URL!,
-        siteId: process.env.MATOMO_SITE_ID!,
+        url: process.env.NEXT_PUBLIC_MATOMO_URL!,
+        siteId: process.env.NEXT_PUBLIC_MATOMO_SITE_ID!,
         disableCookies: true,
       });
     }
