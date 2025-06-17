@@ -6,12 +6,12 @@ export type Budget = {
   tauxEncadrement: number;
   coutJournalier: number;
   dotationDemandee: number;
-  dotationAccordee: number;
-  totalProduits: number;
-  totalCharges: number;
-  cumulResultatsNetsCPOM: number;
-  repriseEtat: number;
-  reserveInverstissement: number;
+  dotationAccordee: number | null;
+  totalProduits: number | null;
+  totalCharges: number | null;
+  cumulResultatsNetsCPOM: number | null;
+  repriseEtat: number | null;
+  reserveInvestissement: number;
   chargesNonReconductibles: number;
   reserveCompensationDeficits: number;
   reserveCompensationBFR: number;

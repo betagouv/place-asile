@@ -160,12 +160,12 @@ model Budget {
   tauxEncadrement                    Int
   coutJournalier                     Int
   dotationDemandee                   Int
-  dotationAccordee                   Int
-  totalProduits                      Int
-  totalCharges                       Int
-  cumulResultatsNetsCPOM             Int
-  repriseEtat                        Int
-  reserveInverstissement             Int
+  dotationAccordee                   Int?
+  totalProduits                      Int?
+  totalCharges                       Int?
+  cumulResultatsNetsCPOM             Int?
+  repriseEtat                        Int?
+  reserveInvestissement              Int
   chargesNonReconductibles           Int
   reserveCompensationDeficits        Int
   reserveCompensationBFR             Int
