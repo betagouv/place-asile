@@ -1,10 +1,10 @@
-import { Structure } from "@prisma/client";
+import { StructureWithLatLng } from "@/types/structure.type";
 import { StructureProvider } from "./context/StructureContext";
 import { notFound } from "next/navigation";
 import { StructureHeader } from "./(header)/StructureHeader";
 import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
 
-async function getStructure(id: string): Promise<Structure> {
+async function getStructure(id: string): Promise<StructureWithLatLng> {
   try {
     // Use NEXT_URL instead of NEXT_PUBLIC_BASE_URL
     const baseUrl = process.env.NEXT_URL || "";
@@ -30,7 +30,6 @@ export default async function StructureLayout({
   children: React.ReactNode;
   params: { id: string };
 }) {
-  // Await params before using its properties
   const { id } = await params;
   const structure = await getStructure(id);
 
