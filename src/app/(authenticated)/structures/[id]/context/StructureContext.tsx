@@ -1,19 +1,16 @@
 "use client";
 
-// Import the custom Structure type
-import { Structure } from "@/types/structure.type";
 import { createContext, useContext, ReactNode } from "react";
-// Import the Prisma Structure type for conversion
-import { Structure as PrismaStructure } from "@prisma/client";
+import { StructureWithLatLng } from "@/types/structure.type";
 
 // Internal context type with nullable structure
 type StructureContextInternalType = {
-  structure: Structure | null;
+  structure: StructureWithLatLng | null;
 };
 
 // Public context type that guarantees structure is non-null
 export type StructureContextType = {
-  structure: Structure;
+  structure: StructureWithLatLng;
 };
 
 // Create the internal context with default value
@@ -26,7 +23,7 @@ export function StructureProvider({
   structure: prismaStructure,
 }: {
   children: ReactNode;
-  structure: PrismaStructure | null;
+  structure: StructureWithLatLng | null;
 }) {
   // Convert from Prisma structure to our custom Structure type
   // Our Structure type already has coordinates defined
@@ -37,7 +34,7 @@ export function StructureProvider({
           Number(prismaStructure.latitude),
           Number(prismaStructure.longitude),
         ],
-      } as unknown as Structure)
+      } as unknown as StructureWithLatLng)
     : null;
 
   return (

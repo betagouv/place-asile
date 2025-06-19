@@ -3,16 +3,16 @@ import { ReactElement } from "react";
 import { ContactsViewer } from "./ContactsViewer";
 import { AdressesViewer } from "./AdressesViewer";
 import { useStructureContext } from "../context/StructureContext";
+import { PublicType } from "@/types/structure.type";
 
 export const DefaultDescriptionBlock = (): ReactElement => {
-  // TODO : Refac props from blocks to remove the props and pass them from context
   const { structure } = useStructureContext();
 
   const {
     creationDate,
     dnaCode,
     operateur,
-    public: publicType,
+    public: publicValue,
     adresseAdministrative: adresse,
     nom,
     codePostalAdministratif: codePostal,
@@ -76,7 +76,7 @@ export const DefaultDescriptionBlock = (): ReactElement => {
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Public</strong>
-          {publicType}
+          {PublicType[String(publicValue) as keyof typeof PublicType]}
         </div>
         <div className="flex-1">
           <strong className="pr-2">Vulnérabilité</strong>
