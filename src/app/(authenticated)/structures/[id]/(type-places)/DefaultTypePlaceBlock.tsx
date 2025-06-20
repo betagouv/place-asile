@@ -5,23 +5,25 @@ import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
 import { TypePlaceHistory } from "./TypePlaceHistory";
 import { TypePlaceCharts } from "./TypePlaceCharts";
-import { Adresse } from "@/types/adresse.type";
-import { StructureTypologie } from "@/types/structure-typologie.type";
 
-export const DefaultTypePlaceBlock = ({
-  placesAutorisees,
-  placesACreer,
-  placesAFermer,
-  placesPmr,
-  placesLgbt,
-  placesFvvTeh,
-  placesQPV,
-  placesLogementsSociaux,
-  echeancePlacesACreer,
-  echeancePlacesAFermer,
-  adresses,
-  structureTypologies,
-}: Props): ReactElement => {
+import { useStructureContext } from "../context/StructureContext";
+import {
+  getCurrentPlacesLogementsSociaux,
+  getCurrentPlacesQpv,
+} from "@/app/utils/structure.util";
+
+export const DefaultTypePlaceBlock = (): ReactElement => {
+  // TODO : Refac props from blocks to remove the props and pass them from context
+  const { structure } = useStructureContext();
+
+  const {
+    nbPlaces: placesAutorisees,
+    placesACreer,
+    placesAFermer,
+    echeancePlacesACreer,
+    echeancePlacesAFermer,
+  } = structure;
+
   return (
     <Block title="Type de places" iconClass="fr-icon-map-pin-2-line">
       <div className="flex">
@@ -53,34 +55,19 @@ export const DefaultTypePlaceBlock = ({
       <div className="fr-pt-3w flex">
         <TypePlaceCharts
           placesAutorisees={placesAutorisees}
-          placesPmr={placesPmr}
-          placesLgbt={placesLgbt}
-          placesFvvTeh={placesFvvTeh}
-          placesQPV={placesQPV}
-          placesLogementsSociaux={placesLogementsSociaux}
+          placesPmr={structure?.typologies?.[0]?.pmr || 0}
+          placesLgbt={structure?.typologies?.[0]?.lgbt || 0}
+          placesFvvTeh={structure?.typologies?.[0]?.fvvTeh || 0}
+          placesQPV={getCurrentPlacesQpv(structure)}
+          placesLogementsSociaux={getCurrentPlacesLogementsSociaux(structure)}
         />
       </div>
       <div className="fr-pt-3w">
         <TypePlaceHistory
-          adresses={adresses}
-          structureTypologies={structureTypologies}
+          adresses={structure.adresses || []}
+          structureTypologies={structure.typologies || []}
         />
       </div>
     </Block>
   );
-};
-
-type Props = {
-  placesAutorisees: number;
-  placesACreer: number | null;
-  placesAFermer: number | null;
-  placesPmr: number;
-  placesLgbt: number;
-  placesFvvTeh: number;
-  placesQPV: number;
-  placesLogementsSociaux: number;
-  echeancePlacesACreer: Date | null;
-  echeancePlacesAFermer: Date | null;
-  adresses: Adresse[];
-  structureTypologies: StructureTypologie[];
 };

@@ -1,8 +1,5 @@
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
-import { Controle } from "@/types/controle.type";
-import { Evaluation } from "@/types/evaluation.type";
-import { EvenementIndesirableGrave } from "@/types/evenement-indesirable-grave.type";
 import { ReactElement } from "react";
 import { EvaluationTable } from "./EvaluationTable";
 import { ControleTable } from "./ControleTable";
@@ -10,12 +7,15 @@ import { EIGTable } from "./EIGTable";
 import { getLastVisitInMonths } from "@/app/utils/structure.util";
 import { DemarchesSimplifieesInfo } from "./DemarchesSimplifiesInfo";
 import { ControleAccordion } from "./ControleAccordion";
+import { useStructureContext } from "../context/StructureContext";
 
-export const DefaultControlesBlock = ({
-  evaluations,
-  controles,
-  evenementsIndesirablesGraves,
-}: Props): ReactElement => {
+export const DefaultControlesBlock = (): ReactElement => {
+  // TODO : Refac props from blocks to remove the props and pass them from context
+  const { structure } = useStructureContext();
+  const evaluations = structure.evaluations || [];
+  const controles = structure.controles || [];
+  const evenementsIndesirablesGraves =
+    structure.evenementsIndesirablesGraves || [];
   return (
     <Block title="Controle qualité" iconClass="fr-icon-search-line">
       <div className="flex">
@@ -47,26 +47,18 @@ export const DefaultControlesBlock = ({
           title="Inspections-contrôles"
           lastVisit={controles[0]?.date}
         >
-          <ControleTable controles={controles} />
+          <ControleTable />
         </ControleAccordion>
         <ControleAccordion
           title="Événements indésirables graves"
           lastVisit={evenementsIndesirablesGraves[0]?.evenementDate}
         >
           <>
-            <EIGTable
-              evenementsIndesirablesGraves={evenementsIndesirablesGraves}
-            />
+            <EIGTable />
             <DemarchesSimplifieesInfo />
           </>
         </ControleAccordion>
       </div>
     </Block>
   );
-};
-
-type Props = {
-  evaluations: Evaluation[];
-  controles: Controle[];
-  evenementsIndesirablesGraves: EvenementIndesirableGrave[];
 };
