@@ -47,16 +47,14 @@ export const DefaultControlesBlock = (): ReactElement => {
           title="Inspections-contrôles"
           lastVisit={controles[0]?.date}
         >
-          <ControleTable controles={controles} />
+          <ControleTable />
         </ControleAccordion>
         <ControleAccordion
           title="Événements indésirables graves"
           lastVisit={evenementsIndesirablesGraves[0]?.evenementDate}
         >
           <>
-            <EIGTable
-              evenementsIndesirablesGraves={evenementsIndesirablesGraves}
-            />
+            <EIGTable />
             <DemarchesSimplifieesInfo />
           </>
         </ControleAccordion>

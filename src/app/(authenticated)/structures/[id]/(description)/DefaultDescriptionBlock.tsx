@@ -13,16 +13,11 @@ export const DefaultDescriptionBlock = (): ReactElement => {
     dnaCode,
     operateur,
     public: publicValue,
-    adresseAdministrative: adresse,
-    nom,
-    codePostalAdministratif: codePostal,
-    communeAdministrative: commune,
     type,
     finessCode,
     cpom,
     lgbt,
     fvvTeh,
-    contacts,
   } = structure;
 
   const getVulnerabiliteLabel = () => {
@@ -85,13 +80,7 @@ export const DefaultDescriptionBlock = (): ReactElement => {
       </div>
       <hr />
       <div className="mb-2">
-        <ContactsViewer
-          nom={nom}
-          adresse={adresse}
-          codePostal={codePostal}
-          commune={commune}
-          contacts={contacts || []}
-        />
+        <ContactsViewer />
       </div>
       <hr />
       <div>

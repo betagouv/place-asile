@@ -10,9 +10,7 @@ import { Section } from "./components/Section";
 export const HudaStructure = (): ReactElement => {
   return (
     <>
-      <Section id="description">
-        <DefaultDescriptionBlock />
-      </Section>
+      <DefaultDescriptionBlock />
       <Section id="calendrier">
         <CalendrierBlock />
       </Section>

@@ -6,19 +6,13 @@ import { useStructureContext } from "../context/StructureContext";
 import { getRepartition } from "@/app/utils/structure.util";
 
 export const PrahdaDescriptionBlock = (): ReactElement => {
-  // TODO : Refac props from blocks to remove the props and pass them from context
   const { structure } = useStructureContext();
   const {
     creationDate,
     dnaCode,
     operateur,
     public: publicType,
-    adresseAdministrative,
-    nom,
-    codePostalAdministratif,
-    communeAdministrative,
     type,
-    contacts,
   } = structure;
   return (
     <Block title="Description" iconClass="fr-icon-menu-2-fill">
@@ -54,13 +48,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
       </div>
       <hr />
       <div className="mb-2">
-        <ContactsViewer
-          nom={nom}
-          adresse={adresseAdministrative}
-          codePostal={codePostalAdministratif}
-          commune={communeAdministrative}
-          contacts={contacts || []}
-        />
+        <ContactsViewer />
       </div>
       <hr />
       <div className="flex mb-2">

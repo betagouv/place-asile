@@ -1,23 +1,27 @@
 "use client";
 
-import { Contact } from "@/types/contact.type";
 import { ReactElement, useState } from "react";
+import { useStructureContext } from "../context/StructureContext";
 
-export const ContactsViewer = ({
-  nom,
-  adresse,
-  codePostal,
-  commune,
-  contacts,
-}: Props): ReactElement => {
+export const ContactsViewer = (): ReactElement => {
   const [showContacts, setShowContacts] = useState(false);
+  const { structure } = useStructureContext();
+
+  const {
+    nom,
+    adresseAdministrative,
+    codePostalAdministratif,
+    communeAdministrative,
+    contacts,
+  } = structure || {};
 
   return (
     <>
       <strong className="fr-pr-2w">Adresse administrative</strong>
       <span className="fr-pr-1w">
         {nom ? `${nom}, ` : ""}
-        {adresse}, {codePostal} {commune}
+        {adresseAdministrative}, {codePostalAdministratif}{" "}
+        {communeAdministrative}
       </span>
       <button
         className={`fr-btn fr-btn--sm fr-btn--icon-left fr-btn--tertiary-no-outline ${
@@ -29,7 +33,7 @@ export const ContactsViewer = ({
       </button>
       {showContacts && (
         <div className="text-mention-grey">
-          {contacts.map((contact) => (
+          {contacts?.map((contact) => (
             <div key={contact.email}>
               <strong className="fr-pr-3w">
                 {contact.prenom} {contact.nom} ({contact.role})
@@ -42,12 +46,4 @@ export const ContactsViewer = ({
       )}
     </>
   );
-};
-
-type Props = {
-  nom: string | null;
-  adresse: string;
-  codePostal: string;
-  commune: string;
-  contacts: Contact[];
 };

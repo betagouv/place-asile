@@ -9,11 +9,7 @@ type SectionProps = {
 
 export const Section = ({ id, children, className }: SectionProps) => {
   return (
-    <section
-      // TODO @ledjay : fix the first item scroll bug (first:mt-4 ?)
-      className={cn("scroll-margin-header", className)}
-      id={id}
-    >
+    <section className={cn("scroll-margin-header px-2", className)} id={id}>
       {children}
     </section>
   );

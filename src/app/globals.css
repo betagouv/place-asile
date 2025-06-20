@@ -58,7 +58,7 @@ html {
 }
 
 .scroll-margin-header {
-  scroll-margin-top: var(--structure-header-height);
+  scroll-margin-top: calc(var(--structure-header-height) + 7px);
 }
 
 /* Custom animations */

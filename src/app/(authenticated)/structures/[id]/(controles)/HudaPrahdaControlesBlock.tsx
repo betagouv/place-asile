@@ -38,9 +38,7 @@ export const HudaPrahdaControlesBlock = (): ReactElement => {
           lastVisit={evenementsIndesirablesGraves[0]?.evenementDate}
         >
           <>
-            <EIGTable
-              evenementsIndesirablesGraves={evenementsIndesirablesGraves}
-            />
+            <EIGTable />
             <DemarchesSimplifieesInfo />
           </>
         </ControleAccordion>
