@@ -35,12 +35,14 @@ export function StructureHeader(): ReactElement | null {
     };
   }, []);
 
-  const type = structure?.type;
-  const operateur = structure?.operateur;
-  const nbPlaces = structure?.nbPlaces;
-  const nom = structure?.nom;
-  const commune = structure?.communeAdministrative;
-  const departement = structure?.departementAdministratif;
+  const {
+    type,
+    operateur,
+    nbPlaces,
+    nom,
+    communeAdministrative,
+    departementAdministratif,
+  } = structure || {};
 
   return structure ? (
     <>
@@ -63,7 +65,8 @@ export function StructureHeader(): ReactElement | null {
               </strong>
               <span className="fr-pr-1w">{" – "}</span>
               <span className="fr-mb-0 text-title-grey fr-text--lg italic font-normal">
-                {nom ? `${nom}, ` : ""} {commune}, {departement}
+                {nom ? `${nom}, ` : ""} {communeAdministrative},{" "}
+                {departementAdministratif}
               </span>
             </h3>
           </div>
