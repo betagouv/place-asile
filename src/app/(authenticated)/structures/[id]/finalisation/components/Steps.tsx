@@ -18,6 +18,7 @@ export default function Steps({ currentStep }: StepsProps) {
       nextTitle={nextTitle}
       stepCount={steps.length}
       title={title}
+      className="mx-8"
     />
   );
 }
