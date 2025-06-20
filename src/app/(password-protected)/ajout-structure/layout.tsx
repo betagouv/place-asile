@@ -1,7 +1,7 @@
 "use client";
 
 import { Logo } from "@/app/components/Logo";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -9,7 +9,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const params = useParams();
-  const dnaCode = params.dnaCode;
+  const searchParams = useSearchParams();
+  const dnaCode = params.dnaCode || searchParams.get("dnaCode");
 
   return (
     <>

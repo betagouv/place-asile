@@ -72,6 +72,55 @@ export const findOne = async (id: number): Promise<Structure | null> => {
   });
 };
 
+export const findByDnaCode = async (
+  dnaCode: string
+): Promise<Structure | null> => {
+  return prisma.structure.findUnique({
+    where: {
+      dnaCode,
+    },
+    include: {
+      adresses: {
+        include: {
+          adresseTypologies: {
+            orderBy: {
+              date: "desc",
+            },
+          },
+        },
+      },
+      contacts: true,
+      structureTypologies: {
+        orderBy: {
+          date: "desc",
+        },
+      },
+      evaluations: {
+        orderBy: {
+          date: "desc",
+        },
+      },
+      controles: {
+        orderBy: {
+          date: "desc",
+        },
+      },
+      activites: {
+        orderBy: {
+          date: "desc",
+        },
+      },
+      evenementsIndesirablesGraves: true,
+      fileUploads: true,
+      budgets: {
+        orderBy: {
+          date: "desc",
+        },
+      },
+    },
+  });
+};
+
 export const createOne = async (
   structure: CreateStructure
 ): Promise<Structure> => {
