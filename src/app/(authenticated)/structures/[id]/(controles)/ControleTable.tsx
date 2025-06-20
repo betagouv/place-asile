@@ -1,10 +1,12 @@
 import { ReactElement } from "react";
 import { Table } from "@codegouvfr/react-dsfr/Table";
-import { Controle, ControleType } from "@/types/controle.type";
+import { ControleType } from "@/types/controle.type";
+import { useStructureContext } from "../context/StructureContext";
 
-export const ControleTable = ({ controles }: Props): ReactElement => {
+export const ControleTable = (): ReactElement => {
+  const { structure } = useStructureContext();
   const getControles = () => {
-    return controles.map((controle) => [
+    return structure?.controles?.map((controle) => [
       new Date(controle.date).toLocaleDateString(),
       ControleType[controle.type as unknown as keyof typeof ControleType],
     ]);
@@ -15,12 +17,8 @@ export const ControleTable = ({ controles }: Props): ReactElement => {
       bordered={true}
       className="fr-m-0"
       caption=""
-      data={getControles()}
+      data={getControles() || []}
       headers={["DATE", "TYPE"]}
     />
   );
-};
-
-type Props = {
-  controles: Controle[];
 };

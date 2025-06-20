@@ -10,18 +10,18 @@ export const AdressesViewer = (): ReactElement => {
 
   const { structure } = useStructureContext();
   const repartition = getRepartition(structure);
-  const adresses = structure.adresses || [];
+  const { adresses } = structure || {};
 
   return (
     <>
       <strong className="fr-pr-2w">Type de bâti</strong>
       <span className="fr-pr-1w">{repartition}</span>
-      {adresses.some(({ typologies }) => typologies?.[0]?.qpv) && (
+      {adresses?.some(({ typologies }) => typologies?.[0]?.qpv) && (
         <span className="fr-pr-1w">
           <Badge type="warning">QPV</Badge>
         </span>
       )}
-      {adresses.some(({ typologies }) => typologies?.[0]?.logementSocial) && (
+      {adresses?.some(({ typologies }) => typologies?.[0]?.logementSocial) && (
         <Badge type="warning">Logement social</Badge>
       )}
       <button
@@ -36,7 +36,7 @@ export const AdressesViewer = (): ReactElement => {
       </button>
       {showAdresses && (
         <div className="text-mention-grey">
-          {adresses.map((adresse) => (
+          {adresses?.map((adresse) => (
             <div key={adresse.id}>
               <span className="fr-pr-3w">
                 {adresse.adresse}, {adresse.codePostal} {adresse.commune}{" "}
