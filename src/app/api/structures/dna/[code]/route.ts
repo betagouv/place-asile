@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     }
 
     const structureWithCoordinates = addCoordinates([structure]);
-    return NextResponse.json(structureWithCoordinates[0]);
+    return NextResponse.json(structureWithCoordinates);
   } catch (error) {
     console.error("Error fetching structure by DNA code:", error);
     return NextResponse.json(
