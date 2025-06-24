@@ -9,6 +9,7 @@ import {
   Evaluation,
   EvenementIndesirableGrave,
   StructureTypologie,
+  Budget,
 } from "@prisma/client";
 
 import {
@@ -25,6 +26,7 @@ const EVALUATION_INDEX = 4;
 const EIG_INDEX = 5;
 const STRUCTURE_TYPOLOGIE_INDEX = 6;
 const ADRESSE_TYPOLOGIE_INDEX = 7;
+const BUDGET_INDEX = 8;
 
 export class CsvExtract {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -173,6 +175,30 @@ export class CsvExtract {
       nbPlacesTotal: line[3],
       qpv: line[4],
       logementSocial: line[5],
+    }));
+  };
+
+  public extractBudgetsFromCsv = (): Omit<Budget, "id">[] => {
+    const sheet = this.getSheet(BUDGET_INDEX);
+    return sheet.map((line) => ({
+      structureDnaCode: line[0],
+      date: new Date(line[1]),
+      ETP: Number(line[2]),
+      tauxEncadrement: Number(line[3]),
+      coutJournalier: Number(line[4]),
+      dotationDemandee: Number(line[5]),
+      dotationAccordee: Number(line[6]),
+      totalProduits: Number(line[7]),
+      totalCharges: Number(line[8]),
+      cumulResultatsNetsCPOM: Number(line[9]),
+      repriseEtat: Number(line[10]),
+      reserveInvestissement: Number(line[11]),
+      chargesNonReconductibles: Number(line[12]),
+      reserveCompensationDeficits: Number(line[13]),
+      reserveCompensationBFR: Number(line[14]),
+      reserveCompensationAmortissements: Number(line[15]),
+      fondsDedies: Number(line[16]),
+      commentaire: line[17],
     }));
   };
 }

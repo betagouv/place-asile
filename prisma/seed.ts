@@ -14,6 +14,7 @@ const {
   extractEvaluationsFromCsv,
   extractEIGsFromCsv,
   extractStructureTypologiesFromCsv,
+  extractBudgetsFromCsv,
 } = new CsvExtract();
 
 const seedStructures = async () => {
@@ -61,6 +62,8 @@ export async function seed(): Promise<void> {
   });
   console.log(">>> 🌱 Seeding activités...");
   await prisma.activite.createMany({ data: extractActivitesFromOds() });
+  console.log(">>> 🌱 Seeding budgets...");
+  await prisma.budget.createMany({ data: extractBudgetsFromCsv() });
 }
 
 seed();
