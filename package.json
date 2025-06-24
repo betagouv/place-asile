@@ -33,7 +33,7 @@
   "dependencies": {
     "@codegouvfr/react-dsfr": "^1.25.3",
     "@formkit/auto-animate": "^0.8.2",
-    "@gouvfr/dsfr-chart": "1.0.0",
+    "@gouvfr/dsfr-chart": "2.0.4",
     "@hookform/resolvers": "^5.1.1",
     "@prisma/client": "^6.10.1",
     "@sentry/nextjs": "^9.30.0",
