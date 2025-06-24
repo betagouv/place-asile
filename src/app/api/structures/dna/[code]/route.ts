@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { findByDnaCode } from "../../structure.repository";
 import { addCoordinates } from "../../structure.service";
 
+// TODO : refacto pour fusionner avec [id]
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.pathname.split("/").pop();
 

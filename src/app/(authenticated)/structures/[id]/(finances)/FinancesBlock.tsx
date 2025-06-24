@@ -1,20 +1,19 @@
 import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
 import { BudgetExecutoire } from "./BudgetExecutoire";
-import { Budget } from "@/types/budget.type";
 import { HistoriqueBudgets } from "./HistoriqueBudgets";
 
-export const FinancesBlock = ({ budgets }: Props): ReactElement => {
+export const FinancesBlock = (): ReactElement => {
   return (
     <Block title="Finances" iconClass="fr-icon-money-euro-box-line">
       <div className="pb-2">
         <h4 className="text-title-blue-france pb-2 fr-h6">
           Budget exécutoire pour {new Date().getFullYear() - 1}
         </h4>
-        <BudgetExecutoire budgets={budgets} />
+        <BudgetExecutoire />
       </div>
       <div className="pb-5">
-        <HistoriqueBudgets budgets={budgets} />
+        <HistoriqueBudgets />
       </div>
       <h4 className="text-title-blue-france pb-2 fr-h6">
         Dotation et équilibre économique
@@ -25,8 +24,4 @@ export const FinancesBlock = ({ budgets }: Props): ReactElement => {
       </h4>
     </Block>
   );
-};
-
-type Props = {
-  budgets: Budget[];
 };

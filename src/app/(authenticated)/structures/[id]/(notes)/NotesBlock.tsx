@@ -1,14 +1,13 @@
 import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
+import { useStructureContext } from "../context/StructureContext";
 
-export const NotesBlock = ({ notes }: Props): ReactElement => {
+export const NotesBlock = (): ReactElement => {
+  const { structure } = useStructureContext();
+
   return (
     <Block iconClass="fr-icon-message-2-line" title="Notes">
-      {notes || "Aucune note renseignée"}
+      {structure.notes || "Aucune note renseignée"}
     </Block>
   );
-};
-
-type Props = {
-  notes: string | null;
 };

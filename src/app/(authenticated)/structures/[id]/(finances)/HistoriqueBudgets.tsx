@@ -1,12 +1,17 @@
-import { Budget } from "@/types/budget.type";
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
 import { ReactElement } from "react";
 import styles from "@/app/components/common/Accordion.module.css";
 import Table from "@codegouvfr/react-dsfr/Table";
+import { useStructureContext } from "../context/StructureContext";
 
-export const HistoriqueBudgets = ({ budgets }: Props): ReactElement => {
+export const HistoriqueBudgets = (): ReactElement => {
+  const { structure } = useStructureContext();
+
   const getBudgets = () => {
-    return budgets.map((budget) => [
+    if (!structure?.budgets) {
+      return [];
+    }
+    return structure.budgets.map((budget) => [
       new Date(budget.date).getFullYear(),
       budget.ETP,
       budget.tauxEncadrement,
@@ -28,8 +33,4 @@ export const HistoriqueBudgets = ({ budgets }: Props): ReactElement => {
       />
     </Accordion>
   );
-};
-
-type Props = {
-  budgets: Budget[];
 };

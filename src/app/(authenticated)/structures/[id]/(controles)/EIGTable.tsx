@@ -1,12 +1,13 @@
 import { ReactElement } from "react";
 import { Table } from "@codegouvfr/react-dsfr/Table";
-import { EvenementIndesirableGrave } from "@/types/evenement-indesirable-grave.type";
+import { useStructureContext } from "../context/StructureContext";
 
-export const EIGTable = ({
-  evenementsIndesirablesGraves,
-}: Props): ReactElement => {
+export const EIGTable = (): ReactElement => {
+  const { structure } = useStructureContext();
+  const evenementsIndesirablesGraves = structure?.evenementsIndesirablesGraves;
+
   const getEvenementsIndesirablesGraves = () => {
-    return evenementsIndesirablesGraves.map((evenementIndesirableGrave) => [
+    return evenementsIndesirablesGraves?.map((evenementIndesirableGrave) => [
       evenementIndesirableGrave.numeroDossier,
       new Date(evenementIndesirableGrave.evenementDate).toLocaleDateString(),
       new Date(evenementIndesirableGrave.declarationDate).toLocaleDateString(),
@@ -19,12 +20,8 @@ export const EIGTable = ({
       bordered={true}
       className="fr-m-0"
       caption=""
-      data={getEvenementsIndesirablesGraves()}
+      data={getEvenementsIndesirablesGraves() || []}
       headers={["DOSSIER", "ÉVÉNEMENT", "DÉCLARATION", "NATURE DE L'INCIDENT"]}
     />
   );
-};
-
-type Props = {
-  evenementsIndesirablesGraves: EvenementIndesirableGrave[];
 };

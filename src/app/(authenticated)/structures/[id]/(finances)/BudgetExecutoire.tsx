@@ -1,9 +1,10 @@
 import { InformationCard } from "@/app/components/InformationCard";
-import { Budget } from "@/types/budget.type";
 import { ReactElement } from "react";
+import { useStructureContext } from "../context/StructureContext";
 
-export const BudgetExecutoire = ({ budgets }: Props): ReactElement => {
-  const budget = budgets[0];
+export const BudgetExecutoire = (): ReactElement => {
+  const { structure } = useStructureContext();
+  const budget = structure?.budgets?.[0];
   return (
     <div className="flex">
       <div className="pr-2">
@@ -32,8 +33,4 @@ export const BudgetExecutoire = ({ budgets }: Props): ReactElement => {
       </div>
     </div>
   );
-};
-
-type Props = {
-  budgets: Budget[];
 };

@@ -1,25 +1,27 @@
 "use client";
 
 import { Badge } from "@/app/components/common/Badge";
-import { Adresse, Repartition } from "@/types/adresse.type";
 import { ReactElement, useState } from "react";
+import { useStructureContext } from "../context/StructureContext";
+import { getRepartition } from "@/app/utils/structure.util";
 
-export const AdressesViewer = ({
-  repartition,
-  adresses,
-}: Props): ReactElement => {
+export const AdressesViewer = (): ReactElement => {
   const [showAdresses, setShowAdresses] = useState(false);
+
+  const { structure } = useStructureContext();
+  const repartition = getRepartition(structure);
+  const { adresses } = structure || {};
 
   return (
     <>
       <strong className="fr-pr-2w">Type de bâti</strong>
       <span className="fr-pr-1w">{repartition}</span>
-      {adresses.some(({ typologies }) => typologies?.[0]?.qpv) && (
+      {adresses?.some(({ typologies }) => typologies?.[0]?.qpv) && (
         <span className="fr-pr-1w">
           <Badge type="warning">QPV</Badge>
         </span>
       )}
-      {adresses.some(({ typologies }) => typologies?.[0]?.logementSocial) && (
+      {adresses?.some(({ typologies }) => typologies?.[0]?.logementSocial) && (
         <Badge type="warning">Logement social</Badge>
       )}
       <button
@@ -34,7 +36,7 @@ export const AdressesViewer = ({
       </button>
       {showAdresses && (
         <div className="text-mention-grey">
-          {adresses.map((adresse) => (
+          {adresses?.map((adresse) => (
             <div key={adresse.id}>
               <span className="fr-pr-3w">
                 {adresse.adresse}, {adresse.codePostal} {adresse.commune}{" "}
@@ -56,9 +58,4 @@ export const AdressesViewer = ({
       )}
     </>
   );
-};
-
-type Props = {
-  repartition: Repartition;
-  adresses: Adresse[];
 };
