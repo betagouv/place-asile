@@ -6,9 +6,9 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { dnaCode: string };
+  params: Promise<{ dnaCode: string }>;
 }>) {
-  const { dnaCode } = params;
+  const { dnaCode } = await params;
 
   try {
     const result = await fetch(
