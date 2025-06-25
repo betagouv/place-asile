@@ -2,7 +2,7 @@ import "../../build.css";
 import "./globals.css"; // IMPORTANT cet import doit rester en premier pour que les layers css soient respectés
 
 import type { Metadata } from "next";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, Suspense } from "react";
 import { Providers } from "./Providers";
 import {
   DsfrHead,
@@ -26,7 +26,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
       </head>
       <body className="overscroll-none bg-default-grey-hover">
         <DsfrProvider lang={lang}>
-          <Providers>{children}</Providers>
+          <Providers>
+            <Suspense>{children}</Suspense>
+          </Providers>
         </DsfrProvider>
       </body>
     </html>
