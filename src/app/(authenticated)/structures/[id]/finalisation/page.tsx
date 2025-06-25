@@ -5,9 +5,9 @@ import Link from "next/link";
 export default async function Finalisation({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<ReactElement> {
-  const dnaCode = params.id;
+  const dnaCode = (await params).id;
   return (
     <div className="flex flex-col gap-2 p-4 bg-white rounded border border-default-grey mx-2">
       <h1>Finalisation</h1>
