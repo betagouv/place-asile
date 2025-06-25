@@ -2,6 +2,7 @@ import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
 import { BudgetExecutoire } from "./BudgetExecutoire";
 import { HistoriqueBudgets } from "./HistoriqueBudgets";
+import { DotationChart } from "./DotationChart";
 
 export const FinancesBlock = (): ReactElement => {
   return (
@@ -18,6 +19,9 @@ export const FinancesBlock = (): ReactElement => {
       <h4 className="text-title-blue-france pb-2 fr-h6">
         Dotation et équilibre économique
       </h4>
+      <div className="pb-5">
+        <DotationChart />
+      </div>
       <h4 className="text-title-blue-france pb-2 fr-h6">Gestion budgétaire</h4>
       <h4 className="text-title-blue-france pb-2 fr-h6">
         Documents administratifs et financiers transmis par l’opérateur
