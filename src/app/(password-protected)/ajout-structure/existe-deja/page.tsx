@@ -1,4 +1,5 @@
 "use client";
+
 import { useSearchParams } from "next/navigation";
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
