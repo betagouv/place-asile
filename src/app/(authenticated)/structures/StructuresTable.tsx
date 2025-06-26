@@ -10,6 +10,7 @@ import {
 } from "@/app/utils/structure.util";
 import { formatDate } from "@/app/utils/date.util";
 import { Structure } from "@/types/structure.type";
+import { EmptyCell } from "@/app/components/common/EmptyCell";
 
 export const StructuresTable = ({
   structures,
@@ -68,9 +69,7 @@ export const StructuresTable = ({
                 {formatDate(structure.finConvention)}
               </td>
             ) : (
-              <td className="flex justify-center">
-                <div className="w-2 h-2 bg-disabled-grey rounded-lg m-4" />
-              </td>
+              <EmptyCell />
             )}
             <td>
               <Link
