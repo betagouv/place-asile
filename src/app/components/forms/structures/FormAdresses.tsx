@@ -1,7 +1,7 @@
 "use client";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import React, { useState, useEffect, useMemo } from "react";
-import { AdressesSchema } from "../validation/adressesSchema";
+import { AdressesSchema } from "./validation/adressesSchema";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
@@ -10,7 +10,7 @@ import AddressWithValidation from "@/app/components/forms/AddressWithValidation"
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { Repartition } from "@/types/adresse.type";
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
-import AdressesList from "../[dnaCode]/02-adresses/AdressesList";
+import AdressesList from "../../../(password-protected)/ajout-structure/[dnaCode]/02-adresses/AdressesList";
 
 export default function FormAdresses() {
   const params = useParams();

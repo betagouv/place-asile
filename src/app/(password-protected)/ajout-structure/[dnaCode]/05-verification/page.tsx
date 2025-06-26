@@ -13,10 +13,10 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useStructures } from "@/app/hooks/useStructures";
-import { AdressesFormValues } from "../../validation/adressesSchema";
-import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
-import { IdentificationFormValues } from "../../validation/identificationSchema";
-import { TypePlacesFormValues } from "../../validation/typePlacesSchema";
+import { AdressesFormValues } from "../../../../components/forms/structures/validation/adressesSchema";
+import { DocumentsSchemaFlexible } from "../../../../components/forms/structures/validation/documentsSchema";
+import { IdentificationFormValues } from "../../../../components/forms/structures/validation/identificationSchema";
+import { TypePlacesFormValues } from "../../../../components/forms/structures/validation/typePlacesSchema";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
 export default function StepVerification() {

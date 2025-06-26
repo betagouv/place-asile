@@ -1,6 +1,6 @@
 "use client";
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
-import FormDocuments from "../../forms/FormDocuments";
+import FormDocuments from "../../../../components/forms/structures/FormDocuments";
 
 export default function StepDocuments() {
   return (

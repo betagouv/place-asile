@@ -1,12 +1,12 @@
 import { ReactElement } from "react";
 import Steps from "../components/Steps";
-import IdentificationForm from "../forms/IdentificationForm";
+import { FormIdentificationFinalisation } from "./(form)/FormIdentificationFinalisation";
 
 export default async function Identification(): Promise<ReactElement> {
   return (
     <>
       <Steps currentStep={1} />
-      <IdentificationForm />
+      <FormIdentificationFinalisation />
     </>
   );
 }

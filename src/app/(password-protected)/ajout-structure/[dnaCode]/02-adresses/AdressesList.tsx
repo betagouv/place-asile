@@ -15,7 +15,7 @@ import {
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
-import { AdressesFormValues } from "../../validation/adressesSchema";
+import { AdressesFormValues } from "../../../../components/forms/structures/validation/adressesSchema";
 import Link from "next/link";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 import { useEffect, useRef } from "react";

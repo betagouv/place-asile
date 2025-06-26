@@ -9,18 +9,18 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import {
   DocumentsSchemaStrict,
   DocumentsSchemaFlexible,
-} from "../validation/documentsSchema";
+} from "./validation/documentsSchema";
 
-import { Year } from "../components/Year";
+import { Year } from "../../../(password-protected)/ajout-structure/components/Year";
 import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
-import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
+import { DocumentItem } from "../../../(password-protected)/ajout-structure/[dnaCode]/04-documents/DocumentItem";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
-} from "../[dnaCode]/04-documents/documents";
+} from "../../../(password-protected)/ajout-structure/[dnaCode]/04-documents/documents";
 import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
-import { IdentificationFormValues } from "../validation/identificationSchema";
+import { IdentificationFormValues } from "@/app/(password-protected)/ajout-structure/[dnaCode]/01-identification/validation/identificationSchema";
 
 export default function FormDocuments() {
   const params = useParams();

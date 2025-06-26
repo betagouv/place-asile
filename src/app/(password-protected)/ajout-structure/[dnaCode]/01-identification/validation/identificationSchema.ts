@@ -1,40 +1,19 @@
-import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
+// Date validation is now handled directly with z.string()
 import z from "zod";
-import { PublicType, StructureType } from "@/types/structure.type";
-import { contactSchema } from "./contactSchema";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { contactSchema } from "@/app/components/forms/structures/identification/fieldsets/validation/contactSchema";
+import { calendrierSchema } from "@/app/components/forms/structures/identification/fieldsets/validation/calendrierSchema";
+import { descriptionSchema } from "@/app/components/forms/structures/identification/fieldsets/validation/descriptionSchema";
 
 export const IdentificationSchema = z
   .object({
-    dnaCode: z.string().nonempty(),
-    operateur: z.string().nonempty(),
-    type: z.preprocess(
-      (val) => (val === "" ? undefined : val),
-      z.nativeEnum(StructureType, {
-        invalid_type_error: "Le type doit être un type de structure valide",
-      })
-    ),
-    creationDate: createDateFieldValidator(),
-    finessCode: z.string().optional().or(z.literal("")),
-    public: z.nativeEnum(PublicType, {
-      invalid_type_error:
-        "Le public doit être de type : " + Object.values(PublicType).join(", "),
-    }),
-    filiale: z.string().optional(),
-    cpom: z.boolean(),
-    lgbt: z.boolean(),
-    fvvTeh: z.boolean(),
+    ...descriptionSchema.shape,
     contactPrincipal: contactSchema,
     contactSecondaire: contactSchema.optional(),
-    debutPeriodeAutorisation: createDateFieldValidator().optional(),
-    finPeriodeAutorisation: createDateFieldValidator().optional(),
-    debutConvention: createDateFieldValidator().optional(),
-    finConvention: createDateFieldValidator().optional(),
-    debutCpom: createDateFieldValidator().optional(),
-    finCpom: createDateFieldValidator().optional(),
+    ...calendrierSchema.shape,
   })
   .refine(
     (data) => {

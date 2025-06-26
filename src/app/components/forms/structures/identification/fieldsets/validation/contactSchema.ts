@@ -69,3 +69,6 @@ const optionalContactSchema = baseContactSchema
 export const contactSchema = Object.assign(requiredContactSchema, {
   optional: () => optionalContactSchema,
 });
+
+export type RequiredContactFormValues = z.infer<typeof requiredContactSchema>;
+export type OptionalContactFormValues = z.infer<typeof optionalContactSchema>;

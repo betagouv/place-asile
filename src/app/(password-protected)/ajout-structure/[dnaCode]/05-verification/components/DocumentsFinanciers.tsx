@@ -1,6 +1,6 @@
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { DocumentsSchemaFlexible } from "../../../validation/documentsSchema";
-import { IdentificationFormValues } from "../../../validation/identificationSchema";
+import { DocumentsSchemaFlexible } from "../../../../../components/forms/structures/validation/documentsSchema";
+import { IdentificationFormValues } from "@/app/(password-protected)/ajout-structure/[dnaCode]/01-identification/validation/identificationSchema";
 import { useParams } from "next/navigation";
 import { z } from "zod";
 import { ReactElement, useMemo } from "react";

@@ -1,6 +1,6 @@
 "use client";
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
-import FormAdresses from "../../forms/FormAdresses";
+import FormAdresses from "../../../../components/forms/structures/FormAdresses";
 
 export default function StepAdresses() {
   return (

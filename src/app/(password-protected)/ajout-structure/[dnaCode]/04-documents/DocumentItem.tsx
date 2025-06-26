@@ -3,7 +3,7 @@ import { UploadItem } from "../../components/UploadItem";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearDate } from "@/app/utils/date.util";
 import { Control, UseFormRegister } from "react-hook-form";
-import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
+import { DocumentsSchemaFlexible } from "../../../../components/forms/structures/validation/documentsSchema";
 import { FileUploadCategory } from "@/types/file-upload.type";
 
 export const DocumentItem = ({

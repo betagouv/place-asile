@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { TypePlacesSchema } from "../../../validation/typePlacesSchema";
+import { TypePlacesSchema } from "../../../../../components/forms/structures/validation/typePlacesSchema";
 import { useParams } from "next/navigation";
 import { z } from "zod";
 import { Table } from "@/app/components/common/Table";
