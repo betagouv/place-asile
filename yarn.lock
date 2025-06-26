@@ -2753,6 +2753,11 @@ chart.js@^2.4.0, chart.js@^2.9.4:
     chartjs-color "^2.1.0"
     moment "^2.10.2"
 
+chartist@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/chartist/-/chartist-1.3.1.tgz#6b5e614c1237e0a9c043812d1f2e7a24587789b7"
+  integrity sha512-pvdQowirS3f59tkIvUl4MJoWAKU/aVv1RqleKzOkXQ0nD4X9uu+7T1cCJSTTnbAvPNuAt9JpUu6+cffvZh5nHg==
+
 chartjs-color-string@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz#1df096621c0e70720a64f4135ea171d051402f71"
