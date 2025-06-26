@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { IdentificationFormValues } from "../../../../../components/forms/structures/validation/identificationSchema";
+import { IdentificationFormValues } from "@/app/(password-protected)/ajout-structure/[dnaCode]/01-identification/validation/identificationSchema";
 import { useParams } from "next/navigation";
 
 export const Identification = () => {
