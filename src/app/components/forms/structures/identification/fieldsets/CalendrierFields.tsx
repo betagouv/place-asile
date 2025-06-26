@@ -3,7 +3,7 @@ import Notice from "@codegouvfr/react-dsfr/Notice";
 import React from "react";
 import InputWithValidation from "../../../InputWithValidation";
 import { useFormContext } from "react-hook-form";
-import { IdentificationFormValues } from "../../../../../(password-protected)/ajout-structure/[dnaCode]/01-identification/validation/identificationSchema";
+import { IdentificationFormValues } from "@/app/(password-protected)/ajout-structure/[dnaCode]/01-identification/validation/identificationSchema";
 
 export default function CalendrierFields() {
   // @TODO : Find a way to get back the contact schema type without loosing the flexibility

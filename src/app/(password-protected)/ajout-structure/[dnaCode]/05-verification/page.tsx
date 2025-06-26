@@ -15,7 +15,8 @@ import { useEffect, useState } from "react";
 import { useStructures } from "@/app/hooks/useStructures";
 import { AdressesFormValues } from "../../../../components/forms/structures/validation/adressesSchema";
 import { DocumentsSchemaFlexible } from "../../../../components/forms/structures/validation/documentsSchema";
-import { IdentificationFormValues } from "../../../../components/forms/structures/validation/identificationSchema";
+import { IdentificationFormValues } from "@/app/(password-protected)/ajout-structure/[dnaCode]/01-identification/validation/identificationSchema";
+
 import { TypePlacesFormValues } from "../../../../components/forms/structures/validation/typePlacesSchema";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
