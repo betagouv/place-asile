@@ -5,7 +5,8 @@ import { Adresse } from "@/types/adresse.type";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FormAdresse } from "../utils/adresse.util";
-import { IdentificationFormValues } from "../components/forms/structures/validation/identificationSchema";
+import { IdentificationFormValues } from "@/app/(password-protected)/ajout-structure/[dnaCode]/01-identification/validation/identificationSchema";
+
 import { TypePlacesFormValues } from "../components/forms/structures/validation/typePlacesSchema";
 import { AdressesFormValues } from "../components/forms/structures/validation/adressesSchema";
 import { DocumentsSchemaFlexible } from "../components/forms/structures/validation/documentsSchema";
