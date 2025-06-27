@@ -6,6 +6,12 @@ const DATE_FORMAT_REGEX = /^([0-9]{1,2})[/]([0-9]{1,2})[/]([0-9]{4})$/;
 export const createDateFieldValidator = () => {
   return z.preprocess(
     (val) => {
+      // Handle empty values
+      if (val === null || val === undefined || val === "") {
+        return isRequired ? "" : undefined;
+      }
+
+      // Handle string values
       if (typeof val === "string") {
         return parseDateString(val);
       }

@@ -18,6 +18,7 @@ import { cn } from "@/app/utils/classname.util";
 import { FormProvider } from "@/app/context/FormContext";
 import Alert from "@codegouvfr/react-dsfr/Alert";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import Link from "next/link";
 
 // Define more specific types for the schema
 type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
@@ -34,6 +35,7 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   nextRoute?: string;
   resetRoute?: string;
   showSubmitButton?: boolean;
+  previousStep?: string;
 };
 
 export default function FormWrapper<TSchema extends z.ZodTypeAny>({
@@ -50,6 +52,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   nextRoute,
   resetRoute,
   showSubmitButton = true,
+  previousStep,
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
   const {
@@ -57,6 +60,8 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     updateLocalStorageValue: updateLocalStorageValues,
     resetLocalStorageValues,
   } = useLocalStorage(localStorageKey, {});
+
+  console.log(previousStep);
 
   const mergedDefaultValues = {
     ...localStorageValues,
@@ -137,6 +142,15 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
             className
           )}
         >
+          {previousStep && (
+            <Link
+              href={previousStep}
+              className="flex gap-2 fr-link fr-icon  w-fit text-disabled-grey"
+            >
+              <i className="fr-icon-arrow-left-s-line before:w-4"></i>
+              Étape précédente
+            </Link>
+          )}
           {typeof children === "function" ? children(methods) : children}
 
           {showSubmitButton && (
