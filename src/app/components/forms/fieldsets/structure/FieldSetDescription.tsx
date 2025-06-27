@@ -10,7 +10,13 @@ import { isStructureAutorisee } from "@/app/utils/structure.util";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import autoAnimate from "@formkit/auto-animate";
 
-export const FieldSetDescription = ({ dnaCode }: { dnaCode: string }) => {
+export const FieldSetDescription = ({
+  dnaCode,
+  disableTypes = true,
+}: {
+  dnaCode: string;
+  disableTypes?: boolean;
+}) => {
   const filialesContainerRef = useRef(null);
   const parentFormContext = useFormContext();
   const localForm = useForm();
@@ -80,6 +86,7 @@ export const FieldSetDescription = ({ dnaCode }: { dnaCode: string }) => {
           name="type"
           control={control}
           label="Type"
+          disabled={disableTypes}
           required
           onChange={(event) => {
             setType(event);

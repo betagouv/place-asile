@@ -9,35 +9,36 @@ import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/Fie
 import dayjs from "dayjs";
 import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
 import { InformationBar } from "@/app/components/ui/InformationBar";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 export default function FinalisationIdentificationForm() {
   const { structure } = useStructureContext();
-
-  // TODO: make it a reusable hook
   const formatDateString = (
-    dateValue: Date | string | null | undefined
+    dateValue: Date | string | null | undefined,
+    defaultValue: string = ""
   ): string => {
-    if (!dateValue) return "";
-    // Ensure we're parsing the date correctly
+    if (!dateValue) return defaultValue;
     const date = dayjs(dateValue);
-    // Only return formatted date if it's valid
-    return date.isValid() ? date.format("DD/MM/YYYY") : "";
+    return date.isValid() ? date.format("DD/MM/YYYY") : defaultValue;
   };
 
-  // Ensure date fields are properly formatted for validation
+  const isAuthorized = isStructureAutorisee(structure.type);
+
   const defaultValues = {
     ...structure,
     creationDate: formatDateString(structure.creationDate),
-    debutPeriodeAutorisation: formatDateString(
-      structure.debutPeriodeAutorisation
-    ),
-    finPeriodeAutorisation: formatDateString(structure.finPeriodeAutorisation),
+    debutPeriodeAutorisation: isAuthorized
+      ? formatDateString(structure.debutPeriodeAutorisation)
+      : undefined,
+    finPeriodeAutorisation: isAuthorized
+      ? formatDateString(structure.finPeriodeAutorisation)
+      : undefined,
     debutConvention: formatDateString(structure.debutConvention),
     finConvention: formatDateString(structure.finConvention),
     debutCpom: formatDateString(structure.debutCpom),
     finCpom: formatDateString(structure.finCpom),
-    echeancePlacesACreer: formatDateString(structure.echeancePlacesACreer),
-    echeancePlacesAFermer: formatDateString(structure.echeancePlacesAFermer),
+    echeancePlacesACreer: structure.echeancePlacesACreer,
+    echeancePlacesAFermer: structure.echeancePlacesAFermer,
     contacts: structure.contacts || [],
     finessCode: structure.finessCode || undefined,
     public: structure.public
@@ -46,21 +47,14 @@ export default function FinalisationIdentificationForm() {
     filiale: structure.filiale || undefined,
   };
 
-  // Log formatted dates for debugging
-  console.log("Formatted dates:", {
-    debutPeriodeAutorisation: defaultValues.debutPeriodeAutorisation,
-    finPeriodeAutorisation: defaultValues.finPeriodeAutorisation,
-  });
-
   return (
     <FormWrapper
       schema={finalisationIdentificationSchema}
-      onSubmit={(values) => {
-        console.log("Form submitted with values:", values);
-      }}
+      nextRoute={`/structures/${structure.id}/finalisation/02-adresses`}
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={`/structures/${structure.id}`}
+      availableFooterButtons={["submit"]}
     >
       <InformationBar
         variant="warning"

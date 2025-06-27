@@ -1,13 +1,20 @@
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import React from "react";
+import React, { useEffect } from "react";
 import InputWithValidation from "../../InputWithValidation";
 import { useFormContext } from "react-hook-form";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 
 export const FieldSetCalendrier = () => {
-  const { control, watch } = useFormContext();
+  const { control, watch, setValue } = useFormContext();
   const type = watch("type");
   const cpom = watch("cpom");
+
+  useEffect(() => {
+    if (cpom) {
+      setValue("debutCpom", undefined);
+      setValue("finCpom", undefined);
+    }
+  }, [cpom, setValue]);
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-xl font-bold mb-4 text-title-blue-france">
@@ -30,32 +37,6 @@ export const FieldSetCalendrier = () => {
             <InputWithValidation
               name="finPeriodeAutorisation"
               id="finPeriodeAutorisation"
-              control={control}
-              type="date"
-              label="Date de fin"
-            />
-          </div>
-        </fieldset>
-      )}
-
-      {cpom && (
-        <fieldset className="flex flex-col gap-6">
-          <legend className="text-lg font-bold mb-2 text-title-blue-france">
-            CPOM en cours
-          </legend>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
-            <InputWithValidation
-              name="debutCpom"
-              id="debutCpom"
-              control={control}
-              type="date"
-              label="Date de début"
-            />
-
-            <InputWithValidation
-              name="finCpom"
-              id="finCpom"
               control={control}
               type="date"
               label="Date de fin"
@@ -95,6 +76,32 @@ export const FieldSetCalendrier = () => {
           />
         </div>
       </fieldset>
+
+      {cpom && (
+        <fieldset className="flex flex-col gap-6">
+          <legend className="text-lg font-bold mb-2 text-title-blue-france">
+            CPOM en cours
+          </legend>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
+            <InputWithValidation
+              name="debutCpom"
+              id="debutCpom"
+              control={control}
+              type="date"
+              label="Date de début"
+            />
+
+            <InputWithValidation
+              name="finCpom"
+              id="finCpom"
+              control={control}
+              type="date"
+              label="Date de fin"
+            />
+          </div>
+        </fieldset>
+      )}
     </div>
   );
 };

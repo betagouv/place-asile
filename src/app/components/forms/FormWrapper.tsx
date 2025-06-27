@@ -36,6 +36,7 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   resetRoute?: string;
   showSubmitButton?: boolean;
   previousStep?: string;
+  availableFooterButtons?: Array<"cancel" | "save" | "submit">;
 };
 
 export default function FormWrapper<TSchema extends z.ZodTypeAny>({
@@ -53,6 +54,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   resetRoute,
   showSubmitButton = true,
   previousStep,
+  availableFooterButtons = ["cancel", "save", "submit"],
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
   const {
@@ -167,25 +169,31 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
               )}
               <div>
                 <div className="flex justify-end gap-4 mt-6">
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleReset();
-                    }}
-                    priority="secondary"
-                  >
-                    Annuler
-                  </Button>
-                  <Button
-                    priority="secondary"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      showSavedAlert();
-                    }}
-                  >
-                    Terminer plus tard
-                  </Button>
-                  <Button type="submit">{submitButtonText}</Button>
+                  {availableFooterButtons.includes("cancel") && (
+                    <Button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleReset();
+                      }}
+                      priority="secondary"
+                    >
+                      Annuler
+                    </Button>
+                  )}
+                  {availableFooterButtons.includes("save") && (
+                    <Button
+                      priority="secondary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        showSavedAlert();
+                      }}
+                    >
+                      Terminer plus tard
+                    </Button>
+                  )}
+                  {availableFooterButtons.includes("submit") && (
+                    <Button type="submit">{submitButtonText}</Button>
+                  )}
                 </div>
                 <p className="cta_message text-mention-grey text-sm text-right mt-2">
                   Si vous ne parvenez pas à remplir certains champs,{" "}
