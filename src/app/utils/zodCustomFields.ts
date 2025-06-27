@@ -7,7 +7,6 @@ export const createDateFieldValidator = () => {
   return z.preprocess(
     (val) => {
       if (typeof val === "string") {
-        // parseDateString already validates and formats the date
         return parseDateString(val);
       }
       return undefined;
@@ -15,7 +14,6 @@ export const createDateFieldValidator = () => {
     z
       .string()
       .refine((val) => {
-        // Check if the value is a valid date in DD/MM/YYYY format
         const trimmedVal = typeof val === "string" ? val.trim() : val;
         return DATE_FORMAT_REGEX.test(trimmedVal);
       }, "Format de date invalide (JJ/MM/AAAA)")
@@ -29,23 +27,19 @@ export const createDateFieldValidator = () => {
 export const parseDateString = (dateString: string): string | undefined => {
   if (!dateString) return undefined;
 
-  // Trim any whitespace that might be causing issues
   const trimmedDate = dateString.trim();
 
-  // Try with DD/MM/YYYY format first
   if (DATE_FORMAT_REGEX.test(trimmedDate)) {
     const parts = trimmedDate.split("/");
     const day = parseInt(parts[0], 10);
     const month = parseInt(parts[1], 10);
     const year = parseInt(parts[2], 10);
 
-    // Validate date parts and check days in month
     if (isValidDate(day, month, year)) {
       return formatDate(day, month, year);
     }
   }
 
-  // Try with YYYY-MM-DD format
   try {
     const parts = trimmedDate.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
     if (parts) {
@@ -57,9 +51,7 @@ export const parseDateString = (dateString: string): string | undefined => {
         return formatDate(day, month, year);
       }
     }
-  } catch {
-    // Silently handle parsing errors
-  }
+  } catch {}
 
   return undefined;
 };
@@ -76,7 +68,6 @@ function isValidDate(day: number, month: number, year: number): boolean {
     year >= 1900 &&
     year <= 2100
   ) {
-    // Check days in month (handles leap years)
     const daysInMonth = new Date(year, month, 0).getDate();
     return day <= daysInMonth;
   }
