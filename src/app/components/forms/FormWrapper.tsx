@@ -63,6 +63,8 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     resetLocalStorageValues,
   } = useLocalStorage(localStorageKey, {});
 
+  console.log(previousStep);
+
   const mergedDefaultValues = {
     ...localStorageValues,
     ...defaultValues,
