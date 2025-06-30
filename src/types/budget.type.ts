@@ -16,6 +16,7 @@ export type Budget = {
   reserveCompensationDeficits: number;
   reserveCompensationBFR: number;
   reserveCompensationAmortissements: number;
+  affectationReservesFondsDedies: number | null;
   fondsDedies: number;
   commentaire?: string;
 };

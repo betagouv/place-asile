@@ -171,6 +171,7 @@ model Budget {
   reserveCompensationBFR             Int
   reserveCompensationAmortissements  Int
   fondsDedies                        Int
+  affectationReservesFondsDedies     Int?
   commentaire                        String?
 }
 

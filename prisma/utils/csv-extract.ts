@@ -192,13 +192,14 @@ export class CsvExtract {
       totalCharges: Number(line[8]),
       cumulResultatsNetsCPOM: Number(line[9]),
       repriseEtat: Number(line[10]),
-      reserveInvestissement: Number(line[11]),
-      chargesNonReconductibles: Number(line[12]),
-      reserveCompensationDeficits: Number(line[13]),
-      reserveCompensationBFR: Number(line[14]),
-      reserveCompensationAmortissements: Number(line[15]),
-      fondsDedies: Number(line[16]),
-      commentaire: line[17],
+      affectationReservesFondsDedies: Number(line[11]),
+      reserveInvestissement: Number(line[12]),
+      chargesNonReconductibles: Number(line[13]),
+      reserveCompensationDeficits: Number(line[14]),
+      reserveCompensationBFR: Number(line[15]),
+      reserveCompensationAmortissements: Number(line[16]),
+      fondsDedies: Number(line[17]),
+      commentaire: line[18],
     }));
   };
 }
