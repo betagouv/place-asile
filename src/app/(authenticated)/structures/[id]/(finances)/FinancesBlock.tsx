@@ -3,6 +3,7 @@ import { ReactElement } from "react";
 import { BudgetExecutoire } from "./BudgetExecutoire";
 import { HistoriqueBudgets } from "./HistoriqueBudgets";
 import { DotationChart } from "./DotationChart";
+import { GestionBudgetaireTable } from "./GestionBudgetaireTable";
 
 export const FinancesBlock = (): ReactElement => {
   return (
@@ -22,10 +23,17 @@ export const FinancesBlock = (): ReactElement => {
       <div className="pb-5">
         <DotationChart />
       </div>
-      <h4 className="text-title-blue-france pb-2 fr-h6">Gestion budgétaire</h4>
-      <h4 className="text-title-blue-france pb-2 fr-h6">
+      <h4 className="text-title-blue-france fr-h6">Gestion budgétaire</h4>
+      <div className="pb-5">
+        <GestionBudgetaireTable />
+      </div>
+      <h4 className="text-title-blue-france pb-2 fr-h6 mb-0">
         Documents administratifs et financiers transmis par l’opérateur
       </h4>
+      <h5 className="text-sm text-gray-500 font-normal italic">
+        Retrouvez également les Plans Pluriannuels d’Investissements (PPI) dans
+        la section “Actes administratifs”.
+      </h5>
     </Block>
   );
 };

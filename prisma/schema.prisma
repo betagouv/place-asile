@@ -49,7 +49,7 @@ model Structure {
   structureTypologies          StructureTypologie[]
   activites                    Activite[]
   fileUploads                  FileUpload[]
-  budgets                       Budget[]
+  budgets                      Budget[]
 }
 
 model Controle {
