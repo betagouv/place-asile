@@ -4,6 +4,7 @@ import { BudgetExecutoire } from "./BudgetExecutoire";
 import { HistoriqueBudgets } from "./HistoriqueBudgets";
 import { DotationChart } from "./DotationChart";
 import { GestionBudgetaireTable } from "./GestionBudgetaireTable";
+import { DetailAffectations } from "./DetailAffectations";
 
 export const FinancesBlock = (): ReactElement => {
   return (
@@ -26,6 +27,9 @@ export const FinancesBlock = (): ReactElement => {
       <h4 className="text-title-blue-france fr-h6">Gestion budgétaire</h4>
       <div className="pb-5">
         <GestionBudgetaireTable />
+      </div>
+      <div className="pb-5">
+        <DetailAffectations />
       </div>
       <h4 className="text-title-blue-france pb-2 fr-h6 mb-0">
         Documents administratifs et financiers transmis par l’opérateur

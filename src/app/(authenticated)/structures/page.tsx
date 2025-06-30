@@ -10,7 +10,7 @@ import { Structure } from "@/types/structure.type";
 export default function Structures(): ReactElement {
   const [structures, setStructures] = useState<Structure[]>([]);
   const { getStructures } = useStructures();
-  const [selectedVisualization, setSelectedVisualization] = useState("carte");
+  const [selectedVisualization, setSelectedVisualization] = useState("tableau");
 
   useEffect(() => {
     const loadStructures = async () => {
@@ -51,14 +51,14 @@ export default function Structures(): ReactElement {
         </SegmentedControl>
         <p className="text-mention-grey fr-mb-0">{structures.length} entrées</p>
       </div>
-      {selectedVisualization === "carte" && (
-        <StructuresMap structures={structures} />
-      )}
       {selectedVisualization === "tableau" && (
         <StructuresTable
           structures={structures}
           ariaLabelledBy="structures-titre"
         />
+      )}
+      {selectedVisualization === "carte" && (
+        <StructuresMap structures={structures} />
       )}
     </div>
   );
@@ -66,17 +66,17 @@ export default function Structures(): ReactElement {
 
 const options = [
   {
-    id: "carte",
-    isChecked: true,
-    label: "Carte",
-    value: "carte",
-    icon: "fr-icon-road-map-line",
-  },
-  {
     id: "tableau",
-    isChecked: false,
+    isChecked: true,
     label: "Tableau",
     value: "tableau",
     icon: "fr-icon-survey-line",
+  },
+  {
+    id: "carte",
+    isChecked: false,
+    label: "Carte",
+    value: "carte",
+    icon: "fr-icon-road-map-line",
   },
 ];

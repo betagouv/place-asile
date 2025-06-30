@@ -43,7 +43,7 @@ yarn-error.log*
 next-env.d.ts
 
 # data
-*.xlsx
+*.xlsx*
 !public/adresses-diffus.xlsx
 !public/adresses-mixte.xlsx
 *.json

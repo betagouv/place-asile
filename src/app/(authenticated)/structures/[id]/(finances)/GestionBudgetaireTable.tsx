@@ -32,13 +32,6 @@ export const GestionBudgetaireTable = (): ReactElement => {
     return totalCharges - totalProduits;
   };
 
-  const computeAffectationReserves = (
-    cumulResultatsNetsCPOM: number,
-    repriseEtat: number
-  ) => {
-    return cumulResultatsNetsCPOM + repriseEtat;
-  };
-
   // TODO : provide aria labeled by
   return (
     <div className="w-full bg-lifted-grey border-1 border-default-grey rounded-lg">
@@ -76,7 +69,7 @@ export const GestionBudgetaireTable = (): ReactElement => {
         <tbody>
           {structure?.budgets?.map((budget) => (
             <tr key={budget.id} className="border-t-1 border-default-grey">
-              <td className="py-2 px-4 text-center test-sm">
+              <td className="py-2 px-4 text-center text-sm">
                 {new Date(budget.date).getFullYear()}
               </td>
               {budget.dotationDemandee ? (
@@ -131,16 +124,9 @@ export const GestionBudgetaireTable = (): ReactElement => {
               )}
               {budget.cumulResultatsNetsCPOM &&
               budget.repriseEtat &&
-              computeAffectationReserves(
-                budget.cumulResultatsNetsCPOM,
-                budget.repriseEtat
-              ) > 0 ? (
+              budget.affectationReservesFondsDedies! > 0 ? (
                 <td className="py-2 px-4 text-center test-sm">
-                  {computeAffectationReserves(
-                    budget.cumulResultatsNetsCPOM,
-                    budget.repriseEtat
-                  )}{" "}
-                  €
+                  {budget.affectationReservesFondsDedies} €
                 </td>
               ) : (
                 <EmptyCell />
