@@ -5,6 +5,7 @@ import { HistoriqueBudgets } from "./HistoriqueBudgets";
 import { DotationChart } from "./DotationChart";
 import { GestionBudgetaireTable } from "./GestionBudgetaireTable";
 import { DetailAffectations } from "./DetailAffectations";
+import { DocumentsAdministratifs } from "./DocumentsAdministratifs";
 
 export const FinancesBlock = (): ReactElement => {
   return (
@@ -38,6 +39,7 @@ export const FinancesBlock = (): ReactElement => {
         Retrouvez également les Plans Pluriannuels d’Investissements (PPI) dans
         la section “Actes administratifs”.
       </h5>
+      <DocumentsAdministratifs />
     </Block>
   );
 };
