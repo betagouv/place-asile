@@ -147,12 +147,31 @@ export const useStructures = (): UseStructureResult => {
     }
   };
 
-  return { getStructures, addStructure };
+  const updateStructure = async (values: unknown): Promise<string> => {
+    try {
+      const response = await fetch("/api/structures", {
+        method: "PUT",
+        body: JSON.stringify(values),
+      });
+      if (response.status < 400) {
+        return "OK";
+      } else {
+        const result = await response.json();
+        return JSON.stringify(result);
+      }
+    } catch (error) {
+      console.error(error);
+      return String(error);
+    }
+  };
+
+  return { getStructures, addStructure, updateStructure };
 };
 
 type UseStructureResult = {
   getStructures: () => Promise<Structure[]>;
   addStructure: (values: FormValues) => Promise<string>;
+  updateStructure: (values: unknown) => Promise<string>;
 };
 
 type FormValues = Partial<

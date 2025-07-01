@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createOne, findAll } from "./structure.repository";
+import { createOne, findAll, updateOne } from "./structure.repository";
 import { addCoordinates } from "./structure.service";
-import { structureCreationSchema } from "./structure.schema";
+import {
+  structureCreationSchema,
+  structureUpdateSchema,
+} from "./structure.schema";
 
 export async function GET() {
   const structures = await findAll();
@@ -15,6 +18,20 @@ export async function POST(request: NextRequest) {
     const result = structureCreationSchema.parse(body);
     await createOne(result);
     return NextResponse.json("Structure créée avec succès", { status: 201 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(error, { status: 400 });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const result = structureUpdateSchema.parse(body);
+    await updateOne(result);
+    return NextResponse.json("Structure mise à jour avec succès", {
+      status: 201,
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json(error, { status: 400 });

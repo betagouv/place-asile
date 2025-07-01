@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,8 +8,8 @@ datasource db {
 }
 
 model Structure {
-  id                           Int    @id @default(autoincrement())
-  dnaCode                      String @unique
+  id                           Int                         @id @default(autoincrement())
+  dnaCode                      String                      @unique
   operateur                    String
   filiale                      String?
   type                         StructureType
@@ -53,15 +50,16 @@ model Structure {
 }
 
 model Controle {
-  id               Int  @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  id               Int          @id @default(autoincrement())
+  structure        Structure    @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode String
   date             DateTime
   type             ControleType
+  fileUploads      FileUpload[]
 }
 
 model Evaluation {
-  id               Int  @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode String
   date             DateTime
@@ -72,7 +70,7 @@ model Evaluation {
 }
 
 model EvenementIndesirableGrave {
-  id               Int  @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode String
   numeroDossier    String
@@ -82,28 +80,28 @@ model EvenementIndesirableGrave {
 }
 
 model Adresse {
-  id                 Int  @id @default(autoincrement())
-  structure          Structure @relation(fields: [structureDnaCode], references: [dnaCode])
-  structureDnaCode   String
-  adresse            String
-  codePostal         String
-  commune            String
-  repartition        Repartition
-  adresseTypologies  AdresseTypologie[]
+  id                Int                @id @default(autoincrement())
+  structure         Structure          @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode  String
+  adresse           String
+  codePostal        String
+  commune           String
+  repartition       Repartition
+  adresseTypologies AdresseTypologie[]
 }
 
 model AdresseTypologie {
-  id               Int  @id @default(autoincrement())
-  adresse          Adresse @relation(fields: [adresseId], references: [id])
-  adresseId        Int
-  nbPlacesTotal    Int
-  date             DateTime
-  qpv              Int
-  logementSocial   Int
+  id             Int      @id @default(autoincrement())
+  adresse        Adresse  @relation(fields: [adresseId], references: [id])
+  adresseId      Int
+  nbPlacesTotal  Int
+  date           DateTime
+  qpv            Int
+  logementSocial Int
 }
 
 model Contact {
-  id               Int  @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode String
   prenom           String
@@ -114,7 +112,7 @@ model Contact {
 }
 
 model StructureTypologie {
-  id               Int  @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode String
   date             DateTime
@@ -124,8 +122,8 @@ model StructureTypologie {
 }
 
 model Activite {
-  id                       Int  @id @default(autoincrement())
-  structure                Structure @relation(fields: [structureDnaCode], references: [dnaCode])
+  id                       Int        @id @default(autoincrement())
+  structure                Structure? @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode         String
   date                     DateTime
   nbPlaces                 Int
@@ -134,45 +132,49 @@ model Activite {
   sousOccupation           Int
   travaux                  Int
   placesIndisponibles      Int
-  placesVacantes           Int	
-  presencesInduesBPI       Int	
+  placesVacantes           Int
+  presencesInduesBPI       Int
   presencesInduesDeboutees Int
 }
 
 model FileUpload {
-  id                       Int  @id @default(autoincrement())
-  structure                Structure? @relation(fields: [structureDnaCode], references: [dnaCode])
-  structureDnaCode         String?
-  key                      String @unique
-  mimeType                 String
-  fileSize                 Int
-  originalName             String
-  date                     DateTime?
-  category                 FileUploadCategory?
+  id               Int                 @id @default(autoincrement())
+  structure        Structure?          @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode String?
+  key              String              @unique
+  mimeType         String
+  fileSize         Int
+  originalName     String
+  date             DateTime?
+  category         FileUploadCategory?
+  startDate        DateTime?
+  endDate          DateTime?
+  controle         Controle?           @relation(fields: [controleId], references: [id])
+  controleId       Int?
 }
 
 model Budget {
-  id                                 Int  @id @default(autoincrement())
-  structure                          Structure? @relation(fields: [structureDnaCode], references: [dnaCode])
-  structureDnaCode                   String
-  date                               DateTime
-  ETP                                Int
-  tauxEncadrement                    Int
-  coutJournalier                     Int
-  dotationDemandee                   Int
-  dotationAccordee                   Int?
-  totalProduits                      Int?
-  totalCharges                       Int?
-  cumulResultatsNetsCPOM             Int?
-  repriseEtat                        Int?
-  reserveInvestissement              Int
-  chargesNonReconductibles           Int
-  reserveCompensationDeficits        Int
-  reserveCompensationBFR             Int
-  reserveCompensationAmortissements  Int
-  fondsDedies                        Int
-  affectationReservesFondsDedies     Int?
-  commentaire                        String?
+  id                                Int        @id @default(autoincrement())
+  structure                         Structure? @relation(fields: [structureDnaCode], references: [dnaCode])
+  structureDnaCode                  String
+  date                              DateTime
+  ETP                               Float
+  tauxEncadrement                   Float
+  coutJournalier                    Float
+  dotationDemandee                  Float
+  dotationAccordee                  Float?
+  totalProduits                     Float?
+  totalCharges                      Float?
+  cumulResultatsNetsCPOM            Float?
+  repriseEtat                       Float?
+  reserveInvestissement             Float?
+  chargesNonReconductibles          Float?
+  reserveCompensationDeficits       Float?
+  reserveCompensationBFR            Float?
+  reserveCompensationAmortissements Float?
+  fondsDedies                       Float?
+  affectationReservesFondsDedies    Float?
+  commentaire                       String?
 }
 
 enum Repartition {
@@ -194,8 +196,8 @@ enum PublicType {
 
 enum StructureType {
   CADA
-  HUDA 
-  CPH 
+  HUDA
+  CPH
   CAES
   PRAHDA
 }

@@ -1,4 +1,5 @@
 import { Repartition } from "@/types/adresse.type";
+import { ControleType } from "@/types/controle.type";
 import { FileUploadCategory } from "@/types/file-upload.type";
 import { PublicType, StructureType } from "@/types/structure.type";
 import { z } from "zod";
@@ -94,4 +95,114 @@ export const structureCreationSchema = z.object({
   contacts: z.array(contactSchema),
   typologies: z.array(structureTypologieSchema),
   fileUploads: z.array(fileUploadSchema),
+});
+
+const budgetSchema = z.object({
+  date: z.coerce.date(),
+  ETP: z.number(),
+  tauxEncadrement: z.number(),
+  coutJournalier: z.number(),
+  dotationDemandee: z.number(),
+  dotationAccordee: z.number().optional(),
+  totalProduits: z.number().optional(),
+  totalCharges: z.number().optional(),
+  cumulResultatsNetsCPOM: z.number().optional(),
+  repriseEtat: z.number().optional(),
+  reserveInvestissement: z.number().optional(),
+  chargesNonReconductibles: z.number().optional(),
+  reserveCompensationDeficits: z.number().optional(),
+  reserveCompensationBFR: z.number().optional(),
+  reserveCompensationAmortissements: z.number().optional(),
+  fondsDedies: z.number().optional(),
+  affectationReservesFondsDedies: z.number().optional(),
+  commentaire: z.string().optional(),
+});
+
+const controleSchema = z.object({
+  date: z.coerce.date(),
+  type: z.nativeEnum(ControleType),
+  fileUploads: z.array(fileUploadSchema),
+});
+
+export const structureUpdateSchema = z.object({
+  dnaCode: z.string().min(1, "Le code DNA est requis"),
+  operateur: z.string().min(1, "L'opérateur est requis").optional(),
+  filiale: z.string().optional(),
+  type: z.nativeEnum(StructureType).optional(),
+  nbPlaces: z
+    .number()
+    .int()
+    .positive()
+    .min(1, "Le nombre de places autorisées est requis")
+    .optional(),
+  adresseAdministrative: z
+    .string()
+    .min(1, "L'adresse administrative est requise")
+    .optional(),
+  codePostalAdministratif: z
+    .string()
+    .min(1, "Le code postal administratif est requis")
+    .optional(),
+  communeAdministrative: z
+    .string()
+    .min(1, "La commune de l'adresse administrative est requise")
+    .optional(),
+  departementAdministratif: z
+    .string()
+    .min(1, "Le département de l'adresse administrative est requis")
+    .optional(),
+  nom: z.string().optional(),
+  debutConvention: z.coerce.date().optional(),
+  finConvention: z.coerce.date().optional(),
+  cpom: z
+    .boolean({
+      required_error: "Le CPOM est requis",
+    })
+    .optional(),
+  creationDate: z.coerce
+    .date({ message: "La date de création est requise" })
+    .optional(),
+  finessCode: z.string().optional(),
+  lgbt: z
+    .boolean({
+      required_error: "L'accueil de LGBT dans la structure est requis",
+    })
+    .optional(),
+  fvvTeh: z
+    .boolean({
+      required_error: "L'accueil de FVV-TEH dans la structure est requis",
+    })
+    .optional(),
+  public: z.nativeEnum(PublicType).optional(),
+  debutPeriodeAutorisation: z.coerce.date().optional(),
+  finPeriodeAutorisation: z.coerce.date().optional(),
+  debutCpom: z.coerce.date().optional(),
+  finCpom: z.coerce.date().optional(),
+  placesACreer: z.number().int().optional(),
+  placesAFermer: z.number().int().optional(),
+  echeancePlacesACreer: z.coerce.date().optional(),
+  echeancePlacesAFermer: z.coerce.date().optional(),
+  adresses: z
+    .array(adresseSchema.extend({ id: z.number().optional() }))
+    .optional(),
+  contacts: z
+    .array(contactSchema.extend({ id: z.number().optional() }))
+    .optional(),
+  typologies: z
+    .array(structureTypologieSchema.extend({ id: z.number().optional() }))
+    .optional(),
+  fileUploads: z
+    .array(
+      fileUploadSchema.extend({
+        startDate: z.coerce.date().optional(),
+        endDate: z.coerce.date().optional(),
+      })
+    )
+    .optional(),
+  budgets: z
+    .array(budgetSchema.extend({ id: z.number().optional() }))
+    .optional(),
+  controles: z
+    .array(controleSchema.extend({ id: z.number().optional() }))
+    .optional(),
 });

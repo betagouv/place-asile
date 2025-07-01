@@ -6,6 +6,15 @@ export const createControle = ({ id, date }: CreateControleArgs): Controle => {
     structureDnaCode: "C0001",
     date: date ?? new Date("01/02/2022"),
     type: ControleType.INOPINE,
+    fileUploads: [
+      {
+        id: 1,
+        fileSize: 42,
+        key: "uuid-1234.pdf",
+        mimeType: "application/pdf",
+        originalName: "1234.pdf",
+      },
+    ],
   };
 };
 
