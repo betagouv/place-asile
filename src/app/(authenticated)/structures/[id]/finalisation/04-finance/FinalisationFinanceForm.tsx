@@ -13,7 +13,7 @@ import { IndicateursGeneraux } from "./components/IndicateursGeneraux";
 import { useYearRange } from "@/app/hooks/useYearRange";
 import { useDateStringToYear } from "@/app/hooks/useDateStringToYear";
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
-import { BudgetTables, GestionBudgetaire } from "./components/BudgetTables";
+import { BudgetTables } from "./components/BudgetTables";
 
 export default function FinalisationFinanceForm({
   currentStep,
