@@ -6,7 +6,6 @@ export type FinalisationFinanceFormValues = z.infer<
   typeof finalisationFinanceSchema
 >;
 
-// Schema for form validation
 export const finalisationFinanceSchema = z.object({
   fileUploads: z.array(
     z.object({

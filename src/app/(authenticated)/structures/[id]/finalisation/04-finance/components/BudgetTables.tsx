@@ -14,7 +14,6 @@ export const BudgetTables = () => {
   const hasCpom = structure?.cpom;
   const isAuthorized = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
-  console.log(structure);
 
   return (
     <>

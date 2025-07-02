@@ -90,11 +90,6 @@ export const StructureAutorisee = () => {
           <small className="block">des réserves & fonds dédiés</small>
         </th>,
       ]}
-      ariaLabelledBy=""
-      className={cn(
-        "[&_th]:px-0 text-center w-fit"
-        //   hasBudgetErrors && "border-action-high-error"
-      )}
       enableBorders
     >
       {years.map((year, index) => (

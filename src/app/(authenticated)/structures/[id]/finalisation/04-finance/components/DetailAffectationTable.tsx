@@ -1,6 +1,5 @@
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useYearRange } from "@/app/hooks/useYearRange";
-import { cn } from "@/app/utils/classname.util";
 import { useFormContext, useForm } from "react-hook-form";
 import { Table } from "@/app/components/common/Table";
 
@@ -29,6 +28,7 @@ export const DetailAffectationTable = () => {
 
   return (
     <Table
+      ariaLabelledBy=""
       hasErrors={hasErrors}
       headings={[
         "Année",
@@ -63,11 +63,6 @@ export const DetailAffectationTable = () => {
         </th>,
         "commentaires",
       ]}
-      ariaLabelledBy=""
-      className={cn(
-        "[&_th]:px-0 text-center w-fit"
-        //   hasBudgetErrors && "border-action-high-error"
-      )}
       enableBorders
     >
       {lastTwoYears.map((year, index) => (

@@ -28,13 +28,10 @@ export default function FinalisationFinanceForm({
     structure.id
   );
 
-  // Filter budgets to only include those for the years in our range
   const budgetsFilteredByYears =
     structure?.budgets?.filter((budget) =>
       years.includes(Number(dateStringToYear(budget.date.toString())))
     ) || [];
-
-  console.log(budgetsFilteredByYears);
   const defaultValues: Partial<FinalisationFinanceFormValues> = {
     fileUploads:
       structure?.fileUploads?.map((fileUpload) => ({
@@ -45,8 +42,6 @@ export default function FinalisationFinanceForm({
       ...budget,
     })),
   };
-
-  console.log(defaultValues);
 
   return (
     <FormWrapper
