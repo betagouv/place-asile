@@ -20,20 +20,11 @@ export const Table = ({
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const renderCountRef = useRef(0);
 
-  // Increment on every render to ensure we can detect new renders
   renderCountRef.current += 1;
 
-  // This effect will run on every render when hasErrors is true
-  // The empty dependency array ensures it runs on every render
   useEffect(() => {
-    // If there are errors, scroll the table into view
     if (hasErrors && tableContainerRef.current) {
-      // Use requestAnimationFrame to ensure this happens in the next frame
-      // This helps with smoother scrolling and ensures the DOM is ready
-      // Use requestAnimationFrame to ensure this happens in the next frame
       requestAnimationFrame(() => {
-        // Use standard scrollIntoView - the CSS scroll-margin-top will be applied
-        // if the element has the scroll-margin-header class
         tableContainerRef.current?.scrollIntoView({ behavior: "smooth" });
       });
     }
