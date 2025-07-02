@@ -1,6 +1,6 @@
 "use client";
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useForm, useFormContext } from "react-hook-form";

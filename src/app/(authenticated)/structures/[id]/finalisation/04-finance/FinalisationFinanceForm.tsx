@@ -51,7 +51,7 @@ export default function FinalisationFinanceForm({
   return (
     <FormWrapper
       schema={finalisationFinanceSchema}
-      // nextRoute={nextRoute}
+      nextRoute={nextRoute}
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
