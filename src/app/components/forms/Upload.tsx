@@ -7,6 +7,7 @@ import Loader from "@/app/components/ui/Loader";
 import { cn } from "@/app/utils/classname.util";
 import { FileUploadResponse, useFileUpload } from "@/app/hooks/useFileUpload";
 import prettyBytes from "pretty-bytes";
+import { Tooltip } from "@codegouvfr/react-dsfr/Tooltip";
 
 const Upload = ({
   className,
@@ -136,7 +137,7 @@ const Upload = ({
     <>
       <div
         className={cn(
-          "grid items-center justify-center bg-alt-blue-france p-4 rounded min-h-[4rem] h-full",
+          "grid items-center justify-center bg-alt-blue-france p-4 rounded min-h-[4rem] h-full w-full",
           state === "error" &&
             "border-plain-error !border-l-2  border-0 rounded-l-none",
           className
@@ -160,10 +161,19 @@ const Upload = ({
           </span>
         ) : null}
         {currentState === "success" ? (
-          <span className="upload-success flex items-center justify-center gap-2">
+          <div className="upload-success grid grid-cols-[auto_1fr_auto] items-center justify-center gap-2 w-full">
             <i className="fr-icon-file-text-fill text-action-high-blue-france" />
-            <span className="flex flex-col">
-              <a href={file?.fileUrl}>{file?.originalName}</a>
+            <span className="truncate block w-full max-w-full">
+              <a
+                href={file?.fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="truncate block max-w-full"
+              >
+                <Tooltip kind="hover" title={file?.originalName}>
+                  {file?.originalName}
+                </Tooltip>
+              </a>
               {file?.fileSize && (
                 <span className="text-xs text-default-grey tabular-nums">
                   {prettyBytes(file?.fileSize, { locale: "fr" })}
@@ -178,10 +188,10 @@ const Upload = ({
               title="Supprimer le fichier"
               onClick={handleDelete}
             />
-          </span>
+          </div>
         ) : null}
         {currentState === "error" ? (
-          <span className="upload-error flex items-center justify-center gap-2">
+          <div className="upload-error flex items-center justify-center gap-2">
             <span className="fr-error-text mt-0">{currentErrorMessage}</span>
             <Button
               size="small"
@@ -192,12 +202,12 @@ const Upload = ({
             >
               Parcourir
             </Button>
-          </span>
+          </div>
         ) : null}
         {currentState === "deleting" ? (
-          <span className="upload-deleting flex items-center justify-center gap-2">
+          <div className="upload-deleting flex items-center justify-center gap-2">
             Suppression en cours...
-          </span>
+          </div>
         ) : null}
         <input
           className="hidden"

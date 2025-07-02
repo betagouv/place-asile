@@ -1,6 +1,6 @@
 import BarChart from "@/app/components/common/BarChart";
 import { ReactElement } from "react";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 import { Budget } from "@/types/budget.type";
 
 export const DotationChart = (): ReactElement => {

@@ -1,14 +1,23 @@
 "use client";
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureContext";
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { finalisationAdressesSchema } from "./validation/finalisationAdressesSchema";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
+import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 
-export default function FinalisationAdressesForm() {
+export default function FinalisationAdressesForm({
+  currentStep,
+}: {
+  currentStep: number;
+}) {
   const { structure } = useStructureContext();
+  const { nextRoute, previousRoute } = getCurrentStepData(
+    currentStep,
+    structure.id
+  );
 
   const defaultValues = {
     nom: structure.nom || "",
@@ -22,10 +31,10 @@ export default function FinalisationAdressesForm() {
   return (
     <FormWrapper
       schema={finalisationAdressesSchema}
-      nextRoute={`/structures/${structure.id}/finalisation/03-type-places`}
+      nextRoute={nextRoute}
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
-      previousStep={`/structures/${structure.id}/finalisation/01-identification`}
+      previousStep={previousRoute}
       availableFooterButtons={["submit"]}
     >
       <InformationBar

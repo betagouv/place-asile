@@ -1,10 +1,15 @@
+"use client";
 import { ReactElement } from "react";
 import Steps from "../components/Steps";
+import { useStructureContext } from "../../context/StructureClientContext";
 
-export default async function Notes(): Promise<ReactElement> {
+export default function Notes(): ReactElement {
+  const { structure } = useStructureContext();
+  const structureId = structure.id;
+  const currentStep = 6;
   return (
     <>
-      <Steps currentStep={6} />
+      <Steps currentStep={currentStep} structureId={structureId} />
       {/* TODO @ledjay : add form */}
     </>
   );

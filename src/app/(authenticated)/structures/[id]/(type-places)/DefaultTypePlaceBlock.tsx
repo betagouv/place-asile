@@ -6,7 +6,7 @@ import { InformationCard } from "@/app/components/InformationCard";
 import { TypePlaceHistory } from "./TypePlaceHistory";
 import { TypePlaceCharts } from "./TypePlaceCharts";
 
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 import {
   getCurrentPlacesLogementsSociaux,
   getCurrentPlacesQpv,

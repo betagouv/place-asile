@@ -5,7 +5,7 @@ import { StructureType } from "@/types/structure.type";
 import { DefaultStructure } from "./DefaultStructure";
 import { HudaStructure } from "./HudaStructure";
 import { PrahdaStructure } from "./PrahdaStructure";
-import { useStructureContext } from "./context/StructureContext";
+import { useStructureContext } from "./context/StructureClientContext";
 
 export default function StructureContent() {
   const { structure } = useStructureContext();

@@ -1,0 +1,197 @@
+import InputWithValidation from "@/app/components/forms/InputWithValidation";
+import { useYearRange } from "@/app/hooks/useYearRange";
+import { cn } from "@/app/utils/classname.util";
+import { useFormContext, useForm } from "react-hook-form";
+import { Table } from "@/app/components/common/Table";
+import Tooltip from "@codegouvfr/react-dsfr/Tooltip";
+
+export const StructureAutorisee = () => {
+  const parentFormContext = useFormContext();
+
+  const localForm = useForm();
+  const { control, formState } = parentFormContext || localForm;
+  const errors = formState.errors;
+  const { years } = useYearRange();
+  const hasErrors =
+    Array.isArray(errors.budget) &&
+    errors.budget.some(
+      (budgetItemErrors: Record<string, unknown>) =>
+        budgetItemErrors?.ETP ||
+        budgetItemErrors?.tauxEncadrement ||
+        budgetItemErrors?.coutJournalier
+    );
+
+  return (
+    <Table
+      hasErrors={hasErrors}
+      preHeadings={[
+        <th scope="col" key="annee" className="!border-r-1">
+          {" "}
+        </th>,
+        <th
+          scope="col"
+          colSpan={2}
+          key="budgetExecutoire"
+          className="!border-r-3"
+        >
+          Budget exécutoire de la structure
+        </th>,
+        <th
+          scope="col"
+          colSpan={2}
+          key="compteAdministratif"
+          className="!border-r-3"
+        >
+          Compte administratif de la structure
+        </th>,
+        <th scope="col" key="compteAdministratifCPOM" colSpan={3}>
+          Compte administratif du CPOM
+        </th>,
+      ]}
+      headings={[
+        <th scope="col" key="annee" className="!border-r-1">
+          Année
+        </th>,
+        <th scope="col" key="dotationDemandee">
+          Dotation <br /> demandée
+        </th>,
+        <th scope="col" key="dotationAccordee" className="!border-r-3">
+          Dotation <br />
+          accordée
+        </th>,
+        <th scope="col" key="totalProduitsDotationEtat">
+          Total produits <br />
+          <small>dont dotation État</small>
+        </th>,
+        <th scope="col" key="totalChargesRetenues" className="!border-r-3">
+          Total charges <br />
+          retenues
+        </th>,
+        <th scope="col" key="cumulResultatsNetsCPOM">
+          cumul résultats <br />
+          NETs du CPOM
+        </th>,
+        <th scope="col" key="repriseEtat">
+          <Tooltip
+            title={
+              <>
+                <span>Négatif : reprise excédent</span>
+                <br />
+                <span>Positif : compensation déficit</span>
+              </>
+            }
+          >
+            Reprise état{" "}
+            <i className="fr-icon-information-line before:scale-50 before:origin-left" />
+          </Tooltip>
+        </th>,
+        <th scope="col" key="affectationReservesFondsDedies">
+          affectation{" "}
+          <small className="block">des réserves & fonds dédiés</small>
+        </th>,
+      ]}
+      ariaLabelledBy=""
+      className={cn(
+        "[&_th]:px-0 text-center w-fit"
+        //   hasBudgetErrors && "border-action-high-error"
+      )}
+      enableBorders
+    >
+      {years.map((year, index) => (
+        <tr key={year}>
+          <td className="!border-r-1">{year}</td>
+          <td>
+            <InputWithValidation
+              name={`budget.${index}.dotationDemandee`}
+              id={`gestionBudgetaire.${index}.dotationDemandee`}
+              control={control}
+              type="number"
+              min={0}
+              label=""
+              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+              variant="simple"
+            />
+          </td>
+          <td className="!border-r-3">
+            <InputWithValidation
+              name={`budget.${index}.dotationAccordee`}
+              id={`gestionBudgetaire.${index}.dotationAccordee`}
+              control={control}
+              type="number"
+              min={0}
+              label=""
+              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+              variant="simple"
+              disabled={index === 0}
+            />
+          </td>
+          <td>
+            <InputWithValidation
+              name={`budget.${index}.totalProduits`}
+              id={`gestionBudgetaire.${index}.totalProduits`}
+              control={control}
+              type="number"
+              min={0}
+              label=""
+              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+              variant="simple"
+              disabled={[0, 1].includes(index)}
+            />
+          </td>
+          <td className="!border-r-3">
+            <InputWithValidation
+              name={`budget.${index}.totalCharges`}
+              id={`gestionBudgetaire.${index}.totalCharges`}
+              control={control}
+              type="number"
+              min={0}
+              label=""
+              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+              variant="simple"
+              disabled={[0, 1, 2].includes(index)}
+            />
+          </td>
+          <td>
+            <InputWithValidation
+              name={`budget.${index}.cumulResultatsNetsCPOM`}
+              id={`gestionBudgetaire.${index}.cumulResultatsNetsCPOM`}
+              control={control}
+              type="number"
+              min={0}
+              label=""
+              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+              variant="simple"
+              disabled={[0, 1, 2].includes(index)}
+            />
+          </td>
+          <td>
+            <InputWithValidation
+              name={`budget.${index}.repriseEtat`}
+              id={`gestionBudgetaire.${index}.repriseEtat`}
+              control={control}
+              type="number"
+              min={0}
+              label=""
+              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+              variant="simple"
+              disabled={[0, 1, 2].includes(index)}
+            />
+          </td>
+          <td>
+            <InputWithValidation
+              name={`budget.${index}.fondsDedies`}
+              id={`gestionBudgetaire.${index}.fondsDedies`}
+              control={control}
+              type="number"
+              min={0}
+              label=""
+              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+              variant="simple"
+              disabled={[0, 1, 2].includes(index)}
+            />
+          </td>
+        </tr>
+      ))}
+    </Table>
+  );
+};

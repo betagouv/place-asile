@@ -2,7 +2,7 @@
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureContext";
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { finalisationIdentificationSchema } from "./validation/FinalisationIdentificationSchema";
 import { PublicType } from "@/types/structure.type";
 import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
@@ -10,9 +10,20 @@ import dayjs from "dayjs";
 import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { getCurrentStepData } from "../../components/Steps";
 
-export default function FinalisationIdentificationForm() {
+export default function FinalisationIdentificationForm({
+  currentStep,
+}: {
+  currentStep: number;
+}) {
   const { structure } = useStructureContext();
+
+  const { nextRoute, previousRoute } = getCurrentStepData(
+    currentStep,
+    structure.id
+  );
+
   const formatDateString = (
     dateValue: Date | string | null | undefined,
     defaultValue: string = ""
@@ -50,10 +61,10 @@ export default function FinalisationIdentificationForm() {
   return (
     <FormWrapper
       schema={finalisationIdentificationSchema}
-      nextRoute={`/structures/${structure.id}/finalisation/02-adresses`}
+      nextRoute={nextRoute}
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
-      previousStep={`/structures/${structure.id}`}
+      previousStep={previousRoute}
       availableFooterButtons={["submit"]}
     >
       <InformationBar

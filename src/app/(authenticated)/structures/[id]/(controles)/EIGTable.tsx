@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Table } from "@codegouvfr/react-dsfr/Table";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const EIGTable = (): ReactElement => {
   const { structure } = useStructureContext();
