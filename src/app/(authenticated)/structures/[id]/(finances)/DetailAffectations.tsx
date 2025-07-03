@@ -2,7 +2,7 @@ import Accordion from "@codegouvfr/react-dsfr/Accordion";
 import { ReactElement } from "react";
 import styles from "@/app/components/common/Accordion.module.css";
 import Table from "@codegouvfr/react-dsfr/Table";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const DetailAffectations = (): ReactElement => {
   const { structure } = useStructureContext();
