@@ -2,7 +2,14 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl;
-  const token = request.cookies.get("next-auth.session-token");
+  // TODO : améliorer la protection pour ne pas accepter n'importe quelle valeur de cookie
+  // Creuser withAuth
+  const cookieName =
+    process.env.NODE_ENV === "production"
+      ? "__Secure-next-auth.session-token"
+      : "next-auth.session-token";
+
+  const token = request.cookies.get(cookieName);
 
   // Protection par token pour les routes sensibles
   const protectedPaths = ["/structures", "/operateurs", "/statistiques"];
