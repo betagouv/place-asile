@@ -2,12 +2,22 @@ import { Prisma, Structure } from "@prisma/client";
 import prisma from "../../../../lib/prisma";
 import { getCoordinates } from "@/app/utils/adresse.util";
 import {
+  convertToControleType,
   convertToFileUploadCategory,
   convertToPublicType,
   convertToStructureType,
   handleAdresses,
 } from "./structure.util";
-import { CreateStructure } from "./structure.types";
+import {
+  CreateStructure,
+  UpdateAdresse,
+  UpdateBudget,
+  UpdateContact,
+  UpdateControle,
+  UpdateFileUpload,
+  UpdateStructure,
+  UpdateStructureTypologie,
+} from "./structure.types";
 
 export const findAll = async (): Promise<Structure[]> => {
   return prisma.structure.findMany({
@@ -52,6 +62,9 @@ export const findOne = async (id: number): Promise<Structure | null> => {
         },
       },
       controles: {
+        include: {
+          fileUploads: true,
+        },
         orderBy: {
           date: "desc",
         },
@@ -162,6 +175,7 @@ export const createOne = async (
           data: structure.typologies,
         },
       },
+      // TODO : supprimer ce connect ? (file upload ajoutés ligne 191)
       fileUploads: {
         connect: structure.fileUploads.map((fileUpload) => ({
           key: fileUpload.key,
@@ -172,6 +186,7 @@ export const createOne = async (
 
   const adresses = handleAdresses(structure.dnaCode, structure.adresses);
 
+  // TODO : refacto with updateMany
   for (const adresse of adresses) {
     await prisma.adresse.create({
       data: {
@@ -187,6 +202,7 @@ export const createOne = async (
     });
   }
 
+  // TODO : refacto with updateMany
   await Promise.all(
     structure.fileUploads.map((fileUpload) =>
       prisma.fileUpload.update({
@@ -203,8 +219,171 @@ export const createOne = async (
   const updatedStructure = await findOne(newStructure.id);
   if (!updatedStructure) {
     throw new Error(
-      `Failed to find structure with id ${newStructure.id} after creation`
+      `Impossible de trouver la structure avec le code DNA ${newStructure.dnaCode}`
     );
   }
+  return updatedStructure;
+};
+
+const createOrUpdateContacts = async (
+  contacts: UpdateContact[] | undefined,
+  structureDnaCode: string
+): Promise<void> => {
+  await Promise.all(
+    (contacts || []).map((contact) => {
+      if (contact.id) {
+        return prisma.contact.update({
+          where: { id: contact.id },
+          data: contact,
+        });
+      } else {
+        return prisma.contact.create({
+          data: {
+            structureDnaCode,
+            ...contact,
+          },
+        });
+      }
+    })
+  );
+};
+
+const createOrUpdateBudgets = async (
+  budgets: UpdateBudget[] | undefined,
+  structureDnaCode: string
+): Promise<void> => {
+  await Promise.all(
+    (budgets || []).map((budget) => {
+      if (budget.id) {
+        return prisma.budget.update({
+          where: { id: budget.id },
+          data: budget,
+        });
+      } else {
+        return prisma.budget.create({
+          data: {
+            structureDnaCode,
+            ...budget,
+          },
+        });
+      }
+    })
+  );
+};
+
+const updateStructureTypologies = async (
+  typologies: UpdateStructureTypologie[] | undefined
+): Promise<void> => {
+  await Promise.all(
+    (typologies || []).map((typologie) => {
+      return prisma.structureTypologie.update({
+        where: { id: typologie.id },
+        data: typologie,
+      });
+    })
+  );
+};
+
+const updateAdresseTypologies = async (
+  adresses: UpdateAdresse[] | undefined
+): Promise<void> => {
+  const adresseTypologies = adresses?.flatMap((adresse) => adresse.typologies);
+  for (const adresseTypologie of adresseTypologies || []) {
+    await prisma.adresseTypologie.updateMany({
+      where: { id: adresseTypologie.id },
+      data: adresseTypologie,
+    });
+  }
+};
+
+const updateFileUploads = async (
+  fileUploads: UpdateFileUpload[] | undefined
+): Promise<void> => {
+  await Promise.all(
+    (fileUploads || []).map((fileUpload) =>
+      prisma.fileUpload.update({
+        where: { key: fileUpload.key },
+        data: {
+          date: fileUpload.date,
+          category: convertToFileUploadCategory(fileUpload.category),
+          startDate: fileUpload.startDate,
+          endDate: fileUpload.endDate,
+        },
+      })
+    )
+  );
+};
+
+const createOrUpdateControles = async (
+  controles: UpdateControle[] | undefined,
+  structureDnaCode: string
+): Promise<void> => {
+  await Promise.all(
+    (controles || []).map((controle) => {
+      if (controle.id) {
+        return prisma.controle.update({
+          where: { id: controle.id },
+          data: {
+            type: convertToControleType(controle.type),
+            date: controle.date,
+            // TODO: handle file uploads
+          },
+        });
+      } else {
+        return prisma.controle.create({
+          data: {
+            structureDnaCode,
+            type: convertToControleType(controle.type),
+            date: controle.date,
+            // TODO: handle file uploads
+          },
+        });
+      }
+    })
+  );
+};
+
+export const updateOne = async (
+  structure: UpdateStructure
+): Promise<Structure | null> => {
+  let updatedStructure = null;
+  try {
+    const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      type,
+      contacts,
+      budgets,
+      typologies,
+      adresses,
+      fileUploads,
+      controles,
+      ...structureProperties
+    } = structure;
+
+    updatedStructure = await prisma.structure.update({
+      where: {
+        dnaCode: structure.dnaCode,
+      },
+      data: {
+        ...structureProperties,
+        public: convertToPublicType(structure.public!),
+        // ...(structureProperties.public
+        //   ? { public: convertToPublicType(structureProperties.public) }
+        //   : {}),
+      },
+    });
+
+    await createOrUpdateContacts(contacts, structure.dnaCode);
+    await createOrUpdateBudgets(budgets, structure.dnaCode);
+    await updateStructureTypologies(typologies);
+    await updateAdresseTypologies(adresses);
+    await updateFileUploads(fileUploads);
+    await createOrUpdateControles(controles, structure.dnaCode);
+  } catch (error) {
+    throw new Error(
+      `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}:  ${error}`
+    );
+  }
+
   return updatedStructure;
 };

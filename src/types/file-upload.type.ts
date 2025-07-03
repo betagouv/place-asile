@@ -7,6 +7,8 @@ export type FileUpload = {
   originalName: string;
   date?: Date;
   category?: FileUploadCategory;
+  startDate?: Date;
+  endDate?: Date;
 };
 
 export enum FileUploadCategory {
