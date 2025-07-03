@@ -5,7 +5,9 @@ import { ReactElement } from "react";
 
 export const ProConnect = (): ReactElement => {
   const login = async (): Promise<void> => {
-    signIn("proconnect", { callbackUrl: process.env.NEXT_PUBLIC_URL });
+    signIn("proconnect", {
+      callbackUrl: `${process.env.NEXT_PUBLIC_URL}/structures`,
+    });
   };
 
   return (
