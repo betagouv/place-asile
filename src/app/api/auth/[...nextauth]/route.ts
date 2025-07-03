@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 console.log(
   ">>>>>>>>>>>",
   process.env.NEXT_URL,
+  process.env.NEXT_PUBLIC_URL,
   process.env.PRO_CONNECT_BASE_URL
 );
 
@@ -50,7 +51,8 @@ const authOptions: NextAuthOptions = {
         params: {
           scope: "openid uid given_name usual_name email siret",
           acr_values: "eidas1",
-          redirect_uri: process.env.NEXT_URL + "/api/auth/callback/proconnect",
+          redirect_uri:
+            process.env.NEXT_PUBLIC_URL + "/api/auth/callback/proconnect",
           nonce: uuidv4(),
           state: uuidv4(),
         },
