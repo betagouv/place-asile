@@ -1,6 +1,7 @@
 // TODO @ledjay : remove this page at the end of dev
 import { ReactElement } from "react";
 import Link from "next/link";
+import { steps } from "./components/Steps";
 
 export default async function Finalisation({
   params,
@@ -13,28 +14,15 @@ export default async function Finalisation({
       <h1>Finalisation</h1>
       <Link href="/structures">Retour aux structures</Link>
       <Link href={`/structures/${dnaCode}`}>Retour à la structure</Link>
-      <Link href={`/structures/${dnaCode}/finalisation/01-identification`}>
-        Identification
-      </Link>
-      <Link href={`/structures/${dnaCode}/finalisation/02-contacts`}>
-        Contacts
-      </Link>
-      <Link href={`/structures/${dnaCode}/finalisation/03-calendrier`}>
-        Calendrier
-      </Link>
-      <Link href={`/structures/${dnaCode}/finalisation/04-type-places`}>
-        Type de places
-      </Link>
-      <Link href={`/structures/${dnaCode}/finalisation/05-controles`}>
-        Controles
-      </Link>
-      <Link href={`/structures/${dnaCode}/finalisation/06-activites`}>
-        Activités
-      </Link>
-      <Link href={`/structures/${dnaCode}/finalisation/07-notes`}>Notes</Link>
-      <Link href={`/structures/${dnaCode}/finalisation/08-finances`}>
-        Finances
-      </Link>
+
+      {steps.map((step, index) => (
+        <Link
+          key={index}
+          href={`/structures/${dnaCode}/finalisation/${step.route}`}
+        >
+          {index + 1}. {step.title}
+        </Link>
+      ))}
     </div>
   );
 }

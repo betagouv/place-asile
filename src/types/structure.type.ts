@@ -47,6 +47,7 @@ export type Structure = {
   adresses?: Adresse[];
   contacts?: Contact[];
   typologies?: StructureTypologie[];
+  structureTypologies?: StructureTypologie[];
   activites?: Activite[];
   fileUploads?: FileUpload[];
   budgets?: Budget[];

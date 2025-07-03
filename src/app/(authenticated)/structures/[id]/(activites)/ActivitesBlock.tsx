@@ -5,7 +5,7 @@ import { ActivitesMotifsIndisponibilite } from "./ActivitesMotifsIndisponibilite
 import Image from "next/image";
 import ofii from "../../../../../../public/ofii.webp";
 import { ActivitesHistorique } from "./ActivitesHistorique";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const ActivitesBlock = (): ReactElement => {
   // TODO : Refac props from blocks to remove the props and pass them from context

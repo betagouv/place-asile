@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { Table } from "@codegouvfr/react-dsfr/Table";
 import { ControleType } from "@/types/controle.type";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const ControleTable = (): ReactElement => {
   const { structure } = useStructureContext();

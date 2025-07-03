@@ -3,7 +3,7 @@
 import { ReactElement } from "react";
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const PrahdaTypePlaceBlock = (): ReactElement => {
   // TODO : Refac props from blocks to remove the props and pass them from context

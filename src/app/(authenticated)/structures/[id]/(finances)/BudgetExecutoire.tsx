@@ -1,6 +1,6 @@
 import { InformationCard } from "@/app/components/InformationCard";
 import { ReactElement } from "react";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const BudgetExecutoire = (): ReactElement => {
   const { structure } = useStructureContext();

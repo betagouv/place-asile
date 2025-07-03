@@ -1,7 +1,7 @@
 import { Block } from "@/app/components/common/Block";
 import { DateBars } from "@/app/(authenticated)/structures/[id]/(calendrier)/DateBars";
 import { ReactElement } from "react";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const CalendrierBlock = (): ReactElement => {
   // TODO : Refac props from blocks to remove the props and pass them from context
