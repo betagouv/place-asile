@@ -8,7 +8,6 @@ import {
 } from "./validation/finalisationFinanceSchema";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { Documents } from "./components/Documents";
-import { FileUploadCategory } from "@prisma/client";
 import { IndicateursGeneraux } from "./components/IndicateursGeneraux";
 import { useYearRange } from "@/app/hooks/useYearRange";
 import { useDateStringToYear } from "@/app/hooks/useDateStringToYear";
@@ -33,11 +32,6 @@ export default function FinalisationFinanceForm({
       years.includes(Number(dateStringToYear(budget.date.toString())))
     ) || [];
   const defaultValues: Partial<FinalisationFinanceFormValues> = {
-    fileUploads:
-      structure?.fileUploads?.map((fileUpload) => ({
-        key: fileUpload.key,
-        category: fileUpload.category as unknown as FileUploadCategory,
-      })) || [],
     budget: budgetsFilteredByYears.map((budget) => ({
       ...budget,
     })),

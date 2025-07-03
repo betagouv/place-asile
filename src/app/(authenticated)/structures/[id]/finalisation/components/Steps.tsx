@@ -68,7 +68,7 @@ export default function Steps({ currentStep, structureId }: StepsProps) {
   );
 }
 
-interface StepsProps {
+type StepsProps = {
   currentStep: number;
   structureId: number;
-}
+};
