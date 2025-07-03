@@ -2,7 +2,7 @@
 
 import { Badge } from "@/app/components/common/Badge";
 import { ReactElement, useState } from "react";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 import { getRepartition } from "@/app/utils/structure.util";
 
 export const AdressesViewer = (): ReactElement => {

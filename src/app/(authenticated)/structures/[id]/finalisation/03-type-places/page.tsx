@@ -1,11 +1,17 @@
+"use client";
 import { ReactElement } from "react";
 import Steps from "../components/Steps";
+import FinalisationTypePlacesForm from "./FinalisationTypePlacesForm";
+import { useStructureContext } from "../../context/StructureClientContext";
 
-export default async function TypePlaces(): Promise<ReactElement> {
+export default function TypePlaces(): ReactElement {
+  const { structure } = useStructureContext();
+  const structureId = structure.id;
+  const currentStep = 3;
   return (
     <>
-      <Steps currentStep={3} />
-      {/* TODO @ledjay : add form */}
+      <Steps currentStep={currentStep} structureId={structureId} />
+      <FinalisationTypePlacesForm currentStep={currentStep} />
     </>
   );
 }

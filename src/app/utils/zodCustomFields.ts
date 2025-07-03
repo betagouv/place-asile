@@ -3,7 +3,7 @@ import { z } from "zod";
 // Regex pattern for DD/MM/YYYY format validation
 const DATE_FORMAT_REGEX = /^([0-9]{1,2})[/]([0-9]{1,2})[/]([0-9]{4})$/;
 
-export const createDateFieldValidator = () => {
+const createRequiredDateValidator = () => {
   return z.preprocess(
     (val) => {
       if (typeof val === "string") {
@@ -21,9 +21,43 @@ export const createDateFieldValidator = () => {
   );
 };
 
-/**
- * Parses and validates a date string, converting it to DD/MM/YYYY format if valid
- */
+const createOptionalDateValidator = () => {
+  return z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => {
+      if (val === null || val === undefined || val === "") {
+        return undefined;
+      }
+
+      if (typeof val === "string") {
+        const parsed = parseDateString(val);
+        if (!parsed || !DATE_FORMAT_REGEX.test(parsed)) {
+          return undefined;
+        }
+        return parsed;
+      }
+
+      return undefined;
+    })
+    .refine(
+      (val) => {
+        if (val === undefined) return true;
+
+        return DATE_FORMAT_REGEX.test(val);
+      },
+      { message: "Format de date invalide (JJ/MM/AAAA)" }
+    );
+};
+
+export const createDateFieldValidator = Object.assign(
+  () => createRequiredDateValidator(),
+  {
+    optional: () => createOptionalDateValidator(),
+  }
+);
+
 export const parseDateString = (dateString: string): string | undefined => {
   if (!dateString) return undefined;
 
@@ -41,11 +75,36 @@ export const parseDateString = (dateString: string): string | undefined => {
   }
 
   try {
-    const parts = trimmedDate.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-    if (parts) {
-      const year = parseInt(parts[1], 10);
-      const month = parseInt(parts[2], 10);
-      const day = parseInt(parts[3], 10);
+    // Handle YYYY-MM-DD format
+    const simpleDateParts = trimmedDate.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (simpleDateParts) {
+      const year = parseInt(simpleDateParts[1], 10);
+      const month = parseInt(simpleDateParts[2], 10);
+      const day = parseInt(simpleDateParts[3], 10);
+
+      if (isValidDate(day, month, year)) {
+        return formatDate(day, month, year);
+      }
+    }
+
+    // Handle ISO format dates like "2014-04-19T22:00:00.000Z"
+    const isoDateParts = trimmedDate.match(/^(\d{4})-(\d{1,2})-(\d{1,2})T/);
+    if (isoDateParts) {
+      const year = parseInt(isoDateParts[1], 10);
+      const month = parseInt(isoDateParts[2], 10);
+      const day = parseInt(isoDateParts[3], 10);
+
+      if (isValidDate(day, month, year)) {
+        return formatDate(day, month, year);
+      }
+    }
+
+    // Try parsing as a JavaScript Date object (handles various formats including ISO)
+    const dateObj = new Date(trimmedDate);
+    if (!isNaN(dateObj.getTime())) {
+      const day = dateObj.getDate();
+      const month = dateObj.getMonth() + 1; // JavaScript months are 0-indexed
+      const year = dateObj.getFullYear();
 
       if (isValidDate(day, month, year)) {
         return formatDate(day, month, year);
@@ -56,9 +115,6 @@ export const parseDateString = (dateString: string): string | undefined => {
   return undefined;
 };
 
-/**
- * Checks if the date components form a valid date
- */
 function isValidDate(day: number, month: number, year: number): boolean {
   if (
     day >= 1 &&
@@ -74,9 +130,6 @@ function isValidDate(day: number, month: number, year: number): boolean {
   return false;
 }
 
-/**
- * Formats date components to DD/MM/YYYY format with leading zeros
- */
 function formatDate(day: number, month: number, year: number): string {
   return `${String(day).padStart(2, "0")}/${String(month).padStart(
     2,

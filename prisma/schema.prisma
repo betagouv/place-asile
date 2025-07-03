@@ -116,6 +116,7 @@ model StructureTypologie {
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode])
   structureDnaCode String
   date             DateTime
+  nbPlaces         Int?
   pmr              Int
   lgbt             Int
   fvvTeh           Int

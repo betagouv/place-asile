@@ -2,7 +2,7 @@ import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
 import { ContactsViewer } from "./ContactsViewer";
 import { AdressesViewer } from "./AdressesViewer";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 import { PublicType } from "@/types/structure.type";
 
 export const DefaultDescriptionBlock = (): ReactElement => {

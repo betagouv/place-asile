@@ -1,12 +1,17 @@
+"use client";
 import { ReactElement } from "react";
 import Steps from "../components/Steps";
-import IdentificationForm from "../forms/IdentificationForm";
+import FinalisationIdentificationForm from "./forms/FinalisationIdentificationForm";
+import { useStructureContext } from "../../context/StructureClientContext";
 
-export default async function Identification(): Promise<ReactElement> {
+export default function Identification(): ReactElement {
+  const { structure } = useStructureContext();
+  const structureId = structure.id;
+  const currentStep = 1;
   return (
     <>
-      <Steps currentStep={1} />
-      <IdentificationForm />
+      <Steps currentStep={currentStep} structureId={structureId} />
+      <FinalisationIdentificationForm currentStep={currentStep} />
     </>
   );
 }

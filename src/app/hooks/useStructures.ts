@@ -119,6 +119,7 @@ export const useStructures = (): UseStructureResult => {
       ),
       typologies: values.typologies?.map((typologie) => ({
         ...typologie,
+        autorisees: Number(typologie.autorisees),
         pmr: Number(typologie.pmr),
         lgbt: Number(typologie.lgbt),
         fvvTeh: Number(typologie.fvvTeh),

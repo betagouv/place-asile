@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ReactElement } from "react";
 import { NavigationMenu } from "./NavigationMenu";
-import { useStructureContext } from "../context/StructureContext";
+import { useStructureContext } from "../context/StructureClientContext";
 import { useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 

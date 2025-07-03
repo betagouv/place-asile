@@ -18,6 +18,7 @@ import { cn } from "@/app/utils/classname.util";
 import { FormProvider } from "@/app/context/FormContext";
 import Alert from "@codegouvfr/react-dsfr/Alert";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import Link from "next/link";
 
 // Define more specific types for the schema
 type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
@@ -34,6 +35,8 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   nextRoute?: string;
   resetRoute?: string;
   showSubmitButton?: boolean;
+  previousStep?: string;
+  availableFooterButtons?: Array<"cancel" | "save" | "submit">;
 };
 
 export default function FormWrapper<TSchema extends z.ZodTypeAny>({
@@ -50,6 +53,8 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   nextRoute,
   resetRoute,
   showSubmitButton = true,
+  previousStep,
+  availableFooterButtons = ["cancel", "save", "submit"],
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
   const {
@@ -137,6 +142,15 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
             className
           )}
         >
+          {previousStep && (
+            <Link
+              href={previousStep}
+              className="flex gap-2 fr-link fr-icon  w-fit text-disabled-grey"
+            >
+              <i className="fr-icon-arrow-left-s-line before:w-4"></i>
+              Étape précédente
+            </Link>
+          )}
           {typeof children === "function" ? children(methods) : children}
 
           {showSubmitButton && (
@@ -153,25 +167,31 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
               )}
               <div>
                 <div className="flex justify-end gap-4 mt-6">
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleReset();
-                    }}
-                    priority="secondary"
-                  >
-                    Annuler
-                  </Button>
-                  <Button
-                    priority="secondary"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      showSavedAlert();
-                    }}
-                  >
-                    Terminer plus tard
-                  </Button>
-                  <Button type="submit">{submitButtonText}</Button>
+                  {availableFooterButtons.includes("cancel") && (
+                    <Button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleReset();
+                      }}
+                      priority="secondary"
+                    >
+                      Annuler
+                    </Button>
+                  )}
+                  {availableFooterButtons.includes("save") && (
+                    <Button
+                      priority="secondary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        showSavedAlert();
+                      }}
+                    >
+                      Terminer plus tard
+                    </Button>
+                  )}
+                  {availableFooterButtons.includes("submit") && (
+                    <Button type="submit">{submitButtonText}</Button>
+                  )}
                 </div>
                 <p className="cta_message text-mention-grey text-sm text-right mt-2">
                   Si vous ne parvenez pas à remplir certains champs,{" "}

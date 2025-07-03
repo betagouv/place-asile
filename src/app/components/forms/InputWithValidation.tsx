@@ -10,6 +10,7 @@ import {
 } from "react-hook-form";
 import Input from "@codegouvfr/react-dsfr/Input";
 import InputSimple from "../ui/InputSimple";
+import { cn } from "@/app/utils/classname.util";
 
 export default function InputWithValidation<
   TFieldValues extends FieldValues = FieldValues
@@ -35,7 +36,6 @@ export default function InputWithValidation<
     control: finalControl,
   });
 
-  // TODO @ledjay: check if dayjs can handle this
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (type === "date") {
       const htmlDateValue = e.target.value;
@@ -60,6 +60,12 @@ export default function InputWithValidation<
 
   const getHtmlDateValue = () => {
     if (type === "date" && field.value && typeof field.value === "string") {
+      // If the value is already in YYYY-MM-DD format (HTML date input format)
+      if (/^\d{4}-\d{2}-\d{2}$/.test(field.value)) {
+        return field.value;
+      }
+
+      // Handle DD/MM/YYYY format (our form validation format)
       const dateParts = field.value.split("/");
       if (dateParts.length === 3) {
         const [day, month, year] = dateParts;
@@ -69,8 +75,17 @@ export default function InputWithValidation<
           return `${year}-${paddedMonth}-${paddedDay}`;
         }
       }
+
+      // Handle ISO date strings (e.g., "2006-04-26T22:00:00.000Z")
+      const isoDate = new Date(field.value);
+      if (!isNaN(isoDate.getTime())) {
+        const year = isoDate.getFullYear();
+        const month = String(isoDate.getMonth() + 1).padStart(2, "0");
+        const day = String(isoDate.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
     }
-    return field.value || "";
+    return field.value !== undefined && field.value !== null ? field.value : "";
   };
 
   return variant === "simple" ? (
@@ -79,13 +94,22 @@ export default function InputWithValidation<
         id,
         type,
         onChange: type === "date" ? handleDateChange : field.onChange,
-        value: type === "date" ? getHtmlDateValue() : field.value || "",
+        value:
+          type === "date"
+            ? getHtmlDateValue()
+            : field.value !== undefined && field.value !== null
+            ? field.value
+            : "",
         min,
         onBlur: field.onBlur,
+        disabled: disabled,
       }}
       {...field}
       label={label}
-      className={className}
+      className={cn(
+        className,
+        disabled && "!cursor-not-allowed bg-disabled-grey border-disabled-grey"
+      )}
       state={state || (fieldState.invalid ? "error" : "default")}
       stateRelatedMessage={stateRelatedMessage || fieldState.error?.message}
     />

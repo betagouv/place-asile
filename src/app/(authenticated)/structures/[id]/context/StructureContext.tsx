@@ -1,19 +1,10 @@
-"use client";
-
-import { createContext, useContext, ReactNode } from "react";
+import { ReactNode } from "react";
 import { StructureWithLatLng } from "@/types/structure.type";
-
-type StructureContextInternalType = {
-  structure: StructureWithLatLng | null;
-};
+import { StructureClientProvider } from "./StructureClientContext";
 
 export type StructureContextType = {
   structure: StructureWithLatLng;
 };
-
-const StructureContextInternal = createContext<StructureContextInternalType>({
-  structure: null,
-});
 
 export function StructureProvider({
   children,
@@ -33,23 +24,8 @@ export function StructureProvider({
     : null;
 
   return (
-    <StructureContextInternal.Provider value={{ structure }}>
+    <StructureClientProvider structure={structure}>
       {children}
-    </StructureContextInternal.Provider>
+    </StructureClientProvider>
   );
-}
-
-export function useStructureContext(): StructureContextType {
-  const context = useContext(StructureContextInternal);
-
-  if (context === undefined) {
-    throw new Error(
-      "useStructureContext must be used within a StructureProvider"
-    );
-  }
-
-  if (context.structure === null) {
-    throw new Error("Structure is not available");
-  }
-  return { structure: context.structure };
 }

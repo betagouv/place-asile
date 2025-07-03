@@ -161,6 +161,7 @@ export class CsvExtract {
       pmr: Number(line[2]),
       lgbt: Number(line[3]),
       fvvTeh: Number(line[4]),
+      nbPlaces: null,
     }));
   };
 
