@@ -14,7 +14,7 @@ console.log(
   process.env.PRO_CONNECT_BASE_URL
 );
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
