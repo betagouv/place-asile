@@ -1,6 +1,5 @@
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useYearRange } from "@/app/hooks/useYearRange";
-import { cn } from "@/app/utils/classname.util";
 import { useFormContext, useForm } from "react-hook-form";
 import { Table } from "@/app/components/common/Table";
 import Tooltip from "@codegouvfr/react-dsfr/Tooltip";
@@ -23,6 +22,7 @@ export const StructureAutorisee = () => {
 
   return (
     <Table
+      ariaLabelledBy="gestionBudgetaire"
       hasErrors={hasErrors}
       preHeadings={[
         <th scope="col" key="annee" className="!border-r-1">
