@@ -1,6 +1,12 @@
 import NextAuth, { NextAuthOptions, User } from "next-auth";
 import { v4 as uuidv4 } from "uuid";
 
+console.log(
+  ">>>>>>>>>>>",
+  process.env.NEXT_URL,
+  process.env.PRO_CONNECT_BASE_URL
+);
+
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
