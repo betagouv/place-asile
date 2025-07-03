@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
-import { useStructureContext } from "../context/StructureContext";
 import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { AmountBadge } from "./AmountBadge";
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const GestionBudgetaireTable = (): ReactElement => {
   const { structure } = useStructureContext();
