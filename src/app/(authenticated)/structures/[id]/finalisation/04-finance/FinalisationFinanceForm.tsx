@@ -1,7 +1,7 @@
 import React from "react";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
-import FormWrapper from "@/app/components/forms/FormWrapper";
+import FormWrapper, { FooterButtonType } from "@/app/components/forms/FormWrapper";
 import {
   finalisationFinanceSchema,
   FinalisationFinanceFormValues,
@@ -44,7 +44,7 @@ export default function FinalisationFinanceForm({
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
-      availableFooterButtons={["submit"]}
+      availableFooterButtons={[FooterButtonType.Submit]}
     >
       <InformationBar
         variant="warning"

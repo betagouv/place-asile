@@ -20,7 +20,13 @@ import Alert from "@codegouvfr/react-dsfr/Alert";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import Link from "next/link";
 
-// Define more specific types for the schema
+// Define enum for footer buttons
+export enum FooterButtonType {
+  CANCEL = "cancel",
+  SAVE = "save",
+  SUBMIT = "submit",
+}
+
 type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   schema: TSchema;
   localStorageKey?: string;
@@ -36,7 +42,7 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   resetRoute?: string;
   showSubmitButton?: boolean;
   previousStep?: string;
-  availableFooterButtons?: Array<"cancel" | "save" | "submit">;
+  availableFooterButtons?: Array<FooterButtonType>;
 };
 
 export default function FormWrapper<TSchema extends z.ZodTypeAny>({
@@ -54,7 +60,11 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   resetRoute,
   showSubmitButton = true,
   previousStep,
-  availableFooterButtons = ["cancel", "save", "submit"],
+  availableFooterButtons = [
+    FooterButtonType.CANCEL,
+    FooterButtonType.SAVE,
+    FooterButtonType.SUBMIT,
+  ],
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
   const {
@@ -167,7 +177,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
               )}
               <div>
                 <div className="flex justify-end gap-4 mt-6">
-                  {availableFooterButtons.includes("cancel") && (
+                  {availableFooterButtons.includes(FooterButtonType.CANCEL) && (
                     <Button
                       onClick={(e) => {
                         e.preventDefault();
@@ -178,7 +188,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                       Annuler
                     </Button>
                   )}
-                  {availableFooterButtons.includes("save") && (
+                  {availableFooterButtons.includes(FooterButtonType.SAVE) && (
                     <Button
                       priority="secondary"
                       onClick={(e) => {
@@ -189,7 +199,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                       Terminer plus tard
                     </Button>
                   )}
-                  {availableFooterButtons.includes("submit") && (
+                  {availableFooterButtons.includes(FooterButtonType.SUBMIT) && (
                     <Button type="submit">{submitButtonText}</Button>
                   )}
                 </div>
