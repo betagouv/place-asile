@@ -107,8 +107,9 @@ export default function InputWithValidation<
       {...field}
       label={label}
       className={cn(
+        "transition-all",
         className,
-        disabled && "!cursor-not-allowed bg-disabled-grey border-disabled-grey"
+        disabled && "!cursor-not-allowed bg-disabled-grey border-transparent"
       )}
       state={state || (fieldState.invalid ? "error" : "default")}
       stateRelatedMessage={stateRelatedMessage || fieldState.error?.message}

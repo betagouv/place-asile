@@ -15,9 +15,14 @@ export const StructureAutorisee = () => {
     Array.isArray(errors.budget) &&
     errors.budget.some(
       (budgetItemErrors: Record<string, unknown>) =>
-        budgetItemErrors?.ETP ||
-        budgetItemErrors?.tauxEncadrement ||
-        budgetItemErrors?.coutJournalier
+        budgetItemErrors?.dotationDemandee ||
+        budgetItemErrors?.dotationAccordee ||
+        budgetItemErrors?.totalProduits ||
+        budgetItemErrors?.totalCharges ||
+        budgetItemErrors?.cumulResultatsNetsCPOM ||
+        budgetItemErrors?.repriseEtat ||
+        budgetItemErrors?.affectationReservesFondsDedies ||
+        budgetItemErrors?.commentaire
     );
 
   return (
@@ -96,94 +101,115 @@ export const StructureAutorisee = () => {
         <tr key={year}>
           <td className="!border-r-1">{year}</td>
           <td>
-            <InputWithValidation
-              name={`budget.${index}.dotationDemandee`}
-              id={`gestionBudgetaire.${index}.dotationDemandee`}
-              control={control}
-              type="number"
-              min={0}
-              label=""
-              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
-              variant="simple"
-            />
+            <div className="flex items-center gap-2">
+              <InputWithValidation
+                name={`budget.${index}.dotationDemandee`}
+                id={`gestionBudgetaire.${index}.dotationDemandee`}
+                control={control}
+                type="number"
+                min={0}
+                label=""
+                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                variant="simple"
+              />{" "}
+              €
+            </div>
           </td>
           <td className="!border-r-3">
-            <InputWithValidation
-              name={`budget.${index}.dotationAccordee`}
-              id={`gestionBudgetaire.${index}.dotationAccordee`}
-              control={control}
-              type="number"
-              min={0}
-              label=""
-              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
-              variant="simple"
-              disabled={index === 0}
-            />
+            <div className="flex items-center gap-2">
+              <InputWithValidation
+                name={`budget.${index}.dotationAccordee`}
+                id={`gestionBudgetaire.${index}.dotationAccordee`}
+                control={control}
+                type="number"
+                min={0}
+                label=""
+                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                variant="simple"
+                disabled={index === 0}
+              />{" "}
+              €
+            </div>
           </td>
           <td>
-            <InputWithValidation
-              name={`budget.${index}.totalProduits`}
-              id={`gestionBudgetaire.${index}.totalProduits`}
-              control={control}
-              type="number"
-              min={0}
-              label=""
-              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
-              variant="simple"
-              disabled={[0, 1].includes(index)}
-            />
+            <div className="flex items-center gap-2">
+              <InputWithValidation
+                name={`budget.${index}.totalProduits`}
+                id={`gestionBudgetaire.${index}.totalProduits`}
+                control={control}
+                type="number"
+                min={0}
+                label=""
+                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                variant="simple"
+                disabled={[0, 1].includes(index)}
+              />{" "}
+              €
+            </div>
           </td>
           <td className="!border-r-3">
-            <InputWithValidation
-              name={`budget.${index}.totalCharges`}
-              id={`gestionBudgetaire.${index}.totalCharges`}
-              control={control}
-              type="number"
-              min={0}
-              label=""
-              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
-              variant="simple"
-              disabled={[0, 1, 2].includes(index)}
-            />
+            <div className="flex items-center gap-2">
+              <InputWithValidation
+                name={`budget.${index}.totalCharges`}
+                id={`gestionBudgetaire.${index}.totalCharges`}
+                control={control}
+                type="number"
+                min={0}
+                label=""
+                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                variant="simple"
+                disabled={[0, 1, 2].includes(index)}
+              />{" "}
+              €
+            </div>
           </td>
           <td>
-            <InputWithValidation
-              name={`budget.${index}.cumulResultatsNetsCPOM`}
-              id={`gestionBudgetaire.${index}.cumulResultatsNetsCPOM`}
-              control={control}
-              type="number"
-              min={0}
-              label=""
-              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
-              variant="simple"
-              disabled={[0, 1, 2].includes(index)}
-            />
+            <div className="flex items-center gap-2">
+              <InputWithValidation
+                name={`budget.${index}.cumulResultatsNetsCPOM`}
+                id={`gestionBudgetaire.${index}.cumulResultatsNetsCPOM`}
+                control={control}
+                type="number"
+                min={0}
+                label=""
+                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                variant="simple"
+                disabled={[0, 1, 2].includes(index)}
+              />{" "}
+              €
+            </div>
           </td>
           <td>
-            <InputWithValidation
-              name={`budget.${index}.repriseEtat`}
-              id={`gestionBudgetaire.${index}.repriseEtat`}
-              control={control}
-              type="number"
-              min={0}
-              label=""
-              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
-              variant="simple"
-              disabled={[0, 1, 2].includes(index)}
-            />
+            <div className="flex items-center gap-2">
+              <InputWithValidation
+                name={`budget.${index}.repriseEtat`}
+                id={`gestionBudgetaire.${index}.repriseEtat`}
+                control={control}
+                type="number"
+                min={0}
+                label=""
+                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                variant="simple"
+                disabled={[0, 1, 2].includes(index)}
+              />{" "}
+              €
+            </div>
           </td>
           <td>
-            <InputWithValidation
-              name={`budget.${index}.fondsDedies`}
-              id={`gestionBudgetaire.${index}.fondsDedies`}
-              control={control}
-              type="number"
-              min={0}
-              label=""
-              className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
-              variant="simple"
-              disabled={[0, 1, 2].includes(index)}
-            />
+            <div className="flex items-center gap-2">
+              <InputWithValidation
+                name={`budget.${index}.affectationReservesFondsDedies`}
+                id={`gestionBudgetaire.${index}.affectationReservesFondsDedies`}
+                control={control}
+                type="number"
+                min={0}
+                label=""
+                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                variant="simple"
+                disabled={[0, 1, 2].includes(index)}
+              />{" "}
+              €
+            </div>
           </td>
         </tr>
       ))}

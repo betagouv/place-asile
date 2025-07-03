@@ -32,7 +32,7 @@ export const FieldSetTypePlaces = () => {
       <Notice
         severity="info"
         title=""
-        className="rounded [&_p]:flex  [&_p]:items-center mb-8"
+        className="rounded [&_p]:flex  [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
         description="PMR : Personnes à Mobilité Réduite – LGBT : Lesbiennes, Gays, Bisexuels et Transgenres (ici places définies comme spécialisées) – FVV : Femmes Victimes de Violences, TEH : Traîte des Êtres Humains (ici places définies comme labellisées)"
       />
 

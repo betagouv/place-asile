@@ -1,11 +1,5 @@
 import { cn } from "@/app/utils/classname.util";
-import {
-  PropsWithChildren,
-  ReactElement,
-  Fragment,
-  useEffect,
-  useRef,
-} from "react";
+import { PropsWithChildren, ReactElement, Fragment, useRef } from "react";
 
 export const Table = ({
   children,
@@ -21,14 +15,14 @@ export const Table = ({
   const renderCountRef = useRef(0);
 
   renderCountRef.current += 1;
-
-  useEffect(() => {
-    if (hasErrors && tableContainerRef.current) {
-      requestAnimationFrame(() => {
-        tableContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-      });
-    }
-  });
+  // TODO @ledjay fix the autoscroll to error
+  // useEffect(() => {
+  //   if (hasErrors && tableContainerRef.current) {
+  //     requestAnimationFrame(() => {
+  //       tableContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+  //     });
+  //   }
+  // });
 
   return (
     <div
@@ -36,8 +30,8 @@ export const Table = ({
       className={cn(
         "w-full bg-lifted-grey overflow-hidden",
         "rounded-lg border-1 border-default-grey",
-        "[&_th]:uppercase [&_th]:text-mention-grey [&_th]:py-4 [&_th]:px-5 [&_th]:text-center [&_th]:text-xs",
-        "[&_td]:py-2 [&_td]:px-4 [&_td]:text-center [&_td]:text-sm",
+        "[&_th]:uppercase [&_th_small]:block [&_th_tr]:text-mention-grey [&_th]:py-4 [&_th]:px-5 [&_th]:text-center [&_th]:text-sm",
+        "[&_td]:py-2 [&_td]:px-4 [&_td]:text-center [&_td]:text-sm ",
         enableBorders &&
           "[&_tr]:border-b [&_tbody_tr:last-child]:border-b-0 [&_th]:border-default-grey [&_tr]:border-default-grey [&_td]:border-default-grey",
         hasErrors && "border-action-high-error",
@@ -52,11 +46,7 @@ export const Table = ({
             <tr className="bg-default-grey-hover">
               {preHeadings?.map((preHeading, index) =>
                 typeof preHeading === "string" ? (
-                  <th
-                    scope="col"
-                    key={`col-${index}`}
-                    className="uppercase text-mention-grey py-4 px-5 text-center text-xs"
-                  >
+                  <th scope="col" key={`col-${index}`}>
                     {preHeading}
                   </th>
                 ) : (
@@ -69,11 +59,7 @@ export const Table = ({
             <tr className={cn(!preHeadings && "bg-default-grey-hover")}>
               {headings?.map((heading, index) =>
                 typeof heading === "string" ? (
-                  <th
-                    scope="col"
-                    key={`col-${index}`}
-                    className="uppercase text-mention-grey py-4 px-5 text-center text-xs"
-                  >
+                  <th scope="col" key={`col-${index}`}>
                     {heading}
                   </th>
                 ) : (

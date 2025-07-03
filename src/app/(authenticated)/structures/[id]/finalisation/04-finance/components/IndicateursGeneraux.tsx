@@ -28,16 +28,16 @@ export const IndicateursGeneraux = () => {
       <legend className="text-lg font-bold mb-8 text-title-blue-france">
         Indicateurs généraux
       </legend>
-      <p>
-        Veuillez renseigner l’historique de ces indicateurs financiers au 1er
-        janvier de chaque année.
-      </p>
       <Notice
         severity="info"
         title=""
-        className="rounded [&_p]:flex  [&_p]:items-center mb-8"
+        className="rounded [&_p]:flex  [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
         description="Le nombre d’ETP correspond à l’ensemble des employés de la structure (ex : “8 ETP”). Le taux d’encadrement est le nombre de places gérées par un ETP, obtenu en divisant le nombre de places autorisées par le nombre d’ETP total (ex: “12 places gérées par un ETP” dans une structure de 96 places avec 8 ETP). Le coût journalier est le coût de la structure pour une journée et pour une place, défini dans les documents contractuels (ex: “23,50€ par jour par place”)."
       />
+      <p className="mb-0">
+        Veuillez renseigner l’historique de ces indicateurs financiers au 1er
+        janvier de chaque année.
+      </p>
       <Table
         hasErrors={hasBudgetErrors}
         headings={[
