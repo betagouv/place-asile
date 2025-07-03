@@ -7,7 +7,7 @@ const menuElements = [
   { label: "Type de places", section: "#places" },
   { label: "Finances", section: "#finances" },
   { label: "Contrôle qualité", section: "#controle" },
-  { label: "Activites", section: "#activites" },
+  // { label: "Activites", section: "#activites" },
   { label: "Notes", section: "#notes" },
 ];
 

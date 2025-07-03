@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { ActivitesBlock } from "./(activites)/ActivitesBlock";
+// import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
 import { PrahdaTypePlaceBlock } from "./(type-places)/PrahdaTypePlaceBlock";
 import { PrahdaDescriptionBlock } from "./(description)/PrahdaDescriptionBlock";
@@ -22,9 +22,9 @@ export const PrahdaStructure = (): ReactElement => {
       <Section id="controle">
         <HudaPrahdaControlesBlock />
       </Section>
-      <Section id="activites">
+      {/* <Section id="activites">
         <ActivitesBlock />
-      </Section>
+      </Section> */}
       <Section id="notes">
         <NotesBlock />
       </Section>

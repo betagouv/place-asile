@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { DefaultDescriptionBlock } from "./(description)/DefaultDescriptionBlock";
-import { ActivitesBlock } from "./(activites)/ActivitesBlock";
+// import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
 import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock";
 import { DefaultTypePlaceBlock } from "./(type-places)/DefaultTypePlaceBlock";
@@ -20,9 +20,9 @@ export const HudaStructure = (): ReactElement => {
       <Section id="controle">
         <HudaPrahdaControlesBlock />
       </Section>
-      <Section id="activites">
+      {/* <Section id="activites">
         <ActivitesBlock />
-      </Section>
+      </Section> */}
       <Section id="notes">
         <NotesBlock />
       </Section>
