@@ -12,6 +12,15 @@ const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  // cookies: {
+  //   callbackUrl: {
+  //     name: process.env.NEXT_PUBLIC_URL,
+  //     options: {
+
+  //     }
+  //   },
+
+  // },
   callbacks: {
     async jwt({ token, account, user }) {
       if (account) {
@@ -34,6 +43,9 @@ const authOptions: NextAuthOptions = {
     },
   },
   secret: process.env.SECRET,
+  pages: {
+    signIn: "/",
+  },
   providers: [
     {
       id: "proconnect",
