@@ -5,11 +5,6 @@ import { ReactElement } from "react";
 
 export const ProConnect = (): ReactElement => {
   const login = async (): Promise<void> => {
-    console.log(
-      ">>>>>>>>>>>",
-      process.env.NEXT_URL,
-      process.env.PRO_CONNECT_BASE_URL
-    );
     signIn("proconnect", { callbackUrl: "/" });
   };
 
