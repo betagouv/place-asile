@@ -69,7 +69,7 @@ type CreateBudget = {
   tauxEncadrement: number;
   coutJournalier: number;
   dotationDemandee: number;
-  dotationAccordee?: number;
+  dotationAccordee?: number | null;
   totalProduits?: number;
   totalCharges?: number;
   cumulResultatsNetsCPOM?: number;
