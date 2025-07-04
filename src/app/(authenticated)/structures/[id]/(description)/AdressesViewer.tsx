@@ -16,14 +16,16 @@ export const AdressesViewer = (): ReactElement => {
     <>
       <strong className="fr-pr-2w">Type de bâti</strong>
       <span className="fr-pr-1w">{repartition}</span>
-      {adresses?.some(({ typologies }) => typologies?.[0]?.qpv) && (
+      {adresses?.some(
+        ({ adresseTypologies }) => adresseTypologies?.[0]?.qpv
+      ) && (
         <span className="fr-pr-1w">
           <Badge type="warning">QPV</Badge>
         </span>
       )}
-      {adresses?.some(({ typologies }) => typologies?.[0]?.logementSocial) && (
-        <Badge type="warning">Logement social</Badge>
-      )}
+      {adresses?.some(
+        ({ adresseTypologies }) => adresseTypologies?.[0]?.logementSocial
+      ) && <Badge type="warning">Logement social</Badge>}
       <button
         className={`fr-btn fr-btn--sm fr-btn--icon-left fr-btn--tertiary-no-outline ${
           showAdresses ? "fr-icon-eye-off-line" : "fr-icon-eye-line"
@@ -41,15 +43,15 @@ export const AdressesViewer = (): ReactElement => {
               <span className="fr-pr-3w">
                 {adresse.adresse}, {adresse.codePostal} {adresse.commune}{" "}
                 <span className="italic">
-                  ({adresse.typologies?.[0]?.nbPlacesTotal} places)
+                  ({adresse.adresseTypologies?.[0]?.nbPlacesTotal} places)
                 </span>
               </span>
-              {adresse.typologies?.[0]?.qpv && (
+              {adresse.adresseTypologies?.[0]?.qpv && (
                 <span className="fr-pr-1w">
                   <Badge type="warning">QPV</Badge>
                 </span>
               )}
-              {adresse.typologies?.[0]?.logementSocial && (
+              {adresse.adresseTypologies?.[0]?.logementSocial && (
                 <Badge type="warning">Logement social</Badge>
               )}
             </div>

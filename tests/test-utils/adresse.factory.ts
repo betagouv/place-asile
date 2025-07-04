@@ -15,7 +15,7 @@ export const createAdresse = ({
     codePostal: "75001",
     commune: commune ?? "Paris",
     repartition: repartition ?? Repartition.DIFFUS,
-    typologies: typologies ?? [],
+    adresseTypologies: typologies ?? [],
   };
 };
 

@@ -17,10 +17,10 @@ export const getPlacesByCommunes = (
 
     if (!existingCommune) {
       placesByCommune[adresse.commune] =
-        adresse.typologies?.[0]?.nbPlacesTotal || 0;
+        adresse.adresseTypologies?.[0]?.nbPlacesTotal || 0;
     } else {
       placesByCommune[adresse.commune] +=
-        adresse.typologies?.[0]?.nbPlacesTotal || 0;
+        adresse.adresseTypologies?.[0]?.nbPlacesTotal || 0;
     }
   }
 
@@ -53,7 +53,7 @@ const getCurrentPlacesByProperty = (
   accessor: keyof AdresseTypologie
 ) => {
   const mostRecentYearTypologies = structure.adresses?.map(
-    (adresse) => adresse.typologies?.[0]
+    (adresse) => adresse.adresseTypologies?.[0]
   );
   const placesByAccessor = mostRecentYearTypologies?.reduce(
     (totalCount, currentTypologie) =>

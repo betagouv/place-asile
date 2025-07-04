@@ -29,7 +29,7 @@ export const TypePlaceHistory = ({
 
   const getTableData = () => {
     const adresseTypologies = adresses?.flatMap(
-      (adresse) => adresse.typologies
+      (adresse) => adresse.adresseTypologies
     );
     return adresseTypologies.map((adresseTypologie) => {
       const currentStructureTypologie =
