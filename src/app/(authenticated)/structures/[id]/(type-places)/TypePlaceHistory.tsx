@@ -4,22 +4,19 @@ import { Table } from "@codegouvfr/react-dsfr/Table";
 import { Adresse } from "@/types/adresse.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
 import styles from "../../../../components/common/Accordion.module.css";
-import { AdresseTypologie } from "@prisma/client";
 
 export const TypePlaceHistory = ({
   adresses,
   structureTypologies,
 }: Props): ReactElement => {
   const getCurrentStructureTypologie = (
-    adresseTypologie: AdresseTypologie | undefined
+    adresseTypologieDate: Date | undefined
   ) => {
     return structureTypologies.find((structureTypologie) => {
-      if (!adresseTypologie?.date) {
+      if (!adresseTypologieDate) {
         return "N/A";
       }
-      const adresseTypologieYear = new Date(
-        adresseTypologie?.date
-      ).getFullYear();
+      const adresseTypologieYear = new Date(adresseTypologieDate).getFullYear();
       const structureTypologieYear = new Date(
         structureTypologie?.date
       ).getFullYear();
@@ -31,22 +28,48 @@ export const TypePlaceHistory = ({
     const adresseTypologies = adresses?.flatMap(
       (adresse) => adresse.adresseTypologies
     );
-    return adresseTypologies.map((adresseTypologie) => {
-      const currentStructureTypologie =
-        getCurrentStructureTypologie(adresseTypologie);
 
-      return [
-        adresseTypologie?.date
-          ? new Date(adresseTypologie?.date).getFullYear()
-          : "N/A",
-        adresseTypologie?.nbPlacesTotal,
-        currentStructureTypologie?.pmr ?? "N/A",
-        currentStructureTypologie?.lgbt,
-        currentStructureTypologie?.fvvTeh,
-        adresseTypologie?.qpv,
-        adresseTypologie?.logementSocial,
-      ];
-    });
+    const groupedByYear = adresseTypologies.reduce(
+      (aggregatedTypePlaces: AggregatedTypePlaces, adresseTypologie) => {
+        const year = adresseTypologie?.date
+          ? new Date(adresseTypologie.date).getFullYear()
+          : "N/A";
+
+        if (!aggregatedTypePlaces[year as number]) {
+          aggregatedTypePlaces[year as number] = {
+            nbPlacesTotal: 0,
+            qpv: 0,
+            logementSocial: 0,
+          };
+        }
+
+        aggregatedTypePlaces[year as number].nbPlacesTotal +=
+          adresseTypologie?.nbPlacesTotal || 0;
+        aggregatedTypePlaces[year as number].qpv += adresseTypologie?.qpv || 0;
+        aggregatedTypePlaces[year as number].logementSocial +=
+          adresseTypologie?.logementSocial || 0;
+        return aggregatedTypePlaces;
+      },
+      {}
+    );
+
+    return Object.entries(groupedByYear)
+      .map(([year, data]) => {
+        const currentStructureTypologie = getCurrentStructureTypologie(
+          new Date(year !== "N/A" ? year : "")
+        );
+
+        return [
+          year,
+          data.nbPlacesTotal,
+          currentStructureTypologie?.pmr ?? "N/A",
+          currentStructureTypologie?.lgbt ?? "N/A",
+          currentStructureTypologie?.fvvTeh ?? "N/A",
+          data.qpv,
+          data.logementSocial,
+        ];
+      })
+      .reverse();
   };
 
   return (
@@ -74,3 +97,12 @@ type Props = {
   adresses: Adresse[];
   structureTypologies: StructureTypologie[];
 };
+
+type AggregatedTypePlaces = Record<
+  number,
+  {
+    nbPlacesTotal: number;
+    qpv: number;
+    logementSocial: number;
+  }
+>;
