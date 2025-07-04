@@ -10,6 +10,7 @@ import {
   EvenementIndesirableGrave,
   StructureTypologie,
   Budget,
+  FileUpload,
 } from "@prisma/client";
 
 import {
@@ -27,6 +28,7 @@ const EIG_INDEX = 5;
 const STRUCTURE_TYPOLOGIE_INDEX = 6;
 const ADRESSE_TYPOLOGIE_INDEX = 7;
 const BUDGET_INDEX = 8;
+const FILE_UPLOAD_INDEX = 9;
 
 export class CsvExtract {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -161,7 +163,7 @@ export class CsvExtract {
       pmr: Number(line[2]),
       lgbt: Number(line[3]),
       fvvTeh: Number(line[4]),
-      nbPlaces: null,
+      nbPlaces: Number(line[5]),
     }));
   };
 
@@ -201,6 +203,24 @@ export class CsvExtract {
       reserveCompensationAmortissements: Number(line[16]),
       fondsDedies: Number(line[17]),
       commentaire: line[18],
+    }));
+  };
+
+  public extractFileUploadsFromCsv = (): Omit<
+    FileUpload,
+    "id" | "controleId"
+  >[] => {
+    const sheet = this.getSheet(FILE_UPLOAD_INDEX);
+    return sheet.map((line) => ({
+      structureDnaCode: line[0],
+      key: line[1],
+      mimeType: line[2],
+      fileSize: Number(line[3]),
+      originalName: line[4],
+      date: new Date(line[5]),
+      category: line[6],
+      startDate: line[7] ? new Date(line[7]) : null,
+      endDate: line[8] ? new Date(line[8]) : null,
     }));
   };
 }

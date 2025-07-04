@@ -4,6 +4,7 @@ import { Badge } from "@/app/components/common/Badge";
 import { ReactElement, useState } from "react";
 import { useStructureContext } from "../context/StructureClientContext";
 import { getRepartition } from "@/app/utils/structure.util";
+import { Repartition } from "@/types/adresse.type";
 
 export const AdressesViewer = (): ReactElement => {
   const [showAdresses, setShowAdresses] = useState(false);
@@ -40,18 +41,24 @@ export const AdressesViewer = (): ReactElement => {
         <div className="text-mention-grey">
           {adresses?.map((adresse) => (
             <div key={adresse.id}>
-              <span className="fr-pr-3w">
+              <span className="pr-2">
                 {adresse.adresse}, {adresse.codePostal} {adresse.commune}{" "}
                 <span className="italic">
                   ({adresse.adresseTypologies?.[0]?.nbPlacesTotal} places)
                 </span>
+                {" - "}
+                {
+                  Repartition[
+                    adresse.repartition as unknown as keyof typeof Repartition
+                  ]
+                }
               </span>
-              {adresse.adresseTypologies?.[0]?.qpv && (
-                <span className="fr-pr-1w">
+              {adresse.adresseTypologies?.[0]?.qpv !== 0 && (
+                <span className="pr-1">
                   <Badge type="warning">QPV</Badge>
                 </span>
               )}
-              {adresse.adresseTypologies?.[0]?.logementSocial && (
+              {adresse.adresseTypologies?.[0]?.logementSocial !== 0 && (
                 <Badge type="warning">Logement social</Badge>
               )}
             </div>
