@@ -3,11 +3,34 @@ import { ReactElement } from "react";
 import { BudgetExecutoire } from "./BudgetExecutoire";
 import { HistoriqueBudgets } from "./HistoriqueBudgets";
 import { DotationChart } from "./DotationChart";
-import { GestionBudgetaireTable } from "./GestionBudgetaireTable";
+import { GestionBudgetaireAvecCpomTable } from "./GestionBudgetaireAvecCpomTable";
 import { DetailAffectations } from "./DetailAffectations";
 import { DocumentsAdministratifs } from "./DocumentsAdministratifs";
+import { useStructureContext } from "../context/StructureClientContext";
+import {
+  isStructureAutorisee,
+  isStructureSubventionnee,
+} from "@/app/utils/structure.util";
+import { GestionBudgetaireAutoriseeSansCpomTable } from "./GestionBudgetaireAutoriseeSansCpomTable";
+import { GestionBudgetaireSubventionneeSansCpomTable } from "./GestionBudgetaireSubentionneeSansCpomTable";
 
 export const FinancesBlock = (): ReactElement => {
+  const { structure } = useStructureContext();
+  const isDetailAffectationsDisplayed =
+    isStructureAutorisee(structure.type) ||
+    (isStructureSubventionnee(structure.type) && structure.cpom);
+
+  const getGestionBudgetaireComponent = (): ReactElement => {
+    if (!structure.cpom) {
+      if (isStructureAutorisee(structure.type)) {
+        return <GestionBudgetaireAutoriseeSansCpomTable />;
+      }
+      if (isStructureSubventionnee(structure.type)) {
+        return <GestionBudgetaireSubventionneeSansCpomTable />;
+      }
+    }
+    return <GestionBudgetaireAvecCpomTable />;
+  };
   return (
     <Block title="Finances" iconClass="fr-icon-money-euro-box-line">
       <div className="pb-2">
@@ -26,12 +49,12 @@ export const FinancesBlock = (): ReactElement => {
         <DotationChart />
       </div>
       <h4 className="text-title-blue-france fr-h6">Gestion budgétaire</h4>
-      <div className="pb-5">
-        <GestionBudgetaireTable />
-      </div>
-      <div className="pb-5">
-        <DetailAffectations />
-      </div>
+      <div className="pb-5">{getGestionBudgetaireComponent()}</div>
+      {isDetailAffectationsDisplayed && (
+        <div className="pb-5">
+          <DetailAffectations />
+        </div>
+      )}
       <h4 className="text-title-blue-france pb-2 fr-h6 mb-0">
         Documents administratifs et financiers transmis par l’opérateur
       </h4>

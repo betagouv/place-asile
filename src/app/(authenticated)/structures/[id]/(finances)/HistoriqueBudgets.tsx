@@ -3,6 +3,7 @@ import { ReactElement } from "react";
 import styles from "@/app/components/common/Accordion.module.css";
 import Table from "@codegouvfr/react-dsfr/Table";
 import { useStructureContext } from "../context/StructureClientContext";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 export const HistoriqueBudgets = (): ReactElement => {
   const { structure } = useStructureContext();
@@ -21,7 +22,11 @@ export const HistoriqueBudgets = (): ReactElement => {
 
   return (
     <Accordion
-      label="Historique selon compte administratif"
+      label={
+        isStructureAutorisee(structure.type)
+          ? "Historique selon compte administratif"
+          : "Historique selon compte-rendu financier"
+      }
       className={styles["custom-accordion"]}
     >
       <Table
