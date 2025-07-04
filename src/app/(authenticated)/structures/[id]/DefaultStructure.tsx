@@ -7,6 +7,7 @@ import { DefaultControlesBlock } from "./(controles)/DefaultControlesBlock";
 // import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { NotesBlock } from "./(notes)/NotesBlock";
 import { FinancesBlock } from "./(finances)/FinancesBlock";
+import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
 
 export const DefaultStructure = (): ReactElement => {
   return (
@@ -29,6 +30,9 @@ export const DefaultStructure = (): ReactElement => {
       {/* <Section id="activites">
         <ActivitesBlock />
       </Section> */}
+      <Section id="actes-administratifs">
+        <ActesAdministratifsBlock />
+      </Section>
       <Section id="notes">
         <NotesBlock />
       </Section>
