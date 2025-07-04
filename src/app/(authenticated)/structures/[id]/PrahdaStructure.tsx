@@ -6,6 +6,7 @@ import { PrahdaDescriptionBlock } from "./(description)/PrahdaDescriptionBlock";
 import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock";
 import { NotesBlock } from "./(notes)/NotesBlock";
 import { Section } from "./components/Section";
+import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
 
 export const PrahdaStructure = (): ReactElement => {
   return (
@@ -25,6 +26,9 @@ export const PrahdaStructure = (): ReactElement => {
       {/* <Section id="activites">
         <ActivitesBlock />
       </Section> */}
+      <Section id="actes-administratifs">
+        <ActesAdministratifsBlock />
+      </Section>
       <Section id="notes">
         <NotesBlock />
       </Section>

@@ -8,6 +8,7 @@ const menuElements = [
   { label: "Finances", section: "#finances" },
   { label: "Contrôle qualité", section: "#controle" },
   // { label: "Activites", section: "#activites" },
+  { label: "Actes administratifs", section: "#actes-administratifs" },
   { label: "Notes", section: "#notes" },
 ];
 

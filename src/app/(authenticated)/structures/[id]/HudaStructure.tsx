@@ -6,6 +6,7 @@ import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock
 import { DefaultTypePlaceBlock } from "./(type-places)/DefaultTypePlaceBlock";
 import { NotesBlock } from "./(notes)/NotesBlock";
 import { Section } from "./components/Section";
+import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
 
 export const HudaStructure = (): ReactElement => {
   return (
@@ -23,6 +24,9 @@ export const HudaStructure = (): ReactElement => {
       {/* <Section id="activites">
         <ActivitesBlock />
       </Section> */}
+      <Section id="actes-administratifs">
+        <ActesAdministratifsBlock />
+      </Section>
       <Section id="notes">
         <NotesBlock />
       </Section>
