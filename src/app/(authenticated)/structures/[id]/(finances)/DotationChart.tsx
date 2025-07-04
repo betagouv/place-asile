@@ -2,6 +2,7 @@ import BarChart from "@/app/components/common/BarChart";
 import { ReactElement } from "react";
 import { useStructureContext } from "../context/StructureClientContext";
 import { Budget } from "@/types/budget.type";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 export const DotationChart = (): ReactElement => {
   const { structure } = useStructureContext();
@@ -48,7 +49,9 @@ export const DotationChart = (): ReactElement => {
       </div>
       <div>
         <h5 className="text-title-blue-france text-sm font-medium mb-1">
-          Fixation de la dotation (dans budget)
+          {isStructureAutorisee(structure.type)
+            ? "Fixation de la dotation (dans budget)"
+            : "Fixation de la dotation (dans demande subventions)"}
         </h5>
         <div className="flex items-center">
           <div className="h-3 w-3 bg-[#FCC63A]" />
@@ -59,7 +62,9 @@ export const DotationChart = (): ReactElement => {
           <p className="pl-2 mb-0">Dotation totale accordée par l’État</p>
         </div>
         <h5 className="text-title-blue-france text-sm font-medium mb-1">
-          Équilibre économique (dans compte administratif)
+          {isStructureAutorisee(structure.type)
+            ? "Équilibre économique (dans compte administratif)"
+            : "Équilibre économique (dans compte-rendu financier)"}
         </h5>
         <div className="flex items-center">
           <div className="h-3 w-3 bg-[#FBB8F6]" />

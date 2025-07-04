@@ -2,15 +2,26 @@ import { ReactElement } from "react";
 import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { AmountBadge } from "./AmountBadge";
 import { useStructureContext } from "../context/StructureClientContext";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 
-export const GestionBudgetaireTable = (): ReactElement => {
+export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
   const { structure } = useStructureContext();
 
-  const primaryHeadings = [
+  const primaryHeadingsStructureAutorisee = [
     { title: "BUDGET EXÉCUTOIRE DE LA STRUCTURE", colSpan: 2 },
     { title: "COMPTE ADMINISTRATIF DE LA STRUCTURE", colSpan: 1 },
     { title: "COMPTE ADMINISTRATIF DU CPOM", colSpan: 3 },
   ];
+
+  const primaryHeadingsStructureSubventionnee = [
+    { title: "DEMANDE DE SUBVENTION DE LA STRUCTURE", colSpan: 2 },
+    { title: "COMPTE-RENDU FINANCIER DE LA STRUCTURE", colSpan: 1 },
+    { title: "COMPTE ADMINISTRATIF DU CPOM", colSpan: 3 },
+  ];
+
+  const primaryHeadings = isStructureAutorisee(structure.type)
+    ? primaryHeadingsStructureAutorisee
+    : primaryHeadingsStructureSubventionnee;
 
   const secondaryHeadings = [
     "ANNÉE",
