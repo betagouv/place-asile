@@ -21,6 +21,7 @@ export default function SelectWithValidation<
   disabled,
   onChange,
   hidden = false,
+  className,
 }: SelectWithValidationProps<TFieldValues>) {
   const finalControl = control;
 
@@ -54,6 +55,7 @@ export default function SelectWithValidation<
       disabled={disabled}
       state={fieldState.invalid ? "error" : "default"}
       stateRelatedMessage={fieldState.error?.message}
+      className={className}
     >
       {children}
     </Select>
@@ -71,4 +73,5 @@ type SelectWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     disabled?: boolean;
     onChange?: (value: string) => void;
     hidden?: boolean;
+    className?: string;
   };

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
@@ -24,6 +25,7 @@ import {
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { useStructures } from "@/app/hooks/useStructures";
+import { useRouter } from "next/navigation";
 
 export default function FinalisationFinanceForm({
   currentStep,
@@ -37,6 +39,7 @@ export default function FinalisationFinanceForm({
   const isAuthorized = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
   const { updateStructure } = useStructures();
+  const router = useRouter();
 
   const { nextRoute, previousRoute } = getCurrentStepData(
     currentStep,
@@ -68,9 +71,18 @@ export default function FinalisationFinanceForm({
     budgets: budgetArray as unknown as anyFinanceFormValues["budgets"],
   };
 
-  const handleSubmit = (data: anyFinanceFormValues) => {
+  const handleSubmit = async (data: anyFinanceFormValues) => {
     console.log(data);
-    updateStructure(data);
+    try {
+      const updatedStructure = await updateStructure(data);
+      console.log(updatedStructure);
+      if (updatedStructure) {
+        console.log("Structure updated");
+        router.push(nextRoute);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
