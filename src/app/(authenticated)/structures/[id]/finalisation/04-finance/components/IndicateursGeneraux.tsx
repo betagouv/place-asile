@@ -15,8 +15,8 @@ export const IndicateursGeneraux = () => {
   const { years } = useYearRange();
 
   const hasBudgetErrors =
-    Array.isArray(errors.budget) &&
-    errors.budget.some(
+    Array.isArray(errors.budgets) &&
+    errors.budgets.some(
       (budgetItemErrors: Record<string, unknown>) =>
         budgetItemErrors?.ETP ||
         budgetItemErrors?.tauxEncadrement ||
@@ -84,8 +84,8 @@ export const IndicateursGeneraux = () => {
             <td className="align-middle py-4">{year}</td>
             <td className="!py-4">
               <InputWithValidation
-                name={`budget.${index}.ETP`}
-                id={`budget.${index}.ETP`}
+                name={`budgets.${index}.ETP`}
+                id={`budgets.${index}.ETP`}
                 control={control}
                 type="number"
                 min={0}
@@ -96,8 +96,8 @@ export const IndicateursGeneraux = () => {
             </td>
             <td className="!py-1">
               <InputWithValidation
-                name={`budget.${index}.tauxEncadrement`}
-                id={`budget.${index}.tauxEncadrement`}
+                name={`budgets.${index}.tauxEncadrement`}
+                id={`budgets.${index}.tauxEncadrement`}
                 control={control}
                 type="number"
                 min={0}
@@ -109,8 +109,8 @@ export const IndicateursGeneraux = () => {
             <td className="!py-1">
               <span className="flex items-center gap-2">
                 <InputWithValidation
-                  name={`budget.${index}.coutJournalier`}
-                  id={`budget.${index}.coutJournalier`}
+                  name={`budgets.${index}.coutJournalier`}
+                  id={`budgets.${index}.coutJournalier`}
                   control={control}
                   type="number"
                   min={0}

@@ -24,8 +24,8 @@ export const StructureSubventionneeSansCpom = () => {
   const yearsToDisplay = years.slice(-sliceYears);
 
   const hasErrors =
-    Array.isArray(errors.budget) &&
-    errors.budget.some(
+    Array.isArray(errors.budgets) &&
+    errors.budgets.some(
       (budgetItemErrors: Record<string, unknown>) =>
         budgetItemErrors?.dotationDemandee ||
         budgetItemErrors?.dotationAccordee ||
@@ -37,7 +37,7 @@ export const StructureSubventionneeSansCpom = () => {
         budgetItemErrors?.fondsDedies ||
         budgetItemErrors?.commentaire
     );
-  const budget = watch("budget");
+  const budgets = watch("budgets");
 
   // Modal & comment stuff
   const [currentCommentIndex, setCurrentCommentIndex] = useState<number>(0);
@@ -47,7 +47,7 @@ export const StructureSubventionneeSansCpom = () => {
     setCurrentCommentIndex(index);
 
     if (inputModalRef.current) {
-      inputModalRef.current.value = budget[index]?.commentaire || "";
+      inputModalRef.current.value = budgets[index]?.commentaire || "";
     }
 
     modal.open();
@@ -60,7 +60,7 @@ export const StructureSubventionneeSansCpom = () => {
   const handleSaveModal = () => {
     if (currentCommentIndex) {
       setValue(
-        `budget.${currentCommentIndex}.commentaire`,
+        `budgets.${currentCommentIndex}.commentaire`,
         inputModalRef.current?.value || ""
       );
       handleCloseModal();
@@ -136,11 +136,22 @@ export const StructureSubventionneeSansCpom = () => {
           const fieldIndex = years.length - sliceYears + index;
           return (
             <tr key={year}>
-              <td className="!border-r-1">{year}</td>
+              <td className="!border-r-1">
+                {year}{" "}
+                <input
+                  type="number"
+                  {...register(`budgets.${fieldIndex}.id`)}
+                />
+                <input
+                  type="hidden"
+                  value={`${year}-01-01T00:00:00.000Z`}
+                  {...register(`budgets.${fieldIndex}.date`)}
+                />
+              </td>
               <td>
                 <div className="flex items-center gap-2">
                   <InputWithValidation
-                    name={`budget.${fieldIndex}.dotationDemandee`}
+                    name={`budgets.${fieldIndex}.dotationDemandee`}
                     id={`gestionBudgetaire.${fieldIndex}.dotationDemandee`}
                     control={control}
                     type="number"
@@ -155,7 +166,7 @@ export const StructureSubventionneeSansCpom = () => {
               <td className="!border-r-3">
                 <div className="flex items-center gap-2">
                   <InputWithValidation
-                    name={`budget.${fieldIndex}.dotationAccordee`}
+                    name={`budgets.${fieldIndex}.dotationAccordee`}
                     id={`gestionBudgetaire.${fieldIndex}.dotationAccordee`}
                     control={control}
                     type="number"
@@ -170,7 +181,7 @@ export const StructureSubventionneeSansCpom = () => {
               <td>
                 <div className="flex items-center gap-2">
                   <InputWithValidation
-                    name={`budget.${fieldIndex}.totalProduits`}
+                    name={`budgets.${fieldIndex}.totalProduits`}
                     id={`gestionBudgetaire.${fieldIndex}.totalProduits`}
                     control={control}
                     type="number"
@@ -185,7 +196,7 @@ export const StructureSubventionneeSansCpom = () => {
               <td className="!border-r-1">
                 <div className="flex items-center gap-2">
                   <InputWithValidation
-                    name={`budget.${fieldIndex}.totalCharges`}
+                    name={`budgets.${fieldIndex}.totalCharges`}
                     id={`gestionBudgetaire.${fieldIndex}.totalCharges`}
                     control={control}
                     type="number"
@@ -200,7 +211,7 @@ export const StructureSubventionneeSansCpom = () => {
               <td>
                 <div className="flex items-center gap-2">
                   <InputWithValidation
-                    name={`budget.${fieldIndex}.repriseEtat`}
+                    name={`budgets.${fieldIndex}.repriseEtat`}
                     id={`gestionBudgetaire.${fieldIndex}.repriseEtat`}
                     control={control}
                     type="number"
@@ -217,7 +228,7 @@ export const StructureSubventionneeSansCpom = () => {
                 <div className="flex items-center gap-2">
                   <InputWithValidation
                     // TODO: fix this name with correct value in db
-                    name={`budget.${fieldIndex}.excedentRecupere`}
+                    name={`budgets.${fieldIndex}.excedentRecupere`}
                     id={`gestionBudgetaire.${fieldIndex}.excedentRecupere`}
                     control={control}
                     type="number"
@@ -233,7 +244,7 @@ export const StructureSubventionneeSansCpom = () => {
                 <div className="flex items-center gap-2">
                   <InputWithValidation
                     // TODO: fix this name with correct value in db
-                    name={`budget.${fieldIndex}.excedentDeduit`}
+                    name={`budgets.${fieldIndex}.excedentDeduit`}
                     id={`gestionBudgetaire.${fieldIndex}.excedentDeduit`}
                     control={control}
                     type="number"
@@ -248,7 +259,7 @@ export const StructureSubventionneeSansCpom = () => {
               <td className="!border-r-1">
                 <div className="flex items-center gap-2">
                   <InputWithValidation
-                    name={`budget.${fieldIndex}.fondsDedies`}
+                    name={`budgets.${fieldIndex}.fondsDedies`}
                     id={`gestionBudgetaire.${fieldIndex}.fondsDedies`}
                     control={control}
                     type="number"
@@ -275,7 +286,7 @@ export const StructureSubventionneeSansCpom = () => {
                 <input
                   type="hidden"
                   id={`detailAffectation.${fieldIndex}.commentaire`}
-                  {...register(`budget.${fieldIndex}.commentaire`)}
+                  {...register(`budgets.${fieldIndex}.commentaire`)}
                 />
               </td>
             </tr>

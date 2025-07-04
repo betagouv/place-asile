@@ -1,11 +1,14 @@
 import z from "zod";
 import { zSafeNumber } from "@/app/utils/zodSafeNumber";
-import { FileUploadCategory, PublicType } from "@prisma/client";
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
 //
 // Basic Schema
 //
 const budgetSchema = z.object({
+  // Date
+  id: zSafeNumber().optional().nullable(),
+  date: z.coerce.date(),
+
   // Gestion budgetaire
   ETP: zSafeNumber(),
   tauxEncadrement: zSafeNumber(),
@@ -36,16 +39,14 @@ const budgetSchema = z.object({
 export const DocumentsTypeStrict = z.object({
   key: z.string(),
   date: createDateFieldValidator(),
-  category: z.nativeEnum(FileUploadCategory, {
-    invalid_type_error:
-      "La catégorie du document doit être de type : " +
-      Object.values(PublicType).join(", "),
-  }),
+  // TODO fix the cateogry type
+  category: z.string(),
 });
 
 export const basicSchema = z.object({
+  dnaCode: z.string(),
   fileUploads: z.array(DocumentsTypeStrict),
-  budget: z.tuple([
+  budgets: z.tuple([
     budgetSchema,
     budgetSchema,
     budgetSchema,
@@ -53,8 +54,6 @@ export const basicSchema = z.object({
     budgetSchema,
   ]),
 });
-
-export type basicSchemaTypeFormValues = z.infer<typeof basicSchema>;
 
 //
 // Structures Autorisées
@@ -75,6 +74,12 @@ const autoriseeCurrentYear = budgetSchema.extend({
   repriseEtat: zSafeNumber().optional().nullable(),
   totalChargesProposees: zSafeNumber().optional().nullable(),
   affectationReservesFondsDedies: zSafeNumber().optional().nullable(),
+  fondsDedies: zSafeNumber().optional().nullable(),
+  reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
+  reserveCompensationBFR: zSafeNumber().optional().nullable(),
+  reserveCompensationDeficits: zSafeNumber().optional().nullable(),
+  reserveInvestissement: zSafeNumber().optional().nullable(),
+  chargesNonReconductibles: zSafeNumber().optional().nullable(),
 });
 
 const autoriseeY2 = budgetSchema.extend({
@@ -84,17 +89,31 @@ const autoriseeY2 = budgetSchema.extend({
   repriseEtat: zSafeNumber().optional().nullable(),
   totalChargesProposees: zSafeNumber().optional().nullable(),
   affectationReservesFondsDedies: zSafeNumber().optional().nullable(),
+  fondsDedies: zSafeNumber().optional().nullable(),
+  reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
+  reserveCompensationBFR: zSafeNumber().optional().nullable(),
+  reserveCompensationDeficits: zSafeNumber().optional().nullable(),
+  reserveInvestissement: zSafeNumber().optional().nullable(),
+  chargesNonReconductibles: zSafeNumber().optional().nullable(),
 });
 const autoriseeY3 = budgetSchema.extend({
   totalCharges: zSafeNumber().optional().nullable(),
   cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
   repriseEtat: zSafeNumber().optional().nullable(),
   affectationReservesFondsDedies: zSafeNumber().optional().nullable(),
+  fondsDedies: zSafeNumber().optional().nullable(),
+  reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
+  reserveCompensationBFR: zSafeNumber().optional().nullable(),
+  reserveCompensationDeficits: zSafeNumber().optional().nullable(),
+  reserveInvestissement: zSafeNumber().optional().nullable(),
+  chargesNonReconductibles: zSafeNumber().optional().nullable(),
+  totalChargesProposees: zSafeNumber().optional().nullable(),
 });
 
 export const autoriseeSchema = z.object({
-  fileUploads: z.array(DocumentsTypeStrict),
-  budget: z.tuple([
+  dnaCode: z.string(),
+  // fileUploads: z.array(DocumentsTypeStrict),
+  budgets: z.tuple([
     autoriseeCurrentYear,
     autoriseeY2,
     autoriseeY3,
@@ -104,8 +123,9 @@ export const autoriseeSchema = z.object({
 });
 
 export const autoriseeAvecCpomSchema = z.object({
-  fileUploads: z.array(DocumentsTypeStrict),
-  budget: z.tuple([
+  dnaCode: z.string(),
+  // fileUploads: z.array(DocumentsTypeStrict),
+  budgets: z.tuple([
     autoriseeCurrentYear,
     autoriseeY2,
     autoriseeY3,
@@ -125,8 +145,9 @@ const subventionneeFirstYears = z.object({
 });
 
 export const subventionneeAvecCpomSchema = z.object({
-  fileUploads: z.array(DocumentsTypeStrict),
-  budget: z.tuple([
+  dnaCode: z.string(),
+  // fileUploads: z.array(DocumentsTypeStrict),
+  budgets: z.tuple([
     subventionneeFirstYears,
     subventionneeFirstYears,
     avecCpom,
@@ -137,11 +158,19 @@ export const subventionneeAvecCpomSchema = z.object({
 
 const subventionneeSansCpom = budgetSchema.extend({
   cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
+  affectationReservesFondsDedies: zSafeNumber().optional().nullable(),
+  chargesNonReconductibles: zSafeNumber().optional().nullable(),
+  reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
+  reserveCompensationBFR: zSafeNumber().optional().nullable(),
+  reserveCompensationDeficits: zSafeNumber().optional().nullable(),
+  reserveInvestissement: zSafeNumber().optional().nullable(),
+  totalChargesProposees: zSafeNumber().optional().nullable(),
 });
 
 export const subventionneeSchema = z.object({
-  fileUploads: z.array(DocumentsTypeStrict),
-  budget: z.tuple([
+  dnaCode: z.string(),
+  // fileUploads: z.array(Document  sTypeStrict),
+  budgets: z.tuple([
     subventionneeFirstYears,
     subventionneeFirstYears,
     subventionneeSansCpom,
@@ -149,3 +178,23 @@ export const subventionneeSchema = z.object({
     subventionneeSansCpom,
   ]),
 });
+
+// Types
+export type basicSchemaTypeFormValues = z.infer<typeof basicSchema>;
+export type autoriseeSchemaTypeFormValues = z.infer<typeof autoriseeSchema>;
+export type autoriseeAvecCpomSchemaTypeFormValues = z.infer<
+  typeof autoriseeAvecCpomSchema
+>;
+export type subventionneeSchemaTypeFormValues = z.infer<
+  typeof subventionneeSchema
+>;
+export type subventionneeAvecCpomSchemaTypeFormValues = z.infer<
+  typeof subventionneeAvecCpomSchema
+>;
+
+export type anyFinanceFormValues =
+  | basicSchemaTypeFormValues
+  | autoriseeSchemaTypeFormValues
+  | autoriseeAvecCpomSchemaTypeFormValues
+  | subventionneeSchemaTypeFormValues
+  | subventionneeAvecCpomSchemaTypeFormValues;

@@ -8,12 +8,12 @@ export const StructureAutoriseeSansCpom = () => {
   const parentFormContext = useFormContext();
 
   const localForm = useForm();
-  const { control, formState } = parentFormContext || localForm;
+  const { control, formState, register } = parentFormContext || localForm;
   const errors = formState.errors;
   const { years } = useYearRange();
   const hasErrors =
-    Array.isArray(errors.budget) &&
-    errors.budget.some(
+    Array.isArray(errors.budgets) &&
+    errors.budgets.some(
       (budgetItemErrors: Record<string, unknown>) =>
         budgetItemErrors?.dotationDemandee ||
         budgetItemErrors?.dotationAccordee ||
@@ -89,11 +89,19 @@ export const StructureAutoriseeSansCpom = () => {
     >
       {years.map((year, index) => (
         <tr key={year}>
-          <td className="!border-r-1">{year}</td>
+          <td className="!border-r-1">
+            {year}
+            <input type="number" {...register(`budgets.${index}.id`)} />
+            <input
+              type="hidden"
+              value={`${year}-01-01T00:00:00.000Z`}
+              {...register(`budgets.${index}.date`)}
+            />
+          </td>
           <td>
             <div className="flex items-center gap-2">
               <InputWithValidation
-                name={`budget.${index}.dotationDemandee`}
+                name={`budgets.${index}.dotationDemandee`}
                 id={`gestionBudgetaire.${index}.dotationDemandee`}
                 control={control}
                 type="number"
@@ -108,7 +116,7 @@ export const StructureAutoriseeSansCpom = () => {
           <td className="!border-r-3">
             <div className="flex items-center gap-2">
               <InputWithValidation
-                name={`budget.${index}.dotationAccordee`}
+                name={`budgets.${index}.dotationAccordee`}
                 id={`gestionBudgetaire.${index}.dotationAccordee`}
                 control={control}
                 type="number"
@@ -124,7 +132,7 @@ export const StructureAutoriseeSansCpom = () => {
           <td>
             <div className="flex items-center gap-2">
               <InputWithValidation
-                name={`budget.${index}.totalProduits`}
+                name={`budgets.${index}.totalProduits`}
                 id={`gestionBudgetaire.${index}.totalProduits`}
                 control={control}
                 type="number"
@@ -140,7 +148,7 @@ export const StructureAutoriseeSansCpom = () => {
           <td>
             <div className="flex items-center gap-2">
               <InputWithValidation
-                name={`budget.${index}.totalChargesProposees`}
+                name={`budgets.${index}.totalChargesProposees`}
                 id={`gestionBudgetaire.${index}.totalChargesProposees`}
                 control={control}
                 type="number"
@@ -156,7 +164,7 @@ export const StructureAutoriseeSansCpom = () => {
           <td>
             <div className="flex items-center gap-2">
               <InputWithValidation
-                name={`budget.${index}.totalCharges`}
+                name={`budgets.${index}.totalCharges`}
                 id={`gestionBudgetaire.${index}.totalCharges`}
                 control={control}
                 type="number"
@@ -172,7 +180,7 @@ export const StructureAutoriseeSansCpom = () => {
           <td>
             <div className="flex items-center gap-2">
               <InputWithValidation
-                name={`budget.${index}.repriseEtat`}
+                name={`budgets.${index}.repriseEtat`}
                 id={`gestionBudgetaire.${index}.repriseEtat`}
                 control={control}
                 type="number"
@@ -188,7 +196,7 @@ export const StructureAutoriseeSansCpom = () => {
           <td>
             <div className="flex items-center gap-2">
               <InputWithValidation
-                name={`budget.${index}.affectationReservesFondsDedies`}
+                name={`budgets.${index}.affectationReservesFondsDedies`}
                 id={`gestionBudgetaire.${index}.affectationReservesFondsDedies`}
                 control={control}
                 type="number"

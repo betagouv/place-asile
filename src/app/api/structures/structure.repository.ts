@@ -359,7 +359,6 @@ export const updateOne = async (
       controles,
       ...structureProperties
     } = structure;
-
     updatedStructure = await prisma.structure.update({
       where: {
         dnaCode: structure.dnaCode,

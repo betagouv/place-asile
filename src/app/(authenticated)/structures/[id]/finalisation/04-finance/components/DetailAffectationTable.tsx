@@ -28,8 +28,8 @@ export const DetailAffectationTable = ({
     parentFormContext || localForm;
   const errors = formState.errors;
   const hasErrors =
-    Array.isArray(errors.budget) &&
-    errors.budget.some(
+    Array.isArray(errors.budgets) &&
+    errors.budgets.some(
       (budgetItemErrors: Record<string, unknown>) =>
         budgetItemErrors?.reserveInvestissement ||
         budgetItemErrors?.chargesNonReconductibles ||
@@ -40,7 +40,7 @@ export const DetailAffectationTable = ({
         budgetItemErrors?.commentaire
     );
 
-  const budget = watch("budget");
+  const budgets = watch("budgets");
 
   // Modal & comment stuff
   const [currentCommentIndex, setCurrentCommentIndex] = useState<number>(0);
@@ -50,7 +50,7 @@ export const DetailAffectationTable = ({
     setCurrentCommentIndex(index);
 
     if (inputModalRef.current) {
-      inputModalRef.current.value = budget[index]?.commentaire || "";
+      inputModalRef.current.value = budgets[index]?.commentaire || "";
     }
 
     modal.open();
@@ -63,7 +63,7 @@ export const DetailAffectationTable = ({
   const handleSaveModal = () => {
     if (currentCommentIndex) {
       setValue(
-        `budget.${currentCommentIndex}.commentaire`,
+        `budgets.${currentCommentIndex}.commentaire`,
         inputModalRef.current?.value || ""
       );
       handleCloseModal();
@@ -120,7 +120,7 @@ export const DetailAffectationTable = ({
           const fieldIndex = years.length - sliceYears + index;
 
           const currentReservesFondsDedies =
-            budget?.[fieldIndex]?.affectationReservesFondsDedies;
+            budgets?.[fieldIndex]?.affectationReservesFondsDedies;
 
           const isEditable = currentReservesFondsDedies ?? false;
 
@@ -131,11 +131,18 @@ export const DetailAffectationTable = ({
 
           return (
             <tr key={year}>
-              <td>{year}</td>
+              <td>
+                {year}
+                <input
+                  type="hidden"
+                  {...register(`budgets.${fieldIndex}.date`)}
+                  value={`${year}-01-01T00:00:00.000Z`}
+                />
+              </td>
               <td className="whitespace-nowrap">{totalValue} €</td>
               <td className="flex items-center gap-2 w-34">
                 <InputWithValidation
-                  name={`budget.${fieldIndex}.reserveInvestissement`}
+                  name={`budgets.${fieldIndex}.reserveInvestissement`}
                   id={`detailAffectation.${fieldIndex}.reserveInvestissement`}
                   control={control}
                   type="number"
@@ -149,7 +156,7 @@ export const DetailAffectationTable = ({
               </td>
               <td>
                 <InputWithValidation
-                  name={`budget.${fieldIndex}.chargesNonReconductibles`}
+                  name={`budgets.${fieldIndex}.chargesNonReconductibles`}
                   id={`detailAffectation.${fieldIndex}.chargesNonReconductibles`}
                   control={control}
                   type="number"
@@ -162,7 +169,7 @@ export const DetailAffectationTable = ({
               </td>
               <td>
                 <InputWithValidation
-                  name={`budget.${fieldIndex}.reserveCompensationDeficits`}
+                  name={`budgets.${fieldIndex}.reserveCompensationDeficits`}
                   id={`detailAffectation.${fieldIndex}.reserveCompensationDeficits`}
                   control={control}
                   type="number"
@@ -175,7 +182,7 @@ export const DetailAffectationTable = ({
               </td>
               <td>
                 <InputWithValidation
-                  name={`budget.${fieldIndex}.reserveCompensationBFR`}
+                  name={`budgets.${fieldIndex}.reserveCompensationBFR`}
                   id={`detailAffectation.${fieldIndex}.reserveCompensationBFR`}
                   control={control}
                   type="number"
@@ -188,7 +195,7 @@ export const DetailAffectationTable = ({
               </td>
               <td>
                 <InputWithValidation
-                  name={`budget.${fieldIndex}.reserveCompensationAmortissements`}
+                  name={`budgets.${fieldIndex}.reserveCompensationAmortissements`}
                   id={`detailAffectation.${fieldIndex}.reserveCompensationAmortissements`}
                   control={control}
                   type="number"
@@ -202,7 +209,7 @@ export const DetailAffectationTable = ({
               {structure?.cpom && (
                 <td>
                   <InputWithValidation
-                    name={`budget.${fieldIndex}.fondsDedies`}
+                    name={`budgets.${fieldIndex}.fondsDedies`}
                     id={`detailAffectation.${fieldIndex}.fondsDedies`}
                     control={control}
                     type="number"
@@ -230,7 +237,7 @@ export const DetailAffectationTable = ({
                 <input
                   type="hidden"
                   id={`detailAffectation.${fieldIndex}.commentaire`}
-                  {...register(`budget.${fieldIndex}.commentaire`)}
+                  {...register(`budgets.${fieldIndex}.commentaire`)}
                 />
               </td>
             </tr>
