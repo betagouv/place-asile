@@ -2,7 +2,6 @@ import { ReactElement } from "react";
 import { useStructureContext } from "../context/StructureClientContext";
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
 import { DownloadItem } from "@/app/components/common/DownloadItem";
-import { useStructureContext } from "../context/StructureClientContext";
 
 export const DocumentsAdministratifs = (): ReactElement => {
   const { structure } = useStructureContext();
