@@ -8,8 +8,11 @@ import { DefaultControlesBlock } from "./(controles)/DefaultControlesBlock";
 import { NotesBlock } from "./(notes)/NotesBlock";
 import { FinancesBlock } from "./(finances)/FinancesBlock";
 import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
+import { useStructureContext } from "./context/StructureClientContext";
 
 export const DefaultStructure = (): ReactElement => {
+  const { structure } = useStructureContext();
+
   return (
     <>
       <Section id="description">
@@ -21,12 +24,16 @@ export const DefaultStructure = (): ReactElement => {
       <Section id="places">
         <DefaultTypePlaceBlock />
       </Section>
-      <Section id="finances">
-        <FinancesBlock />
-      </Section>
-      <Section id="controle">
-        <DefaultControlesBlock />
-      </Section>
+      {structure.budgets && structure.budgets?.length > 0 && (
+        <Section id="finances">
+          <FinancesBlock />
+        </Section>
+      )}
+      {structure?.controles && structure.controles?.length > 0 && (
+        <Section id="controle">
+          <DefaultControlesBlock />
+        </Section>
+      )}
       {/* <Section id="activites">
         <ActivitesBlock />
       </Section> */}

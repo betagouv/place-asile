@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
 import { PrahdaTypePlaceBlock } from "./(type-places)/PrahdaTypePlaceBlock";
 import { PrahdaDescriptionBlock } from "./(description)/PrahdaDescriptionBlock";
-import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock";
+// import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock";
 import { NotesBlock } from "./(notes)/NotesBlock";
 import { Section } from "./components/Section";
 import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
@@ -20,9 +20,10 @@ export const PrahdaStructure = (): ReactElement => {
       <Section id="places">
         <PrahdaTypePlaceBlock />
       </Section>
-      <Section id="controle">
+      {/* TODO : réajouter cette section quand il y aura des EIG et/ou évaluation */}
+      {/* <Section id="controle">
         <HudaPrahdaControlesBlock />
-      </Section>
+      </Section> */}
       {/* <Section id="activites">
         <ActivitesBlock />
       </Section> */}

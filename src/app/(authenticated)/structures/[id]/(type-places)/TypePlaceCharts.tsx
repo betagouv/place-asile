@@ -16,7 +16,7 @@ export const TypePlaceCharts = ({
         x={[]}
         y={[placesPmr, placesAutorisees - placesPmr]}
         fill={true}
-        color={["yellow-tournesol", "beige-gris-galet"]}
+        color={["blue-cumulus", "green-bourgeon"]}
       >
         <div className="fr-pt-1w text-center">
           <strong>{placesPmr}</strong> places PMR{" "}
@@ -33,7 +33,7 @@ export const TypePlaceCharts = ({
           placesAutorisees - placesLgbt - placesFvvTeh,
         ]}
         fill={true}
-        color={["yellow-tournesol", "yellow-moutarde", "beige-gris-galet"]}
+        color={["blue-cumulus", "green-bourgeon", "pink-tuile"]}
       >
         <div className="fr-pt-1w text-center">
           <strong>{placesLgbt}</strong> places LGBT{" "}
@@ -50,7 +50,7 @@ export const TypePlaceCharts = ({
         x={[]}
         y={[placesQPV, placesAutorisees - placesQPV]}
         fill={true}
-        color={["yellow-tournesol", "beige-gris-galet"]}
+        color={["blue-cumulus", "green-bourgeon"]}
       >
         <div className="fr-pt-1w text-center">
           <strong>{placesQPV}</strong> places QPV{" "}
@@ -63,7 +63,7 @@ export const TypePlaceCharts = ({
         x={[]}
         y={[placesLogementsSociaux, placesAutorisees - placesLogementsSociaux]}
         fill={true}
-        color={["yellow-tournesol", "beige-gris-galet"]}
+        color={["blue-cumulus", "green-bourgeon"]}
       >
         <div className="fr-pt-1w text-center">
           <strong>{placesLogementsSociaux}</strong> places logements sociaux{" "}

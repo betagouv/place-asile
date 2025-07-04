@@ -15,22 +15,31 @@ export const CalendrierBlock = (): ReactElement => {
     finCpom,
   } = structure;
 
+  // TODO : remove this when 01/01/1970 removed from DB
+  const isFakeDate = (date: Date) => {
+    return new Date(date).getFullYear() === 1970;
+  };
+
   const datePairs = [];
-  if (debutPeriodeAutorisation && finPeriodeAutorisation) {
+  if (
+    debutPeriodeAutorisation &&
+    finPeriodeAutorisation &&
+    !isFakeDate(debutPeriodeAutorisation)
+  ) {
     datePairs.push({
       label: "Période d’autorisation",
       startDate: debutPeriodeAutorisation,
       endDate: finPeriodeAutorisation,
     });
   }
-  if (debutConvention && finConvention) {
+  if (debutConvention && finConvention && !isFakeDate(debutConvention)) {
     datePairs.push({
       label: "Convention en cours",
       startDate: debutConvention,
       endDate: finConvention,
     });
   }
-  if (debutCpom && finCpom) {
+  if (debutCpom && finCpom && !isFakeDate(debutCpom)) {
     datePairs.push({
       label: "CPOM",
       startDate: debutCpom,

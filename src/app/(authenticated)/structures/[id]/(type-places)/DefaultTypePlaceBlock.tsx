@@ -55,9 +55,9 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
       <div className="fr-pt-3w flex">
         <TypePlaceCharts
           placesAutorisees={placesAutorisees}
-          placesPmr={structure?.typologies?.[0]?.pmr || 0}
-          placesLgbt={structure?.typologies?.[0]?.lgbt || 0}
-          placesFvvTeh={structure?.typologies?.[0]?.fvvTeh || 0}
+          placesPmr={structure?.structureTypologies?.[0]?.pmr || 0}
+          placesLgbt={structure?.structureTypologies?.[0]?.lgbt || 0}
+          placesFvvTeh={structure?.structureTypologies?.[0]?.fvvTeh || 0}
           placesQPV={getCurrentPlacesQpv(structure)}
           placesLogementsSociaux={getCurrentPlacesLogementsSociaux(structure)}
         />
@@ -65,7 +65,7 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
       <div className="fr-pt-3w">
         <TypePlaceHistory
           adresses={structure.adresses || []}
-          structureTypologies={structure.typologies || []}
+          structureTypologies={structure.structureTypologies || []}
         />
       </div>
     </Block>

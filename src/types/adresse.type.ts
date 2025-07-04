@@ -7,7 +7,7 @@ export type Adresse = {
   codePostal: string;
   commune: string;
   repartition: Repartition;
-  typologies?: AdresseTypologie[];
+  adresseTypologies?: AdresseTypologie[];
 };
 
 export enum Repartition {
