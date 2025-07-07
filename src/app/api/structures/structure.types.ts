@@ -51,6 +51,7 @@ type CreateContact = {
 
 type CreateStructureTypologie = {
   date: Date;
+  //TODO : add nbPlaces
   pmr: number;
   lgbt: number;
   fvvTeh: number;
@@ -92,8 +93,12 @@ type CreateControle = {
 
 export type UpdateContact = CreateContact & { id?: number };
 export type UpdateBudget = CreateBudget & { id?: number };
-export type UpdateStructureTypologie = CreateStructureTypologie & {
+export type UpdateStructureTypologie = {
   id?: number;
+  nbPlaces: number;
+  pmr: number;
+  lgbt: number;
+  fvvTeh: number;
 };
 export type UpdateControle = CreateControle & {
   id?: number;

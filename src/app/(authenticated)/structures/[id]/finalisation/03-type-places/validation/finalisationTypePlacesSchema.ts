@@ -5,6 +5,7 @@ export type TypePlacesFormValues = z.infer<typeof finalisationTypePlacesSchema>;
 export const finalisationTypePlacesSchema = z.object({
   typologies: z.array(
     z.object({
+      id: z.number(),
       nbPlaces: z.union([
         z
           .string()
