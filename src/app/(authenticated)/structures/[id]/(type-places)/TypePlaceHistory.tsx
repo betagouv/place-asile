@@ -4,36 +4,54 @@ import { Table } from "@codegouvfr/react-dsfr/Table";
 import { Adresse } from "@/types/adresse.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
 import styles from "../../../../components/common/Accordion.module.css";
+import { AdresseTypologie } from "@/types/adresse-typologie.type";
 
 export const TypePlaceHistory = ({
   adresses,
   structureTypologies,
 }: Props): ReactElement => {
-  const getCurrentStructureTypologie = (
-    adresseTypologieDate: Date | undefined
-  ) => {
+  const getCurrentStructureTypologie = (year: number | undefined) => {
+    if (year === undefined) {
+      return undefined;
+    }
     return structureTypologies.find((structureTypologie) => {
-      if (!adresseTypologieDate) {
-        return "N/A";
-      }
-      const adresseTypologieYear = new Date(adresseTypologieDate).getFullYear();
       const structureTypologieYear = new Date(
         structureTypologie?.date
       ).getFullYear();
-      return adresseTypologieYear === structureTypologieYear;
+      return structureTypologieYear === year;
     });
   };
 
+  const getYearsFromTypologie = (
+    typologies: (AdresseTypologie | undefined)[] | StructureTypologie[]
+  ) => {
+    return typologies.map((typologie) =>
+      typologie?.date ? new Date(typologie.date).getFullYear() : undefined
+    );
+  };
+
   const getTableData = () => {
-    const adresseTypologies = adresses?.flatMap(
-      (adresse) => adresse.adresseTypologies
+    const adresseTypologies =
+      adresses?.flatMap((adresse) => adresse.adresseTypologies) ?? [];
+
+    const allYears = Array.from(
+      new Set([
+        ...getYearsFromTypologie(adresseTypologies),
+        ...getYearsFromTypologie(structureTypologies),
+      ])
+    ).sort((firstElement, secondElement) =>
+      firstElement === undefined
+        ? 1
+        : secondElement === undefined
+        ? -1
+        : secondElement - firstElement
     );
 
     const groupedByYear = adresseTypologies.reduce(
       (aggregatedTypePlaces: AggregatedTypePlaces, adresseTypologie) => {
         const year = adresseTypologie?.date
           ? new Date(adresseTypologie.date).getFullYear()
-          : "N/A";
+          : undefined;
 
         if (!aggregatedTypePlaces[year as number]) {
           aggregatedTypePlaces[year as number] = {
@@ -53,23 +71,26 @@ export const TypePlaceHistory = ({
       {}
     );
 
-    return Object.entries(groupedByYear)
-      .map(([year, data]) => {
-        const currentStructureTypologie = getCurrentStructureTypologie(
-          new Date(year !== "N/A" ? year : "")
-        );
+    return allYears.map((year) => {
+      const data = groupedByYear[year as number] || {
+        nbPlacesTotal: 0,
+        qpv: 0,
+        logementSocial: 0,
+      };
+      const currentStructureTypologie = getCurrentStructureTypologie(
+        year !== undefined ? year : undefined
+      );
 
-        return [
-          year,
-          data.nbPlacesTotal,
-          currentStructureTypologie?.pmr ?? "N/A",
-          currentStructureTypologie?.lgbt ?? "N/A",
-          currentStructureTypologie?.fvvTeh ?? "N/A",
-          data.qpv,
-          data.logementSocial,
-        ];
-      })
-      .reverse();
+      return [
+        year,
+        currentStructureTypologie?.nbPlaces ?? "N/A",
+        currentStructureTypologie?.pmr ?? "N/A",
+        currentStructureTypologie?.lgbt ?? "N/A",
+        currentStructureTypologie?.fvvTeh ?? "N/A",
+        data.qpv ?? "N/A",
+        data.logementSocial ?? "N/A",
+      ];
+    });
   };
 
   return (
@@ -81,7 +102,7 @@ export const TypePlaceHistory = ({
         data={getTableData()}
         headers={[
           "ANNÉE",
-          "TOTAL",
+          "AUTORISÉES",
           "PMR",
           "LGBT",
           "FVV-TEH",

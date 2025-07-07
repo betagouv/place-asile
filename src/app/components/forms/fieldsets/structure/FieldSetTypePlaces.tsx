@@ -50,6 +50,13 @@ export const FieldSetTypePlaces = () => {
             className="w-full [&_input]:max-w-[4rem] border-t border-default-grey "
           >
             <td className="align-middle py-4">{year}</td>
+            <InputWithValidation
+              name={`typologies.${index}.id`}
+              id={`typologies.${index}.id`}
+              control={control}
+              type="hidden"
+              label="id"
+            />
             <td className="!py-4">
               <InputWithValidation
                 name={`typologies.${index}.nbPlaces`}

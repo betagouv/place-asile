@@ -78,15 +78,17 @@ export function StructureHeader(): ReactElement | null {
           </div>
           <div className="grow" />
           {/* TODO : faire un vrai lien (a11y) */}
-          <Button
-            iconId="fr-icon-edit-line"
-            priority="secondary"
-            size="small"
-            className="h-full"
-            onClick={onEditClick}
-          >
-            Modifier
-          </Button>
+          {isRootPath && (
+            <Button
+              iconId="fr-icon-edit-line"
+              priority="secondary"
+              size="small"
+              className="h-full"
+              onClick={onEditClick}
+            >
+              Modifier
+            </Button>
+          )}
         </div>
         {isRootPath ? <NavigationMenu /> : null}
       </div>

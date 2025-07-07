@@ -10,6 +10,10 @@ import { FieldSetTypePlaces } from "@/app/components/forms/fieldsets/structure/F
 import { formatDate } from "@/app/utils/date.util";
 import { FieldSetOuvertureFermeture } from "@/app/components/forms/fieldsets/structure/FieldSetOuvertureFermeture";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
+import { SubmitError } from "@/app/components/SubmitError";
+import { useStructures } from "@/app/hooks/useStructures";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function FinalisationTypePlacesForm({
   currentStep,
@@ -24,6 +28,8 @@ export default function FinalisationTypePlacesForm({
 
   const defaultValues = {
     typologies: structure?.structureTypologies?.map((typologie) => ({
+      id: typologie.id,
+      date: typologie.date,
       nbPlaces: typologie.nbPlaces,
       pmr: typologie.pmr,
       lgbt: typologie.lgbt,
@@ -39,10 +45,32 @@ export default function FinalisationTypePlacesForm({
       : undefined,
   };
 
+  const { updateStructure } = useStructures();
+  const router = useRouter();
+
+  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const [backendError, setBackendError] = useState<string | undefined>("");
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = async (data: any) => {
+    setState("loading");
+    const updatedStructure = await updateStructure({
+      ...data,
+      dnaCode: structure.dnaCode,
+    });
+    if (updatedStructure === "OK") {
+      router.push(nextRoute);
+    } else {
+      setState("error");
+      setBackendError(updatedStructure?.toString());
+      throw new Error(updatedStructure?.toString());
+    }
+  };
+
   return (
     <FormWrapper
       schema={finalisationTypePlacesSchema}
-      nextRoute={nextRoute}
+      onSubmit={handleSubmit}
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
@@ -64,6 +92,12 @@ export default function FinalisationTypePlacesForm({
 
         <FieldSetOuvertureFermeture />
       </div>
+      {state === "error" && (
+        <SubmitError
+          structureDnaCode={structure.dnaCode}
+          backendError={backendError}
+        />
+      )}
     </FormWrapper>
   );
 }

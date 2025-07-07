@@ -36,6 +36,7 @@ const contactSchema = z.object({
 
 const structureTypologieSchema = z.object({
   date: z.coerce.date({ message: "La date de la typologie est requise" }),
+  // TODO : ajouter nbPlaces
   pmr: z.number().int(),
   lgbt: z.number().int(),
   fvvTeh: z.number().int(),
@@ -125,6 +126,14 @@ const controleSchema = z.object({
   fileUploads: z.array(fileUploadSchema),
 });
 
+const updateStructureTypologieSchema = z.object({
+  id: z.number().optional(),
+  nbPlaces: z.number().int(),
+  pmr: z.number().int(),
+  lgbt: z.number().int(),
+  fvvTeh: z.number().int(),
+});
+
 export const structureUpdateSchema = z.object({
   dnaCode: z.string().min(1, "Le code DNA est requis"),
   operateur: z.string().min(1, "L'opérateur est requis").optional(),
@@ -189,9 +198,7 @@ export const structureUpdateSchema = z.object({
   contacts: z
     .array(contactSchema.extend({ id: z.number().optional() }))
     .optional(),
-  typologies: z
-    .array(structureTypologieSchema.extend({ id: z.number().optional() }))
-    .optional(),
+  typologies: z.array(updateStructureTypologieSchema).optional(),
   fileUploads: z
     .array(
       fileUploadSchema.extend({
