@@ -88,6 +88,11 @@ export default function InputWithValidation<
     return field.value !== undefined && field.value !== null ? field.value : "";
   };
 
+  // TODO : refacto pour gérer ce cas plus proprement
+  if (type === "hidden") {
+    return <></>;
+  }
+
   return variant === "simple" ? (
     <InputSimple
       nativeInputProps={{

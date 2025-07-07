@@ -37,7 +37,10 @@ export const finalisationIdentificationSchema = z
   })
   .refine(
     (data) => {
-      return !data.cpom || data.debutCpom;
+      if (data.cpom && !data.debutCpom) {
+        return false;
+      }
+      return true;
     },
     {
       message: "La date de début CPOM est obligatoire",
@@ -46,6 +49,7 @@ export const finalisationIdentificationSchema = z
   )
   .refine(
     (data) => {
+      // TODO : uniformiser avec debutCpom
       return !data.cpom || data.finCpom;
     },
     {
@@ -59,7 +63,7 @@ export const finalisationIdentificationSchema = z
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message:
-            "La date de début est obligatoire pour les structures autorisées",
+            "La date de début de période d'autorisation est obligatoire pour les structures autorisées",
           path: ["debutPeriodeAutorisation"],
         });
       }
@@ -68,7 +72,7 @@ export const finalisationIdentificationSchema = z
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message:
-            "La date de fin est obligatoire pour les structures autorisées",
+            "La date de fin de période d'autorisation est obligatoire pour les structures autorisées",
           path: ["finPeriodeAutorisation"],
         });
       }
@@ -86,7 +90,7 @@ export const finalisationIdentificationSchema = z
     },
     {
       message:
-        "La date de début est obligatoire pour les structures subventionnées",
+        "La date de début de convention est obligatoire pour les structures subventionnées",
       path: ["debutConvention"],
     }
   )
@@ -102,7 +106,7 @@ export const finalisationIdentificationSchema = z
     },
     {
       message:
-        "La date de fin est obligatoire pour les structures subventionnées",
+        "La date de fin de convention est obligatoire pour les structures subventionnées",
       path: ["finConvention"],
     }
   )

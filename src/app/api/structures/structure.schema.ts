@@ -3,6 +3,7 @@ import { ControleType } from "@/types/controle.type";
 import { FileUploadCategory } from "@/types/file-upload.type";
 import { PublicType, StructureType } from "@/types/structure.type";
 import { z } from "zod";
+import { frDateField } from "./structure.util";
 
 const adresseTypologieSchema = z.object({
   nbPlacesTotal: z
@@ -152,8 +153,8 @@ export const structureUpdateSchema = z.object({
     .min(1, "Le département de l'adresse administrative est requis")
     .optional(),
   nom: z.string().optional(),
-  debutConvention: z.coerce.date().optional(),
-  finConvention: z.coerce.date().optional(),
+  debutConvention: frDateField(),
+  finConvention: frDateField(),
   cpom: z
     .boolean({
       required_error: "Le CPOM est requis",
@@ -174,14 +175,14 @@ export const structureUpdateSchema = z.object({
     })
     .optional(),
   public: z.nativeEnum(PublicType).optional(),
-  debutPeriodeAutorisation: z.coerce.date().optional(),
-  finPeriodeAutorisation: z.coerce.date().optional(),
-  debutCpom: z.coerce.date().optional(),
-  finCpom: z.coerce.date().optional(),
+  debutPeriodeAutorisation: frDateField(),
+  finPeriodeAutorisation: frDateField(),
+  debutCpom: frDateField(),
+  finCpom: frDateField(),
   placesACreer: z.number().int().optional(),
   placesAFermer: z.number().int().optional(),
-  echeancePlacesACreer: z.coerce.date().optional(),
-  echeancePlacesAFermer: z.coerce.date().optional(),
+  echeancePlacesACreer: frDateField(),
+  echeancePlacesAFermer: frDateField(),
   adresses: z
     .array(adresseSchema.extend({ id: z.number().optional() }))
     .optional(),
@@ -194,8 +195,8 @@ export const structureUpdateSchema = z.object({
   fileUploads: z
     .array(
       fileUploadSchema.extend({
-        startDate: z.coerce.date().optional(),
-        endDate: z.coerce.date().optional(),
+        startDate: frDateField(),
+        endDate: frDateField(),
       })
     )
     .optional(),

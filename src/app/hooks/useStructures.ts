@@ -162,7 +162,7 @@ export const useStructures = (): UseStructureResult => {
       }
     } catch (error) {
       console.error(error);
-      return String(error);
+      throw new Error(error?.toString());
     }
   };
 

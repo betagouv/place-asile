@@ -1,6 +1,7 @@
 import z from "zod";
 
 const baseContactSchema = z.object({
+  id: z.number().optional(),
   prenom: z.string(),
   nom: z.string(),
   role: z.string(),
@@ -11,6 +12,7 @@ const baseContactSchema = z.object({
 });
 
 export const requiredContactSchema = z.object({
+  id: z.number().optional(),
   prenom: z.string().nonempty("Le prénom est requis"),
   nom: z.string().nonempty("Le nom est requis"),
   role: z.string().nonempty("Le rôle est requis"),

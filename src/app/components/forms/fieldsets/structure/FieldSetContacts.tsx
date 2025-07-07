@@ -5,6 +5,7 @@ import Notice from "@codegouvfr/react-dsfr/Notice";
 
 export const FieldSetContacts = () => {
   const { control } = useFormContext();
+
   return (
     <>
       <h2 className="text-xl font-bold mb-0 text-title-blue-france">
@@ -43,6 +44,13 @@ export const FieldSetContacts = () => {
             control={control}
             type="text"
             label="Fonction"
+          />
+          <InputWithValidation
+            name="contacts.0.id"
+            id="contacts.0.id"
+            control={control}
+            type="hidden"
+            label="id"
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -88,6 +96,13 @@ export const FieldSetContacts = () => {
             control={control}
             type="text"
             label="Fonction"
+          />
+          <InputWithValidation
+            name="contacts.1.id"
+            id="contacts.1.id"
+            control={control}
+            type="hidden"
+            label="id"
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
