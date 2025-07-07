@@ -1,20 +1,21 @@
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import React, { useEffect } from "react";
+import React from "react";
 import InputWithValidation from "../../InputWithValidation";
 import { useFormContext } from "react-hook-form";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 
 export const FieldSetCalendrier = () => {
-  const { control, watch, setValue } = useFormContext();
+  const { control, watch } = useFormContext();
   const type = watch("type");
   const cpom = watch("cpom");
 
-  useEffect(() => {
-    if (cpom) {
-      setValue("debutCpom", undefined);
-      setValue("finCpom", undefined);
-    }
-  }, [cpom, setValue]);
+  // useEffect(() => {
+  //   if (!cpom) {
+  //     setValue("debutCpom", undefined);
+  //     setValue("finCpom", undefined);
+  //   }
+  // }, [cpom, setValue]);
+
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-xl font-bold mb-4 text-title-blue-france">

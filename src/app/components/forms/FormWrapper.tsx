@@ -155,7 +155,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
           {previousStep && (
             <Link
               href={previousStep}
-              className="flex gap-2 fr-link fr-icon  w-fit text-disabled-grey"
+              className="flex gap-2 fr-link fr-icon  w-fit text-title-blue-france"
             >
               <i className="fr-icon-arrow-left-s-line before:w-4"></i>
               Étape précédente
