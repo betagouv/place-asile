@@ -1,12 +1,14 @@
 "use client";
 
-import FormWrapper from "@/app/components/forms/FormWrapper";
+import FormWrapper, {
+  FooterButtonType,
+} from "@/app/components/forms/FormWrapper";
 import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { finalisationIdentificationSchema } from "./validation/FinalisationIdentificationSchema";
 import { PublicType } from "@/types/structure.type";
 import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
-import dayjs from "dayjs";
+import { useFormatDateString } from "@/app/hooks/useFormatDateString";
 import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
@@ -24,14 +26,7 @@ export default function FinalisationIdentificationForm({
     structure.id
   );
 
-  const formatDateString = (
-    dateValue: Date | string | null | undefined,
-    defaultValue: string = ""
-  ): string => {
-    if (!dateValue) return defaultValue;
-    const date = dayjs(dateValue);
-    return date.isValid() ? date.format("DD/MM/YYYY") : defaultValue;
-  };
+  const { formatDateString } = useFormatDateString();
 
   const isAuthorized = isStructureAutorisee(structure.type);
 
@@ -65,7 +60,7 @@ export default function FinalisationIdentificationForm({
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
-      availableFooterButtons={["submit"]}
+      availableFooterButtons={[FooterButtonType.SUBMIT]}
     >
       <InformationBar
         variant="warning"

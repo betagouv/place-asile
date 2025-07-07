@@ -69,19 +69,19 @@ type CreateBudget = {
   tauxEncadrement: number;
   coutJournalier: number;
   dotationDemandee: number;
-  dotationAccordee?: number;
-  totalProduits?: number;
-  totalCharges?: number;
-  cumulResultatsNetsCPOM?: number;
-  repriseEtat?: number;
-  reserveInvestissement?: number;
-  chargesNonReconductibles?: number;
-  reserveCompensationDeficits?: number;
-  reserveCompensationBFR?: number;
-  reserveCompensationAmortissements?: number;
-  fondsDedies?: number;
-  affectationReservesFondsDedies?: number;
-  commentaire?: string;
+  dotationAccordee?: number | null;
+  totalProduits?: number | null;
+  totalCharges?: number | null;
+  cumulResultatsNetsCPOM?: number | null;
+  repriseEtat?: number | null;
+  reserveInvestissement?: number | null;
+  chargesNonReconductibles?: number | null;
+  reserveCompensationDeficits?: number | null;
+  reserveCompensationBFR?: number | null;
+  reserveCompensationAmortissements?: number | null;
+  fondsDedies?: number | null;
+  affectationReservesFondsDedies?: number | null;
+  commentaire?: string | null;
 };
 
 type CreateControle = {

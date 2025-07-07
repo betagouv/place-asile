@@ -9,6 +9,7 @@ export type Budget = {
   dotationAccordee: number | null;
   totalProduits: number | null;
   totalCharges: number | null;
+  totalChargesProposees: number | null;
   cumulResultatsNetsCPOM: number | null;
   repriseEtat: number | null;
   reserveInvestissement: number;

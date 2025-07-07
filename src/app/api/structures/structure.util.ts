@@ -17,7 +17,11 @@ export const convertToRepartition = (repartition: string): Repartition => {
   return repartitions[repartition.trim()];
 };
 
-export const convertToPublicType = (typePublic: string): PublicType => {
+export const convertToPublicType = (
+  typePublic: string | null | undefined
+): PublicType => {
+  if (!typePublic) return PublicType.TOUT_PUBLIC;
+
   const typesPublic: Record<string, PublicType> = {
     "tout public": PublicType.TOUT_PUBLIC,
     famille: PublicType.FAMILLE,

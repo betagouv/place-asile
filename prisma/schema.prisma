@@ -166,6 +166,7 @@ model Budget {
   dotationAccordee                  Float?
   totalProduits                     Float?
   totalCharges                      Float?
+  totalChargesProposees             Float?
   cumulResultatsNetsCPOM            Float?
   repriseEtat                       Float?
   reserveInvestissement             Float?

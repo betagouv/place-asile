@@ -193,6 +193,7 @@ export class CsvExtract {
       dotationAccordee: Number(line[6]),
       totalProduits: Number(line[7]),
       totalCharges: Number(line[8]),
+      totalChargesProposees: null,
       cumulResultatsNetsCPOM: Number(line[9]),
       repriseEtat: Number(line[10]),
       affectationReservesFondsDedies: Number(line[11]),

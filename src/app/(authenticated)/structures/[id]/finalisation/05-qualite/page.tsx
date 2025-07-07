@@ -2,6 +2,7 @@
 import { ReactElement } from "react";
 import Steps from "../components/Steps";
 import { useStructureContext } from "../../context/StructureClientContext";
+import { FinalisationQualiteForm } from "./FinalisationQualiteForm";
 
 export default function Qualite(): ReactElement {
   const { structure } = useStructureContext();
@@ -10,7 +11,7 @@ export default function Qualite(): ReactElement {
   return (
     <>
       <Steps currentStep={currentStep} structureId={structureId} />
-      {/* TODO @ledjay : add form */}
+      <FinalisationQualiteForm currentStep={currentStep} />
     </>
   );
 }

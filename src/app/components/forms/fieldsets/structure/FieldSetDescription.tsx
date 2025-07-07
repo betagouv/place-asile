@@ -88,9 +88,7 @@ export const FieldSetDescription = ({
           label="Type"
           disabled={disableTypes}
           required
-          onChange={(event) => {
-            setType(event);
-          }}
+          onChange={setType}
           id="type"
         >
           <option value="">Sélectionnez un type</option>

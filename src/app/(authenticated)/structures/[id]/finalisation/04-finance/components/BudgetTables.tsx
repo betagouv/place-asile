@@ -15,6 +15,9 @@ export const BudgetTables = () => {
   const isAuthorized = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
 
+  // const hideDetails = isSubventionnee && !!hasCpom;
+  const hideDetails = false;
+
   return (
     <>
       <fieldset className="flex flex-col gap-6">
@@ -22,7 +25,7 @@ export const BudgetTables = () => {
           Gestion budgétaire
         </legend>
         <p className="mb-0">
-          Veuillez renseigner l’historique du ces données budgétaires.
+          Veuillez renseigner l’historique de ces données budgétaires.
         </p>
 
         {isAuthorized &&
@@ -34,19 +37,25 @@ export const BudgetTables = () => {
             <StructureSubventionneeSansCpom />
           ))}
       </fieldset>
-      <fieldset className="flex flex-col gap-6">
-        <legend className="text-lg font-bold mb-8 text-title-blue-france">
-          Détail affectation réserves, provisions et fonds dédiés du CPOM
-        </legend>
-        <p className="mb-0 w-3/4">
-          Veuillez renseigner l’historique des affectations en réserves,
-          provisions et fonds dédiés du CPOM. Pour rendre une année éditable, il
-          faut que le montant saisi dans la colonne “affectation réserves et
-          fonds dédiés” du tableau précédent soit supérieur à 0 pour cette
-          année-là.
-        </p>
-        <DetailAffectationTable />
-      </fieldset>
+      <>
+        <hr />
+        <fieldset className="flex flex-col gap-6">
+          <legend className="text-lg font-bold mb-8 text-title-blue-france">
+            {structure?.cpom
+              ? "Détail affectation réserves, provisions et fonds dédiés du CPOM"
+              : "Détail affectation réserves et provisions"}
+          </legend>
+          <p className="mb-0 w-3/5">
+            Veuillez renseigner l’historique des affectations en réserves,
+            provisions et fonds dédiés du CPOM. Pour rendre une année éditable,
+            il faut que le montant saisi dans la colonne “affectation réserves
+            et fonds dédiés” du tableau précédent soit supérieur à 0 pour cette
+            année-là.
+          </p>
+          <DetailAffectationTable sliceYears={isSubventionnee ? 3 : 2} />
+        </fieldset>
+      </>
+      {hideDetails ? <>hide</> : null}
     </>
   );
 };

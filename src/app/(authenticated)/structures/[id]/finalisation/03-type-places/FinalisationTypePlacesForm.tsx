@@ -1,6 +1,8 @@
 "use client";
 
-import FormWrapper from "@/app/components/forms/FormWrapper";
+import FormWrapper, {
+  FooterButtonType,
+} from "@/app/components/forms/FormWrapper";
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { finalisationTypePlacesSchema } from "./validation/finalisationTypePlacesSchema";
 import { InformationBar } from "@/app/components/ui/InformationBar";
@@ -21,11 +23,11 @@ export default function FinalisationTypePlacesForm({
   );
 
   const defaultValues = {
-    typologies: structure?.structureTypologies?.map((typology) => ({
-      nbPlaces: typology.nbPlaces,
-      pmr: typology.pmr,
-      lgbt: typology.lgbt,
-      fvvTeh: typology.fvvTeh,
+    typologies: structure?.structureTypologies?.map((typologie) => ({
+      nbPlaces: typologie.nbPlaces,
+      pmr: typologie.pmr,
+      lgbt: typologie.lgbt,
+      fvvTeh: typologie.fvvTeh,
     })),
     placesACreer: structure.placesACreer ?? undefined,
     placesAFermer: structure.placesAFermer ?? undefined,
@@ -44,7 +46,7 @@ export default function FinalisationTypePlacesForm({
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
-      availableFooterButtons={["submit"]}
+      availableFooterButtons={[FooterButtonType.SUBMIT]}
     >
       <InformationBar
         variant="warning"

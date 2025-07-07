@@ -15,8 +15,8 @@ export const IndicateursGeneraux = () => {
   const { years } = useYearRange();
 
   const hasBudgetErrors =
-    Array.isArray(errors.budget) &&
-    errors.budget.some(
+    Array.isArray(errors.budgets) &&
+    errors.budgets.some(
       (budgetItemErrors: Record<string, unknown>) =>
         budgetItemErrors?.ETP ||
         budgetItemErrors?.tauxEncadrement ||
@@ -28,16 +28,16 @@ export const IndicateursGeneraux = () => {
       <legend className="text-lg font-bold mb-8 text-title-blue-france">
         Indicateurs généraux
       </legend>
-      <p>
-        Veuillez renseigner l’historique de ces indicateurs financiers au 1er
-        janvier de chaque année.
-      </p>
       <Notice
         severity="info"
         title=""
-        className="rounded [&_p]:flex  [&_p]:items-center mb-8"
+        className="rounded [&_p]:flex  [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
         description="Le nombre d’ETP correspond à l’ensemble des employés de la structure (ex : “8 ETP”). Le taux d’encadrement est le nombre de places gérées par un ETP, obtenu en divisant le nombre de places autorisées par le nombre d’ETP total (ex: “12 places gérées par un ETP” dans une structure de 96 places avec 8 ETP). Le coût journalier est le coût de la structure pour une journée et pour une place, défini dans les documents contractuels (ex: “23,50€ par jour par place”)."
       />
+      <p className="mb-0">
+        Veuillez renseigner l’historique de ces indicateurs financiers au 1er
+        janvier de chaque année.
+      </p>
       <Table
         hasErrors={hasBudgetErrors}
         headings={[
@@ -84,8 +84,8 @@ export const IndicateursGeneraux = () => {
             <td className="align-middle py-4">{year}</td>
             <td className="!py-4">
               <InputWithValidation
-                name={`budget.${index}.ETP`}
-                id={`budget.${index}.ETP`}
+                name={`budgets.${index}.ETP`}
+                id={`budgets.${index}.ETP`}
                 control={control}
                 type="number"
                 min={0}
@@ -96,8 +96,8 @@ export const IndicateursGeneraux = () => {
             </td>
             <td className="!py-1">
               <InputWithValidation
-                name={`budget.${index}.tauxEncadrement`}
-                id={`budget.${index}.tauxEncadrement`}
+                name={`budgets.${index}.tauxEncadrement`}
+                id={`budgets.${index}.tauxEncadrement`}
                 control={control}
                 type="number"
                 min={0}
@@ -109,8 +109,8 @@ export const IndicateursGeneraux = () => {
             <td className="!py-1">
               <span className="flex items-center gap-2">
                 <InputWithValidation
-                  name={`budget.${index}.coutJournalier`}
-                  id={`budget.${index}.coutJournalier`}
+                  name={`budgets.${index}.coutJournalier`}
+                  id={`budgets.${index}.coutJournalier`}
                   control={control}
                   type="number"
                   min={0}
