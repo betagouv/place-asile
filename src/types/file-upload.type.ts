@@ -22,4 +22,9 @@ export enum FileUploadCategory {
   DEMANDE_SUBVENTION = "demandeSubvention",
   COMPTE_RENDU_FINANCIER = "compteRenduFinancier",
   RAPPORT_ACTIVITE_OPERATEUR = "rapportActiviteOperateur",
+  ARRETE_AUTORISATION = "arreteAutorisation",
+  CONVENTION = "convention",
+  ARRETE_TARIFICATION = "arreteTarification",
+  CPOM = "cpom",
+  AUTRE = "autre",
 }

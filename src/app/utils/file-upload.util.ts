@@ -17,6 +17,11 @@ export const getCategoryLabel = (
     DEMANDE_SUBVENTION: "Demande de subvention",
     COMPTE_RENDU_FINANCIER: "Compte-rendu financier",
     RAPPORT_ACTIVITE_OPERATEUR: "Rapport d'activité de l'opérateur",
+    ARRETE_AUTORISATION: "Arrêté d'autorisation",
+    CONVENTION: "Convention",
+    ARRETE_TARIFICATION: "Arrêté de tarification",
+    CPOM: "CPOM",
+    AUTRE: "Autre",
   };
   return labels[category] || "";
 };
