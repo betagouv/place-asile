@@ -3,7 +3,7 @@ import { ControleType } from "@/types/controle.type";
 import { FileUploadCategory } from "@/types/file-upload.type";
 import { PublicType, StructureType } from "@/types/structure.type";
 import { z } from "zod";
-import { frDateField } from "./structure.util";
+import { frDateField, mandatoryFrDateField } from "./structure.util";
 
 const adresseTypologieSchema = z.object({
   nbPlacesTotal: z
@@ -100,11 +100,11 @@ export const structureCreationSchema = z.object({
 });
 
 const budgetSchema = z.object({
-  date: z.coerce.date(),
+  date: mandatoryFrDateField(),
   ETP: z.number(),
   tauxEncadrement: z.number(),
   coutJournalier: z.number(),
-  dotationDemandee: z.number(),
+  dotationDemandee: z.number().nullable().optional(),
   dotationAccordee: z.number().nullable().optional(),
   totalProduits: z.number().nullable().optional(),
   totalCharges: z.number().nullable().optional(),

@@ -3,25 +3,32 @@ import { ReactElement } from "react";
 import styles from "@/app/components/common/Accordion.module.css";
 import Table from "@codegouvfr/react-dsfr/Table";
 import { useStructureContext } from "../context/StructureClientContext";
+import { Budget } from "@/types/budget.type";
 
 export const DetailAffectations = (): ReactElement => {
   const { structure } = useStructureContext();
+
+  const isBudgetEmpty = (budget: Budget): boolean => {
+    return !!budget.affectationReservesFondsDedies;
+  };
 
   const getBudgets = () => {
     if (!structure?.budgets) {
       return [];
     }
-    return structure.budgets.map((budget) => [
-      new Date(budget.date).getFullYear(),
-      `${budget.affectationReservesFondsDedies} €`,
-      `${budget.reserveInvestissement} €`,
-      `${budget.chargesNonReconductibles} €`,
-      `${budget.reserveCompensationDeficits} €`,
-      `${budget.reserveCompensationBFR} €`,
-      `${budget.reserveCompensationAmortissements} €`,
-      `${budget.fondsDedies} €`,
-      budget.commentaire,
-    ]);
+    return structure.budgets
+      .filter(isBudgetEmpty)
+      .map((budget) => [
+        new Date(budget.date).getFullYear(),
+        `${budget.affectationReservesFondsDedies} €`,
+        `${budget.reserveInvestissement} €`,
+        `${budget.chargesNonReconductibles} €`,
+        `${budget.reserveCompensationDeficits} €`,
+        `${budget.reserveCompensationBFR} €`,
+        `${budget.reserveCompensationAmortissements} €`,
+        `${budget.fondsDedies} €`,
+        budget.commentaire,
+      ]);
   };
 
   return (

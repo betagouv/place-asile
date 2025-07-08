@@ -109,3 +109,6 @@ export const parseFrDate = (value: unknown): Date | unknown => {
 
 export const frDateField = () =>
   z.preprocess(parseFrDate, z.coerce.date().optional());
+
+export const mandatoryFrDateField = () =>
+  z.preprocess(parseFrDate, z.coerce.date());
