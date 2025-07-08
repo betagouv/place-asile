@@ -162,7 +162,7 @@ model Budget {
   ETP                               Float
   tauxEncadrement                   Float
   coutJournalier                    Float
-  dotationDemandee                  Float
+  dotationDemandee                  Float?
   dotationAccordee                  Float?
   totalProduits                     Float?
   totalCharges                      Float?

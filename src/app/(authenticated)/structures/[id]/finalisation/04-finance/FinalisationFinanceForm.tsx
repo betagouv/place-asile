@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import FormWrapper, {
@@ -26,6 +26,7 @@ import {
 } from "@/app/utils/structure.util";
 import { useStructures } from "@/app/hooks/useStructures";
 import { useRouter } from "next/navigation";
+import { SubmitError } from "@/app/components/SubmitError";
 
 export default function FinalisationFinanceForm({
   currentStep,
@@ -36,7 +37,7 @@ export default function FinalisationFinanceForm({
   const { dateStringToYear } = useDateStringToYear();
   const { structure } = useStructureContext();
   const hasCpom = structure?.cpom;
-  const isAuthorized = isStructureAutorisee(structure?.type);
+  const isAutorisee = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
   const { updateStructure } = useStructures();
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function FinalisationFinanceForm({
 
   let schema;
 
-  if (isAuthorized) {
+  if (isAutorisee) {
     schema = hasCpom ? autoriseeAvecCpomSchema : autoriseeSchema;
   } else if (isSubventionnee) {
     schema = hasCpom ? subventionneeAvecCpomSchema : subventionneeSchema;
@@ -71,64 +72,65 @@ export default function FinalisationFinanceForm({
     budgets: budgetArray as unknown as anyFinanceFormValues["budgets"],
   };
 
+  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const [backendError, setBackendError] = useState<string | undefined>("");
+
   const handleSubmit = async (data: anyFinanceFormValues) => {
-    console.log(data);
-    try {
-      const updatedStructure = await updateStructure(data);
-      console.log(updatedStructure);
-      if (updatedStructure) {
-        console.log("Structure updated");
-        router.push(nextRoute);
+    setState("loading");
+    // TODO : supprimer les id string vides à la source
+    data.budgets.forEach((budget) => {
+      if (budget.id === "") {
+        delete budget.id;
       }
-    } catch (error) {
-      console.log(error);
+    });
+    const updatedStructure = await updateStructure({
+      ...data,
+      dnaCode: structure.dnaCode,
+    });
+    if (updatedStructure === "OK") {
+      router.push(nextRoute);
+    } else {
+      setState("error");
+      setBackendError(updatedStructure?.toString());
+      throw new Error(updatedStructure?.toString());
     }
   };
 
   return (
     <FormWrapper
       schema={schema || basicSchema}
-      nextRoute={nextRoute}
       defaultValues={defaultValues as unknown as anyFinanceFormValues}
       submitButtonText="Étape suivante"
-      mode="onSubmit"
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
-      onSubmit={(data) => {
-        handleSubmit(data);
-      }}
+      onSubmit={handleSubmit}
     >
-      {({ register }) => {
-        return (
-          <>
-            <input
-              type="text"
-              {...register("dnaCode")}
-              defaultValue={structure.dnaCode}
-            />
-            <InformationBar
-              variant="warning"
-              title="À vérifier"
-              description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-            />
-            <Documents className="mb-6" />
-            <InformationBar
-              variant="info"
-              title="À compléter"
-              description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-            />
-            <IndicateursGeneraux />
-            {/* TODO: ajouter le tutoriel */}
-            <Notice
-              severity="warning"
-              title=""
-              className="rounded [&_p]:flex  [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
-              description="La complétion de cette partie étant complexe, veuillez vous référer au tutoriel que nous avons créé pour vous guider à cette fin."
-            />
-            <BudgetTables />
-          </>
-        );
-      }}
+      <InformationBar
+        variant="warning"
+        title="À vérifier"
+        description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
+      />
+      <Documents className="mb-6" />
+      <InformationBar
+        variant="info"
+        title="À compléter"
+        description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
+      />
+      <IndicateursGeneraux />
+      {/* TODO: ajouter le tutoriel */}
+      <Notice
+        severity="warning"
+        title=""
+        className="rounded [&_p]:flex [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
+        description="La complétion de cette partie étant complexe, veuillez vous référer au tutoriel que nous avons créé pour vous guider à cette fin."
+      />
+      <BudgetTables />
+      {state === "error" && (
+        <SubmitError
+          structureDnaCode={structure.dnaCode}
+          backendError={backendError}
+        />
+      )}
     </FormWrapper>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import React from "react";
 import { Table } from "@/app/components/common/Table";
@@ -8,11 +9,11 @@ import { cn } from "@/app/utils/classname.util";
 import { useYearRange } from "@/app/hooks/useYearRange";
 
 export const IndicateursGeneraux = () => {
+  const { years } = useYearRange();
   const parentFormContext = useFormContext();
   const localForm = useForm();
-  const { control, formState } = parentFormContext || localForm;
+  const { control, formState, register } = parentFormContext || localForm;
   const errors = formState.errors;
-  const { years } = useYearRange();
 
   const hasBudgetErrors =
     Array.isArray(errors.budgets) &&
@@ -31,7 +32,7 @@ export const IndicateursGeneraux = () => {
       <Notice
         severity="info"
         title=""
-        className="rounded [&_p]:flex  [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
+        className="rounded [&_p]:flex [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
         description="Le nombre d’ETP correspond à l’ensemble des employés de la structure (ex : “8 ETP”). Le taux d’encadrement est le nombre de places gérées par un ETP, obtenu en divisant le nombre de places autorisées par le nombre d’ETP total (ex: “12 places gérées par un ETP” dans une structure de 96 places avec 8 ETP). Le coût journalier est le coût de la structure pour une journée et pour une place, défini dans les documents contractuels (ex: “23,50€ par jour par place”)."
       />
       <p className="mb-0">
@@ -81,7 +82,15 @@ export const IndicateursGeneraux = () => {
             key={year}
             className="w-full [&_input]:max-w-[4rem] border-t border-default-grey "
           >
-            <td className="align-middle py-4">{year}</td>
+            <td className="align-middle py-4">
+              {year}
+              <input type="hidden" {...register(`budgets.${index}.id`)} />
+              <input
+                type="hidden"
+                value={`${year}-01-01T13:00:00.000Z`}
+                {...register(`budgets.${index}.date`)}
+              />
+            </td>
             <td className="!py-4">
               <InputWithValidation
                 name={`budgets.${index}.ETP`}

@@ -5,7 +5,7 @@ export type Budget = {
   ETP: number;
   tauxEncadrement: number;
   coutJournalier: number;
-  dotationDemandee: number;
+  dotationDemandee: number | null;
   dotationAccordee: number | null;
   totalProduits: number | null;
   totalCharges: number | null;

@@ -1,20 +1,22 @@
 import z from "zod";
 import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
-//
-// Basic Schema
-//
+
 const budgetSchema = z.object({
   // Date
-  id: zSafeNumber().optional().nullable(),
-  date: z.coerce.date(),
+  // TODO : vérifier que c'est plutôt un number
+  id: z.union([
+    z.string().nullable().optional(),
+    zSafeNumber().nullable().optional(),
+  ]),
+  date: createDateFieldValidator(),
 
   // Gestion budgetaire
   ETP: zSafeNumber(),
   tauxEncadrement: zSafeNumber(),
   coutJournalier: zSafeNumber(),
 
-  dotationDemandee: zSafeNumber(),
+  dotationDemandee: zSafeNumber().nullable(),
   dotationAccordee: zSafeNumber().nullable(),
   totalProduits: zSafeNumber().nullable(),
   totalCharges: zSafeNumber().nullable(),
@@ -44,7 +46,6 @@ export const DocumentsTypeStrict = z.object({
 });
 
 export const basicSchema = z.object({
-  dnaCode: z.string(),
   fileUploads: z.array(DocumentsTypeStrict),
   budgets: z.tuple([
     budgetSchema,
@@ -111,7 +112,6 @@ const autoriseeY3 = budgetSchema.extend({
 });
 
 export const autoriseeSchema = z.object({
-  dnaCode: z.string(),
   // fileUploads: z.array(DocumentsTypeStrict),
   budgets: z.tuple([
     autoriseeCurrentYear,
@@ -123,7 +123,6 @@ export const autoriseeSchema = z.object({
 });
 
 export const autoriseeAvecCpomSchema = z.object({
-  dnaCode: z.string(),
   // fileUploads: z.array(DocumentsTypeStrict),
   budgets: z.tuple([
     autoriseeCurrentYear,
@@ -139,13 +138,17 @@ export const autoriseeAvecCpomSchema = z.object({
 //
 
 const subventionneeFirstYears = z.object({
+  id: z.union([
+    z.string().nullable().optional(),
+    zSafeNumber().nullable().optional(),
+  ]),
+  date: createDateFieldValidator(),
   ETP: zSafeNumber(),
   tauxEncadrement: zSafeNumber(),
   coutJournalier: zSafeNumber(),
 });
 
 export const subventionneeAvecCpomSchema = z.object({
-  dnaCode: z.string(),
   // fileUploads: z.array(DocumentsTypeStrict),
   budgets: z.tuple([
     subventionneeFirstYears,
@@ -168,7 +171,6 @@ const subventionneeSansCpom = budgetSchema.extend({
 });
 
 export const subventionneeSchema = z.object({
-  dnaCode: z.string(),
   // fileUploads: z.array(Document  sTypeStrict),
   budgets: z.tuple([
     subventionneeFirstYears,

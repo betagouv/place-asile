@@ -32,17 +32,17 @@ export default function FinalisationIdentificationForm({
 
   const { formatDateString } = useFormatDateString();
 
-  const isAuthorized = isStructureAutorisee(structure.type);
+  const isAutorisee = isStructureAutorisee(structure.type);
   const { updateStructure } = useStructures();
   const router = useRouter();
 
   const defaultValues = {
     ...structure,
     creationDate: formatDateString(structure.creationDate),
-    debutPeriodeAutorisation: isAuthorized
+    debutPeriodeAutorisation: isAutorisee
       ? formatDateString(structure.debutPeriodeAutorisation)
       : undefined,
-    finPeriodeAutorisation: isAuthorized
+    finPeriodeAutorisation: isAutorisee
       ? formatDateString(structure.finPeriodeAutorisation)
       : undefined,
     debutConvention: formatDateString(structure.debutConvention),

@@ -136,7 +136,7 @@ export const DetailAffectationTable = ({
                 <input
                   type="hidden"
                   {...register(`budgets.${fieldIndex}.date`)}
-                  value={`${year}-01-01T00:00:00.000Z`}
+                  value={`${year}-13-01T00:00:00.000Z`}
                 />
               </td>
               <td className="whitespace-nowrap">{totalValue} €</td>

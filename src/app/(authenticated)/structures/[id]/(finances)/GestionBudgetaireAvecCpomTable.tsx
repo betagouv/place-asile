@@ -3,6 +3,7 @@ import { useStructureContext } from "../context/StructureClientContext";
 import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { AmountBadge } from "./AmountBadge";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { Budget } from "@/types/budget.type";
 
 export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
   const { structure } = useStructureContext();
@@ -43,6 +44,16 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
     return totalCharges - totalProduits;
   };
 
+  const isBudgetEmpty = (budget: Budget): boolean => {
+    return (
+      !!budget.dotationAccordee &&
+      !!budget.dotationAccordee &&
+      !!budget.cumulResultatsNetsCPOM &&
+      !!budget.repriseEtat &&
+      !!budget.affectationReservesFondsDedies
+    );
+  };
+
   // TODO : provide aria labeled by
   return (
     <div className="w-full bg-lifted-grey border-1 border-default-grey rounded-lg">
@@ -78,70 +89,74 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
           </tr>
         </thead>
         <tbody>
-          {structure?.budgets?.map((budget) => (
+          {structure?.budgets?.filter(isBudgetEmpty).map((budget) => (
             <tr key={budget.id} className="border-t-1 border-default-grey">
               <td className="py-2 px-4 text-center text-sm">
                 {new Date(budget.date).getFullYear()}
               </td>
-              {budget.dotationDemandee ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.dotationDemandee} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.dotationAccordee ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.dotationAccordee} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.totalCharges && budget.totalProduits ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  <span className="pr-2">
-                    {computeResultatNet(
-                      budget.totalCharges,
-                      budget.totalProduits
-                    )}{" "}
-                    €
-                  </span>
-                  <AmountBadge
-                    amount={computeResultatNet(
-                      budget.totalCharges,
-                      budget.totalProduits
-                    )}
-                  />
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.cumulResultatsNetsCPOM ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  <span className="pr-2">
-                    {budget.cumulResultatsNetsCPOM} €
-                  </span>
-                  <AmountBadge amount={budget.cumulResultatsNetsCPOM} />
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.dotationAccordee ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.repriseEtat} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.cumulResultatsNetsCPOM &&
-              budget.repriseEtat &&
-              budget.affectationReservesFondsDedies! > 0 ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.affectationReservesFondsDedies} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.dotationDemandee ? (
+                  <>{budget.dotationDemandee} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.dotationAccordee ? (
+                  <>{budget.dotationAccordee} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.totalCharges && budget.totalProduits ? (
+                  <>
+                    <span className="pr-2">
+                      {computeResultatNet(
+                        budget.totalCharges,
+                        budget.totalProduits
+                      )}{" "}
+                      €
+                    </span>
+                    <AmountBadge
+                      amount={computeResultatNet(
+                        budget.totalCharges,
+                        budget.totalProduits
+                      )}
+                    />
+                  </>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.cumulResultatsNetsCPOM ? (
+                  <>
+                    <span className="pr-2">
+                      {budget.cumulResultatsNetsCPOM} €
+                    </span>
+                    <AmountBadge amount={budget.cumulResultatsNetsCPOM} />
+                  </>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.repriseEtat ? (
+                  <>{budget.repriseEtat} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.cumulResultatsNetsCPOM &&
+                budget.repriseEtat &&
+                budget.affectationReservesFondsDedies! > 0 ? (
+                  <>{budget.affectationReservesFondsDedies} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

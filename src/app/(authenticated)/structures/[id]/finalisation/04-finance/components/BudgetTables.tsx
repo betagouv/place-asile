@@ -12,7 +12,7 @@ import { DetailAffectationTable } from "./DetailAffectationTable";
 export const BudgetTables = () => {
   const { structure } = useStructureContext();
   const hasCpom = structure?.cpom;
-  const isAuthorized = isStructureAutorisee(structure?.type);
+  const isAutorisee = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
 
   // const hideDetails = isSubventionnee && !!hasCpom;
@@ -28,7 +28,7 @@ export const BudgetTables = () => {
           Veuillez renseigner l’historique de ces données budgétaires.
         </p>
 
-        {isAuthorized &&
+        {isAutorisee &&
           (hasCpom ? <StructureAutorisee /> : <StructureAutoriseeSansCpom />)}
         {isSubventionnee &&
           (hasCpom ? (

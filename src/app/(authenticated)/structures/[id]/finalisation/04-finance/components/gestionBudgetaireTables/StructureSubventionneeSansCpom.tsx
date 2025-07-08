@@ -137,14 +137,14 @@ export const StructureSubventionneeSansCpom = () => {
           return (
             <tr key={year}>
               <td className="!border-r-1">
-                {year}{" "}
+                {year}
                 <input
-                  type="number"
+                  type="hidden"
                   {...register(`budgets.${fieldIndex}.id`)}
                 />
                 <input
                   type="hidden"
-                  value={`${year}-01-01T00:00:00.000Z`}
+                  value={`${year}-01-01T13:00:00.000Z`}
                   {...register(`budgets.${fieldIndex}.date`)}
                 />
               </td>
@@ -157,7 +157,7 @@ export const StructureSubventionneeSansCpom = () => {
                     type="number"
                     min={0}
                     label=""
-                    className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                   />{" "}
                   €
@@ -172,7 +172,7 @@ export const StructureSubventionneeSansCpom = () => {
                     type="number"
                     min={0}
                     label=""
-                    className="mb-0  mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                   />{" "}
                   €
@@ -187,7 +187,7 @@ export const StructureSubventionneeSansCpom = () => {
                     type="number"
                     min={0}
                     label=""
-                    className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                   />{" "}
                   €
@@ -202,7 +202,7 @@ export const StructureSubventionneeSansCpom = () => {
                     type="number"
                     min={0}
                     label=""
-                    className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                   />{" "}
                   €
@@ -217,7 +217,7 @@ export const StructureSubventionneeSansCpom = () => {
                     type="number"
                     min={0}
                     label=""
-                    className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                   />{" "}
                   €
@@ -234,7 +234,7 @@ export const StructureSubventionneeSansCpom = () => {
                     type="number"
                     min={0}
                     label=""
-                    className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                   />{" "}
                   €
@@ -250,7 +250,7 @@ export const StructureSubventionneeSansCpom = () => {
                     type="number"
                     min={0}
                     label=""
-                    className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                   />{" "}
                   €
@@ -265,7 +265,7 @@ export const StructureSubventionneeSansCpom = () => {
                     type="number"
                     min={0}
                     label=""
-                    className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                   />{" "}
                   €

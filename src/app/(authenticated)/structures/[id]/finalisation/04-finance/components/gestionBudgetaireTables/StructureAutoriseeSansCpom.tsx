@@ -91,10 +91,10 @@ export const StructureAutoriseeSansCpom = () => {
         <tr key={year}>
           <td className="!border-r-1">
             {year}
-            <input type="number" {...register(`budgets.${index}.id`)} />
+            <input type="hidden" {...register(`budgets.${index}.id`)} />
             <input
               type="hidden"
-              value={`${year}-01-01T00:00:00.000Z`}
+              value={`${year}-01-01T13:00:00.000Z`}
               {...register(`budgets.${index}.date`)}
             />
           </td>
@@ -107,7 +107,7 @@ export const StructureAutoriseeSansCpom = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
               />{" "}
               €
@@ -122,7 +122,7 @@ export const StructureAutoriseeSansCpom = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={index === 0}
               />{" "}
@@ -138,7 +138,7 @@ export const StructureAutoriseeSansCpom = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1].includes(index)}
               />{" "}
@@ -154,7 +154,7 @@ export const StructureAutoriseeSansCpom = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1].includes(index)}
               />{" "}
@@ -170,7 +170,7 @@ export const StructureAutoriseeSansCpom = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1, 2].includes(index)}
               />{" "}
@@ -186,7 +186,7 @@ export const StructureAutoriseeSansCpom = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1, 2].includes(index)}
               />{" "}
@@ -202,7 +202,7 @@ export const StructureAutoriseeSansCpom = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1, 2].includes(index)}
               />{" "}
