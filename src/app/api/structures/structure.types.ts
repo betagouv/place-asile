@@ -141,6 +141,7 @@ export type UpdateStructure = {
   placesAFermer?: number;
   echeancePlacesACreer?: Date;
   echeancePlacesAFermer?: Date;
+  notes?: string | null;
   controles?: UpdateControle[];
   adresses?: UpdateAdresse[];
   contacts?: UpdateContact[];

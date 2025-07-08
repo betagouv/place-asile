@@ -190,6 +190,7 @@ export const structureUpdateSchema = z.object({
   placesAFermer: z.number().int().optional(),
   echeancePlacesACreer: frDateField(),
   echeancePlacesAFermer: frDateField(),
+  notes: z.string().optional().nullable(),
   adresses: z
     .array(adresseSchema.extend({ id: z.number().optional() }))
     .optional(),

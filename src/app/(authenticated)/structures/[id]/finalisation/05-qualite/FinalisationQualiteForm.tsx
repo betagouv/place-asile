@@ -1,7 +1,7 @@
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
-import React from "react";
+import React, { useState } from "react";
 import { getCurrentStepData } from "../components/Steps";
 import { useStructureContext } from "../../context/StructureClientContext";
 import { finalisationQualiteSchema } from "./validation/FinalisationQualiteSchema";
@@ -9,6 +9,9 @@ import { InformationBar } from "@/app/components/ui/InformationBar";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { UploadsByCategory } from "./components/UploadsByCategory";
 import { FileMetaData } from "./components/FilesContext";
+import { useStructures } from "@/app/hooks/useStructures";
+import { useRouter } from "next/navigation";
+import { SubmitError } from "@/app/components/SubmitError";
 
 export const FinalisationQualiteForm = ({
   currentStep,
@@ -20,18 +23,37 @@ export const FinalisationQualiteForm = ({
     currentStep,
     structure.id
   );
+
+  const { updateStructure } = useStructures();
+  const router = useRouter();
+
+  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const [backendError, setBackendError] = useState<string | undefined>("");
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = async (data: any) => {
+    setState("loading");
+    console.log(">>>>>>>>>>>", data);
+    const updatedStructure = await updateStructure({
+      ...data,
+      dnaCode: structure.dnaCode,
+    });
+    if (updatedStructure === "OK") {
+      router.push(nextRoute);
+    } else {
+      setState("error");
+      setBackendError(updatedStructure?.toString());
+      throw new Error(updatedStructure?.toString());
+    }
+  };
+
   return (
     <FormWrapper
       schema={finalisationQualiteSchema}
-      nextRoute={nextRoute}
-      //   defaultValues={defaultValues as unknown as anyFinanceFormValues}
+      onSubmit={handleSubmit}
       submitButtonText="Étape suivante"
-      mode="onSubmit"
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
-      onSubmit={(data) => {
-        console.log(data);
-      }}
     >
       <InformationBar
         variant="info"
@@ -125,6 +147,13 @@ export const FinalisationQualiteForm = ({
         canAddAvenant
         fileMetaData={FileMetaData.DATE_START_END}
       />
+
+      {state === "error" && (
+        <SubmitError
+          structureDnaCode={structure.dnaCode}
+          backendError={backendError}
+        />
+      )}
     </FormWrapper>
   );
 };
