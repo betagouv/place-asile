@@ -169,9 +169,7 @@ export const structureUpdateSchema = z.object({
       required_error: "Le CPOM est requis",
     })
     .optional(),
-  creationDate: z.coerce
-    .date({ message: "La date de création est requise" })
-    .optional(),
+  creationDate: frDateField(),
   finessCode: z.string().optional(),
   lgbt: z
     .boolean({

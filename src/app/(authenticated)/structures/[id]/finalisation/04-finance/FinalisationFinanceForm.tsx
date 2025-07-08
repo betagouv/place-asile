@@ -70,6 +70,7 @@ export default function FinalisationFinanceForm({
 
   const defaultValues = {
     budgets: budgetArray as unknown as anyFinanceFormValues["budgets"],
+    fileUploads: structure.fileUploads,
   };
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
