@@ -44,9 +44,19 @@ export const FinalisationQualiteForm = ({
       ...data[FileUploadCategory.AUTRE],
     ].filter((fileUpload) => fileUpload.key);
 
+    const controles = data[FileUploadCategory.INSPECTION_CONTROLE].map(
+      (controle: { date: Date; type: string; key: string }) => {
+        return {
+          date: controle.date,
+          type: controle.type,
+          fileUploadKey: controle.key,
+        };
+      }
+    );
+
     const updatedStructure = await updateStructure({
       fileUploads,
-      controles: data.controles,
+      controles,
       dnaCode: structure.dnaCode,
     });
     if (updatedStructure === "OK") {

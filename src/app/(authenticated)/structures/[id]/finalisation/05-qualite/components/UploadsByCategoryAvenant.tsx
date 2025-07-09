@@ -5,7 +5,7 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import { useFiles } from "./FilesContext";
 
 export const UploadsByCategoryAvenant = ({
-  fieldBaseName,
+  // fieldBaseName,
   documentLabel,
   categoryId,
   avenantIndex,
@@ -28,7 +28,7 @@ export const UploadsByCategoryAvenant = ({
   return (
     <div className="flex gap-6 items-center h-full">
       <InputWithValidation
-        name={`${fieldBaseName}.${avenantIndex}.date`}
+        name={`${categoryId}.avenants.${avenantIndex}.date`}
         control={control}
         label="Date avenant"
         className="w-full mb-0"
@@ -37,12 +37,12 @@ export const UploadsByCategoryAvenant = ({
       <div className="flex flex-col w-full">
         <label className="mb-2">{documentLabel}</label>
         <UploadWithValidation
-          name={`${fieldBaseName}.${avenantIndex}.key`}
+          name={`${categoryId}.avenants.${avenantIndex}.key`}
           control={control}
         />
         <input
           type="hidden"
-          {...register(`${fieldBaseName}.${avenantIndex}.category`)}
+          {...register(`${categoryId}.avenants.${avenantIndex}.category`)}
           defaultValue={categoryId}
         />
       </div>

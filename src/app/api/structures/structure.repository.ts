@@ -309,7 +309,6 @@ const updateFileUploads = async (
           category: convertToFileUploadCategory(fileUpload.category),
           startDate: fileUpload.startDate,
           endDate: fileUpload.endDate,
-          controleId: fileUpload.controleId,
           structureDnaCode,
         },
       })
@@ -329,6 +328,9 @@ const createOrUpdateControles = async (
           data: {
             type: convertToControleType(controle.type),
             date: controle.date,
+            fileUploads: {
+              connect: { key: controle.fileUploadKey },
+            },
           },
         });
       } else {
@@ -337,6 +339,9 @@ const createOrUpdateControles = async (
             structureDnaCode,
             type: convertToControleType(controle.type),
             date: controle.date,
+            fileUploads: {
+              connect: { key: controle.fileUploadKey },
+            },
           },
         });
       }
