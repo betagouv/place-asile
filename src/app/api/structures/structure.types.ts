@@ -97,6 +97,7 @@ export type UpdateStructureTypologie = {
 export type UpdateControle = {
   date: Date;
   type: string;
+  fileUploadKey: string;
   id?: number;
 };
 export type UpdateFileUpload = {
@@ -106,7 +107,6 @@ export type UpdateFileUpload = {
   startDate?: Date;
   endDate?: Date;
   id?: number;
-  controleId?: number;
 };
 type UpdateAdresseTypologie = CreateAdresseTypologie & { id?: number };
 export type UpdateAdresse = CreateAdresse & {
