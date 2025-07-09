@@ -123,7 +123,6 @@ const budgetSchema = z.object({
 const controleSchema = z.object({
   date: z.coerce.date(),
   type: z.nativeEnum(ControleType),
-  fileUploads: z.array(fileUploadSchema),
 });
 
 const updateStructureTypologieSchema = z.object({
@@ -201,8 +200,10 @@ export const structureUpdateSchema = z.object({
   fileUploads: z
     .array(
       fileUploadSchema.extend({
+        date: frDateField(),
         startDate: frDateField(),
         endDate: frDateField(),
+        controleId: z.number().optional(),
       })
     )
     .optional(),

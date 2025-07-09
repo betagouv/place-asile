@@ -66,6 +66,11 @@ export const convertToFileUploadCategory = (
     demandeSubvention: FileUploadCategory.DEMANDE_SUBVENTION,
     compteRenduFinancier: FileUploadCategory.COMPTE_RENDU_FINANCIER,
     rapportActiviteOperateur: FileUploadCategory.RAPPORT_ACTIVITE_OPERATEUR,
+    arreteAutorisation: FileUploadCategory.ARRETE_AUTORISATION,
+    convention: FileUploadCategory.CONVENTION,
+    arreteTarification: FileUploadCategory.ARRETE_TARIFICATION,
+    cpom: FileUploadCategory.CPOM,
+    autre: FileUploadCategory.AUTRE,
   };
   return categories[category];
 };

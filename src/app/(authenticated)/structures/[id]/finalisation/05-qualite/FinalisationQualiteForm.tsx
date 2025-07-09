@@ -12,6 +12,7 @@ import { FileMetaData } from "./components/FilesContext";
 import { useStructures } from "@/app/hooks/useStructures";
 import { useRouter } from "next/navigation";
 import { SubmitError } from "@/app/components/SubmitError";
+import { FileUploadCategory } from "@/types/file-upload.type";
 
 export const FinalisationQualiteForm = ({
   currentStep,
@@ -33,9 +34,19 @@ export const FinalisationQualiteForm = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (data: any) => {
     setState("loading");
-    console.log(">>>>>>>>>>>", data);
+    // TODO : refacto pour faire coller RHF, Zod et les file uploads, sans avoir à passer par des objets intermédiaires
+    const fileUploads = [
+      ...data[FileUploadCategory.INSPECTION_CONTROLE],
+      ...data[FileUploadCategory.ARRETE_AUTORISATION],
+      ...data[FileUploadCategory.CONVENTION],
+      ...data[FileUploadCategory.ARRETE_TARIFICATION],
+      ...data[FileUploadCategory.CPOM],
+      ...data[FileUploadCategory.AUTRE],
+    ].filter((fileUpload) => fileUpload.key);
+
     const updatedStructure = await updateStructure({
-      ...data,
+      fileUploads,
+      controles: data.controles,
       dnaCode: structure.dnaCode,
     });
     if (updatedStructure === "OK") {
@@ -89,7 +100,7 @@ export const FinalisationQualiteForm = ({
       />
 
       <UploadsByCategory
-        categoryId="Controles"
+        categoryId={FileUploadCategory.INSPECTION_CONTROLE}
         categoryShortName="controles"
         documentLabel="Rapport"
         fieldBaseName="controles"
@@ -97,36 +108,18 @@ export const FinalisationQualiteForm = ({
         addFileButtonLabel="Ajouter une inspection-contrôle"
         fileMetaData={FileMetaData.DATE_TYPE}
         canAddFile
-        canAddAvenant
         isOptional
         files={[
           {
             date: "2025-01-01",
             type: "programme",
-            key: "",
-            avenants: [
-              {
-                date: "2025-01-01",
-                type: "programme",
-                key: "",
-              },
-              {
-                date: "2024-01-01",
-                type: "programme",
-                key: "",
-              },
-            ],
-          },
-          {
-            date: "2024-01-01",
-            type: "programme",
-            key: "",
+            key: "controle-1",
           },
         ]}
       />
 
       <UploadsByCategory
-        categoryId="ArretesAutorisation"
+        categoryId={FileUploadCategory.ARRETE_AUTORISATION}
         categoryShortName="arrêté"
         fieldBaseName="fileUploads"
         title="Arrêtés d’autorisation"
@@ -134,10 +127,18 @@ export const FinalisationQualiteForm = ({
         addFileButtonLabel="Ajouter un arrêté d'autorisation"
         canAddAvenant
         fileMetaData={FileMetaData.DATE_START_END}
+        // TODO : initialiser autrement le tableau de files
+        files={[
+          {
+            startDate: "2025-01-01",
+            endDate: "2026-01-01",
+            key: "arrete-autorisation-1",
+          },
+        ]}
       />
 
       <UploadsByCategory
-        categoryId="Conventions"
+        categoryId={FileUploadCategory.CONVENTION}
         categoryShortName="convention"
         fieldBaseName="fileUploads"
         title="Conventions"
@@ -146,6 +147,69 @@ export const FinalisationQualiteForm = ({
         addFileButtonLabel="Ajouter une convention"
         canAddAvenant
         fileMetaData={FileMetaData.DATE_START_END}
+        files={[
+          {
+            startDate: "2025-01-01",
+            endDate: "2026-01-01",
+            key: "convention-1",
+          },
+        ]}
+      />
+
+      <UploadsByCategory
+        categoryId={FileUploadCategory.ARRETE_TARIFICATION}
+        categoryShortName="arrêté"
+        fieldBaseName="fileUploads"
+        title="Arrêtés de tarification"
+        canAddFile
+        addFileButtonLabel="Ajouter un arrêté de tarification"
+        canAddAvenant
+        fileMetaData={FileMetaData.DATE_START_END}
+        files={[
+          {
+            startDate: "2025-01-01",
+            endDate: "2026-01-01",
+            key: "arrete-tarification-1",
+          },
+        ]}
+      />
+
+      {structure.cpom && (
+        <UploadsByCategory
+          categoryId={FileUploadCategory.CPOM}
+          categoryShortName="CPOM"
+          fieldBaseName="fileUploads"
+          title="CPOM"
+          canAddFile
+          addFileButtonLabel="Ajouter un CPOM"
+          canAddAvenant
+          fileMetaData={FileMetaData.DATE_START_END}
+          files={[
+            {
+              startDate: "2025-01-01",
+              endDate: "2026-01-01",
+              key: "cpom-1",
+            },
+          ]}
+        />
+      )}
+
+      <UploadsByCategory
+        categoryId={FileUploadCategory.AUTRE}
+        categoryShortName="Autres"
+        fieldBaseName="fileUploads"
+        title="Autres documents"
+        isOptional
+        canAddFile
+        addFileButtonLabel="Ajouter un document"
+        fileMetaData={FileMetaData.NONE}
+        files={[
+          {
+            startDate: "2025-01-01",
+            endDate: "2026-01-01",
+            key: "autre-1",
+          },
+        ]}
       />
 
       {state === "error" && (

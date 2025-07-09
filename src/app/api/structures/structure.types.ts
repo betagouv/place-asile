@@ -85,12 +85,6 @@ type CreateBudget = {
   commentaire?: string | null;
 };
 
-type CreateControle = {
-  date: Date;
-  type: string;
-  fileUploads: CreateFileUpload[];
-};
-
 export type UpdateContact = CreateContact & { id?: number };
 export type UpdateBudget = CreateBudget & { id?: number };
 export type UpdateStructureTypologie = {
@@ -100,13 +94,19 @@ export type UpdateStructureTypologie = {
   lgbt: number;
   fvvTeh: number;
 };
-export type UpdateControle = CreateControle & {
+export type UpdateControle = {
+  date: Date;
+  type: string;
   id?: number;
 };
-export type UpdateFileUpload = CreateFileUpload & {
+export type UpdateFileUpload = {
+  key: string;
+  category: string;
+  date?: Date;
   startDate?: Date;
   endDate?: Date;
   id?: number;
+  controleId?: number;
 };
 type UpdateAdresseTypologie = CreateAdresseTypologie & { id?: number };
 export type UpdateAdresse = CreateAdresse & {
