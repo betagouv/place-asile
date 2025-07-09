@@ -297,7 +297,8 @@ const updateAdresseTypologies = async (
 };
 
 const updateFileUploads = async (
-  fileUploads: UpdateFileUpload[] | undefined
+  fileUploads: UpdateFileUpload[] | undefined,
+  structureDnaCode: string
 ): Promise<void> => {
   await Promise.all(
     (fileUploads || []).map((fileUpload) =>
@@ -308,6 +309,8 @@ const updateFileUploads = async (
           category: convertToFileUploadCategory(fileUpload.category),
           startDate: fileUpload.startDate,
           endDate: fileUpload.endDate,
+          controleId: fileUpload.controleId,
+          structureDnaCode,
         },
       })
     )
@@ -326,7 +329,6 @@ const createOrUpdateControles = async (
           data: {
             type: convertToControleType(controle.type),
             date: controle.date,
-            // TODO: handle file uploads
           },
         });
       } else {
@@ -335,7 +337,6 @@ const createOrUpdateControles = async (
             structureDnaCode,
             type: convertToControleType(controle.type),
             date: controle.date,
-            // TODO: handle file uploads
           },
         });
       }
@@ -376,11 +377,11 @@ export const updateOne = async (
     await createOrUpdateBudgets(budgets, structure.dnaCode);
     await updateStructureTypologies(typologies);
     await updateAdresseTypologies(adresses);
-    await updateFileUploads(fileUploads);
+    await updateFileUploads(fileUploads, structure.dnaCode);
     await createOrUpdateControles(controles, structure.dnaCode);
   } catch (error) {
     throw new Error(
-      `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}:  ${error}`
+      `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}: ${error}`
     );
   }
 

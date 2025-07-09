@@ -26,5 +26,6 @@ export enum FileUploadCategory {
   CONVENTION = "convention",
   ARRETE_TARIFICATION = "arreteTarification",
   CPOM = "cpom",
+  INSPECTION_CONTROLE = "inspectionControle",
   AUTRE = "autre",
 }

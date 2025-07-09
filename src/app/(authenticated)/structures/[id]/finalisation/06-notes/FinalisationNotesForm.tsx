@@ -11,6 +11,7 @@ import { finalisationNotesSchema } from "./validation/finalisationNotesSchema";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { SubmitError } from "@/app/components/SubmitError";
 import { FieldSetNotes } from "./FieldSetNotes";
+import { push } from "@socialgouv/matomo-next";
 
 export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
   const { structure } = useStructureContext();
@@ -36,6 +37,7 @@ export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
     });
     if (updatedStructure === "OK") {
       router.push(`${process.env.NEXT_PUBLIC_URL}/structures/${structure.id}`);
+      push(["trackEvent", "finalisation", structure.dnaCode]);
     } else {
       setState("error");
       setBackendError(updatedStructure?.toString());

@@ -21,6 +21,7 @@ export const getCategoryLabel = (
     CONVENTION: "Convention",
     ARRETE_TARIFICATION: "Arrêté de tarification",
     CPOM: "CPOM",
+    INSPECTION_CONTROLE: "Inspection contrôle",
     AUTRE: "Autre",
   };
   return labels[category] || "";

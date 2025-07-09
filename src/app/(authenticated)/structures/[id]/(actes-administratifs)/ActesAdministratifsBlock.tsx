@@ -10,23 +10,28 @@ export const ActesAdministratifsBlock = (): ReactElement => {
   const categories = [
     {
       label: "Arrêtés d'autorisation",
-      fileUploadCategory: "arreteAutorisation",
+      // TODO : utiliser l'enum plutôt qu'une string hardcodée
+      fileUploadCategory: "ARRETE_AUTORISATION",
       isDisplayed: true,
     },
-    { label: "CPOM", fileUploadCategory: "cpom", isDisplayed: structure.cpom },
+    {
+      label: "CPOM",
+      fileUploadCategory: "CPOM",
+      isDisplayed: structure.cpom,
+    },
     {
       label: "Conventions",
-      fileUploadCategory: "convention",
+      fileUploadCategory: "CONVENTION",
       isDisplayed: true,
     },
     {
       label: "Arrêtés de tarification",
-      fileUploadCategory: "arreteTarification",
+      fileUploadCategory: "ARRETE_TARIFICATION",
       isDisplayed: true,
     },
     {
       label: "Autres documents",
-      fileUploadCategory: "autre",
+      fileUploadCategory: "AUTRE",
       isDisplayed: true,
     },
   ];
