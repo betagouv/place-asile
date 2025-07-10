@@ -49,8 +49,10 @@ export const finalisationIdentificationSchema = z
   )
   .refine(
     (data) => {
-      // TODO : uniformiser avec debutCpom
-      return !data.cpom || data.finCpom;
+      if (data.cpom && !data.finCpom) {
+        return false;
+      }
+      return true;
     },
     {
       message: "La date de fin CPOM est obligatoire",

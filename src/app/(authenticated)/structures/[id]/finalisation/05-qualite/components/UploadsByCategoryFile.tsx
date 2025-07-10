@@ -79,6 +79,18 @@ export const UploadsByCategoryFile = ({
             />
           </div>
         )}
+        {/* {fileMetaData === FileMetaData.NAME && (
+          <div className="flex gap-6 items-center h-full">
+            <InputWithValidation
+              name={`${categoryId}.${index}.name`}
+              control={control}
+              label="Nom du document"
+              className="w-full mb-0"
+              type="text"
+              hintText="32 caractères maximum"
+            />
+          </div>
+        )} */}
         <div className="flex flex-col">
           <label className="mb-2">{documentLabel}</label>
           <UploadWithValidation

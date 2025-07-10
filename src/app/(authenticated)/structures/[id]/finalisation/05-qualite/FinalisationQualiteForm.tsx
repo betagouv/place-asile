@@ -214,7 +214,7 @@ export const FinalisationQualiteForm = ({
         isOptional
         canAddFile
         addFileButtonLabel="Ajouter un document"
-        fileMetaData={FileMetaData.NONE}
+        fileMetaData={FileMetaData.NAME}
         files={[
           {
             startDate: "2025-01-01",

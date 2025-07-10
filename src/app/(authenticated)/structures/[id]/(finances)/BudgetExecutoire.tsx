@@ -4,7 +4,8 @@ import { useStructureContext } from "../context/StructureClientContext";
 
 export const BudgetExecutoire = (): ReactElement => {
   const { structure } = useStructureContext();
-  const budget = structure?.budgets?.[0];
+  const budget = structure?.budgets?.[structure?.budgets?.length - 1];
+
   return (
     <div className="flex">
       <div className="pr-2">

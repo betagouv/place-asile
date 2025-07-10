@@ -33,7 +33,11 @@ export const DetailAffectations = (): ReactElement => {
 
   return (
     <Accordion
-      label="Historique selon compte administratif"
+      label={
+        structure.cpom
+          ? "Détail affectations réserves, provisions et fonds dédiés du CPOM"
+          : "Détail affectations réserves et provisions"
+      }
       className={styles["custom-accordion"]}
     >
       <Table
