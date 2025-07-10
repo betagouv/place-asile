@@ -85,39 +85,41 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
               <td className="py-2 px-4 text-center text-sm">
                 {new Date(budget.date).getFullYear()}
               </td>
-              {budget.dotationDemandee ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.dotationDemandee} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.dotationAccordee ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.dotationAccordee} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.totalCharges && budget.totalProduits ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  <span className="pr-2">
-                    {computeResultatNet(
-                      budget.totalCharges,
-                      budget.totalProduits
-                    )}{" "}
-                    €
-                  </span>
-                  <AmountBadge
-                    amount={computeResultatNet(
-                      budget.totalCharges,
-                      budget.totalProduits
-                    )}
-                  />
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.dotationDemandee ? (
+                  <>{budget.dotationDemandee} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.dotationAccordee ? (
+                  <>{budget.dotationAccordee} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.totalCharges && budget.totalProduits ? (
+                  <>
+                    <span className="pr-2">
+                      {computeResultatNet(
+                        budget.totalCharges,
+                        budget.totalProduits
+                      )}{" "}
+                      €
+                    </span>
+                    <AmountBadge
+                      amount={computeResultatNet(
+                        budget.totalCharges,
+                        budget.totalProduits
+                      )}
+                    />
+                  </>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
               {/* TODO : remplacer par DÉFICIT COMPENSÉ PAR L'ÉTAT */}
               <td className="py-2 px-4 text-center test-sm">
                 <EmptyCell />
@@ -130,20 +132,20 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
               <td className="py-2 px-4 text-center test-sm">
                 <EmptyCell />
               </td>
-              {budget.fondsDedies ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.fondsDedies} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.fondsDedies ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {computeCumulFondsDedies(budget.date)} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.fondsDedies ? (
+                  <>{budget.fondsDedies} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.fondsDedies ? (
+                  <>{computeCumulFondsDedies(budget.date)} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

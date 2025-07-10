@@ -80,17 +80,17 @@ export const DetailAffectationTable = ({
           "Année",
           "Total",
           <th scope="col" key="reserveInvestissement">
-            réserve dédiée à <br /> l’investissement <br />
+            RÉSERVE DÉDIÉE À <br /> L’INVESTISSEMENT <br />
             <small className="font-normal">(10682)</small>
           </th>,
           <th scope="col" key="chargesNonReconductibles">
-            charges non <br /> reconductibles <br />
+            CHARGES NON <br /> RECONDUCTIBLES <br />
             <small className="font-normal">(11511 ou 111)</small>
           </th>,
           <th scope="col" key="reserveCompensationDeficits">
-            réserve de <br />
-            compensation des <br />
-            déficits <small className="font-normal">(10686)</small>
+            RÉSERVE DE <br />
+            COMPENSATION DES DÉFICITS{" "}
+            <small className="font-normal">(10686)</small>
           </th>,
           <th scope="col" key="reserveCouvertureBFR">
             RÉSERVE DE <br />
@@ -108,9 +108,9 @@ export const DetailAffectationTable = ({
             key="fondsDedies"
             className={cn(Boolean(structure?.cpom) ? "" : "hidden")}
           >
-            fonds
+            FONDS
             <br />
-            dédiés{" "}
+            DÉDIÉS{" "}
           </th>,
           "commentaire",
         ]}
@@ -148,7 +148,7 @@ export const DetailAffectationTable = ({
                   type="number"
                   min={0}
                   label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
                   disabled={!isEditable}
                 />{" "}
@@ -162,7 +162,7 @@ export const DetailAffectationTable = ({
                   type="number"
                   min={0}
                   label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
                   disabled={!isEditable}
                 />
@@ -175,7 +175,7 @@ export const DetailAffectationTable = ({
                   type="number"
                   min={0}
                   label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
                   disabled={!isEditable}
                 />
@@ -188,7 +188,7 @@ export const DetailAffectationTable = ({
                   type="number"
                   min={0}
                   label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
                   disabled={!isEditable}
                 />
@@ -201,7 +201,7 @@ export const DetailAffectationTable = ({
                   type="number"
                   min={0}
                   label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
                   disabled={!isEditable}
                 />
@@ -215,7 +215,7 @@ export const DetailAffectationTable = ({
                     type="number"
                     min={0}
                     label=""
-                    className="mb-0 mx-auto items-center [&_p]:hidden  [&_input]:w-full"
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                     disabled={!isEditable}
                   />

@@ -12,9 +12,9 @@ export type UploadsByCategoryFileData = {
 };
 
 export enum FileMetaData {
-  DATE_TYPE = "DATE_TYPE",
-  DATE_START_END = "DATE_START_END",
-  NONE = "NONE",
+  DATE_TYPE,
+  DATE_START_END,
+  NAME,
 }
 
 type FilesContextType = {

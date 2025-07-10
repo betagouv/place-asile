@@ -140,7 +140,7 @@ export default function FinalisationFinanceForm({
         title=""
         className="rounded [&_p]:flex [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
         description={
-          <div>
+          <>
             La complétion de cette partie étant complexe, veuillez vous référer{" "}
             <Link
               href={getTutorialLink()}
@@ -150,7 +150,7 @@ export default function FinalisationFinanceForm({
               au tutoriel que nous avons créé pour vous guider à cette fin
             </Link>
             .
-          </div>
+          </>
         }
       />
       <BudgetTables />

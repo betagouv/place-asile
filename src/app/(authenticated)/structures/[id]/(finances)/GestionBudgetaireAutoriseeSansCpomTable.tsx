@@ -86,22 +86,22 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
               <td className="py-2 px-4 text-center text-sm">
                 {new Date(budget.date).getFullYear()}
               </td>
-              {budget.dotationDemandee ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.dotationDemandee} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.dotationAccordee ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.dotationAccordee} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.totalCharges && budget.totalProduits ? (
-                <td className="py-2 px-4 text-center test-sm">
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.dotationDemandee ? (
+                  <>{budget.dotationDemandee} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.dotationAccordee ? (
+                  <>{budget.dotationAccordee} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.totalCharges && budget.totalProduits ? (
                   <span className="pr-2">
                     {computeResultatNetProposeParOperateur(
                       budget.totalProduits,
@@ -109,41 +109,43 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                     )}{" "}
                     €
                   </span>
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
               {/* TODO : vérifier la différence entre résultat net proposé et retenu */}
-              {budget.totalProduits && budget.totalCharges ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  <span className="pr-2">
-                    {computeResultatNetRetenuParAutoriteTarifaire(
-                      budget.totalProduits,
-                      budget.totalCharges
-                    )}{" "}
-                    €
-                  </span>
-                  <AmountBadge amount={budget.cumulResultatsNetsCPOM} />
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.dotationAccordee ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.repriseEtat} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
-              {budget.cumulResultatsNetsCPOM &&
-              budget.repriseEtat &&
-              budget.affectationReservesFondsDedies! > 0 ? (
-                <td className="py-2 px-4 text-center test-sm">
-                  {budget.affectationReservesFondsDedies} €
-                </td>
-              ) : (
-                <EmptyCell />
-              )}
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.totalProduits && budget.totalCharges ? (
+                  <>
+                    <span className="pr-2">
+                      {computeResultatNetRetenuParAutoriteTarifaire(
+                        budget.totalProduits,
+                        budget.totalCharges
+                      )}{" "}
+                      €
+                    </span>
+                    <AmountBadge amount={budget.cumulResultatsNetsCPOM} />
+                  </>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.dotationAccordee ? (
+                  <>{budget.repriseEtat} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.cumulResultatsNetsCPOM &&
+                budget.repriseEtat &&
+                budget.affectationReservesFondsDedies! > 0 ? (
+                  <>{budget.affectationReservesFondsDedies} €</>
+                ) : (
+                  <EmptyCell />
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
