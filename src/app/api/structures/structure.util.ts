@@ -67,9 +67,13 @@ export const convertToFileUploadCategory = (
     compteRenduFinancier: FileUploadCategory.COMPTE_RENDU_FINANCIER,
     rapportActiviteOperateur: FileUploadCategory.RAPPORT_ACTIVITE_OPERATEUR,
     arreteAutorisation: FileUploadCategory.ARRETE_AUTORISATION,
+    arreteAutorisationAvenant: FileUploadCategory.ARRETE_AUTORISATION_AVENANT,
     convention: FileUploadCategory.CONVENTION,
+    conventionAvenant: FileUploadCategory.CONVENTION_AVENANT,
     arreteTarification: FileUploadCategory.ARRETE_TARIFICATION,
+    arreteTarificationAvenant: FileUploadCategory.ARRETE_TARIFICATION_AVENANT,
     cpom: FileUploadCategory.CPOM,
+    cpomAvenant: FileUploadCategory.CPOM_AVENANT,
     autre: FileUploadCategory.AUTRE,
   };
   return categories[category];
