@@ -23,9 +23,13 @@ export enum FileUploadCategory {
   COMPTE_RENDU_FINANCIER = "compteRenduFinancier",
   RAPPORT_ACTIVITE_OPERATEUR = "rapportActiviteOperateur",
   ARRETE_AUTORISATION = "arreteAutorisation",
+  ARRETE_AUTORISATION_AVENANT = "arreteAutorisationAvenant",
   CONVENTION = "convention",
+  CONVENTION_AVENANT = "convention_avenant",
   ARRETE_TARIFICATION = "arreteTarification",
+  ARRETE_TARIFICATION_AVENANT = "arreteTarificationAvenant",
   CPOM = "cpom",
+  CPOM_AVENANT = "cpomAvenant",
   INSPECTION_CONTROLE = "inspectionControle",
   AUTRE = "autre",
 }

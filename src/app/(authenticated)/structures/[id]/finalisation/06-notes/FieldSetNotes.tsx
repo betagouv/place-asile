@@ -1,11 +1,16 @@
 import { useRef } from "react";
-import { useForm, useFormContext } from "react-hook-form";
+import { useController, useForm, useFormContext } from "react-hook-form";
 
 export const FieldSetNotes = () => {
   const fieldsetRef = useRef<HTMLFieldSetElement>(null);
   const parentFormContext = useFormContext();
   const localForm = useForm();
-  const { register } = parentFormContext || localForm;
+  const { register, control } = parentFormContext || localForm;
+
+  const { fieldState } = useController({
+    name: "notes",
+    control,
+  });
 
   return (
     <fieldset className="flex flex-col" ref={fieldsetRef}>
@@ -15,6 +20,9 @@ export const FieldSetNotes = () => {
         className="fr-input"
         {...register("notes")}
       />
+      {fieldState.error?.message && (
+        <p className="text-default-error m-0 p-0">Ce champ est obligatoire</p>
+      )}
     </fieldset>
   );
 };

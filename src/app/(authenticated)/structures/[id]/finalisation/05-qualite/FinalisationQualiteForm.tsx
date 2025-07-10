@@ -44,15 +44,17 @@ export const FinalisationQualiteForm = ({
       ...data[FileUploadCategory.AUTRE],
     ].filter((fileUpload) => fileUpload.key);
 
-    const controles = data[FileUploadCategory.INSPECTION_CONTROLE].map(
-      (controle: { date: Date; type: string; key: string }) => {
+    const controles = data[FileUploadCategory.INSPECTION_CONTROLE]
+      .map((controle: { date: Date; type: string; key: string }) => {
         return {
           date: controle.date,
           type: controle.type,
           fileUploadKey: controle.key,
         };
-      }
-    );
+      })
+      .filter(
+        (controle: { date: Date; type: string; key: string }) => controle.type
+      );
 
     const updatedStructure = await updateStructure({
       fileUploads,
