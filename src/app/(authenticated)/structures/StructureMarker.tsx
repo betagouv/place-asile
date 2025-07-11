@@ -5,7 +5,10 @@ import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 import { singleMarkerIcon } from "../../components/map/SingleMarker";
 import { RepartitionBadge } from "./RepartitionBadge";
-import { getPlacesByCommunes } from "@/app/utils/structure.util";
+import {
+  getOperateurLabel,
+  getPlacesByCommunes,
+} from "@/app/utils/structure.util";
 import { Adresse, Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
 
@@ -14,6 +17,7 @@ export const StructureMarker = ({
   dnaCode,
   coordinates,
   operateur,
+  filiale,
   type,
   nbPlaces,
   repartition,
@@ -53,7 +57,7 @@ export const StructureMarker = ({
         </div>
         <div className="text-xl text-title-blue-france m-0">
           <strong className="fr-pr-2w">
-            {type} - {operateur}
+            {type} - {getOperateurLabel(filiale, operateur)}
           </strong>
           {nbPlaces} places
         </div>
@@ -96,6 +100,7 @@ type Props = {
   dnaCode: string;
   coordinates: LatLngTuple;
   operateur: string;
+  filiale: string | null;
   type: StructureType;
   nbPlaces: number;
   repartition: Repartition;

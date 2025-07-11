@@ -101,3 +101,10 @@ export const isStructureAutorisee = (type: string | undefined): boolean => {
 export const isStructureSubventionnee = (type: string | undefined): boolean => {
   return type === StructureType.HUDA || type === StructureType.CAES;
 };
+
+export const getOperateurLabel = (
+  filiale: string | null,
+  operateur: string
+): string => {
+  return filiale ? `${filiale} (${operateur})` : operateur;
+};

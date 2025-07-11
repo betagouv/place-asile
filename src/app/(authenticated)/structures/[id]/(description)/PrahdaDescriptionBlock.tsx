@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 import { ContactsViewer } from "./ContactsViewer";
 import { PublicType, StructureType } from "@/types/structure.type";
 import { useStructureContext } from "../context/StructureClientContext";
-import { getRepartition } from "@/app/utils/structure.util";
+import { getOperateurLabel, getRepartition } from "@/app/utils/structure.util";
 
 export const PrahdaDescriptionBlock = (): ReactElement => {
   const { structure } = useStructureContext();
@@ -11,6 +11,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
     creationDate,
     dnaCode,
     operateur,
+    filiale,
     public: publicType,
     type,
   } = structure;
@@ -34,7 +35,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
         </div>
         <div className="flex-1">
           <strong className="pr-2">Opérateur</strong>
-          {operateur}
+          {getOperateurLabel(filiale, operateur)}
         </div>
       </div>
       <hr />

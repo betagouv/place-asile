@@ -15,6 +15,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
           dnaCode={structure.dnaCode}
           coordinates={structure.coordinates}
           operateur={structure.operateur}
+          filiale={structure.filiale}
           type={structure.type}
           nbPlaces={structure.nbPlaces}
           repartition={getRepartition(structure)}

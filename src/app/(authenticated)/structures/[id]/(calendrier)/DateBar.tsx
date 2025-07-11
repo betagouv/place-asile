@@ -36,7 +36,7 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
       {isWarningDisplayed && (
         <div className="fr-pl-1w">
           <Badge type="warning" icon={true}>
-            {"<"} 3 mois
+            {"<"}&nbsp;3&nbsp;mois
           </Badge>
         </div>
       )}

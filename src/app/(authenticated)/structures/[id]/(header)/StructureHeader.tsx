@@ -7,6 +7,7 @@ import { useStructureContext } from "../context/StructureClientContext";
 import { useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Button from "@codegouvfr/react-dsfr/Button";
+import { getOperateurLabel } from "@/app/utils/structure.util";
 
 export function StructureHeader(): ReactElement | null {
   const { structure } = useStructureContext();
@@ -39,6 +40,7 @@ export function StructureHeader(): ReactElement | null {
 
   const {
     type,
+    filiale,
     operateur,
     nbPlaces,
     nom,
@@ -67,7 +69,8 @@ export function StructureHeader(): ReactElement | null {
             </h2>
             <h3 className="text-title-blue-france fr-h6 fr-mb-0">
               <strong className="fr-pr-1w">
-                {type}, {operateur}, {nbPlaces} places
+                {type}, {getOperateurLabel(filiale, operateur)}, {nbPlaces}{" "}
+                places
               </strong>
               <span className="fr-pr-1w">{" – "}</span>
               <span className="fr-mb-0 text-title-grey fr-text--lg italic font-normal">

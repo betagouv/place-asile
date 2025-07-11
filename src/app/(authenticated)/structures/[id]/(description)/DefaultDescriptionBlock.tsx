@@ -4,6 +4,7 @@ import { ContactsViewer } from "./ContactsViewer";
 import { AdressesViewer } from "./AdressesViewer";
 import { useStructureContext } from "../context/StructureClientContext";
 import { PublicType } from "@/types/structure.type";
+import { getOperateurLabel } from "@/app/utils/structure.util";
 
 export const DefaultDescriptionBlock = (): ReactElement => {
   const { structure } = useStructureContext();
@@ -11,6 +12,7 @@ export const DefaultDescriptionBlock = (): ReactElement => {
   const {
     creationDate,
     dnaCode,
+    filiale,
     operateur,
     public: publicValue,
     type,
@@ -52,7 +54,7 @@ export const DefaultDescriptionBlock = (): ReactElement => {
         {finessCode && (
           <div className="flex-1">
             <strong className="pr-2">Code FINESS</strong>
-            {finessCode}
+            {finessCode.replaceAll(" ", "")}
           </div>
         )}
       </div>
@@ -60,7 +62,7 @@ export const DefaultDescriptionBlock = (): ReactElement => {
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Opérateur</strong>
-          {operateur}
+          {getOperateurLabel(filiale, operateur)}
         </div>
         <div className="flex-1">
           <strong className="pr-2">CPOM</strong>

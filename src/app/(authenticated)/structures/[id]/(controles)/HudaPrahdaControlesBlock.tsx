@@ -18,7 +18,7 @@ export const HudaPrahdaControlesBlock = (): ReactElement => {
   return (
     <Block title="Controle qualité" iconClass="fr-icon-search-line">
       <div className="flex">
-        <div className="pr-2">
+        <div className="pr-4">
           <InformationCard
             primaryInformation={`${getLastVisitInMonths(evaluations, [])} mois`}
             secondaryInformation="depuis la dernière visite"

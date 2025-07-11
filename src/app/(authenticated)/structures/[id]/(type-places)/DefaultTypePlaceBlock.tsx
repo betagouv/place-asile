@@ -27,14 +27,14 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
   return (
     <Block title="Type de places" iconClass="fr-icon-map-pin-2-line">
       <div className="flex">
-        <div className="fr-pr-2w">
+        <div className="pr-4">
           <InformationCard
             primaryInformation={placesAutorisees}
             secondaryInformation="places autorisées"
           />
         </div>
         {echeancePlacesACreer && (
-          <div className="fr-pr-2w">
+          <div className="pr-4">
             <InformationCard
               primaryInformation={`dont ${placesACreer}`}
               secondaryInformation={`places à créer au ${new Date(
@@ -52,7 +52,7 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
           />
         )}
       </div>
-      <div className="fr-pt-3w flex">
+      <div className="pt-3 flex">
         <TypePlaceCharts
           placesAutorisees={placesAutorisees}
           placesPmr={structure?.structureTypologies?.[0]?.pmr || 0}
@@ -62,7 +62,7 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
           placesLogementsSociaux={getCurrentPlacesLogementsSociaux(structure)}
         />
       </div>
-      <div className="fr-pt-3w">
+      <div className="pt-3">
         <TypePlaceHistory
           adresses={structure.adresses || []}
           structureTypologies={structure.structureTypologies || []}

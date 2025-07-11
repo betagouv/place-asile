@@ -5,6 +5,7 @@ import { usePagination } from "../../hooks/usePagination";
 import { RepartitionBadge } from "./RepartitionBadge";
 import Link from "next/link";
 import {
+  getOperateurLabel,
   getPlacesByCommunes,
   getRepartition,
 } from "@/app/utils/structure.util";
@@ -57,7 +58,7 @@ export const StructuresTable = ({
           >
             <td>{structure.dnaCode}</td>
             <td>{structure.type}</td>
-            <td>{structure.operateur}</td>
+            <td>{getOperateurLabel(structure.filiale, structure.operateur)}</td>
             <td>{structure.nbPlaces}</td>
             <td>
               <RepartitionBadge repartition={getRepartition(structure)} />
