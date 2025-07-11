@@ -42,7 +42,7 @@ export const DetailAffectations = (): ReactElement => {
     >
       <Table
         bordered={true}
-        className="fr-m-0"
+        className="m-0"
         caption=""
         data={getBudgets()}
         headers={[

@@ -24,7 +24,7 @@ export const ActivitesMotifsIndisponibilite = ({
     >
       <Table
         bordered={true}
-        className="fr-m-0"
+        className="m-0"
         caption=""
         data={getTableData()}
         headers={["MOTIF", "PLACES CONCERNÉES"]}

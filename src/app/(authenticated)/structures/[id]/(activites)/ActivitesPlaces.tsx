@@ -14,7 +14,7 @@ export const ActivitesPlaces = ({
   const placesDisponibles = nbPlaces - placesIndisponibles;
   const placesOccupees = placesDisponibles - placesVacantes;
   return (
-    <div className="flex items-center fr-pt-3w">
+    <div className="flex items-center pt-3">
       <div>
         <PieChart
           x={[]}
@@ -22,7 +22,7 @@ export const ActivitesPlaces = ({
           color={["beige-gris-galet", "yellow-moutarde"]}
           width={350}
         />
-        <div className="fr-pt-1w text-center">
+        <div className="pt-2 text-center">
           <strong>{nbPlaces}</strong> places enregistrées DNA
           <div>
             <strong>{placesIndisponibles}</strong> indisponibles (
@@ -42,7 +42,7 @@ export const ActivitesPlaces = ({
           color={["beige-gris-galet", "pink-macaron"]}
           width={350}
         />
-        <div className="fr-pt-1w text-center">
+        <div className="pt-2 text-center">
           <strong>{placesDisponibles}</strong> places disponibles
           <div>
             <strong>{placesIndisponibles}</strong> vacantes (
@@ -66,7 +66,7 @@ export const ActivitesPlaces = ({
           color={["blue-france", "blue-ecume", "blue-cumulus"]}
           width={350}
         />
-        <div className="fr-pt-1w text-center">
+        <div className="pt-2 text-center">
           <strong>{placesOccupees}</strong> places occupées
           <div>
             <strong>{presencesInduesBPI}</strong> en présence indue BPI (

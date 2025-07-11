@@ -43,13 +43,13 @@ export default function Structures(): ReactElement {
           onChange={setSelectedVisualization}
         >
           <h2
-            className="text-title-blue-france fr-h5 fr-mr-3w fr-mb-0"
+            className="text-title-blue-france fr-h5 mr-4 mb-0"
             id="structures-titre"
           >
             Structures d’hébergement
           </h2>
         </SegmentedControl>
-        <p className="text-mention-grey fr-mb-0">{structures.length} entrées</p>
+        <p className="text-mention-grey mb-0">{structures.length} entrées</p>
       </div>
       {selectedVisualization === "tableau" && (
         <StructuresTable

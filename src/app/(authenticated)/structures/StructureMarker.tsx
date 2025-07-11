@@ -52,7 +52,7 @@ export const StructureMarker = ({
         className="[&>div]:rounded-none! [&>div>div]:m-6!"
         closeButton={false}
       >
-        <div className="text-sm fr-m-0 text-mention-grey">
+        <div className="text-sm m-0 text-mention-grey">
           <strong>Code DNA</strong> {dnaCode}
         </div>
         <div className="text-xl text-title-blue-france m-0">

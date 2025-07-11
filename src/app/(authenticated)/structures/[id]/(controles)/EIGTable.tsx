@@ -18,7 +18,7 @@ export const EIGTable = (): ReactElement => {
   return (
     <Table
       bordered={true}
-      className="fr-m-0"
+      className="m-0"
       caption=""
       data={getEvenementsIndesirablesGraves() || []}
       headers={["DOSSIER", "ÉVÉNEMENT", "DÉCLARATION", "NATURE DE L'INCIDENT"]}
