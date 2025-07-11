@@ -20,7 +20,7 @@ export const DefaultControlesBlock = (): ReactElement => {
   return (
     <Block title="Controle qualité" iconClass="fr-icon-search-line">
       <div className="flex">
-        <div className="pr-2">
+        <div className="pr-4">
           <InformationCard
             primaryInformation={`${getLastVisitInMonths(
               evaluations,
@@ -29,7 +29,7 @@ export const DefaultControlesBlock = (): ReactElement => {
             secondaryInformation="depuis la dernière visite"
           />
         </div>
-        {/* <div className="pr-2">
+        {/* <div className="pr-4">
           <InformationCard
             primaryInformation={`${evaluations[0]?.note}/5`}
             secondaryInformation="de moyenne à la dernière évaluation"

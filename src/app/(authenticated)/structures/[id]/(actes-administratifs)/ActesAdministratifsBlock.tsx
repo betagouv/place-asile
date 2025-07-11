@@ -36,26 +36,35 @@ export const ActesAdministratifsBlock = (): ReactElement => {
     },
   ];
 
+  const getFileUploadsToDisplay = (categorie: {
+    fileUploadCategory: string;
+  }) => {
+    return (structure.fileUploads || [])?.filter(
+      (fileUpload) => fileUpload.category === categorie.fileUploadCategory
+    );
+  };
+
+  const displayedCategories = categories
+    .filter((categorie) => categorie.isDisplayed)
+    .filter((categorie) => getFileUploadsToDisplay(categorie)?.length > 0);
+
   return (
     <Block title="Actes administratifs" iconClass="fr-icon-file-text-line">
-      {categories
-        .filter((categorie) => categorie.isDisplayed)
-        .map((categorie) => (
+      {displayedCategories.length === 0 ? (
+        <>Aucun document importé</>
+      ) : (
+        displayedCategories.map((categorie) => (
           <Accordion label={categorie.label} key={categorie.fileUploadCategory}>
             <div className="columns-3">
-              {(structure.fileUploads || [])
-                ?.filter(
-                  (fileUpload) =>
-                    fileUpload.category === categorie.fileUploadCategory
-                )
-                .map((fileUpload) => (
-                  <div key={fileUpload.key} className="pb-5">
-                    <DownloadItem fileUpload={fileUpload} />
-                  </div>
-                ))}
+              {getFileUploadsToDisplay(categorie).map((fileUpload) => (
+                <div key={fileUpload.key} className="pb-5">
+                  <DownloadItem fileUpload={fileUpload} />
+                </div>
+              ))}
             </div>
           </Accordion>
-        ))}
+        ))
+      )}
     </Block>
   );
 };

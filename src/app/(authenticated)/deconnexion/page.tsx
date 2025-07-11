@@ -5,7 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ReactElement, useEffect } from "react";
 
-export default function Operateurs(): ReactElement {
+export default function Deconnexion(): ReactElement {
   const router = useRouter();
   const session = useSession();
 
