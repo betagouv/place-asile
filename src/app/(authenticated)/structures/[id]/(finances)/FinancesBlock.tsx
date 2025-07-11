@@ -59,8 +59,8 @@ export const FinancesBlock = (): ReactElement => {
         Documents administratifs et financiers transmis par l’opérateur
       </h4>
       <h5 className="text-sm text-gray-500 font-normal italic">
-        Retrouvez également les Plans Pluriannuels d’Investissements (PPI) dans
-        la section “Actes administratifs”.
+        Retrouvez les Plans Pluriannuels d’Investissements (PPI) dans la section
+        “Actes administratifs” s’ils existent et qu’ils ont été importés.
       </h5>
       <DocumentsAdministratifs />
     </Block>

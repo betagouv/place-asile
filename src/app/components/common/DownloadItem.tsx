@@ -17,14 +17,27 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
     window.open(link);
   };
 
+  const getFileLabel = (): string => {
+    if (fileUpload.categoryName) {
+      return fileUpload.categoryName;
+    } else {
+      const categoryLabel = getCategoryLabel(
+        fileUpload.category as unknown as keyof typeof FileUploadCategory
+      );
+      const startYear = new Date(fileUpload.startDate || "").getFullYear();
+      const endYear = new Date(fileUpload.endDate || "").getFullYear();
+      if (isNaN(startYear) || isNaN(endYear)) {
+        return categoryLabel;
+      }
+      return `${categoryLabel} ${startYear} - ${endYear}`;
+    }
+  };
+
   return (
     <div className="inline">
       <button onClick={openLink} className="underline text-title-blue-france">
         <div className="flex text-left">
-          {getCategoryLabel(
-            fileUpload.category as unknown as keyof typeof FileUploadCategory
-          )}{" "}
-          <span className="pl-2 fr-icon-eye-line" />
+          {getFileLabel()} <span className="pl-2 fr-icon-eye-line" />
         </div>
       </button>
       <div>

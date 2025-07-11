@@ -204,6 +204,7 @@ export const structureUpdateSchema = z.object({
         date: frDateField(),
         startDate: frDateField(),
         endDate: frDateField(),
+        categoryName: z.string().optional(),
       })
     )
     .optional(),
