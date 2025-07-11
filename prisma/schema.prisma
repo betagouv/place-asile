@@ -152,6 +152,7 @@ model FileUpload {
   endDate          DateTime?
   controle         Controle?           @relation(fields: [controleId], references: [id])
   controleId       Int?
+  categoryName     String?
 }
 
 model Budget {

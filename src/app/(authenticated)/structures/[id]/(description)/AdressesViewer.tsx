@@ -40,7 +40,7 @@ export const AdressesViewer = (): ReactElement => {
       {showAdresses && (
         <div className="text-mention-grey">
           {adresses?.map((adresse) => (
-            <div key={adresse.id}>
+            <div key={adresse.id} className="pb-1">
               <span className="pr-2">
                 {adresse.adresse}, {adresse.codePostal} {adresse.commune}{" "}
                 <span className="italic">

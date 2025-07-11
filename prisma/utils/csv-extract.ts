@@ -222,6 +222,7 @@ export class CsvExtract {
       category: line[6],
       startDate: line[7] ? new Date(line[7]) : null,
       endDate: line[8] ? new Date(line[8]) : null,
+      categoryName: null,
     }));
   };
 }

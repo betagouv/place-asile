@@ -83,7 +83,7 @@ export const FinalisationQualiteForm = ({
         title="À compléter"
         description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
       />
-      <p className="w-3/5">
+      <p className="w-4/5">
         Veuillez renseigner les informations concernant l’ensemble des
         inspections-contrôles auxquelles la structure a été soumise. Veuillez
         également importer l’ensemble des actes administratifs historiques

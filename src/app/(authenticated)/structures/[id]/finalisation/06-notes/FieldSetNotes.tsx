@@ -16,7 +16,7 @@ export const FieldSetNotes = () => {
     <fieldset className="flex flex-col" ref={fieldsetRef}>
       <textarea
         id="notes"
-        rows={4}
+        rows={8}
         className="fr-input"
         {...register("notes")}
       />

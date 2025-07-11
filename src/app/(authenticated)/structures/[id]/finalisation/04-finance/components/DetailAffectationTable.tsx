@@ -140,77 +140,11 @@ export const DetailAffectationTable = ({
                 />
               </td>
               <td className="whitespace-nowrap">{totalValue} €</td>
-              <td className="flex items-center gap-2 w-34">
-                <InputWithValidation
-                  name={`budgets.${fieldIndex}.reserveInvestissement`}
-                  id={`detailAffectation.${fieldIndex}.reserveInvestissement`}
-                  control={control}
-                  type="number"
-                  min={0}
-                  label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
-                  variant="simple"
-                  disabled={!isEditable}
-                />{" "}
-                €
-              </td>
-              <td>
-                <InputWithValidation
-                  name={`budgets.${fieldIndex}.chargesNonReconductibles`}
-                  id={`detailAffectation.${fieldIndex}.chargesNonReconductibles`}
-                  control={control}
-                  type="number"
-                  min={0}
-                  label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
-                  variant="simple"
-                  disabled={!isEditable}
-                />
-              </td>
-              <td>
-                <InputWithValidation
-                  name={`budgets.${fieldIndex}.reserveCompensationDeficits`}
-                  id={`detailAffectation.${fieldIndex}.reserveCompensationDeficits`}
-                  control={control}
-                  type="number"
-                  min={0}
-                  label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
-                  variant="simple"
-                  disabled={!isEditable}
-                />
-              </td>
-              <td>
-                <InputWithValidation
-                  name={`budgets.${fieldIndex}.reserveCompensationBFR`}
-                  id={`detailAffectation.${fieldIndex}.reserveCompensationBFR`}
-                  control={control}
-                  type="number"
-                  min={0}
-                  label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
-                  variant="simple"
-                  disabled={!isEditable}
-                />
-              </td>
-              <td>
-                <InputWithValidation
-                  name={`budgets.${fieldIndex}.reserveCompensationAmortissements`}
-                  id={`detailAffectation.${fieldIndex}.reserveCompensationAmortissements`}
-                  control={control}
-                  type="number"
-                  min={0}
-                  label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
-                  variant="simple"
-                  disabled={!isEditable}
-                />
-              </td>
-              {structure?.cpom && (
-                <td>
+              <td className="w-34">
+                <div className="flex items-center gap-2">
                   <InputWithValidation
-                    name={`budgets.${fieldIndex}.fondsDedies`}
-                    id={`detailAffectation.${fieldIndex}.fondsDedies`}
+                    name={`budgets.${fieldIndex}.reserveInvestissement`}
+                    id={`detailAffectation.${fieldIndex}.reserveInvestissement`}
                     control={control}
                     type="number"
                     min={0}
@@ -218,7 +152,90 @@ export const DetailAffectationTable = ({
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                     disabled={!isEditable}
-                  />
+                  />{" "}
+                  €
+                </div>
+              </td>
+              <td>
+                <div className="flex items-center gap-2">
+                  <InputWithValidation
+                    name={`budgets.${fieldIndex}.chargesNonReconductibles`}
+                    id={`detailAffectation.${fieldIndex}.chargesNonReconductibles`}
+                    control={control}
+                    type="number"
+                    min={0}
+                    label=""
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
+                    variant="simple"
+                    disabled={!isEditable}
+                  />{" "}
+                  €
+                </div>
+              </td>
+              <td>
+                <div className="flex items-center gap-2">
+                  <InputWithValidation
+                    name={`budgets.${fieldIndex}.reserveCompensationDeficits`}
+                    id={`detailAffectation.${fieldIndex}.reserveCompensationDeficits`}
+                    control={control}
+                    type="number"
+                    min={0}
+                    label=""
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
+                    variant="simple"
+                    disabled={!isEditable}
+                  />{" "}
+                  €
+                </div>
+              </td>
+              <td>
+                <div className="flex items-center gap-2">
+                  <InputWithValidation
+                    name={`budgets.${fieldIndex}.reserveCompensationBFR`}
+                    id={`detailAffectation.${fieldIndex}.reserveCompensationBFR`}
+                    control={control}
+                    type="number"
+                    min={0}
+                    label=""
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
+                    variant="simple"
+                    disabled={!isEditable}
+                  />{" "}
+                  €
+                </div>
+              </td>
+              <td>
+                <div className="flex items-center gap-2">
+                  <InputWithValidation
+                    name={`budgets.${fieldIndex}.reserveCompensationAmortissements`}
+                    id={`detailAffectation.${fieldIndex}.reserveCompensationAmortissements`}
+                    control={control}
+                    type="number"
+                    min={0}
+                    label=""
+                    className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
+                    variant="simple"
+                    disabled={!isEditable}
+                  />{" "}
+                  €
+                </div>
+              </td>
+              {structure?.cpom && (
+                <td>
+                  <div className="flex items-center gap-2">
+                    <InputWithValidation
+                      name={`budgets.${fieldIndex}.fondsDedies`}
+                      id={`detailAffectation.${fieldIndex}.fondsDedies`}
+                      control={control}
+                      type="number"
+                      min={0}
+                      label=""
+                      className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
+                      variant="simple"
+                      disabled={!isEditable}
+                    />{" "}
+                    €
+                  </div>
                 </td>
               )}
               <td>

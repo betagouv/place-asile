@@ -34,7 +34,7 @@ export const ContactsViewer = (): ReactElement => {
       {showContacts && (
         <div className="text-mention-grey">
           {contacts?.map((contact) => (
-            <div key={contact.email}>
+            <div key={contact.email} className="pb-1">
               <strong className="fr-pr-3w">
                 {contact.prenom} {contact.nom} ({contact.role})
               </strong>

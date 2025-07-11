@@ -309,6 +309,7 @@ const updateFileUploads = async (
           category: convertToFileUploadCategory(fileUpload.category),
           startDate: fileUpload.startDate,
           endDate: fileUpload.endDate,
+          categoryName: fileUpload.categoryName,
           structureDnaCode,
         },
       })

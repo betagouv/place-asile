@@ -17,6 +17,7 @@ const fileUploadSchema = z.object({
   startDate: createDateFieldValidator().optional(),
   endDate: createDateFieldValidator().optional(),
   avenants: z.array(avenantSchema).optional(),
+  categoryName: z.string().optional(),
   // TODO : mieux séparer controleSchema et fileUploadSchema
   type: z.nativeEnum(ControleType).optional(),
 });
