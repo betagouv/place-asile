@@ -1,6 +1,5 @@
 import { ReactElement } from "react";
 import { useSession } from "next-auth/react";
-import styles from "./User.module.css";
 import { redirect } from "next/navigation";
 
 export const User = (): ReactElement => {
@@ -8,13 +7,15 @@ export const User = (): ReactElement => {
 
   return (
     <div className="flex items-center">
-      <div className={`${styles.avatar} fr-icon-user-line`} />
+      <div className="bg-active-blue-france text-[white] w-10 h-10 shrink-0 flex items-center justify-center mr-2 rounded-full fr-icon-user-line" />
       <div>
-        <p className="fr-text--sm text-title-blue-france">
-          {session.data?.user?.name || session.data?.user?.email}
+        <p className="text-sm text-title-blue-france">
+          {session?.data
+            ? session.data?.user?.name || session.data?.user?.email
+            : "Chargement..."}
         </p>
         <button
-          className="fr-text--xs fr-p-0 fr-icon-logout-box-r-line fr-btn--icon-right"
+          className="fr-text--xs p-0 fr-icon-logout-box-r-line fr-btn--icon-right"
           onClick={() => redirect("/deconnexion")}
         >
           Deconnexion

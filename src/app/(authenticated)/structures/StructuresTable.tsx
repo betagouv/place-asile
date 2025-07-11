@@ -48,7 +48,11 @@ export const StructuresTable = ({
 
   return (
     <div className="p-4 bg-grey h-full">
-      <Table headings={headings} ariaLabelledBy={ariaLabelledBy}>
+      <Table
+        headings={headings}
+        ariaLabelledBy={ariaLabelledBy}
+        className="[&_tr]:!bg-transparent"
+      >
         {currentData.map((structure, index) => (
           <tr
             id={`table-row-key-${index}`}

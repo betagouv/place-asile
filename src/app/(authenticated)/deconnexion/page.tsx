@@ -20,5 +20,5 @@ export default function Deconnexion(): ReactElement {
     }
   }, [router, session]);
 
-  return <div className="fr-p-1w">Déconnexion en cours...</div>;
+  return <div className="p-2">Déconnexion en cours...</div>;
 }

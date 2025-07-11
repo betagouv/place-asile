@@ -75,7 +75,7 @@ export const ActivitesHistorique = ({
 
   return (
     <div>
-      <h4 className="fr-text--lg text-title-blue-france">Historique</h4>
+      <h4 className="text-lg text-title-blue-france">Historique</h4>
       <div className="flex pb-5">
         <ActivitesTypes
           typeActivite={typeActivite}

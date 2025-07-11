@@ -18,7 +18,7 @@ export const Badge = ({ children, type, icon }: Props): ReactElement => {
     <p
       className={`fr-badge ${getTypeClass(type)} ${
         icon ? "" : "fr-badge--no-icon"
-      } fr-badge--sm fr-m-0`}
+      } fr-badge--sm m-0`}
     >
       {children}
     </p>

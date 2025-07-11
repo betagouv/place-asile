@@ -42,7 +42,7 @@ export const ActivitesTypes = ({
   return (
     <>
       {tags.map((tag, index) => (
-        <div key={`tag-${index}`} className="fr-pr-1w">
+        <div key={`tag-${index}`} className="pr-2">
           <Tag
             nativeButtonProps={{
               onClick: tag.onClick,

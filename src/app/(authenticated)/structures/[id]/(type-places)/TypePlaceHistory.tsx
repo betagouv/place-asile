@@ -97,7 +97,7 @@ export const TypePlaceHistory = ({
     <Accordion label="Historique" className={styles["custom-accordion"]}>
       <Table
         bordered={true}
-        className="fr-m-0"
+        className="m-0"
         caption=""
         data={getTableData()}
         headers={[

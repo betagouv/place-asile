@@ -55,7 +55,7 @@ export function StructureHeader(): ReactElement | null {
   return structure ? (
     <>
       <div className="sticky top-0 z-2 bg-lifted-grey" ref={structureHeaderRef}>
-        <div className="flex border-bottom fr-p-1w items-center">
+        <div className="flex border-bottom px-6 py-3 items-center">
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-left-s-line"
             title="Retour aux structures d’hébergement"
@@ -64,16 +64,16 @@ export function StructureHeader(): ReactElement | null {
             Retour aux structures d’hébergement
           </Link>
           <div>
-            <h2 className="text-title-blue-france fr-text--xs uppercase fr-mb-0">
-              <strong className="fr-pr-2w">Structure hébergement</strong>
+            <h2 className="text-title-blue-france text-xs uppercase mb-0">
+              <strong className="pr-3">Structure hébergement</strong>
             </h2>
-            <h3 className="text-title-blue-france fr-h6 fr-mb-0">
-              <strong className="fr-pr-1w">
+            <h3 className="text-title-blue-france fr-h6 mb-0">
+              <strong className="pr-2">
                 {type}, {getOperateurLabel(filiale, operateur)}, {nbPlaces}{" "}
                 places
               </strong>
-              <span className="fr-pr-1w">{" – "}</span>
-              <span className="fr-mb-0 text-title-grey fr-text--lg italic font-normal">
+              <span className="pr-2">{" – "}</span>
+              <span className="mb-0 text-title-grey fr-text--lg italic font-normal">
                 {nom ? `${nom}, ` : ""} {communeAdministrative},{" "}
                 {departementAdministratif}
               </span>

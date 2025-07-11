@@ -34,7 +34,7 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
       />
       <span>{new Date(datePair.endDate).toLocaleDateString()}</span>
       {isWarningDisplayed && (
-        <div className="fr-pl-1w">
+        <div className="pl-2">
           <Badge type="warning" icon={true}>
             {"<"}&nbsp;3&nbsp;mois
           </Badge>

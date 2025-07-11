@@ -33,7 +33,7 @@ export const ControleTable = (): ReactElement => {
   return (
     <Table
       bordered={true}
-      className="fr-m-0"
+      className="m-0"
       caption=""
       data={getControles() || []}
       headers={["DATE", "TYPE", "RAPPORT"]}

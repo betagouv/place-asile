@@ -16,7 +16,7 @@ export const HistoriqueBudgets = (): ReactElement => {
       new Date(budget.date).getFullYear(),
       budget.ETP,
       budget.tauxEncadrement,
-      budget.coutJournalier,
+      `${budget.coutJournalier} €`,
     ]);
   };
 
@@ -31,7 +31,7 @@ export const HistoriqueBudgets = (): ReactElement => {
     >
       <Table
         bordered={true}
-        className="fr-m-0"
+        className="m-0"
         caption=""
         data={getBudgets()}
         headers={["ANNÉE", "ETP", "TAUX D'ENCADREMENT", "COÛT JOURNALIER"]}

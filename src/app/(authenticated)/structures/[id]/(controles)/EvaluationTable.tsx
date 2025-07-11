@@ -16,7 +16,7 @@ export const EvaluationTable = ({ evaluations }: Props): ReactElement => {
   return (
     <Table
       bordered={true}
-      className="fr-m-0"
+      className="m-0"
       caption=""
       data={getEvaluations()}
       headers={[

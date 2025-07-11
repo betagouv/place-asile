@@ -15,12 +15,12 @@ export const AdressesViewer = (): ReactElement => {
 
   return (
     <>
-      <strong className="fr-pr-2w">Type de bâti</strong>
-      <span className="fr-pr-1w">{repartition}</span>
+      <strong className="pr-3">Type de bâti</strong>
+      <span className="pr-2">{repartition}</span>
       {adresses?.some(
         ({ adresseTypologies }) => adresseTypologies?.[0]?.qpv
       ) && (
-        <span className="fr-pr-1w">
+        <span className="pr-2">
           <Badge type="warning">QPV</Badge>
         </span>
       )}

@@ -29,7 +29,7 @@ export const ActivitesBlock = (): ReactElement => {
           />
         </div>
       </div>
-      <div className="fr-pb-3w">
+      <div className="pb-3">
         <ActivitesPlaces
           nbPlaces={activites?.[0]?.nbPlaces || 0}
           placesIndisponibles={activites?.[0]?.placesIndisponibles || 0}
@@ -40,7 +40,7 @@ export const ActivitesBlock = (): ReactElement => {
           }
         />
       </div>
-      <div className="fr-pb-3w">
+      <div className="pb-3">
         <ActivitesMotifsIndisponibilite
           desinsectisation={activites?.[0]?.desinsectisation || 0}
           remiseEnEtat={activites?.[0]?.remiseEnEtat || 0}
