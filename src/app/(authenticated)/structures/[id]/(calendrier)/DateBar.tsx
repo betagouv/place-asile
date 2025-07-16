@@ -20,7 +20,8 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
     return (getTimeDifference(datePair) / maxDifference) * 100;
   };
 
-  const isWarningDisplayed = dayjs(datePair.endDate).diff(dayjs(), "month") < 3;
+  const isLessThan3Months = dayjs(datePair.endDate).diff(dayjs(), "month") < 3;
+  const isConventionExpiree = dayjs(datePair.endDate).isBefore(dayjs());
 
   return (
     <div className="fr-col fr-col-10 flex items-center">
@@ -33,10 +34,17 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
         }}
       />
       <span>{new Date(datePair.endDate).toLocaleDateString()}</span>
-      {isWarningDisplayed && (
+      {!isConventionExpiree && isLessThan3Months && (
         <div className="pl-2">
           <Badge type="warning" icon={true}>
             {"<"}&nbsp;3&nbsp;mois
+          </Badge>
+        </div>
+      )}
+      {isConventionExpiree && (
+        <div className="pl-2">
+          <Badge type="warning" icon={true}>
+            Convention&nbsp;expirée
           </Badge>
         </div>
       )}
