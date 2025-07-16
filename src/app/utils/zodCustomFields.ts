@@ -21,7 +21,7 @@ const createRequiredDateValidator = () => {
   );
 };
 
-const createOptionalDateValidator = () => {
+export const createOptionalDateValidator = () => {
   return z
     .string()
     .nullable()

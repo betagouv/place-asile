@@ -15,7 +15,9 @@ export const HudaStructure = (): ReactElement => {
 
   return (
     <>
-      <DefaultDescriptionBlock />
+      <Section id="description">
+        <DefaultDescriptionBlock />
+      </Section>
       <Section id="calendrier">
         <CalendrierBlock />
       </Section>

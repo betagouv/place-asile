@@ -22,6 +22,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
     "EXCÉDENT DÉDUIT DOTATION À VENIR",
     "RESTANT FONDS DÉDIÉS",
     "CUMUL FONDS DÉDIÉS",
+    "COMMENTAIRE",
   ];
 
   const computeResultatNet = (
@@ -145,6 +146,9 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                 ) : (
                   <EmptyCell />
                 )}
+              </td>
+              <td className="py-2 px-4 text-center test-sm">
+                {budget.commentaire ?? <EmptyCell />}
               </td>
             </tr>
           ))}

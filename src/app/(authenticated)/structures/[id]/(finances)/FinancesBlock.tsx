@@ -16,16 +16,17 @@ import { GestionBudgetaireSubventionneeSansCpomTable } from "./GestionBudgetaire
 
 export const FinancesBlock = (): ReactElement => {
   const { structure } = useStructureContext();
+  const isAutorisee = isStructureAutorisee(structure.type);
+  const isConventionnee = isStructureSubventionnee(structure.type);
   const isDetailAffectationsDisplayed =
-    isStructureAutorisee(structure.type) ||
-    (isStructureSubventionnee(structure.type) && structure.cpom);
+    isAutorisee || (isConventionnee && structure.cpom);
 
   const getGestionBudgetaireComponent = (): ReactElement => {
     if (!structure.cpom) {
-      if (isStructureAutorisee(structure.type)) {
+      if (isAutorisee) {
         return <GestionBudgetaireAutoriseeSansCpomTable />;
       }
-      if (isStructureSubventionnee(structure.type)) {
+      if (isConventionnee) {
         return <GestionBudgetaireSubventionneeSansCpomTable />;
       }
     }
@@ -58,10 +59,13 @@ export const FinancesBlock = (): ReactElement => {
       <h4 className="text-title-blue-france pb-2 fr-h6 mb-0">
         Documents administratifs et financiers transmis par l’opérateur
       </h4>
-      <h5 className="text-sm text-gray-500 font-normal italic">
-        Retrouvez les Plans Pluriannuels d’Investissements (PPI) dans la section
-        “Actes administratifs” s’ils existent et qu’ils ont été importés.
-      </h5>
+      {isConventionnee && (
+        <h5 className="text-sm text-gray-500 font-normal italic">
+          Retrouvez les Plans Pluriannuels d’Investissements (PPI) dans la
+          section “Actes administratifs” s’ils existent et qu’ils ont été
+          importés.
+        </h5>
+      )}
       <DocumentsAdministratifs />
     </Block>
   );

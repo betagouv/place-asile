@@ -20,8 +20,15 @@ export const FieldSetNotes = () => {
         className="fr-input"
         {...register("notes")}
       />
+      <span className="text-xs text-mention-grey pt-2">
+        ex : “ 17/05/2025 Jean-Michel DUPONT (DDETS) : la rencontre pour le
+        dialogue de gestion est prévu le 12/07. Pensez à parler de la
+        dératisation. “
+      </span>
       {fieldState.error?.message && (
-        <p className="text-default-error m-0 p-0">Ce champ est obligatoire</p>
+        <p className="text-default-error m-0 p-0 pt-2">
+          Ce champ est obligatoire
+        </p>
       )}
     </fieldset>
   );

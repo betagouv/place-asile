@@ -1,4 +1,7 @@
-import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
+import {
+  createDateFieldValidator,
+  createOptionalDateValidator,
+} from "@/app/utils/zodCustomFields";
 import z from "zod";
 import { PublicType, StructureType } from "@/types/structure.type";
 import {
@@ -28,12 +31,12 @@ export const finalisationIdentificationSchema = z
     lgbt: z.boolean(),
     fvvTeh: z.boolean(),
     contacts: z.array(z.union([contactSchema, contactSchema])),
-    debutPeriodeAutorisation: createDateFieldValidator().optional(),
-    finPeriodeAutorisation: createDateFieldValidator().optional(),
-    debutConvention: createDateFieldValidator().optional(),
-    finConvention: createDateFieldValidator().optional(),
-    debutCpom: createDateFieldValidator().optional(),
-    finCpom: createDateFieldValidator().optional(),
+    debutPeriodeAutorisation: createOptionalDateValidator(),
+    finPeriodeAutorisation: createOptionalDateValidator(),
+    debutConvention: createOptionalDateValidator(),
+    finConvention: createOptionalDateValidator(),
+    debutCpom: createOptionalDateValidator(),
+    finCpom: createOptionalDateValidator(),
   })
   .refine(
     (data) => {
