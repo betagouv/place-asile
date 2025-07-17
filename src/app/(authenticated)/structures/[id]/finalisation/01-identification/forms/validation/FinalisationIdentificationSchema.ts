@@ -16,16 +16,11 @@ export const finalisationIdentificationSchema = z
     operateur: z.string().nonempty(),
     type: z.preprocess(
       (val) => (val === "" ? undefined : val),
-      z.nativeEnum(StructureType, {
-        invalid_type_error: "Le type doit être un type de structure valide",
-      })
+      z.nativeEnum(StructureType)
     ),
     creationDate: createDateFieldValidator(),
     finessCode: z.string().optional().or(z.literal("")),
-    public: z.nativeEnum(PublicType, {
-      invalid_type_error:
-        "Le public doit être de type : " + Object.values(PublicType).join(", "),
-    }),
+    public: z.nativeEnum(PublicType),
     filiale: z.string().optional(),
     cpom: z.boolean(),
     lgbt: z.boolean(),
