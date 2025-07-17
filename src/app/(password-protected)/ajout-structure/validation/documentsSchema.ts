@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { PublicType } from "@/types/structure.type";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { FileUploadCategory } from "@/types/file-upload.type";
@@ -10,13 +9,7 @@ dayjs.extend(customParseFormat);
 export const DocumentsTypeFlexible = z.object({
   key: z.string().optional(),
   date: createDateFieldValidator().optional(),
-  category: z
-    .nativeEnum(FileUploadCategory, {
-      invalid_type_error:
-        "La catégorie du document doit être de type : " +
-        Object.values(PublicType).join(", "),
-    })
-    .optional(),
+  category: z.nativeEnum(FileUploadCategory).optional(),
 });
 
 export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
@@ -30,13 +23,7 @@ export const DocumentsTypeConditional = z
   .object({
     key: z.string().optional(),
     date: createDateFieldValidator().optional(),
-    category: z
-      .nativeEnum(FileUploadCategory, {
-        invalid_type_error:
-          "La catégorie du document doit être de type : " +
-          Object.values(PublicType).join(", "),
-      })
-      .optional(),
+    category: z.nativeEnum(FileUploadCategory).optional(),
   })
   .superRefine((data, ctx) => {
     if (
@@ -72,11 +59,7 @@ export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsTypeStrict = z.object({
   key: z.string(),
   date: createDateFieldValidator(),
-  category: z.nativeEnum(FileUploadCategory, {
-    invalid_type_error:
-      "La catégorie du document doit être de type : " +
-      Object.values(PublicType).join(", "),
-  }),
+  category: z.nativeEnum(FileUploadCategory),
 });
 
 export const DocumentsSchemaStrict = z.object({

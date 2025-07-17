@@ -45,11 +45,7 @@ const structureTypologieSchema = z.object({
 const fileUploadSchema = z.object({
   key: z.string().min(1, "La clé d'upload du fichier est requise"),
   date: z.coerce.date(),
-  category: z.nativeEnum(FileUploadCategory, {
-    invalid_type_error:
-      "La catégorie du document doit être de type : " +
-      Object.values(PublicType).join(", "),
-  }),
+  category: z.nativeEnum(FileUploadCategory),
 });
 
 export const structureCreationSchema = z.object({
