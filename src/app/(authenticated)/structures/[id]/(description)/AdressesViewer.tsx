@@ -1,10 +1,10 @@
 "use client";
 
-import { Badge } from "@/app/components/common/Badge";
 import { ReactElement, useState } from "react";
 import { useStructureContext } from "../context/StructureClientContext";
 import { getRepartition } from "@/app/utils/structure.util";
 import { Repartition } from "@/types/adresse.type";
+import { CustomTag } from "@/app/components/ui/CustomTag";
 
 export const AdressesViewer = (): ReactElement => {
   const [showAdresses, setShowAdresses] = useState(false);
@@ -21,12 +21,12 @@ export const AdressesViewer = (): ReactElement => {
         ({ adresseTypologies }) => adresseTypologies?.[0]?.qpv
       ) && (
         <span className="pr-2">
-          <Badge type="warning">QPV</Badge>
+          <CustomTag>QPV</CustomTag>
         </span>
       )}
       {adresses?.some(
         ({ adresseTypologies }) => adresseTypologies?.[0]?.logementSocial
-      ) && <Badge type="warning">Logement social</Badge>}
+      ) && <CustomTag>Logement social</CustomTag>}
       <button
         className={`fr-btn fr-btn--sm fr-btn--icon-left fr-btn--tertiary-no-outline ${
           showAdresses ? "fr-icon-eye-off-line" : "fr-icon-eye-line"
@@ -55,11 +55,11 @@ export const AdressesViewer = (): ReactElement => {
               </span>
               {adresse.adresseTypologies?.[0]?.qpv !== 0 && (
                 <span className="pr-1">
-                  <Badge type="warning">QPV</Badge>
+                  <CustomTag>QPV</CustomTag>
                 </span>
               )}
               {adresse.adresseTypologies?.[0]?.logementSocial !== 0 && (
-                <Badge type="warning">Logement social</Badge>
+                <CustomTag>Logement social</CustomTag>
               )}
             </div>
           ))}
