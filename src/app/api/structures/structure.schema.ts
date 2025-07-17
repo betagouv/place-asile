@@ -74,15 +74,15 @@ export const structureCreationSchema = z.object({
   debutConvention: z.coerce.date().optional(),
   finConvention: z.coerce.date().optional(),
   cpom: z.boolean({
-    required_error: "Le CPOM est requis",
+    message: "Le CPOM est requis",
   }),
   creationDate: z.coerce.date({ message: "La date de création est requise" }),
   finessCode: z.string().optional(),
   lgbt: z.boolean({
-    required_error: "L'accueil de LGBT dans la structure est requis",
+    message: "L'accueil de LGBT dans la structure est requis",
   }),
   fvvTeh: z.boolean({
-    required_error: "L'accueil de FVV-TEH dans la structure est requis",
+    message: "L'accueil de FVV-TEH dans la structure est requis",
   }),
   public: z.nativeEnum(PublicType),
   debutPeriodeAutorisation: z.coerce.date().optional(),
@@ -162,19 +162,19 @@ export const structureUpdateSchema = z.object({
   finConvention: frDateField(),
   cpom: z
     .boolean({
-      required_error: "Le CPOM est requis",
+      message: "Le CPOM est requis",
     })
     .optional(),
   creationDate: frDateField(),
   finessCode: z.string().optional(),
   lgbt: z
     .boolean({
-      required_error: "L'accueil de LGBT dans la structure est requis",
+      message: "L'accueil de LGBT dans la structure est requis",
     })
     .optional(),
   fvvTeh: z
     .boolean({
-      required_error: "L'accueil de FVV-TEH dans la structure est requis",
+      message: "L'accueil de FVV-TEH dans la structure est requis",
     })
     .optional(),
   public: z.nativeEnum(PublicType).optional(),
