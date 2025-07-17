@@ -28,6 +28,16 @@ import { useStructures } from "@/app/hooks/useStructures";
 import { useRouter } from "next/navigation";
 import { SubmitError } from "@/app/components/SubmitError";
 import Link from "next/link";
+import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
+import {
+  structureAutoriseesDocuments,
+  structureSubventionneesDocuments,
+} from "./components/documents/documentsStructures";
+import {
+  convertObjectToArray,
+  reverseObjectKeyValues,
+} from "@/app/utils/common.util";
+import { FileUploadCategory } from "@/types/file-upload.type";
 
 export default function FinalisationFinanceForm({
   currentStep,
@@ -42,6 +52,16 @@ export default function FinalisationFinanceForm({
   const isSubventionnee = isStructureSubventionnee(structure?.type);
   const { updateStructure } = useStructures();
   const router = useRouter();
+
+  const documents = isAutorisee
+    ? structureAutoriseesDocuments
+    : structureSubventionneesDocuments;
+
+  const { getDocumentIndexes } = useDocumentIndex();
+  const documentIndexes = getDocumentIndexes(
+    years as unknown as string[],
+    documents
+  );
 
   const { nextRoute, previousRoute } = getCurrentStepData(
     currentStep,
@@ -69,9 +89,29 @@ export default function FinalisationFinanceForm({
         : emptyBudget
     );
 
+  const buildFileUploadsDefaultValues = () => {
+    const indexWithValues = reverseObjectKeyValues(documentIndexes);
+    const documents = convertObjectToArray(indexWithValues);
+    const fileUploads = documents.map((document) => {
+      const [fileUploadCategory, year] = document.toString().split("-");
+      const fileUpload = structure.fileUploads?.find((fileUpload) => {
+        const formattedFileUploadCategory =
+          FileUploadCategory[
+            fileUpload.category as unknown as keyof typeof FileUploadCategory
+          ];
+        return (
+          formattedFileUploadCategory === fileUploadCategory &&
+          new Date(fileUpload.date || "").getFullYear() === Number(year)
+        );
+      });
+      return fileUpload ?? null;
+    });
+    return fileUploads;
+  };
+
   const defaultValues = {
     budgets: budgetArray as unknown as anyFinanceFormValues["budgets"],
-    fileUploads: structure.fileUploads,
+    fileUploads: buildFileUploadsDefaultValues(),
   };
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");

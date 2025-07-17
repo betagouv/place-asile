@@ -34,3 +34,25 @@ export const computeAverage = (array: number[]): number => {
     ) / array.length
   );
 };
+
+// TODO: test this function
+export const reverseObjectKeyValues = (
+  objectToReverse: Record<string | number, string | number>
+) => {
+  const reversedObject: Record<string | number, string | number> = {};
+  for (const key in objectToReverse) {
+    reversedObject[objectToReverse[key]] = key;
+  }
+  return reversedObject;
+};
+
+// TODO: test this function
+export const convertObjectToArray = (
+  objectToConvert: Record<string | number, string | number>
+) => {
+  const convertedArray = [];
+  for (const key in objectToConvert) {
+    convertedArray.push(objectToConvert[key]);
+  }
+  return convertedArray;
+};

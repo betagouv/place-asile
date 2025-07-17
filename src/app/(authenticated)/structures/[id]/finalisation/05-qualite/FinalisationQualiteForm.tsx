@@ -13,6 +13,7 @@ import { useStructures } from "@/app/hooks/useStructures";
 import { useRouter } from "next/navigation";
 import { SubmitError } from "@/app/components/SubmitError";
 import { FileUploadCategory } from "@/types/file-upload.type";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 export const FinalisationQualiteForm = ({
   currentStep,
@@ -36,15 +37,19 @@ export const FinalisationQualiteForm = ({
     setState("loading");
     // TODO : refacto pour faire coller RHF, Zod et les file uploads, sans avoir à passer par des objets intermédiaires
     const fileUploads = [
-      ...data[FileUploadCategory.INSPECTION_CONTROLE],
-      ...data[FileUploadCategory.ARRETE_AUTORISATION],
-      ...data[FileUploadCategory.CONVENTION],
-      ...data[FileUploadCategory.ARRETE_TARIFICATION],
-      ...data[FileUploadCategory.CPOM],
-      ...data[FileUploadCategory.AUTRE],
+      ...(data[FileUploadCategory.INSPECTION_CONTROLE] ?? []),
+      ...(data[FileUploadCategory.ARRETE_AUTORISATION] ?? []),
+      ...(data[FileUploadCategory.ARRETE_AUTORISATION_AVENANT] ?? []),
+      ...(data[FileUploadCategory.CONVENTION] ?? []),
+      ...(data[FileUploadCategory.CONVENTION_AVENANT] ?? []),
+      ...(data[FileUploadCategory.ARRETE_TARIFICATION] ?? []),
+      ...(data[FileUploadCategory.ARRETE_TARIFICATION_AVENANT] ?? []),
+      ...(data[FileUploadCategory.CPOM] ?? []),
+      ...(data[FileUploadCategory.CPOM_AVENANT] ?? []),
+      ...(data[FileUploadCategory.AUTRE] ?? []),
     ].filter((fileUpload) => fileUpload.key);
 
-    const controles = data[FileUploadCategory.INSPECTION_CONTROLE]
+    const controles = (data[FileUploadCategory.INSPECTION_CONTROLE] ?? [])
       .map((controle: { date: Date; type: string; key: string }) => {
         return {
           date: controle.date,
@@ -129,32 +134,33 @@ export const FinalisationQualiteForm = ({
           },
         ]}
       />
-
-      <UploadsByCategory
-        categoryId={FileUploadCategory.ARRETE_AUTORISATION}
-        categoryShortName="arrêté"
-        fieldBaseName="fileUploads"
-        title="Arrêtés d’autorisation"
-        canAddFile
-        addFileButtonLabel="Ajouter un arrêté d'autorisation"
-        canAddAvenant
-        fileMetaData={FileMetaData.DATE_START_END}
-        // TODO : initialiser autrement le tableau de files
-        files={[
-          {
-            startDate: "2025-01-01",
-            endDate: "2026-01-01",
-            key: "arrete-autorisation-1",
-          },
-        ]}
-      />
+      {isStructureAutorisee(structure.type) && (
+        <UploadsByCategory
+          categoryId={FileUploadCategory.ARRETE_AUTORISATION}
+          categoryShortName="arrêté"
+          fieldBaseName="fileUploads"
+          title="Arrêtés d’autorisation"
+          canAddFile
+          addFileButtonLabel="Ajouter un arrêté d'autorisation"
+          canAddAvenant
+          fileMetaData={FileMetaData.DATE_START_END}
+          // TODO : initialiser autrement le tableau de files
+          files={[
+            {
+              startDate: "2025-01-01",
+              endDate: "2026-01-01",
+              key: "arrete-autorisation-1",
+            },
+          ]}
+        />
+      )}
 
       <UploadsByCategory
         categoryId={FileUploadCategory.CONVENTION}
         categoryShortName="convention"
         fieldBaseName="fileUploads"
         title="Conventions"
-        isOptional
+        isOptional={isStructureAutorisee(structure.type)}
         canAddFile
         addFileButtonLabel="Ajouter une convention"
         canAddAvenant
@@ -168,23 +174,25 @@ export const FinalisationQualiteForm = ({
         ]}
       />
 
-      <UploadsByCategory
-        categoryId={FileUploadCategory.ARRETE_TARIFICATION}
-        categoryShortName="arrêté"
-        fieldBaseName="fileUploads"
-        title="Arrêtés de tarification"
-        canAddFile
-        addFileButtonLabel="Ajouter un arrêté de tarification"
-        canAddAvenant
-        fileMetaData={FileMetaData.DATE_START_END}
-        files={[
-          {
-            startDate: "2025-01-01",
-            endDate: "2026-01-01",
-            key: "arrete-tarification-1",
-          },
-        ]}
-      />
+      {isStructureAutorisee(structure.type) && (
+        <UploadsByCategory
+          categoryId={FileUploadCategory.ARRETE_TARIFICATION}
+          categoryShortName="arrêté"
+          fieldBaseName="fileUploads"
+          title="Arrêtés de tarification"
+          canAddFile
+          addFileButtonLabel="Ajouter un arrêté de tarification"
+          canAddAvenant
+          fileMetaData={FileMetaData.DATE_START_END}
+          files={[
+            {
+              startDate: "2025-01-01",
+              endDate: "2026-01-01",
+              key: "arrete-tarification-1",
+            },
+          ]}
+        />
+      )}
 
       {structure.cpom && (
         <UploadsByCategory
