@@ -12,6 +12,7 @@ import {
 import { formatDate } from "@/app/utils/date.util";
 import { Structure } from "@/types/structure.type";
 import { EmptyCell } from "@/app/components/common/EmptyCell";
+import Tooltip from "@codegouvfr/react-dsfr/Tooltip";
 
 export const StructuresTable = ({
   structures,
@@ -34,12 +35,17 @@ export const StructuresTable = ({
   const getCommuneLabel = (structure: Structure) => {
     const placesByCommune = getPlacesByCommunes(structure.adresses || []);
     const mainCommune = Object.keys(placesByCommune)[0];
+    const communesWithoutMainCommune = Object.keys(placesByCommune).filter(
+      (commune) => commune !== mainCommune
+    );
     return (
       <>
         <span>{mainCommune} </span>
-        {mainCommune && Object.keys(mainCommune).length > 1 && (
+        {mainCommune && communesWithoutMainCommune.length > 1 && (
           <span className="underline text-mention-grey inline-flex ms-1">
-            + {Object.keys(mainCommune).length} autres
+            <Tooltip title={communesWithoutMainCommune.join(", ")}>
+              + {communesWithoutMainCommune.length} autres
+            </Tooltip>
           </span>
         )}
       </>
@@ -79,10 +85,10 @@ export const StructuresTable = ({
             <td>
               <Link
                 className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
-                title={`Détails de la structure ${structure.id}`}
+                title={`Détails de la structure ${structure.dnaCode}`}
                 href={`structures/${structure.id}`}
               >
-                Détails de la structure {structure.id}
+                Détails de la structure {structure.dnaCode}
               </Link>
             </td>
           </tr>

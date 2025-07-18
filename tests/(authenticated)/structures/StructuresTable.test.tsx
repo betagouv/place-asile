@@ -45,12 +45,12 @@ describe("StructuresTable", () => {
     expect(firstStructureCells[2]).toHaveAccessibleName("Adoma");
     expect(firstStructureCells[3]).toHaveAccessibleName("5");
     expect(firstStructureCells[4]).toHaveAccessibleName("Diffus");
-    expect(firstStructureCells[5]).toHaveAccessibleName("Paris + 5 autres");
+    expect(firstStructureCells[5]).toHaveAccessibleName("Paris");
     expect(firstStructureCells[6]).toHaveAccessibleName(
       "02/01/2024 - 02/01/2027"
     );
     expect(firstStructureCells[7]).toHaveAccessibleName(
-      "Détails de la structure 1"
+      "Détails de la structure C0001"
     );
     const secondStructureCells = within(structureRows[2]).getAllByRole("cell");
     expect(secondStructureCells[0]).toHaveAccessibleName("C0001");
@@ -58,12 +58,12 @@ describe("StructuresTable", () => {
     expect(secondStructureCells[2]).toHaveAccessibleName("Adoma");
     expect(secondStructureCells[3]).toHaveAccessibleName("5");
     expect(secondStructureCells[4]).toHaveAccessibleName("Diffus");
-    expect(secondStructureCells[5]).toHaveAccessibleName("Paris + 5 autres");
+    expect(secondStructureCells[5]).toHaveAccessibleName("Paris");
     expect(firstStructureCells[6]).toHaveAccessibleName(
       "02/01/2024 - 02/01/2027"
     );
     expect(secondStructureCells[7]).toHaveAccessibleName(
-      "Détails de la structure 1"
+      "Détails de la structure C0001"
     );
     const thirdStructureCells = within(structureRows[3]).getAllByRole("cell");
     expect(thirdStructureCells[0]).toHaveAccessibleName("C0001");
@@ -71,12 +71,12 @@ describe("StructuresTable", () => {
     expect(thirdStructureCells[2]).toHaveAccessibleName("Adoma");
     expect(thirdStructureCells[3]).toHaveAccessibleName("5");
     expect(thirdStructureCells[4]).toHaveAccessibleName("Diffus");
-    expect(thirdStructureCells[5]).toHaveAccessibleName("Paris + 5 autres");
+    expect(thirdStructureCells[5]).toHaveAccessibleName("Paris");
     expect(firstStructureCells[6]).toHaveAccessibleName(
       "02/01/2024 - 02/01/2027"
     );
     expect(thirdStructureCells[7]).toHaveAccessibleName(
-      "Détails de la structure 1"
+      "Détails de la structure C0001"
     );
     const pagination = screen.getByRole("navigation");
     const pages = within(pagination).getAllByRole("link");

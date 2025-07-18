@@ -9,7 +9,7 @@ export const CustomTag = ({
     <span
       // TODO Jerem: pass the color from dsfr tokens
       className={cn(
-        "bg-[#FEE7FC] text-[#6E445A] uppercase font-bold text-xs flex justify-center items-center rounded-sm px-2",
+        "bg-[#FEE7FC] text-[#6E445A] uppercase font-bold text-xs inline-flex justify-center items-center rounded-sm px-2 w-fit",
         className
       )}
     >
