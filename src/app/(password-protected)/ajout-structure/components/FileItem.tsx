@@ -29,8 +29,8 @@ export const FileItem = ({ fileKey, title }: Props): ReactElement => {
       {fileKey ? (
         <p className="flex gap-2 items-center ">
           <i className="fr-icon-file-text-fill text-action-high-blue-france"></i>
-          <span className="flex flex-col gap-1">
-            <span className="text-sm">{name}</span>
+          <span className="flex flex-col gap-1 truncate">
+            <span className="text-sm truncate">{name}</span>
             <span className="text-xs text-disabled-grey">
               {prettyBytes(size || 0, { locale: "fr" })}
             </span>
