@@ -24,7 +24,6 @@ export const BudgetTables = () => {
         <p className="mb-0">
           Veuillez renseigner l’historique de ces données budgétaires.
         </p>
-
         {isAutorisee &&
           (hasCpom ? <StructureAutorisee /> : <StructureAutoriseeSansCpom />)}
         {isSubventionnee &&

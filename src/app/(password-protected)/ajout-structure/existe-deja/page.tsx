@@ -10,7 +10,7 @@ export default function ExisteDeja() {
   const dnaCode = searchParams.get("dnaCode");
 
   return (
-    <div className="max-w-xl mx-auto mt-auto h-[calc(50vh-12rem)] text-center flex flex-col items-center justify-center animate-fade-in border bg-white shadow-md p-12 border-default-grey rounded">
+    <div className="max-w-xl mx-auto mt-auto h-[calc(60vh-12rem)] text-center flex flex-col items-center justify-center animate-fade-in border bg-white shadow-md p-12 border-default-grey rounded">
       <h1>Structure existante</h1>
       <p>
         La structure <CustomTag className="inline">{dnaCode}</CustomTag> que

@@ -1,4 +1,5 @@
 "use client";
+
 import { ReactElement } from "react";
 import Steps from "../components/Steps";
 import { useStructureContext } from "../../context/StructureClientContext";

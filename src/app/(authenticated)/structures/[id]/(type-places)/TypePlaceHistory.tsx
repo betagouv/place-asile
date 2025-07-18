@@ -97,7 +97,7 @@ export const TypePlaceHistory = ({
     <Accordion label="Historique" className={styles["custom-accordion"]}>
       <Table
         bordered={true}
-        className="m-0"
+        className="m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center text-mention-grey [&>table>thead]:text-mention-grey"
         caption=""
         data={getTableData()}
         headers={[
@@ -110,6 +110,10 @@ export const TypePlaceHistory = ({
           "LOG. SOCIAL",
         ]}
       />
+      <span className="italic border-t-1 border-default-grey text-mention-grey pl-2">
+        Les places correspondent aux nombres de places au 1er janvier de chaque
+        année
+      </span>
     </Accordion>
   );
 };

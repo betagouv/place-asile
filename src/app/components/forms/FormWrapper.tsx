@@ -212,8 +212,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                     className="underline"
                   >
                     contactez-nous par mail
-                  </a>{" "}
-                  ou au 06 69 37 24 15.
+                  </a>
                 </p>
               </div>
             </>

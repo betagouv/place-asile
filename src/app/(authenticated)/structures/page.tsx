@@ -36,7 +36,7 @@ export default function Structures(): ReactElement {
 
   return (
     <div className="h-screen w-full flex flex-col">
-      <div className="flex justify-between fr-p-2w border-bottom">
+      <div className="flex justify-between fr-p-2w border-bottom min-h-[4.35rem] items-center">
         <SegmentedControl
           name="Visualisation"
           options={options}
