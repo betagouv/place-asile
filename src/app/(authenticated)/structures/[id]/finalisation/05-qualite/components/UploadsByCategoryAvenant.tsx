@@ -16,12 +16,6 @@ export const UploadsByCategoryAvenant = ({
   const { deleteAvenant } = useFiles();
 
   const handleDeleteAvenant = () => {
-    console.log(
-      "Deleting avenant with ID:",
-      avenantId,
-      "from file index:",
-      parentFileIndex
-    );
     deleteAvenant(parentFileIndex, avenantId);
   };
 

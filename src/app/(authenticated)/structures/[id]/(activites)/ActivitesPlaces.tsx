@@ -1,7 +1,8 @@
 "use client";
 
 import { ReactElement } from "react";
-import { PieChart } from "@/app/components/common/PieChart";
+// TODO : refactor this component with chartist PieChart
+// import { PieChart } from "@/app/components/common/PieChart";
 import { getPercentage } from "@/app/utils/common.util";
 
 export const ActivitesPlaces = ({
@@ -16,12 +17,12 @@ export const ActivitesPlaces = ({
   return (
     <div className="flex items-center pt-3">
       <div>
-        <PieChart
+        {/* <PieChart
           x={[]}
           y={[placesIndisponibles, nbPlaces - placesIndisponibles]}
           color={["beige-gris-galet", "yellow-moutarde"]}
           width={350}
-        />
+        /> */}
         <div className="pt-2 text-center">
           <strong>{nbPlaces}</strong> places enregistrées DNA
           <div>
@@ -36,12 +37,12 @@ export const ActivitesPlaces = ({
       </div>
       <span className="fr-icon-arrow-right-s-line text-title-blue-france" />
       <div>
-        <PieChart
+        {/* <PieChart
           x={[]}
           y={[placesVacantes, placesDisponibles - placesVacantes]}
           color={["beige-gris-galet", "pink-macaron"]}
           width={350}
-        />
+        /> */}
         <div className="pt-2 text-center">
           <strong>{placesDisponibles}</strong> places disponibles
           <div>
@@ -56,7 +57,7 @@ export const ActivitesPlaces = ({
       </div>
       <span className="fr-icon-arrow-right-s-line text-title-blue-france" />
       <div>
-        <PieChart
+        {/* <PieChart
           x={[]}
           y={[
             presencesInduesBPI,
@@ -65,7 +66,7 @@ export const ActivitesPlaces = ({
           ]}
           color={["blue-france", "blue-ecume", "blue-cumulus"]}
           width={350}
-        />
+        /> */}
         <div className="pt-2 text-center">
           <strong>{placesOccupees}</strong> places occupées
           <div>

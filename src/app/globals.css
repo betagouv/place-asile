@@ -63,20 +63,3 @@ html {
 .animate-fade-in {
   animation: fade-in 1s ease-in-out forwards;
 }
-
-/* TODO : use DSFR values */
-.ct-series-a .ct-bar {
-  stroke: #FCC63A !important;
-}
-
-.ct-series-b .ct-bar {
-  stroke: #C3992A !important;
-}
-
-.ct-series-c .ct-bar {
-  stroke: #FBB8F6 !important;
-}
-
-.ct-series-d .ct-bar {
-  stroke: #B6CFFB !important;
-}
