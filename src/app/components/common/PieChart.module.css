@@ -1,7 +1,0 @@
-.container > div > pie-chart > div > div > div > div:nth-child(n + 4) {
-  display: none !important;
-}
-
-.container > div > pie-chart > div > div > div > div:nth-child(2) {
-  display: none !important;
-}

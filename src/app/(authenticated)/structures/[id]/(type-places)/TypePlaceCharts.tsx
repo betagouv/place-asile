@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import { PieChart } from "@/app/components/common/PieChart";
 import { getPercentage } from "@/app/utils/common.util";
+import PieChart from "@/app/components/common/PieChart";
 
 export const TypePlaceCharts = ({
   placesAutorisees,
@@ -11,30 +11,38 @@ export const TypePlaceCharts = ({
   placesLogementsSociaux,
 }: Props): ReactElement => {
   return (
-    <>
-      <PieChart
-        x={[]}
-        y={[placesPmr, placesAutorisees - placesPmr]}
-        fill={true}
-        color={["blue-cumulus", "green-bourgeon"]}
-      >
+    <div className="grid grid-cols-5 gap-10">
+      <div className="col-span-1">
+        <PieChart
+          data={{
+            labels: ["Places PMR", "Places non-PMR"],
+            series: [placesPmr, placesAutorisees - placesPmr],
+          }}
+          options={{ showLabel: false }}
+        ></PieChart>
         <div className="fr-pt-1w text-center">
           <strong>{placesPmr}</strong> places PMR{" "}
           <span className="text-mention-grey">
             ({getPercentage(placesPmr, placesAutorisees)})
           </span>
         </div>
-      </PieChart>
-      <PieChart
-        x={[]}
-        y={[
-          placesLgbt,
-          placesFvvTeh,
-          placesAutorisees - placesLgbt - placesFvvTeh,
-        ]}
-        fill={true}
-        color={["blue-cumulus", "green-bourgeon", "pink-tuile"]}
-      >
+      </div>
+      <div className="col-span-1">
+        <PieChart
+          data={{
+            labels: [
+              "Places LGBT",
+              "Places FVV-TEH",
+              "Places non-LGBT non-FVV-TEH",
+            ],
+            series: [
+              placesLgbt,
+              placesFvvTeh,
+              placesAutorisees - placesLgbt - placesFvvTeh,
+            ],
+          }}
+          options={{ showLabel: false }}
+        ></PieChart>
         <div className="fr-pt-1w text-center">
           <strong>{placesLgbt}</strong> places LGBT{" "}
           <span className="text-mention-grey">
@@ -46,34 +54,44 @@ export const TypePlaceCharts = ({
             ({getPercentage(placesFvvTeh, placesAutorisees)})
           </span>
         </div>
-      </PieChart>
-      <PieChart
-        x={[]}
-        y={[placesQPV, placesAutorisees - placesQPV]}
-        fill={true}
-        color={["blue-cumulus", "green-bourgeon"]}
-      >
+      </div>
+      <div className="col-span-1">
+        <PieChart
+          data={{
+            labels: ["Places QPV", "Places non-QPV"],
+            series: [placesQPV, placesAutorisees - placesQPV],
+          }}
+          options={{ showLabel: false }}
+        ></PieChart>
         <div className="fr-pt-1w text-center">
           <strong>{placesQPV}</strong> places QPV{" "}
           <span className="text-mention-grey">
             ({getPercentage(placesQPV, placesAutorisees)})
           </span>
         </div>
-      </PieChart>
-      <PieChart
-        x={[]}
-        y={[placesLogementsSociaux, placesAutorisees - placesLogementsSociaux]}
-        fill={true}
-        color={["blue-cumulus", "green-bourgeon"]}
-      >
+      </div>
+      <div className="col-span-1">
+        <PieChart
+          data={{
+            labels: [
+              "Places en logements sociaux",
+              "Places non-logements sociaux",
+            ],
+            series: [
+              placesLogementsSociaux,
+              placesAutorisees - placesLogementsSociaux,
+            ],
+          }}
+          options={{ showLabel: false }}
+        ></PieChart>
         <div className="fr-pt-1w text-center">
           <strong>{placesLogementsSociaux}</strong> places en logements sociaux{" "}
           <span className="text-mention-grey">
             ({getPercentage(placesLogementsSociaux, placesAutorisees)})
           </span>
         </div>
-      </PieChart>
-    </>
+      </div>
+    </div>
   );
 };
 

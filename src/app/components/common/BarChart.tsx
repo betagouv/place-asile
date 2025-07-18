@@ -20,7 +20,20 @@ export default function BarChart({ data, options }: Props) {
     };
   }, [data, options]);
 
-  return <div ref={chartRef} style={{ height: 300 }} />;
+  // TODO : use real DSFR colors
+  return (
+    <>
+      <div ref={chartRef} style={{ height: 300 }} />
+      <style>
+        {`
+          .ct-series-a .ct-slice-pie { fill: #FCC63A !important; }
+          .ct-series-b .ct-slice-pie { fill: #C3992A !important; }
+          .ct-series-c .ct-slice-pie { fill: #FBB8F6 !important; }
+          .ct-series-d .ct-slice-pie { fill: #B6CFFB !important; }
+        `}
+      </style>
+    </>
+  );
 }
 
 type Props = {

@@ -114,11 +114,6 @@ export const UploadsByCategoryFile = ({
       {canAddAvenant && (
         <div className="flex flex-col ml-8 pl-8 border-l-2 border-default-grey">
           {file.avenants?.map((avenant, avenantIndex) => {
-            // console.log("Rendering avenant:", {
-            //   avenant,
-            //   avenantIndex,
-            //   id: avenant.id,
-            // });
             return (
               <UploadsByCategoryAvenant
                 key={`${avenant.key || ""}-${avenantIndex}`}
