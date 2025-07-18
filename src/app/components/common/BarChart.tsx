@@ -12,6 +12,16 @@ export default function BarChart({ data, options }: Props) {
     let chart = null;
     if (chartRef.current) {
       chart = new Chartist.BarChart(chartRef.current, data, options);
+      const extraSpace = 10;
+
+      chart.on("draw", function (ctx) {
+        if (ctx.type === "bar" && ctx.seriesIndex >= 2) {
+          ctx.element.attr({
+            x1: ctx.x1 + extraSpace,
+            x2: ctx.x2 + extraSpace,
+          });
+        }
+      });
     }
     return () => {
       if (chart) {
