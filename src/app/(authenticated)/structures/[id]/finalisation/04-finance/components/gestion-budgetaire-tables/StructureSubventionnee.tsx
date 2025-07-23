@@ -126,8 +126,8 @@ export const StructureSubventionnee = () => {
                   label=""
                   className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
-                />{" "}
-                €
+                />
+                &nbsp;€
               </div>
             </td>
             <td className="!border-r-3">
@@ -141,8 +141,8 @@ export const StructureSubventionnee = () => {
                   label=""
                   className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
-                />{" "}
-                €
+                />
+                &nbsp;€
               </div>
             </td>
             <td>
@@ -156,8 +156,8 @@ export const StructureSubventionnee = () => {
                   label=""
                   className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
-                />{" "}
-                €
+                />
+                &nbsp;€
               </div>
             </td>
             <td className="!border-r-3">
@@ -171,8 +171,8 @@ export const StructureSubventionnee = () => {
                   label=""
                   className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
-                />{" "}
-                €
+                />
+                &nbsp;€
               </div>
             </td>
             <td>
@@ -182,12 +182,11 @@ export const StructureSubventionnee = () => {
                   id={`gestionBudgetaire.${fieldIndex}.cumulResultatsNetsCPOM`}
                   control={control}
                   type="number"
-                  min={0}
                   label=""
                   className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
-                />{" "}
-                €
+                />
+                &nbsp;€
               </div>
             </td>
             <td>
@@ -197,12 +196,11 @@ export const StructureSubventionnee = () => {
                   id={`gestionBudgetaire.${fieldIndex}.repriseEtat`}
                   control={control}
                   type="number"
-                  min={0}
                   label=""
                   className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
-                />{" "}
-                €
+                />
+                &nbsp;€
               </div>
             </td>
             <td>
@@ -216,8 +214,8 @@ export const StructureSubventionnee = () => {
                   label=""
                   className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                   variant="simple"
-                />{" "}
-                €
+                />
+                &nbsp;€
               </div>
             </td>
           </tr>

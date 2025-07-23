@@ -88,14 +88,14 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationDemandee ? (
-                  <>{budget.dotationDemandee} €</>
+                  <>{budget.dotationDemandee}&nbsp;€</>
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationAccordee ? (
-                  <>{budget.dotationAccordee} €</>
+                  <>{budget.dotationAccordee}&nbsp;€</>
                 ) : (
                   <EmptyCell />
                 )}
@@ -106,8 +106,8 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                     {computeResultatNetProposeParOperateur(
                       budget.totalProduits,
                       budget.totalCharges
-                    )}{" "}
-                    €
+                    )}
+                    &nbsp;€
                   </span>
                 ) : (
                   <EmptyCell />
@@ -121,8 +121,8 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                       {computeResultatNetRetenuParAutoriteTarifaire(
                         budget.totalProduits,
                         budget.totalCharges
-                      )}{" "}
-                      €
+                      )}
+                      &nbsp;€
                     </span>
                     <AmountBadge amount={budget.cumulResultatsNetsCPOM} />
                   </>
@@ -132,7 +132,7 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationAccordee ? (
-                  <>{budget.repriseEtat} €</>
+                  <>{budget.repriseEtat}&nbsp;€</>
                 ) : (
                   <EmptyCell />
                 )}
@@ -141,7 +141,7 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                 {budget.cumulResultatsNetsCPOM &&
                 budget.repriseEtat &&
                 budget.affectationReservesFondsDedies! > 0 ? (
-                  <>{budget.affectationReservesFondsDedies} €</>
+                  <>{budget.affectationReservesFondsDedies}&nbsp;€</>
                 ) : (
                   <EmptyCell />
                 )}

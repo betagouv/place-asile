@@ -109,8 +109,8 @@ export const StructureAutoriseeSansCpom = () => {
                 label=""
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
-              />{" "}
-              €
+              />
+              &nbsp;€
             </div>
           </td>
           <td className="!border-r-3">
@@ -125,8 +125,8 @@ export const StructureAutoriseeSansCpom = () => {
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={index === 0}
-              />{" "}
-              €
+              />
+              &nbsp;€
             </div>
           </td>
           <td>
@@ -141,8 +141,8 @@ export const StructureAutoriseeSansCpom = () => {
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1].includes(index)}
-              />{" "}
-              €
+              />
+              &nbsp;€
             </div>
           </td>
           <td>
@@ -157,8 +157,8 @@ export const StructureAutoriseeSansCpom = () => {
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1].includes(index)}
-              />{" "}
-              €
+              />
+              &nbsp;€
             </div>
           </td>
           <td>
@@ -173,8 +173,8 @@ export const StructureAutoriseeSansCpom = () => {
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1, 2].includes(index)}
-              />{" "}
-              €
+              />
+              &nbsp;€
             </div>
           </td>
           <td>
@@ -184,13 +184,12 @@ export const StructureAutoriseeSansCpom = () => {
                 id={`gestionBudgetaire.${index}.repriseEtat`}
                 control={control}
                 type="number"
-                min={0}
                 label=""
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1, 2].includes(index)}
-              />{" "}
-              €
+              />
+              &nbsp;€
             </div>
           </td>
           <td>
@@ -205,8 +204,8 @@ export const StructureAutoriseeSansCpom = () => {
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
                 disabled={[0, 1, 2].includes(index)}
-              />{" "}
-              €
+              />
+              &nbsp;€
             </div>
           </td>
         </tr>

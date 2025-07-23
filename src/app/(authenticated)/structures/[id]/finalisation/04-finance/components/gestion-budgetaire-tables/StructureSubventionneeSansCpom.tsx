@@ -159,8 +159,8 @@ export const StructureSubventionneeSansCpom = () => {
                     label=""
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td className="!border-r-3">
@@ -174,8 +174,8 @@ export const StructureSubventionneeSansCpom = () => {
                     label=""
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td>
@@ -189,8 +189,8 @@ export const StructureSubventionneeSansCpom = () => {
                     label=""
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td className="!border-r-1">
@@ -204,8 +204,8 @@ export const StructureSubventionneeSansCpom = () => {
                     label=""
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td>
@@ -219,8 +219,8 @@ export const StructureSubventionneeSansCpom = () => {
                     label=""
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
 
@@ -236,8 +236,8 @@ export const StructureSubventionneeSansCpom = () => {
                     label=""
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td className="!border-r-1">
@@ -252,8 +252,8 @@ export const StructureSubventionneeSansCpom = () => {
                     label=""
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td className="!border-r-1">
@@ -267,8 +267,8 @@ export const StructureSubventionneeSansCpom = () => {
                     label=""
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td>

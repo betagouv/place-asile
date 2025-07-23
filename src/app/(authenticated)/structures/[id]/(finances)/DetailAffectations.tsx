@@ -20,13 +20,19 @@ export const DetailAffectations = (): ReactElement => {
       .filter(isBudgetEmpty)
       .map((budget) => [
         new Date(budget.date).getFullYear(),
-        `${budget.affectationReservesFondsDedies} €`,
-        `${budget.reserveInvestissement} €`,
-        `${budget.chargesNonReconductibles} €`,
-        `${budget.reserveCompensationDeficits} €`,
-        `${budget.reserveCompensationBFR} €`,
-        `${budget.reserveCompensationAmortissements} €`,
-        `${budget.fondsDedies} €`,
+        <span key={budget.id}>
+          {budget.affectationReservesFondsDedies}&nbsp;€
+        </span>,
+        <span key={budget.id}>{budget.reserveInvestissement}&nbsp;€</span>,
+        <span key={budget.id}>{budget.chargesNonReconductibles}&nbsp;€</span>,
+        <span key={budget.id}>
+          {budget.reserveCompensationDeficits}&nbsp;€
+        </span>,
+        <span key={budget.id}>{budget.reserveCompensationBFR}&nbsp;€</span>,
+        <span key={budget.id}>
+          {budget.reserveCompensationAmortissements}&nbsp;€
+        </span>,
+        <span key={budget.id}>{budget.fondsDedies}&nbsp;€</span>,
         budget.commentaire,
       ]);
   };
