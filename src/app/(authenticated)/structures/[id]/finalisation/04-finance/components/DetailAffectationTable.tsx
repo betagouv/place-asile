@@ -120,10 +120,10 @@ export const DetailAffectationTable = ({
           const fieldIndex = years.length - sliceYears + index;
 
           const currentReservesFondsDedies = structure.cpom
-            ? budgets?.[fieldIndex]?.affectationReservesFondsDedies > 0
-            : budgets?.[fieldIndex]?.fondsDedies > 0;
+            ? budgets?.[fieldIndex]?.affectationReservesFondsDedies
+            : budgets?.[fieldIndex]?.fondsDedies;
 
-          const isEditable = currentReservesFondsDedies ?? false;
+          const isEditable = currentReservesFondsDedies > 0;
 
           let totalValue = 0;
           if (currentReservesFondsDedies) {
@@ -137,7 +137,7 @@ export const DetailAffectationTable = ({
                 <input
                   type="hidden"
                   {...register(`budgets.${fieldIndex}.date`)}
-                  value={`${year}-13-01T00:00:00.000Z`}
+                  value={`${year}-01-01T13:00:00.000Z`}
                 />
               </td>
               <td className="whitespace-nowrap">{totalValue} €</td>
@@ -153,8 +153,8 @@ export const DetailAffectationTable = ({
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                     disabled={!isEditable}
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td>
@@ -169,8 +169,8 @@ export const DetailAffectationTable = ({
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                     disabled={!isEditable}
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td>
@@ -185,8 +185,8 @@ export const DetailAffectationTable = ({
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                     disabled={!isEditable}
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td>
@@ -201,8 +201,8 @@ export const DetailAffectationTable = ({
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                     disabled={!isEditable}
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               <td>
@@ -217,8 +217,8 @@ export const DetailAffectationTable = ({
                     className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                     variant="simple"
                     disabled={!isEditable}
-                  />{" "}
-                  €
+                  />
+                  &nbsp;€
                 </div>
               </td>
               {structure?.cpom && (
@@ -234,8 +234,8 @@ export const DetailAffectationTable = ({
                       className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                       variant="simple"
                       disabled={!isEditable}
-                    />{" "}
-                    €
+                    />
+                    &nbsp;€
                   </div>
                 </td>
               )}

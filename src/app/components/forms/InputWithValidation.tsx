@@ -108,6 +108,7 @@ export default function InputWithValidation<
         min,
         onBlur: field.onBlur,
         disabled: disabled,
+        step: "any",
       }}
       {...field}
       label={label}

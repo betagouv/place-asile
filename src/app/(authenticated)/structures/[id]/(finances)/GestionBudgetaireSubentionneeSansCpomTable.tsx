@@ -88,14 +88,14 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationDemandee ? (
-                  <>{budget.dotationDemandee} €</>
+                  <>{budget.dotationDemandee}&nbsp;€</>
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationAccordee ? (
-                  <>{budget.dotationAccordee} €</>
+                  <>{budget.dotationAccordee}&nbsp;€</>
                 ) : (
                   <EmptyCell />
                 )}
@@ -107,8 +107,8 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                       {computeResultatNet(
                         budget.totalCharges,
                         budget.totalProduits
-                      )}{" "}
-                      €
+                      )}
+                      &nbsp;€
                     </span>
                     <AmountBadge
                       amount={computeResultatNet(
@@ -142,7 +142,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.fondsDedies ? (
-                  <>{computeCumulFondsDedies(budget.date)} €</>
+                  <>{computeCumulFondsDedies(budget.date)}&nbsp;€</>
                 ) : (
                   <EmptyCell />
                 )}
