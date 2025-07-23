@@ -1,8 +1,9 @@
-import { PrismaClient, Prisma, Structure } from "@prisma/client";
+import { PrismaClient, Prisma, Structure, StructureType } from "@prisma/client";
 import { wipeTables } from "./utils/wipe";
 import { CsvExtract } from "./utils/csv-extract";
 import { extractActivitesFromOds } from "./utils/activites-extract";
 import { getCoordinates } from "@/app/utils/adresse.util";
+import { createFakeStructure } from "./seeders/structure.seed";
 
 const prisma = new PrismaClient();
 const {
@@ -69,4 +70,12 @@ export async function seed(): Promise<void> {
   await prisma.fileUpload.createMany({ data: extractFileUploadsFromCsv() });
 }
 
-seed();
+export async function newSeed(): Promise<void> {
+  const structureWithCpom = createFakeStructure({
+    cpom: true,
+    type: StructureType.CADA,
+  });
+  console.log(">>>>>>>", structureWithCpom);
+}
+
+newSeed();
