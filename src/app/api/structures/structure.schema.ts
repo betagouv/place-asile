@@ -1,7 +1,11 @@
 import { Repartition } from "@/types/adresse.type";
 import { ControleType } from "@/types/controle.type";
 import { FileUploadCategory } from "@/types/file-upload.type";
-import { PublicType, StructureType } from "@/types/structure.type";
+import {
+  PublicType,
+  StructureType,
+  StructureState,
+} from "@/types/structure.type";
 import { z } from "zod";
 import { frDateField, mandatoryFrDateField } from "./structure.util";
 
@@ -187,6 +191,7 @@ export const structureUpdateSchema = z.object({
   echeancePlacesACreer: frDateField(),
   echeancePlacesAFermer: frDateField(),
   notes: z.string().optional().nullable(),
+  state: z.nativeEnum(StructureState).optional(),
   adresses: z
     .array(adresseSchema.extend({ id: z.number().optional() }))
     .optional(),

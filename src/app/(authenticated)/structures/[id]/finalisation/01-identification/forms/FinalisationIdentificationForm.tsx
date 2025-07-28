@@ -6,7 +6,7 @@ import FormWrapper, {
 import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { finalisationIdentificationSchema } from "./validation/FinalisationIdentificationSchema";
-import { PublicType } from "@/types/structure.type";
+import { PublicType, StructureState } from "@/types/structure.type";
 import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
 import { useFormatDateString } from "@/app/hooks/useFormatDateString";
 import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
@@ -85,11 +85,13 @@ export default function FinalisationIdentificationForm({
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         onSubmit={handleSubmit}
       >
-        <InformationBar
-          variant="warning"
-          title="À vérifier"
-          description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-        />
+        {structure.state === StructureState.A_FINALISER && (
+          <InformationBar
+            variant="warning"
+            title="À vérifier"
+            description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
+          />
+        )}
         <FieldSetDescription dnaCode={structure.dnaCode} />
         <hr />
         <FieldSetContacts />

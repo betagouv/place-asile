@@ -13,6 +13,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useState } from "react";
 import { useStructures } from "@/app/hooks/useStructures";
 import { useRouter } from "next/navigation";
+import { StructureState } from "@/types/structure.type";
 
 export default function FinalisationAdressesForm({
   currentStep,
@@ -64,11 +65,13 @@ export default function FinalisationAdressesForm({
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
     >
-      <InformationBar
-        variant="warning"
-        title="À vérifier"
-        description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-      />
+      {structure.state === StructureState.A_FINALISER && (
+        <InformationBar
+          variant="warning"
+          title="À vérifier"
+          description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
+        />
+      )}
 
       <Notice
         severity="info"

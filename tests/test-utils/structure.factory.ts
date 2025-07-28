@@ -1,5 +1,10 @@
 import { Adresse } from "@/types/adresse.type";
-import { PublicType, Structure, StructureType } from "@/types/structure.type";
+import {
+  PublicType,
+  Structure,
+  StructureState,
+  StructureType,
+} from "@/types/structure.type";
 import { LatLngTuple } from "leaflet";
 
 export const createStructure = ({
@@ -41,6 +46,7 @@ export const createStructure = ({
     finCpom: new Date("01/02/2025"),
     adresses: adresses ?? [],
     notes: "Note 1",
+    state: StructureState.A_FINALISER,
   };
 };
 

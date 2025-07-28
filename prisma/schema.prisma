@@ -38,6 +38,7 @@ model Structure {
   debutCpom                    DateTime?
   finCpom                      DateTime?
   notes                        String?
+  state                        StructureState              @default(A_FINALISER)
   controles                    Controle[]
   evaluations                  Evaluation[]
   evenementsIndesirablesGraves EvenementIndesirableGrave[]
@@ -226,4 +227,9 @@ enum FileUploadCategory {
   CPOM_AVENANT
   INSPECTION_CONTROLE
   AUTRE
+}
+
+enum StructureState {
+  A_FINALISER
+  FINALISE
 }
