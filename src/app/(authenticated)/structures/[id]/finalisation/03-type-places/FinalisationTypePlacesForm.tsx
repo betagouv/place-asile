@@ -14,6 +14,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useStructures } from "@/app/hooks/useStructures";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { StructureState } from "@/types/structure.type";
 
 export default function FinalisationTypePlacesForm({
   currentStep,
@@ -76,22 +77,26 @@ export default function FinalisationTypePlacesForm({
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
     >
-      <InformationBar
-        variant="warning"
-        title="À vérifier"
-        description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-      />
+      {structure.state === StructureState.A_FINALISER && (
+        <InformationBar
+          variant="warning"
+          title="À vérifier"
+          description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
+        />
+      )}
 
       <FieldSetTypePlaces />
-      <div>
-        <InformationBar
-          variant="info"
-          title="À compléter"
-          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-        />
+      {structure.state === StructureState.A_FINALISER && (
+        <div>
+          <InformationBar
+            variant="info"
+            title="À compléter"
+            description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
+          />
 
-        <FieldSetOuvertureFermeture />
-      </div>
+          <FieldSetOuvertureFermeture />
+        </div>
+      )}
       {state === "error" && (
         <SubmitError
           structureDnaCode={structure.dnaCode}

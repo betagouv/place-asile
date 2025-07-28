@@ -3,6 +3,7 @@ import {
   StructureWithLatLng,
   StructureType,
   PublicType,
+  StructureState,
 } from "@/types/structure.type";
 
 export type StructureWithActivites = Prisma.StructureGetPayload<{
@@ -35,6 +36,7 @@ export const addCoordinates = (
     longitude: structure.longitude.toNumber(),
     type: structure.type as StructureType,
     public: structure.public as PublicType,
+    state: structure.state as StructureState,
     coordinates: [
       structure.latitude.toNumber(),
       structure.longitude.toNumber(),

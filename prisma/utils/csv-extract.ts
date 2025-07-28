@@ -11,6 +11,7 @@ import {
   StructureTypologie,
   Budget,
   FileUpload,
+  StructureState,
 } from "@prisma/client";
 
 import {
@@ -93,6 +94,7 @@ export class CsvExtract {
       echeancePlacesACreer: line[23] ? new Date(line[23]) : null,
       echeancePlacesAFermer: line[24] ? new Date(line[24]) : null,
       notes: line[25],
+      state: StructureState.A_FINALISER,
     }));
   };
 

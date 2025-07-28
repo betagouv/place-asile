@@ -119,16 +119,10 @@ export const DetailAffectationTable = ({
         {yearsToDisplay.map((year, index) => {
           const fieldIndex = years.length - sliceYears + index;
 
-          const currentReservesFondsDedies = structure.cpom
-            ? budgets?.[fieldIndex]?.affectationReservesFondsDedies
-            : budgets?.[fieldIndex]?.fondsDedies;
+          const totalValue =
+            budgets?.[fieldIndex]?.affectationReservesFondsDedies || 0;
 
-          const isEditable = currentReservesFondsDedies > 0;
-
-          let totalValue = 0;
-          if (currentReservesFondsDedies) {
-            totalValue = Number(currentReservesFondsDedies);
-          }
+          const isEditable = totalValue > 0;
 
           return (
             <tr key={year}>

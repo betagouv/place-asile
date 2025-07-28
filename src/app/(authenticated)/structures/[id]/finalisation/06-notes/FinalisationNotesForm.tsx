@@ -11,7 +11,7 @@ import { finalisationNotesSchema } from "./validation/finalisationNotesSchema";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { SubmitError } from "@/app/components/SubmitError";
 import { FieldSetNotes } from "./FieldSetNotes";
-import { push } from "@socialgouv/matomo-next";
+import { StructureState } from "@/types/structure.type";
 
 export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
   const { structure } = useStructureContext();
@@ -34,10 +34,10 @@ export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
     const updatedStructure = await updateStructure({
       ...data,
       dnaCode: structure.dnaCode,
+      state: StructureState.FINALISE,
     });
     if (updatedStructure === "OK") {
       router.push(`${process.env.NEXT_PUBLIC_URL}/structures/${structure.id}`);
-      push(["trackEvent", "finalisation", structure.dnaCode]);
     } else {
       setState("error");
       setBackendError(updatedStructure?.toString());
@@ -53,16 +53,18 @@ export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
     >
-      <InformationBar
-        variant="info"
-        title="À compléter"
-        description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-      />
+      {structure.state === StructureState.A_FINALISER && (
+        <InformationBar
+          variant="info"
+          title="À compléter"
+          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
+        />
+      )}
 
       <Notice
         severity="info"
         title=""
-        className="rounded [&_p]:flex  [&_p]:items-center"
+        className="rounded [&_p]:flex [&_p]:items-center"
         description="Afin de centraliser toutes les données concernant cette structure, vous pouvez utiliser cette espace pour annoter les informations nécessaires au pilotage : élément contextuel, prochaine échéance, document à produire, point d'attention, élément relationnel avec la structure... Ces éléments ne seront pas communiqués aux structures et ne seront partagés qu'aux agents et agentes en charge. Veuillez préciser votre nom et la date de l’information pour un meilleur suivi."
       />
       <FieldSetNotes />

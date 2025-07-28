@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { SubmitError } from "@/app/components/SubmitError";
 import { FileUploadCategory } from "@/types/file-upload.type";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { StructureState } from "@/types/structure.type";
 
 export const FinalisationQualiteForm = ({
   currentStep,
@@ -83,11 +84,13 @@ export const FinalisationQualiteForm = ({
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
     >
-      <InformationBar
-        variant="info"
-        title="À compléter"
-        description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-      />
+      {structure.state === StructureState.A_FINALISER && (
+        <InformationBar
+          variant="info"
+          title="À compléter"
+          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
+        />
+      )}
       <p className="w-4/5">
         Veuillez renseigner les informations concernant l’ensemble des
         inspections-contrôles auxquelles la structure a été soumise. Veuillez

@@ -38,6 +38,7 @@ import {
   reverseObjectKeyValues,
 } from "@/app/utils/common.util";
 import { FileUploadCategory } from "@/types/file-upload.type";
+import { StructureState } from "@/types/structure.type";
 
 export default function FinalisationFinanceForm({
   currentStep,
@@ -163,17 +164,21 @@ export default function FinalisationFinanceForm({
       availableFooterButtons={[FooterButtonType.SUBMIT]}
       onSubmit={handleSubmit}
     >
-      <InformationBar
-        variant="warning"
-        title="À vérifier"
-        description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-      />
+      {structure.state === StructureState.A_FINALISER && (
+        <InformationBar
+          variant="warning"
+          title="À vérifier"
+          description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
+        />
+      )}
       <Documents className="mb-6" />
-      <InformationBar
-        variant="info"
-        title="À compléter"
-        description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-      />
+      {structure.state === StructureState.A_FINALISER && (
+        <InformationBar
+          variant="info"
+          title="À compléter"
+          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
+        />
+      )}
       <IndicateursGeneraux />
       <Notice
         severity="warning"

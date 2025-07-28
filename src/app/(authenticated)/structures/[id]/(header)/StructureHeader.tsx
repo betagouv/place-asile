@@ -6,8 +6,9 @@ import { NavigationMenu } from "./NavigationMenu";
 import { useStructureContext } from "../context/StructureClientContext";
 import { useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import Button from "@codegouvfr/react-dsfr/Button";
 import { getOperateurLabel } from "@/app/utils/structure.util";
+import { FinalisationHeader } from "./FinalisationHeader";
+import { StructureState } from "@/types/structure.type";
 
 export function StructureHeader(): ReactElement | null {
   const { structure } = useStructureContext();
@@ -80,20 +81,21 @@ export function StructureHeader(): ReactElement | null {
             </h3>
           </div>
           <div className="grow" />
-          {/* TODO : faire un vrai lien (a11y) */}
-          {isRootPath && (
-            <Button
-              iconId="fr-icon-edit-line"
-              priority="secondary"
-              size="small"
-              className="h-full"
+          {isRootPath && structure.state === StructureState.FINALISE && (
+            <Link
+              href={`/structures/${structure.id}/finalisation/01-identification`}
+              className="h-full fr-btn fr-btn--secondary fr-btn--sm"
               onClick={onEditClick}
             >
+              <span className="fr-icon-edit-line fr-icon--sm pr-2" />
               Modifier
-            </Button>
+            </Link>
           )}
         </div>
-        {isRootPath ? <NavigationMenu /> : null}
+        {isRootPath && <NavigationMenu />}
+        {isRootPath && structure.state === StructureState.A_FINALISER && (
+          <FinalisationHeader />
+        )}
       </div>
     </>
   ) : null;

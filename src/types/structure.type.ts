@@ -41,6 +41,7 @@ export type Structure = {
   finCpom: Date | null;
   coordinates: LatLngTuple;
   notes: string | null;
+  state: StructureState;
   controles?: Controle[];
   evaluations?: Evaluation[];
   evenementsIndesirablesGraves?: EvenementIndesirableGrave[];
@@ -70,4 +71,9 @@ export enum StructureType {
   CPH = "CPH",
   CAES = "CAES",
   PRAHDA = "PRAHDA",
+}
+
+export enum StructureState {
+  A_FINALISER = "A_FINALISER",
+  FINALISE = "FINALISE",
 }
