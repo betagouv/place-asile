@@ -7,17 +7,23 @@ import { useStructures } from "../../hooks/useStructures";
 import { StructuresTable } from "./StructuresTable";
 import { Structure } from "@/types/structure.type";
 import { SearchBar } from "./SearchBar";
+import Loader from "@/app/components/ui/Loader";
 
 export default function Structures(): ReactElement {
   const [structures, setStructures] = useState<Structure[]>([]);
+  const [loadingState, setLoadingState] = useState<
+    "idle" | "loading" | "loaded"
+  >("idle");
   const { getStructures } = useStructures();
   const [selectedVisualization, setSelectedVisualization] = useState("tableau");
 
   useEffect(() => {
     const loadStructures = async () => {
+      setLoadingState("loading");
       const result = await getStructures();
       setStructures(result);
       setFilteredStructures(result);
+      setLoadingState("loaded");
     };
     loadStructures();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,16 +70,23 @@ export default function Structures(): ReactElement {
       </div>
       {selectedVisualization === "tableau" && (
         <>
-          {filteredStructures.length > 0 ? (
-            <StructuresTable
-              structures={filteredStructures}
-              ariaLabelledBy="structures-titre"
-            />
-          ) : (
-            <p className="p-2">
-              Aucun résultat ne correspond à votre recherche
-            </p>
+          {loadingState === "loading" && (
+            <div className="flex items-center p-4">
+              <Loader />
+              <span className="pl-2">Chargement en cours...</span>
+            </div>
           )}
+          {loadingState === "loaded" &&
+            (filteredStructures.length > 0 ? (
+              <StructuresTable
+                structures={filteredStructures}
+                ariaLabelledBy="structures-titre"
+              />
+            ) : (
+              <p className="p-2">
+                Aucun résultat ne correspond à votre recherche
+              </p>
+            ))}
         </>
       )}
       {selectedVisualization === "carte" && (
