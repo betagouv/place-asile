@@ -21,13 +21,13 @@ export const FinalisationQualiteForm = ({
 }: {
   currentStep: number;
 }) => {
-  const { structure } = useStructureContext();
+  const { structure, setStructure } = useStructureContext();
   const { nextRoute, previousRoute } = getCurrentStepData(
     currentStep,
     structure.id
   );
 
-  const { updateStructure } = useStructures();
+  const { updateAndRefreshStructure } = useStructures();
   const router = useRouter();
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
@@ -62,11 +62,15 @@ export const FinalisationQualiteForm = ({
         (controle: { date: Date; type: string; key: string }) => controle.type
       );
 
-    const updatedStructure = await updateStructure({
-      fileUploads,
-      controles,
-      dnaCode: structure.dnaCode,
-    });
+    const updatedStructure = await updateAndRefreshStructure(
+      structure.id,
+      {
+        fileUploads,
+        controles,
+        dnaCode: structure.dnaCode,
+      },
+      setStructure
+    );
     if (updatedStructure === "OK") {
       router.push(nextRoute);
     } else {

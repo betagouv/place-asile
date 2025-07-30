@@ -166,13 +166,37 @@ export const useStructures = (): UseStructureResult => {
     }
   };
 
-  return { getStructures, addStructure, updateStructure };
+  const updateAndRefreshStructure = async (
+    structureId: number,
+    values: unknown,
+    setStructure: (structure: Structure) => void
+  ): Promise<string> => {
+    const result = await updateStructure(values);
+    if (result === "OK") {
+      const res = await fetch(`/api/structures/${structureId}`);
+      const updatedStructure = await res.json();
+      setStructure(updatedStructure);
+    }
+    return result;
+  };
+
+  return {
+    getStructures,
+    addStructure,
+    updateStructure,
+    updateAndRefreshStructure,
+  };
 };
 
 type UseStructureResult = {
   getStructures: () => Promise<Structure[]>;
   addStructure: (values: FormValues) => Promise<string>;
   updateStructure: (values: unknown) => Promise<string>;
+  updateAndRefreshStructure: (
+    structureId: number,
+    values: unknown,
+    setStructure: (structure: Structure) => void
+  ) => Promise<string>;
 };
 
 type FormValues = Partial<

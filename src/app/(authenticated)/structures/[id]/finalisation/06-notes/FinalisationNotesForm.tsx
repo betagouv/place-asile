@@ -14,7 +14,7 @@ import { FieldSetNotes } from "./FieldSetNotes";
 import { StructureState } from "@/types/structure.type";
 
 export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
-  const { structure } = useStructureContext();
+  const { structure, setStructure } = useStructureContext();
 
   const { previousRoute } = getCurrentStepData(currentStep, structure.id);
 
@@ -22,7 +22,7 @@ export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
     notes: structure.notes,
   };
 
-  const { updateStructure } = useStructures();
+  const { updateAndRefreshStructure } = useStructures();
   const router = useRouter();
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
@@ -31,11 +31,15 @@ export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (data: any) => {
     setState("loading");
-    const updatedStructure = await updateStructure({
-      ...data,
-      dnaCode: structure.dnaCode,
-      state: StructureState.FINALISE,
-    });
+    const updatedStructure = await updateAndRefreshStructure(
+      structure.id,
+      {
+        ...data,
+        dnaCode: structure.dnaCode,
+        state: StructureState.FINALISE,
+      },
+      setStructure
+    );
     if (updatedStructure === "OK") {
       router.push(`${process.env.NEXT_PUBLIC_URL}/structures/${structure.id}`);
     } else {
