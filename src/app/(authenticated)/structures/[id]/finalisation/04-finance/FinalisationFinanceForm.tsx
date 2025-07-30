@@ -47,11 +47,11 @@ export default function FinalisationFinanceForm({
 }) {
   const { years } = useYearRange();
   const { dateStringToYear } = useDateStringToYear();
-  const { structure } = useStructureContext();
+  const { structure, setStructure } = useStructureContext();
   const hasCpom = structure?.cpom;
   const isAutorisee = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
-  const { updateStructure } = useStructures();
+  const { updateAndRefreshStructure } = useStructures();
   const router = useRouter();
 
   const documents = isAutorisee
@@ -142,10 +142,14 @@ export default function FinalisationFinanceForm({
         delete budget.id;
       }
     });
-    const updatedStructure = await updateStructure({
-      ...data,
-      dnaCode: structure.dnaCode,
-    });
+    const updatedStructure = await updateAndRefreshStructure(
+      structure.id,
+      {
+        ...data,
+        dnaCode: structure.dnaCode,
+      },
+      setStructure
+    );
     if (updatedStructure === "OK") {
       router.push(nextRoute);
     } else {

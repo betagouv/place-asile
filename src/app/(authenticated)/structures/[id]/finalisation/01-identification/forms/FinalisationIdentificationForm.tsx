@@ -23,7 +23,7 @@ export default function FinalisationIdentificationForm({
 }: {
   currentStep: number;
 }) {
-  const { structure } = useStructureContext();
+  const { structure, setStructure } = useStructureContext();
 
   const { nextRoute, previousRoute } = getCurrentStepData(
     currentStep,
@@ -33,7 +33,7 @@ export default function FinalisationIdentificationForm({
   const { formatDateString } = useFormatDateString();
 
   const isAutorisee = isStructureAutorisee(structure.type);
-  const { updateStructure } = useStructures();
+  const { updateAndRefreshStructure } = useStructures();
   const router = useRouter();
 
   const defaultValues = {
@@ -65,7 +65,11 @@ export default function FinalisationIdentificationForm({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (data: any) => {
     setState("loading");
-    const updatedStructure = await updateStructure(data);
+    const updatedStructure = await updateAndRefreshStructure(
+      structure.id,
+      data,
+      setStructure
+    );
     if (updatedStructure === "OK") {
       router.push(nextRoute);
     } else {

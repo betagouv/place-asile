@@ -21,7 +21,7 @@ export default function FinalisationTypePlacesForm({
 }: {
   currentStep: number;
 }) {
-  const { structure } = useStructureContext();
+  const { structure, setStructure } = useStructureContext();
   const { nextRoute, previousRoute } = getCurrentStepData(
     currentStep,
     structure.id
@@ -46,7 +46,7 @@ export default function FinalisationTypePlacesForm({
       : undefined,
   };
 
-  const { updateStructure } = useStructures();
+  const { updateAndRefreshStructure } = useStructures();
   const router = useRouter();
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
@@ -55,10 +55,14 @@ export default function FinalisationTypePlacesForm({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (data: any) => {
     setState("loading");
-    const updatedStructure = await updateStructure({
-      ...data,
-      dnaCode: structure.dnaCode,
-    });
+    const updatedStructure = await updateAndRefreshStructure(
+      structure.id,
+      {
+        ...data,
+        dnaCode: structure.dnaCode,
+      },
+      setStructure
+    );
     if (updatedStructure === "OK") {
       router.push(nextRoute);
     } else {
