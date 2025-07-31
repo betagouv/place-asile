@@ -1,6 +1,8 @@
 import {
   computeAverage,
+  convertObjectToArray,
   getPercentage,
+  reverseObjectKeyValues,
   sortKeysByValue,
 } from "@/app/utils/common.util";
 
@@ -79,6 +81,115 @@ describe("common util", () => {
 
       // THEN
       expect(result).toBe(3.4);
+    });
+  });
+  describe("reverseObjectKeyValues", () => {
+    it("should return an empty object when given an empty object", () => {
+      // GIVEN
+      const objectToReverse = {};
+
+      // WHEN
+      const reversed = reverseObjectKeyValues(objectToReverse);
+
+      // THEN
+      expect(reversed).toStrictEqual({});
+    });
+
+    it("should reverse keys and values for a simple object", () => {
+      // GIVEN
+      const objectToReverse = {
+        a: 1,
+        b: 2,
+        c: 3,
+      };
+
+      // WHEN
+      const reversed = reverseObjectKeyValues(objectToReverse);
+
+      // THEN
+      expect(reversed).toStrictEqual({
+        1: "a",
+        2: "b",
+        3: "c",
+      });
+    });
+
+    it("should handle string and number keys and values", () => {
+      // GIVEN
+      const objectToReverse = {
+        42: "answer",
+        foo: 100,
+      };
+
+      // WHEN
+      const reversed = reverseObjectKeyValues(objectToReverse);
+
+      // THEN
+      expect(reversed).toStrictEqual({
+        answer: "42",
+        100: "foo",
+      });
+    });
+
+    it("should overwrite keys if values are not unique", () => {
+      // GIVEN
+      const objectToReverse = {
+        a: 1,
+        b: 2,
+        c: 1,
+      };
+
+      // WHEN
+      const reversed = reverseObjectKeyValues(objectToReverse);
+
+      // THEN
+      expect(reversed).toStrictEqual({
+        1: "c",
+        2: "b",
+      });
+    });
+  });
+
+  describe("convertObjectToArray", () => {
+    it("should return an empty array when given an empty object", () => {
+      // GIVEN
+      const objectToConvert = {};
+
+      // WHEN
+      const result = convertObjectToArray(objectToConvert);
+
+      // THEN
+      expect(result).toStrictEqual([]);
+    });
+
+    it("should convert values of a simple object to array", () => {
+      // GIVEN
+      const objectToConvert = {
+        a: 1,
+        b: 2,
+        c: 3,
+      };
+
+      // WHEN
+      const result = convertObjectToArray(objectToConvert);
+
+      // THEN
+      expect(result).toStrictEqual([1, 2, 3]);
+    });
+
+    it("should work with number keys", () => {
+      // GIVEN
+      const objectToConvert = {
+        1: "one",
+        2: "two",
+        3: "three",
+      };
+
+      // WHEN
+      const result = convertObjectToArray(objectToConvert);
+
+      // THEN
+      expect(result).toStrictEqual(["one", "two", "three"]);
     });
   });
 });

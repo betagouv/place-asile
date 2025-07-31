@@ -10,7 +10,6 @@ import { ControleAccordion } from "./ControleAccordion";
 import { useStructureContext } from "../context/StructureClientContext";
 
 export const DefaultControlesBlock = (): ReactElement => {
-  // TODO : Refac props from blocks to remove the props and pass them from context
   const { structure } = useStructureContext();
   const evaluations = structure.evaluations || [];
   const controles = structure.controles || [];
