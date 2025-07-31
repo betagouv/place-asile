@@ -46,7 +46,6 @@ Le projet est basé sur :
 ## 🗃️ Schéma de base de données (au 31/07/25)
 
 ![Base de données au 31/07/2025](db.png)
-Base de données au 31/07/2025
 
 L'entité centrale est `Structure` : elle contient toutes les informations de base d'une structure, et les autres tables s'y réfèrent.
 
