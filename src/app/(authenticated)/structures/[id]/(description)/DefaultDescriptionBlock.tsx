@@ -37,7 +37,7 @@ export const DefaultDescriptionBlock = (): ReactElement => {
     <Block title="Description" iconClass="fr-icon-menu-2-fill">
       <div className="flex mb-2">
         <div className="flex-1">
-          <strong className="pr-2">Date de création</strong>
+          <strong className="pr-2 bg-red-500">Date de création</strong>
           {new Date(creationDate).toLocaleDateString()}
         </div>
         <div className="flex-1">
