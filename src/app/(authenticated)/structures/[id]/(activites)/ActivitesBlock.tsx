@@ -8,7 +8,6 @@ import { ActivitesHistorique } from "./ActivitesHistorique";
 import { useStructureContext } from "../context/StructureClientContext";
 
 export const ActivitesBlock = (): ReactElement => {
-  // TODO : Refac props from blocks to remove the props and pass them from context
   const { structure } = useStructureContext();
 
   const { activites, debutConvention, finConvention } = structure;

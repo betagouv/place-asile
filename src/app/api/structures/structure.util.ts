@@ -8,6 +8,7 @@ import {
 } from "@prisma/client";
 import { CreateAdresse, CreateAdresseTypologie } from "./structure.types";
 import z from "zod";
+import { parseFrDate } from "@/app/utils/date.util";
 
 export const convertToRepartition = (repartition: string): Repartition => {
   const repartitions: Record<string, Repartition> = {
@@ -97,23 +98,6 @@ export const handleAdresses = (
 
 export type AdresseWithTypologies = Adresse & {
   adresseTypologies: CreateAdresseTypologie[];
-};
-
-// TODO: déplacer dans un autre fichier dédié
-export const parseFrDate = (value: unknown): Date | unknown => {
-  if (typeof value === "string") {
-    const match = value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-    if (match) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_, dd, mm, yyyy] = match;
-      const isoString = `${yyyy}-${mm}-${dd}`;
-      const date = new Date(isoString);
-      if (!isNaN(date.getTime())) {
-        return date;
-      }
-    }
-  }
-  return value;
 };
 
 export const frDateField = () =>

@@ -7,7 +7,6 @@ import { createOne } from "./file.repository";
 export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get("file") as File;
-  // TODO: find a way to seed FileUploads at prisma:migrate
 
   const validationResult = validateUpload(file.type, file.size);
 

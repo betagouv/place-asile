@@ -3,6 +3,8 @@ import {
   formatForCharts,
   getLastMonths,
   getMonthsBetween,
+  getYearDate,
+  parseFrDate,
 } from "@/app/utils/date.util";
 import dayjs from "dayjs";
 import "dayjs/locale/fr";
@@ -183,6 +185,60 @@ describe("date util", () => {
 
       // THEN
       expect(result).toBe("FÉVR. 2025");
+    });
+  });
+
+  describe("getYearDate", () => {
+    it("should return the date for January 1st at 13:00 for a given year as a string", () => {
+      // GIVEN
+      const year = "2020";
+
+      // WHEN
+      const result = getYearDate(year);
+
+      // THEN
+      expect(result).toMatch(/^(0?1\/0?1\/2020|2020-01-01|1\/1\/2020)$/);
+    });
+  });
+
+  describe("parseFrDate", () => {
+    it('should parse a valid "DD/MM/YYYY" string to a Date object', () => {
+      // GIVEN
+      const dateStr = "25/12/2022";
+
+      // WHEN
+      const result = parseFrDate(dateStr);
+
+      // THEN
+      expect(result).toBeInstanceOf(Date);
+      expect((result as Date).getFullYear()).toBe(2022);
+      expect((result as Date).getMonth()).toBe(11);
+      expect((result as Date).getDate()).toBe(25);
+    });
+
+    it("should return the input if string is not a valid date", () => {
+      // GIVEN
+      const input = "32/13/2022";
+
+      // WHEN
+      const result = parseFrDate(input);
+
+      // THEN
+      expect(result).toBe(input);
+    });
+
+    it("should parse leap year dates correctly", () => {
+      // GIVEN
+      const input = "29/02/2024";
+
+      // WHEN
+      const result = parseFrDate(input);
+
+      // THEN
+      expect(result).toBeInstanceOf(Date);
+      expect((result as Date).getFullYear()).toBe(2024);
+      expect((result as Date).getMonth()).toBe(1);
+      expect((result as Date).getDate()).toBe(29);
     });
   });
 });
