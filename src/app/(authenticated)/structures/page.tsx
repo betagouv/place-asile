@@ -12,7 +12,7 @@ import Loader from "@/app/components/ui/Loader";
 export default function Structures(): ReactElement {
   const [structures, setStructures] = useState<Structure[]>([]);
   const [loadingState, setLoadingState] = useState<
-    "idle" | "loading" | "loaded"
+    "idle" | "loading" | "loaded" | "error"
   >("idle");
   const { getStructures } = useStructures();
   const [selectedVisualization, setSelectedVisualization] = useState("tableau");
@@ -73,7 +73,14 @@ export default function Structures(): ReactElement {
           {loadingState === "loading" && (
             <div className="flex items-center p-4">
               <Loader />
-              <span className="pl-2">Chargement en cours...</span>
+              <span className="pl-2">Chargement des structures...</span>
+            </div>
+          )}
+          {loadingState === "error" && (
+            <div className="flex items-center p-4">
+              <span className="pl-2">
+                Erreur lors de la récupération des structures
+              </span>
             </div>
           )}
           {loadingState === "loaded" &&
