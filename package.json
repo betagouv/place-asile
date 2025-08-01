@@ -24,7 +24,7 @@
     "prisma:reset": "npx prisma migrate reset",
     "predev": "react-dsfr update-icons --silent",
     "prebuild": "react-dsfr update-icons",
-    "postinstall": "patch-package"
+    "postinstall": "npx patch-package"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
