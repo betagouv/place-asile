@@ -27,7 +27,7 @@
     "postinstall": "patch-package"
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^1.26.0",

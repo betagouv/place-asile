@@ -10,7 +10,7 @@ export async function seed(): Promise<void> {
   console.log("🗑️ Suppression des données existantes...");
   await wipeTables(prisma);
 
-  const structuresToInsert = Array.from({ length: 20 }, () =>
+  const structuresToInsert = Array.from({ length: 25 }, () =>
     createFakeStuctureWithRelations({
       cpom: faker.datatype.boolean(),
       type: faker.helpers.enumValue(StructureType),
