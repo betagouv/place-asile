@@ -56,7 +56,7 @@ export function StructureHeader(): ReactElement | null {
   return structure ? (
     <>
       <div className="sticky top-0 z-2 bg-lifted-grey" ref={structureHeaderRef}>
-        <div className="flex border-bottom px-6 py-3 items-center">
+        <div className="flex border-b border-b-border-default-grey px-6 py-3 items-center">
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-left-s-line"
             title="Retour aux structures d’hébergement"

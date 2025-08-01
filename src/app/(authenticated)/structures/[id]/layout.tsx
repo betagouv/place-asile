@@ -41,7 +41,7 @@ export default async function StructureLayout({
     <StructureProvider structure={structure}>
       <StartDsfrOnHydration />
 
-      <div className="flex flex-col h-full bg-grey gap-3 pb-4">
+      <div className="flex flex-col h-full bg-alt-grey gap-3 pb-4">
         <StructureHeader />
         {children}
       </div>
