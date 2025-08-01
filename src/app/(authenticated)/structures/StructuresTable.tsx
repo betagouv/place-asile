@@ -53,7 +53,7 @@ export const StructuresTable = ({
   };
 
   return (
-    <div className="p-4 bg-grey h-full">
+    <div className="p-4 bg-alt-grey h-full">
       <Table
         headings={headings}
         ariaLabelledBy={ariaLabelledBy}

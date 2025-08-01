@@ -20,11 +20,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
 
   const lang = "fr";
   return (
-    <html {...getHtmlAttributes({ lang })} dir="ltr">
+    <html {...getHtmlAttributes({ lang })} className="scroll-smooth" dir="ltr">
       <head>
         <DsfrHead />
       </head>
-      <body className="overscroll-none bg-default-grey-hover">
+      <body className="overscroll-none bg-default-grey-hover h-full">
         <DsfrProvider lang={lang}>
           <Providers>
             <Suspense>{children}</Suspense>

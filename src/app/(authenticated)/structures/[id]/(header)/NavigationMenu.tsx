@@ -29,7 +29,7 @@ export const NavigationMenu = (): ReactElement => {
   ];
 
   return (
-    <nav className="fr-nav border-bottom">
+    <nav className="fr-nav border-b border-b-border-default-grey">
       <ul className="fr-nav__list">
         {menuElements
           .filter((menuElement) => menuElement.isDisplayed)

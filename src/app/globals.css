@@ -4,21 +4,6 @@
 @import "tailwindcss";
 @import "./css/dsfr-tailwind.css";
 
-/* Colors */
-.bg-grey {
-  background-color: var(--background-alt-grey);
-}
-
-.bg-white {
-  background-color: var(--grey-1000-50);
-}
-
-/* Other */
-
-.border-bottom {
-  border-bottom: 1px solid var(--border-default-grey);
-}
-
 /* Overrides */
 .leaflet-marker-pane > div {
   background-color: unset;
@@ -35,14 +20,6 @@
 
 hr {
   padding: 6px;
-}
-
-body {
-  height: 100%;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 .scroll-margin-header {

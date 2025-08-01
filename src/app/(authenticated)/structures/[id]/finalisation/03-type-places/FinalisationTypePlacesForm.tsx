@@ -90,17 +90,18 @@ export default function FinalisationTypePlacesForm({
       )}
 
       <FieldSetTypePlaces />
-      {structure.state === StructureState.A_FINALISER && (
-        <div>
+
+      <div>
+        {structure.state === StructureState.A_FINALISER && (
           <InformationBar
             variant="info"
             title="À compléter"
             description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
           />
+        )}
+        <FieldSetOuvertureFermeture />
+      </div>
 
-          <FieldSetOuvertureFermeture />
-        </div>
-      )}
       {state === "error" && (
         <SubmitError
           structureDnaCode={structure.dnaCode}

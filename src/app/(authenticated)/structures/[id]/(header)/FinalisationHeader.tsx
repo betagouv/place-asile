@@ -6,7 +6,7 @@ export const FinalisationHeader = (): ReactElement => {
   const { structure } = useStructureContext();
 
   return (
-    <div className="bg-alt-blue-france flex border-bottom px-6 py-4 items-center">
+    <div className="bg-alt-blue-france flex border-b border-b-border-default-grey px-6 py-4 items-center">
       <p className="m-0 pr-10 text-sm">
         L’outil est en phase d’initialisation : les pages des structures
         d’hébergement ont été pré-remplies par leurs opérateurs mais{" "}
