@@ -40,11 +40,15 @@ export const StructureSubventionneeSansCpom = () => {
   const budgets = watch("budgets");
 
   // Modal & comment stuff
-  const [currentCommentIndex, setCurrentCommentIndex] = useState<number>(0);
+  const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
+  const [currentCommentDate, setCurrentCommentDate] = useState<Date>(
+    new Date()
+  );
   const inputModalRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleOpenModal = (index: number) => {
+  const handleOpenModal = (index: number, currentCommentDate: Date) => {
     setCurrentCommentIndex(index);
+    setCurrentCommentDate(currentCommentDate);
 
     if (inputModalRef.current) {
       inputModalRef.current.value = budgets[index]?.commentaire || "";
@@ -276,11 +280,11 @@ export const StructureSubventionneeSansCpom = () => {
                   type="button"
                   iconId="fr-icon-edit-box-line"
                   onClick={() => {
-                    handleOpenModal(fieldIndex);
+                    handleOpenModal(fieldIndex, budgets[fieldIndex].date);
                   }}
                   priority="tertiary no outline"
                 >
-                  Ajouter
+                  {budgets[fieldIndex].commentaire ? "Modifier" : "Ajouter"}
                 </Button>
 
                 <input
@@ -294,7 +298,11 @@ export const StructureSubventionneeSansCpom = () => {
         })}
       </Table>
       <modal.Component
-        title={"Ajouter un commentaire"}
+        title={
+          inputModalRef.current?.value
+            ? "Modifier un commentaire"
+            : "Ajouter un commentaire"
+        }
         size="large"
         buttons={[
           {
@@ -304,14 +312,14 @@ export const StructureSubventionneeSansCpom = () => {
           },
           {
             doClosesModal: false,
-            children: "Ajouter",
+            children: inputModalRef.current?.value ? "Modifier" : "Ajouter",
             type: "button",
             onClick: handleSaveModal,
           },
         ]}
       >
         <p className="font-bold text-xl">
-          Détail — Année {years[currentCommentIndex - 1]}
+          Détail — Année {new Date(currentCommentDate).getFullYear()}
         </p>
 
         <Input
