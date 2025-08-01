@@ -16,6 +16,7 @@ export const UploadsByCategory = ({
   canAddAvenant,
   documentLabel = "Document",
   files,
+  subTitle,
 }: UploadsByCategoryProps) => {
   return (
     <FilesProvider initialFiles={files || []}>
@@ -30,6 +31,7 @@ export const UploadsByCategory = ({
         canAddFile={canAddFile}
         canAddAvenant={canAddAvenant}
         documentLabel={documentLabel}
+        subTitle={subTitle}
       />
     </FilesProvider>
   );

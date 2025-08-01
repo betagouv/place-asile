@@ -105,7 +105,7 @@ export const FinalisationQualiteForm = ({
       <Notice
         severity="info"
         title=""
-        className="rounded [&_p]:flex  [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
+        className="rounded [&_p]:flex [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
         description={
           <>
             Taille maximale par fichier : 10 Mo. Formats supportés : pdf, xls,
@@ -237,6 +237,20 @@ export const FinalisationQualiteForm = ({
             key: "autre-1",
           },
         ]}
+        subTitle={
+          <Notice
+            severity="info"
+            title=""
+            className="rounded [&_p]:flex [&_p]:items-center w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
+            description={
+              <>
+                Dans cette catégorie, vous avez la possibilité d’importer
+                d’autres documents utiles à l’analyse de la structure (ex:{" "}
+                <i>Plans Pluriannuels d’Inverstissements</i>)
+              </>
+            }
+          />
+        }
       />
 
       {state === "error" && (

@@ -43,11 +43,15 @@ export const DetailAffectationTable = ({
   const budgets = watch("budgets");
 
   // Modal & comment stuff
-  const [currentCommentIndex, setCurrentCommentIndex] = useState<number>(0);
+  const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
+  const [currentCommentDate, setCurrentCommentDate] = useState<Date>(
+    new Date()
+  );
   const inputModalRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleOpenModal = (index: number) => {
+  const handleOpenModal = (index: number, currentCommentDate: Date) => {
     setCurrentCommentIndex(index);
+    setCurrentCommentDate(currentCommentDate);
 
     if (inputModalRef.current) {
       inputModalRef.current.value = budgets[index]?.commentaire || "";
@@ -238,12 +242,12 @@ export const DetailAffectationTable = ({
                   type="button"
                   iconId="fr-icon-edit-box-line"
                   onClick={() => {
-                    handleOpenModal(fieldIndex);
+                    handleOpenModal(fieldIndex, budgets[fieldIndex].date);
                   }}
                   priority="tertiary no outline"
                   disabled={!isEditable}
                 >
-                  Ajouter
+                  {budgets[fieldIndex].commentaire ? "Modifier" : "Ajouter"}
                 </Button>
 
                 <input
@@ -257,7 +261,11 @@ export const DetailAffectationTable = ({
         })}
       </Table>
       <modal.Component
-        title={"Ajouter un commentaire"}
+        title={
+          inputModalRef.current?.value
+            ? "Modifier un commentaire"
+            : "Ajouter un commentaire"
+        }
         size="large"
         buttons={[
           {
@@ -267,7 +275,7 @@ export const DetailAffectationTable = ({
           },
           {
             doClosesModal: false,
-            children: "Ajouter",
+            children: inputModalRef.current?.value ? "Modifier" : "Ajouter",
             type: "button",
             onClick: handleSaveModal,
           },
@@ -275,7 +283,7 @@ export const DetailAffectationTable = ({
       >
         <p className="font-bold text-xl">
           Détail affectation réserves et provisions du CPOM — Année{" "}
-          {years[currentCommentIndex - 1]}
+          {new Date(currentCommentDate).getFullYear()}
         </p>
 
         <Input

@@ -5,6 +5,7 @@ import {
   UploadsByCategoryFileData,
 } from "./FilesContext";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
+import { ReactElement } from "react";
 
 export const UploadsByCategoryContent = ({
   categoryId,
@@ -17,6 +18,7 @@ export const UploadsByCategoryContent = ({
   canAddFile,
   canAddAvenant,
   documentLabel = "Document",
+  subTitle,
 }: Omit<UploadsByCategoryProps, "files">) => {
   const { files, addFile } = useFiles();
 
@@ -30,6 +32,7 @@ export const UploadsByCategoryContent = ({
       <legend className="text-xl font-bold mb-4 text-title-blue-france">
         {title} {isOptional && "(optionnel)"}
       </legend>
+      {subTitle}
       {files &&
         files.length > 0 &&
         files.map((file, index) => (
@@ -73,4 +76,5 @@ export type UploadsByCategoryProps = {
   addFileButtonLabel?: string;
   canAddAvenant?: boolean;
   files?: UploadsByCategoryFileData[];
+  subTitle?: ReactElement;
 };

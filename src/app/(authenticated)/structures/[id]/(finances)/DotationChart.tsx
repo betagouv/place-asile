@@ -39,6 +39,10 @@ export const DotationChart = (): ReactElement => {
 
   const options = {
     seriesBarDistance: 10,
+    axisY: {
+      offset: 50,
+      labelInterpolationFnc: (value: number) => value.toLocaleString(),
+    },
   };
 
   //TODO : remplacer les couleurs hardcodées par celles du DSFR

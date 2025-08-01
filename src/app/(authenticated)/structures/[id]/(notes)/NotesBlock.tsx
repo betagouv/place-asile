@@ -7,7 +7,9 @@ export const NotesBlock = (): ReactElement => {
 
   return (
     <Block iconClass="fr-icon-message-2-line" title="Notes">
-      {structure.notes || "Aucune note renseignée"}
+      <span className="whitespace-pre-wrap">
+        {structure.notes || "Aucune note renseignée"}
+      </span>
     </Block>
   );
 };
