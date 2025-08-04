@@ -36,7 +36,7 @@
     "@gouvfr/dsfr-chart": "1.0.0",
     "@hookform/resolvers": "^5.2.0",
     "@prisma/client": "^6.12.0",
-    "@sentry/nextjs": "^9.42.0",
+    "@sentry/nextjs": "^10.0.0",
     "@socialgouv/matomo-next": "^1.9.2",
     "@tailwindcss/postcss": "^4.1.11",
     "chartist": "^1.4.0",
