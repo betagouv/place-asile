@@ -8,17 +8,17 @@ export type StructureContextType = {
 
 export function StructureProvider({
   children,
-  structure: prismaStructure,
+  structure: backendStructure,
 }: {
   children: ReactNode;
   structure: StructureWithLatLng | null;
 }) {
-  const structure = prismaStructure
+  const structure = backendStructure
     ? ({
-        ...prismaStructure,
+        ...backendStructure,
         coordinates: [
-          Number(prismaStructure.latitude),
-          Number(prismaStructure.longitude),
+          Number(backendStructure.latitude),
+          Number(backendStructure.longitude),
         ],
       } as unknown as StructureWithLatLng)
     : null;
