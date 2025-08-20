@@ -1,8 +1,8 @@
-import { Repartition } from "@prisma/client";
 import React from "react";
 import AddressWithValidation from "../../AddressWithValidation";
 import InputWithValidation from "../../InputWithValidation";
 import { useFormContext } from "react-hook-form";
+import { Repartition } from "@/types/adresse.type";
 
 export const FieldSetAdresseAdministrative = () => {
   const { control, watch, setValue, getValues } = useFormContext();
