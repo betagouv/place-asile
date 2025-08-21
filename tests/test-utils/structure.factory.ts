@@ -11,13 +11,18 @@ export const createStructure = ({
   adresseAdministrative,
   nbPlaces,
   adresses,
+  type,
+  finessCode,
+  publicType,
+  state,
+  cpom,
 }: CreateStructuresArgs): Structure => {
   return {
     id: 1,
     dnaCode: "C0001",
     operateur: "Adoma",
     filiale: null,
-    type: StructureType.CADA,
+    type: type ?? StructureType.CADA,
     nbPlaces: nbPlaces ?? 5,
     placesACreer: 3,
     placesAFermer: 2,
@@ -34,19 +39,19 @@ export const createStructure = ({
     nom: "Les Mimosas",
     debutConvention: new Date("01/02/2024"),
     finConvention: new Date("01/02/2027"),
-    cpom: true,
+    cpom: cpom ?? true,
     creationDate: new Date("01/02/2007"),
-    finessCode: "F12345",
+    finessCode: finessCode ?? "123456789",
     lgbt: true,
     fvvTeh: false,
-    public: PublicType.TOUT_PUBLIC,
+    public: publicType ?? ("TOUT_PUBLIC" as PublicType),
     debutPeriodeAutorisation: new Date("01/02/2022"),
     finPeriodeAutorisation: new Date("01/02/2025"),
-    debutCpom: new Date("01/02/2025"),
-    finCpom: new Date("01/02/2025"),
+    debutCpom: new Date("01/02/2026"),
+    finCpom: new Date("01/02/2028"),
     adresses: adresses ?? [],
     notes: "Note 1",
-    state: StructureState.A_FINALISER,
+    state: state ?? StructureState.A_FINALISER,
   };
 };
 
@@ -54,4 +59,9 @@ type CreateStructuresArgs = {
   adresseAdministrative?: string;
   nbPlaces?: number;
   adresses?: Adresse[];
+  type?: StructureType;
+  finessCode?: string;
+  publicType?: PublicType;
+  state?: StructureState;
+  cpom?: boolean;
 };
