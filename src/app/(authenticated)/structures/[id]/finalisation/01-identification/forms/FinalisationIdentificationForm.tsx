@@ -35,9 +35,10 @@ export default function FinalisationIdentificationForm({
   const isAutorisee = isStructureAutorisee(structure.type);
   const { updateAndRefreshStructure } = useStructures();
   const router = useRouter();
-
   const defaultValues = {
     ...structure,
+    // TODO : renommer en operateur
+    newOperateur: structure.newOperateur ?? undefined,
     creationDate: formatDateString(structure.creationDate),
     debutPeriodeAutorisation: isAutorisee
       ? formatDateString(structure.debutPeriodeAutorisation)

@@ -17,6 +17,7 @@ import autoAnimate from "@formkit/auto-animate";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import { OperateurAutocomplete } from "@/app/components/forms/OperateurAutocomplete";
 
 export default function FormIdentification() {
   const params = useParams();
@@ -196,6 +197,8 @@ export default function FormIdentification() {
                   label="Opérateur"
                   id="operateur"
                 />
+
+                <OperateurAutocomplete />
 
                 <div ref={filialesContainerRef}>
                   {isManagedByAFiliale && (

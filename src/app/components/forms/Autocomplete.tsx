@@ -92,7 +92,7 @@ export const Autocomplete = function Autocomplete<
     if (suggestions.length === 0) {
       return isLoading ? "Chargement..." : emptyMessage;
     }
-    return "Sélectionnez une adresse dans la liste";
+    return "Sélectionnez un élément dans la liste";
   };
 
   return (
