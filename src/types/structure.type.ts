@@ -8,6 +8,7 @@ import { StructureTypologie } from "./structure-typologie.type";
 import { Activite } from "./activite.type";
 import { FileUpload } from "./file-upload.type";
 import { Budget } from "./budget.type";
+import { Operateur } from "./operateur.type";
 
 export type Structure = {
   id: number;
@@ -52,6 +53,7 @@ export type Structure = {
   activites?: Activite[];
   fileUploads?: FileUpload[];
   budgets?: Budget[];
+  newOperateur?: Operateur;
 };
 
 export type StructureWithLatLng = Structure & {

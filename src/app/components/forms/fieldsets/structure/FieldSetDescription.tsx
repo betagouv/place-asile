@@ -9,6 +9,7 @@ import { PublicType, StructureType } from "@/types/structure.type";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import autoAnimate from "@formkit/auto-animate";
+import { OperateurAutocomplete } from "../../OperateurAutocomplete";
 
 export const FieldSetDescription = ({
   dnaCode,
@@ -108,6 +109,8 @@ export const FieldSetDescription = ({
           label="Opérateur"
           id="operateur"
         />
+
+        <OperateurAutocomplete />
 
         <div ref={filialesContainerRef}>
           {isManagedByAFiliale && (

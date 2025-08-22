@@ -81,6 +81,7 @@ export const findOne = async (id: number): Promise<Structure | null> => {
           date: "desc",
         },
       },
+      newOperateur: true,
     },
   });
 };
@@ -143,6 +144,11 @@ export const createOne = async (
     data: {
       dnaCode: structure.dnaCode,
       operateur: structure.operateur,
+      newOperateur: {
+        connect: {
+          id: structure.newOperateur.id,
+        },
+      },
       filiale: structure.filiale,
       latitude: Prisma.Decimal(coordinates.latitude || 0),
       longitude: Prisma.Decimal(coordinates.longitude || 0),
@@ -364,6 +370,7 @@ export const updateOne = async (
       adresses,
       fileUploads,
       controles,
+      newOperateur,
       ...structureProperties
     } = structure;
     updatedStructure = await prisma.structure.update({
@@ -373,6 +380,11 @@ export const updateOne = async (
       data: {
         ...structureProperties,
         public: convertToPublicType(structure.public!),
+        newOperateur: {
+          connect: {
+            id: newOperateur?.id,
+          },
+        },
         // ...(structureProperties.public
         //   ? { public: convertToPublicType(structureProperties.public) }
         //   : {}),

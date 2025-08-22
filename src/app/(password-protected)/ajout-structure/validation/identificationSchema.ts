@@ -11,6 +11,11 @@ export const IdentificationSchema = z
   .object({
     dnaCode: z.string().nonempty(),
     operateur: z.string().nonempty(),
+    // TODO : renommer en operateur
+    newOperateur: z.object({
+      id: z.number(),
+      name: z.string(),
+    }),
     type: z.preprocess(
       (val) => (val === "" ? undefined : val),
       z.nativeEnum(StructureType)

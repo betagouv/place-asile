@@ -48,6 +48,8 @@ model Structure {
   activites                    Activite[]
   fileUploads                  FileUpload[]
   budgets                      Budget[]
+  newOperateur                 Operateur?                  @relation(fields: [newOperateurId], references: [id])
+  newOperateurId               Int?
 }
 
 model Controle {
@@ -179,6 +181,12 @@ model Budget {
   fondsDedies                       Float?
   affectationReservesFondsDedies    Float?
   commentaire                       String?
+}
+
+model Operateur {
+  id         Int         @id @default(autoincrement())
+  name       String
+  structures Structure[]
 }
 
 enum Repartition {

@@ -1,6 +1,7 @@
 export type CreateStructure = {
   dnaCode: string;
   operateur: string;
+  newOperateur: CreateOperateur;
   filiale?: string;
   type: string;
   nbPlaces: number;
@@ -85,6 +86,13 @@ type CreateBudget = {
   commentaire?: string | null;
 };
 
+type CreateOperateur = {
+  id: number;
+  name: string;
+};
+
+export type UpdateOperateur = CreateOperateur;
+
 export type UpdateContact = CreateContact & { id?: number };
 export type UpdateBudget = CreateBudget & { id?: number };
 export type UpdateStructureTypologie = {
@@ -118,6 +126,7 @@ export type UpdateAdresse = CreateAdresse & {
 export type UpdateStructure = {
   dnaCode: string;
   operateur?: string;
+  newOperateur?: UpdateOperateur;
   filiale?: string;
   type?: string;
   nbPlaces?: number;

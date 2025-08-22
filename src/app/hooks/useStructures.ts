@@ -89,6 +89,7 @@ export const useStructures = (): UseStructureResult => {
     return {
       dnaCode: values.dnaCode,
       operateur: values.operateur,
+      newOperateur: values.newOperateur,
       filiale: values.filiale,
       type: values.type,
       nbPlaces: Number(values.typologies?.[0].autorisees),

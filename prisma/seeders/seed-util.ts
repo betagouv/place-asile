@@ -12,6 +12,7 @@ export const generateDatePair = (): Date[] => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const convertToPrismaObject = (initialObject: unknown): any => {
   const objectNestedFields = [
+    "structures",
     "contacts",
     "adresses",
     "adresseTypologies",
