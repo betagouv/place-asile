@@ -18,13 +18,9 @@ export const getCategoryLabel = (
     COMPTE_RENDU_FINANCIER: "Compte-rendu financier",
     RAPPORT_ACTIVITE_OPERATEUR: "Rapport d'activité de l'opérateur",
     ARRETE_AUTORISATION: "Arrêté d'autorisation",
-    ARRETE_AUTORISATION_AVENANT: "Avenant arrêté d'autorisation",
     CONVENTION: "Convention",
-    CONVENTION_AVENANT: "Avenant convention",
     ARRETE_TARIFICATION: "Arrêté de tarification",
-    ARRETE_TARIFICATION_AVENANT: "Avenant arrêté de tarification",
     CPOM: "CPOM",
-    CPOM_AVENANT: "Avenant CPOM",
     INSPECTION_CONTROLE: "Inspection contrôle",
     AUTRE: "Autre",
   };

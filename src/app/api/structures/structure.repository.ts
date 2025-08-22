@@ -76,7 +76,12 @@ export const findOne = async (id: number): Promise<Structure | null> => {
         },
       },
       evenementsIndesirablesGraves: true,
-      fileUploads: true,
+      fileUploads: {
+        include: {
+          parentFileUpload: true,
+          childFileUploads: true,
+        },
+      },
       budgets: {
         orderBy: {
           date: "desc",

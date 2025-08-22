@@ -110,6 +110,8 @@ export const createFakeStuctureWithRelations = ({
       createFakeStructureTypologie({ year: 2024 }),
       createFakeStructureTypologie({ year: 2023 }),
     ],
+    // We'll create parent-child relationships in the database after initial creation
+    // since we need the parent IDs which are only available after database insertion
     fileUploads: [
       createFakeFileUpload({}),
       createFakeFileUpload({}),

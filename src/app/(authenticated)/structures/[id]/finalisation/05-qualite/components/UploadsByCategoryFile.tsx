@@ -1,46 +1,85 @@
-import { useFormContext } from "react-hook-form";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
+import { useFormContext } from "react-hook-form";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
-import Link from "next/link";
-import Button from "@codegouvfr/react-dsfr/Button";
-import {
-  useFiles,
-  FileMetaData,
-  UploadsByCategoryFileData,
-} from "./FilesContext";
 import { ControleType } from "@/types/controle.type";
-import { UploadsByCategoryAvenant } from "./UploadsByCategoryAvenant";
+import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
+import Button from "@codegouvfr/react-dsfr/Button";
+import Link from "next/link";
+import { FileUploadField } from "./UploadsByCategory";
+import { FileMetaData } from "../FinalisationQualiteForm";
+import { useFieldArray } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 
 export const UploadsByCategoryFile = ({
-  file,
-  categoryId,
-  categoryShortName,
-  // fieldBaseName,
-  documentLabel,
-  canAddAvenant,
-  fileMetaData,
+  field,
   index,
-}: Omit<UploadsByCategoryFileProps, "files" | "setFilesState">) => {
-  const { control, register } = useFormContext();
-  const { deleteFile, addAvenant } = useFiles();
+  fileMetaData,
+  documentLabel,
+  handleDeleteField,
+  canAddAvenant = false,
+}: UploadsByCategoryFileProps) => {
+  const { control, register, watch } = useFormContext();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "fileUploads",
+  });
 
-  const handleDeleteFile = () => {
-    deleteFile(index);
+  // Ensure the ID and parentFileUploadId fields are registered
+  register(`fileUploads.${index}.id`);
+  register(`fileUploads.${index}.parentFileUploadId`);
+
+  // Simple: check if field has value and ref has file data
+  const watchFieldName = `fileUploads.${index}.id`;
+  const mainFileId = watch(watchFieldName);
+
+  let avenants = fields.filter(
+    (field) =>
+      (field as unknown as FileUploadField).parentFileUploadId === mainFileId
+  );
+
+  const getAvenantIndex = (uuid: string) => {
+    const index = fields.findIndex(
+      (f) => (f as unknown as FileUploadField).uuid === uuid
+    );
+    return index;
   };
 
-  const handleAddAvenant = (e: React.MouseEvent) => {
+  const handleDeleteAvenant = (index: number) => {
+    remove(index);
+    // Update the filtered fields
+    avenants = fields.filter(
+      (field) =>
+        (field as unknown as FileUploadField).parentFileUploadId === mainFileId
+    );
+  };
+
+  const handleAddNewAvenant = (
+    e: React.MouseEvent,
+    parentFileUploadId?: string
+  ) => {
+    console.log("parentFileUploadId", parentFileUploadId);
     e.preventDefault();
-    addAvenant(index);
+    e.stopPropagation();
+    // Create a new field with the appropriate structure
+    const newField = {
+      key: null,
+      category: field.category,
+      uuid: uuidv4(),
+      parentFileUploadId: parentFileUploadId || undefined,
+    };
+
+    // Add the new field to the form's fileUploads array
+    append(newField);
   };
+
   return (
     <>
       <div className="grid  grid-cols-[1fr_1fr_auto] gap-6 items-center ">
         {fileMetaData === FileMetaData.DATE_TYPE && (
           <div className="flex gap-6 items-center h-full">
             <InputWithValidation
-              name={`${categoryId}.${index}.date`}
-              defaultValue={file.date}
+              name={`fileUploads.${index}.date`}
+              defaultValue={field.date}
               control={control}
               label="Date"
               className="w-full mb-0"
@@ -48,7 +87,7 @@ export const UploadsByCategoryFile = ({
             />
 
             <SelectWithValidation
-              name={`${categoryId}.${index}.type`}
+              name={`fileUploads.${index}.type`}
               control={control}
               label="Type"
               className="w-full"
@@ -62,18 +101,18 @@ export const UploadsByCategoryFile = ({
         {fileMetaData === FileMetaData.DATE_START_END && (
           <div className="flex gap-6 items-center h-full">
             <InputWithValidation
-              name={`${categoryId}.${index}.startDate`}
-              defaultValue={file.startDate}
+              name={`fileUploads.${index}.startDate`}
+              defaultValue={field.startDate}
               control={control}
-              label={`Début ${categoryShortName}`}
+              label={`Début ${field.categoryName}`}
               className="w-full mb-0"
               type="date"
             />
 
             <InputWithValidation
-              name={`${categoryId}.${index}.endDate`}
+              name={`fileUploads.${index}.endDate`}
               control={control}
-              label={`Fin ${categoryShortName}`}
+              label={`Fin ${field.categoryName}`}
               className="w-full mb-0"
               type="date"
             />
@@ -82,7 +121,7 @@ export const UploadsByCategoryFile = ({
         {fileMetaData === FileMetaData.NAME && (
           <div className="flex gap-6 items-center h-full">
             <InputWithValidation
-              name={`${categoryId}.${index}.categoryName`}
+              name={`fileUploads.${index}.categoryName`}
               control={control}
               label="Nom du document"
               className="w-full mb-0"
@@ -91,48 +130,79 @@ export const UploadsByCategoryFile = ({
             />
           </div>
         )}
+
         <div className="flex flex-col">
           <label className="mb-2">{documentLabel}</label>
           <UploadWithValidation
-            name={`${categoryId}.${index}.key`}
+            name={`fileUploads.${index}.key`}
             control={control}
           />
           <input
             type="hidden"
-            {...register(`${categoryId}.${index}.category`)}
-            defaultValue={categoryId}
+            {...register(`fileUploads.${index}.category`)}
+            defaultValue={field.category}
           />
         </div>
-        <Button
-          iconId="fr-icon-delete-bin-line"
-          onClick={handleDeleteFile}
-          priority="tertiary no outline"
-          className="mt-8"
-          title="Supprimer"
-        />
+        {index > 0 && (
+          <Button
+            iconId="fr-icon-delete-bin-line"
+            priority="tertiary no outline"
+            className="mt-8"
+            title="Supprimer"
+            onClick={() => handleDeleteField(index)}
+            type="button"
+          />
+        )}
       </div>
       {canAddAvenant && (
         <div className="flex flex-col ml-8 pl-8 border-l-2 border-default-grey">
-          {file.avenants?.map((avenant, avenantIndex) => {
+          {avenants?.map((avenant) => {
+            const typedAvenant = avenant as unknown as FileUploadField;
+            const avenantIndex = getAvenantIndex(typedAvenant.uuid);
             return (
-              <UploadsByCategoryAvenant
-                key={`${avenant.key || ""}-${avenantIndex}`}
-                fieldBaseName={`${categoryId}.${index}.avenants`}
-                documentLabel="Avenant"
-                categoryId={categoryId}
-                avenantIndex={avenantIndex}
-                avenantId={avenant.id || ""}
-                parentFileIndex={index}
-              />
+              <span key={`${typedAvenant.uuid}`}>
+                <div className="flex gap-6 items-center h-full">
+                  <InputWithValidation
+                    name={`fileUploads.${avenantIndex}.date`}
+                    control={control}
+                    label="Date avenant"
+                    className="w-full mb-0"
+                    type="date"
+                  />
+                  <div className="flex flex-col w-full">
+                    <label className="mb-2">{documentLabel}</label>
+                    {`fileUploads.${avenantIndex}.key`}
+                    <UploadWithValidation
+                      name={`fileUploads.${avenantIndex}.key`}
+                      control={control}
+                    />
+                    <input
+                      type="hidden"
+                      {...register(`fileUploads.${avenantIndex}.category`)}
+                      defaultValue={typedAvenant.category}
+                    />
+                  </div>
+                  <Button
+                    iconId="fr-icon-delete-bin-line"
+                    onClick={() => handleDeleteAvenant(avenantIndex)}
+                    type="button"
+                    priority="tertiary no outline"
+                    className="mt-8"
+                    title="Supprimer"
+                  />
+                </div>
+              </span>
             );
           })}
-          <Link
-            href={"/"}
-            className="text-action-high-blue-france underline underline-offset-4 mt-4"
-            onClick={handleAddAvenant}
-          >
-            + Ajouter un avenant
-          </Link>
+          {canAddAvenant && mainFileId && (
+            <Link
+              href={"/"}
+              className="text-action-high-blue-france underline underline-offset-4 mt-4"
+              onClick={(e) => handleAddNewAvenant(e, mainFileId)}
+            >
+              + Ajouter un avenant
+            </Link>
+          )}
         </div>
       )}
     </>
@@ -140,13 +210,10 @@ export const UploadsByCategoryFile = ({
 };
 
 type UploadsByCategoryFileProps = {
-  file: UploadsByCategoryFileData;
-  categoryId: string;
-  categoryShortName: string;
-  fieldBaseName: string;
-  documentLabel?: string;
-  canAddAvenant: boolean;
-  fileMetaData: FileMetaData;
-  isOptional: boolean;
+  field: FileUploadField;
   index: number;
+  fileMetaData: FileMetaData;
+  documentLabel: string;
+  handleDeleteField: (index: number) => void;
+  canAddAvenant: boolean;
 };

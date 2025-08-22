@@ -68,14 +68,38 @@ export const convertToFileUploadCategory = (
     compteRenduFinancier: FileUploadCategory.COMPTE_RENDU_FINANCIER,
     rapportActiviteOperateur: FileUploadCategory.RAPPORT_ACTIVITE_OPERATEUR,
     arreteAutorisation: FileUploadCategory.ARRETE_AUTORISATION,
-    arreteAutorisationAvenant: FileUploadCategory.ARRETE_AUTORISATION_AVENANT,
     convention: FileUploadCategory.CONVENTION,
-    conventionAvenant: FileUploadCategory.CONVENTION_AVENANT,
     arreteTarification: FileUploadCategory.ARRETE_TARIFICATION,
-    arreteTarificationAvenant: FileUploadCategory.ARRETE_TARIFICATION_AVENANT,
     cpom: FileUploadCategory.CPOM,
-    cpomAvenant: FileUploadCategory.CPOM_AVENANT,
+    inspectionControle: FileUploadCategory.INSPECTION_CONTROLE,
     autre: FileUploadCategory.AUTRE,
+  };
+  return categories[category];
+};
+
+export const convertFromCategoryToCategoryName = (
+  category: FileUploadCategory
+): string => {
+  const categories: Record<FileUploadCategory, string> = {
+    [FileUploadCategory.BUDGET_PREVISIONNEL_DEMANDE]:
+      "budgetPrevisionnelDemande",
+    [FileUploadCategory.RAPPORT_BUDGETAIRE]: "rapportBudgetaire",
+    [FileUploadCategory.BUDGET_PREVISIONNEL_RETENU]: "budgetPrevisionnelRetenu",
+    [FileUploadCategory.BUDGET_RECTIFICATIF]: "budgetRectificatif",
+    [FileUploadCategory.COMPTE_ADMINISTRATIF_SOUMIS]:
+      "compteAdministratifSoumis",
+    [FileUploadCategory.RAPPORT_ACTIVITE]: "rapportActivite",
+    [FileUploadCategory.COMPTE_ADMINISTRATIF_RETENU]:
+      "compteAdministratifRetenu",
+    [FileUploadCategory.DEMANDE_SUBVENTION]: "demandeSubvention",
+    [FileUploadCategory.COMPTE_RENDU_FINANCIER]: "compteRenduFinancier",
+    [FileUploadCategory.RAPPORT_ACTIVITE_OPERATEUR]: "rapportActiviteOperateur",
+    [FileUploadCategory.ARRETE_AUTORISATION]: "arreteAutorisation",
+    [FileUploadCategory.CONVENTION]: "convention",
+    [FileUploadCategory.ARRETE_TARIFICATION]: "arreteTarification",
+    [FileUploadCategory.CPOM]: "cpom",
+    [FileUploadCategory.INSPECTION_CONTROLE]: "inspectionControle",
+    [FileUploadCategory.AUTRE]: "autre",
   };
   return categories[category];
 };
