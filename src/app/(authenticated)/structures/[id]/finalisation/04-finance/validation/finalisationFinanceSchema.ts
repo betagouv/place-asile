@@ -21,6 +21,8 @@ const budgetSchema = z.object({
   totalProduits: zSafeNumber().nullable(),
   totalCharges: zSafeNumber().nullable(),
   repriseEtat: zSafeNumber().nullable(),
+  excedentRecupere: zSafeNumber().optional().nullable(),
+  excedentDeduit: zSafeNumber().optional().nullable(),
   affectationReservesFondsDedies: zSafeNumber().nullable(),
 
   // Champs variables
@@ -33,7 +35,7 @@ const budgetSchema = z.object({
   reserveCompensationDeficits: zSafeNumber().nullable(),
   reserveCompensationBFR: zSafeNumber().nullable(),
   reserveCompensationAmortissements: zSafeNumber().nullable(),
-  fondsDedies: zSafeNumber().nullable(),
+  fondsDedies: zSafeNumber().optional().nullable(),
 
   commentaire: z.string().optional().nullable(),
 });

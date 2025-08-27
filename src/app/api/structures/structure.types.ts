@@ -74,8 +74,11 @@ type CreateBudget = {
   dotationAccordee?: number | null;
   totalProduits?: number | null;
   totalCharges?: number | null;
+  totalChargesProposees?: number | null;
   cumulResultatsNetsCPOM?: number | null;
   repriseEtat?: number | null;
+  excedentRecupere?: number | null;
+  excedentDeduit?: number | null;
   reserveInvestissement?: number | null;
   chargesNonReconductibles?: number | null;
   reserveCompensationDeficits?: number | null;

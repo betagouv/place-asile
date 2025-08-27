@@ -114,6 +114,7 @@ export default function FinalisationFinanceForm({
     budgets: budgetArray as unknown as anyFinanceFormValues["budgets"],
     fileUploads: buildFileUploadsDefaultValues(),
   };
+  console.log(defaultValues);
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const [backendError, setBackendError] = useState<string | undefined>("");
@@ -136,12 +137,13 @@ export default function FinalisationFinanceForm({
 
   const handleSubmit = async (data: anyFinanceFormValues) => {
     setState("loading");
-    // TODO : supprimer les id string vides à la source
+
     data.budgets.forEach((budget) => {
       if (budget.id === "") {
         delete budget.id;
       }
     });
+
     const updatedStructure = await updateAndRefreshStructure(
       structure.id,
       {

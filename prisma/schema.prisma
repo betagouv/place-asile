@@ -173,6 +173,8 @@ model Budget {
   totalChargesProposees             Float?
   cumulResultatsNetsCPOM            Float?
   repriseEtat                       Float?
+  excedentRecupere                  Float?
+  excedentDeduit                    Float?
   reserveInvestissement             Float?
   chargesNonReconductibles          Float?
   reserveCompensationDeficits       Float?

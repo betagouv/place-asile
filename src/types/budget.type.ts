@@ -12,6 +12,8 @@ export type Budget = {
   totalChargesProposees: number | null;
   cumulResultatsNetsCPOM: number | null;
   repriseEtat: number | null;
+  excedentRecupere: number | null;
+  excedentDeduit: number | null;
   reserveInvestissement: number;
   chargesNonReconductibles: number;
   reserveCompensationDeficits: number;
