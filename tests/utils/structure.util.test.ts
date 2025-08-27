@@ -14,7 +14,7 @@ import { Controle } from "@/types/controle.type";
 import { createEvaluation } from "../test-utils/evaluation.factory";
 import dayjs from "dayjs";
 import { createControle } from "../test-utils/controle.factory";
-import { StructureType } from "@prisma/client";
+import { StructureType } from "@/types/structure.type";
 
 describe("structure util", () => {
   describe("getPlacesByCommunes", () => {
