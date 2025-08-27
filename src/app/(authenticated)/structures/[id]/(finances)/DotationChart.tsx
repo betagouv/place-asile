@@ -6,18 +6,29 @@ import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 export const DotationChart = (): ReactElement => {
   const { structure } = useStructureContext();
-  // ["2021", "2022", "2023", "2024", "2025"]
-  console.log("structure.budgets", structure.budgets);
-  const reversedBudgets = structure.budgets?.slice(0, 5).reverse();
-  console.log("reversedBudgets", reversedBudgets);
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
+
+  const yearsWithBudget = years
+    .map((year) => {
+      return {
+        year,
+        budget: structure.budgets?.find(
+          (budget) => new Date(budget.date).getFullYear() === year
+        ),
+      };
+    })
+    .reverse();
 
   const getPropertySerie = (propertyName: keyof Budget): number[] => {
-    return reversedBudgets?.map((budget) => Number(budget[propertyName])) || [];
+    return (
+      yearsWithBudget.map((budget) => Number(budget.budget?.[propertyName])) ||
+      []
+    );
   };
 
   const getChartData = () => {
-    // TODO : rendre cette liste dynamique en fonction de l'année en cours
-    const labels = ["2021", "2022", "2023", "2024", "2025"];
+    const labels = yearsWithBudget.map((budget) => budget.year);
     const series = [
       getPropertySerie("dotationDemandee"),
       getPropertySerie("dotationAccordee"),
