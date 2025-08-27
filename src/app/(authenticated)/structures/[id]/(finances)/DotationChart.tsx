@@ -6,30 +6,34 @@ import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 export const DotationChart = (): ReactElement => {
   const { structure } = useStructureContext();
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
-  const getPropertySerie = (
-    propertyName: keyof Budget,
-    minYear: number
-  ): number[] => {
+  const yearsWithBudget = years
+    .map((year) => {
+      return {
+        year,
+        budget: structure.budgets?.find(
+          (budget) => new Date(budget.date).getFullYear() === year
+        ),
+      };
+    })
+    .reverse();
+
+  const getPropertySerie = (propertyName: keyof Budget): number[] => {
     return (
-      structure.budgets?.reverse().map((budget) => {
-        if (new Date(budget.date).getFullYear() >= minYear) {
-          return Number(budget[propertyName]);
-        }
-        return 0;
-      }) || []
+      yearsWithBudget.map((budget) => Number(budget.budget?.[propertyName])) ||
+      []
     );
   };
 
   const getChartData = () => {
-    // TODO : rendre cette liste dynamique en fonction de l'année en cours
-    const labels = ["2021", "2022", "2023", "2024", "2025"];
-    const minYear = Number(labels[0]);
+    const labels = yearsWithBudget.map((budget) => budget.year);
     const series = [
-      getPropertySerie("dotationDemandee", minYear),
-      getPropertySerie("dotationAccordee", minYear),
-      getPropertySerie("totalProduits", minYear),
-      getPropertySerie("totalCharges", minYear),
+      getPropertySerie("dotationDemandee"),
+      getPropertySerie("dotationAccordee"),
+      getPropertySerie("totalProduits"),
+      getPropertySerie("totalCharges"),
     ];
     return {
       labels,
