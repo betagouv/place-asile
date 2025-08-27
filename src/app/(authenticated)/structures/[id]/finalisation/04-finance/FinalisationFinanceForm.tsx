@@ -114,7 +114,6 @@ export default function FinalisationFinanceForm({
     budgets: budgetArray as unknown as anyFinanceFormValues["budgets"],
     fileUploads: buildFileUploadsDefaultValues(),
   };
-  console.log(defaultValues);
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const [backendError, setBackendError] = useState<string | undefined>("");
