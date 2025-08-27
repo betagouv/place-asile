@@ -7,9 +7,24 @@ import dayjs from "dayjs";
 export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
   const { structure } = useStructureContext();
 
+  const budgets = structure?.budgets?.filter((budget) => {
+    return (
+      budget.dotationDemandee ||
+      budget.dotationAccordee ||
+      budget.totalProduits ||
+      budget.totalCharges ||
+      budget.totalChargesProposees ||
+      budget.cumulResultatsNetsCPOM ||
+      budget.repriseEtat ||
+      budget.affectationReservesFondsDedies ||
+      budget.fondsDedies ||
+      budget.commentaire
+    );
+  });
+
   const primaryHeadings = [
     { title: "BUDGET EXÉCUTOIRE DE LA STRUCTURE", colSpan: 2 },
-    { title: "COMPTE ADMINISTRATIF DE LA STRUCTURE", colSpan: 6 },
+    { title: "COMPTE ADMINISTRATIF DE LA STRUCTURE", colSpan: 7 },
   ];
 
   const secondaryHeadings = [
@@ -38,7 +53,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
   const computeCumulFondsDedies = (date: Date) => {
     // TODO : use budgets first fonds dediés
     let cumulFondsDedies = 0;
-    structure.budgets?.forEach((budget) => {
+    budgets?.forEach((budget) => {
       if (dayjs(budget.date).isBefore(dayjs(date))) {
         cumulFondsDedies += budget.fondsDedies;
       }
@@ -81,7 +96,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
           </tr>
         </thead>
         <tbody>
-          {structure?.budgets?.map((budget) => (
+          {budgets?.map((budget) => (
             <tr key={budget.id} className="border-t-1 border-default-grey">
               <td className="py-2 px-4 text-center text-sm">
                 {new Date(budget.date).getFullYear()}
