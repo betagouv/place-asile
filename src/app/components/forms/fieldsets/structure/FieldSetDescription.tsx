@@ -102,14 +102,6 @@ export const FieldSetDescription = ({
             ))}
         </SelectWithValidation>
 
-        <InputWithValidation
-          name="operateur"
-          control={control}
-          type="text"
-          label="Opérateur"
-          id="operateur"
-        />
-
         <OperateurAutocomplete />
 
         <div ref={filialesContainerRef}>

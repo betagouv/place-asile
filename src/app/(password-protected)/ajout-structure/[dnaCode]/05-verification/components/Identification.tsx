@@ -15,7 +15,7 @@ export const Identification = () => {
       </h3>
       <div className="grid grid-cols-2 border-b border-default-grey pb-2 mb-3">
         <p className="flex gap-4 mb-0">
-          <b>Opérateur</b> {localStorageValues?.operateur}
+          <b>Opérateur</b> {localStorageValues?.newOperateur?.name}
         </p>
         <p className="flex gap-4 mb-0">
           <b>Date de création</b> {localStorageValues?.creationDate}

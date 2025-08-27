@@ -11,8 +11,8 @@ export async function seed(): Promise<void> {
   console.log("🗑️ Suppression des données existantes...");
   await wipeTables(prisma);
 
-  const operateursToInsert = Array.from({ length: 5 }, () =>
-    createFakeOperateur()
+  const operateursToInsert = Array.from({ length: 5 }, (_, index) =>
+    createFakeOperateur(index)
   );
 
   for (const operateurToInsert of operateursToInsert) {

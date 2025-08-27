@@ -70,7 +70,7 @@ En cas de modification du schéma de données (dans `schema.prisma`), lancez la 
 yarn prisma:migrate --create-only
 ```
 
-Pour remplir la base avec des premières données, lancez :
+Pour remplir la base avec des données de test, lancez :
 
 ```bash
 yarn prisma:seed
@@ -134,3 +134,7 @@ Pour mettre l'applcation en production, placez vous sur la branche `main` et ex�
 git pull --rebase origin dev
 git push --force-with-lease
 ```
+
+### 🧑‍🔧 Ajout des opérateurs
+
+Pour ajouter des opérateurs sur un environnement (dev ou prod), faites un `POST` sur `/api/operateurs` avec un tableau des opérateurs. Un JSON à jour est sur le Notion de l'équipe.

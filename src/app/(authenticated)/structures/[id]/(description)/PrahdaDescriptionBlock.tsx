@@ -10,7 +10,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
   const {
     creationDate,
     dnaCode,
-    operateur,
+    newOperateur,
     filiale,
     public: publicType,
     type,
@@ -35,7 +35,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
         </div>
         <div className="flex-1">
           <strong className="pr-2">Opérateur</strong>
-          {getOperateurLabel(filiale, operateur)}
+          {getOperateurLabel(filiale, newOperateur?.name)}
         </div>
       </div>
       <hr />

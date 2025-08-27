@@ -13,7 +13,7 @@ export const DefaultDescriptionBlock = (): ReactElement => {
     creationDate,
     dnaCode,
     filiale,
-    operateur,
+    newOperateur,
     public: publicValue,
     type,
     finessCode,
@@ -62,7 +62,7 @@ export const DefaultDescriptionBlock = (): ReactElement => {
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Opérateur</strong>
-          {getOperateurLabel(filiale, operateur)}
+          {getOperateurLabel(filiale, newOperateur?.name)}
         </div>
         <div className="flex-1">
           <strong className="pr-2">CPOM</strong>
