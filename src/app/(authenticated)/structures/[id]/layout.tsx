@@ -28,7 +28,7 @@ export default async function StructureLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const structure = await getStructure(id);
