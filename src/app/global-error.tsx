@@ -14,7 +14,7 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html className="scroll-smooth">
+    <html data-scroll-behavior="smooth">
       <body className="h-full">
         <NextError statusCode={0} />
       </body>
