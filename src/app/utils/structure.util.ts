@@ -104,7 +104,7 @@ export const isStructureSubventionnee = (type: string | undefined): boolean => {
 
 export const getOperateurLabel = (
   filiale: string | null,
-  operateur: string
-): string => {
+  operateur: string | null | undefined
+): string | null | undefined => {
   return filiale ? `${filiale} (${operateur})` : operateur;
 };

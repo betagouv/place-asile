@@ -47,15 +47,8 @@ const createFakeStructure = ({
       type,
       state,
     }),
-    // TODO : refactor this with real operators from DB
-    operateur: faker.helpers.arrayElement([
-      "ADOMA",
-      "FTDA",
-      "GROUPE SOS SOLIDARITES",
-      "PASSERELLES",
-      "FRANCE HORIZON",
-    ]),
-    // TODO : gérer les filiales quand la table opérateur sera en DB
+    operateur: "Ancien opérateur : à supprimer",
+    // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
     type,
     nbPlaces: faker.number.int(100),

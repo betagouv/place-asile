@@ -88,7 +88,6 @@ export const useStructures = (): UseStructureResult => {
   const mapToStructure = (values: FormValues): DeepPartial<Structure> => {
     return {
       dnaCode: values.dnaCode,
-      operateur: values.operateur,
       newOperateur: values.newOperateur,
       filiale: values.filiale,
       type: values.type,

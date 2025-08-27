@@ -99,7 +99,7 @@ type Props = {
   id: number;
   dnaCode: string;
   coordinates: LatLngTuple;
-  operateur: string;
+  operateur: string | null | undefined;
   filiale: string | null;
   type: StructureType;
   nbPlaces: number;

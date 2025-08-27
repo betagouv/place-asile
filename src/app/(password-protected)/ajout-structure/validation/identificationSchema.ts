@@ -10,7 +10,6 @@ import {
 export const IdentificationSchema = z
   .object({
     dnaCode: z.string().nonempty(),
-    operateur: z.string().nonempty(),
     // TODO : renommer en operateur
     newOperateur: z.object({
       id: z.number(),

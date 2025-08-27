@@ -101,7 +101,7 @@ describe("FinalisationIdentificationForm", () => {
       name: "Type",
     });
     expect(structureType).toHaveAttribute("disabled");
-    const operateur = within(descriptionBlock).getByRole("textbox", {
+    const operateur = within(descriptionBlock).getByRole("combobox", {
       name: "Opérateur",
     });
     expect(operateur).toBeInTheDocument();
