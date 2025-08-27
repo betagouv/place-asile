@@ -16,6 +16,14 @@ export const createFakeBudget = ({
     totalChargesProposees: faker.number.int({ min: 1, max: 10000 }),
     cumulResultatsNetsCPOM: faker.number.int({ min: 1, max: 10000 }),
     repriseEtat: faker.number.int({ min: 1, max: 10000 }),
+    excedentRecupere:
+      faker.helpers.maybe(() => faker.number.int({ min: 1, max: 10000 }), {
+        probability: 0.3,
+      }) ?? null,
+    excedentDeduit:
+      faker.helpers.maybe(() => faker.number.int({ min: 1, max: 10000 }), {
+        probability: 0.3,
+      }) ?? null,
     affectationReservesFondsDedies: faker.number.int({ min: 1, max: 10000 }),
     reserveInvestissement: faker.number.int({ min: 1, max: 10000 }),
     chargesNonReconductibles: faker.number.int({ min: 1, max: 10000 }),

@@ -19,6 +19,7 @@ export const StructureAutoriseeSansCpom = () => {
         budgetItemErrors?.dotationAccordee ||
         budgetItemErrors?.totalProduits ||
         budgetItemErrors?.totalCharges ||
+        budgetItemErrors?.totalChargesProposees ||
         budgetItemErrors?.repriseEtat ||
         budgetItemErrors?.affectationReservesFondsDedies ||
         budgetItemErrors?.commentaire
