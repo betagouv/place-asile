@@ -20,7 +20,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
 
   const lang = "fr";
   return (
-    <html {...getHtmlAttributes({ lang })} className="scroll-smooth" dir="ltr">
+    <html
+      {...getHtmlAttributes({ lang })}
+      data-scroll-behavior="smooth"
+      dir="ltr"
+    >
       <head>
         <DsfrHead />
       </head>
