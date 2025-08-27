@@ -12,10 +12,9 @@ export default async function RootLayout({
   const { dnaCode } = await params;
 
   try {
-    const result = await fetch(
-      `${process.env.NEXT_URL}/api/structures/dna/${dnaCode}`,
-      { next: { revalidate: 0 } }
-    );
+    const result = await fetch(`/api/structures/dna/${dnaCode}`, {
+      next: { revalidate: 0 },
+    });
 
     if (!result.ok) {
       if (result.status === 404) {
