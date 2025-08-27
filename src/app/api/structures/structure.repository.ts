@@ -381,9 +381,11 @@ export const updateOne = async (
         ...structureProperties,
         public: convertToPublicType(structure.public!),
         newOperateur: {
-          connect: {
-            id: newOperateur?.id,
-          },
+          connect: newOperateur
+            ? {
+                id: newOperateur?.id,
+              }
+            : undefined,
         },
         // ...(structureProperties.public
         //   ? { public: convertToPublicType(structureProperties.public) }
