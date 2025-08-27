@@ -12,7 +12,7 @@
     "start": "node .next/standalone/server.js",
     "check:ts": "npx tsc --noEmit",
     "lint": "yarn lint:css && yarn lint:ts",
-    "lint:ts": "next lint",
+    "lint:ts": "eslint .",
     "lint:css": "npx stylelint \"**/*.css\"",
     "test": "vitest --run",
     "test:watch": "vitest --watch",
