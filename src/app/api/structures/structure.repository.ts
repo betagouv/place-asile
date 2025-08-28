@@ -144,7 +144,7 @@ export const createOne = async (
   const newStructure = await prisma.structure.create({
     data: {
       dnaCode: structure.dnaCode,
-      operateur: "Ancien opérateur : à supprimer",
+      oldOperateur: "Ancien opérateur : à supprimer",
       newOperateur: {
         connect: {
           id: structure.newOperateur.id,

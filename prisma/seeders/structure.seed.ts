@@ -47,7 +47,7 @@ const createFakeStructure = ({
       type,
       state,
     }),
-    operateur: "Ancien opérateur : à supprimer",
+    oldOperateur: "Ancien opérateur : à supprimer",
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
     type,

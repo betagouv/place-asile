@@ -10,7 +10,7 @@ datasource db {
 model Structure {
   id                           Int                         @id @default(autoincrement())
   dnaCode                      String                      @unique
-  operateur                    String
+  oldOperateur                 String
   filiale                      String?
   type                         StructureType
   nbPlaces                     Int
