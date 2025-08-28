@@ -1,12 +1,13 @@
-import { FileUploadCategory } from "@/types/file-upload.type";
+import { zFileUploadCategory } from "@/types/file-upload.type";
+import z from "zod";
 
 export const getCategoryLabel = (
-  category: keyof typeof FileUploadCategory | undefined
+  category: z.infer<typeof zFileUploadCategory> | undefined
 ): string => {
   if (!category) {
     return "";
   }
-  const labels: Record<keyof typeof FileUploadCategory, string> = {
+  const labels: Record<z.infer<typeof zFileUploadCategory>, string> = {
     BUDGET_PREVISIONNEL_DEMANDE: "Budget prévisionnel demandé",
     RAPPORT_BUDGETAIRE: "Rapport budgétaire",
     BUDGET_PREVISIONNEL_RETENU: "Budget prévisionnel retenu",
