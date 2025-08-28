@@ -1,19 +1,20 @@
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
 import { ControleType } from "@/types/controle.type";
-import { FileUploadCategory } from "@prisma/client";
+import { DdetsFileUploadCategory } from "@/types/file-upload.type";
+
 import z from "zod";
 
 const avenantSchema = z.object({
   key: z.string().optional(),
   date: createDateFieldValidator().optional(),
-  category: z.nativeEnum(FileUploadCategory).optional(),
+  category: z.nativeEnum(DdetsFileUploadCategory).optional(),
 });
 
 export const fileUploadSchema = z.object({
   // TODO : rendre key et category obligatoires
   key: z.string(),
   date: createDateFieldValidator().optional(),
-  category: z.nativeEnum(FileUploadCategory).optional(),
+  category: z.string().optional(),
   startDate: createDateFieldValidator().optional(),
   endDate: createDateFieldValidator().optional(),
   avenants: z.array(avenantSchema).optional(),
@@ -29,20 +30,7 @@ export const fileUploadSchema = z.object({
 // });
 
 export const finalisationQualiteSchema = z.object({
-  fileUploads: z.object({
-    [FileUploadCategory.INSPECTION_CONTROLE]: z
-      .array(fileUploadSchema)
-      .optional(),
-    [FileUploadCategory.ARRETE_AUTORISATION]: z
-      .array(fileUploadSchema)
-      .optional(),
-    [FileUploadCategory.CONVENTION]: z.array(fileUploadSchema).optional(),
-    [FileUploadCategory.ARRETE_TARIFICATION]: z
-      .array(fileUploadSchema)
-      .optional(),
-    [FileUploadCategory.CPOM]: z.array(fileUploadSchema).optional(),
-    [FileUploadCategory.AUTRE]: z.array(fileUploadSchema).optional(),
-  }),
+  fileUploads: z.array(fileUploadSchema).optional(),
   // controles: z.array(controleSchema),
 });
 

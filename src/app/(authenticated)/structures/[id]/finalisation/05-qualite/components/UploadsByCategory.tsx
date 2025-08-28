@@ -4,8 +4,8 @@ import { z } from "zod";
 import Link from "next/link";
 import { FileMetaData } from "../FinalisationQualiteForm";
 import { v4 as uuidv4 } from "uuid";
-import { FileUploadCategory } from "@prisma/client";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
+import { DdetsFileUploadCategory } from "@/types/file-upload.type";
 
 export type FileUploadField = z.infer<typeof fileUploadSchema> & {
   id: string;
@@ -14,6 +14,7 @@ export type FileUploadField = z.infer<typeof fileUploadSchema> & {
 
 export default function UploadsByCategory({
   category,
+  categoryShortName,
   title,
   subTitle,
   isOptional,
@@ -30,11 +31,16 @@ export default function UploadsByCategory({
   });
 
   const fileUploads = watch("fileUploads") || [];
+  console.log(category);
   let filteredFields: FileUploadField[] = [];
 
   const refreshFields = () => {
     filteredFields = fileUploads.filter((field: FileUploadField) => {
-      return field.category === category && !field.parentFileUploadId;
+      return (
+        field.category &&
+        (field.category as string) === category &&
+        !field.parentFileUploadId
+      );
     });
   };
 
@@ -91,6 +97,7 @@ export default function UploadsByCategory({
           return (
             <div key={fieldIndex}>
               <UploadsByCategoryFile
+                categoryShortName={categoryShortName}
                 field={field}
                 index={fieldIndex}
                 key={field.key || null}
@@ -116,7 +123,8 @@ export default function UploadsByCategory({
 }
 
 type UploadsByCategoryProps = {
-  category: FileUploadCategory;
+  category: keyof typeof DdetsFileUploadCategory;
+  categoryShortName: string;
   title: string;
   subTitle?: string;
   isOptional?: boolean;

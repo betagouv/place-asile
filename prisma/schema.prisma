@@ -238,6 +238,14 @@ enum FileUploadCategory {
   AUTRE
 }
 
+enum DdetsFileUploadCategory {
+  ARRETE_AUTORISATION
+  CONVENTION
+  ARRETE_TARIFICATION
+  CPOM
+  INSPECTION_CONTROLE
+  AUTRE
+}
 enum StructureState {
   A_FINALISER
   FINALISE

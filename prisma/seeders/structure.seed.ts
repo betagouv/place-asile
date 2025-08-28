@@ -2,14 +2,16 @@ import { fakerFR as faker } from "@faker-js/faker";
 import {
   Prisma,
   PublicType,
-  StructureType,
   Structure,
   Contact,
   StructureTypologie,
   Budget,
-  FileUpload,
   StructureState,
+  FileUpload,
 } from "@prisma/client";
+
+import { StructureType } from "@/types/structure.type";
+
 import { createFakeContact } from "./contact.seed";
 import { AdresseWithTypologies, createFakeAdresses } from "./adresse.seed";
 import { ControleWithFileUploads, createFakeControle } from "./controle.seed";
@@ -113,16 +115,13 @@ export const createFakeStuctureWithRelations = ({
       createFakeStructureTypologie({ year: 2024 }),
       createFakeStructureTypologie({ year: 2023 }),
     ],
-    // We'll create parent-child relationships in the database after initial creation
-    // since we need the parent IDs which are only available after database insertion
-    fileUploads: [
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-    ],
+
+    fileUploads: Array.from({ length: 2 }, () =>
+      createFakeFileUpload({
+        cpom,
+        structureType: type,
+      })
+    ),
   } as StructureWithRelations;
 
   if (state === StructureState.FINALISE) {

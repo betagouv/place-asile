@@ -17,6 +17,7 @@ export const UploadsByCategoryFile = ({
   documentLabel,
   handleDeleteField,
   canAddAvenant = false,
+  categoryShortName,
 }: UploadsByCategoryFileProps) => {
   const { control, register, watch } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -98,7 +99,7 @@ export const UploadsByCategoryFile = ({
               name={`fileUploads.${index}.startDate`}
               defaultValue={field.startDate}
               control={control}
-              label={`Début ${field.categoryName}`}
+              label={`Début ${categoryShortName}`}
               className="w-full mb-0"
               type="date"
             />
@@ -106,7 +107,7 @@ export const UploadsByCategoryFile = ({
             <InputWithValidation
               name={`fileUploads.${index}.endDate`}
               control={control}
-              label={`Fin ${field.categoryName}`}
+              label={`Fin ${categoryShortName}`}
               className="w-full mb-0"
               type="date"
             />
@@ -208,6 +209,7 @@ type UploadsByCategoryFileProps = {
   index: number;
   fileMetaData: FileMetaData;
   documentLabel: string;
+  categoryShortName: string;
   handleDeleteField: (index: number) => void;
   canAddAvenant: boolean;
 };

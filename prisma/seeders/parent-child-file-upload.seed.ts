@@ -1,4 +1,7 @@
-import { PrismaClient, FileUploadCategory } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+import { StructureType } from "@/types/structure.type";
+import { FileUploadCategory } from "@prisma/client";
+
 import {
   createFakeFileUpload,
   createFakeFileUploadWithParent,
@@ -16,16 +19,19 @@ export async function seedParentChildFileUploads(structureDnaCode: string) {
 
   // Create parent file uploads for each category
   const parentUploads = await Promise.all(
-    categories.map((category) =>
+    categories.map(() =>
       prisma.fileUpload.create({
         data: {
-          ...createFakeFileUpload({ category }),
+          ...createFakeFileUpload({
+            category: FileUploadCategory.AUTRE,
+            cpom: false,
+            structureType: StructureType.CADA, // Default structure type
+          }),
           structureDnaCode,
         },
       })
     )
   );
-
   // Create child file uploads for each parent
   const childrenByParent = await Promise.all(
     parentUploads.map(async (parent) => {

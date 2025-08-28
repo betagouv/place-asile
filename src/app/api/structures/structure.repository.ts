@@ -323,6 +323,7 @@ const updateFileUploads = async (
           endDate: fileUpload.endDate,
           categoryName: fileUpload.categoryName,
           structureDnaCode,
+          parentFileUploadId: fileUpload.parentFileUploadId,
         },
       })
     )

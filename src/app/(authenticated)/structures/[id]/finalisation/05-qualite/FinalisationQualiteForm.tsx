@@ -11,10 +11,13 @@ import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useStructures } from "@/app/hooks/useStructures";
 import { useRouter } from "next/navigation";
 import { SubmitError } from "@/app/components/SubmitError";
-import { FileUpload, FileUploadCategory } from "@/types/file-upload.type";
+import { FileUpload } from "@/types/file-upload.type";
 import { StructureState } from "@/types/structure.type";
 import { v4 as uuidv4 } from "uuid";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
+import {
+  isStructureAutorisee,
+  isStructureSubventionnee,
+} from "@/app/utils/structure.util";
 import { z } from "zod";
 import UploadsByCategory from "./components/UploadsByCategory";
 
@@ -54,20 +57,6 @@ export const FinalisationQualiteForm = ({
 
     console.log("fileUploads", fileUploads);
 
-    return;
-
-    // const controles = (data[FileUploadCategory.INSPECTION_CONTROLE] ?? [])
-    //   .map((controle: { date: Date; type: string; key: string }) => {
-    //     return {
-    //       date: controle.date,
-    //       type: controle.type,
-    //       fileUploadKey: controle.key,
-    //     };
-    //   })
-    //   .filter(
-    //     (controle: { date: Date; type: string; key: string }) => controle.type
-    //   );
-
     const updatedStructure = await updateAndRefreshStructure(
       structure.id,
       {
@@ -92,13 +81,13 @@ export const FinalisationQualiteForm = ({
   const formDefaultValues = {
     fileUploads: (structure?.fileUploads as FileUpload[])
       ? structure?.fileUploads
-          ?.filter((fileUpload) => fileUpload.category !== null) // Filter out null categories
+          ?.filter((fileUpload) => fileUpload.category !== null) // Filter out null categories and non-DDETS categories
           ?.map((fileUpload) => {
             return {
               ...fileUpload,
               uuid: uuidv4(),
               key: fileUpload.key,
-              category: fileUpload.category, // Now guaranteed to be non-null
+              category: fileUpload.category, // Cast to DdetsFileUploadCategory since we've filtered for DDETS categories
               date:
                 fileUpload.date && fileUpload.date instanceof Date
                   ? fileUpload.date.toISOString()
@@ -168,18 +157,44 @@ export const FinalisationQualiteForm = ({
       />
 
       <UploadsByCategory
-        category={FileUploadCategory.INSPECTION_CONTROLE}
+        category={"INSPECTION_CONTROLE"}
+        categoryShortName=""
         title="Inspections-contrôles"
         canAddFile
-        canAddAvenant
         isOptional
         fileMetaData={FileMetaData.DATE_TYPE}
         documentLabel="Rapport"
         addFileButtonLabel="Ajouter une inspection-contrôle"
       />
+
       {isStructureAutorisee(structure.type) && (
         <UploadsByCategory
-          category={FileUploadCategory.ARRETE_AUTORISATION}
+          category={"ARRETE_AUTORISATION"}
+          categoryShortName="autorisation"
+          title="Arrêtés d'autorisation"
+          canAddFile
+          canAddAvenant
+          fileMetaData={FileMetaData.DATE_START_END}
+          documentLabel="Rapport"
+          addFileButtonLabel="Ajouter un arrêté d'autorisation"
+        />
+      )}
+      {structure.cpom && (
+        <UploadsByCategory
+          category={"CPOM"}
+          categoryShortName="CPOM"
+          title="CPOM"
+          canAddFile
+          canAddAvenant
+          fileMetaData={FileMetaData.DATE_START_END}
+          documentLabel="Rapport"
+          addFileButtonLabel="Ajouter un CPOM"
+        />
+      )}
+      {isStructureSubventionnee(structure.type) && (
+        <UploadsByCategory
+          category={"ARRETE_AUTORISATION"}
+          categoryShortName="autorisation"
           title="Arrêtés d’autorisation"
           canAddFile
           isOptional
@@ -190,7 +205,8 @@ export const FinalisationQualiteForm = ({
       )}
 
       <UploadsByCategory
-        category={FileUploadCategory.CONVENTION}
+        category={"CONVENTION"}
+        categoryShortName="convention"
         title="Conventions"
         canAddFile
         isOptional={isStructureAutorisee(structure.type)}
@@ -199,30 +215,9 @@ export const FinalisationQualiteForm = ({
         addFileButtonLabel="Ajouter une convention"
       />
 
-      {isStructureAutorisee(structure.type) && (
-        <UploadsByCategory
-          category={FileUploadCategory.ARRETE_TARIFICATION}
-          title="Arrêtés de tarification"
-          canAddFile
-          isOptional
-          fileMetaData={FileMetaData.DATE_START_END}
-          documentLabel="Rapport"
-          addFileButtonLabel="Ajouter un arrêté de tarification"
-        />
-      )}
-      {structure.cpom && (
-        <UploadsByCategory
-          category={FileUploadCategory.CPOM}
-          title="CPOM"
-          canAddFile
-          canAddAvenant
-          fileMetaData={FileMetaData.DATE_START_END}
-          documentLabel="Rapport"
-          addFileButtonLabel="Ajouter un CPOM"
-        />
-      )}
       <UploadsByCategory
-        category={FileUploadCategory.AUTRE}
+        category={"AUTRE"}
+        categoryShortName="autre"
         title="Autres documents"
         canAddFile
         isOptional
