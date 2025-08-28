@@ -1,6 +1,6 @@
 export type CreateStructure = {
   dnaCode: string;
-  newOperateur: CreateOperateur;
+  operateur: CreateOperateur;
   filiale?: string;
   type: string;
   nbPlaces: number;
@@ -127,7 +127,7 @@ export type UpdateAdresse = CreateAdresse & {
 
 export type UpdateStructure = {
   dnaCode: string;
-  newOperateur?: UpdateOperateur;
+  operateur?: UpdateOperateur;
   filiale?: string;
   type?: string;
   nbPlaces?: number;

@@ -48,8 +48,8 @@ model Structure {
   activites                    Activite[]
   fileUploads                  FileUpload[]
   budgets                      Budget[]
-  newOperateur                 Operateur?                  @relation(fields: [newOperateurId], references: [id])
-  newOperateurId               Int?
+  operateur                    Operateur?                  @relation(fields: [operateurId], references: [id])
+  operateurId                  Int?
 }
 
 model Controle {

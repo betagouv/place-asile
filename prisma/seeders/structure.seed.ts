@@ -36,7 +36,7 @@ const createFakeStructure = ({
   cpom,
   type,
   state,
-}: FakeStructureOptions): Omit<Structure, "id" | "newOperateurId"> => {
+}: FakeStructureOptions): Omit<Structure, "id" | "operateurId"> => {
   const [debutConvention, finConvention] = generateDatePair();
   const [debutPeriodeAutorisation, finPeriodeAutorisation] = generateDatePair();
   const [debutCpom, finCpom] = generateDatePair();

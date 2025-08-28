@@ -37,8 +37,7 @@ export default function FinalisationIdentificationForm({
   const router = useRouter();
   const defaultValues = {
     ...structure,
-    // TODO : renommer en operateur
-    newOperateur: structure.newOperateur ?? undefined,
+    operateur: structure.operateur ?? undefined,
     creationDate: formatDateString(structure.creationDate),
     debutPeriodeAutorisation: isAutorisee
       ? formatDateString(structure.debutPeriodeAutorisation)

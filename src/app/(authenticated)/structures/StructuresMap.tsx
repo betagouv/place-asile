@@ -14,7 +14,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
           id={structure.id}
           dnaCode={structure.dnaCode}
           coordinates={structure.coordinates}
-          operateur={structure.newOperateur?.name}
+          operateur={structure.operateur?.name}
           filiale={structure.filiale}
           type={structure.type}
           nbPlaces={structure.nbPlaces}
