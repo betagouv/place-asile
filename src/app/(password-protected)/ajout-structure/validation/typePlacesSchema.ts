@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export type PlacesFormValues = z.infer<typeof PlacesSchema>;
 export const PlacesSchema = z.object({
-  autorisees: z.preprocess(
+  placesAutorisees: z.preprocess(
     (val) => (val === "" ? undefined : Number(val)),
     z.number()
   ),

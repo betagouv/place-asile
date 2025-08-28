@@ -31,7 +31,7 @@ export default function FinalisationTypePlacesForm({
     typologies: structure?.structureTypologies?.map((typologie) => ({
       id: typologie.id,
       date: typologie.date,
-      nbPlaces: typologie.nbPlaces,
+      placesAutorisees: typologie.placesAutorisees,
       pmr: typologie.pmr,
       lgbt: typologie.lgbt,
       fvvTeh: typologie.fvvTeh,

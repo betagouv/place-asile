@@ -119,7 +119,7 @@ model StructureTypologie {
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
   date             DateTime
-  nbPlaces         Int?
+  placesAutorisees Int?
   pmr              Int
   lgbt             Int
   fvvTeh           Int

@@ -59,8 +59,8 @@ export const FieldSetTypePlaces = () => {
             />
             <td className="!py-4">
               <InputWithValidation
-                name={`typologies.${index}.nbPlaces`}
-                id={`typologies.${index}.nbPlaces`}
+                name={`typologies.${index}.placesAutorisees`}
+                id={`typologies.${index}.placesAutorisees`}
                 control={control}
                 type="number"
                 min={0}

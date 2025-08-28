@@ -51,7 +51,7 @@ type CreateContact = {
 
 type CreateStructureTypologie = {
   date: Date;
-  //TODO : add nbPlaces
+  placesAutorisees: number;
   pmr: number;
   lgbt: number;
   fvvTeh: number;
@@ -99,7 +99,7 @@ export type UpdateContact = CreateContact & { id?: number };
 export type UpdateBudget = CreateBudget & { id?: number };
 export type UpdateStructureTypologie = {
   id?: number;
-  nbPlaces: number;
+  placesAutorisees: number;
   pmr: number;
   lgbt: number;
   fvvTeh: number;

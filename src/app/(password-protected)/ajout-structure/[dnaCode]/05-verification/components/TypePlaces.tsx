@@ -27,7 +27,7 @@ export const TypePlaces = () => {
         >
           <td className="align-middle py-4">{year}</td>
           <td className="!py-4">
-            {localStorageValues?.typologies?.[index]?.autorisees}
+            {localStorageValues?.typologies?.[index]?.placesAutorisees}
           </td>
           <td className="!py-1">
             {localStorageValues?.typologies?.[index]?.pmr}
