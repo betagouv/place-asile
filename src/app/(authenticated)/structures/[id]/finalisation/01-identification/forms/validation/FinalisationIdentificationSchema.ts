@@ -13,8 +13,7 @@ import { contactSchema } from "@/app/(password-protected)/ajout-structure/valida
 export const finalisationIdentificationSchema = z
   .object({
     dnaCode: z.string().nonempty(),
-    // TODO : renommer en operateur
-    newOperateur: z.object({
+    operateur: z.object({
       id: z.number(),
       name: z.string(),
     }),

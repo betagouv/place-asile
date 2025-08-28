@@ -52,7 +52,7 @@ export type Structure = {
   activites?: Activite[];
   fileUploads?: FileUpload[];
   budgets?: Budget[];
-  newOperateur?: Operateur;
+  operateur?: Operateur;
 };
 
 export type StructureWithLatLng = Structure & {

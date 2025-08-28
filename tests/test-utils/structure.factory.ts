@@ -20,7 +20,7 @@ export const createStructure = ({
   return {
     id: 1,
     dnaCode: "C0001",
-    newOperateur: { structureDnaCode: "C0001", id: 1, name: "Adoma" },
+    operateur: { structureDnaCode: "C0001", id: 1, name: "Adoma" },
     filiale: null,
     type: type ?? StructureType.CADA,
     nbPlaces: nbPlaces ?? 5,

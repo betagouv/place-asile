@@ -42,7 +42,7 @@ export function StructureHeader(): ReactElement | null {
   const {
     type,
     filiale,
-    newOperateur,
+    operateur,
     nbPlaces,
     nom,
     communeAdministrative,
@@ -70,7 +70,7 @@ export function StructureHeader(): ReactElement | null {
             </h2>
             <h3 className="text-title-blue-france fr-h6 mb-0">
               <strong className="pr-2">
-                {type}, {getOperateurLabel(filiale, newOperateur?.name)}, {nbPlaces}{" "}
+                {type}, {getOperateurLabel(filiale, operateur?.name)}, {nbPlaces}{" "}
                 places
               </strong>
               <span className="pr-2">{" – "}</span>

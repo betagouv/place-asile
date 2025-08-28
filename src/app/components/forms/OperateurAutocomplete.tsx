@@ -20,8 +20,7 @@ export const OperateurAutocomplete = (): ReactElement => {
 
   const { field: operateurNameField, fieldState: operateurFieldState } =
     useController({
-      // TODO : renommer en operateur.name
-      name: "newOperateur.name",
+      name: "operateur.name",
       control: finalControl,
       rules: {
         required: true,
@@ -29,8 +28,7 @@ export const OperateurAutocomplete = (): ReactElement => {
     });
 
   const operateurIdFieldResult = useController({
-    // TODO : renommer en operateur.id
-    name: "newOperateur.id",
+    name: "operateur.id",
     control: finalControl,
     rules: { required: true },
   });
@@ -56,8 +54,8 @@ export const OperateurAutocomplete = (): ReactElement => {
     setManualError(undefined);
     const operateurSuggestion = suggestion as OperateurSuggestion;
 
-    setValue("newOperateur.id", operateurSuggestion.id);
-    setValue("newOperateur.name", operateurSuggestion.label);
+    setValue("operateur.id", operateurSuggestion.id);
+    setValue("operateur.name", operateurSuggestion.label);
     setShowSuggestions(false);
   };
 
@@ -113,8 +111,7 @@ export const OperateurAutocomplete = (): ReactElement => {
       <Input
         nativeInputProps={{
           ...operateurNameField,
-          // TODO : renommer l'id en operateur
-          id: "newOperateur",
+          id: "operateur",
           onChange: handleOperateurChange,
           value: operateurNameField.value || "",
           autoComplete: "off",
