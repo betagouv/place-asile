@@ -90,7 +90,10 @@ type StructureWithRelations = Structure & {
   controles: Omit<ControleWithFileUploads, "id" | "structureDnaCode">[];
   structureTypologies: Omit<StructureTypologie, "id" | "structureDnaCode">[];
   budgets: Omit<Budget, "id" | "structureDnaCode">[];
-  fileUploads: Omit<FileUpload, "id" | "structureDnaCode" | "controleId">[];
+  fileUploads: Omit<
+    FileUpload,
+    "id" | "structureDnaCode" | "controleId" | "parentFileUploadId"
+  >[];
 };
 
 export const createFakeStuctureWithRelations = ({
