@@ -91,7 +91,7 @@ export const useStructures = (): UseStructureResult => {
       newOperateur: values.newOperateur,
       filiale: values.filiale,
       type: values.type,
-      nbPlaces: Number(values.typologies?.[0].autorisees),
+      nbPlaces: Number(values.typologies?.[0].placesAutorisees),
       adresseAdministrative: values.adresseAdministrative,
       codePostalAdministratif: values.codePostalAdministratif,
       communeAdministrative: values.communeAdministrative,
@@ -119,7 +119,7 @@ export const useStructures = (): UseStructureResult => {
       ),
       typologies: values.typologies?.map((typologie) => ({
         ...typologie,
-        autorisees: Number(typologie.autorisees),
+        placesAutorisees: Number(typologie.placesAutorisees),
         pmr: Number(typologie.pmr),
         lgbt: Number(typologie.lgbt),
         fvvTeh: Number(typologie.fvvTeh),

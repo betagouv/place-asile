@@ -83,7 +83,7 @@ export const TypePlaceHistory = ({
 
       return [
         year,
-        currentStructureTypologie?.nbPlaces ?? "N/A",
+        currentStructureTypologie?.placesAutorisees ?? "N/A",
         currentStructureTypologie?.pmr ?? "N/A",
         currentStructureTypologie?.lgbt ?? "N/A",
         currentStructureTypologie?.fvvTeh ?? "N/A",

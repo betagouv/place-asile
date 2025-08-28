@@ -8,7 +8,7 @@ export const finalisationTypePlacesSchema = z
     typologies: z.array(
       z.object({
         id: z.number(),
-        nbPlaces: z.union([
+        placesAutorisees: z.union([
           z
             .string()
             .min(1, { message: "Nombre de places requis" })

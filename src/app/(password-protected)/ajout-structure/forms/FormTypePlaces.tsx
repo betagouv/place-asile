@@ -86,8 +86,8 @@ export default function FormTypePlaces() {
                   <td className="align-middle py-4">{year}</td>
                   <td className="!py-4">
                     <InputWithValidation
-                      name={`typologies.${index}.autorisees`}
-                      id={`typologies.${index}.autorisees`}
+                      name={`typologies.${index}.placesAutorisees`}
+                      id={`typologies.${index}.placesAutorisees`}
                       control={control}
                       type="number"
                       min={0}

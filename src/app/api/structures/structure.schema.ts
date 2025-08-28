@@ -40,7 +40,7 @@ const contactSchema = z.object({
 
 const structureTypologieSchema = z.object({
   date: z.coerce.date({ message: "La date de la typologie est requise" }),
-  // TODO : ajouter nbPlaces
+  placesAutorisees: z.number().int(),
   pmr: z.number().int(),
   lgbt: z.number().int(),
   fvvTeh: z.number().int(),
@@ -131,7 +131,7 @@ const controleSchema = z.object({
 
 const updateStructureTypologieSchema = z.object({
   id: z.number().optional(),
-  nbPlaces: z.number().int(),
+  placesAutorisees: z.number().int(),
   pmr: z.number().int(),
   lgbt: z.number().int(),
   fvvTeh: z.number().int(),
