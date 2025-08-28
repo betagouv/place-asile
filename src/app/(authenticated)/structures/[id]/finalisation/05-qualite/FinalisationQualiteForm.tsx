@@ -20,6 +20,7 @@ import {
 } from "@/app/utils/structure.util";
 import { z } from "zod";
 import UploadsByCategory from "./components/UploadsByCategory";
+import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
 
 export enum FileMetaData {
   DATE_TYPE,
@@ -38,8 +39,6 @@ export const FinalisationQualiteForm = ({
     structure.id
   );
 
-  console.log("structure", structure);
-
   const { updateAndRefreshStructure } = useStructures();
   const router = useRouter();
 
@@ -51,11 +50,7 @@ export const FinalisationQualiteForm = ({
   ) => {
     setState("loading");
 
-    console.log("data", data);
-
     const fileUploads = data.fileUploads as FileUpload[];
-
-    console.log("fileUploads", fileUploads);
 
     const updatedStructure = await updateAndRefreshStructure(
       structure.id,
@@ -84,7 +79,9 @@ export const FinalisationQualiteForm = ({
               ...fileUpload,
               uuid: uuidv4(),
               key: fileUpload.key,
-              category: fileUpload.category,
+              category: String(fileUpload.category) as z.infer<
+                typeof zDdetsFileUploadCategory
+              >,
               date:
                 fileUpload.date && fileUpload.date instanceof Date
                   ? fileUpload.date.toISOString()
@@ -104,8 +101,6 @@ export const FinalisationQualiteForm = ({
           })
       : [],
   };
-
-  console.log("formDefaultValues", formDefaultValues);
 
   return (
     <FormWrapper

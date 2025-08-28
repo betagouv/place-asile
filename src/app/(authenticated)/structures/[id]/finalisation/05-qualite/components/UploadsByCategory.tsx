@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FileMetaData } from "../FinalisationQualiteForm";
 import { v4 as uuidv4 } from "uuid";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
-import { DdetsFileUploadCategoryType } from "@/types/file-upload.type";
+import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
 
 export type FileUploadField = z.infer<typeof fileUploadSchema> & {
   id: string;
@@ -123,7 +123,7 @@ export default function UploadsByCategory({
 }
 
 type UploadsByCategoryProps = {
-  category: DdetsFileUploadCategoryType;
+  category: z.infer<typeof zDdetsFileUploadCategory>;
   categoryShortName: string;
   title: string;
   subTitle?: string;

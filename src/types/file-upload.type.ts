@@ -1,3 +1,5 @@
+import z from "zod";
+
 export type FileUpload = {
   id: number;
   structureDnaCode?: string;
@@ -6,7 +8,7 @@ export type FileUpload = {
   fileSize: number;
   originalName: string;
   date?: Date;
-  category?: FileUploadCategoryType;
+  category?: z.infer<typeof zDdetsFileUploadCategory>;
   startDate?: Date;
   endDate?: Date;
   categoryName?: string | null;
@@ -14,43 +16,44 @@ export type FileUpload = {
   childrenFileUploads?: FileUpload[];
 };
 
-export const FileUploadCategory = {
-  BUDGET_PREVISIONNEL_DEMANDE: "budgetPrevisionnelDemande",
-  RAPPORT_BUDGETAIRE: "rapportBudgetaire",
-  BUDGET_PREVISIONNEL_RETENU: "budgetPrevisionnelRetenu",
-  BUDGET_RECTIFICATIF: "budgetRectificatif",
-  COMPTE_ADMINISTRATIF_SOUMIS: "compteAdministratifSoumis",
-  RAPPORT_ACTIVITE: "rapportActivite",
-  COMPTE_ADMINISTRATIF_RETENU: "compteAdministratifRetenu",
-  DEMANDE_SUBVENTION: "demandeSubvention",
-  COMPTE_RENDU_FINANCIER: "compteRenduFinancier",
-  RAPPORT_ACTIVITE_OPERATEUR: "rapportActiviteOperateur",
-  ARRETE_AUTORISATION: "arreteAutorisation",
-  CONVENTION: "convention",
-  ARRETE_TARIFICATION: "arreteTarification",
-  CPOM: "cpom",
-  INSPECTION_CONTROLE: "inspectionControle",
-  AUTRE: "autre",
-} as const;
+export const FileUploadCategory = [
+  "BUDGET_PREVISIONNEL_DEMANDE",
+  "RAPPORT_BUDGETAIRE",
+  "BUDGET_PREVISIONNEL_RETENU",
+  "BUDGET_RECTIFICATIF",
+  "COMPTE_ADMINISTRATIF_SOUMIS",
+  "RAPPORT_ACTIVITE",
+  "COMPTE_ADMINISTRATIF_RETENU",
+  "DEMANDE_SUBVENTION",
+  "COMPTE_RENDU_FINANCIER",
+  "RAPPORT_ACTIVITE_OPERATEUR",
+  "ARRETE_AUTORISATION",
+  "CONVENTION",
+  "ARRETE_TARIFICATION",
+  "CPOM",
+  "INSPECTION_CONTROLE",
+  "AUTRE",
+] as const;
 
-export type FileUploadCategoryType = keyof typeof FileUploadCategory;
-// enum DdetsFileUploadCategory {
-//   ARRETE_AUTORISATION
-//   CONVENTION
-//   ARRETE_TARIFICATION
-//   CPOM
-//   INSPECTION_CONTROLE
-//   AUTRE
-// }
+export type FileUploadCategoryType = typeof FileUploadCategory;
 
-export type DdetsFileUploadCategoryType = Omit<
-  FileUploadCategoryType,
-  | "BUDGET_PREVISIONNEL_DEMANDE"
-  | "BUDGET_PREVISIONNEL_RETENU"
-  | "BUDGET_RECTIFICATIF"
-  | "COMPTE_ADMINISTRATIF_SOUMIS"
-  | "COMPTE_ADMINISTRATIF_RETENU"
-  | "DEMANDE_SUBVENTION"
-  | "COMPTE_RENDU_FINANCIER"
-  | "RAPPORT_ACTIVITE_OPERATEUR"
->;
+export const zFileUploadCategory = z.enum(
+  Object.values(FileUploadCategory) as unknown as FileUploadCategoryType
+);
+
+export const DdetsFileUploadCategory = [
+  "ARRETE_AUTORISATION",
+  "CONVENTION",
+  "ARRETE_TARIFICATION",
+  "CPOM",
+  "INSPECTION_CONTROLE",
+  "AUTRE",
+] as const;
+
+export type DdetsFileUploadCategoryType = typeof DdetsFileUploadCategory;
+
+export const zDdetsFileUploadCategory = z.enum(
+  Object.values(
+    DdetsFileUploadCategory
+  ) as unknown as DdetsFileUploadCategoryType
+);

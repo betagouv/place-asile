@@ -1,20 +1,19 @@
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
 import { ControleType } from "@/types/controle.type";
-import { DdetsFileUploadCategory } from "@/types/file-upload.type";
-
+import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
 import z from "zod";
 
 const avenantSchema = z.object({
   key: z.string().optional(),
   date: createDateFieldValidator().optional(),
-  category: z.nativeEnum(DdetsFileUploadCategory).optional(),
+  category: zDdetsFileUploadCategory,
 });
 
 export const fileUploadSchema = z.object({
   // TODO : rendre key et category obligatoires
   key: z.string(),
   date: createDateFieldValidator().optional(),
-  category: z.string().optional(),
+  category: zDdetsFileUploadCategory,
   startDate: createDateFieldValidator().optional(),
   endDate: createDateFieldValidator().optional(),
   avenants: z.array(avenantSchema).optional(),
