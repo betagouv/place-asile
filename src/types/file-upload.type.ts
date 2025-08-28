@@ -34,3 +34,23 @@ export const FileUploadCategory = {
 } as const;
 
 export type FileUploadCategoryType = keyof typeof FileUploadCategory;
+// enum DdetsFileUploadCategory {
+//   ARRETE_AUTORISATION
+//   CONVENTION
+//   ARRETE_TARIFICATION
+//   CPOM
+//   INSPECTION_CONTROLE
+//   AUTRE
+// }
+
+export type DdetsFileUploadCategoryType = Omit<
+  FileUploadCategoryType,
+  | "BUDGET_PREVISIONNEL_DEMANDE"
+  | "BUDGET_PREVISIONNEL_RETENU"
+  | "BUDGET_RECTIFICATIF"
+  | "COMPTE_ADMINISTRATIF_SOUMIS"
+  | "COMPTE_ADMINISTRATIF_RETENU"
+  | "DEMANDE_SUBVENTION"
+  | "COMPTE_RENDU_FINANCIER"
+  | "RAPPORT_ACTIVITE_OPERATEUR"
+>;

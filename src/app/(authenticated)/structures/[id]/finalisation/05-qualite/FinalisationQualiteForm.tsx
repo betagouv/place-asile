@@ -75,19 +75,16 @@ export const FinalisationQualiteForm = ({
     }
   };
 
-  // console.log("structure", structure);
-
-  // Default values for the form
   const formDefaultValues = {
     fileUploads: (structure?.fileUploads as FileUpload[])
       ? structure?.fileUploads
-          ?.filter((fileUpload) => fileUpload.category !== null) // Filter out null categories and non-DDETS categories
+          ?.filter((fileUpload) => fileUpload.category !== null)
           ?.map((fileUpload) => {
             return {
               ...fileUpload,
               uuid: uuidv4(),
               key: fileUpload.key,
-              category: fileUpload.category, // Cast to DdetsFileUploadCategory since we've filtered for DDETS categories
+              category: fileUpload.category,
               date:
                 fileUpload.date && fileUpload.date instanceof Date
                   ? fileUpload.date.toISOString()
@@ -100,9 +97,7 @@ export const FinalisationQualiteForm = ({
                 fileUpload.endDate && fileUpload.endDate instanceof Date
                   ? fileUpload.endDate.toISOString()
                   : fileUpload.endDate || undefined,
-              // Ensure categoryName is always provided
               categoryName: fileUpload.categoryName || "Document",
-              // Ensure parentFileUploadId is a string or undefined
               parentFileUploadId:
                 Number(fileUpload.parentFileUploadId) || undefined,
             };
