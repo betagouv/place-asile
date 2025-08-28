@@ -9,11 +9,14 @@ export async function GET(request: NextRequest) {
   try {
     const id = request.nextUrl.pathname.split("/").pop();
     const structure = await findOne(Number(id));
-    
+
     if (!structure) {
-      return NextResponse.json({ error: "Structure not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Structure not found" },
+        { status: 404 }
+      );
     }
-    
+
     const structureWithPresencesIndues = addPresencesIndues(
       structure as StructureWithActivites
     );
@@ -21,7 +24,10 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Error in GET /api/structures/[id]:", error);
     return NextResponse.json(
-      { error: "Internal server error", details: error instanceof Error ? error.message : String(error) },
+      {
+        error: "Internal server error",
+        details: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 }
     );
   }

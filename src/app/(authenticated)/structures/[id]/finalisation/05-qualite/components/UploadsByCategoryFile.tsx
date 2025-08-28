@@ -24,11 +24,9 @@ export const UploadsByCategoryFile = ({
     name: "fileUploads",
   });
 
-  // Ensure the ID and parentFileUploadId fields are registered
   register(`fileUploads.${index}.id`);
   register(`fileUploads.${index}.parentFileUploadId`);
 
-  // Simple: check if field has value and ref has file data
   const watchFieldName = `fileUploads.${index}.id`;
   const mainFileId = watch(watchFieldName);
 
@@ -46,7 +44,6 @@ export const UploadsByCategoryFile = ({
 
   const handleDeleteAvenant = (index: number) => {
     remove(index);
-    // Update the filtered fields
     avenants = fields.filter(
       (field) =>
         (field as unknown as FileUploadField).parentFileUploadId === mainFileId
@@ -57,10 +54,8 @@ export const UploadsByCategoryFile = ({
     e: React.MouseEvent,
     parentFileUploadId?: string
   ) => {
-    console.log("parentFileUploadId", parentFileUploadId);
     e.preventDefault();
     e.stopPropagation();
-    // Create a new field with the appropriate structure
     const newField = {
       key: null,
       category: field.category,
@@ -68,7 +63,6 @@ export const UploadsByCategoryFile = ({
       parentFileUploadId: parentFileUploadId || undefined,
     };
 
-    // Add the new field to the form's fileUploads array
     append(newField);
   };
 
