@@ -20,7 +20,10 @@ import {
 } from "@/app/utils/structure.util";
 import { z } from "zod";
 import UploadsByCategory from "./components/UploadsByCategory";
-import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
+import {
+  zDdetsFileUploadCategory,
+  DdetsFileUploadCategory,
+} from "@/types/file-upload.type";
 
 export enum FileMetaData {
   DATE_TYPE,
@@ -55,7 +58,6 @@ export const FinalisationQualiteForm = ({
     const updatedStructure = await updateAndRefreshStructure(
       structure.id,
       {
-        // controles,
         fileUploads: fileUploads,
         dnaCode: structure.dnaCode,
       },
@@ -70,36 +72,37 @@ export const FinalisationQualiteForm = ({
     }
   };
 
+  const filteredFileUploads = structure.fileUploads?.filter(
+    (fileUpload) =>
+      fileUpload?.category &&
+      DdetsFileUploadCategory.includes(fileUpload.category)
+  );
+
   const formDefaultValues = {
-    fileUploads: (structure?.fileUploads as FileUpload[])
-      ? structure?.fileUploads
-          ?.filter((fileUpload) => fileUpload.category !== null)
-          ?.map((fileUpload) => {
-            return {
-              ...fileUpload,
-              uuid: uuidv4(),
-              key: fileUpload.key,
-              category: String(fileUpload.category) as z.infer<
-                typeof zDdetsFileUploadCategory
-              >,
-              date:
-                fileUpload.date && fileUpload.date instanceof Date
-                  ? fileUpload.date.toISOString()
-                  : fileUpload.date || undefined,
-              startDate:
-                fileUpload.startDate && fileUpload.startDate instanceof Date
-                  ? fileUpload.startDate.toISOString()
-                  : fileUpload.startDate || undefined,
-              endDate:
-                fileUpload.endDate && fileUpload.endDate instanceof Date
-                  ? fileUpload.endDate.toISOString()
-                  : fileUpload.endDate || undefined,
-              categoryName: fileUpload.categoryName || "Document",
-              parentFileUploadId:
-                Number(fileUpload.parentFileUploadId) || undefined,
-            };
-          })
-      : [],
+    fileUploads: (filteredFileUploads || [])?.map((fileUpload) => {
+      return {
+        ...fileUpload,
+        uuid: uuidv4(),
+        key: fileUpload.key,
+        category: String(fileUpload.category) as z.infer<
+          typeof zDdetsFileUploadCategory
+        >,
+        date:
+          fileUpload.date && fileUpload.date instanceof Date
+            ? fileUpload.date.toISOString()
+            : fileUpload.date || undefined,
+        startDate:
+          fileUpload.startDate && fileUpload.startDate instanceof Date
+            ? fileUpload.startDate.toISOString()
+            : fileUpload.startDate || undefined,
+        endDate:
+          fileUpload.endDate && fileUpload.endDate instanceof Date
+            ? fileUpload.endDate.toISOString()
+            : fileUpload.endDate || undefined,
+        categoryName: fileUpload.categoryName || "Document",
+        parentFileUploadId: Number(fileUpload.parentFileUploadId) || undefined,
+      };
+    }),
   };
 
   return (

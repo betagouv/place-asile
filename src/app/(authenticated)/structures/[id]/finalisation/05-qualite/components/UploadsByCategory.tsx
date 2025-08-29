@@ -31,7 +31,6 @@ export default function UploadsByCategory({
   });
 
   const fileUploads = watch("fileUploads") || [];
-  console.log(category);
   let filteredFields: FileUploadField[] = [];
 
   const refreshFields = () => {

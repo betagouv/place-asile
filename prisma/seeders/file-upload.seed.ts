@@ -5,7 +5,7 @@ import {
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { StructureType } from "@/types/structure.type";
-import { DdetsFileUploadCategory, FileUpload } from "@prisma/client";
+import { FileUploadCategory, FileUpload } from "@prisma/client";
 
 export const createFakeFileUpload = ({
   category,
@@ -36,36 +36,34 @@ export const createFakeFileUploadWithParent = ({
 const getFakeFileUploadCategories = (
   cpom?: boolean,
   structureType?: StructureType
-): DdetsFileUploadCategory[] => {
+): FileUploadCategory[] => {
   const cpomValue = cpom ?? faker.datatype.boolean();
   const structureTypeValue =
     structureType ?? faker.helpers.enumValue(StructureType);
-  const categories = Object.values(DdetsFileUploadCategory).filter(
-    (category) => {
-      if (isStructureAutorisee(structureTypeValue) && cpomValue) {
-        return true;
-      }
-      if (isStructureAutorisee(structureTypeValue) && !cpomValue) {
-        return category !== DdetsFileUploadCategory.CPOM;
-      }
-      if (isStructureSubventionnee(structureTypeValue) && cpomValue) {
-        return (
-          category !== DdetsFileUploadCategory.ARRETE_AUTORISATION &&
-          category !== DdetsFileUploadCategory.ARRETE_TARIFICATION
-        );
-      }
-      if (isStructureSubventionnee(structureTypeValue) && !cpomValue) {
-        return (
-          category !== DdetsFileUploadCategory.ARRETE_AUTORISATION &&
-          category !== DdetsFileUploadCategory.ARRETE_TARIFICATION &&
-          category !== DdetsFileUploadCategory.CPOM
-        );
-      }
+  const categories = Object.values(FileUploadCategory).filter((category) => {
+    if (isStructureAutorisee(structureTypeValue) && cpomValue) {
       return true;
     }
-  );
+    if (isStructureAutorisee(structureTypeValue) && !cpomValue) {
+      return category !== FileUploadCategory.CPOM;
+    }
+    if (isStructureSubventionnee(structureTypeValue) && cpomValue) {
+      return (
+        category !== FileUploadCategory.ARRETE_AUTORISATION &&
+        category !== FileUploadCategory.ARRETE_TARIFICATION
+      );
+    }
+    if (isStructureSubventionnee(structureTypeValue) && !cpomValue) {
+      return (
+        category !== FileUploadCategory.ARRETE_AUTORISATION &&
+        category !== FileUploadCategory.ARRETE_TARIFICATION &&
+        category !== FileUploadCategory.CPOM
+      );
+    }
+    return true;
+  });
 
-  return categories as DdetsFileUploadCategory[];
+  return categories as FileUploadCategory[];
 };
 
 const buildFakeFileUpload = ({
@@ -92,7 +90,7 @@ const buildFakeFileUpload = ({
     startDate,
     endDate,
     categoryName:
-      category === DdetsFileUploadCategory.AUTRE ? faker.lorem.word() : null,
+      category === FileUploadCategory.AUTRE ? faker.lorem.word() : null,
     parentFileUploadId: parentFileUploadId ?? null,
   };
 };
@@ -114,14 +112,14 @@ const randomDocFile = () => {
 };
 
 type BuildFakeFileUploadOptions = {
-  category?: DdetsFileUploadCategory;
+  category?: FileUploadCategory;
   cpom?: boolean;
   structureType?: StructureType;
   parentFileUploadId?: number;
 };
 
 type CreateFakeFileUploadOptions = {
-  category?: DdetsFileUploadCategory;
+  category?: FileUploadCategory;
   cpom?: boolean;
   structureType?: StructureType;
   parentFileUploadId?: number;

@@ -49,7 +49,7 @@ const createFakeStructure = ({
       type,
       state,
     }),
-    oldOperateur: "Ancien opérateur : à supprimer",
+    oldOperateur: faker.company.name(),
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
     type,
@@ -116,7 +116,7 @@ export const createFakeStuctureWithRelations = ({
       createFakeStructureTypologie({ year: 2023 }),
     ],
 
-    fileUploads: Array.from({ length: 2 }, () =>
+    fileUploads: Array.from({ length: 5 }, () =>
       createFakeFileUpload({
         cpom,
         structureType: type,
