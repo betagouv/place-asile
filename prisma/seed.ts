@@ -1,7 +1,9 @@
-import { PrismaClient, StructureType, StructureState } from "@prisma/client";
+import { PrismaClient, StructureState } from "@prisma/client";
+import { StructureType } from "@/types/structure.type";
 import { wipeTables } from "./utils/wipe";
 import { convertToPrismaObject } from "./seeders/seed-util";
 import { createFakeStuctureWithRelations } from "./seeders/structure.seed";
+import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { fakerFR as faker } from "@faker-js/faker";
 import { createFakeOperateur } from "./seeders/operateur.seed";
 
@@ -33,6 +35,16 @@ export async function seed(): Promise<void> {
     await prisma.operateur.create({
       data: convertToPrismaObject(operateurWithStructures),
     });
+  }
+
+  console.log("📄 Création des relations parent-enfant pour les fichiers...");
+  const structures = await prisma.structure.findMany({ take: 15 });
+
+  for (const structure of structures) {
+    console.log(
+      `📎 Ajout des fichiers parent-enfant pour ${structure.dnaCode}...`
+    );
+    await seedParentChildFileUploads(structure.dnaCode);
   }
 }
 

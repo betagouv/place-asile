@@ -2,14 +2,16 @@ import { fakerFR as faker } from "@faker-js/faker";
 import {
   Prisma,
   PublicType,
-  StructureType,
   Structure,
   Contact,
   StructureTypologie,
   Budget,
-  FileUpload,
   StructureState,
+  FileUpload,
 } from "@prisma/client";
+
+import { StructureType } from "@/types/structure.type";
+
 import { createFakeContact } from "./contact.seed";
 import { AdresseWithTypologies, createFakeAdresses } from "./adresse.seed";
 import { ControleWithFileUploads, createFakeControle } from "./controle.seed";
@@ -47,7 +49,7 @@ const createFakeStructure = ({
       type,
       state,
     }),
-    oldOperateur: "Ancien opérateur : à supprimer",
+    oldOperateur: faker.company.name(),
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
     type,
@@ -90,7 +92,10 @@ type StructureWithRelations = Structure & {
   controles: Omit<ControleWithFileUploads, "id" | "structureDnaCode">[];
   structureTypologies: Omit<StructureTypologie, "id" | "structureDnaCode">[];
   budgets: Omit<Budget, "id" | "structureDnaCode">[];
-  fileUploads: Omit<FileUpload, "id" | "structureDnaCode" | "controleId">[];
+  fileUploads: Omit<
+    FileUpload,
+    "id" | "structureDnaCode" | "controleId" | "parentFileUploadId"
+  >[];
 };
 
 export const createFakeStuctureWithRelations = ({
@@ -110,14 +115,13 @@ export const createFakeStuctureWithRelations = ({
       createFakeStructureTypologie({ year: 2024 }),
       createFakeStructureTypologie({ year: 2023 }),
     ],
-    fileUploads: [
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-    ],
+
+    fileUploads: Array.from({ length: 5 }, () =>
+      createFakeFileUpload({
+        cpom,
+        structureType: type,
+      })
+    ),
   } as StructureWithRelations;
 
   if (state === StructureState.FINALISE) {

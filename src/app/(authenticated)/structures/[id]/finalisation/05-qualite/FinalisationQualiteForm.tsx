@@ -1,20 +1,35 @@
+"use client";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import React, { useState } from "react";
 import { getCurrentStepData } from "../components/Steps";
 import { useStructureContext } from "../../context/StructureClientContext";
-import { finalisationQualiteSchema } from "./validation/FinalisationQualiteSchema";
+import { finalisationQualiteSchemaSimple } from "./validation/FinalisationQualiteSchema";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import { UploadsByCategory } from "./components/UploadsByCategory";
-import { FileMetaData } from "./components/FilesContext";
 import { useStructures } from "@/app/hooks/useStructures";
 import { useRouter } from "next/navigation";
 import { SubmitError } from "@/app/components/SubmitError";
-import { FileUploadCategory } from "@/types/file-upload.type";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { FileUpload } from "@/types/file-upload.type";
 import { StructureState } from "@/types/structure.type";
+import { v4 as uuidv4 } from "uuid";
+import {
+  isStructureAutorisee,
+  isStructureSubventionnee,
+} from "@/app/utils/structure.util";
+import { z } from "zod";
+import UploadsByCategory from "./components/UploadsByCategory";
+import {
+  zDdetsFileUploadCategory,
+  DdetsFileUploadCategory,
+} from "@/types/file-upload.type";
+
+export enum FileMetaData {
+  DATE_TYPE,
+  DATE_START_END,
+  NAME,
+}
 
 export const FinalisationQualiteForm = ({
   currentStep,
@@ -33,40 +48,17 @@ export const FinalisationQualiteForm = ({
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const [backendError, setBackendError] = useState<string | undefined>("");
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (
+    data: z.infer<typeof finalisationQualiteSchemaSimple>
+  ) => {
     setState("loading");
-    // TODO : refacto pour faire coller RHF, Zod et les file uploads, sans avoir à passer par des objets intermédiaires
-    const fileUploads = [
-      ...(data[FileUploadCategory.INSPECTION_CONTROLE] ?? []),
-      ...(data[FileUploadCategory.ARRETE_AUTORISATION] ?? []),
-      ...(data[FileUploadCategory.ARRETE_AUTORISATION_AVENANT] ?? []),
-      ...(data[FileUploadCategory.CONVENTION] ?? []),
-      ...(data[FileUploadCategory.CONVENTION_AVENANT] ?? []),
-      ...(data[FileUploadCategory.ARRETE_TARIFICATION] ?? []),
-      ...(data[FileUploadCategory.ARRETE_TARIFICATION_AVENANT] ?? []),
-      ...(data[FileUploadCategory.CPOM] ?? []),
-      ...(data[FileUploadCategory.CPOM_AVENANT] ?? []),
-      ...(data[FileUploadCategory.AUTRE] ?? []),
-    ].filter((fileUpload) => fileUpload.key);
 
-    const controles = (data[FileUploadCategory.INSPECTION_CONTROLE] ?? [])
-      .map((controle: { date: Date; type: string; key: string }) => {
-        return {
-          date: controle.date,
-          type: controle.type,
-          fileUploadKey: controle.key,
-        };
-      })
-      .filter(
-        (controle: { date: Date; type: string; key: string }) => controle.type
-      );
+    const fileUploads = data.fileUploads as FileUpload[];
 
     const updatedStructure = await updateAndRefreshStructure(
       structure.id,
       {
-        fileUploads,
-        controles,
+        fileUploads: fileUploads,
         dnaCode: structure.dnaCode,
       },
       setStructure
@@ -80,13 +72,47 @@ export const FinalisationQualiteForm = ({
     }
   };
 
+  const filteredFileUploads = structure.fileUploads?.filter(
+    (fileUpload) =>
+      fileUpload?.category &&
+      DdetsFileUploadCategory.includes(fileUpload.category)
+  );
+
+  const formDefaultValues = {
+    fileUploads: (filteredFileUploads || [])?.map((fileUpload) => {
+      return {
+        ...fileUpload,
+        uuid: uuidv4(),
+        key: fileUpload.key,
+        category: String(fileUpload.category) as z.infer<
+          typeof zDdetsFileUploadCategory
+        >,
+        date:
+          fileUpload.date && fileUpload.date instanceof Date
+            ? fileUpload.date.toISOString()
+            : fileUpload.date || undefined,
+        startDate:
+          fileUpload.startDate && fileUpload.startDate instanceof Date
+            ? fileUpload.startDate.toISOString()
+            : fileUpload.startDate || undefined,
+        endDate:
+          fileUpload.endDate && fileUpload.endDate instanceof Date
+            ? fileUpload.endDate.toISOString()
+            : fileUpload.endDate || undefined,
+        categoryName: fileUpload.categoryName || "Document",
+        parentFileUploadId: Number(fileUpload.parentFileUploadId) || undefined,
+      };
+    }),
+  };
+
   return (
     <FormWrapper
-      schema={finalisationQualiteSchema}
+      schema={finalisationQualiteSchemaSimple}
       onSubmit={handleSubmit}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
+      defaultValues={formDefaultValues}
     >
       {structure.state === StructureState.A_FINALISER && (
         <InformationBar
@@ -124,133 +150,73 @@ export const FinalisationQualiteForm = ({
       />
 
       <UploadsByCategory
-        categoryId={FileUploadCategory.INSPECTION_CONTROLE}
-        categoryShortName="controles"
-        documentLabel="Rapport"
-        fieldBaseName="controles"
+        category={"INSPECTION_CONTROLE"}
+        categoryShortName=""
         title="Inspections-contrôles"
-        addFileButtonLabel="Ajouter une inspection-contrôle"
-        fileMetaData={FileMetaData.DATE_TYPE}
         canAddFile
         isOptional
-        files={[
-          {
-            date: "2025-01-01",
-            type: "programme",
-            key: "controle-1",
-          },
-        ]}
+        fileMetaData={FileMetaData.DATE_TYPE}
+        documentLabel="Rapport"
+        addFileButtonLabel="Ajouter une inspection-contrôle"
       />
+
       {isStructureAutorisee(structure.type) && (
         <UploadsByCategory
-          categoryId={FileUploadCategory.ARRETE_AUTORISATION}
-          categoryShortName="arrêté"
-          fieldBaseName="fileUploads"
-          title="Arrêtés d’autorisation"
+          category={"ARRETE_AUTORISATION"}
+          categoryShortName="autorisation"
+          title="Arrêtés d'autorisation"
           canAddFile
+          canAddAvenant
+          fileMetaData={FileMetaData.DATE_START_END}
+          documentLabel="Rapport"
           addFileButtonLabel="Ajouter un arrêté d'autorisation"
-          canAddAvenant
-          fileMetaData={FileMetaData.DATE_START_END}
-          // TODO : initialiser autrement le tableau de files
-          files={[
-            {
-              startDate: "2025-01-01",
-              endDate: "2026-01-01",
-              key: "arrete-autorisation-1",
-            },
-          ]}
         />
       )}
-
-      <UploadsByCategory
-        categoryId={FileUploadCategory.CONVENTION}
-        categoryShortName="convention"
-        fieldBaseName="fileUploads"
-        title="Conventions"
-        isOptional={isStructureAutorisee(structure.type)}
-        canAddFile
-        addFileButtonLabel="Ajouter une convention"
-        canAddAvenant
-        fileMetaData={FileMetaData.DATE_START_END}
-        files={[
-          {
-            startDate: "2025-01-01",
-            endDate: "2026-01-01",
-            key: "convention-1",
-          },
-        ]}
-      />
-
-      {isStructureAutorisee(structure.type) && (
-        <UploadsByCategory
-          categoryId={FileUploadCategory.ARRETE_TARIFICATION}
-          categoryShortName="arrêté"
-          fieldBaseName="fileUploads"
-          title="Arrêtés de tarification"
-          canAddFile
-          addFileButtonLabel="Ajouter un arrêté de tarification"
-          canAddAvenant
-          fileMetaData={FileMetaData.DATE_START_END}
-          files={[
-            {
-              startDate: "2025-01-01",
-              endDate: "2026-01-01",
-              key: "arrete-tarification-1",
-            },
-          ]}
-        />
-      )}
-
       {structure.cpom && (
         <UploadsByCategory
-          categoryId={FileUploadCategory.CPOM}
+          category={"CPOM"}
           categoryShortName="CPOM"
-          fieldBaseName="fileUploads"
           title="CPOM"
           canAddFile
-          addFileButtonLabel="Ajouter un CPOM"
           canAddAvenant
           fileMetaData={FileMetaData.DATE_START_END}
-          files={[
-            {
-              startDate: "2025-01-01",
-              endDate: "2026-01-01",
-              key: "cpom-1",
-            },
-          ]}
+          documentLabel="Rapport"
+          addFileButtonLabel="Ajouter un CPOM"
+        />
+      )}
+      {isStructureSubventionnee(structure.type) && (
+        <UploadsByCategory
+          category={"ARRETE_AUTORISATION"}
+          categoryShortName="autorisation"
+          title="Arrêtés d’autorisation"
+          canAddFile
+          isOptional
+          fileMetaData={FileMetaData.DATE_START_END}
+          documentLabel="Rapport"
+          addFileButtonLabel="Ajouter un arrêté d'autorisation"
         />
       )}
 
       <UploadsByCategory
-        categoryId={FileUploadCategory.AUTRE}
-        categoryShortName="Autres"
-        fieldBaseName="fileUploads"
-        title="Autres documents"
-        isOptional
+        category={"CONVENTION"}
+        categoryShortName="convention"
+        title="Conventions"
         canAddFile
-        addFileButtonLabel="Ajouter un document"
+        isOptional={isStructureAutorisee(structure.type)}
+        fileMetaData={FileMetaData.DATE_START_END}
+        documentLabel="Rapport"
+        addFileButtonLabel="Ajouter une convention"
+      />
+
+      <UploadsByCategory
+        category={"AUTRE"}
+        categoryShortName="autre"
+        title="Autres documents"
+        canAddFile
+        isOptional
         fileMetaData={FileMetaData.NAME}
-        files={[
-          {
-            startDate: "2025-01-01",
-            endDate: "2026-01-01",
-            key: "autre-1",
-          },
-        ]}
-        subTitle={
-          <Notice
-            severity="info"
-            title=""
-            className="rounded [&_p]:flex [&_p]:items-center w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
-            description={
-              <>
-                Dans cette catégorie, vous avez la possibilité d’importer
-                d’autres documents utiles à l’analyse de la structure (ex:{" "}
-                <i>Plans Pluriannuels d’Inverstissements</i>)
-              </>
-            }
-          />
-        }
+        documentLabel="Document"
+        addFileButtonLabel="Ajouter un document"
       />
 
       {state === "error" && (

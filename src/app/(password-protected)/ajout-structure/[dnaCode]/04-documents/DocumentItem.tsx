@@ -4,7 +4,8 @@ import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearDate } from "@/app/utils/date.util";
 import { Control, UseFormRegister } from "react-hook-form";
 import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
-import { FileUploadCategory } from "@/types/file-upload.type";
+import { zFileUploadCategory } from "@/types/file-upload.type";
+import z from "zod";
 
 export const DocumentItem = ({
   year,
@@ -48,5 +49,5 @@ type Props = {
   register: UseFormRegister<DocumentsSchemaFlexible>;
   categoryLabel: string;
   categorySubLabel?: string;
-  categoryValue: FileUploadCategory;
+  categoryValue: z.infer<typeof zFileUploadCategory>;
 };
