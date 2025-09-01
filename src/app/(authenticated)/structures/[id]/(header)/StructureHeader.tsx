@@ -43,7 +43,7 @@ export function StructureHeader(): ReactElement | null {
     type,
     filiale,
     operateur,
-    nbPlaces,
+    structureTypologies,
     nom,
     communeAdministrative,
     departementAdministratif,
@@ -70,7 +70,7 @@ export function StructureHeader(): ReactElement | null {
             </h2>
             <h3 className="text-title-blue-france fr-h6 mb-0">
               <strong className="pr-2">
-                {type}, {getOperateurLabel(filiale, operateur?.name)}, {nbPlaces}{" "}
+                {type}, {getOperateurLabel(filiale, operateur?.name)}, {structureTypologies?.[0].placesAutorisees}{" "}
                 places
               </strong>
               <span className="pr-2">{" – "}</span>

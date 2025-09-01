@@ -55,14 +55,14 @@ export const TypePlaceHistory = ({
 
         if (!aggregatedTypePlaces[year as number]) {
           aggregatedTypePlaces[year as number] = {
-            nbPlacesTotal: 0,
+            placesAutorisees: 0,
             qpv: 0,
             logementSocial: 0,
           };
         }
 
-        aggregatedTypePlaces[year as number].nbPlacesTotal +=
-          adresseTypologie?.nbPlacesTotal || 0;
+        aggregatedTypePlaces[year as number].placesAutorisees +=
+          adresseTypologie?.placesAutorisees || 0;
         aggregatedTypePlaces[year as number].qpv += adresseTypologie?.qpv || 0;
         aggregatedTypePlaces[year as number].logementSocial +=
           adresseTypologie?.logementSocial || 0;
@@ -73,7 +73,7 @@ export const TypePlaceHistory = ({
 
     return allYears.map((year) => {
       const data = groupedByYear[year as number] || {
-        nbPlacesTotal: 0,
+        placesAutorisees: 0,
         qpv: 0,
         logementSocial: 0,
       };
@@ -126,7 +126,7 @@ type Props = {
 type AggregatedTypePlaces = Record<
   number,
   {
-    nbPlacesTotal: number;
+    placesAutorisees: number;
     qpv: number;
     logementSocial: number;
   }

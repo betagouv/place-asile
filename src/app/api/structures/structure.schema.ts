@@ -10,7 +10,7 @@ import { z } from "zod";
 import { frDateField, mandatoryFrDateField } from "./structure.util";
 
 const adresseTypologieSchema = z.object({
-  nbPlacesTotal: z
+  placesAutorisees: z
     .number()
     .int()
     .positive()
@@ -57,11 +57,6 @@ export const structureCreationSchema = z.object({
   operateur: z.object({ id: z.number(), name: z.string() }),
   filiale: z.string().optional(),
   type: z.nativeEnum(StructureType),
-  nbPlaces: z
-    .number()
-    .int()
-    .positive()
-    .min(1, "Le nombre de places autorisées est requis"),
   adresseAdministrative: z
     .string()
     .min(1, "L'adresse administrative est requise"),
@@ -142,12 +137,6 @@ export const structureUpdateSchema = z.object({
   operateur: z.object({ id: z.number(), name: z.string() }).optional(),
   filiale: z.string().optional(),
   type: z.nativeEnum(StructureType).optional(),
-  nbPlaces: z
-    .number()
-    .int()
-    .positive()
-    .min(1, "Le nombre de places autorisées est requis")
-    .optional(),
   adresseAdministrative: z
     .string()
     .min(1, "L'adresse administrative est requise")

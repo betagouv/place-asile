@@ -1,7 +1,7 @@
 export type AdresseTypologie = {
   id: number;
   adresseId: number;
-  nbPlacesTotal: number;
+  placesAutorisees: number;
   date: Date;
   qpv: number;
   logementSocial: number;

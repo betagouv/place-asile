@@ -17,10 +17,10 @@ export const getPlacesByCommunes = (
 
     if (!existingCommune) {
       placesByCommune[adresse.commune] =
-        adresse.adresseTypologies?.[0]?.nbPlacesTotal || 0;
+        adresse.adresseTypologies?.[0]?.placesAutorisees || 0;
     } else {
       placesByCommune[adresse.commune] +=
-        adresse.adresseTypologies?.[0]?.nbPlacesTotal || 0;
+        adresse.adresseTypologies?.[0]?.placesAutorisees || 0;
     }
   }
 

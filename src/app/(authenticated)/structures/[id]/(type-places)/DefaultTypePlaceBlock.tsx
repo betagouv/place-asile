@@ -16,11 +16,12 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
   const { structure } = useStructureContext();
 
   const {
-    nbPlaces: placesAutorisees,
     placesACreer,
     placesAFermer,
     echeancePlacesACreer,
     echeancePlacesAFermer,
+    structureTypologies,
+    adresses,
   } = structure;
 
   return (
@@ -28,7 +29,7 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
       <div className="flex">
         <div className="pr-4">
           <InformationCard
-            primaryInformation={placesAutorisees}
+            primaryInformation={structureTypologies?.[0].placesAutorisees || "N/A"}
             secondaryInformation="places autorisées"
           />
         </div>
@@ -53,18 +54,18 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
       </div>
       <div className="pt-3 flex">
         <TypePlaceCharts
-          placesAutorisees={placesAutorisees}
-          placesPmr={structure?.structureTypologies?.[0]?.pmr || 0}
-          placesLgbt={structure?.structureTypologies?.[0]?.lgbt || 0}
-          placesFvvTeh={structure?.structureTypologies?.[0]?.fvvTeh || 0}
+          placesAutorisees={structureTypologies?.[0]?.placesAutorisees || 0}
+          placesPmr={structureTypologies?.[0]?.pmr || 0}
+          placesLgbt={structureTypologies?.[0]?.lgbt || 0}
+          placesFvvTeh={structureTypologies?.[0]?.fvvTeh || 0}
           placesQPV={getCurrentPlacesQpv(structure)}
           placesLogementsSociaux={getCurrentPlacesLogementsSociaux(structure)}
         />
       </div>
       <div className="pt-3">
         <TypePlaceHistory
-          adresses={structure.adresses || []}
-          structureTypologies={structure.structureTypologies || []}
+          adresses={adresses || []}
+          structureTypologies={structureTypologies || []}
         />
       </div>
     </Block>

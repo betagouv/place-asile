@@ -8,12 +8,13 @@ export const createFakeStructureTypologie = ({
   "id" | "structureDnaCode"
 > => {
   const placesAutorisees = faker.number.int({ min: 0, max: 100 });
+  const lgbt = faker.number.int({ min: 0, max: placesAutorisees })
 
   return {
     date: new Date(year, 0, 1, 13),
     pmr: faker.number.int({ min: 0, max: placesAutorisees }),
-    lgbt: faker.number.int({ min: 0, max: placesAutorisees }),
-    fvvTeh: faker.number.int({ min: 0, max: placesAutorisees }),
+    lgbt,
+    fvvTeh: faker.number.int({ min: 0, max: placesAutorisees - lgbt }),
     placesAutorisees,
   };
 };

@@ -47,11 +47,13 @@ const createFakeStructure = ({
       type,
       state,
     }),
+    // TODO : remove, deprecated
     oldOperateur: "Ancien opérateur : à supprimer",
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
     type,
-    nbPlaces: faker.number.int(100),
+    // TODO : remove, deprecated
+    oldNbPlaces: -1,
     adresseAdministrative: faker.location.streetAddress(),
     communeAdministrative: faker.location.city(),
     codePostalAdministratif: faker.location.zipCode(),

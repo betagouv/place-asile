@@ -1,4 +1,5 @@
 import { Adresse } from "@/types/adresse.type";
+import { StructureTypologie } from "@/types/structure-typologie.type";
 import {
   PublicType,
   Structure,
@@ -9,13 +10,13 @@ import { LatLngTuple } from "leaflet";
 
 export const createStructure = ({
   adresseAdministrative,
-  nbPlaces,
   adresses,
   type,
   finessCode,
   publicType,
   state,
   cpom,
+  structureTypologies,
 }: CreateStructuresArgs): Structure => {
   return {
     id: 1,
@@ -23,7 +24,6 @@ export const createStructure = ({
     operateur: { structureDnaCode: "C0001", id: 1, name: "Adoma" },
     filiale: null,
     type: type ?? StructureType.CADA,
-    nbPlaces: nbPlaces ?? 5,
     placesACreer: 3,
     placesAFermer: 2,
     echeancePlacesACreer: new Date("01/02/2026"),
@@ -52,12 +52,13 @@ export const createStructure = ({
     adresses: adresses ?? [],
     notes: "Note 1",
     state: state ?? StructureState.A_FINALISER,
+    structureTypologies: structureTypologies ?? []
   };
 };
 
 type CreateStructuresArgs = {
   adresseAdministrative?: string;
-  nbPlaces?: number;
+  structureTypologies?: StructureTypologie[]
   adresses?: Adresse[];
   type?: StructureType;
   finessCode?: string;
