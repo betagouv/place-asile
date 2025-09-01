@@ -15,7 +15,8 @@ export const finalisationTypePlacesSchema = z
             // .min(1, { message: "Nombre de places requis" })
             .transform(Number),
           z.number().min(0, { message: "Nombre de places requis" }),
-        ]),
+          // TODO : remove nullable
+        ]).nullable(),
         pmr: z.union([
           z
             .string()

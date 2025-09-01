@@ -131,7 +131,8 @@ const controleSchema = z.object({
 
 const updateStructureTypologieSchema = z.object({
   id: z.number().optional(),
-  placesAutorisees: z.number().int(),
+  // TODO : remove nullable
+  placesAutorisees: z.number().int().nullable(),
   pmr: z.number().int(),
   lgbt: z.number().int(),
   fvvTeh: z.number().int(),
