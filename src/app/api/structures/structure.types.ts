@@ -3,7 +3,6 @@ export type CreateStructure = {
   operateur: CreateOperateur;
   filiale?: string;
   type: string;
-  nbPlaces: number;
   adresseAdministrative: string;
   codePostalAdministratif: string;
   communeAdministrative: string;
@@ -130,7 +129,6 @@ export type UpdateStructure = {
   operateur?: UpdateOperateur;
   filiale?: string;
   type?: string;
-  nbPlaces?: number;
   adresseAdministrative?: string;
   codePostalAdministratif?: string;
   communeAdministrative?: string;

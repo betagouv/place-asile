@@ -19,7 +19,7 @@ export const StructureMarker = ({
   operateur,
   filiale,
   type,
-  nbPlaces,
+  placesAutorisees,
   repartition,
   nom,
   commune,
@@ -59,7 +59,7 @@ export const StructureMarker = ({
           <strong className="fr-pr-2w">
             {type} - {getOperateurLabel(filiale, operateur)}
           </strong>
-          {nbPlaces} places
+          {placesAutorisees} places
         </div>
         <div className="text-title-blue-france">
           {nom ? `${nom}, ` : ""}
@@ -102,7 +102,7 @@ type Props = {
   operateur: string | null | undefined;
   filiale: string | null;
   type: StructureType;
-  nbPlaces: number;
+  placesAutorisees: number | undefined;
   repartition: Repartition;
   nom: string | null;
   commune: string;

@@ -15,7 +15,6 @@ export type Structure = {
   dnaCode: string;
   filiale: string | null;
   type: StructureType;
-  nbPlaces: number;
   placesACreer: number | null;
   placesAFermer: number | null;
   echeancePlacesACreer: Date | null;

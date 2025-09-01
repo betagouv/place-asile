@@ -97,7 +97,7 @@ model AdresseTypologie {
   id             Int      @id @default(autoincrement())
   adresse        Adresse  @relation(fields: [adresseId], references: [id], onDelete: Cascade)
   adresseId      Int
-  nbPlacesTotal  Int
+  nbPlacesTotal  Int // TODO :renommer en places autorisées
   date           DateTime
   qpv            Int
   logementSocial Int

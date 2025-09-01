@@ -17,7 +17,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
           operateur={structure.operateur?.name}
           filiale={structure.filiale}
           type={structure.type}
-          nbPlaces={structure.nbPlaces}
+          placesAutorisees={structure.structureTypologies?.[0].placesAutorisees}
           repartition={getRepartition(structure)}
           nom={structure.nom}
           commune={structure.communeAdministrative}

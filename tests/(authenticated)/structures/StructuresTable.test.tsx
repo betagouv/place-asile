@@ -3,6 +3,7 @@ import { StructuresTable } from "../../../src/app/(authenticated)/structures/Str
 import { createStructure } from "../../test-utils/structure.factory";
 import { Structure } from "@/types/structure.type";
 import { createAdresse } from "../../test-utils/adresse.factory";
+import { createStructureTypologie } from "../../test-utils/structure-typologie.factory";
 
 describe("StructuresTable", () => {
   it("should show table headings and content elements when rendered", () => {
@@ -10,9 +11,12 @@ describe("StructuresTable", () => {
     const adresse1 = createAdresse({});
     const adresse2 = createAdresse({});
     const adresse3 = createAdresse({});
-    const structure1 = createStructure({});
-    const structure2 = createStructure({});
-    const structure3 = createStructure({});
+    const structureTypologies1 = [createStructureTypologie()]
+    const structureTypologies2 = [createStructureTypologie()]
+    const structureTypologies3 = [createStructureTypologie()]
+    const structure1 = createStructure({structureTypologies: structureTypologies1});
+    const structure2 = createStructure({structureTypologies: structureTypologies2});
+    const structure3 = createStructure({structureTypologies: structureTypologies3});
     structure1.adresses = [adresse1];
     structure2.adresses = [adresse2];
     structure3.adresses = [adresse3];
@@ -43,7 +47,7 @@ describe("StructuresTable", () => {
     expect(firstStructureCells[0]).toHaveAccessibleName("C0001");
     expect(firstStructureCells[1]).toHaveAccessibleName("CADA");
     expect(firstStructureCells[2]).toHaveAccessibleName("Adoma");
-    expect(firstStructureCells[3]).toHaveAccessibleName("5");
+    expect(firstStructureCells[3]).toHaveAccessibleName("10");
     expect(firstStructureCells[4]).toHaveAccessibleName("Diffus");
     expect(firstStructureCells[5]).toHaveAccessibleName("Paris");
     expect(firstStructureCells[6]).toHaveAccessibleName(
@@ -56,7 +60,7 @@ describe("StructuresTable", () => {
     expect(secondStructureCells[0]).toHaveAccessibleName("C0001");
     expect(secondStructureCells[1]).toHaveAccessibleName("CADA");
     expect(secondStructureCells[2]).toHaveAccessibleName("Adoma");
-    expect(secondStructureCells[3]).toHaveAccessibleName("5");
+    expect(secondStructureCells[3]).toHaveAccessibleName("10");
     expect(secondStructureCells[4]).toHaveAccessibleName("Diffus");
     expect(secondStructureCells[5]).toHaveAccessibleName("Paris");
     expect(firstStructureCells[6]).toHaveAccessibleName(
@@ -69,7 +73,7 @@ describe("StructuresTable", () => {
     expect(thirdStructureCells[0]).toHaveAccessibleName("C0001");
     expect(thirdStructureCells[1]).toHaveAccessibleName("CADA");
     expect(thirdStructureCells[2]).toHaveAccessibleName("Adoma");
-    expect(thirdStructureCells[3]).toHaveAccessibleName("5");
+    expect(thirdStructureCells[3]).toHaveAccessibleName("10");
     expect(thirdStructureCells[4]).toHaveAccessibleName("Diffus");
     expect(thirdStructureCells[5]).toHaveAccessibleName("Paris");
     expect(firstStructureCells[6]).toHaveAccessibleName(

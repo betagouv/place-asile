@@ -12,7 +12,7 @@ export const PrahdaTypePlaceBlock = (): ReactElement => {
   return (
     <Block title="Type de places" iconClass="fr-icon-map-pin-2-line">
       <InformationCard
-        primaryInformation={structure.nbPlaces}
+        primaryInformation={structure.structureTypologies?.[0].placesAutorisees || "N/A"}
         secondaryInformation="places autorisées"
       />
     </Block>

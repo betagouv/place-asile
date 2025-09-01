@@ -91,7 +91,6 @@ export const useStructures = (): UseStructureResult => {
       operateur: values.operateur,
       filiale: values.filiale,
       type: values.type,
-      nbPlaces: Number(values.typologies?.[0].placesAutorisees),
       adresseAdministrative: values.adresseAdministrative,
       codePostalAdministratif: values.codePostalAdministratif,
       communeAdministrative: values.communeAdministrative,
