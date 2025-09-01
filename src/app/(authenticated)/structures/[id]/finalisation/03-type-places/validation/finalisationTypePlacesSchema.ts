@@ -11,7 +11,8 @@ export const finalisationTypePlacesSchema = z
         placesAutorisees: z.union([
           z
             .string()
-            .min(1, { message: "Nombre de places requis" })
+            // TODO : temporaire, ligne à décommenter
+            // .min(1, { message: "Nombre de places requis" })
             .transform(Number),
           z.number().min(0, { message: "Nombre de places requis" }),
         ]),
