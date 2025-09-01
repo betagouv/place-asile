@@ -6,6 +6,7 @@ import { FileMetaData } from "../FinalisationQualiteForm";
 import { v4 as uuidv4 } from "uuid";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
 import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
+import Notice from "@codegouvfr/react-dsfr/Notice";
 
 export type FileUploadField = z.infer<typeof fileUploadSchema> & {
   id: string;
@@ -16,7 +17,7 @@ export default function UploadsByCategory({
   category,
   categoryShortName,
   title,
-  subTitle,
+  notice,
   isOptional,
   canAddFile,
   canAddAvenant = false,
@@ -87,7 +88,14 @@ export default function UploadsByCategory({
       <legend className="text-xl font-bold mb-4 text-title-blue-france">
         {title} {isOptional && "(optionnel)"}
       </legend>
-      {subTitle}
+      {notice && (
+        <Notice
+          severity="info"
+          title=""
+          className="rounded [&_p]:flex [&_p]:items-center w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
+          description={<>{notice}</>}
+        />
+      )}
       {filteredFields &&
         filteredFields.length > 0 &&
         filteredFields.map((field) => {
@@ -125,7 +133,7 @@ type UploadsByCategoryProps = {
   category: z.infer<typeof zDdetsFileUploadCategory>;
   categoryShortName: string;
   title: string;
-  subTitle?: string;
+  notice?: string | React.ReactElement;
   isOptional?: boolean;
   canAddFile?: boolean;
   canAddAvenant?: boolean;

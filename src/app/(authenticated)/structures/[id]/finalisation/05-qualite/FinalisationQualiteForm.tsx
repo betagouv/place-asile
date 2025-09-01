@@ -14,16 +14,14 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { FileUpload } from "@/types/file-upload.type";
 import { StructureState } from "@/types/structure.type";
 import { v4 as uuidv4 } from "uuid";
-import {
-  isStructureAutorisee,
-  isStructureSubventionnee,
-} from "@/app/utils/structure.util";
+import { isStructureSubventionnee } from "@/app/utils/structure.util";
 import { z } from "zod";
 import UploadsByCategory from "./components/UploadsByCategory";
 import {
   zDdetsFileUploadCategory,
   DdetsFileUploadCategory,
 } from "@/types/file-upload.type";
+import { ca, tr } from "zod/v4/locales";
 
 export enum FileMetaData {
   DATE_TYPE,
@@ -48,21 +46,100 @@ export const FinalisationQualiteForm = ({
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const [backendError, setBackendError] = useState<string | undefined>("");
 
-  const categoriesToDisplay = () => {
-    const categories = DdetsFileUploadCategory.filter((category) => {
-      if (category === "CPOM" && !structure.cpom) {
-        return false;
-      }
+  const categoriesToDisplay = DdetsFileUploadCategory.filter((category) => {
+    if (category === "CPOM" && !structure.cpom) {
+      return false;
+    }
 
-      if (isStructureSubventionnee(structure.type)) {
-        return (
-          category !== "ARRETE_AUTORISATION" &&
-          category !== "ARRETE_TARIFICATION"
-        );
-      }
-      return true;
-    });
-    return categories;
+    if (isStructureSubventionnee(structure.type)) {
+      return (
+        category !== "ARRETE_AUTORISATION" && category !== "ARRETE_TARIFICATION"
+      );
+    }
+    return true;
+  });
+
+  const categoriesDisplayRules: Record<
+    (typeof DdetsFileUploadCategory)[number],
+    {
+      categoryShortName: string;
+      title: string;
+      canAddFile: boolean;
+      canAddAvenant: boolean;
+      isOptional: boolean;
+      fileMetaData: FileMetaData;
+      documentLabel: string;
+      addFileButtonLabel: string;
+      notice?: string | React.ReactElement;
+    }
+  > = {
+    INSPECTION_CONTROLE: {
+      categoryShortName: "",
+      title: "Inspections-contrôles",
+      canAddFile: true,
+      isOptional: true,
+      canAddAvenant: false,
+      fileMetaData: FileMetaData.DATE_TYPE,
+      documentLabel: "Rapport",
+      addFileButtonLabel: "Ajouter une inspection-contrôle",
+    },
+    ARRETE_AUTORISATION: {
+      categoryShortName: "arrêté",
+      title: "Arrêtés d'autorisation",
+      canAddFile: true,
+      canAddAvenant: true,
+      isOptional: false,
+      fileMetaData: FileMetaData.DATE_START_END,
+      documentLabel: "Document",
+      addFileButtonLabel: "Ajouter un arrêté d'autorisation",
+    },
+    ARRETE_TARIFICATION: {
+      categoryShortName: "arrêté",
+      title: "Arrêtés de tarification",
+      canAddFile: true,
+      canAddAvenant: true,
+      isOptional: false,
+      fileMetaData: FileMetaData.DATE_START_END,
+      documentLabel: "Document",
+      addFileButtonLabel: "Ajouter un arrêté de tarification",
+    },
+    CPOM: {
+      categoryShortName: "cpom",
+      title: "CPOM",
+      canAddFile: true,
+      isOptional: false,
+      canAddAvenant: true,
+      fileMetaData: FileMetaData.DATE_START_END,
+      documentLabel: "Document",
+      addFileButtonLabel: "Ajouter un CPOM",
+    },
+    CONVENTION: {
+      categoryShortName: "convention",
+      title: "Conventions",
+      canAddFile: true,
+      canAddAvenant: true,
+      isOptional: !isStructureSubventionnee(structure.type),
+      fileMetaData: FileMetaData.DATE_START_END,
+      documentLabel: "Document",
+      addFileButtonLabel: "Ajouter une convention",
+    },
+    AUTRE: {
+      categoryShortName: "autre",
+      title: "Autres documents",
+      canAddFile: true,
+      canAddAvenant: false,
+      isOptional: true,
+      fileMetaData: FileMetaData.NAME,
+      documentLabel: "Document",
+      addFileButtonLabel: "Ajouter un document",
+      notice: (
+        <>
+          Dans cette catégorie, vous avez la possibilité d’importer d’autres
+          documents utiles à l’analyse de la structure (ex:{" "}
+          <i>Plans Pluriannuels d’Inverstissements</i>)
+        </>
+      ),
+    },
   };
 
   const handleSubmit = async (
@@ -95,8 +172,7 @@ export const FinalisationQualiteForm = ({
 
   const filteredFileUploads = structure.fileUploads?.filter(
     (fileUpload) =>
-      fileUpload?.category &&
-      categoriesToDisplay().includes(fileUpload.category)
+      fileUpload?.category && categoriesToDisplay.includes(fileUpload.category)
   );
 
   const defaultValuesFromDb = (filteredFileUploads || [])?.map((fileUpload) => {
@@ -131,7 +207,7 @@ export const FinalisationQualiteForm = ({
       category: z.infer<typeof zDdetsFileUploadCategory>;
     }[] = [];
 
-    const missingCategories = categoriesToDisplay().filter(
+    const missingCategories = categoriesToDisplay.filter(
       (category) =>
         !filteredFileUploads?.some(
           (fileUpload) => fileUpload.category === category
@@ -196,76 +272,27 @@ export const FinalisationQualiteForm = ({
         }
       />
 
-      <UploadsByCategory
-        category={"INSPECTION_CONTROLE"}
-        categoryShortName=""
-        title="Inspections-contrôles"
-        canAddFile
-        isOptional
-        fileMetaData={FileMetaData.DATE_TYPE}
-        documentLabel="Rapport"
-        addFileButtonLabel="Ajouter une inspection-contrôle"
-      />
-
-      {isStructureAutorisee(structure.type) && (
-        <UploadsByCategory
-          category={"ARRETE_AUTORISATION"}
-          categoryShortName="autorisation"
-          title="Arrêtés d'autorisation"
-          canAddFile
-          canAddAvenant
-          fileMetaData={FileMetaData.DATE_START_END}
-          documentLabel="Rapport"
-          addFileButtonLabel="Ajouter un arrêté d'autorisation"
-        />
-      )}
-      {structure.cpom && (
-        <UploadsByCategory
-          category={"CPOM"}
-          categoryShortName="CPOM"
-          title="CPOM"
-          canAddFile
-          canAddAvenant
-          fileMetaData={FileMetaData.DATE_START_END}
-          documentLabel="Rapport"
-          addFileButtonLabel="Ajouter un CPOM"
-        />
-      )}
-      {isStructureSubventionnee(structure.type) && (
-        <UploadsByCategory
-          category={"ARRETE_AUTORISATION"}
-          categoryShortName="autorisation"
-          title="Arrêtés d’autorisation"
-          canAddFile
-          isOptional
-          fileMetaData={FileMetaData.DATE_START_END}
-          documentLabel="Rapport"
-          addFileButtonLabel="Ajouter un arrêté d'autorisation"
-        />
-      )}
-
-      <UploadsByCategory
-        category={"CONVENTION"}
-        categoryShortName="convention"
-        title="Conventions"
-        canAddFile
-        isOptional={isStructureAutorisee(structure.type)}
-        fileMetaData={FileMetaData.DATE_START_END}
-        documentLabel="Rapport"
-        addFileButtonLabel="Ajouter une convention"
-      />
-
-      <UploadsByCategory
-        category={"AUTRE"}
-        categoryShortName="autre"
-        title="Autres documents"
-        canAddFile
-        isOptional
-        fileMetaData={FileMetaData.NAME}
-        documentLabel="Document"
-        addFileButtonLabel="Ajouter un document"
-      />
-
+      {categoriesToDisplay.map((category) => {
+        return (
+          <UploadsByCategory
+            key={category}
+            category={category}
+            categoryShortName={
+              categoriesDisplayRules[category].categoryShortName
+            }
+            title={categoriesDisplayRules[category].title}
+            canAddFile={categoriesDisplayRules[category].canAddFile}
+            canAddAvenant={categoriesDisplayRules[category].canAddAvenant}
+            isOptional={categoriesDisplayRules[category].isOptional}
+            fileMetaData={categoriesDisplayRules[category].fileMetaData}
+            documentLabel={categoriesDisplayRules[category].documentLabel}
+            addFileButtonLabel={
+              categoriesDisplayRules[category].addFileButtonLabel
+            }
+            notice={categoriesDisplayRules[category].notice}
+          />
+        );
+      })}
       {state === "error" && (
         <SubmitError
           structureDnaCode={structure.dnaCode}

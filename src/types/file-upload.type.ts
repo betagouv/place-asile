@@ -42,11 +42,11 @@ export const zFileUploadCategory = z.enum(
 );
 
 export const DdetsFileUploadCategory = [
+  "INSPECTION_CONTROLE",
   "ARRETE_AUTORISATION",
+  "CPOM",
   "CONVENTION",
   "ARRETE_TARIFICATION",
-  "CPOM",
-  "INSPECTION_CONTROLE",
   "AUTRE",
 ] as const;
 
