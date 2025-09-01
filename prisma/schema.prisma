@@ -13,7 +13,7 @@ model Structure {
   oldOperateur                 String
   filiale                      String?
   type                         StructureType
-  nbPlaces                     Int
+  oldNbPlaces                     Int
   placesACreer                 Int?
   placesAFermer                Int?
   echeancePlacesACreer         DateTime?
@@ -94,13 +94,13 @@ model Adresse {
 }
 
 model AdresseTypologie {
-  id             Int      @id @default(autoincrement())
-  adresse        Adresse  @relation(fields: [adresseId], references: [id], onDelete: Cascade)
-  adresseId      Int
-  nbPlacesTotal  Int // TODO :renommer en places autorisées
-  date           DateTime
-  qpv            Int
-  logementSocial Int
+  id               Int      @id @default(autoincrement())
+  adresse          Adresse  @relation(fields: [adresseId], references: [id], onDelete: Cascade)
+  adresseId        Int
+  placesAutorisees Int
+  date             DateTime
+  qpv              Int
+  logementSocial   Int
 }
 
 model Contact {

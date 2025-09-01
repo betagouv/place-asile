@@ -159,7 +159,7 @@ export const createOne = async (
       latitude: Prisma.Decimal(coordinates.latitude || 0),
       longitude: Prisma.Decimal(coordinates.longitude || 0),
       type: convertToStructureType(structure.type),
-      nbPlaces: -1,
+      oldNbPlaces: -1,
       adresseAdministrative: structure.adresseAdministrative,
       codePostalAdministratif: structure.codePostalAdministratif,
       communeAdministrative: structure.communeAdministrative,

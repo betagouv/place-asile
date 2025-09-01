@@ -57,7 +57,7 @@ type CreateStructureTypologie = {
 };
 
 export type CreateAdresseTypologie = {
-  nbPlacesTotal: number;
+  placesAutorisees: number;
   date: Date;
   qpv: number;
   logementSocial: number;

@@ -10,7 +10,7 @@ import { z } from "zod";
 import { frDateField, mandatoryFrDateField } from "./structure.util";
 
 const adresseTypologieSchema = z.object({
-  nbPlacesTotal: z
+  placesAutorisees: z
     .number()
     .int()
     .positive()

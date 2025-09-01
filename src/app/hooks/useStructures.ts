@@ -73,7 +73,7 @@ export const useStructures = (): UseStructureResult => {
           repartition: adresse.repartition,
           typologies: [
             {
-              nbPlacesTotal: Number(adresse.places),
+              placesAutorisees: Number(adresse.places),
               date: new Date().toISOString(),
               qpv: adresse.qpv ? Number(adresse.places) : 0,
               logementSocial: adresse.logementSocial
