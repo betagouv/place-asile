@@ -99,8 +99,7 @@ export type UpdateContact = CreateContact & { id?: number };
 export type UpdateBudget = CreateBudget & { id?: number };
 export type UpdateStructureTypologie = {
   id?: number;
-  // TODO : remove | null
-  placesAutorisees: number | null;
+  placesAutorisees: number;
   pmr: number;
   lgbt: number;
   fvvTeh: number;

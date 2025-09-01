@@ -13,7 +13,6 @@ import {
 } from "@/app/utils/structure.util";
 
 export const DefaultTypePlaceBlock = (): ReactElement => {
-  // TODO : Refac props from blocks to remove the props and pass them from context
   const { structure } = useStructureContext();
 
   const {

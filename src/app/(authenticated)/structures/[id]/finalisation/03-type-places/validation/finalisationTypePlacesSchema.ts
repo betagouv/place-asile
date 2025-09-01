@@ -11,12 +11,10 @@ export const finalisationTypePlacesSchema = z
         placesAutorisees: z.union([
           z
             .string()
-            // TODO : temporaire, ligne à décommenter
-            // .min(1, { message: "Nombre de places requis" })
+            .min(1, { message: "Nombre de places requis" })
             .transform(Number),
           z.number().min(0, { message: "Nombre de places requis" }),
-          // TODO : remove nullable
-        ]).nullable(),
+        ]),
         pmr: z.union([
           z
             .string()
@@ -40,28 +38,26 @@ export const finalisationTypePlacesSchema = z
         ]),
       })
     ),
-    // TODO : remove nullable
-    placesACreer: zSafeNumber().nullable().optional(),
-    placesAFermer: zSafeNumber().nullable().optional(),
-    echeancePlacesACreer: createDateFieldValidator().optional().nullable(),
-    echeancePlacesAFermer: createDateFieldValidator().optional().nullable(),
+    placesACreer: zSafeNumber(),
+    placesAFermer: zSafeNumber(),
+    echeancePlacesACreer: createDateFieldValidator().optional(),
+    echeancePlacesAFermer: createDateFieldValidator().optional(),
   })
-  // TODO : uncomment this
-  // .refine(
-  //   (data) => {
-  //     return data.placesACreer <= 0 || !!data.echeancePlacesACreer;
-  //   },
-  //   {
-  //     message: "Ce champ est obligatoire s'il y a au moins une place à créer",
-  //     path: ["echeancePlacesACreer"],
-  //   }
-  // )
-  // .refine(
-  //   (data) => {
-  //     return data.placesAFermer <= 0 || !!data.echeancePlacesAFermer;
-  //   },
-  //   {
-  //     message: "Ce champ est obligatoire s'il y a au moins une place à fermer",
-  //     path: ["echeancePlacesAFermer"],
-  //   }
-  // );
+  .refine(
+    (data) => {
+      return data.placesACreer <= 0 || !!data.echeancePlacesACreer;
+    },
+    {
+      message: "Ce champ est obligatoire s'il y a au moins une place à créer",
+      path: ["echeancePlacesACreer"],
+    }
+  )
+  .refine(
+    (data) => {
+      return data.placesAFermer <= 0 || !!data.echeancePlacesAFermer;
+    },
+    {
+      message: "Ce champ est obligatoire s'il y a au moins une place à fermer",
+      path: ["echeancePlacesAFermer"],
+    }
+  );
