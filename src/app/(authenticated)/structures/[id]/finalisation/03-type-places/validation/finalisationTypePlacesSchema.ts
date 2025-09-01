@@ -40,26 +40,28 @@ export const finalisationTypePlacesSchema = z
         ]),
       })
     ),
-    placesACreer: zSafeNumber(),
-    placesAFermer: zSafeNumber(),
-    echeancePlacesACreer: createDateFieldValidator().optional(),
-    echeancePlacesAFermer: createDateFieldValidator().optional(),
+    // TODO : remove nullable
+    placesACreer: zSafeNumber().nullable().optional(),
+    placesAFermer: zSafeNumber().nullable().optional(),
+    echeancePlacesACreer: createDateFieldValidator().optional().nullable(),
+    echeancePlacesAFermer: createDateFieldValidator().optional().nullable(),
   })
-  .refine(
-    (data) => {
-      return data.placesACreer <= 0 || !!data.echeancePlacesACreer;
-    },
-    {
-      message: "Ce champ est obligatoire s'il y a au moins une place à créer",
-      path: ["echeancePlacesACreer"],
-    }
-  )
-  .refine(
-    (data) => {
-      return data.placesAFermer <= 0 || !!data.echeancePlacesAFermer;
-    },
-    {
-      message: "Ce champ est obligatoire s'il y a au moins une place à fermer",
-      path: ["echeancePlacesAFermer"],
-    }
-  );
+  // TODO : uncomment this
+  // .refine(
+  //   (data) => {
+  //     return data.placesACreer <= 0 || !!data.echeancePlacesACreer;
+  //   },
+  //   {
+  //     message: "Ce champ est obligatoire s'il y a au moins une place à créer",
+  //     path: ["echeancePlacesACreer"],
+  //   }
+  // )
+  // .refine(
+  //   (data) => {
+  //     return data.placesAFermer <= 0 || !!data.echeancePlacesAFermer;
+  //   },
+  //   {
+  //     message: "Ce champ est obligatoire s'il y a au moins une place à fermer",
+  //     path: ["echeancePlacesAFermer"],
+  //   }
+  // );
