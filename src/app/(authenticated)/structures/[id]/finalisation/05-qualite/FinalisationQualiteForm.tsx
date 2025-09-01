@@ -48,12 +48,33 @@ export const FinalisationQualiteForm = ({
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const [backendError, setBackendError] = useState<string | undefined>("");
 
+  const categoriesToDisplay = () => {
+    const categories = DdetsFileUploadCategory.filter((category) => {
+      if (category === "CPOM" && !structure.cpom) {
+        return false;
+      }
+
+      if (isStructureSubventionnee(structure.type)) {
+        return (
+          category !== "ARRETE_AUTORISATION" &&
+          category !== "ARRETE_TARIFICATION"
+        );
+      }
+      return true;
+    });
+    return categories;
+  };
+
   const handleSubmit = async (
     data: z.infer<typeof finalisationQualiteSchemaSimple>
   ) => {
     setState("loading");
 
-    const fileUploads = data.fileUploads as FileUpload[];
+    const fileUploads = data.fileUploads?.filter((fileUpload) => {
+      return fileUpload.key !== undefined;
+    }) as FileUpload[];
+
+    // TODO : gérer les erreurs sur champs obligatoires avant envoi au back
 
     const updatedStructure = await updateAndRefreshStructure(
       structure.id,
@@ -75,34 +96,60 @@ export const FinalisationQualiteForm = ({
   const filteredFileUploads = structure.fileUploads?.filter(
     (fileUpload) =>
       fileUpload?.category &&
-      DdetsFileUploadCategory.includes(fileUpload.category)
+      categoriesToDisplay().includes(fileUpload.category)
   );
 
-  const formDefaultValues = {
-    fileUploads: (filteredFileUploads || [])?.map((fileUpload) => {
-      return {
-        ...fileUpload,
+  const defaultValuesFromDb = (filteredFileUploads || [])?.map((fileUpload) => {
+    const formattedFileUploads = {
+      ...fileUpload,
+      uuid: uuidv4(),
+      key: fileUpload.key,
+      category: String(fileUpload.category) as z.infer<
+        typeof zDdetsFileUploadCategory
+      >,
+      date:
+        fileUpload.date && fileUpload.date instanceof Date
+          ? fileUpload.date.toISOString()
+          : fileUpload.date || undefined,
+      startDate:
+        fileUpload.startDate && fileUpload.startDate instanceof Date
+          ? fileUpload.startDate.toISOString()
+          : fileUpload.startDate || undefined,
+      endDate:
+        fileUpload.endDate && fileUpload.endDate instanceof Date
+          ? fileUpload.endDate.toISOString()
+          : fileUpload.endDate || undefined,
+      categoryName: fileUpload.categoryName || "Document",
+      parentFileUploadId: Number(fileUpload.parentFileUploadId) || undefined,
+    };
+    return formattedFileUploads;
+  });
+
+  const createEmptyDefaultValues = () => {
+    const filesToAdd: {
+      uuid: string;
+      category: z.infer<typeof zDdetsFileUploadCategory>;
+    }[] = [];
+
+    const missingCategories = categoriesToDisplay().filter(
+      (category) =>
+        !filteredFileUploads?.some(
+          (fileUpload) => fileUpload.category === category
+        )
+    );
+
+    missingCategories.forEach((category) => {
+      filesToAdd.push({
         uuid: uuidv4(),
-        key: fileUpload.key,
-        category: String(fileUpload.category) as z.infer<
-          typeof zDdetsFileUploadCategory
-        >,
-        date:
-          fileUpload.date && fileUpload.date instanceof Date
-            ? fileUpload.date.toISOString()
-            : fileUpload.date || undefined,
-        startDate:
-          fileUpload.startDate && fileUpload.startDate instanceof Date
-            ? fileUpload.startDate.toISOString()
-            : fileUpload.startDate || undefined,
-        endDate:
-          fileUpload.endDate && fileUpload.endDate instanceof Date
-            ? fileUpload.endDate.toISOString()
-            : fileUpload.endDate || undefined,
-        categoryName: fileUpload.categoryName || "Document",
-        parentFileUploadId: Number(fileUpload.parentFileUploadId) || undefined,
-      };
-    }),
+        category: category,
+      });
+    });
+
+    return filesToAdd;
+  };
+
+  const defaultValues = {
+    fileUploads: [...defaultValuesFromDb, ...createEmptyDefaultValues()],
   };
 
   return (
@@ -112,7 +159,7 @@ export const FinalisationQualiteForm = ({
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
-      defaultValues={formDefaultValues}
+      defaultValues={defaultValues}
     >
       {structure.state === StructureState.A_FINALISER && (
         <InformationBar

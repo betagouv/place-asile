@@ -11,7 +11,7 @@ const avenantSchema = z.object({
 
 export const fileUploadSchema = z.object({
   // TODO : rendre key et category obligatoires
-  key: z.string(),
+  key: z.string().optional(),
   date: createDateFieldValidator().optional(),
   category: zDdetsFileUploadCategory,
   startDate: createDateFieldValidator().optional(),
@@ -21,6 +21,7 @@ export const fileUploadSchema = z.object({
   // TODO : mieux séparer controleSchema et fileUploadSchema
   type: z.nativeEnum(ControleType).optional(),
   parentFileUploadId: z.any().optional(),
+  uuid: z.string().optional(),
 });
 
 // const controleSchema = z.object({
