@@ -73,7 +73,7 @@ export const useStructures = (): UseStructureResult => {
           repartition: adresse.repartition,
           typologies: [
             {
-              nbPlacesTotal: Number(adresse.places),
+              placesAutorisees: Number(adresse.places),
               date: new Date().toISOString(),
               qpv: adresse.qpv ? Number(adresse.places) : 0,
               logementSocial: adresse.logementSocial
@@ -91,7 +91,6 @@ export const useStructures = (): UseStructureResult => {
       operateur: values.operateur,
       filiale: values.filiale,
       type: values.type,
-      nbPlaces: Number(values.typologies?.[0].placesAutorisees),
       adresseAdministrative: values.adresseAdministrative,
       codePostalAdministratif: values.codePostalAdministratif,
       communeAdministrative: values.communeAdministrative,

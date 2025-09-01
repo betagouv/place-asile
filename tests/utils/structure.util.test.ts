@@ -32,19 +32,19 @@ describe("structure util", () => {
       // GIVEN
       const typologie1 = createAdresseTypologie({
         adresseId: 1,
-        nbPlacesTotal: 2,
+        placesAutorisees: 2,
       });
       const typologie2 = createAdresseTypologie({
         adresseId: 2,
-        nbPlacesTotal: 3,
+        placesAutorisees: 3,
       });
       const typologie3 = createAdresseTypologie({
         adresseId: 3,
-        nbPlacesTotal: 1,
+        placesAutorisees: 1,
       });
       const typologie4 = createAdresseTypologie({
         adresseId: 4,
-        nbPlacesTotal: 1,
+        placesAutorisees: 1,
       });
 
       const adresses: Adresse[] = [

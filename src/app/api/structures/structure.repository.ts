@@ -31,6 +31,11 @@ export const findAll = async (): Promise<Structure[]> => {
         },
       },
       operateur: true,
+      structureTypologies: {
+        orderBy: {
+          date: 'desc'
+        }
+      }
     },
   });
 };
@@ -158,7 +163,7 @@ export const createOne = async (
       latitude: Prisma.Decimal(coordinates.latitude || 0),
       longitude: Prisma.Decimal(coordinates.longitude || 0),
       type: convertToStructureType(structure.type),
-      nbPlaces: structure.nbPlaces,
+      oldNbPlaces: -1,
       adresseAdministrative: structure.adresseAdministrative,
       codePostalAdministratif: structure.codePostalAdministratif,
       communeAdministrative: structure.communeAdministrative,

@@ -7,13 +7,13 @@ export const createFakeAdresseTypologie = ({
   AdresseTypologie,
   "id" | "adresseId"
 > => {
-  const nbPlacesTotal = faker.number.int({ min: 0, max: 100 });
+  const placesAutorisees = faker.number.int({ min: 0, max: 100 });
 
   return {
     date: new Date(year, 0, 1, 13),
-    nbPlacesTotal,
-    qpv: faker.number.int({ min: 0, max: nbPlacesTotal }),
-    logementSocial: faker.number.int({ min: 0, max: nbPlacesTotal }),
+    placesAutorisees,
+    qpv: faker.number.int({ min: 0, max: placesAutorisees }),
+    logementSocial: faker.number.int({ min: 0, max: placesAutorisees }),
   };
 };
 

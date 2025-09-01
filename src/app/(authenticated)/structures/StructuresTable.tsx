@@ -69,7 +69,7 @@ export const StructuresTable = ({
             <td>{structure.dnaCode}</td>
             <td>{structure.type}</td>
             <td>{getOperateurLabel(structure.filiale, structure.operateur?.name)}</td>
-            <td>{structure.nbPlaces}</td>
+            <td>{structure.structureTypologies?.[0].placesAutorisees}</td>
             <td>
               <RepartitionBadge repartition={getRepartition(structure)} />
             </td>

@@ -44,7 +44,7 @@ export const AdressesViewer = (): ReactElement => {
               <span className="pr-2">
                 {adresse.adresse}, {adresse.codePostal} {adresse.commune}{" "}
                 <span className="italic">
-                  ({adresse.adresseTypologies?.[0]?.nbPlacesTotal} places)
+                  ({adresse.adresseTypologies?.[0]?.placesAutorisees} places)
                 </span>
                 {" - "}
                 {
