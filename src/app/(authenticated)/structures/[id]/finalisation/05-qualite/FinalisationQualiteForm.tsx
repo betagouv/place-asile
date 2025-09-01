@@ -21,7 +21,6 @@ import {
   zDdetsFileUploadCategory,
   DdetsFileUploadCategory,
 } from "@/types/file-upload.type";
-import { ca, tr } from "zod/v4/locales";
 
 export enum FileMetaData {
   DATE_TYPE,
