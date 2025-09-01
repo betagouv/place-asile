@@ -102,15 +102,16 @@ export const createFakeStuctureWithRelations = ({
 }: FakeStructureOptions): Omit<StructureWithRelations, "id"> => {
   const fakeStructure = createFakeStructure({ cpom, type, state });
   const isAutorisee = isStructureAutorisee(type);
+  const placesAutorisees = faker.number.int({ min: 0, max: 100 });
 
   let structureWithRelations = {
     ...fakeStructure,
     contacts: [createFakeContact(), createFakeContact()],
-    adresses: createFakeAdresses(),
+    adresses: createFakeAdresses({placesAutorisees}),
     structureTypologies: [
-      createFakeStructureTypologie({ year: 2025 }),
-      createFakeStructureTypologie({ year: 2024 }),
-      createFakeStructureTypologie({ year: 2023 }),
+      createFakeStructureTypologie({ year: 2025, placesAutorisees }),
+      createFakeStructureTypologie({ year: 2024, placesAutorisees }),
+      createFakeStructureTypologie({ year: 2023, placesAutorisees }),
     ],
     fileUploads: [
       createFakeFileUpload({}),
