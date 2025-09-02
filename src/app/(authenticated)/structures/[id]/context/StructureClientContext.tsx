@@ -1,7 +1,9 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
+
 import { StructureWithLatLng } from "@/types/structure.type";
+
 import { StructureContextType } from "./StructureContext";
 
 type StructureContextInternalType = {

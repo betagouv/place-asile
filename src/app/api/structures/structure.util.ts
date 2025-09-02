@@ -5,9 +5,11 @@ import {
   Repartition,
   StructureType,
 } from "@prisma/client";
-import { CreateAdresse, CreateAdresseTypologie } from "./structure.types";
 import z from "zod";
+
 import { parseFrDate } from "@/app/utils/date.util";
+
+import { CreateAdresse, CreateAdresseTypologie } from "./structure.types";
 
 export const convertToRepartition = (repartition: string): Repartition => {
   const repartitions: Record<string, Repartition> = {

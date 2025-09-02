@@ -1,8 +1,9 @@
 "use client";
 import { ReactElement } from "react";
+
+import { useStructureContext } from "../../context/StructureClientContext";
 import Steps from "../components/Steps";
 import FinalisationIdentificationForm from "./forms/FinalisationIdentificationForm";
-import { useStructureContext } from "../../context/StructureClientContext";
 
 export default function Identification(): ReactElement {
   const { structure } = useStructureContext();

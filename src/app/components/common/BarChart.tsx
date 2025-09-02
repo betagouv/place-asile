@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import * as Chartist from "chartist";
 import "chartist/dist/index.css";
+
+import * as Chartist from "chartist";
+import { useEffect, useRef } from "react";
 
 // TODO : corriger les erreurs de réhydratation de ce composant
 export default function BarChart({ data, options }: Props) {

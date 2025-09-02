@@ -1,10 +1,12 @@
-import { Adresse, Repartition } from "@/types/adresse.type";
-import { sortKeysByValue } from "./common.util";
-import { Structure, StructureType } from "@/types/structure.type";
-import { AdresseTypologie } from "@/types/adresse-typologie.type";
 import dayjs from "dayjs";
+
+import { Adresse, Repartition } from "@/types/adresse.type";
+import { AdresseTypologie } from "@/types/adresse-typologie.type";
 import { Controle } from "@/types/controle.type";
 import { Evaluation } from "@/types/evaluation.type";
+import { Structure, StructureType } from "@/types/structure.type";
+
+import { sortKeysByValue } from "./common.util";
 
 export const getPlacesByCommunes = (
   adresses: Adresse[]

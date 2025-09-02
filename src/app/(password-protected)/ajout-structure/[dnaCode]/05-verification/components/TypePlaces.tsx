@@ -1,9 +1,11 @@
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { TypePlacesSchema } from "../../../validation/typePlacesSchema";
 import { useParams } from "next/navigation";
-import { z } from "zod";
-import { Table } from "@/app/components/common/Table";
 import { useMemo } from "react";
+import { z } from "zod";
+
+import { Table } from "@/app/components/common/Table";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+
+import { TypePlacesSchema } from "../../../validation/typePlacesSchema";
 
 type TypePlacesFormValues = z.infer<typeof TypePlacesSchema>;
 export const TypePlaces = () => {

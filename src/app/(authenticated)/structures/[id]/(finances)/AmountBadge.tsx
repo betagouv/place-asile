@@ -1,5 +1,6 @@
-import { Badge } from "@/app/components/common/Badge";
 import { ReactElement } from "react";
+
+import { Badge } from "@/app/components/common/Badge";
 
 export const AmountBadge = ({ amount }: Props): ReactElement => {
   if (!amount || amount === 0) {

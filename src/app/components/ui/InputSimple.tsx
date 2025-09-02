@@ -1,4 +1,5 @@
-import { InputHTMLAttributes, HTMLAttributes } from "react";
+import { HTMLAttributes, InputHTMLAttributes } from "react";
+
 import { cn } from "@/app/utils/classname.util";
 
 function InputSimple({

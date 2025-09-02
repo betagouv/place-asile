@@ -1,13 +1,14 @@
 import { ReactElement } from "react";
-import { DefaultDescriptionBlock } from "./(description)/DefaultDescriptionBlock";
+
+import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
 import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
-import { Section } from "./components/Section";
-import { DefaultTypePlaceBlock } from "./(type-places)/DefaultTypePlaceBlock";
 import { DefaultControlesBlock } from "./(controles)/DefaultControlesBlock";
+import { DefaultDescriptionBlock } from "./(description)/DefaultDescriptionBlock";
+import { FinancesBlock } from "./(finances)/FinancesBlock";
 // import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { NotesBlock } from "./(notes)/NotesBlock";
-import { FinancesBlock } from "./(finances)/FinancesBlock";
-import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
+import { DefaultTypePlaceBlock } from "./(type-places)/DefaultTypePlaceBlock";
+import { Section } from "./components/Section";
 import { useStructureContext } from "./context/StructureClientContext";
 
 export const DefaultStructure = (): ReactElement => {

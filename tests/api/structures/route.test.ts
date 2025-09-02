@@ -1,6 +1,8 @@
-import { describe, it, expect } from "vitest";
 import { createMocks } from "node-mocks-http";
+import { describe, expect, it } from "vitest";
+
 import { POST } from "@/app/api/structures/route";
+
 import { createStructure } from "../../test-utils/structure.factory";
 
 // TODO : implémenter ces tests

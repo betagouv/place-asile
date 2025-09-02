@@ -1,22 +1,24 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
+import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
+import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
-import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
-import { finalisationIdentificationSchema } from "./validation/FinalisationIdentificationSchema";
-import { PublicType, StructureState } from "@/types/structure.type";
-import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
-import { useFormatDateString } from "@/app/hooks/useFormatDateString";
-import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
-import { InformationBar } from "@/app/components/ui/InformationBar";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { getCurrentStepData } from "../../components/Steps";
-import { useStructures } from "@/app/hooks/useStructures";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { SubmitError } from "@/app/components/SubmitError";
+import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useFormatDateString } from "@/app/hooks/useFormatDateString";
+import { useStructures } from "@/app/hooks/useStructures";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { PublicType, StructureState } from "@/types/structure.type";
+
+import { getCurrentStepData } from "../../components/Steps";
+import { finalisationIdentificationSchema } from "./validation/FinalisationIdentificationSchema";
 
 export default function FinalisationIdentificationForm({
   currentStep,

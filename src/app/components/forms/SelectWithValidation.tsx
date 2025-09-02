@@ -1,13 +1,13 @@
 "use client";
 
+import Select from "@codegouvfr/react-dsfr/Select";
 import * as React from "react";
 import {
-  useController,
-  UseControllerProps,
   Control,
   FieldValues,
+  useController,
+  UseControllerProps,
 } from "react-hook-form";
-import Select from "@codegouvfr/react-dsfr/Select";
 
 export default function SelectWithValidation<
   TFieldValues extends FieldValues = FieldValues

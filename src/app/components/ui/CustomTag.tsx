@@ -1,5 +1,6 @@
-import { cn } from "@/app/utils/classname.util";
 import { PropsWithChildren, ReactElement } from "react";
+
+import { cn } from "@/app/utils/classname.util";
 
 export const CustomTag = ({
   children,

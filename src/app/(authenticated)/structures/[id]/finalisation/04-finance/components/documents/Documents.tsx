@@ -1,22 +1,23 @@
-import React from "react";
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
-import Notice from "@codegouvfr/react-dsfr/Notice";
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
+import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useFormContext } from "react-hook-form";
+
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+// TODO: globalize this component
+import { UploadItem } from "@/app/(password-protected)/ajout-structure/components/UploadItem";
+import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
+import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
 import { useYearRange } from "@/app/hooks/useYearRange";
 import { getYearDate } from "@/app/utils/date.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "./documentsStructures";
-import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
-// TODO: globalize this component
-import { UploadItem } from "@/app/(password-protected)/ajout-structure/components/UploadItem";
-import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 
 export const Documents = ({ className }: { className?: string }) => {
   const { structure } = useStructureContext();

@@ -1,13 +1,15 @@
-import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useYearRange } from "@/app/hooks/useYearRange";
-import { useFormContext, useForm } from "react-hook-form";
-import { Table } from "@/app/components/common/Table";
-import { useStructureContext } from "../../../context/StructureClientContext";
-import { cn } from "@/app/utils/classname.util";
 import Button from "@codegouvfr/react-dsfr/Button";
+import Input from "@codegouvfr/react-dsfr/Input";
 import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import { useRef, useState } from "react";
-import Input from "@codegouvfr/react-dsfr/Input";
+import { useForm, useFormContext } from "react-hook-form";
+
+import { Table } from "@/app/components/common/Table";
+import InputWithValidation from "@/app/components/forms/InputWithValidation";
+import { useYearRange } from "@/app/hooks/useYearRange";
+import { cn } from "@/app/utils/classname.util";
+
+import { useStructureContext } from "../../../context/StructureClientContext";
 
 const modal = createModal({
   id: "commentaire-modal",

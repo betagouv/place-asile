@@ -1,7 +1,7 @@
-import { cn } from "@/app/utils/classname.util";
 import { FrIconClassName, RiIconClassName } from "@codegouvfr/react-dsfr";
-import React from "react";
-// TODO: if more variants are needed, install the class variance authority package
+
+import { cn } from "@/app/utils/classname.util";
+
 export const InformationBar = ({ variant, title, description }: Props) => {
   const iconClassName: FrIconClassName | RiIconClassName =
     variant === "info" ? "fr-icon-edit-line" : "fr-icon-eye-line";

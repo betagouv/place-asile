@@ -1,6 +1,6 @@
-import React from "react";
-import InputWithValidation from "../../InputWithValidation";
 import { useFormContext } from "react-hook-form";
+
+import InputWithValidation from "../../InputWithValidation";
 
 export const FieldSetOuvertureFermeture = () => {
   const { control } = useFormContext();

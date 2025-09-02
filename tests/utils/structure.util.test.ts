@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 import {
   getLastVisitInMonths,
   getPlacesByCommunes,
@@ -5,16 +7,16 @@ import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { Controle } from "@/types/controle.type";
+import { Evaluation } from "@/types/evaluation.type";
+import { StructureType } from "@/types/structure.type";
+
 import { Adresse, Repartition } from "../../src/types/adresse.type";
 import { createAdresse } from "../test-utils/adresse.factory";
 import { createAdresseTypologie } from "../test-utils/adresse-typologie.factory";
-import { createStructure } from "../test-utils/structure.factory";
-import { Evaluation } from "@/types/evaluation.type";
-import { Controle } from "@/types/controle.type";
-import { createEvaluation } from "../test-utils/evaluation.factory";
-import dayjs from "dayjs";
 import { createControle } from "../test-utils/controle.factory";
-import { StructureType } from "@/types/structure.type";
+import { createEvaluation } from "../test-utils/evaluation.factory";
+import { createStructure } from "../test-utils/structure.factory";
 
 describe("structure util", () => {
   describe("getPlacesByCommunes", () => {

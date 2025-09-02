@@ -1,11 +1,12 @@
-import { ReactElement, useState } from "react";
+import { Input } from "@codegouvfr/react-dsfr/Input";
 import {
   SegmentedControl,
   SegmentedControlProps,
 } from "@codegouvfr/react-dsfr/SegmentedControl";
-import { Input } from "@codegouvfr/react-dsfr/Input";
-import { getLastMonths, getMonthsBetween } from "@/app/utils/date.util";
 import dayjs from "dayjs";
+import { ReactElement, useState } from "react";
+
+import { getLastMonths, getMonthsBetween } from "@/app/utils/date.util";
 
 export const ActivitesDurations = ({
   setSelectedMonths,

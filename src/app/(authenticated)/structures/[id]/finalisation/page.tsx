@@ -1,6 +1,7 @@
 // TODO @ledjay : remove this page at the end of dev
-import { ReactElement } from "react";
 import Link from "next/link";
+import { ReactElement } from "react";
+
 import { steps } from "./components/Steps";
 
 export default async function Finalisation({

@@ -1,7 +1,8 @@
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
-import { ReactElement } from "react";
-import styles from "../../../../components/common/Accordion.module.css";
 import Table from "@codegouvfr/react-dsfr/Table";
+import { ReactElement } from "react";
+
+import styles from "../../../../components/common/Accordion.module.css";
 
 export const ActivitesMotifsIndisponibilite = ({
   desinsectisation,

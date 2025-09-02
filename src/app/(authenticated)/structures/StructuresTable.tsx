@@ -1,18 +1,20 @@
-import { ReactElement } from "react";
-import { Table } from "../../components/common/Table";
-import { Pagination } from "../../components/common/Pagination";
-import { usePagination } from "../../hooks/usePagination";
-import { RepartitionBadge } from "./RepartitionBadge";
+import Tooltip from "@codegouvfr/react-dsfr/Tooltip";
 import Link from "next/link";
+import { ReactElement } from "react";
+
+import { EmptyCell } from "@/app/components/common/EmptyCell";
+import { formatDate } from "@/app/utils/date.util";
 import {
   getOperateurLabel,
   getPlacesByCommunes,
   getRepartition,
 } from "@/app/utils/structure.util";
-import { formatDate } from "@/app/utils/date.util";
 import { Structure } from "@/types/structure.type";
-import { EmptyCell } from "@/app/components/common/EmptyCell";
-import Tooltip from "@codegouvfr/react-dsfr/Tooltip";
+
+import { Pagination } from "../../components/common/Pagination";
+import { Table } from "../../components/common/Table";
+import { usePagination } from "../../hooks/usePagination";
+import { RepartitionBadge } from "./RepartitionBadge";
 
 export const StructuresTable = ({
   structures,

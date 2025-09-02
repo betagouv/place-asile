@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { StructureType } from "@/types/structure.type";
 import { FileUploadCategory } from "@prisma/client";
+
+import { StructureType } from "@/types/structure.type";
 
 import {
   createFakeFileUpload,

@@ -1,12 +1,12 @@
 "use client";
 
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import React from "react";
+import { useForm, useFormContext } from "react-hook-form";
+
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useForm, useFormContext } from "react-hook-form";
-import { cn } from "@/app/utils/classname.util";
 import { useYearRange } from "@/app/hooks/useYearRange";
+import { cn } from "@/app/utils/classname.util";
 
 export const IndicateursGeneraux = () => {
   const { years } = useYearRange();

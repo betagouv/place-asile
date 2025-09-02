@@ -1,6 +1,6 @@
-import { ReactElement } from "react";
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { ReactElement } from "react";
 
 export const User = (): ReactElement => {
   const session = useSession();

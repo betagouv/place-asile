@@ -1,7 +1,8 @@
-import { expect, it, describe, Mock } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { Menu } from "@/app/components/Menu";
 import client from "next-auth/react";
+import { describe, expect, it,Mock } from "vitest";
+
+import { Menu } from "@/app/components/Menu";
 
 vitest.mock("next-auth/react");
 

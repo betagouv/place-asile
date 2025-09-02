@@ -1,6 +1,7 @@
-import { renderHook, act } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
+import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { describe, it, expect, beforeEach, vi, afterAll } from "vitest";
 
 // Sauvegarder la référence originale de localStorage
 const originalLocalStorage = window.localStorage;

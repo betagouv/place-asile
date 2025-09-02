@@ -1,11 +1,13 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { generateDatePair } from "./seed-util";
+import { FileUpload, FileUploadCategory } from "@prisma/client";
+
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { StructureType } from "@/types/structure.type";
-import { FileUploadCategory, FileUpload } from "@prisma/client";
+
+import { generateDatePair } from "./seed-util";
 
 export const createFakeFileUpload = ({
   category,

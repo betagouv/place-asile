@@ -1,16 +1,18 @@
+import { LatLngTuple } from "leaflet";
 import Link from "next/link";
 import { ReactElement } from "react";
-import { LatLngTuple } from "leaflet";
 import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
-import { singleMarkerIcon } from "../../components/map/SingleMarker";
-import { RepartitionBadge } from "./RepartitionBadge";
+
 import {
   getOperateurLabel,
   getPlacesByCommunes,
 } from "@/app/utils/structure.util";
 import { Adresse, Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
+
+import { singleMarkerIcon } from "../../components/map/SingleMarker";
+import { RepartitionBadge } from "./RepartitionBadge";
 
 export const StructureMarker = ({
   id,

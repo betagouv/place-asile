@@ -1,11 +1,13 @@
-import { Block } from "@/app/components/common/Block";
-import { ReactElement } from "react";
-import { ActivitesPlaces } from "./ActivitesPlaces";
-import { ActivitesMotifsIndisponibilite } from "./ActivitesMotifsIndisponibilite";
 import Image from "next/image";
+import { ReactElement } from "react";
+
+import { Block } from "@/app/components/common/Block";
+
 import ofii from "../../../../../../public/ofii.webp";
-import { ActivitesHistorique } from "./ActivitesHistorique";
 import { useStructureContext } from "../context/StructureClientContext";
+import { ActivitesHistorique } from "./ActivitesHistorique";
+import { ActivitesMotifsIndisponibilite } from "./ActivitesMotifsIndisponibilite";
+import { ActivitesPlaces } from "./ActivitesPlaces";
 
 export const ActivitesBlock = (): ReactElement => {
   const { structure } = useStructureContext();

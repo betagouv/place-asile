@@ -1,8 +1,10 @@
-import { Block } from "@/app/components/common/Block";
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
 import { ReactElement } from "react";
-import { useStructureContext } from "../context/StructureClientContext";
+
+import { Block } from "@/app/components/common/Block";
 import { DownloadItem } from "@/app/components/common/DownloadItem";
+
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const ActesAdministratifsBlock = (): ReactElement => {
   const { structure } = useStructureContext();

@@ -1,20 +1,22 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
+import { FieldSetOuvertureFermeture } from "@/app/components/forms/fieldsets/structure/FieldSetOuvertureFermeture";
+import { FieldSetTypePlaces } from "@/app/components/forms/fieldsets/structure/FieldSetTypePlaces";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
-import { finalisationTypePlacesSchema } from "./validation/finalisationTypePlacesSchema";
-import { InformationBar } from "@/app/components/ui/InformationBar";
-import { FieldSetTypePlaces } from "@/app/components/forms/fieldsets/structure/FieldSetTypePlaces";
-import { formatDate } from "@/app/utils/date.util";
-import { FieldSetOuvertureFermeture } from "@/app/components/forms/fieldsets/structure/FieldSetOuvertureFermeture";
-import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 import { SubmitError } from "@/app/components/SubmitError";
+import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useStructures } from "@/app/hooks/useStructures";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { formatDate } from "@/app/utils/date.util";
 import { StructureState } from "@/types/structure.type";
+
+import { finalisationTypePlacesSchema } from "./validation/finalisationTypePlacesSchema";
 
 export default function FinalisationTypePlacesForm({
   currentStep,

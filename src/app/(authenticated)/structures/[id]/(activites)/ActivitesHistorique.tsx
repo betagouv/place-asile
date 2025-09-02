@@ -1,13 +1,15 @@
 "use client";
 
-import { ReactElement, useState } from "react";
-import { Activite } from "@/types/activite.type";
-import { ActivitesDurations } from "./ActivitesDurations";
-import { MultiLineChart } from "@/app/components/common/MultiLineChart";
-import { formatForCharts, getMonthsBetween } from "@/app/utils/date.util";
-import { ActivitesTypes } from "./ActivitesTypes";
 import dayjs from "dayjs";
+import { ReactElement, useState } from "react";
+
+import { MultiLineChart } from "@/app/components/common/MultiLineChart";
 import { computeAverage } from "@/app/utils/common.util";
+import { formatForCharts, getMonthsBetween } from "@/app/utils/date.util";
+import { Activite } from "@/types/activite.type";
+
+import { ActivitesDurations } from "./ActivitesDurations";
+import { ActivitesTypes } from "./ActivitesTypes";
 
 const typesActivite: Partial<
   Record<keyof Activite, { label: string; seuil: number | null }>

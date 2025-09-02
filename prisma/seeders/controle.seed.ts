@@ -1,10 +1,11 @@
+import { fakerFR as faker } from "@faker-js/faker";
 import {
   Controle,
   ControleType,
   FileUpload,
   FileUploadCategory,
 } from "@prisma/client";
-import { fakerFR as faker } from "@faker-js/faker";
+
 import { createFakeFileUpload } from "./file-upload.seed";
 
 export type ControleWithFileUploads = Controle & {

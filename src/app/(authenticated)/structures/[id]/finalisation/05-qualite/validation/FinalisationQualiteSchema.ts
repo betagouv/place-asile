@@ -1,7 +1,8 @@
+import z from "zod";
+
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
 import { ControleType } from "@/types/controle.type";
 import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
-import z from "zod";
 
 const avenantSchema = z.object({
   key: z.string().optional(),

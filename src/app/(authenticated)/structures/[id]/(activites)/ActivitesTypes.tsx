@@ -1,5 +1,6 @@
-import { ReactElement } from "react";
 import { Tag } from "@codegouvfr/react-dsfr/Tag";
+import { ReactElement } from "react";
+
 import { Activite } from "@/types/activite.type";
 
 export const ActivitesTypes = ({

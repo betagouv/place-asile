@@ -1,44 +1,46 @@
 "use client";
+import { Notice } from "@codegouvfr/react-dsfr/Notice";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
+
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
-import {
-  autoriseeSchema,
-  autoriseeAvecCpomSchema,
-  subventionneeAvecCpomSchema,
-  subventionneeSchema,
-  basicSchema,
-  anyFinanceFormValues,
-} from "./validation/finalisationFinanceSchema";
-import { InformationBar } from "@/app/components/ui/InformationBar";
-import { Documents } from "./components/documents/Documents";
-import { IndicateursGeneraux } from "./components/IndicateursGeneraux";
-import { useYearRange } from "@/app/hooks/useYearRange";
-import { useDateStringToYear } from "@/app/hooks/useDateStringToYear";
-import { Notice } from "@codegouvfr/react-dsfr/Notice";
-import { BudgetTables } from "./components/BudgetTables";
-import {
-  isStructureAutorisee,
-  isStructureSubventionnee,
-} from "@/app/utils/structure.util";
-import { useStructures } from "@/app/hooks/useStructures";
-import { useRouter } from "next/navigation";
 import { SubmitError } from "@/app/components/SubmitError";
-import Link from "next/link";
+import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useDateStringToYear } from "@/app/hooks/useDateStringToYear";
 import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
-import {
-  structureAutoriseesDocuments,
-  structureSubventionneesDocuments,
-} from "./components/documents/documentsStructures";
+import { useStructures } from "@/app/hooks/useStructures";
+import { useYearRange } from "@/app/hooks/useYearRange";
 import {
   convertObjectToArray,
   reverseObjectKeyValues,
 } from "@/app/utils/common.util";
+import {
+  isStructureAutorisee,
+  isStructureSubventionnee,
+} from "@/app/utils/structure.util";
 import { FileUploadCategory } from "@/types/file-upload.type";
 import { StructureState } from "@/types/structure.type";
+
+import { BudgetTables } from "./components/BudgetTables";
+import { Documents } from "./components/documents/Documents";
+import {
+  structureAutoriseesDocuments,
+  structureSubventionneesDocuments,
+} from "./components/documents/documentsStructures";
+import { IndicateursGeneraux } from "./components/IndicateursGeneraux";
+import {
+  anyFinanceFormValues,
+  autoriseeAvecCpomSchema,
+  autoriseeSchema,
+  basicSchema,
+  subventionneeAvecCpomSchema,
+  subventionneeSchema,
+} from "./validation/finalisationFinanceSchema";
 
 export default function FinalisationFinanceForm({
   currentStep,

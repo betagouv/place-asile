@@ -1,9 +1,10 @@
-import { useFileUpload } from "@/app/hooks/useFileUpload";
-import { getCategoryLabel } from "@/app/utils/file-upload.util";
-import { FileUpload, zFileUploadCategory } from "@/types/file-upload.type";
 import prettyBytes from "pretty-bytes";
 import { ReactElement } from "react";
 import z from "zod";
+
+import { useFileUpload } from "@/app/hooks/useFileUpload";
+import { getCategoryLabel } from "@/app/utils/file-upload.util";
+import { FileUpload, zFileUploadCategory } from "@/types/file-upload.type";
 
 export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
   const { getDownloadLink } = useFileUpload();

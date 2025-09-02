@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import * as Chartist from "chartist";
 import "chartist/dist/index.css";
+
+import * as Chartist from "chartist";
+import { useEffect, useRef } from "react";
 
 let pieChartId = 0;
 

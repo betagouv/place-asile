@@ -1,7 +1,8 @@
 import { renderHook } from "@testing-library/react";
-import { useFieldValidator } from "@/app/hooks/useFieldValidator";
+import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
-import { describe, it, expect, vi } from "vitest";
+
+import { useFieldValidator } from "@/app/hooks/useFieldValidator";
 
 describe("useFieldValidator", () => {
   // Create a test schema with French error messages

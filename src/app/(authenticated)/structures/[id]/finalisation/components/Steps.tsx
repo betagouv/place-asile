@@ -1,5 +1,4 @@
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
-import React from "react";
 
 export type Step = {
   title: string;

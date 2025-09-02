@@ -1,6 +1,7 @@
+import type { Metadata } from "next";
+
 import { Footer } from "@/app/components/common/Footer";
 import { Header } from "@/app/components/common/Header";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Place d'asile - Connexion",

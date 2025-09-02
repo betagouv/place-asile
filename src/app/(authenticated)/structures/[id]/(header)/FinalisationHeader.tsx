@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactElement } from "react";
+
 import { useStructureContext } from "../context/StructureClientContext";
 
 export const FinalisationHeader = (): ReactElement => {

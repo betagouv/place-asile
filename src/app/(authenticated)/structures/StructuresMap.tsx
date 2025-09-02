@@ -1,10 +1,12 @@
 "use client";
 
 import { ReactElement } from "react";
-import { StructureMarker } from "./StructureMarker";
+
+import { getRepartition } from "@/app/utils/structure.util";
+
 import { Structure } from "../../../types/structure.type";
 import { Map } from "../../components/map/Map";
-import { getRepartition } from "@/app/utils/structure.util";
+import { StructureMarker } from "./StructureMarker";
 
 const StructuresMap = ({ structures }: Props): ReactElement => {
   return (

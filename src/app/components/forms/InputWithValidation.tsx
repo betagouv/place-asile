@@ -1,16 +1,18 @@
 "use client";
 
+import Input from "@codegouvfr/react-dsfr/Input";
 import * as React from "react";
 import {
-  useController,
-  UseControllerProps,
   Control,
   FieldValues,
   Path,
+  useController,
+  UseControllerProps,
 } from "react-hook-form";
-import Input from "@codegouvfr/react-dsfr/Input";
-import InputSimple from "../ui/InputSimple";
+
 import { cn } from "@/app/utils/classname.util";
+
+import InputSimple from "../ui/InputSimple";
 
 export default function InputWithValidation<
   TFieldValues extends FieldValues = FieldValues

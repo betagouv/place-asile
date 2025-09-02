@@ -1,8 +1,10 @@
-import BarChart from "@/app/components/common/BarChart";
 import { ReactElement } from "react";
-import { useStructureContext } from "../context/StructureClientContext";
-import { Budget } from "@/types/budget.type";
+
+import BarChart from "@/app/components/common/BarChart";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { Budget } from "@/types/budget.type";
+
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const DotationChart = (): ReactElement => {
   const { structure } = useStructureContext();

@@ -1,7 +1,8 @@
+import { ChartColor } from "@codegouvfr/react-dsfr/Chart/chartWrapper";
 import dynamic from "next/dynamic";
 import { PropsWithChildren, ReactElement } from "react";
+
 import styles from "./MultiLineChart.module.css";
-import { ChartColor } from "@codegouvfr/react-dsfr/Chart/chartWrapper";
 
 const DsfrMultiLineChart = dynamic(
   () => import("@codegouvfr/react-dsfr/Chart/MultiLineChart"),

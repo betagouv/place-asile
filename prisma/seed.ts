@@ -1,11 +1,13 @@
+import { fakerFR as faker } from "@faker-js/faker";
 import { PrismaClient, StructureState } from "@prisma/client";
+
 import { StructureType } from "@/types/structure.type";
-import { wipeTables } from "./utils/wipe";
+
+import { createFakeOperateur } from "./seeders/operateur.seed";
+import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
 import { createFakeStuctureWithRelations } from "./seeders/structure.seed";
-import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
-import { fakerFR as faker } from "@faker-js/faker";
-import { createFakeOperateur } from "./seeders/operateur.seed";
+import { wipeTables } from "./utils/wipe";
 
 const prisma = new PrismaClient();
 
