@@ -113,7 +113,6 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                   <EmptyCell />
                 )}
               </td>
-              {/* TODO : vérifier la différence entre résultat net proposé et retenu */}
               <td className="py-2 px-4 text-center test-sm">
                 {budget.totalProduits && budget.totalCharges ? (
                   <>
@@ -124,14 +123,17 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                       )}
                       &nbsp;€
                     </span>
-                    <AmountBadge amount={budget.cumulResultatsNetsCPOM} />
+                    <AmountBadge amount={computeResultatNetRetenuParAutoriteTarifaire(
+                        budget.totalProduits,
+                        budget.totalCharges
+                      )} />
                   </>
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.dotationAccordee ? (
+                {budget.repriseEtat ? (
                   <>{budget.repriseEtat}&nbsp;€</>
                 ) : (
                   <EmptyCell />

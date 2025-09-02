@@ -51,14 +51,17 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
   };
 
   const computeCumulFondsDedies = (date: Date) => {
-    // TODO : use budgets first fonds dediés
-    let cumulFondsDedies = 0;
+    let currentYearFondsDedies = 0;
+    let previousYearFondsDedies = 0;
     budgets?.forEach((budget) => {
-      if (dayjs(budget.date).isBefore(dayjs(date))) {
-        cumulFondsDedies += budget.fondsDedies;
+      if (dayjs(budget.date).isSame(dayjs(date))) {
+        currentYearFondsDedies = budget.fondsDedies;
+      }
+      if (dayjs(budget.date).isSame(dayjs(date).subtract(1, "year"))) {
+        previousYearFondsDedies = budget.fondsDedies;
       }
     });
-    return cumulFondsDedies;
+    return currentYearFondsDedies + previousYearFondsDedies;
   };
 
   // TODO : provide aria labeled by
@@ -136,17 +139,26 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                   <EmptyCell />
                 )}
               </td>
-              {/* TODO : remplacer par DÉFICIT COMPENSÉ PAR L'ÉTAT */}
               <td className="py-2 px-4 text-center test-sm">
-                <EmptyCell />
+                {budget.excedentRecupere ? (
+                  <>{budget.repriseEtat}&nbsp;€</>
+                ) : (
+                  <EmptyCell />
+                )}
               </td>
-              {/* TODO : remplacer par EXCÉDENT RÉCUPÉRÉ TITRE DE RECETTE */}
               <td className="py-2 px-4 text-center test-sm">
-                <EmptyCell />
+               {budget.excedentRecupere ? (
+                  <>{budget.excedentRecupere}&nbsp;€</>
+                ) : (
+                  <EmptyCell />
+                )}
               </td>
-              {/* TODO : remplacer par EXCÉDENT DÉDUIT DOTATION À VENIR */}
               <td className="py-2 px-4 text-center test-sm">
-                <EmptyCell />
+                {budget.excedentDeduit ? (
+                  <>{budget.excedentDeduit}&nbsp;€</>
+                ) : (
+                  <EmptyCell />
+                )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.fondsDedies ? (
