@@ -1,10 +1,12 @@
 "use client";
 
 import { ReactElement, useState } from "react";
-import { useStructureContext } from "../context/StructureClientContext";
+
+import { CustomTag } from "@/app/components/ui/CustomTag";
 import { getRepartition } from "@/app/utils/structure.util";
 import { Repartition } from "@/types/adresse.type";
-import { CustomTag } from "@/app/components/ui/CustomTag";
+
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const AdressesViewer = (): ReactElement => {
   const [showAdresses, setShowAdresses] = useState(false);

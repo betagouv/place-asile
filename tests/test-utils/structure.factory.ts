@@ -1,12 +1,13 @@
+import { LatLngTuple } from "leaflet";
+
 import { Adresse } from "@/types/adresse.type";
-import { StructureTypologie } from "@/types/structure-typologie.type";
 import {
   PublicType,
   Structure,
   StructureState,
   StructureType,
 } from "@/types/structure.type";
-import { LatLngTuple } from "leaflet";
+import { StructureTypologie } from "@/types/structure-typologie.type";
 
 export const createStructure = ({
   adresseAdministrative,

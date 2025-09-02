@@ -1,5 +1,6 @@
-import { DEFAULT_PAGE_SIZE } from "@/constants";
 import { useState } from "react";
+
+import { DEFAULT_PAGE_SIZE } from "@/constants";
 
 export function usePagination<DataType>(data: DataType[]) {
   const [currentPage, setCurrentPage] = useState(0);

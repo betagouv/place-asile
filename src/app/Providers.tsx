@@ -1,10 +1,11 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
-import { PropsWithChildren, ReactElement, useEffect } from "react";
 // Import the zodErrorMap to apply the global error map
 import "@/app/utils/zodErrorMap";
+
 import { init } from "@socialgouv/matomo-next";
+import { SessionProvider } from "next-auth/react";
+import { PropsWithChildren, ReactElement, useEffect } from "react";
 
 export const Providers = ({ children }: PropsWithChildren): ReactElement => {
   useEffect(() => {

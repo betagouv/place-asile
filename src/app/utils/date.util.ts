@@ -1,5 +1,6 @@
-import dayjs from "dayjs";
 import "dayjs/locale/fr";
+
+import dayjs from "dayjs";
 
 dayjs.locale("fr");
 

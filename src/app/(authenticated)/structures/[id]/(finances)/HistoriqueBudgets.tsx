@@ -1,9 +1,11 @@
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
-import { ReactElement } from "react";
-import styles from "@/app/components/common/Accordion.module.css";
 import Table from "@codegouvfr/react-dsfr/Table";
-import { useStructureContext } from "../context/StructureClientContext";
+import { ReactElement } from "react";
+
+import styles from "@/app/components/common/Accordion.module.css";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const HistoriqueBudgets = (): ReactElement => {
   const { structure } = useStructureContext();

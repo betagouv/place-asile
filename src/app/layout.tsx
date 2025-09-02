@@ -3,12 +3,13 @@ import "./globals.css"; // IMPORTANT cet import doit rester en premier pour que 
 
 import type { Metadata } from "next";
 import { PropsWithChildren, Suspense } from "react";
-import { Providers } from "./Providers";
+
+import { DsfrProvider } from "./dsfr-bootstrap";
 import {
   DsfrHead,
   getHtmlAttributes,
 } from "./dsfr-bootstrap/server-only-index";
-import { DsfrProvider } from "./dsfr-bootstrap";
+import { Providers } from "./Providers";
 
 export const metadata: Metadata = {
   title: "Place d'asile",

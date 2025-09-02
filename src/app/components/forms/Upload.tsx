@@ -1,14 +1,15 @@
 "use client";
 
 import Button from "@codegouvfr/react-dsfr/Button";
-import autoAnimate from "@formkit/auto-animate";
-import React, { InputHTMLAttributes, useEffect, useRef, useState } from "react";
-import Loader from "@/app/components/ui/Loader";
-import { cn } from "@/app/utils/classname.util";
-import { FileUploadResponse, useFileUpload } from "@/app/hooks/useFileUpload";
-import prettyBytes from "pretty-bytes";
 import { Tooltip } from "@codegouvfr/react-dsfr/Tooltip";
+import autoAnimate from "@formkit/auto-animate";
+import prettyBytes from "pretty-bytes";
+import React, { InputHTMLAttributes, useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
+
+import Loader from "@/app/components/ui/Loader";
+import { FileUploadResponse, useFileUpload } from "@/app/hooks/useFileUpload";
+import { cn } from "@/app/utils/classname.util";
 
 const Upload = ({
   className,

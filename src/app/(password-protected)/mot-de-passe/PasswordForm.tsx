@@ -1,13 +1,15 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { ReactElement, useState } from "react";
-import { Input } from "@codegouvfr/react-dsfr/Input";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { verifyPassword } from "./actions";
-import { Header } from "@/app/components/common/Header";
-import { Footer } from "@/app/components/common/Footer";
+import { Input } from "@codegouvfr/react-dsfr/Input";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { ReactElement, useState } from "react";
+
+import { Footer } from "@/app/components/common/Footer";
+import { Header } from "@/app/components/common/Header";
+
+import { verifyPassword } from "./actions";
 
 export default function PasswordForm(): ReactElement {
   const [password, setPassword] = useState("");

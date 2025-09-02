@@ -1,12 +1,12 @@
 "use client";
 
-import { PropsWithChildren, ReactElement } from "react";
+import "leaflet/dist/leaflet.css";
+
+import { LatLngTuple } from "leaflet";
 import MarkerClusterGroup from "next-leaflet-cluster";
+import { PropsWithChildren, ReactElement } from "react";
 import { MapContainer } from "react-leaflet/MapContainer";
 import { TileLayer } from "react-leaflet/TileLayer";
-import { LatLngTuple } from "leaflet";
-
-import "leaflet/dist/leaflet.css";
 
 import { DEFAULT_MAP_ZOOM, FRANCE_CENTER } from "../../../constants";
 import { createGroupIcon } from "./GroupMarker";

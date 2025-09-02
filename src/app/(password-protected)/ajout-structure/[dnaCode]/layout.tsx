@@ -1,5 +1,6 @@
-import { Structure } from "@/types/structure.type";
 import { redirect } from "next/navigation";
+
+import { Structure } from "@/types/structure.type";
 
 export default async function RootLayout({
   children,

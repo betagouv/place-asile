@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
+
 import { StructureWithLatLng } from "@/types/structure.type";
+
 import { StructureClientProvider } from "./StructureClientContext";
 
 export type StructureContextType = {

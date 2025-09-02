@@ -2,22 +2,22 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-
-import { Identification } from "./components/Identification";
-import { StepResume } from "./components/StepResume";
-import { Adresses } from "./components/Adresses";
-import { TypePlaces } from "./components/TypePlaces";
-import { DocumentsFinanciers } from "./components/DocumentsFinanciers";
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { useStructures } from "@/app/hooks/useStructures";
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+
 import { AdressesFormValues } from "../../validation/adressesSchema";
 import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
 import { IdentificationFormValues } from "../../validation/identificationSchema";
 import { TypePlacesFormValues } from "../../validation/typePlacesSchema";
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import { Adresses } from "./components/Adresses";
+import { DocumentsFinanciers } from "./components/DocumentsFinanciers";
+import { Identification } from "./components/Identification";
+import { StepResume } from "./components/StepResume";
+import { TypePlaces } from "./components/TypePlaces";
 
 export default function StepVerification() {
   const { addStructure } = useStructures();

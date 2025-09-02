@@ -1,10 +1,10 @@
-import { NextAuthOptions, User, getServerSession } from "next-auth";
-import { v4 as uuidv4 } from "uuid";
 import {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse,
 } from "next";
+import { getServerSession,NextAuthOptions, User } from "next-auth";
+import { v4 as uuidv4 } from "uuid";
 
 export const authOptions: NextAuthOptions = {
   session: {

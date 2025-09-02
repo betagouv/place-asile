@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { ReactElement } from "react";
-import { NavigationMenu } from "./NavigationMenu";
-import { useStructureContext } from "../context/StructureClientContext";
-import { useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { ReactElement } from "react";
+import { useEffect, useRef } from "react";
+
 import { getOperateurLabel } from "@/app/utils/structure.util";
-import { FinalisationHeader } from "./FinalisationHeader";
 import { StructureState } from "@/types/structure.type";
+
+import { useStructureContext } from "../context/StructureClientContext";
+import { FinalisationHeader } from "./FinalisationHeader";
+import { NavigationMenu } from "./NavigationMenu";
 
 export function StructureHeader(): ReactElement | null {
   const { structure } = useStructureContext();

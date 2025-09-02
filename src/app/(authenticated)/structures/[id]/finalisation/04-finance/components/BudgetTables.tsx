@@ -1,13 +1,14 @@
-import { useStructureContext } from "../../../context/StructureClientContext";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+
+import { useStructureContext } from "../../../context/StructureClientContext";
+import { DetailAffectationTable } from "./DetailAffectationTable";
 import { StructureAutorisee } from "./gestion-budgetaire-tables/StructureAutorisee";
 import { StructureAutoriseeSansCpom } from "./gestion-budgetaire-tables/StructureAutoriseeSansCpom";
-import { StructureSubventionneeSansCpom } from "./gestion-budgetaire-tables/StructureSubventionneeSansCpom";
 import { StructureSubventionnee } from "./gestion-budgetaire-tables/StructureSubventionnee";
-import { DetailAffectationTable } from "./DetailAffectationTable";
+import { StructureSubventionneeSansCpom } from "./gestion-budgetaire-tables/StructureSubventionneeSansCpom";
 
 export const BudgetTables = () => {
   const { structure } = useStructureContext();

@@ -1,5 +1,6 @@
-import { Structure } from "@/types/structure.type";
 import { ChangeEvent, ReactElement } from "react";
+
+import { Structure } from "@/types/structure.type";
 
 export const SearchBar = ({
   structures,

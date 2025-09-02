@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { operateurCreationSchema } from "./operateur.schema";
+
 import { createOne, findBySearchTerm } from "./operateur.repository";
+import { operateurCreationSchema } from "./operateur.schema";
 
 export async function GET(request: NextRequest) {
   const search = request.nextUrl.searchParams.get("search");

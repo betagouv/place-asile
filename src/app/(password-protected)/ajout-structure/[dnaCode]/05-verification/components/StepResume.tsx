@@ -1,6 +1,7 @@
-import { cn } from "@/app/utils/classname.util";
 import Button from "@codegouvfr/react-dsfr/Button";
 import { PropsWithChildren, ReactElement } from "react";
+
+import { cn } from "@/app/utils/classname.util";
 
 export const StepResume = ({
   children,

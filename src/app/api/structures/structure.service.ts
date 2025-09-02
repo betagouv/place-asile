@@ -1,9 +1,10 @@
 import { Prisma, Structure } from "@prisma/client";
+
 import {
-  StructureWithLatLng,
-  StructureType,
   PublicType,
   StructureState,
+  StructureType,
+  StructureWithLatLng,
 } from "@/types/structure.type";
 
 export type StructureWithActivites = Prisma.StructureGetPayload<{

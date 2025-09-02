@@ -1,15 +1,17 @@
 "use client";
-import FormWrapper from "@/app/components/forms/FormWrapper";
-import React, { useMemo } from "react";
-import { TypePlacesSchema } from "../validation/typePlacesSchema";
-import { useParams, useSearchParams } from "next/navigation";
+import Notice from "@codegouvfr/react-dsfr/Notice";
 import Link from "next/link";
+import { useParams, useSearchParams } from "next/navigation";
+import React, { useMemo } from "react";
+
+import { Table } from "@/app/components/common/Table";
+import FormWrapper from "@/app/components/forms/FormWrapper";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { Table } from "@/app/components/common/Table";
-import Notice from "@codegouvfr/react-dsfr/Notice";
-import { getYearDate } from "@/app/utils/date.util";
 import { cn } from "@/app/utils/classname.util";
+import { getYearDate } from "@/app/utils/date.util";
+
+import { TypePlacesSchema } from "../validation/typePlacesSchema";
 
 export default function FormTypePlaces() {
   const params = useParams();

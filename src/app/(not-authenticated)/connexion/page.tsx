@@ -1,8 +1,8 @@
 "use client";
 
-import { ReactElement } from "react";
-import { signIn } from "next-auth/react";
 import { ProConnectButton } from "@codegouvfr/react-dsfr/ProConnectButton";
+import { signIn } from "next-auth/react";
+import { ReactElement } from "react";
 
 export default function Login(): ReactElement {
   const login = async (): Promise<void> => {

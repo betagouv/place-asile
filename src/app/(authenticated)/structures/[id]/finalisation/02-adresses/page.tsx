@@ -1,8 +1,9 @@
 "use client";
 import { ReactElement } from "react";
+
+import { useStructureContext } from "../../context/StructureClientContext";
 import Steps from "../components/Steps";
 import FinalisationAdressesForm from "./FinalisationAdressesForm";
-import { useStructureContext } from "../../context/StructureClientContext";
 
 export default function Adresses(): ReactElement {
   const { structure } = useStructureContext();

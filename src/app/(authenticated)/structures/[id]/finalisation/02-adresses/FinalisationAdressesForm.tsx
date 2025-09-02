@@ -1,19 +1,21 @@
 "use client";
 
+import Notice from "@codegouvfr/react-dsfr/Notice";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
+import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
-import { finalisationAdressesSchema } from "./validation/finalisationAdressesSchema";
-import { InformationBar } from "@/app/components/ui/InformationBar";
-import Notice from "@codegouvfr/react-dsfr/Notice";
-import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
-import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 import { SubmitError } from "@/app/components/SubmitError";
-import { useState } from "react";
+import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useStructures } from "@/app/hooks/useStructures";
-import { useRouter } from "next/navigation";
 import { StructureState } from "@/types/structure.type";
+
+import { finalisationAdressesSchema } from "./validation/finalisationAdressesSchema";
 
 export default function FinalisationAdressesForm({
   currentStep,

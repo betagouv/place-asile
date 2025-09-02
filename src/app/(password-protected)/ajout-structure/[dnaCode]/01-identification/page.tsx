@@ -1,6 +1,7 @@
 "use client";
 
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
+
 import FormIdentification from "@/app/(password-protected)/ajout-structure/forms/FormIdentification";
 
 export default function StepInfo() {

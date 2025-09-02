@@ -1,9 +1,10 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { Button } from "@codegouvfr/react-dsfr/Button";
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import { useSearchParams } from "next/navigation";
+
 import { CustomTag } from "@/app/components/ui/CustomTag";
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
 export default function ExisteDeja() {
   const searchParams = useSearchParams();

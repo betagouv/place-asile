@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { createOne, findAll, updateOne } from "./structure.repository";
-import { addCoordinates } from "./structure.service";
 import {
   structureCreationSchema,
   structureUpdateSchema,
 } from "./structure.schema";
+import { addCoordinates } from "./structure.service";
 
 export async function GET() {
   const structures = await findAll();

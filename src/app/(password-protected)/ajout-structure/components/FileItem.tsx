@@ -1,6 +1,7 @@
-import { useFileUpload } from "@/app/hooks/useFileUpload";
-import { ReactElement, useEffect, useState } from "react";
 import prettyBytes from "pretty-bytes";
+import { ReactElement, useEffect, useState } from "react";
+
+import { useFileUpload } from "@/app/hooks/useFileUpload";
 
 export const FileItem = ({ fileKey, title }: Props): ReactElement => {
   const [name, setName] = useState("");

@@ -1,14 +1,16 @@
-import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useFormContext } from "react-hook-form";
-import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import { ControleType } from "@/types/controle.type";
-import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import Button from "@codegouvfr/react-dsfr/Button";
 import Link from "next/link";
-import { FileUploadField } from "./UploadsByCategory";
-import { FileMetaData } from "../FinalisationQualiteForm";
+import { useFormContext } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
+
+import InputWithValidation from "@/app/components/forms/InputWithValidation";
+import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
+import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
+import { ControleType } from "@/types/controle.type";
+
+import { FileMetaData } from "../FinalisationQualiteForm";
+import { FileUploadField } from "./UploadsByCategory";
 
 export const UploadsByCategoryFile = ({
   field,

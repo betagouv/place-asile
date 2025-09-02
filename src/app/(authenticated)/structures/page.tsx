@@ -2,12 +2,14 @@
 
 import dynamic from "next/dynamic";
 import { ReactElement, useEffect, useMemo, useState } from "react";
+
+import Loader from "@/app/components/ui/Loader";
+import { Structure } from "@/types/structure.type";
+
 import { SegmentedControl } from "../../components/common/SegmentedControl";
 import { useStructures } from "../../hooks/useStructures";
-import { StructuresTable } from "./StructuresTable";
-import { Structure } from "@/types/structure.type";
 import { SearchBar } from "./SearchBar";
-import Loader from "@/app/components/ui/Loader";
+import { StructuresTable } from "./StructuresTable";
 
 export default function Structures(): ReactElement {
   const [structures, setStructures] = useState<Structure[]>([]);

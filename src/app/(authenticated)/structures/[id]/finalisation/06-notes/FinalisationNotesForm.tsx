@@ -1,17 +1,19 @@
-import { ReactElement, useState } from "react";
-import { useStructureContext } from "../../context/StructureClientContext";
-import { getCurrentStepData } from "../components/Steps";
-import { useStructures } from "@/app/hooks/useStructures";
+import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useRouter } from "next/navigation";
+import { ReactElement, useState } from "react";
+
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
-import { InformationBar } from "@/app/components/ui/InformationBar";
-import { finalisationNotesSchema } from "./validation/finalisationNotesSchema";
-import Notice from "@codegouvfr/react-dsfr/Notice";
 import { SubmitError } from "@/app/components/SubmitError";
-import { FieldSetNotes } from "./FieldSetNotes";
+import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useStructures } from "@/app/hooks/useStructures";
 import { StructureState } from "@/types/structure.type";
+
+import { useStructureContext } from "../../context/StructureClientContext";
+import { getCurrentStepData } from "../components/Steps";
+import { FieldSetNotes } from "./FieldSetNotes";
+import { finalisationNotesSchema } from "./validation/finalisationNotesSchema";
 
 export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
   const { structure, setStructure } = useStructureContext();

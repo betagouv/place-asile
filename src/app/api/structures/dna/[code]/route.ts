@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { findByDnaCode } from "../../structure.repository";
 import { addCoordinates } from "../../structure.service";
 

@@ -1,10 +1,12 @@
-import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
-import { ContactsViewer } from "./ContactsViewer";
-import { AdressesViewer } from "./AdressesViewer";
-import { useStructureContext } from "../context/StructureClientContext";
-import { PublicType } from "@/types/structure.type";
+
+import { Block } from "@/app/components/common/Block";
 import { getOperateurLabel } from "@/app/utils/structure.util";
+import { PublicType } from "@/types/structure.type";
+
+import { useStructureContext } from "../context/StructureClientContext";
+import { AdressesViewer } from "./AdressesViewer";
+import { ContactsViewer } from "./ContactsViewer";
 
 export const DefaultDescriptionBlock = (): ReactElement => {
   const { structure } = useStructureContext();

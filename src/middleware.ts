@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
 
 const proConnectMiddleware = withAuth(() => NextResponse.next(), {

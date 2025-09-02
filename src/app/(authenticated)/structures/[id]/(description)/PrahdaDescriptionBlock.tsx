@@ -1,9 +1,11 @@
-import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
-import { ContactsViewer } from "./ContactsViewer";
-import { PublicType, StructureType } from "@/types/structure.type";
-import { useStructureContext } from "../context/StructureClientContext";
+
+import { Block } from "@/app/components/common/Block";
 import { getOperateurLabel, getRepartition } from "@/app/utils/structure.util";
+import { PublicType, StructureType } from "@/types/structure.type";
+
+import { useStructureContext } from "../context/StructureClientContext";
+import { ContactsViewer } from "./ContactsViewer";
 
 export const PrahdaDescriptionBlock = (): ReactElement => {
   const { structure } = useStructureContext();

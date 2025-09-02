@@ -1,26 +1,28 @@
 "use client";
+import Notice from "@codegouvfr/react-dsfr/Notice";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { z } from "zod";
+
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
-import React, { useState } from "react";
-import { getCurrentStepData } from "../components/Steps";
-import { useStructureContext } from "../../context/StructureClientContext";
-import { finalisationQualiteSchemaSimple } from "./validation/FinalisationQualiteSchema";
-import { InformationBar } from "@/app/components/ui/InformationBar";
-import Notice from "@codegouvfr/react-dsfr/Notice";
-import { useStructures } from "@/app/hooks/useStructures";
-import { useRouter } from "next/navigation";
 import { SubmitError } from "@/app/components/SubmitError";
-import { FileUpload } from "@/types/file-upload.type";
-import { StructureState } from "@/types/structure.type";
-import { v4 as uuidv4 } from "uuid";
+import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useStructures } from "@/app/hooks/useStructures";
 import { isStructureSubventionnee } from "@/app/utils/structure.util";
-import { z } from "zod";
-import UploadsByCategory from "./components/UploadsByCategory";
+import { FileUpload } from "@/types/file-upload.type";
 import {
-  zDdetsFileUploadCategory,
   DdetsFileUploadCategory,
+  zDdetsFileUploadCategory,
 } from "@/types/file-upload.type";
+import { StructureState } from "@/types/structure.type";
+
+import { useStructureContext } from "../../context/StructureClientContext";
+import { getCurrentStepData } from "../components/Steps";
+import UploadsByCategory from "./components/UploadsByCategory";
+import { finalisationQualiteSchemaSimple } from "./validation/FinalisationQualiteSchema";
 
 export enum FileMetaData {
   DATE_TYPE,

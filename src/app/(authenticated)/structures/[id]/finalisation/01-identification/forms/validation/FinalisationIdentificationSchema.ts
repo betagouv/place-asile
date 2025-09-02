@@ -1,14 +1,15 @@
-import {
-  createDateFieldValidator,
-  createOptionalDateValidator,
-} from "@/app/utils/zodCustomFields";
 import z from "zod";
-import { PublicType, StructureType } from "@/types/structure.type";
+
+import { contactSchema } from "@/app/(password-protected)/ajout-structure/validation/contactSchema";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
-import { contactSchema } from "@/app/(password-protected)/ajout-structure/validation/contactSchema";
+import {
+  createDateFieldValidator,
+  createOptionalDateValidator,
+} from "@/app/utils/zodCustomFields";
+import { PublicType, StructureType } from "@/types/structure.type";
 
 export const finalisationIdentificationSchema = z
   .object({

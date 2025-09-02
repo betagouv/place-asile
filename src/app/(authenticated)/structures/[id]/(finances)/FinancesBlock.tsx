@@ -1,18 +1,20 @@
-import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
-import { BudgetExecutoire } from "./BudgetExecutoire";
-import { HistoriqueBudgets } from "./HistoriqueBudgets";
-import { DotationChart } from "./DotationChart";
-import { GestionBudgetaireAvecCpomTable } from "./GestionBudgetaireAvecCpomTable";
-import { DetailAffectations } from "./DetailAffectations";
-import { DocumentsAdministratifs } from "./DocumentsAdministratifs";
-import { useStructureContext } from "../context/StructureClientContext";
+
+import { Block } from "@/app/components/common/Block";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+
+import { useStructureContext } from "../context/StructureClientContext";
+import { BudgetExecutoire } from "./BudgetExecutoire";
+import { DetailAffectations } from "./DetailAffectations";
+import { DocumentsAdministratifs } from "./DocumentsAdministratifs";
+import { DotationChart } from "./DotationChart";
 import { GestionBudgetaireAutoriseeSansCpomTable } from "./GestionBudgetaireAutoriseeSansCpomTable";
+import { GestionBudgetaireAvecCpomTable } from "./GestionBudgetaireAvecCpomTable";
 import { GestionBudgetaireSubventionneeSansCpomTable } from "./GestionBudgetaireSubentionneeSansCpomTable";
+import { HistoriqueBudgets } from "./HistoriqueBudgets";
 
 export const FinancesBlock = (): ReactElement => {
   const { structure } = useStructureContext();

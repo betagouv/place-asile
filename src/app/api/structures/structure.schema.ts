@@ -1,13 +1,15 @@
+import { z } from "zod";
+
 import { Repartition } from "@/types/adresse.type";
 import { ControleType } from "@/types/controle.type";
+import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
 import {
   PublicType,
-  StructureType,
   StructureState,
+  StructureType,
 } from "@/types/structure.type";
-import { z } from "zod";
+
 import { frDateField, mandatoryFrDateField } from "./structure.util";
-import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
 
 const adresseTypologieSchema = z.object({
   placesAutorisees: z

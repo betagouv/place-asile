@@ -1,7 +1,8 @@
 "use client";
 import { ReactElement } from "react";
-import Steps from "../components/Steps";
+
 import { useStructureContext } from "../../context/StructureClientContext";
+import Steps from "../components/Steps";
 import { FinalisationNotesForm } from "./FinalisationNotesForm";
 
 export default function Notes(): ReactElement {

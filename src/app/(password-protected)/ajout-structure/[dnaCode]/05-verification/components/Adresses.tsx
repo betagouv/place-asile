@@ -1,8 +1,10 @@
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { AdressesSchema } from "../../../validation/adressesSchema";
 import { useParams } from "next/navigation";
 import { z } from "zod";
+
 import { CustomTag } from "@/app/components/ui/CustomTag";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+
+import { AdressesSchema } from "../../../validation/adressesSchema";
 
 type AdressesFormValues = z.infer<typeof AdressesSchema>;
 export const Adresses = () => {

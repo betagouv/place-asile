@@ -1,8 +1,9 @@
 "use client";
 
 import { ReactElement } from "react";
-import Steps from "../components/Steps";
+
 import { useStructureContext } from "../../context/StructureClientContext";
+import Steps from "../components/Steps";
 import FinalisationFinanceForm from "./FinalisationFinanceForm";
 
 export default function Finance(): ReactElement {

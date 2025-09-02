@@ -1,25 +1,26 @@
-import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
-import { Repartition } from "@/types/adresse.type";
-import { Controller, UseFormSetError } from "react-hook-form";
+import Button from "@codegouvfr/react-dsfr/Button";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
-import Button from "@codegouvfr/react-dsfr/Button";
-import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
-import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import { AdressImporter } from "./AdressImporter";
-
+import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
+import autoAnimate from "@formkit/auto-animate";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { Controller, UseFormSetError } from "react-hook-form";
 import {
   Control,
   UseFormGetValues,
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
+
+import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
+import InputWithValidation from "@/app/components/forms/InputWithValidation";
+import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
+import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
+import { Repartition } from "@/types/adresse.type";
+
 import { AdressesFormValues } from "../../validation/adressesSchema";
-import Link from "next/link";
-import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
-import { useEffect, useRef } from "react";
-import autoAnimate from "@formkit/auto-animate";
+import { AdressImporter } from "./AdressImporter";
 
 interface AdressesListProps {
   watch: UseFormWatch<AdressesFormValues>;

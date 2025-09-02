@@ -1,23 +1,25 @@
 "use client";
 // TODO @ledjay : split this file for code clarity
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
-import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useEffect, useState, useRef, useMemo } from "react";
-import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import { PublicType, StructureType } from "@/types/structure.type";
+import Notice from "@codegouvfr/react-dsfr/Notice";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
+import autoAnimate from "@formkit/auto-animate";
 import { useParams, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import FormWrapper from "@/app/components/forms/FormWrapper";
+import InputWithValidation from "@/app/components/forms/InputWithValidation";
+import { OperateurAutocomplete } from "@/app/components/forms/OperateurAutocomplete";
+import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import { PublicType, StructureType } from "@/types/structure.type";
+
 import {
   IdentificationFormValues,
   IdentificationSchema,
 } from "../validation/identificationSchema";
-import FormWrapper from "@/app/components/forms/FormWrapper";
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import autoAnimate from "@formkit/auto-animate";
-import Notice from "@codegouvfr/react-dsfr/Notice";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
-import { OperateurAutocomplete } from "@/app/components/forms/OperateurAutocomplete";
 
 export default function FormIdentification() {
   const params = useParams();

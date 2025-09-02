@@ -1,16 +1,17 @@
 "use client";
 
 import { ReactElement } from "react";
+
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
-import { TypePlaceHistory } from "./TypePlaceHistory";
-import { TypePlaceCharts } from "./TypePlaceCharts";
-
-import { useStructureContext } from "../context/StructureClientContext";
 import {
   getCurrentPlacesLogementsSociaux,
   getCurrentPlacesQpv,
 } from "@/app/utils/structure.util";
+
+import { useStructureContext } from "../context/StructureClientContext";
+import { TypePlaceCharts } from "./TypePlaceCharts";
+import { TypePlaceHistory } from "./TypePlaceHistory";
 
 export const DefaultTypePlaceBlock = (): ReactElement => {
   const { structure } = useStructureContext();

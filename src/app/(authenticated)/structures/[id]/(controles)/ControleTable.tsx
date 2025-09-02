@@ -1,9 +1,11 @@
-import { ReactElement } from "react";
-import { Table } from "@codegouvfr/react-dsfr/Table";
-import { ControleType } from "@/types/controle.type";
-import { useStructureContext } from "../context/StructureClientContext";
 import Button from "@codegouvfr/react-dsfr/Button";
+import { Table } from "@codegouvfr/react-dsfr/Table";
+import { ReactElement } from "react";
+
 import { useFileUpload } from "@/app/hooks/useFileUpload";
+import { ControleType } from "@/types/controle.type";
+
+import { useStructureContext } from "../context/StructureClientContext";
 
 export const ControleTable = (): ReactElement => {
   const { structure } = useStructureContext();

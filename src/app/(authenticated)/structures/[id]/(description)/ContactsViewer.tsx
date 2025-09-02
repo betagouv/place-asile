@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactElement, useState } from "react";
+
 import { useStructureContext } from "../context/StructureClientContext";
 
 export const ContactsViewer = (): ReactElement => {

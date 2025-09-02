@@ -1,12 +1,8 @@
 import { FileUploadCategory, Prisma, Structure } from "@prisma/client";
-import prisma from "../../../../lib/prisma";
+
 import { getCoordinates } from "@/app/utils/adresse.util";
-import {
-  convertToControleType,
-  convertToPublicType,
-  convertToStructureType,
-  handleAdresses,
-} from "./structure.util";
+
+import prisma from "../../../../lib/prisma";
 import {
   CreateStructure,
   UpdateAdresse,
@@ -17,6 +13,12 @@ import {
   UpdateStructure,
   UpdateStructureTypologie,
 } from "./structure.types";
+import {
+  convertToControleType,
+  convertToPublicType,
+  convertToStructureType,
+  handleAdresses,
+} from "./structure.util";
 
 export const findAll = async (): Promise<Structure[]> => {
   return prisma.structure.findMany({

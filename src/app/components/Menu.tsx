@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactElement } from "react";
+
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+
 import { ExternalLink } from "./common/ExternalLink";
 import { Logo } from "./Logo";
 import { User } from "./User";
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+
 export const Menu = (): ReactElement => {
   const pathname = usePathname();
 

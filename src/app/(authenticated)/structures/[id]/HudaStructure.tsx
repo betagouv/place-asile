@@ -1,14 +1,15 @@
 import { ReactElement } from "react";
-import { DefaultDescriptionBlock } from "./(description)/DefaultDescriptionBlock";
+
+import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
 // import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
+import { DefaultDescriptionBlock } from "./(description)/DefaultDescriptionBlock";
+import { FinancesBlock } from "./(finances)/FinancesBlock";
+import { NotesBlock } from "./(notes)/NotesBlock";
 // import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock";
 import { DefaultTypePlaceBlock } from "./(type-places)/DefaultTypePlaceBlock";
-import { NotesBlock } from "./(notes)/NotesBlock";
 import { Section } from "./components/Section";
-import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
 import { useStructureContext } from "./context/StructureClientContext";
-import { FinancesBlock } from "./(finances)/FinancesBlock";
 
 export const HudaStructure = (): ReactElement => {
   const { structure } = useStructureContext();

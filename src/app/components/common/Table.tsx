@@ -1,5 +1,6 @@
+import { Fragment, PropsWithChildren, ReactElement, useRef } from "react";
+
 import { cn } from "@/app/utils/classname.util";
-import { PropsWithChildren, ReactElement, Fragment, useRef } from "react";
 
 export const Table = ({
   children,

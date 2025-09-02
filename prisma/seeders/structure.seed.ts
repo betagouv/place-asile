@@ -1,25 +1,25 @@
 import { fakerFR as faker } from "@faker-js/faker";
 import {
+  Budget,
+  Contact,
+  FileUpload,
   Prisma,
   PublicType,
   Structure,
-  Contact,
-  StructureTypologie,
-  Budget,
   StructureState,
-  FileUpload,
+  StructureTypologie,
 } from "@prisma/client";
 
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { StructureType } from "@/types/structure.type";
 
-import { createFakeContact } from "./contact.seed";
 import { AdresseWithTypologies, createFakeAdresses } from "./adresse.seed";
-import { ControleWithFileUploads, createFakeControle } from "./controle.seed";
-import { createFakeStructureTypologie } from "./structure-typologie.seed";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { createFakeBudget } from "./budget.seed";
-import { generateDatePair } from "./seed-util";
+import { createFakeContact } from "./contact.seed";
+import { ControleWithFileUploads, createFakeControle } from "./controle.seed";
 import { createFakeFileUpload } from "./file-upload.seed";
+import { generateDatePair } from "./seed-util";
+import { createFakeStructureTypologie } from "./structure-typologie.seed";
 
 let counter = 1;
 

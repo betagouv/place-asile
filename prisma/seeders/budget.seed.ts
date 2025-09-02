@@ -1,5 +1,5 @@
-import { Budget } from "@prisma/client";
 import { fakerFR as faker } from "@faker-js/faker";
+import { Budget } from "@prisma/client";
 
 export const createFakeBudget = ({
   year,

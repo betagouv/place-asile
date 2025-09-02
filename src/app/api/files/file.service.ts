@@ -1,10 +1,11 @@
+import { Client } from "minio";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   ALLOWED_MIME_TYPES,
   FILE_UPLOAD_EXPIRATION_DELAY,
   MAX_FILE_SIZE,
 } from "@/constants";
-import { Client } from "minio";
-import { v4 as uuidv4 } from "uuid";
 
 const minioClient = new Client({
   endPoint: process.env.S3_URL!,

@@ -1,5 +1,6 @@
-import { Repartition } from "@/types/adresse.type";
 import z from "zod";
+
+import { Repartition } from "@/types/adresse.type";
 
 const adresseSchema = z.object({
   adresseComplete: z.string().nonempty(),

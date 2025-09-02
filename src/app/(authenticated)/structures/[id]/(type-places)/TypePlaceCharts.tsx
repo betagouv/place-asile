@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
-import { getPercentage } from "@/app/utils/common.util";
+
 import PieChart from "@/app/components/common/PieChart";
+import { getPercentage } from "@/app/utils/common.util";
 
 export const TypePlaceCharts = ({
   placesAutorisees,

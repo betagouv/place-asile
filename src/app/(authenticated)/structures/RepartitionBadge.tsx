@@ -1,6 +1,8 @@
 import { ReactElement } from "react";
-import { Badge, BadgeType } from "../../components/common/Badge";
+
 import { Repartition } from "@/types/adresse.type";
+
+import { Badge, BadgeType } from "../../components/common/Badge";
 
 export const RepartitionBadge = ({ repartition }: Props): ReactElement => {
   const getBadgeType = (repartition: Repartition): BadgeType => {

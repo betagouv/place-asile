@@ -1,5 +1,5 @@
-import { Contact } from "@prisma/client";
 import { fakerFR as faker } from "@faker-js/faker";
+import { Contact } from "@prisma/client";
 
 export const createFakeContact = (): Omit<
   Contact,

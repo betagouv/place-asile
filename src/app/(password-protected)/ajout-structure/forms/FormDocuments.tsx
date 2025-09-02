@@ -1,25 +1,25 @@
 "use client";
-import { useMemo, useState } from "react";
+import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
 import { Controller } from "react-hook-form";
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
+import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import {
-  DocumentsSchemaStrict,
-  DocumentsSchemaFlexible,
-} from "../validation/documentsSchema";
-
-import { Year } from "../components/Year";
-import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
-import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+
+import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "../[dnaCode]/04-documents/documents";
-import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
+import { Year } from "../components/Year";
+import {
+  DocumentsSchemaFlexible,
+  DocumentsSchemaStrict,
+} from "../validation/documentsSchema";
 import { IdentificationFormValues } from "../validation/identificationSchema";
 
 export default function FormDocuments() {

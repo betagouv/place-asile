@@ -1,9 +1,11 @@
+import Notice from "@codegouvfr/react-dsfr/Notice";
+import React, { useEffect, useMemo, useRef } from "react";
+import { useFormContext } from "react-hook-form";
+
+import { Table } from "@/app/components/common/Table";
 import { cn } from "@/app/utils/classname.util";
 import { getYearDate } from "@/app/utils/date.util";
-import Notice from "@codegouvfr/react-dsfr/Notice";
-import { Table } from "@/app/components/common/Table";
-import { useFormContext } from "react-hook-form";
-import React, { useMemo, useEffect, useRef } from "react";
+
 import InputWithValidation from "../../InputWithValidation";
 
 export const FieldSetTypePlaces = () => {

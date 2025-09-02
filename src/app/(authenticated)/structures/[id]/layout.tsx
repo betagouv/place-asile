@@ -1,8 +1,10 @@
-import { StructureWithLatLng } from "@/types/structure.type";
-import { StructureProvider } from "./context/StructureContext";
-import { notFound } from "next/navigation";
-import { StructureHeader } from "./(header)/StructureHeader";
 import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
+import { notFound } from "next/navigation";
+
+import { StructureWithLatLng } from "@/types/structure.type";
+
+import { StructureHeader } from "./(header)/StructureHeader";
+import { StructureProvider } from "./context/StructureContext";
 
 async function getStructure(id: string): Promise<StructureWithLatLng> {
   try {

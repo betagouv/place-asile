@@ -1,12 +1,14 @@
+import Input from "@codegouvfr/react-dsfr/Input";
 import { ReactElement, useEffect, useState } from "react";
-import { Autocomplete } from "./Autocomplete";
-import { useOperateurSuggestion } from "@/app/hooks/useOperateurSuggestion";
+import { useController, useFormContext } from "react-hook-form";
+
 import {
   AutocompleteSuggestion,
   useAutocomplete,
 } from "@/app/hooks/useAutocomplete";
-import Input from "@codegouvfr/react-dsfr/Input";
-import { useController, useFormContext } from "react-hook-form";
+import { useOperateurSuggestion } from "@/app/hooks/useOperateurSuggestion";
+
+import { Autocomplete } from "./Autocomplete";
 
 export const OperateurAutocomplete = (): ReactElement => {
   const { setValue, control } = useFormContext();

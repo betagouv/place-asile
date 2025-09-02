@@ -1,8 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { ReactElement, useEffect } from "react";
 
 export default function Deconnexion(): ReactElement {

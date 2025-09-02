@@ -1,5 +1,7 @@
-import { Block } from "@/app/components/common/Block";
 import { ReactElement } from "react";
+
+import { Block } from "@/app/components/common/Block";
+
 import { useStructureContext } from "../context/StructureClientContext";
 
 export const NotesBlock = (): ReactElement => {

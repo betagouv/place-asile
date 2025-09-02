@@ -1,6 +1,7 @@
-import { ReactElement } from "react";
-import { AccordionTitle } from "@/app/components/AccordionTitle";
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
+import { ReactElement } from "react";
+
+import { AccordionTitle } from "@/app/components/AccordionTitle";
 import styles from "@/app/components/common/Accordion.module.css";
 
 export const ControleAccordion = ({

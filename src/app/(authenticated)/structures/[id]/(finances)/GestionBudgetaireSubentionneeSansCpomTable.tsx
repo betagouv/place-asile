@@ -1,8 +1,10 @@
-import { ReactElement } from "react";
-import { EmptyCell } from "@/app/components/common/EmptyCell";
-import { AmountBadge } from "./AmountBadge";
-import { useStructureContext } from "../context/StructureClientContext";
 import dayjs from "dayjs";
+import { ReactElement } from "react";
+
+import { EmptyCell } from "@/app/components/common/EmptyCell";
+
+import { useStructureContext } from "../context/StructureClientContext";
+import { AmountBadge } from "./AmountBadge";
 
 export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
   const { structure } = useStructureContext();

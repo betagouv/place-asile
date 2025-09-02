@@ -1,8 +1,10 @@
-import { within, render, screen } from "@testing-library/react";
-import { StructuresTable } from "../../../src/app/(authenticated)/structures/StructuresTable";
-import { createStructure } from "../../test-utils/structure.factory";
+import { render, screen, within } from "@testing-library/react";
+
 import { Structure } from "@/types/structure.type";
+
+import { StructuresTable } from "../../../src/app/(authenticated)/structures/StructuresTable";
 import { createAdresse } from "../../test-utils/adresse.factory";
+import { createStructure } from "../../test-utils/structure.factory";
 import { createStructureTypologie } from "../../test-utils/structure-typologie.factory";
 
 describe("StructuresTable", () => {

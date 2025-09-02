@@ -1,5 +1,6 @@
-import { zFileUploadCategory } from "@/types/file-upload.type";
 import z from "zod";
+
+import { zFileUploadCategory } from "@/types/file-upload.type";
 
 export const getCategoryLabel = (
   category: z.infer<typeof zFileUploadCategory> | undefined

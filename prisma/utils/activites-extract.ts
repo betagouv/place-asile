@@ -1,5 +1,6 @@
-import xlsx from "node-xlsx";
 import { Activite } from "@prisma/client";
+import xlsx from "node-xlsx";
+
 import { ActivitesMetadata, activitesMetadata } from "./activites-metadata";
 
 const getPlacesVacantes = (

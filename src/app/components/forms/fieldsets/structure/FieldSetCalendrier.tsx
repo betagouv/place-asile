@@ -1,8 +1,9 @@
-import { isStructureAutorisee } from "@/app/utils/structure.util";
-import React from "react";
-import InputWithValidation from "../../InputWithValidation";
-import { useFormContext } from "react-hook-form";
 import Notice from "@codegouvfr/react-dsfr/Notice";
+import { useFormContext } from "react-hook-form";
+
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+
+import InputWithValidation from "../../InputWithValidation";
 
 export const FieldSetCalendrier = () => {
   const { control, watch } = useFormContext();

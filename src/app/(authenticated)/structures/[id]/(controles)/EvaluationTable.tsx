@@ -1,6 +1,7 @@
-import { Evaluation } from "@/types/evaluation.type";
-import { ReactElement } from "react";
 import { Table } from "@codegouvfr/react-dsfr/Table";
+import { ReactElement } from "react";
+
+import { Evaluation } from "@/types/evaluation.type";
 
 export const EvaluationTable = ({ evaluations }: Props): ReactElement => {
   const getEvaluations = () => {

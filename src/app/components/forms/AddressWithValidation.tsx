@@ -1,20 +1,22 @@
 "use client";
 
+import Input from "@codegouvfr/react-dsfr/Input";
+import { useEffect, useState } from "react";
 import {
-  useController,
-  UseControllerProps,
   Control,
   FieldValues,
   Path,
+  useController,
+  UseControllerProps,
 } from "react-hook-form";
-import Input from "@codegouvfr/react-dsfr/Input";
-import { Autocomplete } from "./Autocomplete";
-import {
-  useAutocomplete,
-  AutocompleteSuggestion,
-} from "@/app/hooks/useAutocomplete";
+
 import { useAddressSuggestion } from "@/app/hooks/useAddressSuggestion";
-import { useEffect, useState } from "react";
+import {
+  AutocompleteSuggestion,
+  useAutocomplete,
+} from "@/app/hooks/useAutocomplete";
+
+import { Autocomplete } from "./Autocomplete";
 
 export default function AddressWithValidation<
   TFieldValues extends FieldValues = FieldValues

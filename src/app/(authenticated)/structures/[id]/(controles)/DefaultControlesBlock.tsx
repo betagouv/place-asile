@@ -1,13 +1,15 @@
+import { ReactElement } from "react";
+
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
-import { ReactElement } from "react";
-// import { EvaluationTable } from "./EvaluationTable";
-import { ControleTable } from "./ControleTable";
 // import { EIGTable } from "./EIGTable";
 import { getLastVisitInMonths } from "@/app/utils/structure.util";
+
+import { useStructureContext } from "../context/StructureClientContext";
 // import { DemarchesSimplifieesInfo } from "./DemarchesSimplifiesInfo";
 import { ControleAccordion } from "./ControleAccordion";
-import { useStructureContext } from "../context/StructureClientContext";
+// import { EvaluationTable } from "./EvaluationTable";
+import { ControleTable } from "./ControleTable";
 
 export const DefaultControlesBlock = (): ReactElement => {
   const { structure } = useStructureContext();

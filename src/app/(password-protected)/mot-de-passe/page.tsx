@@ -1,4 +1,5 @@
 import { ReactElement, Suspense } from "react";
+
 import PasswordForm from "./PasswordForm";
 
 function PasswordFormWrapper(): ReactElement {

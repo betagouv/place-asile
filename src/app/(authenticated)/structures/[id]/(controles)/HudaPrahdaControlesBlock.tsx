@@ -1,12 +1,14 @@
+import { ReactElement } from "react";
+
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
-import { ReactElement } from "react";
-import { EvaluationTable } from "./EvaluationTable";
-import { EIGTable } from "./EIGTable";
 import { getLastVisitInMonths } from "@/app/utils/structure.util";
-import { DemarchesSimplifieesInfo } from "./DemarchesSimplifiesInfo";
-import { ControleAccordion } from "./ControleAccordion";
+
 import { useStructureContext } from "../context/StructureClientContext";
+import { ControleAccordion } from "./ControleAccordion";
+import { DemarchesSimplifieesInfo } from "./DemarchesSimplifiesInfo";
+import { EIGTable } from "./EIGTable";
+import { EvaluationTable } from "./EvaluationTable";
 
 export const HudaPrahdaControlesBlock = (): ReactElement => {
   const { structure } = useStructureContext();

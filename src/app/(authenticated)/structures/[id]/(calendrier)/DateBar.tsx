@@ -1,8 +1,10 @@
 "use client";
 
-import { ReactElement } from "react";
 import dayjs from "dayjs";
+import { ReactElement } from "react";
+
 import { Badge } from "@/app/components/common/Badge";
+
 import styles from "./DateBar.module.css";
 
 export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {

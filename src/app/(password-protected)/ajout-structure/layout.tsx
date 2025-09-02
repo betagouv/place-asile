@@ -1,7 +1,8 @@
 "use client";
 
-import { Logo } from "@/app/components/Logo";
 import { useParams, useSearchParams } from "next/navigation";
+
+import { Logo } from "@/app/components/Logo";
 
 export default function RootLayout({
   children,

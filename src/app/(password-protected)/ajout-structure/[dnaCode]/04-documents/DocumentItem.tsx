@@ -1,11 +1,13 @@
 import { ReactElement } from "react";
-import { UploadItem } from "../../components/UploadItem";
+import { Control, UseFormRegister } from "react-hook-form";
+import z from "zod";
+
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearDate } from "@/app/utils/date.util";
-import { Control, UseFormRegister } from "react-hook-form";
-import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
 import { zFileUploadCategory } from "@/types/file-upload.type";
-import z from "zod";
+
+import { UploadItem } from "../../components/UploadItem";
+import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
 
 export const DocumentItem = ({
   year,

@@ -1,16 +1,18 @@
 "use client";
-import FormWrapper from "@/app/components/forms/FormWrapper";
-import React, { useState, useEffect, useMemo } from "react";
-import { AdressesSchema } from "../validation/adressesSchema";
-import { useParams, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
-import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import { Repartition } from "@/types/adresse.type";
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
+import Link from "next/link";
+import { useParams, useSearchParams } from "next/navigation";
+import React, { useEffect, useMemo, useState } from "react";
+
+import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
+import FormWrapper from "@/app/components/forms/FormWrapper";
+import InputWithValidation from "@/app/components/forms/InputWithValidation";
+import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { Repartition } from "@/types/adresse.type";
+
 import AdressesList from "../[dnaCode]/02-adresses/AdressesList";
+import { AdressesSchema } from "../validation/adressesSchema";
 
 export default function FormAdresses() {
   const params = useParams();

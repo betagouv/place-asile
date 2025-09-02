@@ -1,5 +1,6 @@
-import { Adresse, AdresseTypologie, Repartition } from "@prisma/client";
 import { fakerFR as faker } from "@faker-js/faker";
+import { Adresse, AdresseTypologie, Repartition } from "@prisma/client";
+
 import { createFakeAdresseTypologie } from "./adresse-typologie.seed";
 
 export type AdresseWithTypologies = Adresse & {

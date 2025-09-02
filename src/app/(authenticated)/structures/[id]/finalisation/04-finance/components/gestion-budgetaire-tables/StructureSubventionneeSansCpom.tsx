@@ -1,11 +1,12 @@
+import Button from "@codegouvfr/react-dsfr/Button";
+import Input from "@codegouvfr/react-dsfr/Input";
+import { createModal } from "@codegouvfr/react-dsfr/Modal/Modal";
+import { useRef, useState } from "react";
+import { useForm, useFormContext } from "react-hook-form";
+
+import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useYearRange } from "@/app/hooks/useYearRange";
-import { useFormContext, useForm } from "react-hook-form";
-import { Table } from "@/app/components/common/Table";
-import Button from "@codegouvfr/react-dsfr/Button";
-import { createModal } from "@codegouvfr/react-dsfr/Modal/Modal";
-import Input from "@codegouvfr/react-dsfr/Input";
-import { useRef, useState } from "react";
 
 const modal = createModal({
   id: "commentaire-modal",

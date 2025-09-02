@@ -1,17 +1,19 @@
+import { useParams } from "next/navigation";
+import { ReactElement, useMemo } from "react";
+import { z } from "zod";
+
+import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+
+import { FileItem } from "../../../components/FileItem";
+import { Year } from "../../../components/Year";
 import { DocumentsSchemaFlexible } from "../../../validation/documentsSchema";
 import { IdentificationFormValues } from "../../../validation/identificationSchema";
-import { useParams } from "next/navigation";
-import { z } from "zod";
-import { ReactElement, useMemo } from "react";
-import { Year } from "../../../components/Year";
-import { FileItem } from "../../../components/FileItem";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "../../04-documents/documents";
-import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
 
 type DocumentsFinanciersFormValues = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsFinanciers = (): ReactElement => {

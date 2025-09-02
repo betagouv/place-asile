@@ -1,3 +1,7 @@
+import "dayjs/locale/fr";
+
+import dayjs from "dayjs";
+
 import {
   formatDate,
   formatForCharts,
@@ -6,8 +10,6 @@ import {
   getYearDate,
   parseFrDate,
 } from "@/app/utils/date.util";
-import dayjs from "dayjs";
-import "dayjs/locale/fr";
 
 dayjs.locale("fr");
 

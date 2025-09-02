@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { cn } from "@/app/utils/classname.util";
+
 import { AutocompleteSuggestion } from "@/app/hooks/useAutocomplete";
+import { cn } from "@/app/utils/classname.util";
 
 export const Autocomplete = function Autocomplete<
   T extends AutocompleteSuggestion

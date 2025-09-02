@@ -1,14 +1,15 @@
 import { LatLngTuple } from "leaflet";
+
+import { Activite } from "./activite.type";
+import { Adresse } from "./adresse.type";
+import { Budget } from "./budget.type";
+import { Contact } from "./contact.type";
 import { Controle } from "./controle.type";
 import { Evaluation } from "./evaluation.type";
 import { EvenementIndesirableGrave } from "./evenement-indesirable-grave.type";
-import { Adresse } from "./adresse.type";
-import { Contact } from "./contact.type";
-import { StructureTypologie } from "./structure-typologie.type";
-import { Activite } from "./activite.type";
 import { FileUpload } from "./file-upload.type";
-import { Budget } from "./budget.type";
 import { Operateur } from "./operateur.type";
+import { StructureTypologie } from "./structure-typologie.type";
 
 export type Structure = {
   id: number;

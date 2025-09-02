@@ -1,11 +1,13 @@
-import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
 import z from "zod";
-import { PublicType, StructureType } from "@/types/structure.type";
-import { contactSchema } from "./contactSchema";
+
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
+import { PublicType, StructureType } from "@/types/structure.type";
+
+import { contactSchema } from "./contactSchema";
 
 export const IdentificationSchema = z
   .object({

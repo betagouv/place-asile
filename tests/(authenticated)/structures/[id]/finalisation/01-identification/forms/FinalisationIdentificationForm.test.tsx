@@ -1,11 +1,13 @@
-import { render, screen, fireEvent, within, act } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { useRouter } from "next/navigation";
+import { Mock } from "vitest";
+
+import { StructureClientProvider } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import FinalisationIdentificationForm from "@/app/(authenticated)/structures/[id]/finalisation/01-identification/forms/FinalisationIdentificationForm";
+import { PublicType, StructureState } from "@/types/structure.type";
+
 import { createStructure } from "../../../../../../../tests/test-utils/structure.factory";
 import { createContact } from "../../../../../../test-utils/contact.factory";
-import { PublicType, StructureState } from "@/types/structure.type";
-import { Mock } from "vitest";
-import { StructureClientProvider } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
-import { useRouter } from "next/navigation";
 
 vitest.mock("next/navigation", () => ({
   useRouter: vitest.fn(),

@@ -1,6 +1,8 @@
-import { Block } from "@/app/components/common/Block";
-import { DateBars } from "@/app/(authenticated)/structures/[id]/(calendrier)/DateBars";
 import { ReactElement } from "react";
+
+import { DateBars } from "@/app/(authenticated)/structures/[id]/(calendrier)/DateBars";
+import { Block } from "@/app/components/common/Block";
+
 import { useStructureContext } from "../context/StructureClientContext";
 
 export const CalendrierBlock = (): ReactElement => {

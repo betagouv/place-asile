@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useAutocomplete<T extends AutocompleteSuggestion>(
   fetchSuggestions: (query: string) => Promise<T[]>,

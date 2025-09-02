@@ -1,5 +1,6 @@
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import { ReactElement } from "react";
+
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
 export const SubmitError = ({
   structureDnaCode,
