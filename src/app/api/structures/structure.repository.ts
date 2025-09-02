@@ -1,9 +1,8 @@
-import { Prisma, Structure } from "@prisma/client";
+import { FileUploadCategory, Prisma, Structure } from "@prisma/client";
 import prisma from "../../../../lib/prisma";
 import { getCoordinates } from "@/app/utils/adresse.util";
 import {
   convertToControleType,
-  convertToFileUploadCategory,
   convertToPublicType,
   convertToStructureType,
   handleAdresses,
@@ -81,7 +80,12 @@ export const findOne = async (id: number): Promise<Structure | null> => {
         },
       },
       evenementsIndesirablesGraves: true,
-      fileUploads: true,
+      fileUploads: {
+        include: {
+          parentFileUpload: true,
+          childFileUploads: true,
+        },
+      },
       budgets: {
         orderBy: {
           date: "desc",
@@ -221,7 +225,7 @@ export const createOne = async (
         where: { key: fileUpload.key },
         data: {
           date: fileUpload.date,
-          category: convertToFileUploadCategory(fileUpload.category),
+          category: (fileUpload.category as FileUploadCategory) || null,
           structureDnaCode: structure.dnaCode,
         },
       })
@@ -318,11 +322,12 @@ const updateFileUploads = async (
         where: { key: fileUpload.key },
         data: {
           date: fileUpload.date,
-          category: convertToFileUploadCategory(fileUpload.category),
+          category: (fileUpload.category as FileUploadCategory) || null,
           startDate: fileUpload.startDate,
           endDate: fileUpload.endDate,
           categoryName: fileUpload.categoryName,
           structureDnaCode,
+          parentFileUploadId: fileUpload.parentFileUploadId,
         },
       })
     )

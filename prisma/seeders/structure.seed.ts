@@ -2,14 +2,16 @@ import { fakerFR as faker } from "@faker-js/faker";
 import {
   Prisma,
   PublicType,
-  StructureType,
   Structure,
   Contact,
   StructureTypologie,
   Budget,
-  FileUpload,
   StructureState,
+  FileUpload,
 } from "@prisma/client";
+
+import { StructureType } from "@/types/structure.type";
+
 import { createFakeContact } from "./contact.seed";
 import { AdresseWithTypologies, createFakeAdresses } from "./adresse.seed";
 import { ControleWithFileUploads, createFakeControle } from "./controle.seed";
@@ -92,7 +94,10 @@ type StructureWithRelations = Structure & {
   controles: Omit<ControleWithFileUploads, "id" | "structureDnaCode">[];
   structureTypologies: Omit<StructureTypologie, "id" | "structureDnaCode">[];
   budgets: Omit<Budget, "id" | "structureDnaCode">[];
-  fileUploads: Omit<FileUpload, "id" | "structureDnaCode" | "controleId">[];
+  fileUploads: Omit<
+    FileUpload,
+    "id" | "structureDnaCode" | "controleId" | "parentFileUploadId"
+  >[];
 };
 
 export const createFakeStuctureWithRelations = ({
@@ -102,24 +107,24 @@ export const createFakeStuctureWithRelations = ({
 }: FakeStructureOptions): Omit<StructureWithRelations, "id"> => {
   const fakeStructure = createFakeStructure({ cpom, type, state });
   const isAutorisee = isStructureAutorisee(type);
+  const placesAutorisees = faker.number.int({ min: 0, max: 100 });
 
   let structureWithRelations = {
     ...fakeStructure,
     contacts: [createFakeContact(), createFakeContact()],
-    adresses: createFakeAdresses(),
+    adresses: createFakeAdresses({placesAutorisees}),
     structureTypologies: [
-      createFakeStructureTypologie({ year: 2025 }),
-      createFakeStructureTypologie({ year: 2024 }),
-      createFakeStructureTypologie({ year: 2023 }),
+      createFakeStructureTypologie({ year: 2025, placesAutorisees }),
+      createFakeStructureTypologie({ year: 2024, placesAutorisees }),
+      createFakeStructureTypologie({ year: 2023, placesAutorisees }),
     ],
-    fileUploads: [
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-      createFakeFileUpload({}),
-    ],
+
+    fileUploads: Array.from({ length: 5 }, () =>
+      createFakeFileUpload({
+        cpom,
+        structureType: type,
+      })
+    ),
   } as StructureWithRelations;
 
   if (state === StructureState.FINALISE) {
