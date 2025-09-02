@@ -6,15 +6,15 @@ export type AdresseWithTypologies = Adresse & {
   adresseTypologies: Omit<AdresseTypologie, "id" | "adresseId">[];
 };
 
-export const createFakeAdresses = (): Omit<
+export const createFakeAdresses = ({ placesAutorisees }: CreateFakeAdressesArgs): Omit<
   AdresseWithTypologies,
   "id" | "structureDnaCode"
 >[] => {
   const count = faker.number.int({ min: 1, max: 10 });
-  return Array.from({ length: count }, createFakeAdresse);
+  return Array.from({ length: count }, () => createFakeAdresse({ placesAutorisees }));
 };
 
-export const createFakeAdresse = (): Omit<
+export const createFakeAdresse = ({ placesAutorisees }: CreateFakeAdressesArgs): Omit<
   AdresseWithTypologies,
   "id" | "structureDnaCode"
 > => {
@@ -27,9 +27,13 @@ export const createFakeAdresse = (): Omit<
       Repartition.COLLECTIF,
     ]),
     adresseTypologies: [
-      createFakeAdresseTypologie({ year: 2025 }),
-      createFakeAdresseTypologie({ year: 2024 }),
-      createFakeAdresseTypologie({ year: 2023 }),
+      createFakeAdresseTypologie({ year: 2025, placesAutorisees }),
+      createFakeAdresseTypologie({ year: 2024, placesAutorisees }),
+      createFakeAdresseTypologie({ year: 2023, placesAutorisees }),
     ],
   };
 };
+
+type CreateFakeAdressesArgs = {
+  placesAutorisees: number;
+}

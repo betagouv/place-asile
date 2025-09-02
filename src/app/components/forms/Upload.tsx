@@ -8,6 +8,7 @@ import { cn } from "@/app/utils/classname.util";
 import { FileUploadResponse, useFileUpload } from "@/app/hooks/useFileUpload";
 import prettyBytes from "pretty-bytes";
 import { Tooltip } from "@codegouvfr/react-dsfr/Tooltip";
+import { useFormContext } from "react-hook-form";
 
 const Upload = ({
   className,
@@ -19,6 +20,7 @@ const Upload = ({
   errorMessage,
   ...props
 }: UploadProps) => {
+  const { register, setValue } = useFormContext();
   const { uploadFile, getFile, deleteFile } = useFileUpload();
 
   const [currentState, setCurrentState] = useState<UploadState>(
@@ -81,6 +83,12 @@ const Upload = ({
       setCurrentState("success");
       setCurrentErrorMessage("");
 
+      const idFieldName = props.name?.replace(".key", ".id");
+
+      if (idFieldName && fileData?.id) {
+        setValue(idFieldName, fileData.id);
+      }
+
       onChange?.({
         target: { value: stringKey },
       } as React.ChangeEvent<HTMLInputElement>);
@@ -119,6 +127,11 @@ const Upload = ({
       setFile(undefined);
       setValueState("");
       setCurrentErrorMessage("");
+
+      const idFieldName = props.name?.replace(".key", ".id");
+      if (idFieldName) {
+        setValue(idFieldName, "");
+      }
 
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
@@ -215,6 +228,13 @@ const Upload = ({
           ref={fileInputRef}
           onChange={handleFileChange}
           accept={accept}
+        />
+
+        <input
+          type="hidden"
+          value={file?.id || ""}
+          {...register(`${props.name?.replace(".key", ".id")}`)}
+          readOnly
         />
         <input
           type="text"

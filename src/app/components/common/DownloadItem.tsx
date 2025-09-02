@@ -1,8 +1,9 @@
 import { useFileUpload } from "@/app/hooks/useFileUpload";
 import { getCategoryLabel } from "@/app/utils/file-upload.util";
-import { FileUpload, FileUploadCategory } from "@/types/file-upload.type";
+import { FileUpload, zFileUploadCategory } from "@/types/file-upload.type";
 import prettyBytes from "pretty-bytes";
 import { ReactElement } from "react";
+import z from "zod";
 
 export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
   const { getDownloadLink } = useFileUpload();
@@ -22,7 +23,7 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
       return fileUpload.categoryName;
     } else {
       const categoryLabel = getCategoryLabel(
-        fileUpload.category as unknown as keyof typeof FileUploadCategory
+        fileUpload.category as unknown as z.infer<typeof zFileUploadCategory>
       );
       const startYear = new Date(fileUpload.startDate || "").getFullYear();
       const endYear = new Date(fileUpload.endDate || "").getFullYear();

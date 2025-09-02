@@ -142,20 +142,23 @@ model Activite {
 }
 
 model FileUpload {
-  id               Int                 @id @default(autoincrement())
-  structure        Structure?          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
-  structureDnaCode String?
-  key              String              @unique
-  mimeType         String
-  fileSize         Int
-  originalName     String
-  date             DateTime?
-  category         FileUploadCategory?
-  startDate        DateTime?
-  endDate          DateTime?
-  controle         Controle?           @relation(fields: [controleId], references: [id], onDelete: Cascade)
-  controleId       Int?
-  categoryName     String?
+  id                 Int                 @id @default(autoincrement())
+  structure          Structure?          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
+  structureDnaCode   String?
+  key                String              @unique
+  mimeType           String
+  fileSize           Int
+  originalName       String
+  date               DateTime?
+  category           FileUploadCategory?
+  startDate          DateTime?
+  endDate            DateTime?
+  controle           Controle?           @relation(fields: [controleId], references: [id], onDelete: Cascade)
+  controleId         Int?
+  categoryName       String?
+  parentFileUpload   FileUpload?         @relation("FileUploadToFileUpload", fields: [parentFileUploadId], references: [id], onDelete: SetNull)
+  parentFileUploadId Int?
+  childFileUploads   FileUpload[]        @relation("FileUploadToFileUpload")
 }
 
 model Budget {

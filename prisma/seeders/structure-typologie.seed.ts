@@ -2,12 +2,12 @@ import { StructureTypologie } from "@prisma/client";
 import { fakerFR as faker } from "@faker-js/faker";
 
 export const createFakeStructureTypologie = ({
+  placesAutorisees,
   year,
 }: CreateFakeStructureTypologieOptions): Omit<
   StructureTypologie,
   "id" | "structureDnaCode"
 > => {
-  const placesAutorisees = faker.number.int({ min: 0, max: 100 });
   const lgbt = faker.number.int({ min: 0, max: placesAutorisees })
 
   return {
@@ -20,5 +20,6 @@ export const createFakeStructureTypologie = ({
 };
 
 type CreateFakeStructureTypologieOptions = {
+  placesAutorisees: number;
   year: number;
 };

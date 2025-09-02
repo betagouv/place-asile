@@ -117,6 +117,7 @@ export type UpdateFileUpload = {
   endDate?: Date;
   id?: number;
   categoryName?: string;
+  parentFileUploadId?: number;
 };
 type UpdateAdresseTypologie = CreateAdresseTypologie & { id?: number };
 export type UpdateAdresse = CreateAdresse & {
