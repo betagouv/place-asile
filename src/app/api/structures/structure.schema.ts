@@ -1,6 +1,5 @@
 import { Repartition } from "@/types/adresse.type";
 import { ControleType } from "@/types/controle.type";
-import { FileUploadCategory } from "@/types/file-upload.type";
 import {
   PublicType,
   StructureType,
@@ -8,6 +7,7 @@ import {
 } from "@/types/structure.type";
 import { z } from "zod";
 import { frDateField, mandatoryFrDateField } from "./structure.util";
+import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
 
 const adresseTypologieSchema = z.object({
   placesAutorisees: z
@@ -49,7 +49,7 @@ const structureTypologieSchema = z.object({
 const fileUploadSchema = z.object({
   key: z.string().min(1, "La clé d'upload du fichier est requise"),
   date: z.coerce.date(),
-  category: z.nativeEnum(FileUploadCategory),
+  category: zDdetsFileUploadCategory,
 });
 
 export const structureCreationSchema = z.object({

@@ -1,3 +1,5 @@
+import z from "zod";
+
 export type FileUpload = {
   id: number;
   structureDnaCode?: string;
@@ -6,31 +8,52 @@ export type FileUpload = {
   fileSize: number;
   originalName: string;
   date?: Date;
-  category?: FileUploadCategory;
+  category?: z.infer<typeof zDdetsFileUploadCategory>;
   startDate?: Date;
   endDate?: Date;
-  categoryName?: string;
+  categoryName?: string | null;
+  parentFileUploadId?: number | null;
+  childrenFileUploads?: FileUpload[];
 };
 
-export enum FileUploadCategory {
-  BUDGET_PREVISIONNEL_DEMANDE = "budgetPrevisionnelDemande",
-  RAPPORT_BUDGETAIRE = "rapportBudgetaire",
-  BUDGET_PREVISIONNEL_RETENU = "budgetPrevisionnelRetenu",
-  BUDGET_RECTIFICATIF = "budgetRectificatif",
-  COMPTE_ADMINISTRATIF_SOUMIS = "compteAdministratifSoumis",
-  RAPPORT_ACTIVITE = "rapportActivite",
-  COMPTE_ADMINISTRATIF_RETENU = "compteAdministratifRetenu",
-  DEMANDE_SUBVENTION = "demandeSubvention",
-  COMPTE_RENDU_FINANCIER = "compteRenduFinancier",
-  RAPPORT_ACTIVITE_OPERATEUR = "rapportActiviteOperateur",
-  ARRETE_AUTORISATION = "arreteAutorisation",
-  ARRETE_AUTORISATION_AVENANT = "arreteAutorisationAvenant",
-  CONVENTION = "convention",
-  CONVENTION_AVENANT = "convention_avenant",
-  ARRETE_TARIFICATION = "arreteTarification",
-  ARRETE_TARIFICATION_AVENANT = "arreteTarificationAvenant",
-  CPOM = "cpom",
-  CPOM_AVENANT = "cpomAvenant",
-  INSPECTION_CONTROLE = "inspectionControle",
-  AUTRE = "autre",
-}
+export const FileUploadCategory = [
+  "BUDGET_PREVISIONNEL_DEMANDE",
+  "RAPPORT_BUDGETAIRE",
+  "BUDGET_PREVISIONNEL_RETENU",
+  "BUDGET_RECTIFICATIF",
+  "COMPTE_ADMINISTRATIF_SOUMIS",
+  "RAPPORT_ACTIVITE",
+  "COMPTE_ADMINISTRATIF_RETENU",
+  "DEMANDE_SUBVENTION",
+  "COMPTE_RENDU_FINANCIER",
+  "RAPPORT_ACTIVITE_OPERATEUR",
+  "ARRETE_AUTORISATION",
+  "CONVENTION",
+  "ARRETE_TARIFICATION",
+  "CPOM",
+  "INSPECTION_CONTROLE",
+  "AUTRE",
+] as const;
+
+export type FileUploadCategoryType = typeof FileUploadCategory;
+
+export const zFileUploadCategory = z.enum(
+  Object.values(FileUploadCategory) as unknown as FileUploadCategoryType
+);
+
+export const DdetsFileUploadCategory = [
+  "INSPECTION_CONTROLE",
+  "ARRETE_AUTORISATION",
+  "CPOM",
+  "CONVENTION",
+  "ARRETE_TARIFICATION",
+  "AUTRE",
+] as const;
+
+export type DdetsFileUploadCategoryType = typeof DdetsFileUploadCategory;
+
+export const zDdetsFileUploadCategory = z.enum(
+  Object.values(
+    DdetsFileUploadCategory
+  ) as unknown as DdetsFileUploadCategoryType
+);
