@@ -107,7 +107,7 @@ export const createFakeStuctureWithRelations = ({
 }: FakeStructureOptions): Omit<StructureWithRelations, "id"> => {
   const fakeStructure = createFakeStructure({ cpom, type, state });
   const isAutorisee = isStructureAutorisee(type);
-  const placesAutorisees = faker.number.int({ min: 0, max: 100 });
+  const placesAutorisees = faker.number.int({ min: 1, max: 100 });
 
   let structureWithRelations = {
     ...fakeStructure,

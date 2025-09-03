@@ -8,38 +8,13 @@ export type FileUpload = {
   fileSize: number;
   originalName: string;
   date?: Date;
-  category?: z.infer<typeof zDdetsFileUploadCategory>;
+  category?: z.infer<typeof zFileUploadCategory>;
   startDate?: Date;
   endDate?: Date;
   categoryName?: string | null;
   parentFileUploadId?: number | null;
   childrenFileUploads?: FileUpload[];
 };
-
-export const FileUploadCategory = [
-  "BUDGET_PREVISIONNEL_DEMANDE",
-  "RAPPORT_BUDGETAIRE",
-  "BUDGET_PREVISIONNEL_RETENU",
-  "BUDGET_RECTIFICATIF",
-  "COMPTE_ADMINISTRATIF_SOUMIS",
-  "RAPPORT_ACTIVITE",
-  "COMPTE_ADMINISTRATIF_RETENU",
-  "DEMANDE_SUBVENTION",
-  "COMPTE_RENDU_FINANCIER",
-  "RAPPORT_ACTIVITE_OPERATEUR",
-  "ARRETE_AUTORISATION",
-  "CONVENTION",
-  "ARRETE_TARIFICATION",
-  "CPOM",
-  "INSPECTION_CONTROLE",
-  "AUTRE",
-] as const;
-
-export type FileUploadCategoryType = typeof FileUploadCategory;
-
-export const zFileUploadCategory = z.enum(
-  Object.values(FileUploadCategory) as unknown as FileUploadCategoryType
-);
 
 export const DdetsFileUploadCategory = [
   "INSPECTION_CONTROLE",
@@ -50,10 +25,41 @@ export const DdetsFileUploadCategory = [
   "AUTRE",
 ] as const;
 
+export const OperateurFileUploadCategory = [
+  "BUDGET_PREVISIONNEL_DEMANDE",
+  "RAPPORT_BUDGETAIRE",
+  "BUDGET_PREVISIONNEL_RETENU",
+  "BUDGET_RECTIFICATIF",
+  "COMPTE_ADMINISTRATIF_SOUMIS",
+  "RAPPORT_ACTIVITE",
+  "COMPTE_ADMINISTRATIF_RETENU",
+  "DEMANDE_SUBVENTION",
+  "COMPTE_RENDU_FINANCIER",
+  "RAPPORT_ACTIVITE_OPERATEUR",
+] as const;
+
 export type DdetsFileUploadCategoryType = typeof DdetsFileUploadCategory;
+export type OperateurFileUploadCategoryType = typeof OperateurFileUploadCategory;
 
 export const zDdetsFileUploadCategory = z.enum(
   Object.values(
     DdetsFileUploadCategory
   ) as unknown as DdetsFileUploadCategoryType
+);
+
+export const zOperateurFileUploadCategory = z.enum(
+  Object.values(
+    OperateurFileUploadCategory
+  ) as unknown as OperateurFileUploadCategoryType
+);
+
+export const FileUploadCategory = [
+  ...DdetsFileUploadCategory,
+  ...OperateurFileUploadCategory
+] as const;
+
+export type FileUploadCategoryType = typeof FileUploadCategory;
+
+export const zFileUploadCategory = z.enum(
+  Object.values(FileUploadCategory) as unknown as FileUploadCategoryType
 );

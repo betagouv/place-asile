@@ -12,11 +12,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useStructures } from "@/app/hooks/useStructures";
 import { isStructureSubventionnee } from "@/app/utils/structure.util";
-import { FileUpload } from "@/types/file-upload.type";
-import {
-  DdetsFileUploadCategory,
-  zDdetsFileUploadCategory,
-} from "@/types/file-upload.type";
+import { DdetsFileUploadCategory, DdetsFileUploadCategoryType, FileUpload, zDdetsFileUploadCategory } from "@/types/file-upload.type";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
@@ -173,7 +169,7 @@ export const FinalisationQualiteForm = ({
 
   const filteredFileUploads = structure.fileUploads?.filter(
     (fileUpload) =>
-      fileUpload?.category && categoriesToDisplay.includes(fileUpload.category)
+      fileUpload?.category && categoriesToDisplay.includes(fileUpload.category as DdetsFileUploadCategoryType[number])
   );
 
   const defaultValuesFromDb = (filteredFileUploads || [])?.map((fileUpload) => {
