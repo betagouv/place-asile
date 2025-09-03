@@ -2,7 +2,7 @@
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
@@ -23,7 +23,6 @@ import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
-import { FileUploadCategory } from "@/types/file-upload.type";
 import { StructureState } from "@/types/structure.type";
 
 import { BudgetTables } from "./components/BudgetTables";
@@ -98,12 +97,8 @@ export default function FinalisationFinanceForm({
     const fileUploads = documents.map((document) => {
       const [fileUploadCategory, year] = document.toString().split("-");
       const fileUpload = structure.fileUploads?.find((fileUpload) => {
-        const formattedFileUploadCategory =
-          FileUploadCategory[
-            fileUpload.category as unknown as keyof typeof FileUploadCategory
-          ];
         return (
-          formattedFileUploadCategory === fileUploadCategory &&
+          fileUpload.category === fileUploadCategory &&
           new Date(fileUpload.date || "").getFullYear() === Number(year)
         );
       });

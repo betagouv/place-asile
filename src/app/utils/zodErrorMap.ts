@@ -20,7 +20,7 @@ export const frenchErrorMap = (
       }
       break;
     case "invalid_literal":
-      message = `Valeur invalide, valeur attendue : ${JSON.stringify(
+      message = `Valeur invalide (${issue.received}), valeur attendue : ${JSON.stringify(
         issue.expected
       )}`;
       break;
@@ -36,7 +36,7 @@ export const frenchErrorMap = (
       )}`;
       break;
     case "invalid_enum_value":
-      message = `Valeur invalide, attendue : ${issue.options?.join(" | ")}`;
+      message = `Valeur invalide (${issue.received}), attendue : ${issue.options?.join(" | ")}`;
       break;
     case "invalid_arguments":
       message = "Arguments de fonction invalides";

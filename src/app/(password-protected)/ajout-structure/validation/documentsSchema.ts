@@ -3,15 +3,14 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { z } from "zod";
 
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
-import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
-// TODO : re-checker ce schema dans le password protected form
+import { zOperateurFileUploadCategory } from "@/types/file-upload.type";
 
 dayjs.extend(customParseFormat);
 
 export const DocumentsTypeFlexible = z.object({
   key: z.string().optional(),
   date: createDateFieldValidator().optional(),
-  category: zDdetsFileUploadCategory.optional(),
+  category: zOperateurFileUploadCategory.optional(),
 });
 
 export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
@@ -25,14 +24,14 @@ export const DocumentsTypeConditional = z
   .object({
     key: z.string().optional(),
     date: createDateFieldValidator().optional(),
-    category: zDdetsFileUploadCategory.optional(),
+    category: zOperateurFileUploadCategory.optional(),
   })
   .superRefine((data, ctx) => {
     if (
       data.category !==
-        ("BUDGET_RECTIFICATIF" as z.infer<typeof zDdetsFileUploadCategory>) &&
+        ("BUDGET_RECTIFICATIF" as z.infer<typeof zOperateurFileUploadCategory>) &&
       data.category !==
-        ("RAPPORT_BUDGETAIRE" as z.infer<typeof zDdetsFileUploadCategory>)
+        ("RAPPORT_BUDGETAIRE" as z.infer<typeof zOperateurFileUploadCategory>)
     ) {
       if (!data.key) {
         ctx.addIssue({
@@ -63,7 +62,7 @@ export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsTypeStrict = z.object({
   key: z.string(),
   date: createDateFieldValidator(),
-  category: zDdetsFileUploadCategory,
+  category: zOperateurFileUploadCategory,
 });
 
 export const DocumentsSchemaStrict = z.object({

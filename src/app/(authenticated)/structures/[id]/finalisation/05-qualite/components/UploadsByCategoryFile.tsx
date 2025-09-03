@@ -1,7 +1,6 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import Link from "next/link";
-import { useFormContext } from "react-hook-form";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
@@ -168,7 +167,6 @@ export const UploadsByCategoryFile = ({
                   />
                   <div className="flex flex-col w-full">
                     <label className="mb-2">{documentLabel}</label>
-                    {`fileUploads.${avenantIndex}.key`}
                     <UploadWithValidation
                       name={`fileUploads.${avenantIndex}.key`}
                       control={control}
