@@ -6,12 +6,13 @@ import { deleteFile, getDownloadLink } from "../file.service";
 export async function GET(request: NextRequest) {
   const encodedKey = request.nextUrl.pathname.split("/").pop();
   const getLink = request.nextUrl.searchParams.get("getLink");
+  const decodedKey = decodeURIComponent(encodedKey || "")
 
   if (getLink) {
     try {
       const result = await getDownloadLink(
         process.env.S3_BUCKET_NAME!,
-        encodedKey!
+        decodedKey
       );
       return NextResponse.json({ url: result });
     } catch (error) {
