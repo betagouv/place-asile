@@ -12,7 +12,12 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useStructures } from "@/app/hooks/useStructures";
 import { isStructureSubventionnee } from "@/app/utils/structure.util";
-import { DdetsFileUploadCategory, DdetsFileUploadCategoryType, FileUpload, zDdetsFileUploadCategory } from "@/types/file-upload.type";
+import {
+  DdetsFileUploadCategory,
+  DdetsFileUploadCategoryType,
+  FileUpload,
+  zDdetsFileUploadCategory,
+} from "@/types/file-upload.type";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
@@ -149,7 +154,6 @@ export const FinalisationQualiteForm = ({
     }) as FileUpload[];
 
     // TODO : gérer les erreurs sur champs obligatoires avant envoi au back
-
     const updatedStructure = await updateAndRefreshStructure(
       structure.id,
       {
@@ -169,7 +173,10 @@ export const FinalisationQualiteForm = ({
 
   const filteredFileUploads = structure.fileUploads?.filter(
     (fileUpload) =>
-      fileUpload?.category && categoriesToDisplay.includes(fileUpload.category as DdetsFileUploadCategoryType[number])
+      fileUpload?.category &&
+      categoriesToDisplay.includes(
+        fileUpload.category as DdetsFileUploadCategoryType[number]
+      )
   );
 
   const defaultValuesFromDb = (filteredFileUploads || [])?.map((fileUpload) => {
