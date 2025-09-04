@@ -51,6 +51,18 @@ export const createOptionalDateValidator = () => {
     );
 };
 
+export const createNullableDateValidator = () => {
+  return z.preprocess(
+    (val) => {
+      if (val === null || val === undefined || val === '') {
+        return null
+      };
+      return val;
+    },
+    z.coerce.date().nullable()
+  );
+}
+
 export const createDateFieldValidator = Object.assign(
   () => createRequiredDateValidator(),
   {

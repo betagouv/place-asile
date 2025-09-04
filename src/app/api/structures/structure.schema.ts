@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { createNullableDateValidator } from "@/app/utils/zodCustomFields";
 import { Repartition } from "@/types/adresse.type";
 import { ControleType } from "@/types/controle.type";
 import { zFileUploadCategory } from "@/types/file-upload.type";
@@ -72,8 +73,8 @@ export const structureCreationSchema = z.object({
     .string()
     .min(1, "Le département de l'adresse administrative est requis"),
   nom: z.string().optional(),
-  debutConvention: z.coerce.date().optional(),
-  finConvention: z.coerce.date().optional(),
+  debutConvention: createNullableDateValidator().optional(),
+  finConvention: createNullableDateValidator().optional(),
   cpom: z.boolean({
     message: "Le CPOM est requis",
   }),
@@ -86,10 +87,10 @@ export const structureCreationSchema = z.object({
     message: "L'accueil de FVV-TEH dans la structure est requis",
   }),
   public: z.nativeEnum(PublicType),
-  debutPeriodeAutorisation: z.coerce.date().optional(),
-  finPeriodeAutorisation: z.coerce.date().optional(),
-  debutCpom: z.coerce.date().optional(),
-  finCpom: z.coerce.date().optional(),
+  debutPeriodeAutorisation: createNullableDateValidator().optional(),
+  finPeriodeAutorisation: createNullableDateValidator().optional(),
+  debutCpom: createNullableDateValidator().optional(),
+  finCpom: createNullableDateValidator().optional(),
   adresses: z.array(adresseSchema),
   contacts: z.array(contactSchema),
   typologies: z.array(structureTypologieSchema),
