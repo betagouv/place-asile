@@ -29,7 +29,7 @@ export const finalisationIdentificationSchema = z
     cpom: z.boolean(),
     lgbt: z.boolean(),
     fvvTeh: z.boolean(),
-    contacts: z.array(z.union([contactSchema, contactSchema])),
+    contacts: z.array(z.union([contactSchema, contactSchema.optional()])),
     debutPeriodeAutorisation: createOptionalDateValidator(),
     finPeriodeAutorisation: createOptionalDateValidator(),
     debutConvention: createOptionalDateValidator(),
