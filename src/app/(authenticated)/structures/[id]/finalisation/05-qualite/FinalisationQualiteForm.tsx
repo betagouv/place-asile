@@ -208,10 +208,6 @@ export const FinalisationQualiteForm = ({
       categoriesToDisplay.includes(
         fileUpload.category as DdetsFileUploadCategoryType[number]
       )
-      fileUpload?.category &&
-      categoriesToDisplay.includes(
-        fileUpload.category as DdetsFileUploadCategoryType[number]
-      )
   );
 
   const defaultValuesFromDb = (filteredFileUploads || [])?.map((fileUpload) => {
