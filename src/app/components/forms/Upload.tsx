@@ -4,7 +4,7 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import { Tooltip } from "@codegouvfr/react-dsfr/Tooltip";
 import autoAnimate from "@formkit/auto-animate";
 import prettyBytes from "pretty-bytes";
-import React, { InputHTMLAttributes, useEffect, useRef, useState } from "react";
+import { InputHTMLAttributes, useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import Loader from "@/app/components/ui/Loader";

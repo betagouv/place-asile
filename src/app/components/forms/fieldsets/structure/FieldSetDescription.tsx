@@ -2,8 +2,7 @@ import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 import autoAnimate from "@formkit/auto-animate";
-import React, { useEffect, useRef } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 
 import { isStructureAutorisee } from "@/app/utils/structure.util";

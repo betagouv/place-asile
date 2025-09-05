@@ -1,7 +1,7 @@
 "use client";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
