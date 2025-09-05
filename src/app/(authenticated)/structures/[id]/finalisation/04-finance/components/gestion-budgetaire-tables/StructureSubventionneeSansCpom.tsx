@@ -40,7 +40,7 @@ export const StructureSubventionneeSansCpom = () => {
     );
   const budgets = watch("budgets");
 
-  // Modal & comment stuff
+  // TODO : Mettre la logique de modal dans un autre composant
   const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
   const [currentCommentDate, setCurrentCommentDate] = useState<Date>(
     new Date()

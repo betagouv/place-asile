@@ -2,7 +2,7 @@
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
 import FormWrapper from "@/app/components/forms/FormWrapper";
@@ -25,7 +25,6 @@ export default function FormAdresses() {
     ? `/ajout-structure/${params.dnaCode}/05-verification`
     : `/ajout-structure/${params.dnaCode}/03-type-places`;
 
-  // Move defaultValues into useMemo to prevent recreation on every render
   const defaultValues = useMemo(
     () => ({
       nom: "",
@@ -120,7 +119,6 @@ export default function FormAdresses() {
             });
           }
 
-          // We remove all addresses except the first one if the type bati is COLLECTIF
           if (value === Repartition.COLLECTIF) {
             const updatedAdresses = currentAdresses.slice(0, 1);
 
@@ -130,7 +128,6 @@ export default function FormAdresses() {
           }
         };
 
-        // If type bati is DIFFUS and sameAddress is true, update the first address in sync with the administrative address
         const handleAddressAdministrativeChange = () => {
           if (
             watch("typeBati") === Repartition.COLLECTIF &&

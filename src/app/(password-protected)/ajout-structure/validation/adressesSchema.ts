@@ -32,7 +32,6 @@ export const AdressesSchema = z
     sameAddress: z.boolean().optional(),
     adresses: z.array(
       adresseSchema.superRefine((adresse, ctx) => {
-        // Check if this address has a non-empty adresseComplete but empty places
         if (
           adresse.adresseComplete &&
           adresse.adresseComplete.trim() !== "" &&
@@ -57,7 +56,6 @@ export const AdressesSchema = z
       return;
     }
 
-    // When typeBati is MIXTE, check each address and add specific errors
     data.adresses.forEach((adresse, index) => {
       if (
         adresse.repartition !== Repartition.DIFFUS &&

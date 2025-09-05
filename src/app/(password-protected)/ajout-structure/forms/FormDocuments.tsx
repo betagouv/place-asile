@@ -88,7 +88,6 @@ export default function FormDocuments() {
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (
     <FormWrapper
-      // ⚠ La clé permet de forcer un remount du formulaire pour que le changement de schema soit pris en compte
       key={less5Years ? "schema-flexible" : "schema-strict"}
       schema={selectedSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
@@ -143,7 +142,6 @@ export default function FormDocuments() {
             />
 
             {years.map((year) => {
-              // Use the same counter across all years
               return (
                 <Year key={year} year={year}>
                   <p className="text-disabled-grey mb-0 text-xs col-span-3">

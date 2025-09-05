@@ -1,6 +1,5 @@
 "use client";
 
-// Import the zodErrorMap to apply the global error map
 import "@/app/utils/zodErrorMap";
 
 import { init } from "@socialgouv/matomo-next";

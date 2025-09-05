@@ -1,5 +1,5 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import React, { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";

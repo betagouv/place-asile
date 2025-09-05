@@ -2,7 +2,7 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 import { Table } from "@/app/components/common/Table";
 import FormWrapper from "@/app/components/forms/FormWrapper";
