@@ -88,6 +88,10 @@ Enfin, vous pouvez vérifier le contenu de la base de données en exécutant :
 yarn prisma:studio
 ```
 
+## 🏗️ Architecture
+
+Pour en savoir plus sur l'architecture du projet, allez sur [le document d'architecture](https://github.com/betagouv/place-asile/blob/dev/docs/architecture.md)
+
 ## 💅 Patch DSFR
 
 En cas de mise à jour du DSFR, _il faut mettre à jour le patch_.
