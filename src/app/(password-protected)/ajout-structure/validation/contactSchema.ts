@@ -29,7 +29,9 @@ export const requiredContactSchema = z.object({
 const optionalContactSchema = baseContactSchema
   .partial()
   .superRefine((data, ctx) => {
-    if (!data) return;
+    if (!data) {
+      return;
+    }
 
     const { prenom, nom, role, email, telephone } = data;
 
@@ -53,7 +55,9 @@ const optionalContactSchema = baseContactSchema
       (field) => field.value !== undefined && field.value !== ""
     );
 
-    if (filledFields.length === 0) return;
+    if (filledFields.length === 0) {
+      return;
+    }
 
     if (filledFields.length > 0 && filledFields.length < fields.length) {
       fields.forEach((field) => {

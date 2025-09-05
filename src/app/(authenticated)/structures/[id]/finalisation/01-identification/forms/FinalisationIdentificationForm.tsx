@@ -15,6 +15,7 @@ import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useFormatDateString } from "@/app/hooks/useFormatDateString";
 import { useStructures } from "@/app/hooks/useStructures";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { Contact } from "@/types/contact.type";
 import { PublicType, StructureState } from "@/types/structure.type";
 
 import { getCurrentStepData } from "../../components/Steps";
@@ -66,10 +67,13 @@ export default function FinalisationIdentificationForm({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (data: any) => {
+    const contacts = data.contacts.filter((contact: Contact) =>
+      Object.values(contact).every((field) => field !== undefined)
+    );
     setState("loading");
     const updatedStructure = await updateAndRefreshStructure(
       structure.id,
-      data,
+      { ...data, contacts },
       setStructure
     );
     if (updatedStructure === "OK") {
