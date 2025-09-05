@@ -1,13 +1,13 @@
 import { ReactElement } from "react";
 
-import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
-import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
-import { DefaultControlesBlock } from "./(controles)/DefaultControlesBlock";
-import { DefaultDescriptionBlock } from "./(description)/DefaultDescriptionBlock";
-import { FinancesBlock } from "./(finances)/FinancesBlock";
+import { ActesAdministratifsBlock } from "./_actes-administratifs/ActesAdministratifsBlock";
 // import { ActivitesBlock } from "./(activites)/ActivitesBlock";
-import { NotesBlock } from "./(notes)/NotesBlock";
-import { DefaultTypePlaceBlock } from "./(type-places)/DefaultTypePlaceBlock";
+import { CalendrierBlock } from "./_calendrier/CalendrierBlock";
+import { DefaultControlesBlock } from "./_controles/DefaultControlesBlock";
+import { DefaultDescriptionBlock } from "./_description/DefaultDescriptionBlock";
+import { FinancesBlock } from "./_finances/FinancesBlock";
+import { NotesBlock } from "./_notes/NotesBlock";
+import { DefaultTypePlaceBlock } from "./_type-places/DefaultTypePlaceBlock";
 import { Section } from "./components/Section";
 import { useStructureContext } from "./context/StructureClientContext";
 
