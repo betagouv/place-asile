@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-import { DateBars } from "@/app/(authenticated)/structures/[id]/(calendrier)/DateBars";
+import { DateBars } from "@/app/(authenticated)/structures/[id]/_calendrier/DateBars";
 import { Block } from "@/app/components/common/Block";
 
 import { useStructureContext } from "../context/StructureClientContext";

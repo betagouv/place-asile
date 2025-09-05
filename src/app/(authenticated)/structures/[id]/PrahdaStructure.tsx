@@ -1,12 +1,12 @@
 import { ReactElement } from "react";
 
-import { ActesAdministratifsBlock } from "./(actes-administratifs)/ActesAdministratifsBlock";
+import { ActesAdministratifsBlock } from "./_actes-administratifs/ActesAdministratifsBlock";
 // import { ActivitesBlock } from "./(activites)/ActivitesBlock";
-import { CalendrierBlock } from "./(calendrier)/CalendrierBlock";
-import { PrahdaDescriptionBlock } from "./(description)/PrahdaDescriptionBlock";
+import { CalendrierBlock } from "./_calendrier/CalendrierBlock";
+import { PrahdaDescriptionBlock } from "./_description/PrahdaDescriptionBlock";
 // import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock";
-import { NotesBlock } from "./(notes)/NotesBlock";
-import { PrahdaTypePlaceBlock } from "./(type-places)/PrahdaTypePlaceBlock";
+import { NotesBlock } from "./_notes/NotesBlock";
+import { PrahdaTypePlaceBlock } from "./_type-places/PrahdaTypePlaceBlock";
 import { Section } from "./components/Section";
 
 export const PrahdaStructure = (): ReactElement => {
