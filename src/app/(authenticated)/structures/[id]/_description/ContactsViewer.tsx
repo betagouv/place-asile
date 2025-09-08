@@ -2,6 +2,8 @@
 
 import { ReactElement, useState } from "react";
 
+import { formatPhoneNumber } from "@/app/utils/phone.util";
+
 import { useStructureContext } from "../context/StructureClientContext";
 
 export const ContactsViewer = (): ReactElement => {
@@ -40,7 +42,7 @@ export const ContactsViewer = (): ReactElement => {
                 {contact.prenom} {contact.nom} ({contact.role})
               </strong>
               <span className="fr-pr-3w">{contact.email}</span>
-              <span>{contact.telephone}</span>
+              <span>{formatPhoneNumber(contact.telephone)}</span>
             </div>
           ))}
         </div>
