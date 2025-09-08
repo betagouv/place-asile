@@ -5,18 +5,20 @@
  * @returns The formatted phone number or an empty string if invalid.
  */
 export const formatPhoneNumber = (phone: string): string => {
-  if (!phone) return '';
-  
+  if (!phone) {
+    return '';
+  }
+
   const thinNbsp = '\u202F';
   const cleaned = phone.replace(/\D/g, '');
   
-  if (!cleaned) return '';
+  if (!cleaned) {
+    return '';
+  }
   
   let nationalNumber = cleaned;
   
-  if (cleaned.startsWith('0') && cleaned.length === 10) {
-    nationalNumber = cleaned;
-  } else if (cleaned.startsWith('33') && cleaned.length === 11) {
+  if (cleaned.startsWith('33') && cleaned.length === 11) {
     nationalNumber = '0' + cleaned.slice(2);
   } else if (phone.startsWith('+') && cleaned.startsWith('33') && cleaned.length >= 11) {
     nationalNumber = '0' + cleaned.slice(2);
