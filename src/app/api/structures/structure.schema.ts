@@ -201,6 +201,7 @@ export const structureUpdateSchema = z.object({
         startDate: frDateField(),
         endDate: frDateField(),
         categoryName: z.string().optional(),
+        parentFileUploadId: z.number().optional(),
       })
     )
     .optional(),
