@@ -1,4 +1,3 @@
-// tests/utils/phone.util.test.ts
 import { formatPhoneNumber } from "@/app/utils/phone.util";
 
 describe("phone util", () => {
