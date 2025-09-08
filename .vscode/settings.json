@@ -1,17 +1,17 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "always",
-        "source.fixAll.eslint": "explicit"
-    },
-    "editor.formatOnSave": true,
-    "files.autoSave": "afterDelay",
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    "editor.tabSize": 2,
-    "javascript.updateImportsOnFileMove.enabled": "always"
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always",
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "files.autoSave": "afterDelay",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.tabSize": 2,
+  "javascript.updateImportsOnFileMove.enabled": "always"
 }
