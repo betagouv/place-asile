@@ -1,6 +1,7 @@
 import { useParams } from "next/navigation";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { formatPhoneNumber } from "@/app/utils/phone.util";
 
 import { IdentificationFormValues } from "../../../validation/identificationSchema";
 
@@ -61,7 +62,7 @@ export const Identification = () => {
             <span>{localStorageValues?.contactPrincipal?.email}</span>
           )}
           {localStorageValues?.contactPrincipal?.telephone && (
-            <span>{localStorageValues?.contactPrincipal?.telephone}</span>
+            <span>{formatPhoneNumber(localStorageValues?.contactPrincipal?.telephone)}</span>
           )}
         </p>
       </div>
@@ -82,7 +83,7 @@ export const Identification = () => {
             <span>{localStorageValues?.contactSecondaire?.email}</span>
           )}
           {localStorageValues?.contactSecondaire?.telephone && (
-            <span>{localStorageValues?.contactSecondaire?.telephone}</span>
+            <span>{formatPhoneNumber(localStorageValues?.contactSecondaire?.telephone)}</span>
           )}
         </p>
       </div>
