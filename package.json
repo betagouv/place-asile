@@ -80,6 +80,7 @@
     "node-xlsx": "^0.24.0",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
+    "prettier": "^3.6.2",
     "sass": "^1.92.1",
     "stylelint": "^16.24.0",
     "stylelint-config-standard": "^39.0.0",
