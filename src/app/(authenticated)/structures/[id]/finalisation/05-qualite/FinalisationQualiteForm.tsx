@@ -1,7 +1,8 @@
 "use client";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
+import { UseFormReturn } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
@@ -12,13 +13,20 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useStructures } from "@/app/hooks/useStructures";
 import { isStructureSubventionnee } from "@/app/utils/structure.util";
-import { DdetsFileUploadCategory, DdetsFileUploadCategoryType, FileUpload, zDdetsFileUploadCategory } from "@/types/file-upload.type";
+import {
+  DdetsFileUploadCategory,
+  DdetsFileUploadCategoryType,
+  zDdetsFileUploadCategory,
+} from "@/types/file-upload.type";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
 import UploadsByCategory from "./components/UploadsByCategory";
-import { finalisationQualiteSchemaSimple } from "./validation/FinalisationQualiteSchema";
+import {
+  fileUploadSchema,
+  finalisationQualiteSchemaSimple,
+} from "./validation/FinalisationQualiteSchema";
 
 export enum FileMetaData {
   DATE_TYPE,
@@ -56,20 +64,7 @@ export const FinalisationQualiteForm = ({
     return true;
   });
 
-  const categoriesDisplayRules: Record<
-    (typeof DdetsFileUploadCategory)[number],
-    {
-      categoryShortName: string;
-      title: string;
-      canAddFile: boolean;
-      canAddAvenant: boolean;
-      isOptional: boolean;
-      fileMetaData: FileMetaData;
-      documentLabel: string;
-      addFileButtonLabel: string;
-      notice?: string | React.ReactElement;
-    }
-  > = {
+  const categoriesDisplayRules: CategoryDisplayRulesType = {
     INSPECTION_CONTROLE: {
       categoryShortName: "",
       title: "Inspections-contrôles",
@@ -140,36 +135,79 @@ export const FinalisationQualiteForm = ({
   };
 
   const handleSubmit = async (
-    data: z.infer<typeof finalisationQualiteSchemaSimple>
+    data: z.infer<typeof finalisationQualiteSchemaSimple>,
+    methods: UseFormReturn<z.infer<typeof finalisationQualiteSchemaSimple>>
   ) => {
     setState("loading");
-
-    const fileUploads = data.fileUploads?.filter((fileUpload) => {
-      return fileUpload.key !== undefined;
-    }) as FileUpload[];
-
-    // TODO : gérer les erreurs sur champs obligatoires avant envoi au back
-
-    const updatedStructure = await updateAndRefreshStructure(
-      structure.id,
-      {
-        fileUploads: fileUploads,
-        dnaCode: structure.dnaCode,
-      },
-      setStructure
+    const setError = methods.setError;
+    const fileUploads = data.fileUploads;
+    const requiredCategories = Object.keys(categoriesDisplayRules).filter(
+      (category) =>
+        !categoriesDisplayRules[category as keyof typeof categoriesDisplayRules]
+          .isOptional
     );
-    if (updatedStructure === "OK") {
-      router.push(nextRoute);
+
+    let firstErrorIndex: number | null = null;
+
+    const missingRequiredUploads = fileUploads?.flatMap((fileUpload, index) => {
+      if (requiredCategories.includes(fileUpload.category) && !fileUpload.key) {
+        return { fileUpload, index };
+      }
+      return [];
+    });
+
+    if (missingRequiredUploads?.length) {
+      firstErrorIndex = missingRequiredUploads[0].index;
+
+      missingRequiredUploads.forEach(({ index }) => {
+        setError(`fileUploads.${index}.key` as const, {
+          type: "custom",
+          message: "Veuillez sélectionner au moins un document.",
+        });
+      });
+    }
+
+    if (firstErrorIndex !== null) {
+      setTimeout(() => {
+        const errorField = document.querySelector(
+          `[name="fileUploads.${firstErrorIndex}.key"]`
+        );
+        if (errorField instanceof HTMLElement) {
+          errorField.focus();
+          errorField.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 100);
+
+      return;
     } else {
-      setState("error");
-      setBackendError(updatedStructure?.toString());
-      throw new Error(updatedStructure?.toString());
+      const filteredFileUploads = fileUploads?.filter((fileUpload) => {
+        return fileUpload.key !== undefined;
+      }) as z.infer<typeof fileUploadSchema>[];
+
+      const updatedStructure = await updateAndRefreshStructure(
+        structure.id,
+        {
+          fileUploads: filteredFileUploads,
+          dnaCode: structure.dnaCode,
+        },
+        setStructure
+      );
+      if (updatedStructure === "OK") {
+        router.push(nextRoute);
+      } else {
+        setState("error");
+        setBackendError(updatedStructure?.toString());
+        throw new Error(updatedStructure?.toString());
+      }
     }
   };
 
   const filteredFileUploads = structure.fileUploads?.filter(
     (fileUpload) =>
-      fileUpload?.category && categoriesToDisplay.includes(fileUpload.category as DdetsFileUploadCategoryType[number])
+      fileUpload?.category &&
+      categoriesToDisplay.includes(
+        fileUpload.category as DdetsFileUploadCategoryType[number]
+      )
   );
 
   const defaultValuesFromDb = (filteredFileUploads || [])?.map((fileUpload) => {
@@ -299,3 +337,18 @@ export const FinalisationQualiteForm = ({
     </FormWrapper>
   );
 };
+
+type CategoryDisplayRulesType = Record<
+  (typeof DdetsFileUploadCategory)[number],
+  {
+    categoryShortName: string;
+    title: string;
+    canAddFile: boolean;
+    canAddAvenant: boolean;
+    isOptional: boolean;
+    fileMetaData: FileMetaData;
+    documentLabel: string;
+    addFileButtonLabel: string;
+    notice?: string | React.ReactElement;
+  }
+>;

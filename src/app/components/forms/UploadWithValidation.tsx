@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   Control,
   FieldValues,
@@ -35,7 +34,7 @@ export default function UploadWithValidation<
 
 type UploadWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
   Partial<UseControllerProps<TFieldValues>> & {
-    name: Path<TFieldValues>; // Use Path type for proper type checking
+    name: Path<TFieldValues>;
     control?: Control<TFieldValues>;
     id?: string;
   };

@@ -35,9 +35,9 @@ export const findAll = async (): Promise<Structure[]> => {
       operateur: true,
       structureTypologies: {
         orderBy: {
-          date: 'desc'
-        }
-      }
+          date: "desc",
+        },
+      },
     },
   });
 };
@@ -193,18 +193,11 @@ export const createOne = async (
           data: structure.typologies,
         },
       },
-      // TODO : supprimer ce connect ? (file upload ajoutés ligne 191)
-      fileUploads: {
-        connect: structure.fileUploads.map((fileUpload) => ({
-          key: fileUpload.key,
-        })),
-      },
     },
   });
 
   const adresses = handleAdresses(structure.dnaCode, structure.adresses);
 
-  // TODO : refacto with updateMany
   for (const adresse of adresses) {
     await prisma.adresse.create({
       data: {
@@ -220,19 +213,16 @@ export const createOne = async (
     });
   }
 
-  // TODO : refacto with updateMany
-  await Promise.all(
-    structure.fileUploads.map((fileUpload) =>
-      prisma.fileUpload.update({
-        where: { key: fileUpload.key },
-        data: {
-          date: fileUpload.date,
-          category: (fileUpload.category as FileUploadCategory) || null,
-          structureDnaCode: structure.dnaCode,
-        },
-      })
-    )
-  );
+  for (const fileUpload of structure.fileUploads) {
+    await prisma.fileUpload.update({
+      where: { key: fileUpload.key },
+      data: {
+        date: fileUpload.date,
+        category: (fileUpload.category as FileUploadCategory) || null,
+        structureDnaCode: structure.dnaCode,
+      },
+    });
+  }
 
   const updatedStructure = await findOne(newStructure.id);
   if (!updatedStructure) {

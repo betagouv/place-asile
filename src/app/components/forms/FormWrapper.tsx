@@ -9,7 +9,6 @@ import { ReactNode, useEffect, useState } from "react";
 import {
   FieldErrors,
   FormProvider as HookFormProvider,
-  SubmitHandler,
   useForm,
   UseFormReturn,
   useWatch,
@@ -32,7 +31,10 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   schema: TSchema;
   localStorageKey?: string;
   children: ReactNode | ((form: UseFormReturn<z.infer<TSchema>>) => ReactNode);
-  onSubmit?: SubmitHandler<z.infer<TSchema>>;
+  onSubmit?: (
+    data: z.infer<TSchema>,
+    methods: UseFormReturn<z.infer<TSchema>>
+  ) => void | Promise<void>;
   onError?: (errors: FieldErrors<z.infer<TSchema>>) => void;
   mode?: "onChange" | "onBlur" | "onSubmit" | "onTouched" | "all";
   className?: string;
@@ -112,7 +114,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     }
   };
 
-  const defaultSubmitHandler: SubmitHandler<z.infer<TSchema>> = (data) => {
+  const defaultSubmitHandler = (data: z.infer<TSchema>) => {
     console.log("Form submitted successfully with data:", data);
     if (nextRoute) {
       try {
@@ -145,7 +147,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
       <FormProvider formMethods={methods}>
         <form
           onSubmit={handleSubmit(
-            onSubmit || defaultSubmitHandler,
+            (data) => (onSubmit || defaultSubmitHandler)(data, methods),
             handleFormErrors
           )}
           className={cn(

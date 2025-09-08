@@ -78,10 +78,8 @@ export async function DELETE(request: NextRequest) {
   }
 
   try {
-    // Delete the file from S3/Minio
     await deleteFile(process.env.S3_BUCKET_NAME!, key);
 
-    // Delete the file record from the database
     const deletedFile = await deleteOneByKey(key);
 
     return NextResponse.json(deletedFile);

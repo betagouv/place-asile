@@ -3,6 +3,10 @@ import { ReactElement } from "react";
 
 import { DownloadItem } from "@/app/components/common/DownloadItem";
 import { Budget } from "@/types/budget.type";
+import {
+  OperateurFileUploadCategory,
+  OperateurFileUploadCategoryType,
+} from "@/types/file-upload.type";
 
 import { useStructureContext } from "../context/StructureClientContext";
 
@@ -10,11 +14,15 @@ export const DocumentsAdministratifs = (): ReactElement => {
   const { structure } = useStructureContext();
 
   const getFileUploadsToDisplay = (budget: Budget) => {
-    return (structure.fileUploads || [])?.filter(
-      (fileUpload) =>
+    return (structure.fileUploads || [])?.filter((fileUpload) => {
+      const isSameYear =
         new Date(fileUpload.date!).getFullYear() ===
-        new Date(budget.date).getFullYear()
-    );
+        new Date(budget.date).getFullYear();
+      const isOperateurCategory = OperateurFileUploadCategory.includes(
+        fileUpload.category as OperateurFileUploadCategoryType[number]
+      );
+      return isSameYear && isOperateurCategory;
+    });
   };
 
   return (
