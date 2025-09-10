@@ -46,6 +46,3 @@ next-env.d.ts
 # Dumps
 /dumps
 *.pgsl
-
-# Configuration VSCode
-!.vscode/settings.json
