@@ -45,8 +45,8 @@ export const TypePlaceHistory = ({
       firstElement === undefined
         ? 1
         : secondElement === undefined
-        ? -1
-        : secondElement - firstElement
+          ? -1
+          : secondElement - firstElement
     );
 
     const groupedByYear = adresseTypologies.reduce(
@@ -99,7 +99,7 @@ export const TypePlaceHistory = ({
     <Accordion label="Historique" className={styles["custom-accordion"]}>
       <Table
         bordered={true}
-        className="m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center text-mention-grey [&>table>thead]:text-mention-grey"
+        className="m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center [&>table>tbody>tr>td]:p-3 text-mention-grey [&>table>thead]:text-mention-grey [&>table>thead>tr>th]:text-xs"
         caption=""
         data={getTableData()}
         headers={[
@@ -112,7 +112,7 @@ export const TypePlaceHistory = ({
           "LOG. SOCIAL",
         ]}
       />
-      <span className="italic border-t-1 border-default-grey text-mention-grey pl-2">
+      <span className="italic block border-t-1 border-default-grey text-mention-grey py-2 px-4 text-xs">
         Les places correspondent aux nombres de places au 1er janvier de chaque
         année
       </span>
