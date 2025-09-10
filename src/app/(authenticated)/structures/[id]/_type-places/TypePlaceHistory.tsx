@@ -2,8 +2,8 @@ import { Accordion } from "@codegouvfr/react-dsfr/Accordion";
 import { Table } from "@codegouvfr/react-dsfr/Table";
 import { ReactElement } from "react";
 
-import { AdresseTypologie } from "@/types/adresse-typologie.type";
 import { Adresse } from "@/types/adresse.type";
+import { AdresseTypologie } from "@/types/adresse-typologie.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
 
 import styles from "../../../../components/common/Accordion.module.css";
