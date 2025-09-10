@@ -307,25 +307,28 @@ export const FinalisationQualiteForm = ({
         }
       />
 
-      {categoriesToDisplay.map((category) => {
+      {categoriesToDisplay.map((category, index) => {
         return (
-          <UploadsByCategory
-            key={category}
-            category={category}
-            categoryShortName={
-              categoriesDisplayRules[category].categoryShortName
-            }
-            title={categoriesDisplayRules[category].title}
-            canAddFile={categoriesDisplayRules[category].canAddFile}
-            canAddAvenant={categoriesDisplayRules[category].canAddAvenant}
-            isOptional={categoriesDisplayRules[category].isOptional}
-            fileMetaData={categoriesDisplayRules[category].fileMetaData}
-            documentLabel={categoriesDisplayRules[category].documentLabel}
-            addFileButtonLabel={
-              categoriesDisplayRules[category].addFileButtonLabel
-            }
-            notice={categoriesDisplayRules[category].notice}
-          />
+          <>
+            <UploadsByCategory
+              key={category}
+              category={category}
+              categoryShortName={
+                categoriesDisplayRules[category].categoryShortName
+              }
+              title={categoriesDisplayRules[category].title}
+              canAddFile={categoriesDisplayRules[category].canAddFile}
+              canAddAvenant={categoriesDisplayRules[category].canAddAvenant}
+              isOptional={categoriesDisplayRules[category].isOptional}
+              fileMetaData={categoriesDisplayRules[category].fileMetaData}
+              documentLabel={categoriesDisplayRules[category].documentLabel}
+              addFileButtonLabel={
+                categoriesDisplayRules[category].addFileButtonLabel
+              }
+              notice={categoriesDisplayRules[category].notice}
+            />
+            {index < categoriesToDisplay.length - 1 && <hr />}
+          </>
         );
       })}
       {state === "error" && (
