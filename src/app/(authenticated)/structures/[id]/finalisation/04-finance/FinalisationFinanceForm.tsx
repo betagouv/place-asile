@@ -182,6 +182,7 @@ export default function FinalisationFinanceForm({
         />
       )}
       <IndicateursGeneraux />
+      <hr />
       <Notice
         severity="warning"
         title=""
