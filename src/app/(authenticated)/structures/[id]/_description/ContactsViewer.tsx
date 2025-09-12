@@ -2,8 +2,8 @@
 
 import { ReactElement, useState } from "react";
 
+import { useCollectiveAddress } from "@/app/hooks/useStructuresCollectiveAdress";
 import { formatPhoneNumber } from "@/app/utils/phone.util";
-import { Repartition } from "@/types/adresse.type";
 
 import { useStructureContext } from "../context/StructureClientContext";
 
@@ -18,6 +18,8 @@ export const ContactsViewer = (): ReactElement => {
     communeAdministrative,
     contacts,
   } = structure || {};
+
+  const collectiveAddress = useCollectiveAddress(structure);
 
   return (
     <>
@@ -36,6 +38,8 @@ export const ContactsViewer = (): ReactElement => {
         >
           {showContacts ? "Masquer les contacts" : "Voir les contacts"}
         </button>
+      </div>
+      <div>
         {showContacts && (
           <div className="text-mention-grey">
             {contacts?.map((contact) => (
@@ -51,30 +55,16 @@ export const ContactsViewer = (): ReactElement => {
         )}
       </div>
 
-      {(() => {
-        // If there is only one address and it is collective and different from the administrative address, show it as Adresse d'hébergement
-        const collectiveAddress =
-          structure?.adresses &&
-          structure.adresses.length === 1 &&
-          structure.adresses[0].repartition.toUpperCase() ===
-            Repartition.COLLECTIF.toUpperCase()
-            ? structure.adresses[0]
-            : null;
-
-        const { adresse, codePostal, commune } = collectiveAddress || {};
-        return (
-          collectiveAddress &&
-          adresseAdministrative !== adresse && (
-            <>
-              <hr />
-              <div className="flex items-center">
-                <strong className="pr-2">Adresse d&apos;hébergement</strong>
-                {adresse}, {codePostal} {commune}
-              </div>
-            </>
-          )
-        );
-      })()}
+      {collectiveAddress && (
+        <>
+          <hr />
+          <div className="flex items-center">
+            <strong className="pr-2">Adresse d&apos;hébergement</strong>
+            {collectiveAddress.adresse}, {collectiveAddress.codePostal}{" "}
+            {collectiveAddress.commune}
+          </div>
+        </>
+      )}
     </>
   );
 };
