@@ -18,7 +18,6 @@ import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "./documentsStructures";
-import { cn } from "@/app/utils/classname.util";
 
 export const Documents = ({ className }: { className?: string }) => {
   const { structure } = useStructureContext();
