@@ -75,8 +75,9 @@ export const Documents = ({ className }: { className?: string }) => {
           label={year}
           expanded={forceExpanded}
           onExpandedChange={() => {}}
+          className="[&_.fr-collapse]:bg-alt-blue-france [&_.fr-collapse]:m-0 [&_.fr-collapse]:p-0"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 gap-y-8 p-6 ">
             {documents.map((document) => {
               const todayYear = new Date().getFullYear();
               if (Number(year) <= todayYear - document.yearIndex) {
@@ -93,6 +94,7 @@ export const Documents = ({ className }: { className?: string }) => {
                       name={`fileUploads.${currentDocIndex}.key`}
                       id={`fileUploads.${currentDocIndex}.key`}
                       control={control}
+                      className="[*]:!justify-start p-0 min-h-0 mt-2"
                     />
                     <input
                       type="hidden"
