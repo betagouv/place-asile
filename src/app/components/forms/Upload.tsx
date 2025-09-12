@@ -118,7 +118,17 @@ const Upload = ({
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.preventDefault();
+
+    const confirm = window.confirm(
+      "Attention, vous allez supprimer définitivement ce ficher. Etes vous bien sûr·e ?"
+    );
+
+    if (!confirm) {
+      return;
+    }
+
     setCurrentState("deleting");
+
     try {
       if (valueState) {
         await deleteFile(valueState);
