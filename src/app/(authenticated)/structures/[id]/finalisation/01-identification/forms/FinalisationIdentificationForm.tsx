@@ -94,6 +94,7 @@ export default function FinalisationIdentificationForm({
         previousStep={previousRoute}
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         onSubmit={handleSubmit}
+        mode="onChange"
       >
         {structure.state === StructureState.A_FINALISER && (
           <InformationBar
