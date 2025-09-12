@@ -2,6 +2,7 @@ import { useParams } from "next/navigation";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { formatPhoneNumber } from "@/app/utils/phone.util";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 import { IdentificationFormValues } from "../../../validation/identificationSchema";
 
@@ -25,18 +26,22 @@ export const Identification = () => {
         </p>
       </div>
       <div className="grid grid-cols-2 border-b border-default-grey pb-2 mb-3">
-        <p className="flex gap-4 mb-0">
-          <b>Code FINESS</b> {localStorageValues?.finessCode}
-        </p>
+        {isStructureAutorisee(localStorageValues?.type) && (
+          <p className="flex gap-4 mb-0">
+            <b>Code FINESS</b> {localStorageValues?.finessCode}
+          </p>
+        )}
         <p className="flex gap-4 mb-0">
           <b>Public</b> {localStorageValues?.public}
         </p>
       </div>
       <div className="grid grid-cols-2 border-b border-default-grey pb-2 mb-3">
-        <p className="flex gap-4 mb-0">
-          <b>Vulnérabilité</b> {localStorageValues?.lgbt && "LGBT"}{" "}
-          {localStorageValues?.fvvTeh && "FVV-TEH"}
-        </p>
+        {(localStorageValues?.lgbt || localStorageValues?.fvvTeh) && (
+          <p className="flex gap-4 mb-0">
+            <b>Vulnérabilité</b> {localStorageValues?.lgbt && "LGBT"}{" "}
+            {localStorageValues?.fvvTeh && "FVV-TEH"}
+          </p>
+        )}
         <p className="flex gap-4 mb-0">
           <b>CPOM</b> {localStorageValues?.debutCpom ? "Oui" : "Non"}
         </p>
@@ -62,7 +67,11 @@ export const Identification = () => {
             <span>{localStorageValues?.contactPrincipal?.email}</span>
           )}
           {localStorageValues?.contactPrincipal?.telephone && (
-            <span>{formatPhoneNumber(localStorageValues?.contactPrincipal?.telephone)}</span>
+            <span>
+              {formatPhoneNumber(
+                localStorageValues?.contactPrincipal?.telephone
+              )}
+            </span>
           )}
         </p>
       </div>
@@ -83,7 +92,11 @@ export const Identification = () => {
             <span>{localStorageValues?.contactSecondaire?.email}</span>
           )}
           {localStorageValues?.contactSecondaire?.telephone && (
-            <span>{formatPhoneNumber(localStorageValues?.contactSecondaire?.telephone)}</span>
+            <span>
+              {formatPhoneNumber(
+                localStorageValues?.contactSecondaire?.telephone
+              )}
+            </span>
           )}
         </p>
       </div>
@@ -114,17 +127,19 @@ export const Identification = () => {
           )}
         </p>
       </div>
-      <div className="border-b border-default-grey pb-2 mb-3">
-        <p className="mb-0">
-          <b className="pr-4">CPOM en cours</b>
-          {localStorageValues?.debutCpom && (
-            <span>{localStorageValues?.debutCpom}</span>
-          )}
-          {localStorageValues?.finCpom && (
-            <span> - {localStorageValues?.finCpom}</span>
-          )}
-        </p>
-      </div>
+      {localStorageValues?.cpom && (
+        <div className="border-b border-default-grey pb-2 mb-3">
+          <p className="mb-0">
+            <b className="pr-4">CPOM en cours</b>
+            {localStorageValues?.debutCpom && (
+              <span>{localStorageValues?.debutCpom}</span>
+            )}
+            {localStorageValues?.finCpom && (
+              <span> - {localStorageValues?.finCpom}</span>
+            )}
+          </p>
+        </div>
+      )}
     </>
   );
 };
