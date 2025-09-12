@@ -117,6 +117,29 @@ export const finalisationIdentificationSchema = z
   .refine(
     (data) => {
       if (
+        data.debutPeriodeAutorisation &&
+        data.finPeriodeAutorisation &&
+        data.debutPeriodeAutorisation !== "" &&
+        data.finPeriodeAutorisation !== ""
+      ) {
+        const debutDate = new Date(
+          data.debutPeriodeAutorisation.split("/").reverse().join("-")
+        );
+        const finDate = new Date(
+          data.finPeriodeAutorisation.split("/").reverse().join("-")
+        );
+        return finDate > debutDate;
+      }
+      return true;
+    },
+    {
+      message: "La date de fin doit être postérieure à la date de début",
+      path: ["finPeriodeAutorisation"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (
         isStructureAutorisee(data.type) &&
         (!data.finessCode || data.finessCode === "")
       ) {
