@@ -31,7 +31,7 @@ export const Table = ({
       className={cn(
         "w-full bg-lifted-grey overflow-hidden",
         "rounded-lg border-1 border-default-grey",
-        "[&_th]:uppercase [&_th_small]:block [&_th_tr]:text-mention-grey [&_th]:py-4 [&_th]:px-5 [&_th]:text-center [&_th]:text-sm",
+        "[&_th]:uppercase [&_th_small]:block [&_th_tr]:text-mention-grey [&_th]:py-2 [&_th]:px-4 [&_th]:text-center [&_th]:text-xs",
         "[&_td]:py-2 [&_td]:px-4 [&_td]:text-center [&_td]:text-sm ",
         enableBorders &&
           "[&_tr]:border-b [&_tbody_tr:last-child]:border-b-0 [&_th]:border-default-grey [&_tr]:border-default-grey [&_td]:border-default-grey",
