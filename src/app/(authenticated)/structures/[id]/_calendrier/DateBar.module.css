@@ -4,7 +4,6 @@
     transparent,
     var(--background-disabled-grey)
   );
-
   height: 10px;
   width: 3rem;
   flex-shrink: 0;
