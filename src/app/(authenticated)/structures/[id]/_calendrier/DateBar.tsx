@@ -27,7 +27,15 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
 
   return (
     <div className="fr-col fr-col-10 flex items-center">
-      <span>{new Date(datePair.startDate).toLocaleDateString()}</span>
+      <span
+        style={{
+          display: "inline-block",
+          width: "6rem",
+          flexShrink: 0,
+        }}
+      >
+        {new Date(datePair.startDate).toLocaleDateString()}
+      </span>
       <div className={styles["initial-offset"]}></div>
       <div
         className={styles["date-bar"]}

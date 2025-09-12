@@ -1,10 +1,12 @@
 .initial-offset {
-  margin-left: 1rem;
-  background-color: var(--background-disabled-grey);
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--background-disabled-grey)
+  );
+
   height: 10px;
-  width: 25px;
+  width: 3rem;
   flex-shrink: 0;
 }
 
@@ -17,7 +19,7 @@
 }
 
 .today {
-  margin-left: 5rem;
+  margin-left: 6.2rem;
 }
 
 .today span {
