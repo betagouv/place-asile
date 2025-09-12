@@ -160,6 +160,7 @@ const Upload = ({
       >
         {currentState === "idle" || currentState === "loading" ? (
           <span className="upload-idle flex items-center justify-center gap-2">
+            <i className="fr-icon-close-circle-fill text-disabled-grey" />
             {currentState === "idle" ? "Pas de fichier" : "Chargement..."}
 
             <Button
@@ -175,7 +176,7 @@ const Upload = ({
           </span>
         ) : null}
         {currentState === "success" ? (
-          <div className="upload-success grid grid-cols-[auto_1fr_auto] items-center justify-center gap-2 w-full">
+          <div className="upload-success grid grid-cols-[auto_1fr_auto_auto] items-center justify-center gap-2 w-full">
             <i className="fr-icon-file-text-fill text-action-high-blue-france" />
             <span className="truncate block w-full max-w-full">
               <a
@@ -194,6 +195,16 @@ const Upload = ({
                 </span>
               )}
             </span>
+            <Button
+              iconId="fr-icon-eye-line"
+              priority="tertiary no outline"
+              size="small"
+              className="!rounded-full !bg-white"
+              title="Télécharger le fichier"
+              onClick={() =>
+                window.open(file?.fileUrl, "_blank", "noopener,noreferrer")
+              }
+            />
             <Button
               iconId="fr-icon-delete-bin-line"
               priority="tertiary no outline"
@@ -239,7 +250,7 @@ const Upload = ({
         />
         <input
           type="text"
-          className="h-0 p-0 opacity-0"
+          className="h-0 p-0 opacity-0 absolute"
           aria-hidden="true"
           onChange={(e) => {
             onChange?.(e);
