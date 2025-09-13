@@ -415,4 +415,339 @@ describe("FinalisationIdentificationForm", () => {
     expect(screen.getByDisplayValue("2026-01-02")).toBeInTheDocument();
     expect(screen.getByDisplayValue("2028-01-02")).toBeInTheDocument();
   });
+
+  describe("date validation", () => {
+    it("should show error when finPeriodeAutorisation is before debutPeriodeAutorisation", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for période d'autorisation by their IDs
+      const debutDateInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutPeriodeAutorisation"]',
+      });
+      const finDateInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finPeriodeAutorisation"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutDateInput, { target: { value: "2023-12-31" } });
+        fireEvent.change(finDateInput, { target: { value: "2023-01-01" } });
+        fireEvent.blur(finDateInput);
+      });
+
+      // THEN
+      expect(
+        screen.getByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).toBeInTheDocument();
+    });
+
+    it("should show error when finPeriodeAutorisation is same as debutPeriodeAutorisation", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for période d'autorisation by their IDs
+      const debutDateInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutPeriodeAutorisation"]',
+      });
+      const finDateInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finPeriodeAutorisation"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutDateInput, { target: { value: "2023-01-01" } });
+        fireEvent.change(finDateInput, { target: { value: "2023-01-01" } });
+        fireEvent.blur(finDateInput);
+      });
+
+      // THEN
+      expect(
+        screen.getByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).toBeInTheDocument();
+    });
+
+    it("should not show error when finPeriodeAutorisation is after debutPeriodeAutorisation", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for période d'autorisation by their IDs
+      const debutDateInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutPeriodeAutorisation"]',
+      });
+      const finDateInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finPeriodeAutorisation"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutDateInput, { target: { value: "2023-01-01" } });
+        fireEvent.change(finDateInput, { target: { value: "2023-12-31" } });
+        fireEvent.blur(finDateInput);
+      });
+
+      // THEN
+      expect(
+        screen.queryByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).not.toBeInTheDocument();
+    });
+
+    it("should not show error when one of the dates is empty", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for période d'autorisation
+      const debutDateInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutPeriodeAutorisation"]',
+      });
+      const finDateInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finPeriodeAutorisation"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutDateInput, { target: { value: "2023-01-01" } });
+        fireEvent.blur(debutDateInput);
+        fireEvent.change(finDateInput, { target: { value: "" } });
+        fireEvent.blur(finDateInput);
+      });
+
+      // THEN
+      expect(
+        screen.queryByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).not.toBeInTheDocument();
+    });
+
+    it("should show error when finConvention is before debutConvention", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for convention by their IDs
+      const debutConventionInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutConvention"]',
+      });
+      const finConventionInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finConvention"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutConventionInput, {
+          target: { value: "2023-12-31" },
+        });
+        fireEvent.change(finConventionInput, {
+          target: { value: "2023-01-01" },
+        });
+        fireEvent.blur(finConventionInput);
+      });
+
+      // THEN
+      expect(
+        screen.getByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).toBeInTheDocument();
+    });
+
+    it("should show error when finConvention is same as debutConvention", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for convention by their IDs
+      const debutConventionInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutConvention"]',
+      });
+      const finConventionInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finConvention"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutConventionInput, {
+          target: { value: "2023-01-01" },
+        });
+        fireEvent.change(finConventionInput, {
+          target: { value: "2023-01-01" },
+        });
+        fireEvent.blur(finConventionInput);
+      });
+
+      // THEN
+      expect(
+        screen.getByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).toBeInTheDocument();
+    });
+
+    it("should not show error when finConvention is after debutConvention", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for convention by their IDs
+      const debutConventionInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutConvention"]',
+      });
+      const finConventionInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finConvention"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutConventionInput, {
+          target: { value: "2023-01-01" },
+        });
+        fireEvent.change(finConventionInput, {
+          target: { value: "2023-12-31" },
+        });
+        fireEvent.blur(finConventionInput);
+      });
+
+      // THEN
+      expect(
+        screen.queryByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).not.toBeInTheDocument();
+    });
+
+    it("should show error when finCpom is before debutCpom", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for CPOM by their IDs
+      const debutCpomInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutCpom"]',
+      });
+      const finCpomInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finCpom"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutCpomInput, { target: { value: "2023-12-31" } });
+        fireEvent.change(finCpomInput, { target: { value: "2023-01-01" } });
+        fireEvent.blur(finCpomInput);
+      });
+
+      // THEN
+      expect(
+        screen.getByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).toBeInTheDocument();
+    });
+
+    it("should show error when finCpom is same as debutCpom", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for CPOM by their IDs
+      const debutCpomInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutCpom"]',
+      });
+      const finCpomInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finCpom"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutCpomInput, { target: { value: "2023-01-01" } });
+        fireEvent.change(finCpomInput, { target: { value: "2023-01-01" } });
+        fireEvent.blur(finCpomInput);
+      });
+
+      // THEN
+      expect(
+        screen.getByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).toBeInTheDocument();
+    });
+
+    it("should not show error when finCpom is after debutCpom", async () => {
+      // GIVEN
+      const currentStep = 1;
+      const structure = createStructure({
+        cpom: true,
+      });
+
+      // WHEN
+      renderWithContext(currentStep, structure);
+
+      // Find the specific date inputs for CPOM by their IDs
+      const debutCpomInput = screen.getByLabelText("Date de début", {
+        selector: 'input[name="debutCpom"]',
+      });
+      const finCpomInput = screen.getByLabelText("Date de fin", {
+        selector: 'input[name="finCpom"]',
+      });
+
+      await act(async () => {
+        fireEvent.change(debutCpomInput, { target: { value: "2023-01-01" } });
+        fireEvent.change(finCpomInput, { target: { value: "2023-12-31" } });
+        fireEvent.blur(finCpomInput);
+      });
+
+      // THEN
+      expect(
+        screen.queryByText(
+          "La date de fin doit être postérieure à la date de début"
+        )
+      ).not.toBeInTheDocument();
+    });
+  });
 });
