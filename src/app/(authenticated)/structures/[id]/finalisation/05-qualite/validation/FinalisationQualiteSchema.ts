@@ -20,7 +20,7 @@ export const fileUploadSchema = z.object({
   avenants: z.array(avenantSchema).optional(),
   categoryName: z.string().optional(),
   // TODO : mieux séparer controleSchema et fileUploadSchema
-  type: z.nativeEnum(ControleType).optional(),
+  type: z.enum(ControleType).optional(),
   parentFileUploadId: z.any().optional(),
   uuid: z.string().optional(),
 });

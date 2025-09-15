@@ -7,7 +7,7 @@ const adresseSchema = z.object({
   adresse: z.string().nonempty(),
   codePostal: z.string().nonempty(),
   commune: z.string().nonempty(),
-  repartition: z.nativeEnum(Repartition),
+  repartition: z.enum(Repartition),
   places: z
     .preprocess(
       (val) => (val === "" ? undefined : Number(val)),
@@ -28,7 +28,7 @@ export const AdressesSchema = z
     codePostalAdministratif: z.string().nonempty(),
     communeAdministrative: z.string().nonempty(),
     departementAdministratif: z.string().nonempty(),
-    typeBati: z.nativeEnum(Repartition),
+    typeBati: z.enum(Repartition),
     sameAddress: z.boolean().optional(),
     adresses: z.array(
       adresseSchema.superRefine((adresse, ctx) => {
@@ -40,7 +40,7 @@ export const AdressesSchema = z
             adresse.places === 0)
         ) {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             message: "Requis",
             path: ["places"],
           });
@@ -62,7 +62,7 @@ export const AdressesSchema = z
         adresse.repartition !== Repartition.COLLECTIF
       ) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message: "Type de bâti requis",
           path: ["adresses", index, "repartition"],
         });

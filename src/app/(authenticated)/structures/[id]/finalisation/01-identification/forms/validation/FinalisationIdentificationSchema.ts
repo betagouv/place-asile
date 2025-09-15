@@ -20,11 +20,11 @@ export const finalisationIdentificationSchema = z
     }),
     type: z.preprocess(
       (val) => (val === "" ? undefined : val),
-      z.nativeEnum(StructureType)
+      z.enum(StructureType)
     ),
     creationDate: createDateFieldValidator(),
     finessCode: z.string().optional().or(z.literal("")),
-    public: z.nativeEnum(PublicType),
+    public: z.enum(PublicType),
     filiale: z.string().optional(),
     cpom: z.boolean(),
     lgbt: z.boolean(),
@@ -45,8 +45,8 @@ export const finalisationIdentificationSchema = z
       return true;
     },
     {
-      message: "La date de début CPOM est obligatoire",
       path: ["debutCpom"],
+        error: "La date de début CPOM est obligatoire"
     }
   )
   .refine(
@@ -57,15 +57,15 @@ export const finalisationIdentificationSchema = z
       return true;
     },
     {
-      message: "La date de fin CPOM est obligatoire",
       path: ["finCpom"],
+        error: "La date de fin CPOM est obligatoire"
     }
   )
   .superRefine((data, ctx) => {
     if (isStructureAutorisee(data.type)) {
       if (!data.debutPeriodeAutorisation) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message:
             "La date de début de période d'autorisation est obligatoire pour les structures autorisées",
           path: ["debutPeriodeAutorisation"],
@@ -74,7 +74,7 @@ export const finalisationIdentificationSchema = z
 
       if (data.cpom && !data.finPeriodeAutorisation) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message:
             "La date de fin de période d'autorisation est obligatoire pour les structures autorisées",
           path: ["finPeriodeAutorisation"],
@@ -93,9 +93,8 @@ export const finalisationIdentificationSchema = z
       return true;
     },
     {
-      message:
-        "La date de début de convention est obligatoire pour les structures subventionnées",
       path: ["debutConvention"],
+        error: "La date de début de convention est obligatoire pour les structures subventionnées"
     }
   )
   .refine(
@@ -109,9 +108,8 @@ export const finalisationIdentificationSchema = z
       return true;
     },
     {
-      message:
-        "La date de fin de convention est obligatoire pour les structures subventionnées",
       path: ["finConvention"],
+        error: "La date de fin de convention est obligatoire pour les structures subventionnées"
     }
   )
   .refine(
@@ -125,8 +123,8 @@ export const finalisationIdentificationSchema = z
       return true;
     },
     {
-      message: "Le code FINESS est obligatoire pour les structures autorisées",
       path: ["finessCode"],
+        error: "Le code FINESS est obligatoire pour les structures autorisées"
     }
   );
 

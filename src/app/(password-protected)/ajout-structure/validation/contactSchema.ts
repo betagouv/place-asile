@@ -5,7 +5,7 @@ const baseContactSchema = z.object({
   prenom: z.string(),
   nom: z.string(),
   role: z.string(),
-  email: z.string().email("Veuillez saisir une adresse email valide"),
+  email: z.email("Veuillez saisir une adresse email valide"),
   telephone: z
     .string()
     .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères"),
@@ -16,10 +16,8 @@ export const requiredContactSchema = z.object({
   prenom: z.string().nonempty("Le prénom est requis"),
   nom: z.string().nonempty("Le nom est requis"),
   role: z.string().nonempty("Le rôle est requis"),
-  email: z
-    .string()
-    .nonempty("Veuillez saisir une adresse email valide")
-    .email("Veuillez saisir une adresse email valide"),
+  email: z.email("Veuillez saisir une adresse email valide")
+      .nonempty("Veuillez saisir une adresse email valide"),
   telephone: z
     .string()
     .nonempty("Le téléphone est requis")
@@ -63,7 +61,7 @@ const optionalContactSchema = baseContactSchema
       fields.forEach((field) => {
         if (!field.value || field.value === "") {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             message: field.message,
             path: [field.name],
           });

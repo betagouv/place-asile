@@ -13,23 +13,21 @@ import {
 import { frDateField, mandatoryFrDateField } from "./structure.util";
 
 const adresseTypologieSchema = z.object({
-  placesAutorisees: z
-    .number()
-    .int()
+  placesAutorisees: z.int()
     .positive()
     .min(1, "Le nombre de places total est requis"),
   date: z.coerce.date({
-    message: "La date de la typologie d'adresse est requise",
-  }),
-  qpv: z.number().int(), // TODO : Gérer la validation de la valeur 0
-  logementSocial: z.number().int(),
+      error: "La date de la typologie d'adresse est requise"
+}),
+  qpv: z.int(), // TODO : Gérer la validation de la valeur 0
+  logementSocial: z.int(),
 });
 
 const adresseSchema = z.object({
   adresse: z.string().min(1, "L'adresse du logement est requise"),
   codePostal: z.string().min(1, "Le code postal du logement est requis"),
   commune: z.string().min(1, "Le code postal du logement est requis"),
-  repartition: z.nativeEnum(Repartition),
+  repartition: z.enum(Repartition),
   typologies: z.array(adresseTypologieSchema),
 });
 
@@ -37,16 +35,18 @@ const contactSchema = z.object({
   prenom: z.string().min(1, "Le prénom du contact est requis"),
   nom: z.string().min(1, "Le nom du contact est requis"),
   telephone: z.string().min(1, "Le numéro de téléphone du contact est requis"),
-  email: z.string().email().min(1, "L'email du contact est requis"),
+  email: z.email().min(1, "L'email du contact est requis"),
   role: z.string().min(1, "Le rôle du contact est requis"),
 });
 
 const structureTypologieSchema = z.object({
-  date: z.coerce.date({ message: "La date de la typologie est requise" }),
-  placesAutorisees: z.number().int(),
-  pmr: z.number().int(),
-  lgbt: z.number().int(),
-  fvvTeh: z.number().int(),
+  date: z.coerce.date({
+      error: "La date de la typologie est requise"
+}),
+  placesAutorisees: z.int(),
+  pmr: z.int(),
+  lgbt: z.int(),
+  fvvTeh: z.int(),
 });
 
 const fileUploadSchema = z.object({
@@ -59,7 +59,7 @@ export const structureCreationSchema = z.object({
   dnaCode: z.string().min(1, "Le code DNA est requis"),
   operateur: z.object({ id: z.number(), name: z.string() }),
   filiale: z.string().optional(),
-  type: z.nativeEnum(StructureType),
+  type: z.enum(StructureType),
   adresseAdministrative: z
     .string()
     .min(1, "L'adresse administrative est requise"),
@@ -76,17 +76,19 @@ export const structureCreationSchema = z.object({
   debutConvention: createNullableDateValidator().optional(),
   finConvention: createNullableDateValidator().optional(),
   cpom: z.boolean({
-    message: "Le CPOM est requis",
-  }),
-  creationDate: z.coerce.date({ message: "La date de création est requise" }),
+      error: "Le CPOM est requis"
+}),
+  creationDate: z.coerce.date({
+      error: "La date de création est requise"
+}),
   finessCode: z.string().optional(),
   lgbt: z.boolean({
-    message: "L'accueil de LGBT dans la structure est requis",
-  }),
+      error: "L'accueil de LGBT dans la structure est requis"
+}),
   fvvTeh: z.boolean({
-    message: "L'accueil de FVV-TEH dans la structure est requis",
-  }),
-  public: z.nativeEnum(PublicType),
+      error: "L'accueil de FVV-TEH dans la structure est requis"
+}),
+  public: z.enum(PublicType),
   debutPeriodeAutorisation: createNullableDateValidator().optional(),
   finPeriodeAutorisation: createNullableDateValidator().optional(),
   debutCpom: createNullableDateValidator().optional(),
@@ -123,23 +125,23 @@ const budgetSchema = z.object({
 
 const controleSchema = z.object({
   date: z.coerce.date(),
-  type: z.nativeEnum(ControleType),
+  type: z.enum(ControleType),
   fileUploadKey: z.string(),
 });
 
 const updateStructureTypologieSchema = z.object({
   id: z.number().optional(),
-  placesAutorisees: z.number().int(),
-  pmr: z.number().int(),
-  lgbt: z.number().int(),
-  fvvTeh: z.number().int(),
+  placesAutorisees: z.int(),
+  pmr: z.int(),
+  lgbt: z.int(),
+  fvvTeh: z.int(),
 });
 
 export const structureUpdateSchema = z.object({
   dnaCode: z.string().min(1, "Le code DNA est requis"),
   operateur: z.object({ id: z.number(), name: z.string() }).optional(),
   filiale: z.string().optional(),
-  type: z.nativeEnum(StructureType).optional(),
+  type: z.enum(StructureType).optional(),
   adresseAdministrative: z
     .string()
     .min(1, "L'adresse administrative est requise")
@@ -161,32 +163,32 @@ export const structureUpdateSchema = z.object({
   finConvention: frDateField(),
   cpom: z
     .boolean({
-      message: "Le CPOM est requis",
+        error: "Le CPOM est requis"
     })
     .optional(),
   creationDate: frDateField(),
   finessCode: z.string().optional(),
   lgbt: z
     .boolean({
-      message: "L'accueil de LGBT dans la structure est requis",
+        error: "L'accueil de LGBT dans la structure est requis"
     })
     .optional(),
   fvvTeh: z
     .boolean({
-      message: "L'accueil de FVV-TEH dans la structure est requis",
+        error: "L'accueil de FVV-TEH dans la structure est requis"
     })
     .optional(),
-  public: z.nativeEnum(PublicType).optional(),
+  public: z.enum(PublicType).optional(),
   debutPeriodeAutorisation: frDateField(),
   finPeriodeAutorisation: frDateField(),
   debutCpom: frDateField(),
   finCpom: frDateField(),
-  placesACreer: z.number().int().optional(),
-  placesAFermer: z.number().int().optional(),
+  placesACreer: z.int().optional(),
+  placesAFermer: z.int().optional(),
   echeancePlacesACreer: frDateField(),
   echeancePlacesAFermer: frDateField(),
   notes: z.string().optional().nullable(),
-  state: z.nativeEnum(StructureState).optional(),
+  state: z.enum(StructureState).optional(),
   adresses: z
     .array(adresseSchema.extend({ id: z.number().optional() }))
     .optional(),

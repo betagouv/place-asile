@@ -47,7 +47,9 @@ export const createOptionalDateValidator = () => {
 
         return DATE_FORMAT_REGEX.test(val);
       },
-      { message: "Format de date invalide (JJ/MM/AAAA)" }
+      {
+          error: "Format de date invalide (JJ/MM/AAAA)"
+    }
     );
 };
 
