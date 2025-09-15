@@ -3,6 +3,7 @@ import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FieldValues } from "react-hook-form";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
@@ -164,7 +165,7 @@ export default function FinalisationFinanceForm({
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
-      onSubmit={handleSubmit as any}
+      onSubmit={handleSubmit as (data: FieldValues) => Promise<void>}
     >
       {structure.state === StructureState.A_FINALISER && (
         <InformationBar

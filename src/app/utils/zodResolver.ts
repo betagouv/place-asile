@@ -1,5 +1,7 @@
-import { FieldValues, Resolver } from "react-hook-form";
+import { FieldError, FieldValues, Resolver } from "react-hook-form";
 import { z } from "zod";
+
+type FieldErrors = Record<string, FieldError>;
 
 export function zodResolver<T extends z.ZodTypeAny>(
   schema: T
@@ -13,7 +15,7 @@ export function zodResolver<T extends z.ZodTypeAny>(
       };
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const fieldErrors: Record<string, any> = {};
+        const fieldErrors: FieldErrors = {};
 
         error.issues.forEach((issue) => {
           const path = issue.path.join(".");

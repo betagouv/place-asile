@@ -3,16 +3,26 @@ import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import {
+  Control,
+  UseFormGetValues,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
 
 import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { FormAdresse } from "@/app/utils/adresse.util";
 import { Repartition } from "@/types/adresse.type";
 
 import AdressesList from "../[dnaCode]/02-adresses/AdressesList";
-import { AdressesSchema } from "../validation/adressesSchema";
+import {
+  AdressesFormValues,
+  AdressesSchema,
+} from "../validation/adressesSchema";
 
 export default function FormAdresses() {
   const params = useParams();
@@ -109,10 +119,12 @@ export default function FormAdresses() {
               { shouldValidate: false }
             );
           } else {
-            const updatedAdresses = currentAdresses.map((adresse: any) => ({
-              ...adresse,
-              repartition: value as Repartition,
-            }));
+            const updatedAdresses = currentAdresses.map(
+              (adresse: FormAdresse) => ({
+                ...adresse,
+                repartition: value as Repartition,
+              })
+            );
 
             setValue("adresses", updatedAdresses, {
               shouldValidate: false,
@@ -222,10 +234,14 @@ export default function FormAdresses() {
             </fieldset>
             {watch("typeBati") && (
               <AdressesList
-                watch={watch as any}
-                control={control as any}
-                setValue={setValue as any}
-                getValues={getValues as any}
+                watch={watch as unknown as UseFormWatch<AdressesFormValues>}
+                control={control as unknown as Control<AdressesFormValues>}
+                setValue={
+                  setValue as unknown as UseFormSetValue<AdressesFormValues>
+                }
+                getValues={
+                  getValues as unknown as UseFormGetValues<AdressesFormValues>
+                }
                 setError={setError}
               />
             )}

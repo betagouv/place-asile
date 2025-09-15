@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Controller } from "react-hook-form";
+import { Control, UseFormRegister } from "react-hook-form";
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
@@ -168,9 +169,13 @@ export default function FormDocuments() {
                         <DocumentItem
                           key={`${document.value}-${year}`}
                           year={year}
-                          control={control as any}
+                          control={
+                            control as unknown as Control<DocumentsSchemaFlexible>
+                          }
                           index={currentDocIndex}
-                          register={register as any}
+                          register={
+                            register as unknown as UseFormRegister<DocumentsSchemaFlexible>
+                          }
                           categoryLabel={document.label}
                           categorySubLabel={document.subLabel}
                           categoryValue={document.value}

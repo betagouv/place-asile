@@ -1,57 +1,75 @@
 import { z } from "zod";
 
+// Types pour les propriétés spécifiques des issues Zod
+type ZodIssueWithReceived = z.ZodIssue & { received: string; expected: string };
+type ZodIssueWithKeys = z.ZodIssue & { keys: string[] };
+type ZodIssueWithType = z.ZodIssue & { type: string };
+type ZodIssueWithMinimum = z.ZodIssue & { minimum: number };
+type ZodIssueWithMaximum = z.ZodIssue & { maximum: number };
+type ZodIssueWithMultipleOf = z.ZodIssue & { multipleOf: number };
+
 // French error messages for Zod
 export const frenchErrorMap = (
   issue: z.ZodIssue,
-  ctx: any
+  ctx: { defaultError?: string }
 ): { message: string } => {
   // Default error message in French
   let message = "Champ invalide";
 
   switch (issue.code) {
-    case "invalid_type":
+    case "invalid_type": {
+      const typedIssue = issue as ZodIssueWithReceived;
       if (
-        (issue as any).received === "undefined" ||
-        (issue as any).received === "null"
+        typedIssue.received === "undefined" ||
+        typedIssue.received === "null"
       ) {
         message = "Ce champ est requis";
       } else {
-        message = `Type attendu : ${(issue as any).expected}, reçu : ${(issue as any).received}`;
+        message = `Type attendu : ${typedIssue.expected}, reçu : ${typedIssue.received}`;
       }
       break;
-    case "unrecognized_keys":
-      message = `Clé(s) non reconnue(s) : ${(issue as any).keys?.join(", ")}`;
+    }
+    case "unrecognized_keys": {
+      const typedIssue = issue as ZodIssueWithKeys;
+      message = `Clé(s) non reconnue(s) : ${typedIssue.keys?.join(", ")}`;
       break;
+    }
     case "invalid_union":
       message = "Entrée invalide";
       break;
     case "invalid_value":
       message = "Valeur invalide";
       break;
-    case "too_small":
-      if ((issue as any).type === "array")
-        message = `Doit contenir au moins ${(issue as any).minimum} élément(s)`;
-      else if ((issue as any).type === "string")
-        message = `Doit contenir au moins ${(issue as any).minimum} caractère(s)`;
-      else if ((issue as any).type === "number")
-        message = `Doit être supérieur ou égal à ${(issue as any).minimum}`;
+    case "too_small": {
+      const typedIssue = issue as ZodIssueWithType & ZodIssueWithMinimum;
+      if (typedIssue.type === "array")
+        message = `Doit contenir au moins ${typedIssue.minimum} élément(s)`;
+      else if (typedIssue.type === "string")
+        message = `Doit contenir au moins ${typedIssue.minimum} caractère(s)`;
+      else if (typedIssue.type === "number")
+        message = `Doit être supérieur ou égal à ${typedIssue.minimum}`;
       else message = "Valeur trop petite";
       break;
-    case "too_big":
-      if ((issue as any).type === "array")
-        message = `Doit contenir au maximum ${(issue as any).maximum} élément(s)`;
-      else if ((issue as any).type === "string")
-        message = `Doit contenir au maximum ${(issue as any).maximum} caractère(s)`;
-      else if ((issue as any).type === "number")
-        message = `Doit être inférieur ou égal à ${(issue as any).maximum}`;
+    }
+    case "too_big": {
+      const typedIssue = issue as ZodIssueWithType & ZodIssueWithMaximum;
+      if (typedIssue.type === "array")
+        message = `Doit contenir au maximum ${typedIssue.maximum} élément(s)`;
+      else if (typedIssue.type === "string")
+        message = `Doit contenir au maximum ${typedIssue.maximum} caractère(s)`;
+      else if (typedIssue.type === "number")
+        message = `Doit être inférieur ou égal à ${typedIssue.maximum}`;
       else message = "Valeur trop grande";
       break;
+    }
     case "custom":
       message = "Validation échouée";
       break;
-    case "not_multiple_of":
-      message = `Doit être un multiple de ${(issue as any).multipleOf}`;
+    case "not_multiple_of": {
+      const typedIssue = issue as ZodIssueWithMultipleOf;
+      message = `Doit être un multiple de ${typedIssue.multipleOf}`;
       break;
+    }
     default:
       message = ctx.defaultError || "Champ invalide";
   }
@@ -60,4 +78,4 @@ export const frenchErrorMap = (
 };
 
 // Set the error map globally
-z.setErrorMap(frenchErrorMap as any);
+z.setErrorMap(frenchErrorMap as unknown as z.ZodErrorMap);
