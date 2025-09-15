@@ -2,7 +2,7 @@
 
 import { ReactElement, useState } from "react";
 
-import { useCollectiveAddress } from "@/app/hooks/useStructuresCollectiveAdress";
+import { getCollectiveAddress } from "@/app/utils/collectiveAdress";
 import { formatPhoneNumber } from "@/app/utils/phone.util";
 
 import { useStructureContext } from "../context/StructureClientContext";
@@ -19,7 +19,7 @@ export const ContactsViewer = (): ReactElement => {
     contacts,
   } = structure || {};
 
-  const collectiveAddress = useCollectiveAddress(structure);
+  const collectiveAddress = getCollectiveAddress(structure);
 
   return (
     <>

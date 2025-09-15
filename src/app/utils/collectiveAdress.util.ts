@@ -1,7 +1,7 @@
 import { Repartition } from "@/types/adresse.type";
 import { Structure } from "@/types/structure.type";
 
-export const useCollectiveAddress = (structure: Structure | null) => {
+export const getCollectiveAddress = (structure: Structure | null) => {
   const collectiveAddress =
     structure?.adresses &&
     structure.adresses.length === 1 &&
