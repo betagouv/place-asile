@@ -2,7 +2,7 @@
 
 import { ReactElement, useState } from "react";
 
-import { getCollectiveAddress } from "@/app/utils/collectiveAdress";
+import { getCollectiveAddress } from "@/app/utils/collectiveAdress.util";
 import { formatPhoneNumber } from "@/app/utils/phone.util";
 
 import { useStructureContext } from "../context/StructureClientContext";
