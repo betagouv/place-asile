@@ -36,21 +36,21 @@ export const DocumentsTypeConditional = z
       if (!data.key) {
         ctx.addIssue({
           path: ["key"],
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message: "Ce champ est requis",
         });
       }
       if (!data.date) {
         ctx.addIssue({
           path: ["date"],
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message: "Ce champ est requis",
         });
       }
       if (!data.category) {
         ctx.addIssue({
           path: ["category"],
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           message: "Ce champ est requis",
         });
       }

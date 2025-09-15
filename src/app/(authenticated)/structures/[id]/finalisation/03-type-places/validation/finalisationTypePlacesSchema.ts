@@ -12,30 +12,46 @@ export const finalisationTypePlacesSchema = z
         placesAutorisees: z.union([
           z
             .string()
-            .min(1, { message: "Nombre de places requis" })
+            .min(1, {
+                error: "Nombre de places requis"
+            })
             .transform(Number),
-          z.number().min(0, { message: "Nombre de places requis" }),
+          z.number().min(0, {
+              error: "Nombre de places requis"
+        }),
         ]),
         pmr: z.union([
           z
             .string()
-            .min(1, { message: "Nombre de places PMR requis" })
+            .min(1, {
+                error: "Nombre de places PMR requis"
+            })
             .transform(Number),
-          z.number().min(0, { message: "Nombre de places PMR requis" }),
+          z.number().min(0, {
+              error: "Nombre de places PMR requis"
+        }),
         ]),
         lgbt: z.union([
           z
             .string()
-            .min(1, { message: "Nombre de places LGBT requis" })
+            .min(1, {
+                error: "Nombre de places LGBT requis"
+            })
             .transform(Number),
-          z.number().min(0, { message: "Nombre de places LGBT requis" }),
+          z.number().min(0, {
+              error: "Nombre de places LGBT requis"
+        }),
         ]),
         fvvTeh: z.union([
           z
             .string()
-            .min(1, { message: "Nombre de places FVV/TEH requis" })
+            .min(1, {
+                error: "Nombre de places FVV/TEH requis"
+            })
             .transform(Number),
-          z.number().min(0, { message: "Nombre de places FVV/TEH requis" }),
+          z.number().min(0, {
+              error: "Nombre de places FVV/TEH requis"
+        }),
         ]),
       })
     ),
@@ -49,8 +65,8 @@ export const finalisationTypePlacesSchema = z
       return data.placesACreer <= 0 || !!data.echeancePlacesACreer;
     },
     {
-      message: "Ce champ est obligatoire s'il y a au moins une place à créer",
       path: ["echeancePlacesACreer"],
+        error: "Ce champ est obligatoire s'il y a au moins une place à créer"
     }
   )
   .refine(
@@ -58,7 +74,7 @@ export const finalisationTypePlacesSchema = z
       return data.placesAFermer <= 0 || !!data.echeancePlacesAFermer;
     },
     {
-      message: "Ce champ est obligatoire s'il y a au moins une place à fermer",
       path: ["echeancePlacesAFermer"],
+        error: "Ce champ est obligatoire s'il y a au moins une place à fermer"
     }
   );

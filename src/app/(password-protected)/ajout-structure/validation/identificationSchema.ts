@@ -18,11 +18,11 @@ export const IdentificationSchema = z
     }),
     type: z.preprocess(
       (val) => (val === "" ? undefined : val),
-      z.nativeEnum(StructureType)
+      z.enum(StructureType)
     ),
     creationDate: createDateFieldValidator(),
     finessCode: z.string().optional().or(z.literal("")),
-    public: z.nativeEnum(PublicType),
+    public: z.enum(PublicType),
     filiale: z.string().optional(),
     cpom: z.boolean(),
     lgbt: z.boolean(),
@@ -41,8 +41,8 @@ export const IdentificationSchema = z
       return !data.cpom || data.debutCpom;
     },
     {
-      message: "La date de début CPOM est obligatoire",
       path: ["debutCpom"],
+        error: "La date de début CPOM est obligatoire"
     }
   )
   .refine(
@@ -50,8 +50,8 @@ export const IdentificationSchema = z
       return !data.cpom || data.finCpom;
     },
     {
-      message: "La date de fin CPOM est obligatoire",
       path: ["finCpom"],
+        error: "La date de fin CPOM est obligatoire"
     }
   )
   .refine(
@@ -65,9 +65,8 @@ export const IdentificationSchema = z
       return true;
     },
     {
-      message:
-        "La date de début est obligatoire pour les structures autorisées",
       path: ["debutPeriodeAutorisation"],
+        error: "La date de début est obligatoire pour les structures autorisées"
     }
   )
   .refine(
@@ -81,8 +80,8 @@ export const IdentificationSchema = z
       return true;
     },
     {
-      message: "La date de fin est obligatoire pour les structures autorisées",
       path: ["finPeriodeAutorisation"],
+        error: "La date de fin est obligatoire pour les structures autorisées"
     }
   )
   .refine(
@@ -96,9 +95,8 @@ export const IdentificationSchema = z
       return true;
     },
     {
-      message:
-        "La date de début est obligatoire pour les structures subventionnées",
       path: ["debutConvention"],
+        error: "La date de début est obligatoire pour les structures subventionnées"
     }
   )
   .refine(
@@ -112,9 +110,8 @@ export const IdentificationSchema = z
       return true;
     },
     {
-      message:
-        "La date de fin est obligatoire pour les structures subventionnées",
       path: ["finConvention"],
+        error: "La date de fin est obligatoire pour les structures subventionnées"
     }
   )
   .refine(
@@ -128,8 +125,8 @@ export const IdentificationSchema = z
       return true;
     },
     {
-      message: "Le code FINESS est obligatoire pour les structures autorisées",
       path: ["finessCode"],
+        error: "Le code FINESS est obligatoire pour les structures autorisées"
     }
   );
 

@@ -8,7 +8,7 @@ describe("useFieldValidator", () => {
   // Create a test schema with French error messages
   const testSchema = z.object({
     name: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
-    email: z.string().email("L'email est invalide"),
+    email: z.email("L'email est invalide"),
     age: z.number().min(18, "Doit avoir au moins 18 ans"),
   });
 

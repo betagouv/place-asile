@@ -19,7 +19,7 @@ export function useFieldValidator<T extends z.ZodObject<ZodObjectShape>>(
     const result = fieldSchema.safeParse(value);
 
     if (!result.success) {
-      return result.error.errors.map((err: z.ZodIssue) => err.message);
+      return result.error.issues.map((err: z.ZodIssue) => err.message);
     }
     return;
   };

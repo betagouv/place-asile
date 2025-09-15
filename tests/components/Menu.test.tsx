@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import client from "next-auth/react";
-import { describe, expect, it,Mock } from "vitest";
+import { describe, expect, it, Mock } from "vitest";
 
 import { Menu } from "@/app/components/Menu";
 
@@ -21,7 +21,7 @@ describe("Menu", () => {
 
     // THEN
     const logo = screen.getByRole("link", {
-      name: "Place d’asile",
+      name: "Placed’asile",
     });
     expect(logo).toHaveAttribute("href", "/");
     const structures = screen.getByRole("link", {

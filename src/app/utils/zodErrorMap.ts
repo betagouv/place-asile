@@ -1,104 +1,81 @@
 import { z } from "zod";
 
-// Define the type based on Zod's type structure
-type ErrorMapCtx = z.ErrorMapCtx;
+// Types pour les propriétés spécifiques des issues Zod
+type ZodIssueWithReceived = z.ZodIssue & { received: string; expected: string };
+type ZodIssueWithKeys = z.ZodIssue & { keys: string[] };
+type ZodIssueWithType = z.ZodIssue & { type: string };
+type ZodIssueWithMinimum = z.ZodIssue & { minimum: number };
+type ZodIssueWithMaximum = z.ZodIssue & { maximum: number };
+type ZodIssueWithMultipleOf = z.ZodIssue & { multipleOf: number };
 
 // French error messages for Zod
 export const frenchErrorMap = (
-  issue: z.ZodIssueOptionalMessage,
-  ctx: ErrorMapCtx
+  issue: z.ZodIssue,
+  ctx: { defaultError?: string }
 ): { message: string } => {
   // Default error message in French
   let message = "Champ invalide";
 
   switch (issue.code) {
-    case "invalid_type":
-      if (issue.received === "undefined" || issue.received === "null") {
+    case "invalid_type": {
+      const typedIssue = issue as ZodIssueWithReceived;
+      if (
+        typedIssue.received === "undefined" ||
+        typedIssue.received === "null"
+      ) {
         message = "Ce champ est requis";
       } else {
-        message = `Type attendu : ${issue.expected}, reçu : ${issue.received}`;
+        message = `Type attendu : ${typedIssue.expected}, reçu : ${typedIssue.received}`;
       }
       break;
-    case "invalid_literal":
-      message = `Valeur invalide (${issue.received}), valeur attendue : ${JSON.stringify(
-        issue.expected
-      )}`;
+    }
+    case "unrecognized_keys": {
+      const typedIssue = issue as ZodIssueWithKeys;
+      message = `Clé(s) non reconnue(s) : ${typedIssue.keys?.join(", ")}`;
       break;
-    case "unrecognized_keys":
-      message = `Clé(s) non reconnue(s) : ${issue.keys?.join(", ")}`;
-      break;
+    }
     case "invalid_union":
       message = "Entrée invalide";
       break;
-    case "invalid_union_discriminator":
-      message = `Valeur discriminante invalide, attendue : ${issue.options?.join(
-        ", "
-      )}`;
+    case "invalid_value":
+      message = "Valeur invalide";
       break;
-    case "invalid_enum_value":
-      message = `Valeur invalide (${issue.received}), attendue : ${issue.options?.join(" | ")}`;
-      break;
-    case "invalid_arguments":
-      message = "Arguments de fonction invalides";
-      break;
-    case "invalid_return_type":
-      message = "Type de retour de fonction invalide";
-      break;
-    case "invalid_date":
-      message = "Date invalide";
-      break;
-    case "invalid_string":
-      if (typeof issue.validation === "object") {
-        if ("includes" in issue.validation) {
-          message = `La chaîne doit inclure "${issue.validation.includes}"`;
-        } else if ("startsWith" in issue.validation) {
-          message = `La chaîne doit commencer par "${issue.validation.startsWith}"`;
-        } else if ("endsWith" in issue.validation) {
-          message = `La chaîne doit se terminer par "${issue.validation.endsWith}"`;
-        }
-      } else if (issue.validation !== "regex") {
-        message = `Chaîne ${issue.validation} invalide`;
-      } else {
-        message = "Format invalide";
-      }
-      break;
-    case "too_small":
-      if (issue.type === "array")
-        message = `Doit contenir au moins ${issue.minimum} élément(s)`;
-      else if (issue.type === "string")
-        message = `Doit contenir au moins ${issue.minimum} caractère(s)`;
-      else if (issue.type === "number")
-        message = `Doit être supérieur ou égal à ${issue.minimum}`;
+    case "too_small": {
+      const typedIssue = issue as ZodIssueWithType & ZodIssueWithMinimum;
+      if (typedIssue.type === "array")
+        message = `Doit contenir au moins ${typedIssue.minimum} élément(s)`;
+      else if (typedIssue.type === "string")
+        message = `Doit contenir au moins ${typedIssue.minimum} caractère(s)`;
+      else if (typedIssue.type === "number")
+        message = `Doit être supérieur ou égal à ${typedIssue.minimum}`;
       else message = "Valeur trop petite";
       break;
-    case "too_big":
-      if (issue.type === "array")
-        message = `Doit contenir au maximum ${issue.maximum} élément(s)`;
-      else if (issue.type === "string")
-        message = `Doit contenir au maximum ${issue.maximum} caractère(s)`;
-      else if (issue.type === "number")
-        message = `Doit être inférieur ou égal à ${issue.maximum}`;
+    }
+    case "too_big": {
+      const typedIssue = issue as ZodIssueWithType & ZodIssueWithMaximum;
+      if (typedIssue.type === "array")
+        message = `Doit contenir au maximum ${typedIssue.maximum} élément(s)`;
+      else if (typedIssue.type === "string")
+        message = `Doit contenir au maximum ${typedIssue.maximum} caractère(s)`;
+      else if (typedIssue.type === "number")
+        message = `Doit être inférieur ou égal à ${typedIssue.maximum}`;
       else message = "Valeur trop grande";
       break;
+    }
     case "custom":
       message = "Validation échouée";
       break;
-    case "invalid_intersection_types":
-      message =
-        "Les résultats de l'intersection ne pouvaient pas être fusionnés";
+    case "not_multiple_of": {
+      const typedIssue = issue as ZodIssueWithMultipleOf;
+      message = `Doit être un multiple de ${typedIssue.multipleOf}`;
       break;
-    case "not_multiple_of":
-      message = `Doit être un multiple de ${issue.multipleOf}`;
-      break;
-    case "not_finite":
-      message = "Nombre non fini";
-      break;
+    }
     default:
-      message = ctx.defaultError;
+      message = ctx.defaultError || "Champ invalide";
   }
 
   return { message };
 };
 
 // Set the error map globally
-z.setErrorMap(frenchErrorMap);
+z.setErrorMap(frenchErrorMap as unknown as z.ZodErrorMap);
