@@ -2,12 +2,12 @@
 
 import Alert from "@codegouvfr/react-dsfr/Alert";
 import Button from "@codegouvfr/react-dsfr/Button";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import {
   FieldErrors,
+  FieldValues,
   FormProvider as HookFormProvider,
   useForm,
   UseFormReturn,
@@ -18,6 +18,7 @@ import { z } from "zod";
 import { FormProvider } from "@/app/context/FormContext";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { cn } from "@/app/utils/classname.util";
+import { zodResolver } from "@/app/utils/zodResolver";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
 // Define enum for footer buttons
@@ -30,16 +31,16 @@ export enum FooterButtonType {
 type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   schema: TSchema;
   localStorageKey?: string;
-  children: ReactNode | ((form: UseFormReturn<z.infer<TSchema>>) => ReactNode);
+  children: ReactNode | ((form: UseFormReturn<FieldValues>) => ReactNode);
   onSubmit?: (
-    data: z.infer<TSchema>,
-    methods: UseFormReturn<z.infer<TSchema>>
+    data: FieldValues,
+    methods: UseFormReturn<FieldValues>
   ) => void | Promise<void>;
-  onError?: (errors: FieldErrors<z.infer<TSchema>>) => void;
+  onError?: (errors: FieldErrors<FieldValues>) => void;
   mode?: "onChange" | "onBlur" | "onSubmit" | "onTouched" | "all";
   className?: string;
-  defaultValues?: Partial<z.infer<TSchema>>;
-  onFormChange?: (values: z.infer<TSchema>) => void;
+  defaultValues?: Partial<FieldValues>;
+  onFormChange?: (values: FieldValues) => void;
   submitButtonText?: string;
   nextRoute?: string;
   resetRoute?: string;
@@ -79,13 +80,12 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   const mergedDefaultValues = {
     ...localStorageValues,
     ...defaultValues,
-  } as z.infer<TSchema>;
+  } as FieldValues;
 
-  const methods = useForm<z.infer<TSchema>>({
+  const methods = useForm<FieldValues>({
     resolver: zodResolver(schema),
-
     mode,
-    defaultValues: mergedDefaultValues as z.infer<TSchema>,
+    defaultValues: mergedDefaultValues,
     criteriaMode: "all",
     shouldFocusError: true,
   });
@@ -99,7 +99,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
       )
     ) {
       resetLocalStorageValues();
-      reset(defaultValues as z.infer<TSchema>);
+      reset(defaultValues as FieldValues);
       if (resetRoute) {
         router.push(resetRoute);
         window.location.reload();
@@ -107,14 +107,14 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     }
   };
 
-  const handleFormErrors = (errors: FieldErrors<z.infer<TSchema>>) => {
+  const handleFormErrors = (errors: FieldErrors<FieldValues>) => {
     console.error("Form validation errors:", errors);
     if (onError) {
       onError(errors);
     }
   };
 
-  const defaultSubmitHandler = (data: z.infer<TSchema>) => {
+  const defaultSubmitHandler = (data: FieldValues) => {
     console.log("Form submitted successfully with data:", data);
     if (nextRoute) {
       try {

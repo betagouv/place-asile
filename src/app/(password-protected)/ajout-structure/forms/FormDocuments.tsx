@@ -168,9 +168,9 @@ export default function FormDocuments() {
                         <DocumentItem
                           key={`${document.value}-${year}`}
                           year={year}
-                          control={control}
+                          control={control as any}
                           index={currentDocIndex}
-                          register={register}
+                          register={register as any}
                           categoryLabel={document.label}
                           categorySubLabel={document.subLabel}
                           categoryValue={document.value}

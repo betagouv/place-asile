@@ -109,7 +109,7 @@ export default function FormAdresses() {
               { shouldValidate: false }
             );
           } else {
-            const updatedAdresses = currentAdresses.map((adresse) => ({
+            const updatedAdresses = currentAdresses.map((adresse: any) => ({
               ...adresse,
               repartition: value as Repartition,
             }));
@@ -222,10 +222,10 @@ export default function FormAdresses() {
             </fieldset>
             {watch("typeBati") && (
               <AdressesList
-                watch={watch}
-                control={control}
-                setValue={setValue}
-                getValues={getValues}
+                watch={watch as any}
+                control={control as any}
+                setValue={setValue as any}
+                getValues={getValues as any}
                 setError={setError}
               />
             )}

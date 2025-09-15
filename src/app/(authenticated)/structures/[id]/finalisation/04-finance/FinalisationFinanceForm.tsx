@@ -164,7 +164,7 @@ export default function FinalisationFinanceForm({
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit as any}
     >
       {structure.state === StructureState.A_FINALISER && (
         <InformationBar

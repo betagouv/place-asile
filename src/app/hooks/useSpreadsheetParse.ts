@@ -54,39 +54,39 @@ export const useSpreadsheetParse = (): UseExcelParseResult => {
 
 const getSchema = (isMixte: boolean): Schema => ({
   Adresse: {
-    prop: "adresse",
+    column: "Adresse",
     type: String,
     required: true,
   },
   "Code postal": {
-    prop: "codePostal",
+    column: "Code postal",
     type: String,
     required: true,
   },
   Ville: {
-    prop: "ville",
+    column: "Ville",
     type: String,
     required: true,
   },
   "Places autorisées": {
-    prop: "places",
+    column: "Places autorisées",
     type: Number,
     required: true,
   },
   "Logement social": {
-    prop: "logementSocial",
+    column: "Logement social",
     type: String,
     oneOf: ["Oui", "Non"],
     required: true,
   },
   QPV: {
-    prop: "qpv",
+    column: "QPV",
     type: String,
     oneOf: ["Oui", "Non"],
     required: true,
   },
   "Type de bâti": {
-    prop: "repartition",
+    column: "Type de bâti",
     type: String,
     oneOf: [Repartition.DIFFUS, Repartition.COLLECTIF],
     required: isMixte,
