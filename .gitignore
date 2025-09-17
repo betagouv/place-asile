@@ -46,3 +46,6 @@ next-env.d.ts
 # Dumps
 /dumps
 *.pgsl
+
+# Cursor config
+.cursor/
