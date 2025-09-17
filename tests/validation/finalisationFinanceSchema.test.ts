@@ -1,0 +1,364 @@
+import {
+  autoriseeAvecCpomSchema,
+  autoriseeSchema,
+  basicSchema,
+  subventionneeAvecCpomSchema,
+  subventionneeSchema,
+} from "@/app/(authenticated)/structures/[id]/finalisation/04-finance/validation/finalisationFinanceSchema";
+
+describe("finalisationFinanceSchema", () => {
+  // Helper to create a valid budget base
+  const createValidBudget = (overrides = {}) => ({
+    id: "1",
+    date: "01/01/2024", // DD/MM/YYYY format as expected by createDateFieldValidator
+    ETP: 1.5,
+    tauxEncadrement: 0.8,
+    coutJournalier: 50,
+    dotationDemandee: 100000,
+    dotationAccordee: 95000,
+    totalProduits: 95000,
+    totalCharges: 90000,
+    repriseEtat: 0,
+    excedentRecupere: null,
+    excedentDeduit: null,
+    affectationReservesFondsDedies: 0, // Default to 0
+    cumulResultatsNetsCPOM: 5000,
+    totalChargesProposees: 90000,
+    reserveInvestissement: null,
+    chargesNonReconductibles: null,
+    reserveCompensationDeficits: null,
+    reserveCompensationBFR: null,
+    reserveCompensationAmortissements: null,
+    fondsDedies: null,
+    commentaire: null,
+    ...overrides,
+  });
+
+  const createValidFileUpload = () => ({
+    key: "test-file-key",
+    date: "01/01/2024", // DD/MM/YYYY format as expected by createDateFieldValidator
+    category: "test-category",
+  });
+
+  describe("validateAffectationReservesDetails", () => {
+    describe("when affectationReservesFondsDedies is 0", () => {
+      it("should pass validation even if detail fields are null", () => {
+        const budget = createValidBudget({
+          affectationReservesFondsDedies: 0,
+          // All detail fields remain null
+        });
+
+        const result = basicSchema.safeParse({
+          fileUploads: [createValidFileUpload()],
+          budgets: [budget, budget, budget, budget, budget],
+        });
+
+        expect(result.success).toBe(true);
+      });
+    });
+
+    describe("when affectationReservesFondsDedies is greater than 0", () => {
+      it("should fail validation if detail fields are null", () => {
+        const budget = createValidBudget({
+          affectationReservesFondsDedies: 1000,
+          // Detail fields remain null - should fail
+        });
+
+        const result = basicSchema.safeParse({
+          fileUploads: [createValidFileUpload()],
+          budgets: [budget, budget, budget, budget, budget],
+        });
+
+        expect(result.success).toBe(false);
+
+        if (!result.success) {
+          const errors = result.error.errors;
+          expect(errors.length).toBeGreaterThan(0);
+
+          // Check that the right fields are in error
+          const errorPaths = errors.map((e) => e.path.join("."));
+          expect(errorPaths).toContain("budgets.0.reserveInvestissement");
+          expect(errorPaths).toContain("budgets.0.chargesNonReconductibles");
+          expect(errorPaths).toContain("budgets.0.reserveCompensationDeficits");
+          expect(errorPaths).toContain("budgets.0.reserveCompensationBFR");
+          expect(errorPaths).toContain(
+            "budgets.0.reserveCompensationAmortissements"
+          );
+          expect(errorPaths).toContain("budgets.0.fondsDedies");
+        }
+      });
+
+      it("should pass validation if all detail fields are provided", () => {
+        const budget = createValidBudget({
+          affectationReservesFondsDedies: 1000,
+          reserveInvestissement: 200,
+          chargesNonReconductibles: 300,
+          reserveCompensationDeficits: 150,
+          reserveCompensationBFR: 100,
+          reserveCompensationAmortissements: 200,
+          fondsDedies: 50,
+        });
+
+        const result = basicSchema.safeParse({
+          fileUploads: [createValidFileUpload()],
+          budgets: [budget, budget, budget, budget, budget],
+        });
+
+        expect(result.success).toBe(true);
+      });
+
+      it("should fail validation if some detail fields are missing", () => {
+        const budget = createValidBudget({
+          affectationReservesFondsDedies: 1000,
+          reserveInvestissement: 200,
+          chargesNonReconductibles: 300,
+          // Other fields remain null
+        });
+
+        const result = basicSchema.safeParse({
+          fileUploads: [createValidFileUpload()],
+          budgets: [budget, budget, budget, budget, budget],
+        });
+
+        expect(result.success).toBe(false);
+
+        if (!result.success) {
+          const errors = result.error.errors;
+          expect(errors.length).toBeGreaterThan(0);
+
+          const errorMessages = errors.map((e) => e.message);
+          expect(errorMessages).toContain(
+            "Ce champ est requis si l'affectation des réserves et fonds dédiés est supérieure à 0."
+          );
+        }
+      });
+    });
+
+    describe("when affectationReservesFondsDedies is null", () => {
+      it("should pass validation", () => {
+        const budget = createValidBudget({
+          affectationReservesFondsDedies: null,
+        });
+
+        const result = basicSchema.safeParse({
+          fileUploads: [createValidFileUpload()],
+          budgets: [budget, budget, budget, budget, budget],
+        });
+
+        expect(result.success).toBe(true);
+      });
+    });
+  });
+
+  describe("schema variants", () => {
+    it("should validate autoriseeSchema correctly", () => {
+      const budget = createValidBudget();
+
+      const result = autoriseeSchema.safeParse({
+        budgets: [budget, budget, budget, budget, budget],
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    it("should validate autoriseeAvecCpomSchema correctly", () => {
+      const budget = createValidBudget();
+
+      const result = autoriseeAvecCpomSchema.safeParse({
+        budgets: [budget, budget, budget, budget, budget],
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    it("should validate subventionneeSchema correctly", () => {
+      const firstYearBudget = {
+        id: "1",
+        date: "01/01/2024", // DD/MM/YYYY format
+        ETP: 1.5,
+        tauxEncadrement: 0.8,
+        coutJournalier: 50,
+      };
+
+      const sansCpomBudget = createValidBudget({
+        cumulResultatsNetsCPOM: 5000,
+        affectationReservesFondsDedies: null,
+        chargesNonReconductibles: null,
+        reserveCompensationAmortissements: null,
+        reserveCompensationBFR: null,
+        reserveCompensationDeficits: null,
+        reserveInvestissement: null,
+        totalChargesProposees: null,
+      });
+
+      const result = subventionneeSchema.safeParse({
+        budgets: [
+          firstYearBudget,
+          firstYearBudget,
+          sansCpomBudget,
+          sansCpomBudget,
+          sansCpomBudget,
+        ],
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    it("should validate subventionneeAvecCpomSchema correctly", () => {
+      const firstYearBudget = {
+        id: "1",
+        date: "01/01/2024", // DD/MM/YYYY format
+        ETP: 1.5,
+        tauxEncadrement: 0.8,
+        coutJournalier: 50,
+      };
+
+      const cpomBudget = createValidBudget({
+        totalChargesProposees: 90000,
+      });
+
+      const result = subventionneeAvecCpomSchema.safeParse({
+        budgets: [
+          firstYearBudget,
+          firstYearBudget,
+          cpomBudget,
+          cpomBudget,
+          cpomBudget,
+        ],
+      });
+
+      expect(result.success).toBe(true);
+    });
+  });
+
+  describe("conditional validation across schemas", () => {
+    it("should enforce conditional validation in autoriseeSchema", () => {
+      const budgetWithAffectation = createValidBudget({
+        affectationReservesFondsDedies: 1000,
+        // Detail fields null - should fail
+      });
+
+      const result = autoriseeSchema.safeParse({
+        budgets: [
+          budgetWithAffectation,
+          budgetWithAffectation,
+          budgetWithAffectation,
+          budgetWithAffectation,
+          budgetWithAffectation,
+        ],
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    it("should enforce conditional validation in autoriseeAvecCpomSchema", () => {
+      const budgetWithAffectation = createValidBudget({
+        affectationReservesFondsDedies: 1000,
+        totalChargesProposees: 90000,
+        // Detail fields null - should fail
+      });
+
+      const result = autoriseeAvecCpomSchema.safeParse({
+        budgets: [
+          budgetWithAffectation,
+          budgetWithAffectation,
+          budgetWithAffectation,
+          budgetWithAffectation,
+          budgetWithAffectation,
+        ],
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    it("should enforce conditional validation in subventionneeSchema", () => {
+      const firstYearBudget = {
+        id: "1",
+        date: "01/01/2024",
+        ETP: 1.5,
+        tauxEncadrement: 0.8,
+        coutJournalier: 50,
+      };
+
+      const budgetWithAffectation = createValidBudget({
+        affectationReservesFondsDedies: 1000,
+        // Detail fields null - should fail
+      });
+
+      const result = subventionneeSchema.safeParse({
+        budgets: [
+          firstYearBudget,
+          firstYearBudget,
+          budgetWithAffectation,
+          budgetWithAffectation,
+          budgetWithAffectation,
+        ],
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    it("should enforce conditional validation in subventionneeAvecCpomSchema", () => {
+      const firstYearBudget = {
+        id: "1",
+        date: "01/01/2024",
+        ETP: 1.5,
+        tauxEncadrement: 0.8,
+        coutJournalier: 50,
+      };
+
+      const budgetWithAffectation = createValidBudget({
+        affectationReservesFondsDedies: 1000,
+        totalChargesProposees: 90000,
+        // Detail fields null - should fail
+      });
+
+      const result = subventionneeAvecCpomSchema.safeParse({
+        budgets: [
+          firstYearBudget,
+          firstYearBudget,
+          budgetWithAffectation,
+          budgetWithAffectation,
+          budgetWithAffectation,
+        ],
+      });
+
+      expect(result.success).toBe(false);
+    });
+  });
+
+  describe("edge cases", () => {
+    it("should handle empty fileUploads array", () => {
+      const budget = createValidBudget();
+
+      const result = basicSchema.safeParse({
+        fileUploads: [],
+        budgets: [budget, budget, budget, budget, budget],
+      });
+
+      expect(result.success).toBe(true);
+    });
+
+    it("should fail with insufficient budgets", () => {
+      const budget = createValidBudget();
+
+      const result = basicSchema.safeParse({
+        fileUploads: [],
+        budgets: [budget, budget, budget], // Only 3 budgets instead of 5
+      });
+
+      expect(result.success).toBe(false);
+    });
+
+    it("should fail with too many budgets", () => {
+      const budget = createValidBudget();
+
+      const result = basicSchema.safeParse({
+        fileUploads: [],
+        budgets: [budget, budget, budget, budget, budget, budget], // 6 budgets instead of 5
+      });
+
+      expect(result.success).toBe(false);
+    });
+  });
+});
