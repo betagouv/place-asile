@@ -1,4 +1,17 @@
 /**
+ * Formats a number for display in French locale (without currency symbol)
+ * @param value - The number to format
+ * @returns Formatted number string (e.g., "1 234,56")
+ */
+export const formatNumber = (value: number | null | undefined): string => {
+  if (value === null || value === undefined || isNaN(value)) {
+    return "0";
+  }
+
+  return new Intl.NumberFormat("fr-FR").format(value);
+};
+
+/**
  * Formats a number as French currency (EUR)
  * @param value - The number to format
  * @returns Formatted currency string (e.g., "1 234,56 €")
@@ -12,19 +25,6 @@ export const formatCurrency = (value: number | null | undefined): string => {
     style: "currency",
     currency: "EUR",
   }).format(value);
-};
-
-/**
- * Formats a number for display in French locale (without currency symbol)
- * @param value - The number to format
- * @returns Formatted number string (e.g., "1 234,56")
- */
-export const formatNumber = (value: number | null | undefined): string => {
-  if (value === null || value === undefined || isNaN(value)) {
-    return "0";
-  }
-
-  return new Intl.NumberFormat("fr-FR").format(value);
 };
 
 /**
@@ -49,19 +49,4 @@ export const parseFrenchNumber = (value: string): number | null => {
 
   const parsed = parseFloat(cleaned);
   return isNaN(parsed) ? null : parsed;
-};
-
-/**
- * Formats a number for input display (French format without currency)
- * @param value - The number to format for input
- * @returns Formatted string for input field
- */
-export const formatForInput = (value: number | null | undefined): string => {
-  if (value === null || value === undefined || isNaN(value)) {
-    return "";
-  }
-
-  // For inputs, we use French number format but without thousands separators
-  // to avoid confusion in input fields
-  return value.toString().replace(".", ",");
 };
