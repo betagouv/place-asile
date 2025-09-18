@@ -172,14 +172,14 @@ describe("number.util", () => {
     });
 
     it("should return null for null and undefined", () => {
-      expect(parseFrenchNumber(null as any)).toBe(null);
-      expect(parseFrenchNumber(undefined as any)).toBe(null);
+      expect(parseFrenchNumber(null as unknown as string)).toBe(null);
+      expect(parseFrenchNumber(undefined as unknown as string)).toBe(null);
     });
 
     it("should return null for non-string types", () => {
-      expect(parseFrenchNumber(123 as any)).toBe(null);
-      expect(parseFrenchNumber({} as any)).toBe(null);
-      expect(parseFrenchNumber([] as any)).toBe(null);
+      expect(parseFrenchNumber(123 as unknown as string)).toBe(null);
+      expect(parseFrenchNumber({} as unknown as string)).toBe(null);
+      expect(parseFrenchNumber([] as unknown as string)).toBe(null);
     });
 
     it("should handle edge cases", () => {
