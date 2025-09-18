@@ -10,7 +10,7 @@ describe("finalisationFinanceSchema", () => {
   // Helper to create a valid budget base
   const createValidBudget = (overrides = {}) => ({
     id: "1",
-    date: "01/01/2024", // DD/MM/YYYY format as expected by createDateFieldValidator
+    date: "01/01/2024",
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -36,7 +36,7 @@ describe("finalisationFinanceSchema", () => {
 
   const createValidFileUpload = () => ({
     key: "test-file-key",
-    date: "01/01/2024", // DD/MM/YYYY format as expected by createDateFieldValidator
+    date: "01/01/2024",
     category: "test-category",
   });
 
