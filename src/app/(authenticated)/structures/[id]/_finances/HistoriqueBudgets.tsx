@@ -3,6 +3,7 @@ import Table from "@codegouvfr/react-dsfr/Table";
 import { ReactElement } from "react";
 
 import styles from "@/app/components/common/Accordion.module.css";
+import { formatCurrency, formatNumber } from "@/app/utils/number.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 import { useStructureContext } from "../context/StructureClientContext";
@@ -16,9 +17,9 @@ export const HistoriqueBudgets = (): ReactElement => {
     }
     return structure.budgets.map((budget) => [
       new Date(budget.date).getFullYear(),
-      budget.ETP,
-      budget.tauxEncadrement,
-      `${budget.coutJournalier} €`,
+      formatNumber(budget.ETP),
+      formatNumber(budget.tauxEncadrement),
+      formatCurrency(budget.coutJournalier),
     ]);
   };
 

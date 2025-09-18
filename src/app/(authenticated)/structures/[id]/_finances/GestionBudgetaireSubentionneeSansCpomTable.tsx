@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { ReactElement } from "react";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
+import { NumberDisplay } from "@/app/components/common/NumberDisplay";
 
 import { useStructureContext } from "../context/StructureClientContext";
 import { AmountBadge } from "./AmountBadge";
@@ -108,14 +109,20 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationDemandee ? (
-                  <>{budget.dotationDemandee}&nbsp;€</>
+                  <NumberDisplay
+                    value={budget.dotationDemandee}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationAccordee ? (
-                  <>{budget.dotationAccordee}&nbsp;€</>
+                  <NumberDisplay
+                    value={budget.dotationAccordee}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
@@ -123,13 +130,14 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
               <td className="py-2 px-4 text-center test-sm">
                 {budget.totalCharges && budget.totalProduits ? (
                   <>
-                    <span className="pr-2">
-                      {computeResultatNet(
+                    <NumberDisplay
+                      className="pr-2"
+                      value={computeResultatNet(
                         budget.totalCharges,
                         budget.totalProduits
                       )}
-                      &nbsp;€
-                    </span>
+                      type="currency"
+                    />
                     <AmountBadge
                       amount={computeResultatNet(
                         budget.totalCharges,
@@ -143,35 +151,44 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.excedentRecupere ? (
-                  <>{budget.repriseEtat}&nbsp;€</>
+                  <NumberDisplay value={budget.repriseEtat} type="currency" />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-               {budget.excedentRecupere ? (
-                  <>{budget.excedentRecupere}&nbsp;€</>
+                {budget.excedentRecupere ? (
+                  <NumberDisplay
+                    value={budget.excedentRecupere}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.excedentDeduit ? (
-                  <>{budget.excedentDeduit}&nbsp;€</>
+                  <NumberDisplay
+                    value={budget.excedentDeduit}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.fondsDedies ? (
-                  <>{budget.fondsDedies} €</>
+                  <NumberDisplay value={budget.fondsDedies} type="currency" />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.fondsDedies ? (
-                  <>{computeCumulFondsDedies(budget.date)}&nbsp;€</>
+                  <NumberDisplay
+                    value={computeCumulFondsDedies(budget.date)}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}

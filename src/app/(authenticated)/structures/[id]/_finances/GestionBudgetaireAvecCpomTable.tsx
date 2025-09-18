@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
+import { NumberDisplay } from "@/app/components/common/NumberDisplay";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { Budget } from "@/types/budget.type";
 
@@ -98,14 +99,20 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationDemandee ? (
-                  <>{budget.dotationDemandee}&nbsp;€</>
+                  <NumberDisplay
+                    value={budget.dotationDemandee}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationAccordee ? (
-                  <>{budget.dotationAccordee}&nbsp;€</>
+                  <NumberDisplay
+                    value={budget.dotationAccordee}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
@@ -113,13 +120,14 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
               <td className="py-2 px-4 text-center test-sm">
                 {budget.totalCharges && budget.totalProduits ? (
                   <>
-                    <span className="pr-2">
-                      {computeResultatNet(
+                    <NumberDisplay
+                      className="pr-2"
+                      value={computeResultatNet(
                         budget.totalCharges,
                         budget.totalProduits
                       )}
-                      &nbsp;€
-                    </span>
+                      type="currency"
+                    />
                     <AmountBadge
                       amount={computeResultatNet(
                         budget.totalCharges,
@@ -134,9 +142,11 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
               <td className="py-2 px-4 text-center test-sm">
                 {budget.cumulResultatsNetsCPOM ? (
                   <>
-                    <span className="pr-2">
-                      {budget.cumulResultatsNetsCPOM}&nbsp;€
-                    </span>
+                    <NumberDisplay
+                      className="pr-2"
+                      value={budget.cumulResultatsNetsCPOM}
+                      type="currency"
+                    />
                     <AmountBadge amount={budget.cumulResultatsNetsCPOM} />
                   </>
                 ) : (
@@ -145,7 +155,7 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.repriseEtat ? (
-                  <>{budget.repriseEtat}&nbsp;€</>
+                  <NumberDisplay value={budget.repriseEtat} type="currency" />
                 ) : (
                   <EmptyCell />
                 )}
@@ -154,7 +164,10 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
                 {budget.cumulResultatsNetsCPOM &&
                 budget.repriseEtat &&
                 budget.affectationReservesFondsDedies! > 0 ? (
-                  <>{budget.affectationReservesFondsDedies}&nbsp;€</>
+                  <NumberDisplay
+                    value={budget.affectationReservesFondsDedies}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
