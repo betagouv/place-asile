@@ -40,13 +40,13 @@ export const parseFrenchNumber = (value: string): number | null => {
     return null;
   }
 
-  // Remove currency symbols and extra spaces
-  let cleaned = value.replace(/[€\s]/g, "");
+  // Remove currency symbols and all types of spaces (including narrow non-breaking space \u202f)
+  let cleaned = value.replace(/[€\s\u202f\u00a0]/g, "");
 
   // Handle French format (comma as decimal separator, space as thousands separator)
   if (cleaned.includes(",")) {
-    // Replace spaces (thousands separator) and convert comma to dot
-    cleaned = cleaned.replace(/\s/g, "").replace(",", ".");
+    // Convert comma to dot for decimal separator
+    cleaned = cleaned.replace(",", ".");
   }
 
   const parsed = parseFloat(cleaned);
