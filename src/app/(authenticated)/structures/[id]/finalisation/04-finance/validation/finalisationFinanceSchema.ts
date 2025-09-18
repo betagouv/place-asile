@@ -3,7 +3,54 @@ import z from "zod";
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
 import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 
-const budgetSchema = z.object({
+/**
+ * Checks that if the `affectationReservesFondsDedies` field is greater than 0 (or not null),
+ * then the associated detail fields (reserves and dedicated funds) must not be empty.
+ * If any of these fields are empty, a custom validation error is added.
+ */
+const validateAffectationReservesDetails = (
+  // Accepts partial data to handle missing properties
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Partial<any>,
+  ctx: z.RefinementCtx
+) => {
+  // If affectationReservesFondsDedies is not equal to 0, then the detail fields are required
+  if (
+    data.affectationReservesFondsDedies !== null &&
+    data.affectationReservesFondsDedies !== 0
+  ) {
+    const requiredFields = [
+      { field: "reserveInvestissement", value: data.reserveInvestissement },
+      {
+        field: "chargesNonReconductibles",
+        value: data.chargesNonReconductibles,
+      },
+      {
+        field: "reserveCompensationDeficits",
+        value: data.reserveCompensationDeficits,
+      },
+      { field: "reserveCompensationBFR", value: data.reserveCompensationBFR },
+      {
+        field: "reserveCompensationAmortissements",
+        value: data.reserveCompensationAmortissements,
+      },
+      { field: "fondsDedies", value: data.fondsDedies },
+    ];
+
+    requiredFields.forEach(({ field, value }) => {
+      if (value === null || value === undefined) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: [field],
+          message:
+            "Ce champ est requis si l'affectation des réserves et fonds dédiés est supérieure à 0.",
+        });
+      }
+    });
+  }
+};
+
+const budgetBaseSchema = z.object({
   // Date
   // TODO : vérifier que c'est plutôt un number
   id: z.union([
@@ -31,15 +78,19 @@ const budgetSchema = z.object({
   totalChargesProposees: zSafeNumber().nullable(),
 
   // Détail affectation
-  reserveInvestissement: zSafeNumber().nullable(),
-  chargesNonReconductibles: zSafeNumber().nullable(),
-  reserveCompensationDeficits: zSafeNumber().nullable(),
-  reserveCompensationBFR: zSafeNumber().nullable(),
-  reserveCompensationAmortissements: zSafeNumber().nullable(),
+  reserveInvestissement: zSafeNumber().optional().nullable(),
+  chargesNonReconductibles: zSafeNumber().optional().nullable(),
+  reserveCompensationDeficits: zSafeNumber().optional().nullable(),
+  reserveCompensationBFR: zSafeNumber().optional().nullable(),
+  reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
   fondsDedies: zSafeNumber().optional().nullable(),
 
   commentaire: z.string().optional().nullable(),
 });
+
+const budgetSchema = budgetBaseSchema.superRefine(
+  validateAffectationReservesDetails
+);
 
 export const DocumentsTypeStrict = z.object({
   key: z.string(),
@@ -62,15 +113,19 @@ export const basicSchema = z.object({
 //
 // Structures Autorisées
 //
-const sansCpom = budgetSchema.extend({
-  cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
-});
+const sansCpom = budgetBaseSchema
+  .extend({
+    cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
+  })
+  .superRefine(validateAffectationReservesDetails);
 
-const avecCpom = budgetSchema.extend({
-  totalChargesProposees: zSafeNumber().optional().nullable(),
-});
+const avecCpom = budgetBaseSchema
+  .extend({
+    totalChargesProposees: zSafeNumber().optional().nullable(),
+  })
+  .superRefine(validateAffectationReservesDetails);
 
-const autoriseeCurrentYear = budgetSchema.extend({
+const autoriseeCurrentYear = budgetBaseSchema.extend({
   dotationAccordee: zSafeNumber().optional().nullable(),
   totalProduits: zSafeNumber().optional().nullable(),
   totalCharges: zSafeNumber().optional().nullable(),
@@ -86,7 +141,7 @@ const autoriseeCurrentYear = budgetSchema.extend({
   chargesNonReconductibles: zSafeNumber().optional().nullable(),
 });
 
-const autoriseeY2 = budgetSchema.extend({
+const autoriseeY2 = budgetBaseSchema.extend({
   totalProduits: zSafeNumber().optional().nullable(),
   totalCharges: zSafeNumber().optional().nullable(),
   cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
@@ -100,7 +155,8 @@ const autoriseeY2 = budgetSchema.extend({
   reserveInvestissement: zSafeNumber().optional().nullable(),
   chargesNonReconductibles: zSafeNumber().optional().nullable(),
 });
-const autoriseeY3 = budgetSchema.extend({
+
+const autoriseeY3 = budgetBaseSchema.extend({
   totalCharges: zSafeNumber().optional().nullable(),
   cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
   repriseEtat: zSafeNumber().optional().nullable(),
@@ -162,16 +218,18 @@ export const subventionneeAvecCpomSchema = z.object({
   ]),
 });
 
-const subventionneeSansCpom = budgetSchema.extend({
-  cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
-  affectationReservesFondsDedies: zSafeNumber().optional().nullable(),
-  chargesNonReconductibles: zSafeNumber().optional().nullable(),
-  reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
-  reserveCompensationBFR: zSafeNumber().optional().nullable(),
-  reserveCompensationDeficits: zSafeNumber().optional().nullable(),
-  reserveInvestissement: zSafeNumber().optional().nullable(),
-  totalChargesProposees: zSafeNumber().optional().nullable(),
-});
+const subventionneeSansCpom = budgetBaseSchema
+  .extend({
+    cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
+    affectationReservesFondsDedies: zSafeNumber().optional().nullable(),
+    chargesNonReconductibles: zSafeNumber().optional().nullable(),
+    reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
+    reserveCompensationBFR: zSafeNumber().optional().nullable(),
+    reserveCompensationDeficits: zSafeNumber().optional().nullable(),
+    reserveInvestissement: zSafeNumber().optional().nullable(),
+    totalChargesProposees: zSafeNumber().optional().nullable(),
+  })
+  .superRefine(validateAffectationReservesDetails);
 
 export const subventionneeSchema = z.object({
   // fileUploads: z.array(Document  sTypeStrict),
