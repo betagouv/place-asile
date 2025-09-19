@@ -3,6 +3,7 @@ import Table from "@codegouvfr/react-dsfr/Table";
 import { ReactElement } from "react";
 
 import styles from "@/app/components/common/Accordion.module.css";
+import { formatCurrency } from "@/app/utils/number.util";
 import { Budget } from "@/types/budget.type";
 
 import { useStructureContext } from "../context/StructureClientContext";
@@ -23,19 +24,25 @@ export const DetailAffectations = (): ReactElement => {
       .map((budget) => [
         new Date(budget.date).getFullYear(),
         <span key={budget.id}>
-          {budget.affectationReservesFondsDedies}&nbsp;€
+          {formatCurrency(budget.affectationReservesFondsDedies)}
         </span>,
-        <span key={budget.id}>{budget.reserveInvestissement}&nbsp;€</span>,
-        <span key={budget.id}>{budget.chargesNonReconductibles}&nbsp;€</span>,
         <span key={budget.id}>
-          {budget.reserveCompensationDeficits}&nbsp;€
+          {formatCurrency(budget.reserveInvestissement)}
         </span>,
-        <span key={budget.id}>{budget.reserveCompensationBFR}&nbsp;€</span>,
         <span key={budget.id}>
-          {budget.reserveCompensationAmortissements}&nbsp;€
+          {formatCurrency(budget.chargesNonReconductibles)}
+        </span>,
+        <span key={budget.id}>
+          {formatCurrency(budget.reserveCompensationDeficits)}
+        </span>,
+        <span key={budget.id}>
+          {formatCurrency(budget.reserveCompensationBFR)}
+        </span>,
+        <span key={budget.id}>
+          {formatCurrency(budget.reserveCompensationAmortissements)}
         </span>,
         structure.cpom && (
-          <span key={budget.id}>{budget.fondsDedies}&nbsp;€</span>
+          <span key={budget.id}>{formatCurrency(budget.fondsDedies)}</span>
         ),
         budget.commentaire,
       ]);

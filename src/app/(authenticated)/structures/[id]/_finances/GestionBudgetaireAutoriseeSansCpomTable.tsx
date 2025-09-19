@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
+import { NumberDisplay } from "@/app/components/common/NumberDisplay";
 
 import { useStructureContext } from "../context/StructureClientContext";
 import { AmountBadge } from "./AmountBadge";
@@ -90,27 +91,34 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationDemandee ? (
-                  <>{budget.dotationDemandee}&nbsp;€</>
+                  <NumberDisplay
+                    value={budget.dotationDemandee}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.dotationAccordee ? (
-                  <>{budget.dotationAccordee}&nbsp;€</>
+                  <NumberDisplay
+                    value={budget.dotationAccordee}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.totalCharges && budget.totalProduits ? (
-                  <span className="pr-2">
-                    {computeResultatNetProposeParOperateur(
+                  <NumberDisplay
+                    className="pr-2"
+                    value={computeResultatNetProposeParOperateur(
                       budget.totalProduits,
                       budget.totalCharges
                     )}
-                    &nbsp;€
-                  </span>
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
@@ -118,17 +126,20 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
               <td className="py-2 px-4 text-center test-sm">
                 {budget.totalProduits && budget.totalCharges ? (
                   <>
-                    <span className="pr-2">
-                      {computeResultatNetRetenuParAutoriteTarifaire(
+                    <NumberDisplay
+                      className="pr-2"
+                      value={computeResultatNetRetenuParAutoriteTarifaire(
                         budget.totalProduits,
                         budget.totalCharges
                       )}
-                      &nbsp;€
-                    </span>
-                    <AmountBadge amount={computeResultatNetRetenuParAutoriteTarifaire(
+                      type="currency"
+                    />
+                    <AmountBadge
+                      amount={computeResultatNetRetenuParAutoriteTarifaire(
                         budget.totalProduits,
                         budget.totalCharges
-                      )} />
+                      )}
+                    />
                   </>
                 ) : (
                   <EmptyCell />
@@ -136,7 +147,7 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {budget.repriseEtat ? (
-                  <>{budget.repriseEtat}&nbsp;€</>
+                  <NumberDisplay value={budget.repriseEtat} type="currency" />
                 ) : (
                   <EmptyCell />
                 )}
@@ -145,7 +156,10 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                 {budget.cumulResultatsNetsCPOM &&
                 budget.repriseEtat &&
                 budget.affectationReservesFondsDedies! > 0 ? (
-                  <>{budget.affectationReservesFondsDedies}&nbsp;€</>
+                  <NumberDisplay
+                    value={budget.affectationReservesFondsDedies}
+                    type="currency"
+                  />
                 ) : (
                   <EmptyCell />
                 )}
