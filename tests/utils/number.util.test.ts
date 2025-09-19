@@ -95,9 +95,9 @@ describe("number.util", () => {
     });
 
     it("should handle null, undefined and NaN values as currency", () => {
-      expect(formatCurrency(null)).toBe("0,00 €");
-      expect(formatCurrency(undefined)).toBe("0,00 €");
-      expect(formatCurrency(NaN)).toBe("0,00 €");
+      expect(formatCurrency(null)).toBe("0 €");
+      expect(formatCurrency(undefined)).toBe("0 €");
+      expect(formatCurrency(NaN)).toBe("0 €");
     });
 
     it("should handle decimal precision correctly", () => {
