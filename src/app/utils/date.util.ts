@@ -38,7 +38,7 @@ export const formatForCharts = (date: dayjs.Dayjs): string => {
 };
 
 export const getYearDate = (year: string): string => {
-  return new Date(Number(year), 0, 1, 13).toLocaleDateString();
+  return new Date(Number(year), 0, 1, 13).toLocaleDateString("fr-FR");
 };
 
 export const parseFrDate = (value: unknown): Date | unknown => {
