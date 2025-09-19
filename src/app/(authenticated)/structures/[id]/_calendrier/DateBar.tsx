@@ -34,7 +34,7 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
           flexShrink: 0,
         }}
       >
-        {new Date(datePair.startDate).toLocaleDateString()}
+        {new Date(datePair.startDate).toLocaleDateString("fr-FR")}
       </span>
       <div className={styles["initial-offset"]}></div>
       <div
@@ -43,7 +43,7 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
           width: `${getBarSize(datePair, datePairs)}%`,
         }}
       />
-      <span>{new Date(datePair.endDate).toLocaleDateString()}</span>
+      <span>{new Date(datePair.endDate).toLocaleDateString("fr-FR")}</span>
       {!isConventionExpiree && isLessThan3Months && (
         <div className="pl-2">
           <Badge type="warning" icon={true}>
