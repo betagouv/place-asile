@@ -18,7 +18,7 @@ export const formatNumber = (value: number | null | undefined): string => {
  */
 export const formatCurrency = (value: number | null | undefined): string => {
   if (value === null || value === undefined || isNaN(value)) {
-    return "0,00 €";
+    return "0 €";
   }
 
   return new Intl.NumberFormat("fr-FR", {

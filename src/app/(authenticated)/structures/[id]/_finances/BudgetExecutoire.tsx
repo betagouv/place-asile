@@ -13,25 +13,25 @@ export const BudgetExecutoire = (): ReactElement => {
     <div className="flex">
       <div className="pr-4">
         <InformationCard
-          primaryInformation={formatCurrency(budget?.dotationAccordee || 0)}
+          primaryInformation={formatCurrency(budget?.dotationAccordee)}
           secondaryInformation="dotation globale de financement"
         />
       </div>
       <div className="pr-4">
         <InformationCard
-          primaryInformation={formatNumber(budget?.ETP || 0)}
+          primaryInformation={formatNumber(budget?.ETP)}
           secondaryInformation="ETP"
         />
       </div>
       <div className="pr-4">
         <InformationCard
-          primaryInformation={formatNumber(budget?.tauxEncadrement || 0)}
+          primaryInformation={formatNumber(budget?.tauxEncadrement)}
           secondaryInformation="places gérées par un ETP"
         />
       </div>
       <div className="pr-4">
         <InformationCard
-          primaryInformation={formatCurrency(budget?.coutJournalier || 0)}
+          primaryInformation={formatCurrency(budget?.coutJournalier)}
           secondaryInformation="coût place journalier"
         />
       </div>
