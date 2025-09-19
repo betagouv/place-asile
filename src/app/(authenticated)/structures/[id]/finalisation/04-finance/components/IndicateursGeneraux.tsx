@@ -78,10 +78,7 @@ export const IndicateursGeneraux = () => {
         className={cn("scroll-margin-header w-fit")}
       >
         {years.map((year, index) => (
-          <tr
-            key={year}
-            className="w-full [&_input]:max-w-[4rem] border-t border-default-grey "
-          >
+          <tr key={year} className="w-full border-t border-default-grey ">
             <td className="align-middle py-4">
               {year}
               <input type="hidden" {...register(`budgets.${index}.id`)} />
@@ -99,7 +96,7 @@ export const IndicateursGeneraux = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:max-w-16"
                 variant="simple"
               />
             </td>
@@ -111,7 +108,7 @@ export const IndicateursGeneraux = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:max-w-32"
                 variant="simple"
               />
             </td>
@@ -124,7 +121,7 @@ export const IndicateursGeneraux = () => {
                   type="number"
                   min={0}
                   label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden"
+                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:max-w-16"
                   variant="simple"
                 />
                 €
