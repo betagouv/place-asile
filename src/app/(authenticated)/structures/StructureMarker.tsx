@@ -71,8 +71,8 @@ export const StructureMarker = ({
           <div className="text-sm mt-1 mb-0">
             <strong>Convention en cours : </strong>
             <span>
-              {new Date(debutConvention).toLocaleDateString()} -{" "}
-              {new Date(finConvention).toLocaleDateString()}
+              {new Date(debutConvention).toLocaleDateString("fr-FR")} -{" "}
+              {new Date(finConvention).toLocaleDateString("fr-FR")}
             </span>
           </div>
         )}
