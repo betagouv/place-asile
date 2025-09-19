@@ -30,9 +30,7 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
       <div className="flex">
         <div className="pr-4">
           <InformationCard
-            primaryInformation={
-              structureTypologies?.[0].placesAutorisees || "N/A"
-            }
+            primaryInformation={structureTypologies?.[0].placesAutorisees || "N/A"}
             secondaryInformation="places autorisées"
           />
         </div>
@@ -42,7 +40,7 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
               primaryInformation={`dont ${placesACreer}`}
               secondaryInformation={`places à créer au ${new Date(
                 echeancePlacesACreer
-              ).toLocaleDateString("fr-FR")}`}
+              ).toLocaleDateString()}`}
             />
           </div>
         )}
@@ -51,7 +49,7 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
             primaryInformation={`dont ${placesAFermer}`}
             secondaryInformation={`places à fermer au ${new Date(
               echeancePlacesAFermer
-            ).toLocaleDateString("fr-FR")}`}
+            ).toLocaleDateString()}`}
           />
         )}
       </div>

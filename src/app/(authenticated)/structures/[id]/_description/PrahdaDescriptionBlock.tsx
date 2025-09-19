@@ -22,7 +22,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Date de création</strong>
-          {new Date(creationDate).toLocaleDateString("fr-FR")}
+          {new Date(creationDate).toLocaleDateString()}
         </div>
         <div className="flex-1">
           <strong className="pr-2">Type de structure</strong>

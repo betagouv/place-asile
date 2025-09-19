@@ -3,12 +3,15 @@
 import "chartist/dist/index.css";
 
 import * as Chartist from "chartist";
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useRef } from "react";
+
+let pieChartId = 0;
 
 export default function PieChart({ data, options }: Props) {
   const chartRef = useRef(null);
-  const id = useId();
-  const chartClass = `piechart-${id.replace(/:/g, "-")}`;
+
+  const idRef = useRef(++pieChartId);
+  const chartClass = `piechart-${idRef.current}`;
 
   useEffect(() => {
     let chart = null;

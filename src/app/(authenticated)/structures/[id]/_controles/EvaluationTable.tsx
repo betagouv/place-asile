@@ -6,7 +6,7 @@ import { Evaluation } from "@/types/evaluation.type";
 export const EvaluationTable = ({ evaluations }: Props): ReactElement => {
   const getEvaluations = () => {
     return evaluations.map((evaluation) => [
-      new Date(evaluation.date).toLocaleDateString("fr-FR"),
+      new Date(evaluation.date).toLocaleDateString(),
       evaluation.notePersonne,
       evaluation.notePro,
       evaluation.noteStructure,
