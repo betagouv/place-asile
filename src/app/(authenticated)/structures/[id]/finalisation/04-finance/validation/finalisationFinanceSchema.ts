@@ -126,7 +126,6 @@ const avecCpom = budgetBaseSchema
   .superRefine(validateAffectationReservesDetails);
 
 const autoriseeCurrentYear = budgetBaseSchema.extend({
-  dotationAccordee: zSafeNumber().optional().nullable(),
   totalProduits: zSafeNumber().optional().nullable(),
   totalCharges: zSafeNumber().optional().nullable(),
   cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
@@ -156,26 +155,12 @@ const autoriseeY2 = budgetBaseSchema.extend({
   chargesNonReconductibles: zSafeNumber().optional().nullable(),
 });
 
-const autoriseeY3 = budgetBaseSchema.extend({
-  totalCharges: zSafeNumber().optional().nullable(),
-  cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
-  repriseEtat: zSafeNumber().optional().nullable(),
-  affectationReservesFondsDedies: zSafeNumber().optional().nullable(),
-  fondsDedies: zSafeNumber().optional().nullable(),
-  reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
-  reserveCompensationBFR: zSafeNumber().optional().nullable(),
-  reserveCompensationDeficits: zSafeNumber().optional().nullable(),
-  reserveInvestissement: zSafeNumber().optional().nullable(),
-  chargesNonReconductibles: zSafeNumber().optional().nullable(),
-  totalChargesProposees: zSafeNumber().optional().nullable(),
-});
-
 export const autoriseeSchema = z.object({
   // fileUploads: z.array(DocumentsTypeStrict),
   budgets: z.tuple([
     autoriseeCurrentYear,
     autoriseeY2,
-    autoriseeY3,
+    sansCpom,
     sansCpom,
     sansCpom,
   ]),
@@ -186,7 +171,7 @@ export const autoriseeAvecCpomSchema = z.object({
   budgets: z.tuple([
     autoriseeCurrentYear,
     autoriseeY2,
-    autoriseeY3,
+    avecCpom,
     avecCpom,
     avecCpom,
   ]),

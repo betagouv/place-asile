@@ -135,7 +135,6 @@ export const StructureAutorisee = () => {
                 label=""
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
-                disabled={index === 0}
               />
               &nbsp;€
             </div>
@@ -167,7 +166,7 @@ export const StructureAutorisee = () => {
                 label=""
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
-                disabled={[0, 1, 2].includes(index)}
+                disabled={[0, 1].includes(index)}
               />
               &nbsp;€
             </div>
@@ -182,7 +181,7 @@ export const StructureAutorisee = () => {
                 label=""
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
-                disabled={[0, 1, 2].includes(index)}
+                disabled={[0, 1].includes(index)}
               />
               &nbsp;€
             </div>
@@ -197,7 +196,7 @@ export const StructureAutorisee = () => {
                 label=""
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
-                disabled={[0, 1, 2].includes(index)}
+                disabled={[0, 1].includes(index)}
               />
               &nbsp;€
             </div>
@@ -213,7 +212,7 @@ export const StructureAutorisee = () => {
                 label=""
                 className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
                 variant="simple"
-                disabled={[0, 1, 2].includes(index)}
+                disabled={[0, 1].includes(index)}
               />
               &nbsp;€
             </div>
