@@ -26,8 +26,7 @@ function InputSimple({
         defaultValue={
           nativeInputProps?.defaultValue as string | number | undefined
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        type={"number" as any}
+        type={"text"}
         thousandSeparator=" "
         decimalSeparator=","
         className={inputClassName}
