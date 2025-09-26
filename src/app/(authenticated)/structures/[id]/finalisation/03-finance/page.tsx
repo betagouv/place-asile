@@ -1,18 +1,19 @@
 "use client";
+
 import { ReactElement } from "react";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import Steps from "../components/Steps";
-import FinalisationTypePlacesForm from "./FinalisationTypePlacesForm";
+import FinalisationFinanceForm from "./FinalisationFinanceForm";
 
-export default function TypePlaces(): ReactElement {
+export default function Finance(): ReactElement {
   const { structure } = useStructureContext();
   const structureId = structure.id;
   const currentStep = 3;
   return (
     <>
       <Steps currentStep={currentStep} structureId={structureId} />
-      <FinalisationTypePlacesForm currentStep={currentStep} />
+      <FinalisationFinanceForm currentStep={currentStep} />
     </>
   );
 }
