@@ -24,6 +24,8 @@ export const IndicateursGeneraux = () => {
         budgetItemErrors?.coutJournalier
     );
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <fieldset className="flex flex-col gap-6">
       <legend className="text-lg font-bold mb-8 text-title-blue-france">
@@ -42,7 +44,9 @@ export const IndicateursGeneraux = () => {
       <Table
         hasErrors={hasBudgetErrors}
         headings={[
-          "Année",
+          <th scope="col" key="annee" className="!border-r-1">
+            Année
+          </th>,
           <th
             scope="col"
             key="etp"
@@ -56,7 +60,7 @@ export const IndicateursGeneraux = () => {
           <th
             scope="col"
             key="encadrement"
-            className="uppercase text-mention-grey py-4 px-5 text-center text-xs"
+            className="uppercase text-mention-grey py-4 px-5 text-center text-xs !border-r-1"
           >
             <span className="flex flex-col">
               Taux
@@ -75,12 +79,19 @@ export const IndicateursGeneraux = () => {
           </th>,
         ]}
         ariaLabelledBy=""
-        className={cn("scroll-margin-header w-fit")}
+        className={cn("scroll-margin-header w-fit [&_input]:max-w-28")}
+        enableBorders
       >
         {years.map((year, index) => (
           <tr key={year} className="w-full border-t border-default-grey ">
-            <td className="align-middle py-4">
+            <td className="align-middle py-4 !border-r-1">
               {year}
+              {currentYear - year < 2 && (
+                <>
+                  <br />
+                  <span className="text-xs">(prévisionnel)</span>
+                </>
+              )}
               <input type="hidden" {...register(`budgets.${index}.id`)} />
               <input
                 type="hidden"
@@ -96,11 +107,11 @@ export const IndicateursGeneraux = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:max-w-16"
+                className="mb-0 mx-auto items-center [&_p]:hidden"
                 variant="simple"
               />
             </td>
-            <td className="!py-1">
+            <td className="!py-1 !border-r-1">
               <InputWithValidation
                 name={`budgets.${index}.tauxEncadrement`}
                 id={`budgets.${index}.tauxEncadrement`}
@@ -108,7 +119,7 @@ export const IndicateursGeneraux = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:max-w-32"
+                className="mb-0 mx-auto items-center [&_p]:hidden"
                 variant="simple"
               />
             </td>
@@ -121,7 +132,7 @@ export const IndicateursGeneraux = () => {
                   type="number"
                   min={0}
                   label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:max-w-16"
+                  className="mb-0 mx-auto items-center [&_p]:hidden"
                   variant="simple"
                 />
                 €
