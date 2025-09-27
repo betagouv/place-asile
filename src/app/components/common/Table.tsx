@@ -63,12 +63,13 @@ export const Table = ({
           className={cn(
             "w-full",
             stickLastColumn &&
-              "[&_tr_*:last-child]:sticky [&_tr_*:last-child]:right-0 [&_tr_*:last-child]:bg-white [&_tr_*:last-child]:z-20",
-            "[&_tr_*:last-child]:before:content-[''] [&_tr_*:last-child]:before:absolute [&_tr_*:last-child]:before:-left-[6em] [&_tr_*:last-child]:before:top-0 [&_tr_*:last-child]:before:bottom-0 [&_tr_*:last-child]:before:w-[6em]",
-            "[&_tr_*:last-child]:before:bg-gradient-to-l [&_tr_*:last-child]:before:from-white [&_tr_*:last-child]:before:to-transparent",
+              " [&_tr>*:last-child]:sticky [&_tr>*:last-child]:right-0 [&_tr>*:last-child]:bg-white [&_tr>*:last-child]:z-20",
+            "[&_tr>*:last-child]:before:content-[''] [&_tr>*:last-child]:before:absolute [&_tr>*:last-child]:before:-left-[6em] [&_tr>*:last-child]:before:top-0 [&_tr>*:last-child]:before:bottom-0 [&_tr>*:last-child]:before:w-[6em]",
+            "[&_tr>*:last-child]:before:bg-gradient-to-l [&_tr>*:last-child]:before:from-white [&_tr>*:last-child]:before:to-transparent",
+            "[&_tr>*:last-child]:before:opacity-100 [&_tr>*:last-child]:before:transition-opacity [&_tr>*:last-child]:before:duration-30",
             stickLastColumn &&
               scrollReachedEnd &&
-              "[&_tr_*:last-child]:before:hidden"
+              "[&_tr>*:last-child]:before:opacity-0"
           )}
         >
           {title && <caption>{title}</caption>}

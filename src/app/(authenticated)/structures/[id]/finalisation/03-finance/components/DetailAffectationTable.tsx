@@ -281,6 +281,7 @@ export const DetailAffectationTable = ({
                         label=""
                         className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full [&_input]:min-w-[100px]"
                         variant="simple"
+                        disabled={!isEditable}
                       />
                       &nbsp;€
                     </div>
@@ -296,6 +297,7 @@ export const DetailAffectationTable = ({
                         label=""
                         className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full [&_input]:min-w-[80px]"
                         variant="simple"
+                        disabled={!isEditable}
                       />
                       &nbsp;€
                     </div>
