@@ -8,6 +8,10 @@ import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useYearRange } from "@/app/hooks/useYearRange";
 import { cn } from "@/app/utils/classname.util";
+import {
+  isStructureAutorisee,
+  isStructureSubventionnee,
+} from "@/app/utils/structure.util";
 
 import { useStructureContext } from "../../../context/StructureClientContext";
 
@@ -22,6 +26,10 @@ export const DetailAffectationTable = ({
   const { years } = useYearRange();
   const { structure } = useStructureContext();
   const yearsToDisplay = years.slice(-sliceYears);
+
+  const hasCpom = structure?.cpom;
+  const isAutorisee = isStructureAutorisee(structure?.type);
+  const isSubventionnee = isStructureSubventionnee(structure?.type);
 
   const parentFormContext = useFormContext();
 
@@ -82,6 +90,7 @@ export const DetailAffectationTable = ({
         ariaLabelledBy=""
         hasErrors={hasErrors}
         className="[&_tr]:!bg-transparent"
+        stickLastColumn
         headings={[
           "Année",
           "Total",
@@ -115,7 +124,29 @@ export const DetailAffectationTable = ({
             <br />
             DÉDIÉS{" "}
           </th>,
-          "commentaire",
+          <th
+            scope="col"
+            key="reportANouveau"
+            className={cn(
+              isAutorisee || (isSubventionnee && hasCpom) ? "" : "hidden"
+            )}
+            aria-hidden={!(isAutorisee || (isSubventionnee && hasCpom))}
+          >
+            Report à nouveau
+          </th>,
+          <th
+            scope="col"
+            key="autre"
+            className={cn(
+              isAutorisee || (isSubventionnee && hasCpom) ? "" : "hidden"
+            )}
+            aria-hidden={!(isAutorisee || (isSubventionnee && hasCpom))}
+          >
+            Autre
+          </th>,
+          <th scope="col" key="commentaire">
+            Commentaire
+          </th>,
         ]}
         enableBorders
       >
@@ -236,6 +267,42 @@ export const DetailAffectationTable = ({
                   </div>
                 </td>
               )}
+
+              {(isAutorisee || (isSubventionnee && hasCpom)) && (
+                <>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <InputWithValidation
+                        name={`budgets.${fieldIndex}.reserveCompensationAmortissements`}
+                        id={`detailAffectation.${fieldIndex}.reserveCompensationAmortissements`}
+                        control={control}
+                        type="number"
+                        min={0}
+                        label=""
+                        className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full [&_input]:min-w-[100px]"
+                        variant="simple"
+                      />
+                      &nbsp;€
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <InputWithValidation
+                        name={`budgets.${fieldIndex}.reserveCompensationAmortissements`}
+                        id={`detailAffectation.${fieldIndex}.reserveCompensationAmortissements`}
+                        control={control}
+                        type="number"
+                        min={0}
+                        label=""
+                        className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full [&_input]:min-w-[80px]"
+                        variant="simple"
+                      />
+                      &nbsp;€
+                    </div>
+                  </td>
+                </>
+              )}
+
               <td>
                 <Button
                   type="button"
