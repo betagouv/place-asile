@@ -13,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="w-full flex bg-white" id="content">
+    <main className="w-full max-w-screen flex bg-white" id="content">
       <Menu />
-      <div className="w-full">{children}</div>
+      <div className="w-[80vw]">{children}</div>
     </main>
   );
 }
