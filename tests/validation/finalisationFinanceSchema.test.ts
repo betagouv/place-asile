@@ -165,6 +165,8 @@ describe("finalisationFinanceSchema", () => {
     reserveCompensationBFR: null,
     reserveCompensationAmortissements: null,
     fondsDedies: null,
+    reportANouveau: null,
+    autre: null,
     commentaire: null,
     ...overrides,
   });
