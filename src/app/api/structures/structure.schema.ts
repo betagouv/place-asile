@@ -118,6 +118,8 @@ const budgetSchema = z.object({
   reserveCompensationAmortissements: z.number().nullable().optional(),
   fondsDedies: z.number().nullable().optional(),
   affectationReservesFondsDedies: z.number().nullable().optional(),
+  reportANouveau: z.number().nullable().optional(),
+  autre: z.number().nullable().optional(),
   commentaire: z.string().nullable().optional(),
 });
 

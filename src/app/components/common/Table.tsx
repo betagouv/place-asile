@@ -1,4 +1,11 @@
-import { Fragment, PropsWithChildren, ReactElement, useRef } from "react";
+import {
+  Fragment,
+  PropsWithChildren,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { cn } from "@/app/utils/classname.util";
 
@@ -11,19 +18,29 @@ export const Table = ({
   className,
   enableBorders,
   hasErrors,
+  stickLastColumn,
 }: Props) => {
   const tableContainerRef = useRef<HTMLDivElement>(null);
+  const scrollableAreaRef = useRef<HTMLDivElement>(null);
   const renderCountRef = useRef(0);
-
   renderCountRef.current += 1;
-  // TODO @ledjay fix the autoscroll to error
-  // useEffect(() => {
-  //   if (hasErrors && tableContainerRef.current) {
-  //     requestAnimationFrame(() => {
-  //       tableContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-  //     });
-  //   }
-  // });
+
+  const [scrollReachedEnd, setScrollReachedEnd] = useState(false);
+
+  useEffect(() => {
+    const container = scrollableAreaRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+      const hasReachedEnd = Math.abs(container.scrollLeft - maxScrollLeft) < 1;
+      setScrollReachedEnd(hasReachedEnd);
+    };
+
+    handleScroll(); // état initial
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div
@@ -39,41 +56,56 @@ export const Table = ({
         className
       )}
     >
-      <table aria-labelledby={ariaLabelledBy} className="w-full">
-        {title && <caption>{title}</caption>}
+      <div ref={scrollableAreaRef} className={cn("overflow-x-auto")}>
+        <table
+          aria-labelledby={ariaLabelledBy}
+          className={cn(
+            "w-full",
+            stickLastColumn &&
+              " [&_tr>*:last-child]:sticky [&_tr>*:last-child]:right-0 [&_tr>*:last-child]:bg-white [&_tr>*:last-child]:z-20",
+            "[&_tr>*:last-child]:before:content-[''] [&_tr>*:last-child]:before:absolute [&_tr>*:last-child]:before:-left-[6em] [&_tr>*:last-child]:before:top-0 [&_tr>*:last-child]:before:bottom-0 [&_tr>*:last-child]:before:w-[6em]",
+            "[&_tr>*:last-child]:before:bg-gradient-to-l [&_tr>*:last-child]:before:from-white [&_tr>*:last-child]:before:to-transparent",
+            "[&_tr>*:last-child]:before:opacity-100 [&_tr>*:last-child]:before:transition-opacity [&_tr>*:last-child]:before:duration-30",
+            stickLastColumn &&
+              scrollReachedEnd &&
+              "[&_tr>*:last-child]:before:opacity-0"
+          )}
+        >
+          {title && <caption>{title}</caption>}
 
-        <thead>
-          {preHeadings && (
-            <tr className="bg-default-grey-hover">
-              {preHeadings?.map((preHeading, index) =>
-                typeof preHeading === "string" ? (
-                  <th scope="col" key={`col-${index}`}>
-                    {preHeading}
-                  </th>
-                ) : (
-                  <Fragment key={index}>{preHeading}</Fragment>
-                )
-              )}
-            </tr>
-          )}
-          {headings && (
-            <tr className={cn(!preHeadings && "bg-default-grey-hover")}>
-              {headings?.map((heading, index) =>
-                typeof heading === "string" ? (
-                  <th scope="col" key={`col-${index}`}>
-                    {heading}
-                  </th>
-                ) : (
-                  <Fragment key={index}>{heading}</Fragment>
-                )
-              )}
-            </tr>
-          )}
-        </thead>
-        <tbody className="[&>tr>td]:py-2 [&>tr>td]:px-4 [&>tr>td]:text-center [&>tr>td]:text-sm">
-          {children}
-        </tbody>
-      </table>
+          <thead>
+            {preHeadings && (
+              <tr className="bg-default-grey-hover">
+                {preHeadings?.map((preHeading, index) =>
+                  typeof preHeading === "string" ? (
+                    <th scope="col" key={`col-${index}`}>
+                      {preHeading}
+                    </th>
+                  ) : (
+                    <Fragment key={index}>{preHeading}</Fragment>
+                  )
+                )}
+              </tr>
+            )}
+            {headings && (
+              <tr className={cn(!preHeadings && "bg-default-grey-hover")}>
+                {headings?.map((heading, index) =>
+                  typeof heading === "string" ? (
+                    <th scope="col" key={`col-${index}`}>
+                      {heading}
+                    </th>
+                  ) : (
+                    <Fragment key={index}>{heading}</Fragment>
+                  )
+                )}
+              </tr>
+            )}
+          </thead>
+          <tbody className="[&>tr>td]:py-2 [&>tr>td]:px-4 [&>tr>td]:text-center [&>tr>td]:text-sm">
+            {children}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
@@ -88,4 +120,5 @@ type Props = PropsWithChildren<{
   className?: string;
   enableBorders?: boolean;
   hasErrors?: boolean;
+  stickLastColumn?: boolean;
 }>;

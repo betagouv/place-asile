@@ -18,7 +18,7 @@ export const BudgetTables = () => {
 
   return (
     <>
-      <fieldset className="flex flex-col gap-6">
+      <fieldset className="flex flex-col gap-6 min-w-0 w-full">
         <legend className="text-lg font-bold mb-8 text-title-blue-france">
           Gestion budgétaire
         </legend>
@@ -37,7 +37,7 @@ export const BudgetTables = () => {
       {(isAutorisee || (isSubventionnee && hasCpom)) && (
         <>
           <hr />
-          <fieldset className="flex flex-col gap-6">
+          <fieldset className="flex flex-col gap-6 min-w-0 w-full">
             <legend className="text-lg font-bold mb-8 text-title-blue-france">
               {structure?.cpom
                 ? "Détail affectation réserves, provisions et fonds dédiés du CPOM"
