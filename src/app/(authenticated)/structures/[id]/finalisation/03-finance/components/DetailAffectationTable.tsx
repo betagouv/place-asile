@@ -273,8 +273,8 @@ export const DetailAffectationTable = ({
                   <td>
                     <div className="flex items-center gap-2">
                       <InputWithValidation
-                        name={`budgets.${fieldIndex}.reserveCompensationAmortissements`}
-                        id={`detailAffectation.${fieldIndex}.reserveCompensationAmortissements`}
+                        name={`budgets.${fieldIndex}.reportANouveau`}
+                        id={`detailAffectation.${fieldIndex}.reportANouveau`}
                         control={control}
                         type="number"
                         min={0}
@@ -288,8 +288,8 @@ export const DetailAffectationTable = ({
                   <td>
                     <div className="flex items-center gap-2">
                       <InputWithValidation
-                        name={`budgets.${fieldIndex}.reserveCompensationAmortissements`}
-                        id={`detailAffectation.${fieldIndex}.reserveCompensationAmortissements`}
+                        name={`budgets.${fieldIndex}.autre`}
+                        id={`detailAffectation.${fieldIndex}.autre`}
                         control={control}
                         type="number"
                         min={0}
