@@ -30,7 +30,6 @@ export const Table = ({
   useEffect(() => {
     const container = scrollableAreaRef.current;
     if (!container) return;
-    console.log(container.scrollWidth, container.clientWidth);
 
     const handleScroll = () => {
       const maxScrollLeft = container.scrollWidth - container.clientWidth;
