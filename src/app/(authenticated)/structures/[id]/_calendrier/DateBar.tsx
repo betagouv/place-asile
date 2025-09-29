@@ -7,21 +7,7 @@ import { Badge } from "@/app/components/common/Badge";
 
 import styles from "./DateBar.module.css";
 
-export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
-  const getTimeDifference = (datePair: DatePair): number => {
-    return dayjs(datePair.endDate).diff(dayjs(), "day");
-  };
-
-  const getTimeDifferences = (datePairs: DatePair[]): number[] => {
-    return datePairs.map(getTimeDifference);
-  };
-
-  const getBarSize = (datePair: DatePair, datePairs: DatePair[]) => {
-    const timeDifferences = getTimeDifferences(datePairs);
-    const maxDifference = Math.max(...timeDifferences);
-    return (getTimeDifference(datePair) / maxDifference) * 100;
-  };
-
+export const DateBar = ({ datePair }: Props): ReactElement => {
   /**
    * Calculates the percentage of time elapsed between startDate and endDate as of today.
    * @param {Date} startDate - The start date of the period.
@@ -106,7 +92,6 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
 
 type Props = {
   datePair: DatePair;
-  datePairs: DatePair[];
 };
 
 export type DatePair = {
