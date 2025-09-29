@@ -17,11 +17,11 @@ export type FileUpload = {
 };
 
 export const DdetsFileUploadCategory = [
-  "INSPECTION_CONTROLE",
   "ARRETE_AUTORISATION",
   "CPOM",
   "CONVENTION",
   "ARRETE_TARIFICATION",
+  "INSPECTION_CONTROLE",
   "AUTRE",
 ] as const;
 
@@ -39,7 +39,8 @@ export const OperateurFileUploadCategory = [
 ] as const;
 
 export type DdetsFileUploadCategoryType = typeof DdetsFileUploadCategory;
-export type OperateurFileUploadCategoryType = typeof OperateurFileUploadCategory;
+export type OperateurFileUploadCategoryType =
+  typeof OperateurFileUploadCategory;
 
 export const zDdetsFileUploadCategory = z.enum(
   Object.values(
@@ -55,7 +56,7 @@ export const zOperateurFileUploadCategory = z.enum(
 
 export const FileUploadCategory = [
   ...DdetsFileUploadCategory,
-  ...OperateurFileUploadCategory
+  ...OperateurFileUploadCategory,
 ] as const;
 
 export type FileUploadCategoryType = typeof FileUploadCategory;
