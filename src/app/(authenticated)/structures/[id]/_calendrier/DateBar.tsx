@@ -25,10 +25,6 @@ export const DateBar = ({ datePair }: Props): ReactElement => {
     const start = dayjs(startDate);
     const end = dayjs(endDate);
 
-    console.log("now", now);
-    console.log("start", start);
-    console.log("end", end);
-
     if (now.isBefore(start)) return 0;
     if (now.isAfter(end)) return 100;
 
