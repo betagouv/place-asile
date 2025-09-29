@@ -65,11 +65,11 @@ export const DetailAffectations = (): ReactElement => {
         headers={[
           "ANNÉE",
           "TOTAL",
-          "RÉSERVE DÉDIÉE À L'INVESTISSMENT (10682)",
-          "CHARGES NON RECONDUCTIBLES (11511 ou 111)",
-          "RÉSERVE DE COMPENSATION DES DÉFICITS (10686)",
-          "RÉSERVE DE COUVERTURE DE BFR (10685)",
-          "RÉSERVE DE COMPENSATION DES AMORTIS. (10687)",
+          "RÉSERVE DÉDIÉE À L'INVESTISSMENT",
+          "CHARGES NON RECONDUCTIBLES",
+          "RÉSERVE DE COMPENSATION DES DÉFICITS",
+          "RÉSERVE DE COUVERTURE DE BFR",
+          "RÉSERVE DE COMPENSATION DES AMORTIS.",
           structure.cpom && "FONDS DÉDIÉS",
           "COMMENTAIRE",
         ]}
