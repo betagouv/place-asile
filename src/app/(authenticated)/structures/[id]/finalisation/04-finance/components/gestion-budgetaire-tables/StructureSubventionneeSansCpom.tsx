@@ -1,6 +1,7 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import Input from "@codegouvfr/react-dsfr/Input";
 import { createModal } from "@codegouvfr/react-dsfr/Modal/Modal";
+import Tooltip from "@codegouvfr/react-dsfr/Tooltip";
 import { useRef, useState } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 
@@ -126,7 +127,18 @@ export const StructureSubventionneeSansCpom = () => {
             key="excedentDéduitDotationAVenir"
             className="!border-r-1"
           >
-            excédent déduit <small>dotation à venir</small>
+            <Tooltip
+              title={
+                <>
+                  <span>Montant qui sera déduit</span>
+                  <br />
+                  <span> de la dotation pour l’année n+2</span>
+                </>
+              }
+            >
+              À réemployer dans dotation à venir{" "}
+              <i className="fr-icon-information-line before:scale-50 before:origin-left" />
+            </Tooltip>
           </th>,
           <th scope="col" key="restantFondsDedies" className="!border-r-1">
             restant <small>fonds dédiés</small>
