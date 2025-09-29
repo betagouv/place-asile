@@ -65,16 +65,6 @@ export const FinalisationQualiteForm = ({
   });
 
   const categoriesDisplayRules: CategoryDisplayRulesType = {
-    INSPECTION_CONTROLE: {
-      categoryShortName: "",
-      title: "Inspections-contrôles",
-      canAddFile: true,
-      isOptional: true,
-      canAddAvenant: false,
-      fileMetaData: FileMetaData.DATE_TYPE,
-      documentLabel: "Rapport",
-      addFileButtonLabel: "Ajouter une inspection-contrôle",
-    },
     ARRETE_AUTORISATION: {
       categoryShortName: "arrêté",
       title: "Arrêtés d'autorisation",
@@ -114,6 +104,16 @@ export const FinalisationQualiteForm = ({
       fileMetaData: FileMetaData.DATE_START_END,
       documentLabel: "Document",
       addFileButtonLabel: "Ajouter une convention",
+    },
+    INSPECTION_CONTROLE: {
+      categoryShortName: "",
+      title: "Inspections-contrôles",
+      canAddFile: true,
+      isOptional: true,
+      canAddAvenant: false,
+      fileMetaData: FileMetaData.DATE_TYPE,
+      documentLabel: "Rapport",
+      addFileButtonLabel: "Ajouter une inspection-contrôle",
     },
     AUTRE: {
       categoryShortName: "autre",
