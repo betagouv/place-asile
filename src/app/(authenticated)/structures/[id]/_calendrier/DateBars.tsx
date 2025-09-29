@@ -9,7 +9,7 @@ export const DateBars = ({ datePairs }: Props): ReactElement => {
     <div>
       {datePairs.map((datePair, index) => (
         <div key={index} className="flex">
-          <div className="fr-col fr-col-2 flex justify-end">
+          <div className="w-48 flex justify-end">
             <strong className="fr-pr-1w">{datePair.label}</strong>
           </div>
           <DateBar datePair={datePair} datePairs={datePairs} />

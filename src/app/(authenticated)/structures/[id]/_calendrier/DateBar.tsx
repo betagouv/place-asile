@@ -58,7 +58,7 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
 
   return (
     <>
-      <div className="fr-col fr-col-6 flex items-center">
+      <div className="flex-1 flex items-center">
         <span
           style={{
             display: "inline-block",
@@ -75,8 +75,16 @@ export const DateBar = ({ datePair, datePairs }: Props): ReactElement => {
           />
         </div>
       </div>
-      <div className="fr-col fr-col-4">
-        <span>{new Date(datePair.endDate).toLocaleDateString("fr-FR")}</span>
+      <div className="w-64 flex items-center">
+        <span
+          style={{
+            display: "inline-block",
+            width: "6rem",
+            flexShrink: 0,
+          }}
+        >
+          {new Date(datePair.endDate).toLocaleDateString("fr-FR")}
+        </span>
         {!isConventionExpiree && isLessThan3Months && (
           <div className="pl-2">
             <Badge type="warning" icon={true}>
