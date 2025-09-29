@@ -87,26 +87,23 @@ export const DetailAffectationTable = ({
           "Total",
           <th scope="col" key="reserveInvestissement">
             RÉSERVE DÉDIÉE À <br /> L’INVESTISSEMENT <br />
-            <small className="font-normal">(10682)</small>
           </th>,
           <th scope="col" key="chargesNonReconductibles">
             CHARGES NON <br /> RECONDUCTIBLES <br />
-            <small className="font-normal">(11511 ou 111)</small>
           </th>,
           <th scope="col" key="reserveCompensationDeficits">
             RÉSERVE DE <br />
             COMPENSATION DES DÉFICITS{" "}
-            <small className="font-normal">(10686)</small>
           </th>,
           <th scope="col" key="reserveCouvertureBFR">
             RÉSERVE DE <br />
             COUVERTURE <br />
-            DE BFR <small className="font-normal">(10685)</small>
+            DE BFR
           </th>,
           <th scope="col" key="reserveCompensationAmortis">
             RÉSERVE DE <br />
             COMPENSATION DES <br />
-            AMORTIS. <small className="font-normal">(10687)</small>
+            AMORTIS.
           </th>,
 
           <th
