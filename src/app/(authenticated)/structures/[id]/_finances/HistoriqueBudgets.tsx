@@ -34,7 +34,7 @@ export const HistoriqueBudgets = (): ReactElement => {
     >
       <Table
         bordered={true}
-        className="m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center text-mention-grey [&>table>thead]:text-mention-grey"
+        className="m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center text-mention-grey [&>table>thead]:text-mention-grey [&>table>tbody>tr>td:first-child]:w-20 [&>table>thead>tr>th]:text-center"
         caption=""
         data={getBudgets()}
         headers={["ANNÉE", "ETP", "TAUX D'ENCADREMENT", "COÛT JOURNALIER"]}
