@@ -5,8 +5,6 @@ import { ReactElement } from "react";
 
 import { Badge } from "@/app/components/common/Badge";
 
-import styles from "./DateBar.module.css";
-
 export const DateBar = ({ datePair }: Props): ReactElement => {
   /**
    * Calculates the percentage of time elapsed between startDate and endDate as of today.
@@ -41,18 +39,18 @@ export const DateBar = ({ datePair }: Props): ReactElement => {
   return (
     <>
       <div className="flex-1 flex items-center">
-        <span className={styles.date}>
+        <span className="inline-block w-24 flex-shrink-0">
           {new Date(datePair.startDate).toLocaleDateString("fr-FR")}
         </span>
-        <div className={styles["date-bar"]}>
+        <div className="relative flex-1 bg-background-disabled-grey h-[10px] rounded-[5px] mr-4">
           <div
-            className={styles.done}
+            className="absolute top-0 left-0 h-full rounded-[5px] bg-[var(--yellow-moutarde-850-200)]"
             style={{ width: `${getElapsedPercentage(datePair)}%` }}
           />
         </div>
       </div>
       <div className="w-64 flex items-center">
-        <span className={styles.date}>
+        <span className="inline-block w-24 flex-shrink-0">
           {new Date(datePair.endDate).toLocaleDateString("fr-FR")}
         </span>
         {!isConventionExpiree && isLessThan3Months && (
