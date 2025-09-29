@@ -45,13 +45,7 @@ export const DateBar = ({ datePair }: Props): ReactElement => {
   return (
     <>
       <div className="flex-1 flex items-center">
-        <span
-          style={{
-            display: "inline-block",
-            width: "6rem",
-            flexShrink: 0,
-          }}
-        >
+        <span className={styles.date}>
           {new Date(datePair.startDate).toLocaleDateString("fr-FR")}
         </span>
         <div className={styles["date-bar"]}>
@@ -62,13 +56,7 @@ export const DateBar = ({ datePair }: Props): ReactElement => {
         </div>
       </div>
       <div className="w-64 flex items-center">
-        <span
-          style={{
-            display: "inline-block",
-            width: "6rem",
-            flexShrink: 0,
-          }}
-        >
+        <span className={styles.date}>
           {new Date(datePair.endDate).toLocaleDateString("fr-FR")}
         </span>
         {!isConventionExpiree && isLessThan3Months && (
