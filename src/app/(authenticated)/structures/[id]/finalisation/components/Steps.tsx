@@ -18,11 +18,11 @@ export const steps: Step[] = [
     route: "01-identification",
   },
   { title: "Adresses", route: "02-adresses" },
+  { title: "Finance", route: "03-finance" },
   {
     title: "Types de places",
-    route: "03-type-places",
+    route: "04-type-places",
   },
-  { title: "Finance", route: "04-finance" },
   {
     title: "Contrôle qualité & actes administratifs",
     route: "05-qualite",
