@@ -185,6 +185,8 @@ model Budget {
   reserveCompensationAmortissements Float?
   fondsDedies                       Float?
   affectationReservesFondsDedies    Float?
+  reportANouveau                    Float?
+  autre                             Float?
   commentaire                       String?
 }
 

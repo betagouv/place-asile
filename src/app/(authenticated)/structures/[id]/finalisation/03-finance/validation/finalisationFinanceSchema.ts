@@ -85,6 +85,8 @@ const budgetBaseSchema = z.object({
   reserveCompensationBFR: zSafeNumber().optional().nullable(),
   reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
   fondsDedies: zSafeNumber().optional().nullable(),
+  reportANouveau: zSafeNumber().optional().nullable(),
+  autre: zSafeNumber().optional().nullable(),
 
   commentaire: z.string().optional().nullable(),
 });

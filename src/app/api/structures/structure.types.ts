@@ -84,6 +84,8 @@ type CreateBudget = {
   reserveCompensationAmortissements?: number | null;
   fondsDedies?: number | null;
   affectationReservesFondsDedies?: number | null;
+  reportANouveau?: number | null;
+  autre?: number | null;
   commentaire?: string | null;
 };
 

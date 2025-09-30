@@ -31,6 +31,9 @@ export const createFakeBudget = ({
     reserveCompensationBFR: faker.number.int({ min: 1, max: 10000 }),
     reserveCompensationAmortissements: faker.number.int({ min: 1, max: 10000 }),
     fondsDedies: faker.number.int({ min: 1, max: 10000 }),
+    // TODO: reportANouveau and autre to be set only if isAutorisee || (isSubventionnee && hasCpom)
+    reportANouveau: faker.number.int({ min: 1, max: 10000 }),
+    autre: faker.number.int({ min: 1, max: 10000 }),
     commentaire: faker.lorem.lines(2),
   };
 };

@@ -107,11 +107,11 @@ export const IndicateursGeneraux = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:max-w-16"
                 variant="simple"
               />
             </td>
-            <td className="!py-1 !border-r-1">
+            <td className="!py-1">
               <InputWithValidation
                 name={`budgets.${index}.tauxEncadrement`}
                 id={`budgets.${index}.tauxEncadrement`}
@@ -119,7 +119,7 @@ export const IndicateursGeneraux = () => {
                 type="number"
                 min={0}
                 label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden"
+                className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:max-w-32"
                 variant="simple"
               />
             </td>
@@ -132,7 +132,7 @@ export const IndicateursGeneraux = () => {
                   type="number"
                   min={0}
                   label=""
-                  className="mb-0 mx-auto items-center [&_p]:hidden"
+                  className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:max-w-16"
                   variant="simple"
                 />
                 €
