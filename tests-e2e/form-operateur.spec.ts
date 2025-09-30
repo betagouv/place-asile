@@ -7,7 +7,7 @@ const generateCodeDna = () => {
   return `${faker.helpers.arrayElement(prefixes)}-${faker.string.numeric(6)}`;
 };
 
-test("Saisie du mot de passe", async ({ page }) => {
+test("Saisie du mot de passe @manual", async ({ page }) => {
   const codeDna = generateCodeDna();
 
   await page.goto(
