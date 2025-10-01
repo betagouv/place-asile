@@ -91,6 +91,7 @@ export const TypePlaceHistory = ({
         currentStructureTypologie?.fvvTeh ?? "N/A",
         data.qpv ?? "N/A",
         data.logementSocial ?? "N/A",
+        "", // Empty cell to use the whole width of the parent
       ];
     });
   };
@@ -99,7 +100,9 @@ export const TypePlaceHistory = ({
     <Accordion label="Historique" className={styles["custom-accordion"]}>
       <Table
         bordered={true}
-        className="m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center [&>table>tbody>tr>td]:p-3 text-mention-grey [&>table>thead]:text-mention-grey [&>table>thead>tr>th]:text-xs"
+        className={`m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center [&>table>tbody>tr>td]:p-3
+           text-mention-grey [&>table>thead]:text-mention-grey [&>table>thead>tr>th]:text-xs 
+           [&>table>thead>tr>th]:whitespace-nowrap [&>table>thead>tr>th]:border-b-grey-300 [&>table>thead>tr>th:last-child]:w-full`}
         caption=""
         data={getTableData()}
         headers={[
@@ -110,6 +113,7 @@ export const TypePlaceHistory = ({
           "FVV-TEH",
           "QPV",
           "LOG. SOCIAL",
+          " ",
         ]}
       />
       <span className="italic block border-t-1 border-default-grey text-mention-grey py-2 px-4 text-xs">
