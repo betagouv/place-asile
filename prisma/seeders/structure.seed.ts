@@ -43,6 +43,8 @@ const createFakeStructure = ({
   const [debutPeriodeAutorisation, finPeriodeAutorisation] = generateDatePair();
   const [debutCpom, finCpom] = generateDatePair();
 
+  const isAutorisee = isStructureAutorisee(type);
+
   return {
     dnaCode: generateDnaCode({
       cpom,
@@ -71,7 +73,7 @@ const createFakeStructure = ({
     finConvention,
     cpom,
     creationDate: faker.date.past(),
-    finessCode: faker.number.int(1000000000).toString(),
+    finessCode: isAutorisee ? faker.number.int(1000000000).toString() : null,
     lgbt: faker.datatype.boolean(),
     fvvTeh: faker.datatype.boolean(),
     public: faker.helpers.enumValue(PublicType),
@@ -106,7 +108,6 @@ export const createFakeStuctureWithRelations = ({
   state,
 }: FakeStructureOptions): Omit<StructureWithRelations, "id"> => {
   const fakeStructure = createFakeStructure({ cpom, type, state });
-  const isAutorisee = isStructureAutorisee(type);
   const placesAutorisees = faker.number.int({ min: 1, max: 100 });
 
   let structureWithRelations = {
@@ -130,19 +131,13 @@ export const createFakeStuctureWithRelations = ({
   if (state === StructureState.FINALISE) {
     structureWithRelations = {
       ...structureWithRelations,
-      budgets: isAutorisee
-        ? [
-            createFakeBudget({ year: 2025 }),
-            createFakeBudget({ year: 2024 }),
-            createFakeBudget({ year: 2023 }),
-            createFakeBudget({ year: 2022 }),
-            createFakeBudget({ year: 2021 }),
-          ]
-        : [
-            createFakeBudget({ year: 2023 }),
-            createFakeBudget({ year: 2022 }),
-            createFakeBudget({ year: 2021 }),
-          ],
+      budgets: [
+        createFakeBudget({ year: 2025, type, cpom }),
+        createFakeBudget({ year: 2024, type, cpom }),
+        createFakeBudget({ year: 2023, type, cpom }),
+        createFakeBudget({ year: 2022, type, cpom }),
+        createFakeBudget({ year: 2021, type, cpom }),
+      ],
       controles: [
         createFakeControle(),
         createFakeControle(),
