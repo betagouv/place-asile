@@ -23,7 +23,12 @@ export async function seed(): Promise<void> {
     const structuresToInsert = Array.from({ length: 5 }, () => {
       const fakeStructure = createFakeStuctureWithRelations({
         cpom: faker.datatype.boolean(),
-        type: faker.helpers.enumValue(StructureType),
+        type: faker.helpers.arrayElement([
+          StructureType.CADA,
+          StructureType.HUDA,
+          StructureType.CAES,
+          StructureType.CPH,
+        ]),
         state: faker.helpers.enumValue(StructureState),
       });
       console.log(`🏠 Ajout de la structure ${fakeStructure.dnaCode}...`);
