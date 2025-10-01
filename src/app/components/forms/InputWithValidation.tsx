@@ -15,7 +15,7 @@ import { cn } from "@/app/utils/classname.util";
 import InputSimple from "../ui/InputSimple";
 
 export default function InputWithValidation<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   name,
   id,
@@ -105,8 +105,8 @@ export default function InputWithValidation<
           type === "date"
             ? getHtmlDateValue()
             : field.value !== undefined && field.value !== null
-            ? field.value
-            : "",
+              ? field.value
+              : "",
         min,
         onBlur: field.onBlur,
         disabled: disabled,
@@ -128,7 +128,7 @@ export default function InputWithValidation<
         ...field,
         type,
         onChange: type === "date" ? handleDateChange : field.onChange,
-        value: type === "date" ? getHtmlDateValue() : field.value || "",
+        value: type === "date" ? getHtmlDateValue() : (field.value ?? ""),
         onBlur: field.onBlur,
         min,
         id,
@@ -146,7 +146,7 @@ export default function InputWithValidation<
 
 type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
   Partial<UseControllerProps<TFieldValues>> & {
-    name: Path<TFieldValues>; // Use Path type for proper type checking
+    name: Path<TFieldValues>;
     id?: string;
     type: string;
     min?: number;
