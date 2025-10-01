@@ -85,13 +85,24 @@ export const TypePlaceHistory = ({
 
       return [
         year,
-        currentStructureTypologie?.placesAutorisees ?? "N/A",
-        currentStructureTypologie?.pmr ?? "N/A",
-        currentStructureTypologie?.lgbt ?? "N/A",
-        currentStructureTypologie?.fvvTeh ?? "N/A",
-        data.qpv ?? "N/A",
-        data.logementSocial ?? "N/A",
-        "", // Empty cell to use the whole width of the parent
+        <span className="text-center p-3" key={year}>
+          {currentStructureTypologie?.placesAutorisees ?? "N/A"}
+        </span>,
+        <span className="text-center p-3" key={year}>
+          {currentStructureTypologie?.pmr ?? "N/A"}
+        </span>,
+        <span className="text-center p-3" key={year}>
+          {currentStructureTypologie?.lgbt ?? "N/A"}
+        </span>,
+        <span className="text-center p-3" key={year}>
+          {currentStructureTypologie?.fvvTeh ?? "N/A"}
+        </span>,
+        <span key={year} className="text-center p-3">
+          {data.qpv ?? "N/A"}
+        </span>,
+        <span key={year} className="inline-block w-20 text-center">
+          {data.logementSocial ?? "N/A"}
+        </span>,
       ];
     });
   };
@@ -100,7 +111,7 @@ export const TypePlaceHistory = ({
     <Accordion label="Historique" className={styles["custom-accordion"]}>
       <Table
         bordered={true}
-        className={`m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center [&>table>tbody>tr>td]:p-3
+        className={`m-0 [&>table]:w-[unset]
            text-mention-grey [&>table>thead]:text-mention-grey [&>table>thead>tr>th]:text-xs 
            [&>table>thead>tr>th]:whitespace-nowrap [&>table>thead>tr>th]:border-b-grey-300 [&>table>thead>tr>th:last-child]:w-full`}
         caption=""
@@ -113,7 +124,6 @@ export const TypePlaceHistory = ({
           "FVV-TEH",
           "QPV",
           "LOG. SOCIAL",
-          " ",
         ]}
       />
       <span className="italic block border-t-1 border-default-grey text-mention-grey py-2 px-4 text-xs">
