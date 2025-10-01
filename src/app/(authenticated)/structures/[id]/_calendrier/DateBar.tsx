@@ -49,7 +49,7 @@ export const DateBar = ({ datePair }: Props): ReactElement => {
           />
         </div>
       </div>
-      <div className="w-64 flex items-center">
+      <div className="w-44 flex items-center">
         <span className="inline-block w-24 flex-shrink-0">
           {new Date(datePair.endDate).toLocaleDateString("fr-FR")}
         </span>
@@ -63,7 +63,7 @@ export const DateBar = ({ datePair }: Props): ReactElement => {
         {isConventionExpiree && (
           <div className="pl-2">
             <Badge type="warning" icon={true}>
-              Convention&nbsp;expirée
+              Expirée
             </Badge>
           </div>
         )}

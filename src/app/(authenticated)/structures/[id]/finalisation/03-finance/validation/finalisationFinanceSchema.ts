@@ -1,6 +1,7 @@
 import z from "zod";
 
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
+import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
 import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 
 /**
@@ -61,8 +62,8 @@ const budgetBaseSchema = z.object({
 
   // Gestion budgetaire
   ETP: zSafeNumber(),
-  tauxEncadrement: zSafeNumber(),
-  coutJournalier: zSafeNumber(),
+  tauxEncadrement: zSafeDecimals(),
+  coutJournalier: zSafeDecimals(),
 
   dotationDemandee: zSafeNumber().nullable(),
   dotationAccordee: zSafeNumber().nullable(),
@@ -84,6 +85,8 @@ const budgetBaseSchema = z.object({
   reserveCompensationBFR: zSafeNumber().optional().nullable(),
   reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
   fondsDedies: zSafeNumber().optional().nullable(),
+  reportANouveau: zSafeNumber().optional().nullable(),
+  autre: zSafeNumber().optional().nullable(),
 
   commentaire: z.string().optional().nullable(),
 });
