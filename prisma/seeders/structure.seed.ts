@@ -61,7 +61,7 @@ const createFakeStructure = ({
     codePostalAdministratif: faker.location.zipCode(),
     departementAdministratif: faker.location.county(),
     latitude: Prisma.Decimal(
-      faker.location.latitude({ min: 48.963188, max: 49.131627 })
+      faker.location.latitude({ min: 43.550851, max: 49.131627 })
     ),
     longitude: Prisma.Decimal(
       faker.location.longitude({ min: -0.851371, max: 5.843377 })
@@ -112,7 +112,7 @@ export const createFakeStuctureWithRelations = ({
   let structureWithRelations = {
     ...fakeStructure,
     contacts: [createFakeContact(), createFakeContact()],
-    adresses: createFakeAdresses({placesAutorisees}),
+    adresses: createFakeAdresses({ placesAutorisees }),
     structureTypologies: [
       createFakeStructureTypologie({ year: 2025, placesAutorisees }),
       createFakeStructureTypologie({ year: 2024, placesAutorisees }),
