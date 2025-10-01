@@ -21,7 +21,7 @@ const modal = createModal({
 });
 
 export const DetailAffectationTable = ({
-  sliceYears = 2,
+  sliceYears = 3,
 }: DetailAffectationTableProps) => {
   const { years } = useYearRange();
   const { structure } = useStructureContext();
