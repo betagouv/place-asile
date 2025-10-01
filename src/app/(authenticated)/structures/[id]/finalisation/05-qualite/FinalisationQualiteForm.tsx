@@ -280,11 +280,11 @@ export const FinalisationQualiteForm = ({
         />
       )}
       <p className="w-4/5">
-        Veuillez renseigner les informations concernant l’ensemble des
-        inspections-contrôles auxquelles la structure a été soumise. Veuillez
-        également importer l’ensemble des actes administratifs historiques
+        Veuillez importer l’ensemble des actes administratifs historiques
         afférents à la structure, que les dates d’effets soient actuelles ou
-        révolues.
+        révolues. Veuillez également renseigner les informations concernant
+        l’ensemble des inspections-contrôles auxquelles la structure a été
+        soumise.
       </p>
       <Notice
         severity="info"
