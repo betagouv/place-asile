@@ -57,7 +57,9 @@ export default function ModificationDescription() {
   };
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  const [backendError, setBackendError] = useState<string | undefined>("");
+  const [backendError, setBackendError] = useState<string | undefined>(
+    undefined
+  );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (data: any) => {
