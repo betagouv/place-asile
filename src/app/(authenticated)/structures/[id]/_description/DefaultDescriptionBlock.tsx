@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
@@ -10,7 +11,7 @@ import { ContactsViewer } from "./ContactsViewer";
 
 export const DefaultDescriptionBlock = (): ReactElement => {
   const { structure } = useStructureContext();
-
+  const router = useRouter();
   const {
     creationDate,
     dnaCode,
@@ -36,7 +37,13 @@ export const DefaultDescriptionBlock = (): ReactElement => {
   };
 
   return (
-    <Block title="Description" iconClass="fr-icon-menu-2-fill">
+    <Block
+      title="Description"
+      iconClass="fr-icon-menu-2-fill"
+      onEdit={() => {
+        router.push(`/structures/${structure.id}/modification/01-description`);
+      }}
+    >
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Date de création</strong>
