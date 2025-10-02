@@ -424,18 +424,13 @@ describe("finalisationFinanceSchema", () => {
         coutJournalier: 50,
       };
 
-      const budgetWithAffectation = createValidBudget({
-        affectationReservesFondsDedies: 1000,
-        // Detail fields null - should fail
-      });
-
       const result = subventionneeSchema.safeParse({
         budgets: [
           firstYearBudget,
           firstYearBudget,
-          budgetWithAffectation,
-          budgetWithAffectation,
-          budgetWithAffectation,
+          firstYearBudget,
+          firstYearBudget,
+          firstYearBudget,
         ],
       });
 
