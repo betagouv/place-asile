@@ -111,7 +111,7 @@ export const IndicateursGeneraux = () => {
                 variant="simple"
               />
             </td>
-            <td className="!py-1">
+            <td className="!py-1 !border-r-1">
               <InputWithValidation
                 name={`budgets.${index}.tauxEncadrement`}
                 id={`budgets.${index}.tauxEncadrement`}
