@@ -7,15 +7,31 @@ export type AdresseWithTypologies = Adresse & {
   adresseTypologies: Omit<AdresseTypologie, "id" | "adresseId">[];
 };
 
-export const createFakeAdresses = ({ placesAutorisees }: CreateFakeAdressesArgs): Omit<
+export const createFakeAdresses = ({
+  placesAutorisees,
+}: CreateFakeAdressesArgs): Omit<
   AdresseWithTypologies,
   "id" | "structureDnaCode"
 >[] => {
   const count = faker.number.int({ min: 1, max: 10 });
-  return Array.from({ length: count }, () => createFakeAdresse({ placesAutorisees }));
+  const hasCollectif = faker.datatype.boolean();
+  const collectifIndex = hasCollectif
+    ? faker.number.int({ min: 0, max: count - 1 })
+    : -1;
+
+  return Array.from({ length: count }, (_, index) =>
+    createFakeAdresse({
+      placesAutorisees,
+      repartition:
+        index === collectifIndex ? Repartition.COLLECTIF : Repartition.DIFFUS,
+    })
+  );
 };
 
-export const createFakeAdresse = ({ placesAutorisees }: CreateFakeAdressesArgs): Omit<
+const createFakeAdresse = ({
+  placesAutorisees,
+  repartition,
+}: CreateFakeAdresseArgs): Omit<
   AdresseWithTypologies,
   "id" | "structureDnaCode"
 > => {
@@ -23,10 +39,7 @@ export const createFakeAdresse = ({ placesAutorisees }: CreateFakeAdressesArgs):
     adresse: faker.location.streetAddress(),
     codePostal: faker.location.zipCode(),
     commune: faker.location.city(),
-    repartition: faker.helpers.arrayElement([
-      Repartition.DIFFUS,
-      Repartition.COLLECTIF,
-    ]),
+    repartition,
     adresseTypologies: [
       createFakeAdresseTypologie({ year: 2025, placesAutorisees }),
       createFakeAdresseTypologie({ year: 2024, placesAutorisees }),
@@ -37,4 +50,9 @@ export const createFakeAdresse = ({ placesAutorisees }: CreateFakeAdressesArgs):
 
 type CreateFakeAdressesArgs = {
   placesAutorisees: number;
-}
+};
+
+type CreateFakeAdresseArgs = {
+  placesAutorisees: number;
+  repartition: Repartition;
+};
