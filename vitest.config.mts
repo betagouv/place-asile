@@ -9,5 +9,6 @@ export default defineConfig({
     globals: true,
     sequence: { shuffle: true },
     setupFiles: ["./setupTests.js"],
+    exclude: ["**/tests/e2e/**", "**/node_modules/**"],
   },
 });

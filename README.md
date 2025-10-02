@@ -36,6 +36,20 @@ Pour lancer les tests en continu, exécutez :
 yarn test:watch
 ```
 
+### 🏄 Tests end-to-end
+
+Pour lancer les tests end-to-end sans interface graphique, lancez le serveur de développement avec `yarn dev`, puis exécutez :
+
+```bash
+yarn test:e2e
+```
+
+Pour lancer les tests end-to-end avec interface graphique, exécutez :
+
+```bash
+yarn test:e2e:ui
+```
+
 ## 🎨 Formattage du code
 
 Pour vérifier que tout le code est bien formatté, exécutez :
