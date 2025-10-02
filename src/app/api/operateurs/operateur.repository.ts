@@ -1,5 +1,7 @@
 import { Operateur, Prisma } from "@prisma/client";
 
+import { normalizeAccents } from "@/app/utils/string.util";
+
 import prisma from "../../../../lib/prisma";
 import { CreateOperateurs } from "./operateur.types";
 
@@ -9,14 +11,11 @@ export const findBySearchTerm = async (
   if (!searchTerm) {
     return [];
   }
-  return prisma.operateur.findMany({
-    where: {
-      name: {
-        contains: searchTerm,
-        mode: "insensitive",
-      },
-    },
-  });
+
+  const operateurs = await prisma.operateur.findMany({});
+  return operateurs.filter((operateur) =>
+    normalizeAccents(operateur.name).includes(normalizeAccents(searchTerm))
+  );
 };
 
 export const createOne = async (
