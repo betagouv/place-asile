@@ -12,10 +12,6 @@
   background-color: unset;
 }
 
-.custom-accordion > div > div > table {
-  display: table;
-}
-
 .custom-accordion > div > div > table > thead::after {
   background-image: none;
 }
