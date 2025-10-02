@@ -44,6 +44,8 @@ export const DetailAffectations = (): ReactElement => {
         structure.cpom && (
           <span key={budget.id}>{formatCurrency(budget.fondsDedies)}</span>
         ),
+        <span key={budget.id}>{formatCurrency(budget.reportANouveau)}</span>,
+        <span key={budget.id}>{formatCurrency(budget.autre)}</span>,
         budget.commentaire,
       ]);
   };
@@ -71,6 +73,8 @@ export const DetailAffectations = (): ReactElement => {
           "RÉSERVE DE COUVERTURE DE BFR",
           "RÉSERVE DE COMPENSATION DES AMORTIS.",
           structure.cpom && "FONDS DÉDIÉS",
+          "REPORT A NOUVEAU",
+          "AUTRE",
           "COMMENTAIRE",
         ]}
       />
