@@ -85,12 +85,24 @@ export const TypePlaceHistory = ({
 
       return [
         year,
-        currentStructureTypologie?.placesAutorisees ?? "N/A",
-        currentStructureTypologie?.pmr ?? "N/A",
-        currentStructureTypologie?.lgbt ?? "N/A",
-        currentStructureTypologie?.fvvTeh ?? "N/A",
-        data.qpv ?? "N/A",
-        data.logementSocial ?? "N/A",
+        <span className="inline-block text-center w-full" key={year}>
+          {currentStructureTypologie?.placesAutorisees ?? "N/A"}
+        </span>,
+        <span className="inline-block text-center w-full" key={year}>
+          {currentStructureTypologie?.pmr ?? "N/A"}
+        </span>,
+        <span className="inline-block text-center w-full" key={year}>
+          {currentStructureTypologie?.lgbt ?? "N/A"}
+        </span>,
+        <span className="inline-block text-center w-full" key={year}>
+          {currentStructureTypologie?.fvvTeh ?? "N/A"}
+        </span>,
+        <span key={year} className="inline-block text-center w-full">
+          {data.qpv ?? "N/A"}
+        </span>,
+        <span key={year} className="inline-block w-20 text-center">
+          {data.logementSocial ?? "N/A"}
+        </span>,
       ];
     });
   };
@@ -99,7 +111,9 @@ export const TypePlaceHistory = ({
     <Accordion label="Historique" className={styles["custom-accordion"]}>
       <Table
         bordered={true}
-        className="m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center [&>table>tbody>tr>td]:p-3 text-mention-grey [&>table>thead]:text-mention-grey [&>table>thead>tr>th]:text-xs"
+        className={`m-0 [&>table]:w-[unset]
+           text-mention-grey [&>table>thead]:text-mention-grey [&>table>tbody>tr>td]:p-3 [&>table>thead>tr>th]:text-xs 
+           [&>table>thead>tr>th]:whitespace-nowrap [&>table>thead>tr>th]:border-b-grey-300 [&>table>thead>tr>th:last-child]:w-full`}
         caption=""
         data={getTableData()}
         headers={[

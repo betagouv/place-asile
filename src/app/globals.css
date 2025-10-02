@@ -40,3 +40,11 @@ hr {
 .animate-fade-in {
   animation: fade-in 1s ease-in-out forwards;
 }
+
+.fr-table > table thead {
+  background-image: linear-gradient(
+    0deg,
+    var(--border-default-grey),
+    var(--border-default-grey)
+  );
+}
