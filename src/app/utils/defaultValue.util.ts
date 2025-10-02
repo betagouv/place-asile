@@ -13,6 +13,7 @@ export const getDefaultValues = ({
   type:
     | "identification"
     | "description"
+    | "adresses"
     | "type"
     | "qualite"
     | "documents"
@@ -33,7 +34,14 @@ export const getDefaultValues = ({
       filiale: structure.filiale || undefined,
       contacts: structure.contacts || [],
       nom: structure.nom ?? "",
-      adresseAdministrativeComplete: `${structure.adresseAdministrative} ${structure.codePostalAdministratif} ${structure.communeAdministrative} ${structure.departementAdministratif}`,
+      adresseAdministrativeComplete: [
+        structure.adresseAdministrative,
+        structure.codePostalAdministratif,
+        structure.communeAdministrative,
+        structure.departementAdministratif,
+      ]
+        .filter(Boolean)
+        .join(" "),
       adresseAdministrative: structure.adresseAdministrative || "",
       codePostalAdministratif: structure.codePostalAdministratif || "",
       communeAdministrative: structure.communeAdministrative || "",
@@ -72,28 +80,17 @@ export const getDefaultValues = ({
       filiale: structure.filiale || undefined,
     };
   }
-  return {
-    dnaCode: structure.dnaCode,
-    type: structure.type,
-    operateur: structure.operateur!,
-    creationDate: formatDateString(structure.creationDate),
-    debutPeriodeAutorisation: isAutorisee
-      ? formatDateString(structure.debutPeriodeAutorisation)
-      : undefined,
-    finPeriodeAutorisation: isAutorisee
-      ? formatDateString(structure.finPeriodeAutorisation)
-      : undefined,
-    debutConvention: formatDateString(structure.debutConvention),
-    finConvention: formatDateString(structure.finConvention),
-    debutCpom: formatDateString(structure.debutCpom),
-    finCpom: formatDateString(structure.finCpom),
-    echeancePlacesACreer: structure.echeancePlacesACreer,
-    echeancePlacesAFermer: structure.echeancePlacesAFermer,
-    contacts: structure.contacts || [],
-    finessCode: structure.finessCode || undefined,
-    public: structure.public
-      ? PublicType[structure.public as string as keyof typeof PublicType]
-      : undefined,
-    filiale: structure.filiale || undefined,
-  };
+
+  if (type === "adresses") {
+    return {
+      nom: structure.nom || "",
+      adresseAdministrativeComplete: `${structure.adresseAdministrative} ${structure.codePostalAdministratif} ${structure.communeAdministrative} ${structure.departementAdministratif}`,
+      adresseAdministrative: structure.adresseAdministrative || "",
+      codePostalAdministratif: structure.codePostalAdministratif || "",
+      communeAdministrative: structure.communeAdministrative || "",
+      departementAdministratif: structure.departementAdministratif || "",
+    };
+  }
+
+  return {};
 };

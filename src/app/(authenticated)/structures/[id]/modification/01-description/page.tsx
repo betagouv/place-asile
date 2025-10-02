@@ -11,7 +11,7 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
-import { useFormHandling } from "@/app/hooks/useFormHandling";
+import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValue.util";
 
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -22,7 +22,7 @@ export default function ModificationDescription() {
 
   const router = useRouter();
 
-  const { handleSubmit, state, backendError } = useFormHandling({
+  const { handleSubmit, state, backendError } = useAgentFormHandling({
     callback: () => router.push(`/structures/${structure.id}`),
   });
 

@@ -11,7 +11,7 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
-import { useFormHandling } from "@/app/hooks/useFormHandling";
+import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValue.util";
 import { StructureState } from "@/types/structure.type";
 
@@ -33,7 +33,7 @@ export default function FinalisationIdentificationForm({
   const router = useRouter();
   const defaultValues = getDefaultValues({ structure, type: "identification" });
 
-  const { handleSubmit, state, backendError } = useFormHandling({
+  const { handleSubmit, state, backendError } = useAgentFormHandling({
     callback: () => router.push(nextRoute),
   });
 

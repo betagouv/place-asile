@@ -5,7 +5,11 @@ import { Contact } from "@/types/contact.type";
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
 import { useStructures } from "./useStructures";
 
-export const useFormHandling = ({ callback }: { callback: () => void }) => {
+export const useAgentFormHandling = ({
+  callback,
+}: {
+  callback: () => void;
+}) => {
   const { structure, setStructure } = useStructureContext();
 
   const { updateAndRefreshStructure } = useStructures();
