@@ -13,7 +13,8 @@ const validateAffectationReservesDetails = (
   // Accepts partial data to handle missing properties
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Partial<any>,
-  ctx: z.RefinementCtx
+  ctx: z.RefinementCtx,
+  cpom = true
 ) => {
   // If affectationReservesFondsDedies is not equal to 0, then the detail fields are required
   if (
@@ -35,8 +36,11 @@ const validateAffectationReservesDetails = (
         field: "reserveCompensationAmortissements",
         value: data.reserveCompensationAmortissements,
       },
-      { field: "fondsDedies", value: data.fondsDedies },
     ];
+
+    if (cpom) {
+      requiredFields.push({ field: "fondsDedies", value: data.fondsDedies });
+    }
 
     requiredFields.forEach(({ field, value }) => {
       if (value === null || value === undefined) {
@@ -49,6 +53,15 @@ const validateAffectationReservesDetails = (
       }
     });
   }
+};
+
+const validateAffectationReservesDetailsSansCpom = (
+  // Accepts partial data to handle missing properties
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Partial<any>,
+  ctx: z.RefinementCtx
+) => {
+  return validateAffectationReservesDetails(data, ctx, false);
 };
 
 const budgetBaseSchema = z.object({
@@ -120,7 +133,7 @@ const sansCpom = budgetBaseSchema
   .extend({
     cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
   })
-  .superRefine(validateAffectationReservesDetails);
+  .superRefine(validateAffectationReservesDetailsSansCpom);
 
 const avecCpom = budgetBaseSchema
   .extend({
@@ -206,18 +219,16 @@ export const subventionneeAvecCpomSchema = z.object({
   ]),
 });
 
-const subventionneeSansCpom = budgetBaseSchema
-  .extend({
-    cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
-    affectationReservesFondsDedies: zSafeNumber().optional().nullable(),
-    chargesNonReconductibles: zSafeNumber().optional().nullable(),
-    reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
-    reserveCompensationBFR: zSafeNumber().optional().nullable(),
-    reserveCompensationDeficits: zSafeNumber().optional().nullable(),
-    reserveInvestissement: zSafeNumber().optional().nullable(),
-    totalChargesProposees: zSafeNumber().optional().nullable(),
-  })
-  .superRefine(validateAffectationReservesDetails);
+const subventionneeSansCpom = budgetBaseSchema.extend({
+  cumulResultatsNetsCPOM: zSafeNumber().optional().nullable(),
+  affectationReservesFondsDedies: zSafeNumber().optional().nullable(),
+  chargesNonReconductibles: zSafeNumber().optional().nullable(),
+  reserveCompensationAmortissements: zSafeNumber().optional().nullable(),
+  reserveCompensationBFR: zSafeNumber().optional().nullable(),
+  reserveCompensationDeficits: zSafeNumber().optional().nullable(),
+  reserveInvestissement: zSafeNumber().optional().nullable(),
+  totalChargesProposees: zSafeNumber().optional().nullable(),
+});
 
 export const subventionneeSchema = z.object({
   // fileUploads: z.array(Document  sTypeStrict),
