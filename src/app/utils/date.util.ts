@@ -9,6 +9,17 @@ export const formatDate = (date: Date | string | number): string => {
   return dateObject.toLocaleDateString("fr-FR");
 };
 
+export const formatDateString = (
+  dateValue: Date | string | null | undefined,
+  defaultValue: string = ""
+): string => {
+  if (!dateValue) {
+    return defaultValue;
+  }
+  const date = dayjs(dateValue);
+  return date.isValid() ? date.format("DD/MM/YYYY") : defaultValue;
+};
+
 export const getMonthsBetween = (
   startDate: Date | string | null,
   endDate: Date | string | null

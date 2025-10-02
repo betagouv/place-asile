@@ -2,7 +2,6 @@
 
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
@@ -12,74 +11,22 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
-import { useFormatDateString } from "@/app/hooks/useFormatDateString";
-import { useStructures } from "@/app/hooks/useStructures";
-import { Repartition } from "@/types/adresse.type";
-import { Contact } from "@/types/contact.type";
-import { PublicType } from "@/types/structure.type";
+import { useFormHandling } from "@/app/hooks/useFormHandling";
+import { getDefaultValues } from "@/app/utils/defaultValue.util";
 
 import { ModificationTitle } from "../components/ModificationTitle";
 import { modificationDescriptionSchema } from "./validation/ModificationDescriptionSchema";
 
 export default function ModificationDescription() {
-  const { structure, setStructure } = useStructureContext();
+  const { structure } = useStructureContext();
 
-  const {
-    formatDateString,
-  }: {
-    formatDateString: (
-      dateValue: Date | string | null | undefined,
-      defaultValue?: string
-    ) => string;
-  } = useFormatDateString();
-
-  const { updateAndRefreshStructure } = useStructures();
   const router = useRouter();
-  const defaultValues = {
-    ...structure,
-    operateur: structure.operateur ?? undefined,
-    creationDate: formatDateString(structure.creationDate),
-    finessCode: structure.finessCode || undefined,
-    public: structure.public
-      ? PublicType[structure.public as string as keyof typeof PublicType]
-      : undefined,
-    filiale: structure.filiale || undefined,
-    contacts: structure.contacts || [],
-    // Champs d'adresse administrative
-    nom: structure.nom || "",
-    adresseAdministrativeComplete: `${structure.adresseAdministrative} ${structure.codePostalAdministratif} ${structure.communeAdministrative} ${structure.departementAdministratif}`,
-    adresseAdministrative: structure.adresseAdministrative || "",
-    codePostalAdministratif: structure.codePostalAdministratif || "",
-    communeAdministrative: structure.communeAdministrative || "",
-    departementAdministratif: structure.departementAdministratif || "",
-    typeBati:
-      (structure as { typeBati?: Repartition }).typeBati || Repartition.MIXTE,
-  };
 
-  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  const [backendError, setBackendError] = useState<string | undefined>(
-    undefined
-  );
+  const { handleSubmit, state, backendError } = useFormHandling({
+    callback: () => router.push(`/structures/${structure.id}`),
+  });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (data: any) => {
-    const contacts = data.contacts.filter((contact: Contact) =>
-      Object.values(contact).every((field) => field !== undefined)
-    );
-    setState("loading");
-    const updatedStructure = await updateAndRefreshStructure(
-      structure.id,
-      { ...data, contacts },
-      setStructure
-    );
-    if (updatedStructure === "OK") {
-      router.push(`/structures/${structure.id}`);
-    } else {
-      setState("error");
-      setBackendError(updatedStructure?.toString());
-      throw new Error(updatedStructure?.toString());
-    }
-  };
+  const defaultValues = getDefaultValues({ structure, type: "description" });
 
   return (
     <>
