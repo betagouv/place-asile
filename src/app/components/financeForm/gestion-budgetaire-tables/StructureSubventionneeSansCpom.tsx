@@ -64,7 +64,7 @@ export const StructureSubventionneeSansCpom = () => {
   };
 
   const handleSaveModal = () => {
-   if (currentCommentIndex !== null && currentCommentIndex !== undefined) {
+    if (currentCommentIndex !== null && currentCommentIndex !== undefined) {
       setValue(
         `budgets.${currentCommentIndex}.commentaire`,
         inputModalRef.current?.value || ""
@@ -325,12 +325,13 @@ export const StructureSubventionneeSansCpom = () => {
           },
           {
             doClosesModal: false,
-            children: budgets[currentCommentIndex]?.commentaire ? "Modifier" : "Ajouter",
+            children: budgets[currentCommentIndex]?.commentaire
+              ? "Modifier"
+              : "Ajouter",
             type: "button",
             onClick: handleSaveModal,
           },
         ]}
-      >
       >
         <p className="font-bold text-xl">
           Détail — Année {new Date(currentCommentDate).getFullYear()}
