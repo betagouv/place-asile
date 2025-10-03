@@ -3,7 +3,7 @@ import {
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 
-import { useStructureContext } from "../../../context/StructureClientContext";
+import { useStructureContext } from "../../(authenticated)/structures/[id]/context/StructureClientContext";
 import { DetailAffectationTable } from "./DetailAffectationTable";
 import { StructureAutorisee } from "./gestion-budgetaire-tables/StructureAutorisee";
 import { StructureAutoriseeSansCpom } from "./gestion-budgetaire-tables/StructureAutoriseeSansCpom";

@@ -12,7 +12,7 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
-import { getDefaultValues } from "@/app/utils/defaultValue.util";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
 
 import { ModificationTitle } from "../components/ModificationTitle";
 import { modificationDescriptionSchema } from "./validation/ModificationDescriptionSchema";
@@ -26,7 +26,7 @@ export default function ModificationDescription() {
     callback: () => router.push(`/structures/${structure.id}`),
   });
 
-  const defaultValues = getDefaultValues({ structure, type: "description" });
+  const defaultValues = getDefaultValues({ structure });
 
   return (
     <>

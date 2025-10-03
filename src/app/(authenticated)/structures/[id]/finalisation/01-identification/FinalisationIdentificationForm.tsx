@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
 import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
@@ -12,11 +10,15 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
-import { getDefaultValues } from "@/app/utils/defaultValue.util";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { Contact } from "@/types/contact.type";
 import { StructureState } from "@/types/structure.type";
 
-import { getCurrentStepData } from "../../components/Steps";
-import { finalisationIdentificationSchema } from "./validation/FinalisationIdentificationSchema";
+import { getCurrentStepData } from "../components/Steps";
+import {
+  FinalisationIdentificationFormValues,
+  finalisationIdentificationSchema,
+} from "./validation/FinalisationIdentificationSchema";
 
 export default function FinalisationIdentificationForm({
   currentStep,
@@ -30,11 +32,10 @@ export default function FinalisationIdentificationForm({
     structure.id
   );
 
-  const router = useRouter();
-  const defaultValues = getDefaultValues({ structure, type: "identification" });
+  const defaultValues = getDefaultValues({ structure });
 
   const { handleSubmit, state, backendError } = useAgentFormHandling({
-    callback: () => router.push(nextRoute),
+    nextRoute,
   });
 
   return (
@@ -45,7 +46,14 @@ export default function FinalisationIdentificationForm({
         submitButtonText="Étape suivante"
         previousStep={previousRoute}
         availableFooterButtons={[FooterButtonType.SUBMIT]}
-        onSubmit={handleSubmit}
+        onSubmit={(data: FinalisationIdentificationFormValues) => {
+          const contacts = data.contacts
+            .filter((contact): contact is Contact => contact !== undefined)
+            .filter((contact: Contact) =>
+              Object.values(contact).every((field) => field !== undefined)
+            );
+          handleSubmit({ ...data, contacts });
+        }}
         mode="onChange"
       >
         {structure.state === StructureState.A_FINALISER && (

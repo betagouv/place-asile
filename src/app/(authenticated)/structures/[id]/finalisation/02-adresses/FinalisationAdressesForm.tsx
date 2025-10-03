@@ -1,7 +1,6 @@
 "use client";
 
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import { useRouter } from "next/navigation";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
@@ -12,7 +11,7 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
-import { getDefaultValues } from "@/app/utils/defaultValue.util";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { StructureState } from "@/types/structure.type";
 
 import { finalisationAdressesSchema } from "./validation/finalisationAdressesSchema";
@@ -28,18 +27,21 @@ export default function FinalisationAdressesForm({
     structure.id
   );
 
-  const router = useRouter();
-
-  const defaultValues = getDefaultValues({ structure, type: "adresses" });
+  const defaultValues = getDefaultValues({ structure });
 
   const { handleSubmit, state, backendError } = useAgentFormHandling({
-    callback: () => router.push(nextRoute),
+    nextRoute,
   });
 
   return (
     <FormWrapper
       schema={finalisationAdressesSchema}
-      onSubmit={handleSubmit}
+      onSubmit={(data) =>
+        handleSubmit({
+          ...data,
+          dnaCode: structure.dnaCode,
+        })
+      }
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
