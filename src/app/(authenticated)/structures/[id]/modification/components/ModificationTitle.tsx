@@ -1,17 +1,16 @@
 import React from "react";
 
-export const ModificationTitle = ({
-  step,
-  closeLink,
-}: {
+type Props = {
   step: string;
   closeLink: string;
-}) => {
+};
+
+export const ModificationTitle = ({ step, closeLink }: Props) => {
   return (
     <div className="flex justify-between items-center mx-6 my-3">
-      <h1 className="text-xl font-bold mb-0 text-title-blue-france">
+      <h1 className="text-xl font-bold mb-0 text-title-blue-france flex items-center gap-2">
         <span
-          className="fr-icon-edit-line fr-icon--md before:h-5 before:w-5"
+          className="fr-icon-edit-line fr-icon--md before:h-5 before:w-5 mb-1"
           aria-hidden="true"
         />
         <span className="italic font-normal"> Modification</span> - {step}

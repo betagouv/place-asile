@@ -1,7 +1,7 @@
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
-} from "@/app/components/financeForm/documents/documentsStructures";
+} from "@/app/components/forms/finance/documents/documentsStructures";
 import {
   convertObjectToArray,
   reverseObjectKeyValues,

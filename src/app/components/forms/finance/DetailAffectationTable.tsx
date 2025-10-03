@@ -14,7 +14,7 @@ import {
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 
-import { useStructureContext } from "../../(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "../../../(authenticated)/structures/[id]/context/StructureClientContext";
 
 const modal = createModal({
   id: "commentaire-modal",

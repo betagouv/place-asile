@@ -4,9 +4,9 @@ import Link from "next/link";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
-import { BudgetTables } from "@/app/components/financeForm/BudgetTables";
-import { Documents } from "@/app/components/financeForm/documents/Documents";
-import { IndicateursGeneraux } from "@/app/components/financeForm/IndicateursGeneraux";
+import { BudgetTables } from "@/app/components/forms/finance/BudgetTables";
+import { Documents } from "@/app/components/forms/finance/documents/Documents";
+import { IndicateursGeneraux } from "@/app/components/forms/finance/IndicateursGeneraux";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
