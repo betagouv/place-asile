@@ -34,13 +34,11 @@ export const Documents = ({ className }: { className?: string }) => {
     : structureSubventionneesDocuments;
 
   const { getDocumentIndexes } = useDocumentIndex();
-  const documentIndexes = getDocumentIndexes(
-    years as unknown as string[],
-    documents
-  );
+  const documentIndexes = getDocumentIndexes(years.map(String), documents);
 
   const errors = formState.errors;
-  const hasErrors = Array.isArray(errors.fileUploads);
+  const hasErrors =
+    Array.isArray(errors.fileUploads) && errors.fileUploads.length > 0;
 
   const forceExpanded = hasErrors;
 

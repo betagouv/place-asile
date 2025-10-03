@@ -76,7 +76,7 @@ export const DetailAffectationTable = ({
   };
 
   const handleSaveModal = () => {
-    if (currentCommentIndex) {
+    if (currentCommentIndex !== null) {
       setValue(
         `budgets.${currentCommentIndex}.commentaire`,
         inputModalRef.current?.value || ""
@@ -314,12 +314,12 @@ export const DetailAffectationTable = ({
                   type="button"
                   iconId="fr-icon-edit-box-line"
                   onClick={() => {
-                    handleOpenModal(fieldIndex, budgets[fieldIndex].date);
+                    handleOpenModal(fieldIndex, budgets[fieldIndex]?.date);
                   }}
                   priority="tertiary no outline"
                   disabled={!isEditable}
                 >
-                  {budgets[fieldIndex].commentaire ? "Modifier" : "Ajouter"}
+                  {budgets[fieldIndex]?.commentaire ? "Modifier" : "Ajouter"}
                 </Button>
 
                 <input
@@ -334,7 +334,7 @@ export const DetailAffectationTable = ({
       </Table>
       <modal.Component
         title={
-          inputModalRef.current?.value
+          budgets?.[currentCommentIndex]?.commentaire
             ? "Modifier un commentaire"
             : "Ajouter un commentaire"
         }
@@ -347,7 +347,9 @@ export const DetailAffectationTable = ({
           },
           {
             doClosesModal: false,
-            children: inputModalRef.current?.value ? "Modifier" : "Ajouter",
+            children: budgets?.[currentCommentIndex]?.commentaire
+              ? "Modifier"
+              : "Ajouter",
             type: "button",
             onClick: handleSaveModal,
           },

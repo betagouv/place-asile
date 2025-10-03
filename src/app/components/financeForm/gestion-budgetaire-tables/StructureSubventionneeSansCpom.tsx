@@ -64,7 +64,7 @@ export const StructureSubventionneeSansCpom = () => {
   };
 
   const handleSaveModal = () => {
-    if (currentCommentIndex) {
+   if (currentCommentIndex !== null && currentCommentIndex !== undefined) {
       setValue(
         `budgets.${currentCommentIndex}.commentaire`,
         inputModalRef.current?.value || ""
@@ -312,7 +312,7 @@ export const StructureSubventionneeSansCpom = () => {
       </Table>
       <modal.Component
         title={
-          inputModalRef.current?.value
+          budgets[currentCommentIndex]?.commentaire
             ? "Modifier un commentaire"
             : "Ajouter un commentaire"
         }
@@ -325,11 +325,12 @@ export const StructureSubventionneeSansCpom = () => {
           },
           {
             doClosesModal: false,
-            children: inputModalRef.current?.value ? "Modifier" : "Ajouter",
+            children: budgets[currentCommentIndex]?.commentaire ? "Modifier" : "Ajouter",
             type: "button",
             onClick: handleSaveModal,
           },
         ]}
+      >
       >
         <p className="font-bold text-xl">
           Détail — Année {new Date(currentCommentDate).getFullYear()}

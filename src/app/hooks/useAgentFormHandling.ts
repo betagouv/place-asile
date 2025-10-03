@@ -5,9 +5,14 @@ import { z } from "zod";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
 import { finalisationQualiteSchemaSimple } from "../(authenticated)/structures/[id]/finalisation/05-qualite/validation/FinalisationQualiteSchema";
-import { fileUploadSchema } from "../(authenticated)/structures/[id]/finalisation/05-qualite/validation/FinalisationQualiteSchema";
 import { CategoryDisplayRulesType } from "../utils/categoryToDisplay.util";
 import { useStructures } from "./useStructures";
+
+// Type for form submission data that can be passed to handleSubmit
+export type FormSubmitData = {
+  dnaCode: string;
+  [key: string]: unknown; // Allow additional dynamic properties for different form schemas
+};
 
 export const useAgentFormHandling = ({
   nextRoute,
@@ -23,24 +28,31 @@ export const useAgentFormHandling = ({
   const { updateAndRefreshStructure } = useStructures();
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  const [backendError, setBackendError] = useState<string | undefined>("");
+  const [backendError, setBackendError] = useState<string | undefined>(
+    undefined
+  );
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: FormSubmitData) => {
     setState("loading");
-    const updatedStructure = await updateAndRefreshStructure(
-      structure.id,
-      data,
-      setStructure
-    );
-    if (updatedStructure === "OK") {
-      if (nextRoute) {
-        router.push(nextRoute);
+    try {
+      const updatedStructure = await updateAndRefreshStructure(
+        structure.id,
+        data,
+        setStructure
+      );
+      if (updatedStructure === "OK") {
+        if (nextRoute) {
+          router.push(nextRoute);
+        }
+      } else {
+        setState("error");
+        setBackendError(updatedStructure?.toString());
+        throw new Error(updatedStructure?.toString());
       }
-    } else {
+    } catch (error) {
       setState("error");
-      setBackendError(updatedStructure?.toString());
-      throw new Error(updatedStructure?.toString());
+      setBackendError(error instanceof Error ? error.message : String(error));
+      throw error;
     }
   };
 
@@ -51,7 +63,6 @@ export const useAgentFormHandling = ({
     if (!categoriesDisplayRules) {
       return;
     }
-    setState("loading");
     const setError = methods.setError;
     const fileUploads = data.fileUploads;
     const requiredCategories = Object.keys(categoriesDisplayRules).filter(
@@ -90,14 +101,12 @@ export const useAgentFormHandling = ({
           errorField.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       }, 100);
-
-      return;
     } else {
       const filteredFileUploads = fileUploads?.filter((fileUpload) => {
         return fileUpload.key !== undefined;
-      }) as z.infer<typeof fileUploadSchema>[];
+      });
 
-      handleSubmit({
+      await handleSubmit({
         fileUploads: filteredFileUploads,
         dnaCode: structure.dnaCode,
       });

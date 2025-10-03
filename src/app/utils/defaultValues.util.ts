@@ -48,11 +48,11 @@ export type StructureDefaultValues = Omit<
   debutConvention?: string; // Convert from Date to string | undefined
   finConvention?: string; // Convert from Date to string | undefined
   debutCpom?: string; // Convert from Date to string | undefined
-  finCpom?: string; // Convert fromw Date to string | undefined
+  finCpom?: string; // Convert from Date to string | undefined
   finessCode?: string; // Convert from string | null to string | undefined
   public?: PublicType; // Convert from PublicType to string | undefined
   filiale?: string; // Convert from string | null to string | undefined
-  contacts: Contact[]; // Convert from Contact[] | undefinedto Contact[]
+  contacts: Contact[]; // Convert from Contact[] | null to Contact[]
   adresseAdministrativeComplete: string; // Computed field
   adresseAdministrative: string; // Convert from string | null to string
   codePostalAdministratif: string; // Convert from string | null to string

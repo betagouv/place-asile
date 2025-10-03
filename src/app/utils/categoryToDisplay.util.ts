@@ -87,7 +87,7 @@ export const getCategoriesDisplayRules = (
     addFileButtonLabel: "Ajouter un document",
     notice: `Dans cette catégorie, vous avez la possibilité d’importer d’autres
         documents utiles à l’analyse de la structure (ex: 
-        Plans Pluriannuels d’Inverstissements)`,
+        Plans Pluriannuels d’Investissements)`,
   },
 });
 
