@@ -7,8 +7,8 @@ import { useForm, useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useYearRange } from "@/app/hooks/useYearRange";
 import { cn } from "@/app/utils/classname.util";
+import { getYearRange } from "@/app/utils/date.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -24,7 +24,7 @@ const modal = createModal({
 export const DetailAffectationTable = ({
   sliceYears = 3,
 }: DetailAffectationTableProps) => {
-  const { years } = useYearRange();
+  const { years } = getYearRange();
   const { structure } = useStructureContext();
   const yearsToDisplay = years.slice(-sliceYears);
 

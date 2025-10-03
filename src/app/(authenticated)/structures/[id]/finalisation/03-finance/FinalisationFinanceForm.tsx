@@ -13,7 +13,7 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
-import { useFinanceDocument } from "@/app/hooks/useFinanceDocument";
+import { getFinanceFormDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -46,11 +46,6 @@ export default function FinalisationFinanceForm({
     structure.id
   );
 
-  const { budgetArray, buildFileUploadsDefaultValues } = useFinanceDocument({
-    structure,
-    isAutorisee,
-  });
-
   let schema;
 
   if (isAutorisee) {
@@ -59,10 +54,7 @@ export default function FinalisationFinanceForm({
     schema = hasCpom ? subventionneeAvecCpomSchema : subventionneeSchema;
   }
 
-  const defaultValues = {
-    budgets: budgetArray as unknown as anyFinanceFormValues["budgets"],
-    fileUploads: buildFileUploadsDefaultValues(),
-  };
+  const defaultValues = getFinanceFormDefaultValues({ structure });
 
   const { handleSubmit, state, backendError } = useAgentFormHandling({
     nextRoute,

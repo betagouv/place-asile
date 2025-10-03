@@ -6,9 +6,9 @@ import { useStructureContext } from "@/app/(authenticated)/structures/[id]/conte
 // TODO: globalize this component
 import { UploadItem } from "@/app/(password-protected)/ajout-structure/components/UploadItem";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
-import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
-import { useYearRange } from "@/app/hooks/useYearRange";
+import { getYearRange } from "@/app/utils/date.util";
 import { getYearDate } from "@/app/utils/date.util";
+import { getDocumentIndexes } from "@/app/utils/getFinanceDocument.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -25,7 +25,7 @@ export const Documents = ({ className }: { className?: string }) => {
   const isSubventionnee = isStructureSubventionnee(structure?.type);
   const isAutorisee = isStructureAutorisee(structure?.type);
 
-  const { years } = useYearRange();
+  const { years } = getYearRange();
 
   const yearsToDisplay = isSubventionnee ? years.slice(2) : years;
 
@@ -33,7 +33,6 @@ export const Documents = ({ className }: { className?: string }) => {
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
 
-  const { getDocumentIndexes } = useDocumentIndex();
   const documentIndexes = getDocumentIndexes(years.map(String), documents);
 
   const errors = formState.errors;

@@ -5,11 +5,11 @@ import { useForm, useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useYearRange } from "@/app/hooks/useYearRange";
+import { getYearRange } from "@/app/utils/date.util";
 import { cn } from "@/app/utils/classname.util";
 
 export const IndicateursGeneraux = () => {
-  const { years } = useYearRange();
+  const { years } = getYearRange();
   const parentFormContext = useFormContext();
   const localForm = useForm();
   const { control, formState, register } = parentFormContext || localForm;

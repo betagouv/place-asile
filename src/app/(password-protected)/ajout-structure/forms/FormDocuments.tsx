@@ -6,8 +6,8 @@ import { useMemo, useState } from "react";
 import { Controller } from "react-hook-form";
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
-import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { getDocumentIndexes } from "@/app/utils/getFinanceDocument.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
@@ -79,7 +79,6 @@ export default function FormDocuments() {
     [isAutorisee]
   );
 
-  const { getDocumentIndexes } = useDocumentIndex();
   const documentIndexes = getDocumentIndexes(
     years as unknown as string[],
     documents

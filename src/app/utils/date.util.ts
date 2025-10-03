@@ -67,3 +67,34 @@ export const parseFrDate = (value: unknown): Date | unknown => {
   }
   return value;
 };
+
+export const getDateStringToYear = (
+  dateValue?: string
+): { dateStringToYear: (date?: string) => string } => {
+  const dateStringToYear = (date?: string) => {
+    if (!date && !dateValue) return "";
+    const dateToConvert = date || dateValue;
+    const parsedDate = new Date(dateToConvert!);
+    return parsedDate.getFullYear().toString();
+  };
+  return { dateStringToYear };
+};
+
+export const getYearRange = ({
+  startYear = 2021,
+  endYear = new Date().getFullYear(),
+  order = "asc",
+}: {
+  startYear?: number;
+  endYear?: number;
+  order?: "asc" | "desc";
+} = {}): { years: number[] } => {
+  const yearsRange = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, i) => endYear - i
+  );
+
+  const years = order === "asc" ? yearsRange : yearsRange.reverse();
+
+  return { years };
+};

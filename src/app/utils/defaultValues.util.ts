@@ -11,6 +11,7 @@ import { PublicType, StructureWithLatLng } from "@/types/structure.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
 
 import { formatDate, formatDateString } from "./date.util";
+import { getFinanceDocument } from "./getFinanceDocument.util";
 import { isStructureAutorisee } from "./structure.util";
 
 export type StructureDefaultValues = Omit<
@@ -39,30 +40,29 @@ export type StructureDefaultValues = Omit<
   | "echeancePlacesACreer"
   | "echeancePlacesAFermer"
 > & {
-  // Override fields that need different types or transformations
-  creationDate: string; // Convert from Date to string
-  nom: string; // Convert from string | null to string
-  typeBati: Repartition; // Ensure it's always Repartition, not undefined
-  debutPeriodeAutorisation?: string; // Convert from Date to string | undefined
-  finPeriodeAutorisation?: string; // Convert from Date to string | undefined
-  debutConvention?: string; // Convert from Date to string | undefined
-  finConvention?: string; // Convert from Date to string | undefined
-  debutCpom?: string; // Convert from Date to string | undefined
-  finCpom?: string; // Convert from Date to string | undefined
-  finessCode?: string; // Convert from string | null to string | undefined
-  public?: PublicType; // Convert from PublicType to string | undefined
-  filiale?: string; // Convert from string | null to string | undefined
-  contacts: Contact[]; // Convert from Contact[] | null to Contact[]
-  adresseAdministrativeComplete: string; // Computed field
-  adresseAdministrative: string; // Convert from string | null to string
-  codePostalAdministratif: string; // Convert from string | null to string
-  communeAdministrative: string; // Convert from string | null to string
-  departementAdministratif: string; // Convert from string | null to string
-  typologies?: StructureTypologie[]; // Convert from StructureTypologie[] | undefined to StructureTypologie[] | undefined
-  placesACreer?: number; // Convert from number | null to number | undefined
-  placesAFermer?: number; // Convert from number | null to number | undefined
-  echeancePlacesACreer?: string; // Convert from Date to string | undefined
-  echeancePlacesAFermer?: string; // Convert from Date to string | undefined
+  creationDate: string;
+  nom: string;
+  typeBati: Repartition;
+  debutPeriodeAutorisation?: string;
+  finPeriodeAutorisation?: string;
+  debutConvention?: string;
+  finConvention?: string;
+  debutCpom?: string;
+  finCpom?: string;
+  finessCode?: string;
+  public?: PublicType;
+  filiale?: string;
+  contacts: Contact[];
+  adresseAdministrativeComplete: string;
+  adresseAdministrative: string;
+  codePostalAdministratif: string;
+  communeAdministrative: string;
+  departementAdministratif: string;
+  typologies?: StructureTypologie[];
+  placesACreer?: number;
+  placesAFermer?: number;
+  echeancePlacesACreer?: string;
+  echeancePlacesAFermer?: string;
 };
 
 export const getDefaultValues = ({
@@ -193,5 +193,22 @@ export const getQualiteFormDefaultValues = ({
     fileUploads: [...defaultValuesFromDb, ...createEmptyDefaultValues()],
   };
 
+  return defaultValues;
+};
+
+export const getFinanceFormDefaultValues = ({
+  structure,
+}: {
+  structure: StructureWithLatLng;
+}) => {
+  const isAutorisee = isStructureAutorisee(structure?.type);
+  const { budgetArray, buildFileUploadsDefaultValues } = getFinanceDocument({
+    structure,
+    isAutorisee,
+  });
+  const defaultValues = {
+    budgets: budgetArray,
+    fileUploads: buildFileUploadsDefaultValues(),
+  };
   return defaultValues;
 };

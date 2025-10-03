@@ -2,8 +2,8 @@ import { useParams } from "next/navigation";
 import { ReactElement, useMemo } from "react";
 import { z } from "zod";
 
-import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { getDocumentIndexes } from "@/app/utils/getFinanceDocument.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 import { FileItem } from "../../../components/FileItem";
@@ -39,8 +39,6 @@ export const DocumentsFinanciers = (): ReactElement => {
         : (["2023", "2022", "2021"] as const),
     [isAutorisee]
   );
-
-  const { getDocumentIndexes } = useDocumentIndex();
 
   const documentIndexes = getDocumentIndexes(
     years as unknown as string[],

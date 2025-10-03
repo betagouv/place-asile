@@ -7,7 +7,7 @@ import { useForm, useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useYearRange } from "@/app/hooks/useYearRange";
+import { getYearRange } from "@/app/utils/date.util";
 
 const modal = createModal({
   id: "commentaire-modal",
@@ -21,7 +21,7 @@ export const StructureSubventionneeSansCpom = () => {
   const { control, formState, register, setValue, watch } =
     parentFormContext || localForm;
   const errors = formState.errors;
-  const { years } = useYearRange();
+  const { years } = getYearRange();
   const sliceYears = 3;
   const yearsToDisplay = years.slice(-sliceYears);
 

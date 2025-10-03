@@ -3,7 +3,7 @@ import { useForm, useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { useYearRange } from "@/app/hooks/useYearRange";
+import { getYearRange } from "@/app/utils/date.util";
 
 export const StructureAutorisee = () => {
   const parentFormContext = useFormContext();
@@ -11,7 +11,7 @@ export const StructureAutorisee = () => {
   const localForm = useForm();
   const { control, formState, register } = parentFormContext || localForm;
   const errors = formState.errors;
-  const { years } = useYearRange();
+  const { years } = getYearRange();
   const hasErrors =
     Array.isArray(errors.budgets) &&
     errors.budgets.some(
