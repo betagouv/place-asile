@@ -5,8 +5,8 @@ import { useForm, useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { getYearRange } from "@/app/utils/date.util";
 import { cn } from "@/app/utils/classname.util";
+import { getYearRange } from "@/app/utils/date.util";
 
 export const IndicateursGeneraux = () => {
   const { years } = getYearRange();
