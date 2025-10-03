@@ -1,7 +1,6 @@
 "use client";
 
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import { useRouter } from "next/navigation";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
@@ -20,10 +19,8 @@ import { modificationDescriptionSchema } from "./validation/ModificationDescript
 export default function ModificationDescription() {
   const { structure } = useStructureContext();
 
-  const router = useRouter();
-
   const { handleSubmit, state, backendError } = useAgentFormHandling({
-    callback: () => router.push(`/structures/${structure.id}`),
+    nextRoute: `/structures/${structure.id}`,
   });
 
   const defaultValues = getDefaultValues({ structure });

@@ -10,7 +10,7 @@ import { useStructures } from "./useStructures";
 
 // Type for form submission data that can be passed to handleSubmit
 export type FormSubmitData = {
-  dnaCode: string;
+  dnaCode?: string;
   [key: string]: unknown; // Allow additional dynamic properties for different form schemas
 };
 

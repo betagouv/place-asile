@@ -84,7 +84,7 @@ export default function FinalisationFinanceForm({
         handleSubmit({
           ...data,
           dnaCode: structure.dnaCode,
-        } as unknown as anyFinanceFormValues);
+        });
       }}
       className="w-full"
     >
