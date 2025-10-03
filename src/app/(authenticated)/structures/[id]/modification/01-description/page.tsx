@@ -27,7 +27,7 @@ export default function ModificationDescription() {
 
   return (
     <>
-      <ModificationTitle step="Description" />
+      <ModificationTitle step="Description" closeLink={`/structures/${structure.id}`} />
       <FormWrapper
         schema={modificationDescriptionSchema}
         defaultValues={defaultValues}

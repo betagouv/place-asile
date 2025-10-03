@@ -135,7 +135,7 @@ export const FieldSetDescription = ({
             id="creationDate"
           />
         )}
-        {isStructureAutorisee(type) && (
+        {(isStructureAutorisee(type) || formKind === "modification") && (
           <InputWithValidation
             name="finessCode"
             control={control}
