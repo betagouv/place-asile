@@ -1,4 +1,3 @@
-import { Button } from "@codegouvfr/react-dsfr/Button";
 import React from "react";
 
 export const ModificationTitle = ({
