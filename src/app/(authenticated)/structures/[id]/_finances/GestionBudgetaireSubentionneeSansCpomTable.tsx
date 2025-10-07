@@ -37,7 +37,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
     "RÉSULTAT NET",
     "DÉFICIT COMPENSÉ PAR L'ÉTAT",
     "EXCÉDENT RÉCUPÉRÉ TITRE DE RECETTE",
-    "EXCÉDENT DÉDUIT DOTATION À VENIR",
+    "À RÉEMPLOYER DANS DOTATION À VENIR",
     "RESTANT FONDS DÉDIÉS",
     "CUMUL FONDS DÉDIÉS",
     "COMMENTAIRE",
