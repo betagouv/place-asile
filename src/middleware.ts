@@ -26,6 +26,9 @@ const protectByPassword = (request: NextRequest): NextResponse | undefined => {
 };
 
 export async function middleware(request: NextRequest) {
+  if (process.env.DEV_AUTH_BYPASS){
+    return NextResponse.next();
+  }
   const protectedPaths = ["/structures", "/operateurs", "/statistiques"];
   const isProtected = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
