@@ -60,6 +60,15 @@ export default function FinalisationFinanceForm({
     nextRoute,
   });
 
+  const onSubmit = (data: anyFinanceFormValues) => {
+    data.budgets.forEach((budget) => {
+      if (budget.id === "") {
+        delete budget.id;
+      }
+    });
+    handleSubmit({ ...data, dnaCode: structure.dnaCode });
+  };
+
   return (
     <FormWrapper
       schema={schema || basicSchema}
@@ -67,17 +76,7 @@ export default function FinalisationFinanceForm({
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
-      onSubmit={(data) => {
-        data.budgets.forEach((budget) => {
-          if (budget.id === "") {
-            delete budget.id;
-          }
-        });
-        handleSubmit({
-          ...data,
-          dnaCode: structure.dnaCode,
-        });
-      }}
+      onSubmit={onSubmit}
       className="w-full"
     >
       {structure.state === StructureState.A_FINALISER && (

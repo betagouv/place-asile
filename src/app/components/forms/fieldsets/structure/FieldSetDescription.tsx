@@ -12,12 +12,6 @@ import InputWithValidation from "../../InputWithValidation";
 import { OperateurAutocomplete } from "../../OperateurAutocomplete";
 import SelectWithValidation from "../../SelectWithValidation";
 
-type Props = {
-  dnaCode: string;
-  disableTypes?: boolean;
-  formKind?: "finalisation" | "modification";
-};
-
 export const FieldSetDescription = ({
   dnaCode,
   disableTypes = true,
@@ -204,4 +198,10 @@ export const FieldSetDescription = ({
       </div>
     </fieldset>
   );
+};
+
+type Props = {
+  dnaCode: string;
+  disableTypes?: boolean;
+  formKind?: "finalisation" | "modification";
 };
