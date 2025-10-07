@@ -54,9 +54,11 @@ export const useStructures = (): UseStructureResult => {
     return contacts;
   };
 
+  // Takes a form adresse and return a db adresse
   const handleAdresses = (
     adresses: Partial<FormAdresse>[] | undefined
   ): DeepPartial<Adresse>[] => {
+    console.log(adresses);
     if (!adresses) {
       return [];
     }
@@ -69,20 +71,23 @@ export const useStructures = (): UseStructureResult => {
       )
       .map((adresse) => {
         return {
+          id: adresse.id,
           adresse: adresse.adresse,
           codePostal: adresse.codePostal,
           commune: adresse.commune,
           repartition: adresse.repartition,
-          typologies: [
-            {
-              placesAutorisees: Number(adresse.places),
-              date: new Date().toISOString(),
-              qpv: adresse.qpv ? Number(adresse.places) : 0,
-              logementSocial: adresse.logementSocial
-                ? Number(adresse.places)
+          adresseTypologies: adresse.adresseTypologies?.map(
+            (adresseTypologie) => ({
+              ...adresseTypologie,
+              date: adresseTypologie.date || new Date().toISOString(),
+              logementSocial: adresseTypologie.logementSocial
+                ? Number(adresseTypologie.placesAutorisees)
                 : 0,
-            },
-          ],
+              qpv: adresseTypologie.qpv
+                ? Number(adresseTypologie.placesAutorisees)
+                : 0,
+            })
+          ),
         };
       });
   };
@@ -186,6 +191,7 @@ export const useStructures = (): UseStructureResult => {
     addStructure,
     updateStructure,
     updateAndRefreshStructure,
+    handleAdresses,
   };
 };
 
@@ -198,6 +204,7 @@ type UseStructureResult = {
     values: unknown,
     setStructure: (structure: Structure) => void
   ) => Promise<string>;
+  handleAdresses: (adresses: Partial<FormAdresse>[]) => DeepPartial<Adresse>[];
 };
 
 type FormValues = Partial<

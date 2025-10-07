@@ -30,7 +30,7 @@ const adresseSchema = z.object({
   codePostal: z.string().min(1, "Le code postal du logement est requis"),
   commune: z.string().min(1, "Le code postal du logement est requis"),
   repartition: z.nativeEnum(Repartition),
-  typologies: z.array(adresseTypologieSchema),
+  adresseTypologies: z.array(adresseTypologieSchema),
 });
 
 const contactSchema = z.object({

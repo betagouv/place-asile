@@ -1,4 +1,5 @@
-import { Repartition } from "@/types/adresse.type";
+import { Adresse } from "@/types/adresse.type";
+import { AdresseTypologie } from "@/types/adresse-typologie.type";
 
 export const getCoordinates = async (address: string): Promise<Coordinates> => {
   const result = await fetch(
@@ -17,13 +18,15 @@ type Coordinates = {
   longitude: number | undefined;
 };
 
-export type FormAdresse = {
-  adresse: string;
-  adresseComplete: string;
-  codePostal: string;
-  commune: string;
-  repartition: Repartition;
-  places: number;
-  qpv: boolean;
+type AdresseTypologieWithBooleans = Omit<
+  AdresseTypologie,
+  "logementSocial" | "qpv"
+> & {
   logementSocial: boolean;
+  qpv: boolean;
+};
+
+export type FormAdresse = Omit<Adresse, "adresseTypologies"> & {
+  adresseComplete: string;
+  adresseTypologies?: AdresseTypologieWithBooleans[];
 };

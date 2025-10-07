@@ -5,38 +5,21 @@ import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 import autoAnimate from "@formkit/auto-animate";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { Controller, UseFormSetError } from "react-hook-form";
-import {
-  Control,
-  UseFormGetValues,
-  UseFormSetValue,
-  UseFormWatch,
-} from "react-hook-form";
+import { Controller, useForm, useFormContext } from "react-hook-form";
 
 import { AdressImporter } from "@/app/components/forms/address/AdressImporter";
 import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
-import { Repartition } from "@/types/adresse.type";
+import { Adresse, Repartition } from "@/types/adresse.type";
 
-import { AdressesFormValues } from "../../validation/adressesSchema";
+export const FieldSetHebergement = () => {
+  const parentFormContext = useFormContext();
+  const localForm = useForm();
+  const { control, setValue, watch, getValues, setError } =
+    parentFormContext || localForm;
 
-interface AdressesListProps {
-  watch: UseFormWatch<AdressesFormValues>;
-  control: Control<AdressesFormValues>;
-  setValue: UseFormSetValue<AdressesFormValues>;
-  getValues: UseFormGetValues<AdressesFormValues>;
-  setError: UseFormSetError<AdressesFormValues>;
-}
-
-const AdressesList = ({
-  watch,
-  control,
-  setValue,
-  getValues,
-  setError,
-}: AdressesListProps) => {
   const typeBati = watch("typeBati") || Repartition.DIFFUS;
   const adminAddress = watch("adresseAdministrativeComplete");
   const sameAddress = watch("sameAddress");
@@ -49,6 +32,8 @@ const AdressesList = ({
     }
   }, [hebergementsContainerRef]);
 
+  console.log("adresses", getValues("adresses"));
+
   const handleAddAddress = () => {
     const newAddress = {
       adresseComplete: "",
@@ -57,9 +42,13 @@ const AdressesList = ({
       commune: "",
       departement: "",
       repartition: Repartition.DIFFUS,
-      places: undefined as unknown as number,
-      logementSocial: false,
-      qpv: false,
+      adresseTypologies: [
+        {
+          places: undefined as number | undefined,
+          logementSocial: false,
+          qpv: false,
+        },
+      ],
     };
     const currentAddresses = getValues("adresses") || [];
     const updatedAddresses = [...currentAddresses, newAddress];
@@ -112,6 +101,39 @@ const AdressesList = ({
       },
     ]);
   };
+
+  // Listen to typeBati and set sameAddress to false if not COLLECTIF
+  useEffect(() => {
+    if (typeBati !== Repartition.COLLECTIF && sameAddress) {
+      setValue("sameAddress", false);
+    }
+  }, [typeBati, sameAddress, setValue]);
+
+  // Listen to typeBati and set every adresse repartition to the typeBati (if typeBat is not MIXTE)
+  useEffect(() => {
+    console.log("typeBati", typeBati);
+    if (typeBati !== Repartition.MIXTE) {
+      const currentAdresses: Adresse[] = getValues("adresses") || [];
+      const updatedAdresses = currentAdresses.map((adresse) => ({
+        ...adresse,
+        repartition: typeBati as Repartition,
+      }));
+      setValue("adresses", updatedAdresses, {
+        shouldValidate: false,
+      });
+    }
+  }, [typeBati, getValues, setValue]);
+
+  // Listen to typeBati and keep only one adresse if typeBati is COLLECTIF
+  useEffect(() => {
+    if (typeBati === Repartition.COLLECTIF) {
+      const currentAdresses: Adresse[] = getValues("adresses") || [];
+      const updatedAdresses = currentAdresses.slice(0, 1);
+      setValue("adresses", updatedAdresses, {
+        shouldValidate: false,
+      });
+    }
+  }, [typeBati, getValues, setValue]);
 
   return (
     <div>
@@ -207,7 +229,7 @@ const AdressesList = ({
           </div>
         )}
 
-        {(getValues("adresses") || []).map((_, index) => (
+        {((getValues("adresses") || []) as Adresse[]).map((_, index) => (
           <div className="flex max-sm:flex-col gap-6" key={`address-${index}`}>
             <AddressWithValidation
               id={`adresses.${index}.adresseComplete`}
@@ -224,8 +246,8 @@ const AdressesList = ({
               disabled={sameAddress}
             />
             <InputWithValidation
-              name={`adresses.${index}.places`}
-              id={`adresses.${index}.places`}
+              name={`adresses.${index}.adresseTypologies.0.placesAutorisees`}
+              id={`adresses.${index}.adresseTypologies.0.placesAutorisees`}
               control={control}
               type="number"
               min={0}
@@ -250,13 +272,13 @@ const AdressesList = ({
                 ))}
             </SelectWithValidation>
             <div className="flex grow flex-col gap-2">
-              <label htmlFor={`adresses.${index}.typologies`}>
+              <label htmlFor={`adresses.${index}.adresseTypologies`}>
                 Particularités
               </label>
               <div className="flex w-full gap-4 items-center min-h-[2.6rem]">
                 <Controller
                   control={control}
-                  name={`adresses.${index}.logementSocial`}
+                  name={`adresses.${index}.adresseTypologies.0.logementSocial`}
                   render={({ field }) => (
                     <Checkbox
                       options={[
@@ -274,7 +296,7 @@ const AdressesList = ({
                 />
                 <Controller
                   control={control}
-                  name={`adresses.${index}.qpv`}
+                  name={`adresses.${index}.adresseTypologies.0.qpv`}
                   render={({ field }) => (
                     <Checkbox
                       options={[
@@ -322,5 +344,3 @@ const AdressesList = ({
     </div>
   );
 };
-
-export default AdressesList;

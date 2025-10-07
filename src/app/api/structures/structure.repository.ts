@@ -16,6 +16,7 @@ import {
 import {
   convertToControleType,
   convertToPublicType,
+  convertToRepartition,
   convertToStructureType,
   handleAdresses,
 } from "./structure.util";
@@ -292,16 +293,101 @@ const updateStructureTypologies = async (
   );
 };
 
-const updateAdresseTypologies = async (
-  adresses: UpdateAdresse[] | undefined
+const createOrUpdateAdresses = async (
+  adresses: UpdateAdresse[] = [],
+  structureDnaCode: string
 ): Promise<void> => {
-  const adresseTypologies = adresses?.flatMap((adresse) => adresse.typologies);
-  for (const adresseTypologie of adresseTypologies || []) {
-    await prisma.adresseTypologie.updateMany({
-      where: { id: adresseTypologie.id },
-      data: adresseTypologie,
-    });
+  // Delete adresses that are not in the provided array
+  await deleteAdresses(adresses, structureDnaCode);
+
+  if (!adresses || adresses.length === 0) return;
+
+  for (const adresse of adresses) {
+    if (adresse.id) {
+      // Update existing address
+      await prisma.adresse.update({
+        where: { id: adresse.id },
+        data: {
+          adresse: adresse.adresse,
+          codePostal: adresse.codePostal,
+          commune: adresse.commune,
+          repartition: convertToRepartition(adresse.repartition),
+        },
+      });
+
+      // Delete typologies not in the array
+      const existingTypologies = await prisma.adresseTypologie.findMany({
+        where: { adresseId: adresse.id },
+      });
+      const typologiesToDelete = existingTypologies.filter(
+        (existing) =>
+          !adresse.adresseTypologies.some((t) => t.id === existing.id)
+      );
+      await Promise.all(
+        typologiesToDelete.map((typologie) =>
+          prisma.adresseTypologie.delete({ where: { id: typologie.id } })
+        )
+      );
+
+      // Update or create typologies
+      for (const typologie of adresse.adresseTypologies) {
+        if (typologie.id) {
+          // Update existing typologie
+          await prisma.adresseTypologie.update({
+            where: { id: typologie.id },
+            data: {
+              placesAutorisees: typologie.placesAutorisees,
+              date: typologie.date,
+              qpv: typologie.qpv,
+              logementSocial: typologie.logementSocial,
+            },
+          });
+        } else {
+          // Create new typologie
+          await prisma.adresseTypologie.create({
+            data: {
+              adresseId: adresse.id,
+              placesAutorisees: typologie.placesAutorisees,
+              date: typologie.date,
+              qpv: typologie.qpv,
+              logementSocial: typologie.logementSocial,
+            },
+          });
+        }
+      }
+    } else {
+      // Create new address with typologies
+      await prisma.adresse.create({
+        data: {
+          adresse: adresse.adresse,
+          codePostal: adresse.codePostal,
+          commune: adresse.commune,
+          repartition: convertToRepartition(adresse.repartition),
+          structureDnaCode: structureDnaCode,
+          adresseTypologies: {
+            create: adresse.adresseTypologies,
+          },
+        },
+      });
+    }
   }
+};
+
+const deleteAdresses = async (
+  adressesToKeep: UpdateAdresse[],
+  structureDnaCode: string
+): Promise<void> => {
+  const everyAdressesOfStructure = await prisma.adresse.findMany({
+    where: { structureDnaCode: structureDnaCode },
+  });
+  const adressesToDelete = everyAdressesOfStructure.filter(
+    (adresse) => !adressesToKeep.some((a) => a.id === adresse.id)
+  );
+  await Promise.all(
+    adressesToDelete.map((adresse) =>
+      prisma.adresse.delete({ where: { id: adresse.id } })
+    )
+  );
 };
 
 const updateFileUploads = async (
@@ -374,8 +460,11 @@ export const updateOne = async (
       fileUploads,
       controles,
       operateur,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      typeBati,
       ...structureProperties
     } = structure;
+
     updatedStructure = await prisma.structure.update({
       where: {
         dnaCode: structure.dnaCode,
@@ -396,7 +485,7 @@ export const updateOne = async (
     await createOrUpdateContacts(contacts, structure.dnaCode);
     await createOrUpdateBudgets(budgets, structure.dnaCode);
     await updateStructureTypologies(typologies);
-    await updateAdresseTypologies(adresses);
+    await createOrUpdateAdresses(adresses, structure.dnaCode);
     await updateFileUploads(fileUploads, structure.dnaCode);
     await createOrUpdateControles(controles, structure.dnaCode);
   } catch (error) {

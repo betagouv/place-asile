@@ -6,6 +6,7 @@ import { useStructureContext } from "@/app/(authenticated)/structures/[id]/conte
 import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
 import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
 import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";
+import { FieldSetHebergement } from "@/app/components/forms/fieldsets/structure/FieldSetHebergement";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
@@ -27,7 +28,10 @@ export default function ModificationDescription() {
 
   return (
     <>
-      <ModificationTitle step="Description" closeLink={`/structures/${structure.id}`} />
+      <ModificationTitle
+        step="Description"
+        closeLink={`/structures/${structure.id}`}
+      />
       <FormWrapper
         schema={modificationDescriptionSchema}
         defaultValues={defaultValues}
@@ -62,6 +66,7 @@ export default function ModificationDescription() {
           description="L'ensemble des adresses sont des données sensibles qui sont protégées selon les normes du gouvernement. Elles ne seront communiquées qu'aux agents et agentes de DDETS."
         />
         <FieldSetAdresseAdministrative />
+        <FieldSetHebergement />
       </FormWrapper>
       {state === "error" && (
         <SubmitError

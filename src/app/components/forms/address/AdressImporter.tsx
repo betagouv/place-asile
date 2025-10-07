@@ -1,11 +1,12 @@
+// TODO: Remove every any
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { ReactElement, useState } from "react";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 
 import { useSpreadsheetParse } from "@/app/hooks/useSpreadsheetParse";
 import { SPREADSHEET_MIME_TYPES } from "@/constants";
 import { Repartition } from "@/types/adresse.type";
-
-import { AdressesFormValues } from "../../validation/adressesSchema";
 
 export const AdressImporter = ({
   getValues,
@@ -16,8 +17,8 @@ export const AdressImporter = ({
   const { parseAdressesDiffuses, parseAdressesMixtes } = useSpreadsheetParse();
 
   const onAdressesUpload = async (
-    getValues: UseFormGetValues<AdressesFormValues>,
-    setValue: UseFormSetValue<AdressesFormValues>,
+    getValues: UseFormGetValues<any>,
+    setValue: UseFormSetValue<any>,
     typeBati: Repartition
   ): Promise<void> => {
     const input = document.getElementById("adresses-upload");
@@ -71,7 +72,7 @@ export const AdressImporter = ({
 };
 
 type Props = {
-  getValues: UseFormGetValues<AdressesFormValues>;
-  setValue: UseFormSetValue<AdressesFormValues>;
+  getValues: UseFormGetValues<any>;
+  setValue: UseFormSetValue<any>;
   typeBati: Repartition;
 };

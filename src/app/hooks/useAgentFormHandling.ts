@@ -5,13 +5,13 @@ import { z } from "zod";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
 import { finalisationQualiteSchemaSimple } from "../(authenticated)/structures/[id]/finalisation/05-qualite/validation/FinalisationQualiteSchema";
+import { FormAdresse } from "../utils/adresse.util";
 import { CategoryDisplayRulesType } from "../utils/categoryToDisplay.util";
 import { useStructures } from "./useStructures";
 
-// Type for form submission data that can be passed to handleSubmit
 export type FormSubmitData = {
   dnaCode?: string;
-  [key: string]: unknown; // Allow additional dynamic properties for different form schemas
+  [key: string]: unknown;
 };
 
 export const useAgentFormHandling = ({
@@ -25,7 +25,7 @@ export const useAgentFormHandling = ({
 
   const { structure, setStructure } = useStructureContext();
 
-  const { updateAndRefreshStructure } = useStructures();
+  const { updateAndRefreshStructure, handleAdresses } = useStructures();
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const [backendError, setBackendError] = useState<string | undefined>(
@@ -35,9 +35,10 @@ export const useAgentFormHandling = ({
   const handleSubmit = async (data: FormSubmitData) => {
     setState("loading");
     try {
+      const adresses = handleAdresses(data.adresses as Partial<FormAdresse>[]);
       const updatedStructure = await updateAndRefreshStructure(
         structure.id,
-        data,
+        { ...data, adresses },
         setStructure
       );
       if (updatedStructure === "OK") {
@@ -45,6 +46,7 @@ export const useAgentFormHandling = ({
           router.push(nextRoute);
         }
       } else {
+        console.error(updatedStructure);
         setState("error");
         setBackendError(updatedStructure?.toString());
         throw new Error(updatedStructure?.toString());

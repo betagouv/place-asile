@@ -9,7 +9,11 @@ import z from "zod";
 
 import { parseFrDate } from "@/app/utils/date.util";
 
-import { CreateAdresse, CreateAdresseTypologie } from "./structure.types";
+import {
+  CreateAdresse,
+  CreateAdresseTypologie,
+  UpdateAdresse,
+} from "./structure.types";
 
 export const convertToRepartition = (repartition: string): Repartition => {
   const repartitions: Record<string, Repartition> = {
@@ -56,7 +60,7 @@ export const convertToControleType = (controleType: string): ControleType => {
 
 export const handleAdresses = (
   dnaCode: string,
-  adresses: CreateAdresse[]
+  adresses: CreateAdresse[] | UpdateAdresse[]
 ): Omit<AdresseWithTypologies, "id">[] => {
   return adresses.map((adresse) => {
     return {
@@ -65,7 +69,7 @@ export const handleAdresses = (
       commune: adresse.commune,
       repartition: convertToRepartition(adresse.repartition),
       structureDnaCode: dnaCode,
-      adresseTypologies: adresse.typologies,
+      adresseTypologies: adresse.adresseTypologies,
     };
   });
 };

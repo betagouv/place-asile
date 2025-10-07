@@ -1,3 +1,5 @@
+import { Repartition } from "@/types/adresse.type";
+
 export type CreateStructure = {
   dnaCode: string;
   operateur: CreateOperateur;
@@ -31,7 +33,7 @@ export type CreateAdresse = {
   codePostal: string;
   commune: string;
   repartition: string;
-  typologies: CreateAdresseTypologie[];
+  adresseTypologies: CreateAdresseTypologie[];
 };
 
 type CreateFileUpload = {
@@ -122,9 +124,9 @@ export type UpdateFileUpload = {
   parentFileUploadId?: number;
 };
 type UpdateAdresseTypologie = CreateAdresseTypologie & { id?: number };
-export type UpdateAdresse = CreateAdresse & {
+export type UpdateAdresse = Omit<CreateAdresse, "adresseTypologies"> & {
   id?: number;
-  typologies: UpdateAdresseTypologie[];
+  adresseTypologies: UpdateAdresseTypologie[];
 };
 
 export type UpdateStructure = {
@@ -136,6 +138,7 @@ export type UpdateStructure = {
   codePostalAdministratif?: string;
   communeAdministrative?: string;
   departementAdministratif?: string;
+  typeBati?: Repartition;
   nom?: string;
   debutConvention?: Date;
   finConvention?: Date;
