@@ -1,10 +1,3 @@
-import React from "react";
-
-type Props = {
-  step: string;
-  closeLink: string;
-};
-
 export const ModificationTitle = ({ step, closeLink }: Props) => {
   return (
     <div className="flex justify-between items-center mx-6 my-3">
@@ -20,4 +13,9 @@ export const ModificationTitle = ({ step, closeLink }: Props) => {
       </a>
     </div>
   );
+};
+
+type Props = {
+  step: string;
+  closeLink: string;
 };

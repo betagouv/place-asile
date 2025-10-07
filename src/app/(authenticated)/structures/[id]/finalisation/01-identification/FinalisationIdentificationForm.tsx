@@ -38,6 +38,15 @@ export default function FinalisationIdentificationForm({
     nextRoute,
   });
 
+  const onSubmit = (data: FinalisationIdentificationFormValues) => {
+    const contacts = data.contacts
+      .filter((contact): contact is Contact => contact !== undefined)
+      .filter((contact: Contact) =>
+        Object.values(contact).every((field) => field !== undefined)
+      );
+    handleSubmit({ ...data, contacts });
+  };
+
   return (
     <>
       <FormWrapper
@@ -46,14 +55,7 @@ export default function FinalisationIdentificationForm({
         submitButtonText="Étape suivante"
         previousStep={previousRoute}
         availableFooterButtons={[FooterButtonType.SUBMIT]}
-        onSubmit={(data: FinalisationIdentificationFormValues) => {
-          const contacts = data.contacts
-            .filter((contact): contact is Contact => contact !== undefined)
-            .filter((contact: Contact) =>
-              Object.values(contact).every((field) => field !== undefined)
-            );
-          handleSubmit({ ...data, contacts });
-        }}
+        onSubmit={onSubmit}
         mode="onChange"
       >
         {structure.state === StructureState.A_FINALISER && (
