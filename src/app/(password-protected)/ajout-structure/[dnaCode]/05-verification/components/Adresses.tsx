@@ -51,12 +51,18 @@ export const Adresses = () => {
             {hebergement?.adresseComplete && (
               <span>{hebergement?.adresseComplete}</span>
             )}
-            {hebergement?.places && <span>({hebergement?.places} places)</span>}
+            {hebergement?.adresseTypologies?.[0]?.placesAutorisees && (
+              <span>
+                ({hebergement?.adresseTypologies?.[0]?.placesAutorisees} places)
+              </span>
+            )}
             {hebergement?.repartition && (
               <span>– {hebergement?.repartition}</span>
             )}
-            {hebergement?.qpv && <CustomTag>QPV</CustomTag>}
-            {hebergement?.logementSocial && (
+            {hebergement?.adresseTypologies?.[0]?.qpv && (
+              <CustomTag>QPV</CustomTag>
+            )}
+            {hebergement?.adresseTypologies?.[0]?.logementSocial && (
               <CustomTag>Logement social</CustomTag>
             )}
           </p>

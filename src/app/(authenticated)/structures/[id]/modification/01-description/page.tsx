@@ -65,7 +65,7 @@ export default function ModificationDescription() {
           title=""
           description="L'ensemble des adresses sont des données sensibles qui sont protégées selon les normes du gouvernement. Elles ne seront communiquées qu'aux agents et agentes de DDETS."
         />
-        <FieldSetAdresseAdministrative />
+        <FieldSetAdresseAdministrative formKind="modification" />
         <FieldSetHebergement />
       </FormWrapper>
       {state === "error" && (

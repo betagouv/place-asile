@@ -15,8 +15,11 @@ export const ModificationTitle = ({ step, closeLink }: Props) => {
         />
         <span className="italic font-normal"> Modification</span> - {step}
       </h1>
-      <a href={closeLink}>
-        <span className="fr-icon-close-line fr-icon--md text-title-blue-france" />
+      <a href={closeLink} aria-label="Fermer la modification">
+        <span
+          className="fr-icon-close-line fr-icon--md text-title-blue-france"
+          aria-hidden="true"
+        />
       </a>
     </div>
   );

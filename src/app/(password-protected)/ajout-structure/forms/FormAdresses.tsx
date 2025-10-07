@@ -41,9 +41,13 @@ export default function FormAdresses() {
           commune: "",
           departement: "",
           repartition: Repartition.DIFFUS,
-          places: undefined as unknown as number,
-          logementSocial: false,
-          qpv: false,
+          adresseTypologies: [
+            {
+              placesAutorisees: undefined as unknown as number,
+              logementSocial: false,
+              qpv: false,
+            },
+          ],
         },
       ],
     }),
@@ -101,9 +105,13 @@ export default function FormAdresses() {
                   codePostal: "",
                   commune: "",
                   repartition: value as Repartition,
-                  places: undefined as unknown as number,
-                  logementSocial: false,
-                  qpv: false,
+                  adresseTypologies: [
+                    {
+                      placesAutorisees: undefined as unknown as number,
+                      logementSocial: false,
+                      qpv: false,
+                    },
+                  ],
                 },
               ],
               { shouldValidate: false }

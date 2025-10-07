@@ -297,10 +297,30 @@ const createOrUpdateAdresses = async (
   adresses: UpdateAdresse[] = [],
   structureDnaCode: string
 ): Promise<void> => {
+  if (!adresses || adresses.length === 0) return;
+
   // Delete adresses that are not in the provided array
   await deleteAdresses(adresses, structureDnaCode);
 
-  if (!adresses || adresses.length === 0) return;
+  // Fetch all typologies for existing addresses in one query to avoid N+1
+  const existingAdresseIds = adresses
+    .filter((adresse) => adresse.id)
+    .map((adresse) => adresse.id as number);
+
+  const allTypologies =
+    existingAdresseIds.length > 0
+      ? await prisma.adresseTypologie.findMany({
+          where: { adresseId: { in: existingAdresseIds } },
+        })
+      : [];
+
+  // Group typologies by adresseId for quick lookup
+  const typologiesByAdresseId = new Map<number, typeof allTypologies>();
+  for (const typologie of allTypologies) {
+    const existing = typologiesByAdresseId.get(typologie.adresseId) || [];
+    existing.push(typologie);
+    typologiesByAdresseId.set(typologie.adresseId, existing);
+  }
 
   for (const adresse of adresses) {
     if (adresse.id) {
@@ -316,9 +336,7 @@ const createOrUpdateAdresses = async (
       });
 
       // Delete typologies not in the array
-      const existingTypologies = await prisma.adresseTypologie.findMany({
-        where: { adresseId: adresse.id },
-      });
+      const existingTypologies = typologiesByAdresseId.get(adresse.id) || [];
       const typologiesToDelete = existingTypologies.filter(
         (existing) =>
           !adresse.adresseTypologies.some((t) => t.id === existing.id)
@@ -465,6 +483,7 @@ export const updateOne = async (
       ...structureProperties
     } = structure;
 
+    //TODO: use a Prisma transaction to avoid race conditions
     updatedStructure = await prisma.structure.update({
       where: {
         dnaCode: structure.dnaCode,

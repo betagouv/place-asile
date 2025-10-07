@@ -28,5 +28,12 @@ type AdresseTypologieWithBooleans = Omit<
 
 export type FormAdresse = Omit<Adresse, "adresseTypologies"> & {
   adresseComplete: string;
-  adresseTypologies?: AdresseTypologieWithBooleans[];
+  adresseTypologies?: Partial<AdresseTypologieWithBooleans>[];
+};
+
+export type AddAdresse = Omit<
+  FormAdresse,
+  "adresseTypologies" | "structureDnaCode"
+> & {
+  adresseTypologies: AdresseTypologieWithBooleans[];
 };

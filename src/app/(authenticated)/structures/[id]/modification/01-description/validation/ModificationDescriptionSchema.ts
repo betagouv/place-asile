@@ -7,10 +7,10 @@ import { PublicType, StructureType } from "@/types/structure.type";
 
 const adresseSchema = z.object({
   id: z.number().optional(),
-  adresseComplete: z.string().nonempty(),
-  adresse: z.string().nonempty(),
-  codePostal: z.string().nonempty(),
-  commune: z.string().nonempty(),
+  adresseComplete: z.string().min(1),
+  adresse: z.string().min(1),
+  codePostal: z.string().min(1),
+  commune: z.string().min(1),
   repartition: z.nativeEnum(Repartition),
   adresseTypologies: z
     .array(
@@ -31,7 +31,7 @@ const adresseSchema = z.object({
 export const modificationDescriptionSchema = z
   .object({
     // Champs de description de base (utilisés par FieldSetDescription)
-    dnaCode: z.string().nonempty(),
+    dnaCode: z.string().min(1),
     operateur: z.object({
       id: z.number(),
       name: z.string(),
@@ -40,7 +40,7 @@ export const modificationDescriptionSchema = z
       (val) => (val === "" ? undefined : val),
       z.nativeEnum(StructureType)
     ),
-    creationDate: z.string().nonempty(),
+    creationDate: z.string().min(1),
     finessCode: z.string().optional().or(z.literal("")),
     public: z.nativeEnum(PublicType),
     filiale: z.string().optional(),
@@ -53,11 +53,11 @@ export const modificationDescriptionSchema = z
 
     // Champs d'adresse administrative (utilisés par FieldSetAdresseAdministrative)
     nom: z.string().optional(),
-    adresseAdministrativeComplete: z.string().nonempty(),
-    adresseAdministrative: z.string().nonempty(),
-    codePostalAdministratif: z.string().nonempty(),
-    communeAdministrative: z.string().nonempty(),
-    departementAdministratif: z.string().nonempty(),
+    adresseAdministrativeComplete: z.string().min(1),
+    adresseAdministrative: z.string().min(1),
+    codePostalAdministratif: z.string().min(1),
+    communeAdministrative: z.string().min(1),
+    departementAdministratif: z.string().min(1),
     typeBati: z.nativeEnum(Repartition),
     sameAddress: z.boolean().optional(),
     adresses: z.array(

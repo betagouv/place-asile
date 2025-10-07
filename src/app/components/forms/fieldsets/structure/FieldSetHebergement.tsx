@@ -32,8 +32,6 @@ export const FieldSetHebergement = () => {
     }
   }, [hebergementsContainerRef]);
 
-  console.log("adresses", getValues("adresses"));
-
   const handleAddAddress = () => {
     const newAddress = {
       adresseComplete: "",
@@ -111,7 +109,6 @@ export const FieldSetHebergement = () => {
 
   // Listen to typeBati and set every adresse repartition to the typeBati (if typeBat is not MIXTE)
   useEffect(() => {
-    console.log("typeBati", typeBati);
     if (typeBati !== Repartition.MIXTE) {
       const currentAdresses: Adresse[] = getValues("adresses") || [];
       const updatedAdresses = currentAdresses.map((adresse) => ({

@@ -17,6 +17,7 @@ import { AdressImporter } from "@/app/components/forms/address/AdressImporter";
 import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
+import { AddAdresse } from "@/app/utils/adresse.util";
 import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
 import { Repartition } from "@/types/adresse.type";
 
@@ -57,9 +58,13 @@ const AdressesList = ({
       commune: "",
       departement: "",
       repartition: Repartition.DIFFUS,
-      places: undefined as unknown as number,
-      logementSocial: false,
-      qpv: false,
+      adresseTypologies: [
+        {
+          placesAutorisees: undefined as unknown as number,
+          logementSocial: false,
+          qpv: false,
+        },
+      ],
     };
     const currentAddresses = getValues("adresses") || [];
     const updatedAddresses = [...currentAddresses, newAddress];
@@ -207,7 +212,7 @@ const AdressesList = ({
           </div>
         )}
 
-        {(getValues("adresses") || []).map((_, index) => (
+        {((getValues("adresses") || []) as AddAdresse[]).map((_, index) => (
           <div className="flex max-sm:flex-col gap-6" key={`address-${index}`}>
             <AddressWithValidation
               id={`adresses.${index}.adresseComplete`}
@@ -224,8 +229,8 @@ const AdressesList = ({
               disabled={sameAddress}
             />
             <InputWithValidation
-              name={`adresses.${index}.places`}
-              id={`adresses.${index}.places`}
+              name={`adresses.${index}.adresseTypologies.0.placesAutorisees`}
+              id={`adresses.${index}.adresseTypologies.0.placesAutorisees`}
               control={control}
               type="number"
               min={0}
@@ -256,7 +261,7 @@ const AdressesList = ({
               <div className="flex w-full gap-4 items-center min-h-[2.6rem]">
                 <Controller
                   control={control}
-                  name={`adresses.${index}.logementSocial`}
+                  name={`adresses.${index}.adresseTypologies.0.logementSocial`}
                   render={({ field }) => (
                     <Checkbox
                       options={[
@@ -274,7 +279,7 @@ const AdressesList = ({
                 />
                 <Controller
                   control={control}
-                  name={`adresses.${index}.qpv`}
+                  name={`adresses.${index}.adresseTypologies.0.qpv`}
                   render={({ field }) => (
                     <Checkbox
                       options={[

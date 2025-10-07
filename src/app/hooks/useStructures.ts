@@ -79,6 +79,7 @@ export const useStructures = (): UseStructureResult => {
           adresseTypologies: adresse.adresseTypologies?.map(
             (adresseTypologie) => ({
               ...adresseTypologie,
+              placesAutorisees: Number(adresseTypologie.placesAutorisees),
               date: adresseTypologie.date || new Date().toISOString(),
               logementSocial: adresseTypologie.logementSocial
                 ? Number(adresseTypologie.placesAutorisees)

@@ -78,10 +78,13 @@ export const getDefaultValues = ({
 
   // We add adresseComplete (who is not saved in db) to the adresses
   // We also convert logementSocial and qpv to boolean
+  // And also convert repartition db value to form value (capitalize only the first letter)
   let adresses: FormAdresse[] = [];
   if (Array.isArray(structure.adresses)) {
     adresses = structure.adresses.map((adresse) => ({
       ...adresse,
+      repartition: (adresse.repartition.charAt(0).toUpperCase() +
+        adresse.repartition.slice(1).toLowerCase()) as Repartition,
       adresseComplete: [adresse.adresse, adresse.codePostal, adresse.commune]
         .filter(Boolean)
         .join(" ")

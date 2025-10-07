@@ -1,12 +1,17 @@
 import { useFormContext } from "react-hook-form";
 
+import { cn } from "@/app/utils/classname.util";
 import { Repartition } from "@/types/adresse.type";
 
 import AddressWithValidation from "../../AddressWithValidation";
 import InputWithValidation from "../../InputWithValidation";
 import SelectWithValidation from "../../SelectWithValidation";
 
-export const FieldSetAdresseAdministrative = () => {
+export const FieldSetAdresseAdministrative = ({
+  formKind = "finalisation",
+}: {
+  formKind?: "finalisation" | "modification";
+}) => {
   const { control, watch, setValue, getValues } = useFormContext();
 
   const handleAddressAdministrativeChange = () => {
@@ -37,7 +42,12 @@ export const FieldSetAdresseAdministrative = () => {
       <legend className="text-xl font-bold mb-4 text-title-blue-france">
         Adresse administrative
       </legend>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div
+        className={cn(
+          "grid grid-cols-1 gap-6",
+          formKind === "modification" ? "md:grid-cols-4" : "md:grid-cols-3"
+        )}
+      >
         <div className="flex flex-col gap-1">
           <InputWithValidation
             name="nom"
@@ -64,20 +74,22 @@ export const FieldSetAdresseAdministrative = () => {
             indiquée dans les documents de contractualisation
           </span>
         </div>
-        <SelectWithValidation
-          name="typeBati"
-          control={control}
-          label="Type de bâti"
-          id="typeBati"
-        >
-          <option value="">Sélectionnez une option</option>
+        {formKind === "modification" && (
+          <SelectWithValidation
+            name="typeBati"
+            control={control}
+            label="Type de bâti"
+            id="typeBati"
+          >
+            <option value="">Sélectionnez une option</option>
 
-          {Object.values(Repartition).map((repartition) => (
-            <option key={repartition} value={repartition}>
-              {repartition}
-            </option>
-          ))}
-        </SelectWithValidation>
+            {Object.values(Repartition).map((repartition) => (
+              <option key={repartition} value={repartition}>
+                {repartition}
+              </option>
+            ))}
+          </SelectWithValidation>
+        )}
       </div>
     </fieldset>
   );

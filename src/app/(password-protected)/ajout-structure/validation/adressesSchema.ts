@@ -3,20 +3,26 @@ import z from "zod";
 import { Repartition } from "@/types/adresse.type";
 
 const adresseSchema = z.object({
-  adresseComplete: z.string().nonempty(),
-  adresse: z.string().nonempty(),
-  codePostal: z.string().nonempty(),
-  commune: z.string().nonempty(),
+  id: z.number().optional(),
+  adresseComplete: z.string().min(1),
+  adresse: z.string().min(1),
+  codePostal: z.string().min(1),
+  commune: z.string().min(1),
   repartition: z.nativeEnum(Repartition),
-  places: z
-    .preprocess(
-      (val) => (val === "" ? undefined : Number(val)),
-      z.number().min(0)
+  adresseTypologies: z
+    .array(
+      z.object({
+        placesAutorisees: z
+          .preprocess(
+            (val) => (val === "" ? undefined : Number(val)),
+            z.number().min(0)
+          )
+          .optional(),
+        qpv: z.boolean().optional(),
+        logementSocial: z.boolean().optional(),
+      })
     )
     .optional(),
-  typologies: z.array(z.any()).optional(),
-  qpv: z.boolean().optional(),
-  logementSocial: z.boolean().optional(),
 });
 
 export type AdressesFormValues = z.infer<typeof AdressesSchema>;
@@ -35,21 +41,24 @@ export const AdressesSchema = z
         if (
           adresse.adresseComplete &&
           adresse.adresseComplete.trim() !== "" &&
-          (adresse.places === undefined ||
-            adresse.places === null ||
-            adresse.places === 0)
+          (adresse.adresseTypologies?.[0]?.placesAutorisees === undefined ||
+            adresse.adresseTypologies?.[0]?.placesAutorisees === null ||
+            adresse.adresseTypologies?.[0]?.placesAutorisees === 0)
         ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: "Requis",
-            path: ["places"],
+            path: ["placesAutorisees"],
           });
         }
       })
     ),
   })
   .refine((data) => {
-    return data.adresses.some((adresse) => adresse.places !== undefined);
+    return data.adresses.some(
+      (adresse) =>
+        adresse.adresseTypologies?.[0]?.placesAutorisees !== undefined
+    );
   }, "Au moins une adresse doit avoir des places")
   .superRefine((data, ctx) => {
     if (data.typeBati !== Repartition.MIXTE) {
