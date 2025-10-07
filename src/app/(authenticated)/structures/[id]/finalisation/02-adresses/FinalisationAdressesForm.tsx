@@ -14,7 +14,10 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { StructureState } from "@/types/structure.type";
 
-import { finalisationAdressesSchema } from "./validation/finalisationAdressesSchema";
+import {
+  AdressesFormValues,
+  finalisationAdressesSchema,
+} from "./validation/finalisationAdressesSchema";
 
 export default function FinalisationAdressesForm({
   currentStep,
@@ -33,15 +36,14 @@ export default function FinalisationAdressesForm({
     nextRoute,
   });
 
+  const onSubmit = (data: AdressesFormValues) => {
+    handleSubmit({ ...data, dnaCode: structure.dnaCode });
+  };
+
   return (
     <FormWrapper
       schema={finalisationAdressesSchema}
-      onSubmit={(data) =>
-        handleSubmit({
-          ...data,
-          dnaCode: structure.dnaCode,
-        })
-      }
+      onSubmit={onSubmit}
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
