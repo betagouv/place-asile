@@ -6,9 +6,9 @@ import { FormKind } from "@/types/global";
 import InputWithValidation from "../../InputWithValidation";
 
 export const FieldSetOuvertureFermeture = ({
-  formKind,
+  formKind = "finalisation",
 }: {
-  formKind: FormKind;
+  formKind?: FormKind;
 }) => {
   const { control } = useFormContext();
   const currentYear = new Date().getFullYear();
