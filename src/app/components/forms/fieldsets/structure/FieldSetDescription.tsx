@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { FormKind } from "@/types/global";
 import { PublicType, StructureType } from "@/types/structure.type";
 
 import InputWithValidation from "../../InputWithValidation";
@@ -203,5 +204,5 @@ export const FieldSetDescription = ({
 type Props = {
   dnaCode: string;
   disableTypes?: boolean;
-  formKind?: "finalisation" | "modification";
+  formKind?: FormKind;
 };

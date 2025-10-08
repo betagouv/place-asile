@@ -2,6 +2,7 @@ import { useFormContext } from "react-hook-form";
 
 import { cn } from "@/app/utils/classname.util";
 import { Repartition } from "@/types/adresse.type";
+import { FormKind } from "@/types/global";
 
 import AddressWithValidation from "../../AddressWithValidation";
 import InputWithValidation from "../../InputWithValidation";
@@ -10,7 +11,7 @@ import SelectWithValidation from "../../SelectWithValidation";
 export const FieldSetAdresseAdministrative = ({
   formKind = "finalisation",
 }: {
-  formKind?: "finalisation" | "modification";
+  formKind?: FormKind;
 }) => {
   const { control, watch, setValue, getValues } = useFormContext();
 

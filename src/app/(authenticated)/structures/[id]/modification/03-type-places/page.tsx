@@ -1,0 +1,55 @@
+"use client";
+
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { FieldSetOuvertureFermeture } from "@/app/components/forms/fieldsets/structure/FieldSetOuvertureFermeture";
+import { FieldSetTypePlaces } from "@/app/components/forms/fieldsets/structure/FieldSetTypePlaces";
+import FormWrapper, {
+  FooterButtonType,
+} from "@/app/components/forms/FormWrapper";
+import { SubmitError } from "@/app/components/SubmitError";
+import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
+
+import { ModificationTitle } from "../components/ModificationTitle";
+import { modificationTypePlacesSchema } from "./validation/ModificationTypePlacesSchema";
+
+export default function ModificationTypePlaces() {
+  const { structure } = useStructureContext();
+
+  const { handleSubmit, state, backendError } = useAgentFormHandling({
+    nextRoute: `/structures/${structure.id}`,
+  });
+
+  const defaultValues = getDefaultValues({ structure });
+
+  return (
+    <>
+      <ModificationTitle
+        step="Types de places"
+        closeLink={`/structures/${structure.id}`}
+      />
+      <FormWrapper
+        schema={modificationTypePlacesSchema}
+        defaultValues={defaultValues}
+        onSubmit={handleSubmit}
+        mode="onChange"
+        resetRoute={`/structures/${structure.id}`}
+        submitButtonText="Valider"
+        availableFooterButtons={[
+          FooterButtonType.CANCEL,
+          FooterButtonType.SUBMIT,
+        ]}
+        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
+      >
+        <FieldSetOuvertureFermeture formKind="modification" />
+        <FieldSetTypePlaces />
+      </FormWrapper>
+      {state === "error" && (
+        <SubmitError
+          structureDnaCode={structure.dnaCode}
+          backendError={backendError}
+        />
+      )}
+    </>
+  );
+}
