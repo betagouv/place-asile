@@ -3,9 +3,10 @@ import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
+import { FormAdresse } from "@/schemas/adresse.schema";
+
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
 import { finalisationQualiteSchemaSimple } from "../(authenticated)/structures/[id]/finalisation/05-qualite/validation/FinalisationQualiteSchema";
-import { FormAdresse } from "../utils/adresse.util";
 import { CategoryDisplayRulesType } from "../utils/categoryToDisplay.util";
 import { useStructures } from "./useStructures";
 
@@ -25,7 +26,8 @@ export const useAgentFormHandling = ({
 
   const { structure, setStructure } = useStructureContext();
 
-  const { updateAndRefreshStructure, handleAdresses } = useStructures();
+  const { updateAndRefreshStructure, transformFormAdressesToDbAdresses } =
+    useStructures();
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const [backendError, setBackendError] = useState<string | undefined>(
@@ -35,7 +37,9 @@ export const useAgentFormHandling = ({
   const handleSubmit = async (data: FormSubmitData) => {
     setState("loading");
     try {
-      const adresses = handleAdresses(data.adresses as Partial<FormAdresse>[]);
+      const adresses = transformFormAdressesToDbAdresses(
+        data.adresses as FormAdresse[]
+      );
       const updatedStructure = await updateAndRefreshStructure(
         structure.id,
         { ...data, adresses },

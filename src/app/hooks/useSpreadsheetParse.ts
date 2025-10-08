@@ -1,8 +1,7 @@
 import readXlsxFile, { Schema } from "read-excel-file";
 
 import { Repartition } from "@/types/adresse.type";
-
-import { FormAdresse } from "../utils/adresse.util";
+import { FormAdresse } from "@/schemas/adresse.schema";
 
 export const useSpreadsheetParse = (): UseExcelParseResult => {
   const parseSpreadsheet = async (

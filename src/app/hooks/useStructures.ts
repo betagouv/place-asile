@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
-import { Adresse } from "@/types/adresse.type";
+import { FormAdresse } from "@/schemas/adresse.schema";
+import { CreateOrUpdateAdresse } from "@/types/adresse.type";
 import { Contact } from "@/types/contact.type";
 import { DeepPartial } from "@/types/global";
 import { Structure } from "@/types/structure.type";
@@ -10,7 +11,6 @@ import { AdressesFormValues } from "../(password-protected)/ajout-structure/vali
 import { DocumentsSchemaFlexible } from "../(password-protected)/ajout-structure/validation/documentsSchema";
 import { IdentificationFormValues } from "../(password-protected)/ajout-structure/validation/identificationSchema";
 import { TypePlacesFormValues } from "../(password-protected)/ajout-structure/validation/typePlacesSchema";
-import { FormAdresse } from "../utils/adresse.util";
 
 dayjs.extend(customParseFormat);
 
@@ -55,10 +55,10 @@ export const useStructures = (): UseStructureResult => {
   };
 
   // Takes a form adresse and return a db adresse
-  const handleAdresses = (
-    adresses: Partial<FormAdresse>[] | undefined
-  ): DeepPartial<Adresse>[] => {
-    console.log(adresses);
+  const transformFormAdressesToDbAdresses = (
+    adresses?: FormAdresse[],
+    dnaCode?: string
+  ): CreateOrUpdateAdresse[] => {
     if (!adresses) {
       return [];
     }
@@ -69,9 +69,11 @@ export const useStructures = (): UseStructureResult => {
           adresse.codePostal !== "" &&
           adresse.commune !== ""
       )
+      .filter((adresse) => adresse.structureDnaCode || dnaCode)
       .map((adresse) => {
         return {
           id: adresse.id,
+          structureDnaCode: adresse.structureDnaCode || (dnaCode as string),
           adresse: adresse.adresse,
           codePostal: adresse.codePostal,
           commune: adresse.commune,
@@ -80,7 +82,6 @@ export const useStructures = (): UseStructureResult => {
             (adresseTypologie) => ({
               ...adresseTypologie,
               placesAutorisees: Number(adresseTypologie.placesAutorisees),
-              date: adresseTypologie.date || new Date().toISOString(),
               logementSocial: adresseTypologie.logementSocial
                 ? Number(adresseTypologie.placesAutorisees)
                 : 0,
@@ -119,7 +120,10 @@ export const useStructures = (): UseStructureResult => {
       finPeriodeAutorisation: handleDate(values.finPeriodeAutorisation),
       debutCpom: handleDate(values.debutCpom),
       finCpom: handleDate(values.finCpom),
-      adresses: handleAdresses(values.adresses),
+      adresses: transformFormAdressesToDbAdresses(
+        values.adresses,
+        values.dnaCode
+      ),
       contacts: handleContacts(
         values.contactPrincipal,
         values.contactSecondaire
@@ -192,7 +196,7 @@ export const useStructures = (): UseStructureResult => {
     addStructure,
     updateStructure,
     updateAndRefreshStructure,
-    handleAdresses,
+    transformFormAdressesToDbAdresses,
   };
 };
 
@@ -205,7 +209,9 @@ type UseStructureResult = {
     values: unknown,
     setStructure: (structure: Structure) => void
   ) => Promise<string>;
-  handleAdresses: (adresses: Partial<FormAdresse>[]) => DeepPartial<Adresse>[];
+  transformFormAdressesToDbAdresses: (
+    adresses: FormAdresse[]
+  ) => CreateOrUpdateAdresse[];
 };
 
 type FormValues = Partial<

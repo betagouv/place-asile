@@ -1,31 +1,10 @@
 import z from "zod";
 
+import { adresseSchema } from "@/schemas/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 
-const adresseSchema = z.object({
-  id: z.number().optional(),
-  adresseComplete: z.string().min(1),
-  adresse: z.string().min(1),
-  codePostal: z.string().min(1),
-  commune: z.string().min(1),
-  repartition: z.nativeEnum(Repartition),
-  adresseTypologies: z
-    .array(
-      z.object({
-        placesAutorisees: z
-          .preprocess(
-            (val) => (val === "" ? undefined : Number(val)),
-            z.number().min(0)
-          )
-          .optional(),
-        qpv: z.boolean().optional(),
-        logementSocial: z.boolean().optional(),
-      })
-    )
-    .optional(),
-});
-
 export type AdressesFormValues = z.infer<typeof AdressesSchema>;
+
 export const AdressesSchema = z
   .object({
     nom: z.string().optional(),

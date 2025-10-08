@@ -17,8 +17,8 @@ import { AdressImporter } from "@/app/components/forms/address/AdressImporter";
 import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import { AddAdresse } from "@/app/utils/adresse.util";
 import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
+import { FormAdresse } from "@/schemas/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 
 import { AdressesFormValues } from "../../validation/adressesSchema";
@@ -51,7 +51,8 @@ const AdressesList = ({
   }, [hebergementsContainerRef]);
 
   const handleAddAddress = () => {
-    const newAddress = {
+    const newAddress: FormAdresse = {
+      structureDnaCode: undefined,
       adresseComplete: "",
       adresse: "",
       codePostal: "",
@@ -61,6 +62,7 @@ const AdressesList = ({
       adresseTypologies: [
         {
           placesAutorisees: undefined as unknown as number,
+          date: new Date().toISOString(),
           logementSocial: false,
           qpv: false,
         },
@@ -212,7 +214,7 @@ const AdressesList = ({
           </div>
         )}
 
-        {((getValues("adresses") || []) as AddAdresse[]).map((_, index) => (
+        {((getValues("adresses") || []) as FormAdresse[]).map((_, index) => (
           <div className="flex max-sm:flex-col gap-6" key={`address-${index}`}>
             <AddressWithValidation
               id={`adresses.${index}.adresseComplete`}
