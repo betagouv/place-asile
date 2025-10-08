@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
 import { getRepartition } from "@/app/utils/structure.util";
-import { Repartition } from "@/types/adresse.type";
 import { FormAdresse } from "@/schemas/adresse.schema";
+import { Repartition } from "@/types/adresse.type";
 import { Contact } from "@/types/contact.type";
 import {
   DdetsFileUploadCategoryType,

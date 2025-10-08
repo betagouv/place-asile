@@ -7,7 +7,7 @@ import { PublicType, StructureType } from "@/types/structure.type";
 
 const adresseSchema = z.object({
   id: z.number().optional(),
-  adresseComplete: z.string().min(1),
+  adresseComplete: z.string().optional(),
   adresse: z.string().min(1),
   codePostal: z.string().min(1),
   commune: z.string().min(1),

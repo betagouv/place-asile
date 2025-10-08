@@ -43,6 +43,7 @@ export default function FormAdresses() {
           repartition: Repartition.DIFFUS,
           adresseTypologies: [
             {
+              date: new Date().toISOString(),
               placesAutorisees: undefined as unknown as number,
               logementSocial: false,
               qpv: false,
@@ -108,6 +109,7 @@ export default function FormAdresses() {
                   adresseTypologies: [
                     {
                       placesAutorisees: undefined as unknown as number,
+                      date: new Date().toISOString(),
                       logementSocial: false,
                       qpv: false,
                     },
