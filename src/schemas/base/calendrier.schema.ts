@@ -5,16 +5,11 @@ import {
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { createOptionalDateValidator } from "@/app/utils/zodCustomFields";
-import { StructureType } from "@/types/structure.type";
 
-export const modificationCalendrierSchema = z
-  .object({
-    dnaCode: z.string().nonempty(),
-    type: z.preprocess(
-      (val) => (val === "" ? undefined : val),
-      z.nativeEnum(StructureType)
-    ),
-    cpom: z.boolean(),
+import { structureBaseSchema } from "./structure.base.schema";
+
+export const calendrierSchema = structureBaseSchema
+  .extend({
     debutPeriodeAutorisation: createOptionalDateValidator(),
     finPeriodeAutorisation: createOptionalDateValidator(),
     debutConvention: createOptionalDateValidator(),
@@ -167,6 +162,4 @@ export const modificationCalendrierSchema = z
     }
   );
 
-export type ModificationCalendrierFormValues = z.infer<
-  typeof modificationCalendrierSchema
->;
+export type CalendrierFormValues = z.infer<typeof calendrierSchema>;

@@ -3,9 +3,10 @@ import z from "zod";
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
 import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 
-export const modificationTypePlacesSchema = z
-  .object({
-    dnaCode: z.string().nonempty(),
+import { structureBaseSchema } from "./structure.base.schema";
+
+export const typePlacesSchema = structureBaseSchema
+  .extend({
     typologies: z.array(
       z.object({
         id: z.number(),
@@ -63,6 +64,4 @@ export const modificationTypePlacesSchema = z
     }
   );
 
-export type ModificationTypePlacesFormValues = z.infer<
-  typeof modificationTypePlacesSchema
->;
+export type TypePlacesFormValues = z.infer<typeof typePlacesSchema>;

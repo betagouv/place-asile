@@ -9,9 +9,9 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { useStructures } from "@/app/hooks/useStructures";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
-import { AdressesFormValues } from "../../validation/adressesSchema";
+import { AdressesFormValues } from "../../../../../schemas/ajout/ajoutAdressesSchema";
 import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
-import { IdentificationFormValues } from "../../validation/identificationSchema";
+import { IdentificationFormValues } from "../../../../../schemas/ajout/ajoutIdentificationSchema";
 import { TypePlacesFormValues } from "../../validation/typePlacesSchema";
 import { Adresses } from "./components/Adresses";
 import { DocumentsFinanciers } from "./components/DocumentsFinanciers";

@@ -20,7 +20,7 @@ import {
   DocumentsSchemaFlexible,
   DocumentsSchemaStrict,
 } from "../validation/documentsSchema";
-import { IdentificationFormValues } from "../validation/identificationSchema";
+import { IdentificationFormValues } from "../../../../schemas/ajout/ajoutIdentificationSchema";
 
 export default function FormDocuments() {
   const params = useParams();

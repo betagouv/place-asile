@@ -18,17 +18,16 @@ import AddressWithValidation from "@/app/components/forms/AddressWithValidation"
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
-import { FormAdresse } from "@/schemas/adresse.schema";
+import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdressesSchema";
+import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 
-import { AdressesFormValues } from "../../validation/adressesSchema";
-
 interface AdressesListProps {
-  watch: UseFormWatch<AdressesFormValues>;
-  control: Control<AdressesFormValues>;
-  setValue: UseFormSetValue<AdressesFormValues>;
-  getValues: UseFormGetValues<AdressesFormValues>;
-  setError: UseFormSetError<AdressesFormValues>;
+  watch: UseFormWatch<AjoutAdressesFormValues>;
+  control: Control<AjoutAdressesFormValues>;
+  setValue: UseFormSetValue<AjoutAdressesFormValues>;
+  getValues: UseFormGetValues<AjoutAdressesFormValues>;
+  setError: UseFormSetError<AjoutAdressesFormValues>;
 }
 
 const AdressesList = ({

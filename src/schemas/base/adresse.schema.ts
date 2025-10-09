@@ -26,6 +26,24 @@ export const adresseSchema = z.object({
   adresseTypologies: z.array(adresseTypologieSchema).optional(),
 });
 
+export const adresseWithPlacesRequired = adresseSchema.superRefine(
+  (adresse, ctx) => {
+    if (
+      adresse.adresseComplete &&
+      adresse.adresseComplete.trim() !== "" &&
+      (adresse.adresseTypologies?.[0]?.placesAutorisees === undefined ||
+        adresse.adresseTypologies?.[0]?.placesAutorisees === null ||
+        adresse.adresseTypologies?.[0]?.placesAutorisees === 0)
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Requis",
+        path: ["placesAutorisees"],
+      });
+    }
+  }
+);
+
 export type FormAdresseTypologie = z.infer<typeof adresseTypologieSchema>;
 
 export type FormAdresse = z.infer<typeof adresseSchema>;

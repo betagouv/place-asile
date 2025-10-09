@@ -14,12 +14,11 @@ import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
-import { PublicType, StructureType } from "@/types/structure.type";
-
 import {
-  IdentificationFormValues,
-  IdentificationSchema,
-} from "../validation/identificationSchema";
+  AjoutIdentificationFormValues,
+  ajoutIdentificationSchema,
+} from "@/schemas/ajout/ajoutIdentificationSchema";
+import { PublicType, StructureType } from "@/types/structure.type";
 
 export default function FormIdentification() {
   const params = useParams();
@@ -67,7 +66,7 @@ export default function FormIdentification() {
   }, [defaultType]);
 
   const { currentValue: localStorageValues } = useLocalStorage<
-    Partial<IdentificationFormValues>
+    Partial<AjoutIdentificationFormValues>
   >(`ajout-structure-${params.dnaCode}-identification`, {});
 
   const mergedDefaultValues = useMemo(() => {
@@ -106,7 +105,7 @@ export default function FormIdentification() {
   }
   return (
     <FormWrapper
-      schema={IdentificationSchema}
+      schema={ajoutIdentificationSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-identification`}
       nextRoute={nextRoute}
       resetRoute={resetRoute}
@@ -301,22 +300,22 @@ export default function FormIdentification() {
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <InputWithValidation
-                  name="contactPrincipal.prenom"
-                  id="contactPrincipal.prenom"
+                  name="contacts[0].prenom"
+                  id="contacts[0].prenom"
                   control={control}
                   type="text"
                   label="Prénom"
                 />
                 <InputWithValidation
-                  name="contactPrincipal.nom"
-                  id="contactPrincipal.nom"
+                  name="contacts[0].nom"
+                  id="contacts[0].nom"
                   control={control}
                   type="text"
                   label="Nom"
                 />
                 <InputWithValidation
-                  name="contactPrincipal.role"
-                  id="contactPrincipal.role"
+                  name="contacts[0].role"
+                  id="contacts[0].role"
                   control={control}
                   type="text"
                   label="Fonction"
@@ -324,15 +323,15 @@ export default function FormIdentification() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputWithValidation
-                  name="contactPrincipal.email"
-                  id="contactPrincipal.email"
+                  name="contacts[0].email"
+                  id="contacts[0].email"
                   control={control}
                   type="email"
                   label="Email"
                 />
                 <InputWithValidation
-                  name="contactPrincipal.telephone"
-                  id="contactPrincipal.telephone"
+                  name="contacts[0].telephone"
+                  id="contacts[0].telephone"
                   control={control}
                   type="tel"
                   label="Téléphone"
@@ -346,22 +345,22 @@ export default function FormIdentification() {
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <InputWithValidation
-                  name="contactSecondaire.prenom"
-                  id="contactSecondaire.prenom"
+                  name="contacts[1].prenom"
+                  id="contacts[1].prenom"
                   control={control}
                   type="text"
                   label="Prénom"
                 />
                 <InputWithValidation
-                  name="contactSecondaire.nom"
-                  id="contactSecondaire.nom"
+                  name="contacts[1].nom"
+                  id="contacts[1].nom"
                   control={control}
                   type="text"
                   label="Nom"
                 />
                 <InputWithValidation
-                  name="contactSecondaire.role"
-                  id="contactSecondaire.role"
+                  name="contacts[1].role"
+                  id="contacts[1].role"
                   control={control}
                   type="text"
                   label="Fonction"
@@ -369,15 +368,15 @@ export default function FormIdentification() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputWithValidation
-                  name="contactSecondaire.email"
-                  id="contactSecondaire.email"
+                  name="contacts[1].email"
+                  id="contacts[1].email"
                   control={control}
                   type="email"
                   label="Email"
                 />
                 <InputWithValidation
-                  name="contactSecondaire.telephone"
-                  id="contactSecondaire.telephone"
+                  name="contacts[1].telephone"
+                  id="contacts[1].telephone"
                   control={control}
                   type="tel"
                   label="Téléphone"

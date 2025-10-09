@@ -9,7 +9,7 @@ import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { FileItem } from "../../../components/FileItem";
 import { Year } from "../../../components/Year";
 import { DocumentsSchemaFlexible } from "../../../validation/documentsSchema";
-import { IdentificationFormValues } from "../../../validation/identificationSchema";
+import { IdentificationFormValues } from "../../../../../../schemas/ajout/ajoutIdentificationSchema";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,

@@ -12,7 +12,7 @@ import AddressWithValidation from "@/app/components/forms/AddressWithValidation"
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
-import { FormAdresse } from "@/schemas/adresse.schema";
+import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { Adresse, Repartition } from "@/types/adresse.type";
 
 export const FieldSetHebergement = () => {

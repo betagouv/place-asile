@@ -3,7 +3,7 @@ import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
-import { FormAdresse } from "@/schemas/adresse.schema";
+import { FormAdresse } from "@/schemas/base/adresse.schema";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
 import { finalisationQualiteSchemaSimple } from "../(authenticated)/structures/[id]/finalisation/05-qualite/validation/FinalisationQualiteSchema";

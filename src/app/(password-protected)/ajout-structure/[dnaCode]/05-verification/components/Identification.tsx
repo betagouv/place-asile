@@ -2,7 +2,7 @@ import { useParams } from "next/navigation";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { formatPhoneNumber } from "@/app/utils/phone.util";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { isStructureAutorisee } from "@/ap../../../validation/ajoutIdentificationSchema
 
 import { IdentificationFormValues } from "../../../validation/identificationSchema";
 
