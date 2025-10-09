@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { NumberDisplay } from "@/app/components/common/NumberDisplay";
+import { isNullOrUndefined } from "@/app/utils/common.util";
 
 import { useStructureContext } from "../context/StructureClientContext";
 import { AmountBadge } from "./AmountBadge";
@@ -90,7 +91,7 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                 {new Date(budget.date).getFullYear()}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.dotationDemandee ? (
+                {!isNullOrUndefined(budget.dotationDemandee) ? (
                   <NumberDisplay
                     value={budget.dotationDemandee}
                     type="currency"
@@ -100,7 +101,7 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.dotationAccordee ? (
+                {!isNullOrUndefined(budget.dotationAccordee) ? (
                   <NumberDisplay
                     value={budget.dotationAccordee}
                     type="currency"
@@ -110,7 +111,8 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.totalCharges && budget.totalProduits ? (
+                {!isNullOrUndefined(budget.totalCharges) &&
+                !isNullOrUndefined(budget.totalProduits) ? (
                   <NumberDisplay
                     className="pr-2"
                     value={computeResultatNetProposeParOperateur(
@@ -124,7 +126,8 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.totalProduits && budget.totalCharges ? (
+                {!isNullOrUndefined(budget.totalProduits) &&
+                !isNullOrUndefined(budget.totalCharges) ? (
                   <>
                     <NumberDisplay
                       className="pr-2"
@@ -146,15 +149,14 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.repriseEtat ? (
+                {!isNullOrUndefined(budget.repriseEtat) ? (
                   <NumberDisplay value={budget.repriseEtat} type="currency" />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.cumulResultatsNetsCPOM &&
-                budget.repriseEtat &&
+                {!isNullOrUndefined(budget.affectationReservesFondsDedies) &&
                 budget.affectationReservesFondsDedies! > 0 ? (
                   <NumberDisplay
                     value={budget.affectationReservesFondsDedies}
