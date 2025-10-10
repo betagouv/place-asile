@@ -135,7 +135,6 @@ export const FieldSetHebergement = () => {
     }
   }, [typeBati, getValues, setValue]);
 
-  console.log(getValues("adresses"));
   return (
     <div>
       <hr />
