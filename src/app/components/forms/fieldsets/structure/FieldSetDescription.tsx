@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { FormKind } from "@/types/global";
 import { PublicType, StructureType } from "@/types/structure.type";
 
 import InputWithValidation from "../../InputWithValidation";
@@ -15,10 +16,8 @@ import SelectWithValidation from "../../SelectWithValidation";
 export const FieldSetDescription = ({
   dnaCode,
   disableTypes = true,
-}: {
-  dnaCode: string;
-  disableTypes?: boolean;
-}) => {
+  formKind = FormKind.FINALISATION,
+}: Props) => {
   const filialesContainerRef = useRef(null);
   const parentFormContext = useFormContext();
   const localForm = useForm();
@@ -56,7 +55,7 @@ export const FieldSetDescription = ({
   return (
     <fieldset className="flex flex-col gap-6">
       <legend className="text-xl font-bold mb-10 text-title-blue-france">
-        Description
+        {formKind === FormKind.MODIFICATION ? "Général" : "Description"}
       </legend>
 
       <input
@@ -65,68 +64,75 @@ export const FieldSetDescription = ({
         {...register("dnaCode")}
         defaultValue={dnaCode}
       />
-
-      <div className="flex">
-        <ToggleSwitch
-          label="Cette structure appartient-elle à une filiale d’opérateur (ex: YSOS, filiale de SOS) ?"
-          labelPosition="left"
-          showCheckedHint={false}
-          className="w-fit [&_label]:gap-2"
-          checked={isManagedByAFiliale}
-          name="managed-by-a-filiale"
-          id="managed-by-a-filiale"
-          onChange={() => {
-            setIsManagedByAFiliale(!isManagedByAFiliale);
-            setValue("filiale", "", { shouldValidate: true });
-          }}
-        />
-        <p className="pl-2">{isManagedByAFiliale ? "Oui" : "Non"}</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <SelectWithValidation
-          name="type"
-          control={control}
-          label="Type"
-          disabled={disableTypes}
-          required
-          onChange={setType}
-          id="type"
-        >
-          <option value="">Sélectionnez un type</option>
-          {Object.values(StructureType)
-            .filter((structureType) => structureType !== StructureType.PRAHDA)
-            .map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-        </SelectWithValidation>
-
-        <OperateurAutocomplete />
-
-        <div ref={filialesContainerRef}>
-          {isManagedByAFiliale && (
-            <InputWithValidation
-              name="filiale"
-              control={control}
-              type="text"
-              label="Filiale"
-              id="filiale"
+      {formKind !== FormKind.MODIFICATION && (
+        <>
+          <div className="flex">
+            <ToggleSwitch
+              label="Cette structure appartient-elle à une filiale d’opérateur (ex: YSOS, filiale de SOS) ?"
+              labelPosition="left"
+              showCheckedHint={false}
+              className="w-fit [&_label]:gap-2"
+              checked={isManagedByAFiliale}
+              name="managed-by-a-filiale"
+              id="managed-by-a-filiale"
+              onChange={() => {
+                setIsManagedByAFiliale(!isManagedByAFiliale);
+                setValue("filiale", "", { shouldValidate: true });
+              }}
             />
-          )}
-        </div>
-      </div>
+            <p className="pl-2">{isManagedByAFiliale ? "Oui" : "Non"}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <SelectWithValidation
+              name="type"
+              control={control}
+              label="Type"
+              disabled={disableTypes}
+              required
+              onChange={setType}
+              id="type"
+            >
+              <option value="">Sélectionnez un type</option>
+              {Object.values(StructureType)
+                .filter(
+                  (structureType) => structureType !== StructureType.PRAHDA
+                )
+                .map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+            </SelectWithValidation>
+
+            <OperateurAutocomplete />
+
+            <div ref={filialesContainerRef}>
+              {isManagedByAFiliale && (
+                <InputWithValidation
+                  name="filiale"
+                  control={control}
+                  type="text"
+                  label="Filiale"
+                  id="filiale"
+                />
+              )}
+            </div>
+          </div>
+        </>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <InputWithValidation
-          name="creationDate"
-          control={control}
-          type="date"
-          label="Date de création de la structure"
-          id="creationDate"
-        />
-        {isStructureAutorisee(type) && (
+        {formKind !== FormKind.MODIFICATION && (
+          <InputWithValidation
+            name="creationDate"
+            control={control}
+            type="date"
+            label="Date de création de la structure"
+            id="creationDate"
+          />
+        )}
+        {(isStructureAutorisee(type) || formKind === FormKind.MODIFICATION) && (
           <InputWithValidation
             name="finessCode"
             control={control}
@@ -193,4 +199,10 @@ export const FieldSetDescription = ({
       </div>
     </fieldset>
   );
+};
+
+type Props = {
+  dnaCode: string;
+  disableTypes?: boolean;
+  formKind?: FormKind;
 };

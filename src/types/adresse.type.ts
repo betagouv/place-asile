@@ -1,4 +1,7 @@
-import { AdresseTypologie } from "./adresse-typologie.type";
+import {
+  AdresseTypologie,
+  CreateOrUpdateAdresseTypologie,
+} from "./adresse-typologie.type";
 
 export type Adresse = {
   id: number;
@@ -8,6 +11,14 @@ export type Adresse = {
   commune: string;
   repartition: Repartition;
   adresseTypologies?: AdresseTypologie[];
+};
+
+export type CreateOrUpdateAdresse = Omit<
+  Adresse,
+  "id" | "adresseTypologies"
+> & {
+  id?: number;
+  adresseTypologies?: CreateOrUpdateAdresseTypologie[];
 };
 
 export enum Repartition {

@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Mock } from "vitest";
 
 import { StructureClientProvider } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
-import FinalisationIdentificationForm from "@/app/(authenticated)/structures/[id]/finalisation/01-identification/forms/FinalisationIdentificationForm";
+import FinalisationIdentificationForm from "@/app/(authenticated)/structures/[id]/finalisation/01-identification/FinalisationIdentificationForm";
 import { PublicType, StructureState } from "@/types/structure.type";
 
 import { createStructure } from "../../../../../../../tests/test-utils/structure.factory";

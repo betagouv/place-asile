@@ -9,6 +9,17 @@ export const formatDate = (date: Date | string | number): string => {
   return dateObject.toLocaleDateString("fr-FR");
 };
 
+export const formatDateString = (
+  dateValue: Date | string | null | undefined,
+  defaultValue: string = ""
+): string => {
+  if (!dateValue) {
+    return defaultValue;
+  }
+  const date = dayjs(dateValue);
+  return date.isValid() ? date.format("DD/MM/YYYY") : defaultValue;
+};
+
 export const getMonthsBetween = (
   startDate: Date | string | null,
   endDate: Date | string | null
@@ -55,4 +66,35 @@ export const parseFrDate = (value: unknown): Date | unknown => {
     }
   }
   return value;
+};
+
+export const getDateStringToYear = (
+  dateValue?: string
+): { dateStringToYear: (date?: string) => string } => {
+  const dateStringToYear = (date?: string) => {
+    if (!date && !dateValue) return "";
+    const dateToConvert = date || dateValue;
+    const parsedDate = new Date(dateToConvert!);
+    return parsedDate.getFullYear().toString();
+  };
+  return { dateStringToYear };
+};
+
+export const getYearRange = ({
+  startYear = 2021,
+  endYear = new Date().getFullYear(),
+  order = "asc",
+}: {
+  startYear?: number;
+  endYear?: number;
+  order?: "asc" | "desc";
+} = {}): { years: number[] } => {
+  const yearsRange = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, i) => endYear - i
+  );
+
+  const years = order === "asc" ? yearsRange : yearsRange.reverse();
+
+  return { years };
 };

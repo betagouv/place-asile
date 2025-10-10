@@ -1,8 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 import { FieldSetOuvertureFermeture } from "@/app/components/forms/fieldsets/structure/FieldSetOuvertureFermeture";
@@ -12,72 +9,37 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
-import { useStructures } from "@/app/hooks/useStructures";
-import { formatDate } from "@/app/utils/date.util";
+import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { typePlacesSchema } from "@/schemas/base/typePlaces.schema";
 import { StructureState } from "@/types/structure.type";
-
-import { finalisationTypePlacesSchema } from "./validation/finalisationTypePlacesSchema";
 
 export default function FinalisationTypePlacesForm({
   currentStep,
 }: {
   currentStep: number;
 }) {
-  const { structure, setStructure } = useStructureContext();
+  const { structure } = useStructureContext();
   const { nextRoute, previousRoute } = getCurrentStepData(
     currentStep,
     structure.id
   );
 
-  const defaultValues = {
-    typologies: structure?.structureTypologies?.map((typologie) => ({
-      id: typologie.id,
-      date: typologie.date,
-      placesAutorisees: typologie.placesAutorisees,
-      pmr: typologie.pmr,
-      lgbt: typologie.lgbt,
-      fvvTeh: typologie.fvvTeh,
-    })),
-    placesACreer: structure.placesACreer ?? undefined,
-    placesAFermer: structure.placesAFermer ?? undefined,
-    echeancePlacesACreer: structure.echeancePlacesACreer
-      ? formatDate(structure.echeancePlacesACreer)
-      : undefined,
-    echeancePlacesAFermer: structure.echeancePlacesAFermer
-      ? formatDate(structure.echeancePlacesAFermer)
-      : undefined,
-  };
+  const defaultValues = getDefaultValues({ structure });
 
-  const { updateAndRefreshStructure } = useStructures();
-  const router = useRouter();
-
-  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  const [backendError, setBackendError] = useState<string | undefined>("");
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (data: any) => {
-    setState("loading");
-    const updatedStructure = await updateAndRefreshStructure(
-      structure.id,
-      {
-        ...data,
-        dnaCode: structure.dnaCode,
-      },
-      setStructure
-    );
-    if (updatedStructure === "OK") {
-      router.push(nextRoute);
-    } else {
-      setState("error");
-      setBackendError(updatedStructure?.toString());
-      throw new Error(updatedStructure?.toString());
-    }
-  };
+  const { handleSubmit, state, backendError } = useAgentFormHandling({
+    nextRoute,
+  });
 
   return (
     <FormWrapper
-      schema={finalisationTypePlacesSchema}
-      onSubmit={handleSubmit}
+      schema={typePlacesSchema}
+      onSubmit={(data) => {
+        handleSubmit({
+          ...data,
+          dnaCode: structure.dnaCode,
+        });
+      }}
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}

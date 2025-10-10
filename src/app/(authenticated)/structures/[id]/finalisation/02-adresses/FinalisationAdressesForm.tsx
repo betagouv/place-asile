@@ -1,8 +1,6 @@
 "use client";
 
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
@@ -12,60 +10,39 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
-import { useStructures } from "@/app/hooks/useStructures";
+import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import {
+  AdresseAdministrativeFormValues,
+  adresseAdministrativeSchema,
+} from "@/schemas/base/adresseAdministrative.schema";
 import { StructureState } from "@/types/structure.type";
-
-import { finalisationAdressesSchema } from "./validation/finalisationAdressesSchema";
 
 export default function FinalisationAdressesForm({
   currentStep,
 }: {
   currentStep: number;
 }) {
-  const { structure, setStructure } = useStructureContext();
+  const { structure } = useStructureContext();
   const { nextRoute, previousRoute } = getCurrentStepData(
     currentStep,
     structure.id
   );
 
-  const defaultValues = {
-    nom: structure.nom || "",
-    adresseAdministrativeComplete: `${structure.adresseAdministrative} ${structure.codePostalAdministratif} ${structure.communeAdministrative} ${structure.departementAdministratif}`,
-    adresseAdministrative: structure.adresseAdministrative || "",
-    codePostalAdministratif: structure.codePostalAdministratif || "",
-    communeAdministrative: structure.communeAdministrative || "",
-    departementAdministratif: structure.departementAdministratif || "",
-  };
-  const { updateAndRefreshStructure } = useStructures();
-  const router = useRouter();
+  const defaultValues = getDefaultValues({ structure });
 
-  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  const [backendError, setBackendError] = useState<string | undefined>("");
+  const { handleSubmit, state, backendError } = useAgentFormHandling({
+    nextRoute,
+  });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (data: any) => {
-    setState("loading");
-    const updatedStructure = await updateAndRefreshStructure(
-      structure.id,
-      {
-        ...data,
-        dnaCode: structure.dnaCode,
-      },
-      setStructure
-    );
-    if (updatedStructure === "OK") {
-      router.push(nextRoute);
-    } else {
-      setState("error");
-      setBackendError(updatedStructure?.toString());
-      throw new Error(updatedStructure?.toString());
-    }
+  const onSubmit = (data: AdresseAdministrativeFormValues) => {
+    handleSubmit({ ...data, dnaCode: structure.dnaCode });
   };
 
   return (
     <FormWrapper
-      schema={finalisationAdressesSchema}
-      onSubmit={handleSubmit}
+      schema={adresseAdministrativeSchema}
+      onSubmit={onSubmit}
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}

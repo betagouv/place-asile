@@ -2,14 +2,14 @@ import { useParams } from "next/navigation";
 import { ReactElement, useMemo } from "react";
 import { z } from "zod";
 
-import { useDocumentIndex } from "@/app/hooks/useDocumentIndex";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { getDocumentIndexes } from "@/app/utils/getFinanceDocument.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { DocumentsSchemaFlexible } from "@/schemas/ajout/ajoutDocuments.schema";
+import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
 
 import { FileItem } from "../../../components/FileItem";
 import { Year } from "../../../components/Year";
-import { DocumentsSchemaFlexible } from "../../../validation/documentsSchema";
-import { IdentificationFormValues } from "../../../validation/identificationSchema";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
@@ -23,7 +23,7 @@ export const DocumentsFinanciers = (): ReactElement => {
   >(`ajout-structure-${params.dnaCode}-documents`, {});
 
   const { currentValue: identificationValues } = useLocalStorage<
-    Partial<IdentificationFormValues>
+    Partial<AjoutIdentificationFormValues>
   >(`ajout-structure-${params.dnaCode}-identification`, {});
 
   const isAutorisee = isStructureAutorisee(identificationValues?.type);
@@ -39,8 +39,6 @@ export const DocumentsFinanciers = (): ReactElement => {
         : (["2023", "2022", "2021"] as const),
     [isAutorisee]
   );
-
-  const { getDocumentIndexes } = useDocumentIndex();
 
   const documentIndexes = getDocumentIndexes(
     years as unknown as string[],

@@ -9,10 +9,10 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { ajoutAdressesSchema } from "@/schemas/ajout/ajoutAdresses.schema";
 import { Repartition } from "@/types/adresse.type";
 
 import AdressesList from "../[dnaCode]/02-adresses/AdressesList";
-import { AdressesSchema } from "../validation/adressesSchema";
 
 export default function FormAdresses() {
   const params = useParams();
@@ -41,9 +41,14 @@ export default function FormAdresses() {
           commune: "",
           departement: "",
           repartition: Repartition.DIFFUS,
-          places: undefined as unknown as number,
-          logementSocial: false,
-          qpv: false,
+          adresseTypologies: [
+            {
+              date: new Date().toISOString(),
+              placesAutorisees: undefined as unknown as number,
+              logementSocial: false,
+              qpv: false,
+            },
+          ],
         },
       ],
     }),
@@ -73,7 +78,7 @@ export default function FormAdresses() {
 
   return (
     <FormWrapper
-      schema={AdressesSchema}
+      schema={ajoutAdressesSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-adresses`}
       nextRoute={nextRoute}
       resetRoute={resetRoute}
@@ -101,9 +106,14 @@ export default function FormAdresses() {
                   codePostal: "",
                   commune: "",
                   repartition: value as Repartition,
-                  places: undefined as unknown as number,
-                  logementSocial: false,
-                  qpv: false,
+                  adresseTypologies: [
+                    {
+                      placesAutorisees: undefined as unknown as number,
+                      date: new Date().toISOString(),
+                      logementSocial: false,
+                      qpv: false,
+                    },
+                  ],
                 },
               ],
               { shouldValidate: false }

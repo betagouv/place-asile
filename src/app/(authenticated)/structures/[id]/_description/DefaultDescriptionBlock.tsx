@@ -1,8 +1,9 @@
+import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
 import { getOperateurLabel } from "@/app/utils/structure.util";
-import { PublicType } from "@/types/structure.type";
+import { PublicType, StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../context/StructureClientContext";
 import { AdressesViewer } from "./AdressesViewer";
@@ -10,7 +11,7 @@ import { ContactsViewer } from "./ContactsViewer";
 
 export const DefaultDescriptionBlock = (): ReactElement => {
   const { structure } = useStructureContext();
-
+  const router = useRouter();
   const {
     creationDate,
     dnaCode,
@@ -22,6 +23,7 @@ export const DefaultDescriptionBlock = (): ReactElement => {
     cpom,
     lgbt,
     fvvTeh,
+    state,
   } = structure;
 
   const getVulnerabiliteLabel = () => {
@@ -36,7 +38,19 @@ export const DefaultDescriptionBlock = (): ReactElement => {
   };
 
   return (
-    <Block title="Description" iconClass="fr-icon-menu-2-fill">
+    <Block
+      title="Description"
+      iconClass="fr-icon-menu-2-fill"
+      onEdit={
+        state === StructureState.FINALISE
+          ? () => {
+              router.push(
+                `/structures/${structure.id}/modification/01-description`
+              );
+            }
+          : undefined
+      }
+    >
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Date de création</strong>

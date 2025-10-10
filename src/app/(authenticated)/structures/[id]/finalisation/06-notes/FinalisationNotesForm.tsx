@@ -1,59 +1,41 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import { useRouter } from "next/navigation";
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
 
+import { FieldSetNotes } from "@/app/components/forms/fieldsets/structure/FieldSetNotes";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
-import { useStructures } from "@/app/hooks/useStructures";
+import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { notesSchema } from "@/schemas/base/notes.schema";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
-import { FieldSetNotes } from "./FieldSetNotes";
-import { finalisationNotesSchema } from "./validation/finalisationNotesSchema";
 
 export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
-  const { structure, setStructure } = useStructureContext();
+  const { structure } = useStructureContext();
 
   const { previousRoute } = getCurrentStepData(currentStep, structure.id);
 
-  const defaultValues = {
-    notes: structure.notes,
-  };
+  const defaultValues = getDefaultValues({ structure });
 
-  const { updateAndRefreshStructure } = useStructures();
-  const router = useRouter();
+  const { handleSubmit, state, backendError } = useAgentFormHandling({
+    nextRoute: `${process.env.NEXT_PUBLIC_URL}/structures/${structure.id}`,
+  });
 
-  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  const [backendError, setBackendError] = useState<string | undefined>("");
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (data: any) => {
-    setState("loading");
-    const updatedStructure = await updateAndRefreshStructure(
-      structure.id,
-      {
-        ...data,
-        dnaCode: structure.dnaCode,
-        state: StructureState.FINALISE,
-      },
-      setStructure
-    );
-    if (updatedStructure === "OK") {
-      router.push(`${process.env.NEXT_PUBLIC_URL}/structures/${structure.id}`);
-    } else {
-      setState("error");
-      setBackendError(updatedStructure?.toString());
-      throw new Error(updatedStructure?.toString());
-    }
-  };
   return (
     <FormWrapper
-      schema={finalisationNotesSchema}
-      onSubmit={handleSubmit}
+      schema={notesSchema}
+      onSubmit={(data) =>
+        handleSubmit({
+          ...data,
+          dnaCode: structure.dnaCode,
+          state: StructureState.FINALISE,
+        })
+      }
       defaultValues={defaultValues}
       submitButtonText="Terminer"
       previousStep={previousRoute}

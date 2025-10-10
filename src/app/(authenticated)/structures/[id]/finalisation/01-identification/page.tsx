@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import Steps from "../components/Steps";
-import FinalisationIdentificationForm from "./forms/FinalisationIdentificationForm";
+import FinalisationIdentificationForm from "./FinalisationIdentificationForm";
 
 export default function Identification(): ReactElement {
   const { structure } = useStructureContext();

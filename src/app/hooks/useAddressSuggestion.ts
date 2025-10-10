@@ -42,7 +42,7 @@ export function useAddressSuggestion() {
   };
 }
 
-export type AddressSuggestion = {
+type AddressSuggestion = {
   label: string;
   key: string;
   score: number;
