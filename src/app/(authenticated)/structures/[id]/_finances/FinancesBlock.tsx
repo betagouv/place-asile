@@ -13,7 +13,7 @@ import { DocumentsAdministratifs } from "./DocumentsAdministratifs";
 import { DotationChart } from "./DotationChart";
 import { GestionBudgetaireAutoriseeSansCpomTable } from "./GestionBudgetaireAutoriseeSansCpomTable";
 import { GestionBudgetaireAvecCpomTable } from "./GestionBudgetaireAvecCpomTable";
-import { GestionBudgetaireSubventionneeSansCpomTable } from "./GestionBudgetaireSubentionneeSansCpomTable";
+import { GestionBudgetaireSubventionneeSansCpomTable } from "./GestionBudgetaireSubventionneeSansCpomTable";
 import { HistoriqueBudgets } from "./HistoriqueBudgets";
 
 export const FinancesBlock = (): ReactElement => {

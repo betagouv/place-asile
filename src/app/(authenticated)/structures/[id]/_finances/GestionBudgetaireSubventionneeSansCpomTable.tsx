@@ -3,6 +3,7 @@ import { ReactElement } from "react";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { NumberDisplay } from "@/app/components/common/NumberDisplay";
+import { isNullOrUndefined } from "@/app/utils/common.util";
 
 import { useStructureContext } from "../context/StructureClientContext";
 import { AmountBadge } from "./AmountBadge";
@@ -12,16 +13,15 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
 
   const budgets = structure?.budgets?.filter((budget) => {
     return (
-      budget.dotationDemandee ||
-      budget.dotationAccordee ||
-      budget.totalProduits ||
-      budget.totalCharges ||
-      budget.totalChargesProposees ||
-      budget.cumulResultatsNetsCPOM ||
-      budget.repriseEtat ||
-      budget.affectationReservesFondsDedies ||
-      budget.fondsDedies ||
-      budget.commentaire
+      !isNullOrUndefined(budget.dotationDemandee) &&
+      !isNullOrUndefined(budget.dotationAccordee) &&
+      !isNullOrUndefined(budget.totalProduits) &&
+      !isNullOrUndefined(budget.totalCharges) &&
+      !isNullOrUndefined(budget.repriseEtat) &&
+      !isNullOrUndefined(budget.excedentRecupere) &&
+      !isNullOrUndefined(budget.excedentDeduit) &&
+      !isNullOrUndefined(budget.fondsDedies) &&
+      !isNullOrUndefined(budget.commentaire)
     );
   });
 
@@ -108,7 +108,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                 {new Date(budget.date).getFullYear()}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.dotationDemandee ? (
+                {!isNullOrUndefined(budget.dotationDemandee) ? (
                   <NumberDisplay
                     value={budget.dotationDemandee}
                     type="currency"
@@ -118,7 +118,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.dotationAccordee ? (
+                {!isNullOrUndefined(budget.dotationAccordee) ? (
                   <NumberDisplay
                     value={budget.dotationAccordee}
                     type="currency"
@@ -128,7 +128,8 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.totalCharges && budget.totalProduits ? (
+                {!isNullOrUndefined(budget.totalCharges) &&
+                !isNullOrUndefined(budget.totalProduits) ? (
                   <>
                     <NumberDisplay
                       className="pr-2"
@@ -150,14 +151,14 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.excedentRecupere ? (
+                {!isNullOrUndefined(budget.excedentRecupere) ? (
                   <NumberDisplay value={budget.repriseEtat} type="currency" />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.excedentRecupere ? (
+                {!isNullOrUndefined(budget.excedentRecupere) ? (
                   <NumberDisplay
                     value={budget.excedentRecupere}
                     type="currency"
@@ -167,7 +168,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.excedentDeduit ? (
+                {!isNullOrUndefined(budget.excedentDeduit) ? (
                   <NumberDisplay
                     value={budget.excedentDeduit}
                     type="currency"
@@ -177,14 +178,14 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.fondsDedies ? (
+                {!isNullOrUndefined(budget.fondsDedies) ? (
                   <NumberDisplay value={budget.fondsDedies} type="currency" />
                 ) : (
                   <EmptyCell />
                 )}
               </td>
               <td className="py-2 px-4 text-center test-sm">
-                {budget.fondsDedies ? (
+                {!isNullOrUndefined(budget.fondsDedies) ? (
                   <NumberDisplay
                     value={computeCumulFondsDedies(budget.date)}
                     type="currency"

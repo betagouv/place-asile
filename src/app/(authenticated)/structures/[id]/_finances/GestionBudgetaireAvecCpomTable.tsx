@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { NumberDisplay } from "@/app/components/common/NumberDisplay";
+import { isNullOrUndefined } from "@/app/utils/common.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { Budget } from "@/types/budget.type";
 
@@ -49,11 +50,11 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
 
   const isBudgetEmpty = (budget: Budget): boolean => {
     return (
-      !!budget.dotationAccordee &&
-      !!budget.dotationAccordee &&
-      !!budget.cumulResultatsNetsCPOM &&
-      !!budget.repriseEtat &&
-      !!budget.affectationReservesFondsDedies
+      isNullOrUndefined(budget.dotationAccordee) &&
+      isNullOrUndefined(budget.dotationAccordee) &&
+      isNullOrUndefined(budget.cumulResultatsNetsCPOM) &&
+      isNullOrUndefined(budget.repriseEtat) &&
+      isNullOrUndefined(budget.affectationReservesFondsDedies)
     );
   };
 
@@ -92,88 +93,90 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
           </tr>
         </thead>
         <tbody>
-          {structure?.budgets?.filter(isBudgetEmpty).map((budget) => (
-            <tr key={budget.id} className="border-t-1 border-default-grey">
-              <td className="py-2 px-4 text-center text-sm">
-                {new Date(budget.date).getFullYear()}
-              </td>
-              <td className="py-2 px-4 text-center test-sm">
-                {budget.dotationDemandee ? (
-                  <NumberDisplay
-                    value={budget.dotationDemandee}
-                    type="currency"
-                  />
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
-              <td className="py-2 px-4 text-center test-sm">
-                {budget.dotationAccordee ? (
-                  <NumberDisplay
-                    value={budget.dotationAccordee}
-                    type="currency"
-                  />
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
-              <td className="py-2 px-4 text-center test-sm">
-                {budget.totalCharges && budget.totalProduits ? (
-                  <>
+          {structure?.budgets
+            ?.filter((budget) => !isBudgetEmpty(budget))
+            .map((budget) => (
+              <tr key={budget.id} className="border-t-1 border-default-grey">
+                <td className="py-2 px-4 text-center text-sm">
+                  {new Date(budget.date).getFullYear()}
+                </td>
+                <td className="py-2 px-4 text-center test-sm">
+                  {!isNullOrUndefined(budget.dotationDemandee) ? (
                     <NumberDisplay
-                      className="pr-2"
-                      value={computeResultatNet(
-                        budget.totalCharges,
-                        budget.totalProduits
-                      )}
+                      value={budget.dotationDemandee}
                       type="currency"
                     />
-                    <AmountBadge
-                      amount={computeResultatNet(
-                        budget.totalCharges,
-                        budget.totalProduits
-                      )}
-                    />
-                  </>
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
-              <td className="py-2 px-4 text-center test-sm">
-                {budget.cumulResultatsNetsCPOM ? (
-                  <>
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+                <td className="py-2 px-4 text-center test-sm">
+                  {!isNullOrUndefined(budget.dotationAccordee) ? (
                     <NumberDisplay
-                      className="pr-2"
-                      value={budget.cumulResultatsNetsCPOM}
+                      value={budget.dotationAccordee}
                       type="currency"
                     />
-                    <AmountBadge amount={budget.cumulResultatsNetsCPOM} />
-                  </>
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
-              <td className="py-2 px-4 text-center test-sm">
-                {budget.repriseEtat ? (
-                  <NumberDisplay value={budget.repriseEtat} type="currency" />
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
-              <td className="py-2 px-4 text-center test-sm">
-                {budget.cumulResultatsNetsCPOM &&
-                budget.repriseEtat &&
-                budget.affectationReservesFondsDedies! > 0 ? (
-                  <NumberDisplay
-                    value={budget.affectationReservesFondsDedies}
-                    type="currency"
-                  />
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
-            </tr>
-          ))}
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+                <td className="py-2 px-4 text-center test-sm">
+                  {!isNullOrUndefined(budget.totalCharges) &&
+                  !isNullOrUndefined(budget.totalProduits) ? (
+                    <>
+                      <NumberDisplay
+                        className="pr-2"
+                        value={computeResultatNet(
+                          budget.totalCharges,
+                          budget.totalProduits
+                        )}
+                        type="currency"
+                      />
+                      <AmountBadge
+                        amount={computeResultatNet(
+                          budget.totalCharges,
+                          budget.totalProduits
+                        )}
+                      />
+                    </>
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+                <td className="py-2 px-4 text-center test-sm">
+                  {!isNullOrUndefined(budget.cumulResultatsNetsCPOM) ? (
+                    <>
+                      <NumberDisplay
+                        className="pr-2"
+                        value={budget.cumulResultatsNetsCPOM}
+                        type="currency"
+                      />
+                      <AmountBadge amount={budget.cumulResultatsNetsCPOM} />
+                    </>
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+                <td className="py-2 px-4 text-center test-sm">
+                  {!isNullOrUndefined(budget.repriseEtat) ? (
+                    <NumberDisplay value={budget.repriseEtat} type="currency" />
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+                <td className="py-2 px-4 text-center test-sm">
+                  {!isNullOrUndefined(budget.affectationReservesFondsDedies) &&
+                  budget.affectationReservesFondsDedies! > 0 ? (
+                    <NumberDisplay
+                      value={budget.affectationReservesFondsDedies}
+                      type="currency"
+                    />
+                  ) : (
+                    <EmptyCell />
+                  )}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

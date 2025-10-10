@@ -2,6 +2,7 @@ import {
   computeAverage,
   convertObjectToArray,
   getPercentage,
+  isNullOrUndefined,
   reverseObjectKeyValues,
   sortKeysByValue,
 } from "@/app/utils/common.util";
@@ -190,6 +191,50 @@ describe("common util", () => {
 
       // THEN
       expect(result).toStrictEqual(["one", "two", "three"]);
+    });
+  });
+
+  describe("isNullOrUndefined", () => {
+    it("should return true if value is undefined", () => {
+      // GIVEN
+      const value = undefined;
+
+      // WHEN
+      const result = isNullOrUndefined(value);
+
+      // THEN
+      expect(result).toStrictEqual(true);
+    });
+    it("should return true if value is null", () => {
+      // GIVEN
+      const value = null;
+
+      // WHEN
+      const result = isNullOrUndefined(value);
+
+      // THEN
+      expect(result).toStrictEqual(true);
+    });
+    it("should return false if value is 0", () => {
+      // GIVEN
+      const value = 0;
+
+      // WHEN
+      const result = isNullOrUndefined(value);
+
+      // THEN
+      expect(result).toStrictEqual(false);
+    });
+
+    it("should return false if value is an emptys string", () => {
+      // GIVEN
+      const value = "";
+
+      // WHEN
+      const result = isNullOrUndefined(value);
+
+      // THEN
+      expect(result).toStrictEqual(false);
     });
   });
 });
