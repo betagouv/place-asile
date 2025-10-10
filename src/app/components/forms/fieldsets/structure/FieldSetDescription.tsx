@@ -55,7 +55,7 @@ export const FieldSetDescription = ({
   return (
     <fieldset className="flex flex-col gap-6">
       <legend className="text-xl font-bold mb-10 text-title-blue-france">
-        {formKind === "modification" ? "Général" : "Description"}
+        {formKind === FormKind.MODIFICATION ? "Général" : "Description"}
       </legend>
 
       <input
@@ -64,7 +64,7 @@ export const FieldSetDescription = ({
         {...register("dnaCode")}
         defaultValue={dnaCode}
       />
-      {formKind !== "modification" && (
+      {formKind !== FormKind.MODIFICATION && (
         <>
           <div className="flex">
             <ToggleSwitch
@@ -123,7 +123,7 @@ export const FieldSetDescription = ({
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {formKind !== "modification" && (
+        {formKind !== FormKind.MODIFICATION && (
           <InputWithValidation
             name="creationDate"
             control={control}
@@ -132,7 +132,7 @@ export const FieldSetDescription = ({
             id="creationDate"
           />
         )}
-        {(isStructureAutorisee(type) || formKind === "modification") && (
+        {(isStructureAutorisee(type) || formKind === FormKind.MODIFICATION) && (
           <InputWithValidation
             name="finessCode"
             control={control}

@@ -15,7 +15,7 @@ export const FieldSetOuvertureFermeture = ({
 
   return (
     <fieldset className="flex flex-col">
-      {formKind === "modification" && (
+      {formKind === FormKind.MODIFICATION && (
         <Notice
           severity="info"
           title=""

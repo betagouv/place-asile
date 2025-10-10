@@ -46,7 +46,9 @@ export const FieldSetAdresseAdministrative = ({
       <div
         className={cn(
           "grid grid-cols-1 gap-6",
-          formKind === "modification" ? "md:grid-cols-4" : "md:grid-cols-3"
+          formKind === FormKind.MODIFICATION
+            ? "md:grid-cols-4"
+            : "md:grid-cols-3"
         )}
       >
         <div className="flex flex-col gap-1">
@@ -75,7 +77,7 @@ export const FieldSetAdresseAdministrative = ({
             indiquée dans les documents de contractualisation
           </span>
         </div>
-        {formKind === "modification" && (
+        {formKind === FormKind.MODIFICATION && (
           <SelectWithValidation
             name="typeBati"
             control={control}

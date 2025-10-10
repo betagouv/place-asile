@@ -10,6 +10,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { typePlacesSchema } from "@/schemas/base/typePlaces.schema";
+import { FormKind } from "@/types/global";
 
 import { ModificationTitle } from "../components/ModificationTitle";
 
@@ -41,7 +42,7 @@ export default function ModificationTypePlaces() {
         ]}
         className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
       >
-        <FieldSetOuvertureFermeture formKind="modification" />
+        <FieldSetOuvertureFermeture formKind={FormKind.MODIFICATION} />
         <FieldSetTypePlaces />
       </FormWrapper>
       {state === "error" && (

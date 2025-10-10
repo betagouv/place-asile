@@ -14,6 +14,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { modificationDescriptionSchema } from "@/schemas/modification/modificationDescription.schema";
+import { FormKind } from "@/types/global";
 
 import { ModificationTitle } from "../components/ModificationTitle";
 
@@ -52,7 +53,7 @@ export default function ModificationDescription() {
         />
         <FieldSetDescription
           dnaCode={structure.dnaCode}
-          formKind="modification"
+          formKind={FormKind.MODIFICATION}
         />
         <hr />
         <FieldSetContacts />
@@ -65,7 +66,7 @@ export default function ModificationDescription() {
           title=""
           description="L'ensemble des adresses sont des données sensibles qui sont protégées selon les normes du gouvernement. Elles ne seront communiquées qu'aux agents et agentes de DDETS."
         />
-        <FieldSetAdresseAdministrative formKind="modification" />
+        <FieldSetAdresseAdministrative formKind={FormKind.MODIFICATION} />
         <FieldSetHebergement />
       </FormWrapper>
       {state === "error" && (
