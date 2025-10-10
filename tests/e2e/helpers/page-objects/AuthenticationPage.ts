@@ -9,18 +9,27 @@ export class AuthenticationPage {
       { waitUntil: "domcontentloaded" }
     );
 
-    // Wait for password input to be visible
-    await this.page.waitForSelector('input[type="password"]', {
-      timeout: 10000,
-    });
+    // Check if auth is bypassed (DEV_AUTH_BYPASS=1)
+    const passwordInput = await this.page
+      .locator('input[type="password"]')
+      .count();
 
-    await this.page.fill('input[type="password"]', process.env.PAGE_PASSWORD!);
-    await this.page.click("button.fr-btn");
+    if (passwordInput > 0) {
+      // Password protection is active - authenticate
+      await this.page.fill(
+        'input[type="password"]',
+        process.env.PAGE_PASSWORD!
+      );
+      await this.page.click("button.fr-btn");
 
-    // Wait for the page to load after authentication
-    await this.page.waitForURL(
-      `http://localhost:3000/ajout-structure/${dnaCode}/${firstStep}`,
-      { timeout: 15000 }
-    );
+      // Wait for the page to load after authentication
+      await this.page.waitForURL(
+        `http://localhost:3000/ajout-structure/${dnaCode}/${firstStep}`,
+        { timeout: 15000 }
+      );
+    } else {
+      // Auth is bypassed - just wait for the form to load
+      await this.page.waitForTimeout(1000);
+    }
   }
 }
