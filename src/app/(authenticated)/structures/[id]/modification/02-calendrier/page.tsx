@@ -8,11 +8,11 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { calendrierSchema } from "@/schemas/base/calendrier.schema";
 
 import { ModificationTitle } from "../components/ModificationTitle";
-import { modificationCalendrierSchema } from "./validation/ModificationCalendrierSchema";
 
-export default function ModificationDescription() {
+export default function ModificationCalendrier() {
   const { structure } = useStructureContext();
 
   const { handleSubmit, state, backendError } = useAgentFormHandling({
@@ -28,7 +28,7 @@ export default function ModificationDescription() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={modificationCalendrierSchema}
+        schema={calendrierSchema}
         defaultValues={defaultValues}
         onSubmit={handleSubmit}
         mode="onChange"

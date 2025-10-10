@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
 import { getRepartition } from "@/app/utils/structure.util";
+import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 import { Contact } from "@/types/contact.type";
 import {
@@ -11,62 +12,9 @@ import {
 import { PublicType, StructureWithLatLng } from "@/types/structure.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
 
-import { FormAdresse } from "./adresse.util";
 import { formatDate, formatDateString } from "./date.util";
 import { getFinanceDocument } from "./getFinanceDocument.util";
 import { isStructureAutorisee } from "./structure.util";
-
-export type StructureDefaultValues = Omit<
-  StructureWithLatLng,
-  | "creationDate"
-  | "nom"
-  | "debutPeriodeAutorisation"
-  | "finPeriodeAutorisation"
-  | "debutConvention"
-  | "finConvention"
-  | "debutCpom"
-  | "finCpom"
-  | "finessCode"
-  | "public"
-  | "filiale"
-  | "contacts"
-  | "adresseAdministrativeComplete"
-  | "adresseAdministrative"
-  | "codePostalAdministratif"
-  | "communeAdministrative"
-  | "departementAdministratif"
-  | "typologies"
-  | "adresses"
-  | "placesACreer"
-  | "placesAFermer"
-  | "echeancePlacesACreer"
-  | "echeancePlacesAFermer"
-> & {
-  creationDate: string;
-  nom: string;
-  debutPeriodeAutorisation?: string;
-  finPeriodeAutorisation?: string;
-  debutConvention?: string;
-  finConvention?: string;
-  debutCpom?: string;
-  finCpom?: string;
-  finessCode?: string;
-  public?: PublicType;
-  filiale?: string;
-  contacts: Contact[];
-  adresseAdministrativeComplete: string;
-  adresseAdministrative: string;
-  codePostalAdministratif: string;
-  communeAdministrative: string;
-  departementAdministratif: string;
-  typeBati: Repartition;
-  adresses: FormAdresse[];
-  typologies?: StructureTypologie[];
-  placesACreer?: number;
-  placesAFermer?: number;
-  echeancePlacesACreer?: string;
-  echeancePlacesAFermer?: string;
-};
 
 export const getDefaultValues = ({
   structure,
@@ -236,4 +184,56 @@ export const getFinanceFormDefaultValues = ({
     fileUploads: buildFileUploadsDefaultValues(),
   };
   return defaultValues;
+};
+
+type StructureDefaultValues = Omit<
+  StructureWithLatLng,
+  | "creationDate"
+  | "nom"
+  | "debutPeriodeAutorisation"
+  | "finPeriodeAutorisation"
+  | "debutConvention"
+  | "finConvention"
+  | "debutCpom"
+  | "finCpom"
+  | "finessCode"
+  | "public"
+  | "filiale"
+  | "contacts"
+  | "adresseAdministrativeComplete"
+  | "adresseAdministrative"
+  | "codePostalAdministratif"
+  | "communeAdministrative"
+  | "departementAdministratif"
+  | "typologies"
+  | "adresses"
+  | "placesACreer"
+  | "placesAFermer"
+  | "echeancePlacesACreer"
+  | "echeancePlacesAFermer"
+> & {
+  creationDate: string;
+  nom: string;
+  debutPeriodeAutorisation?: string;
+  finPeriodeAutorisation?: string;
+  debutConvention?: string;
+  finConvention?: string;
+  debutCpom?: string;
+  finCpom?: string;
+  finessCode?: string;
+  public?: PublicType;
+  filiale?: string;
+  contacts: Contact[];
+  adresseAdministrativeComplete: string;
+  adresseAdministrative: string;
+  codePostalAdministratif: string;
+  communeAdministrative: string;
+  departementAdministratif: string;
+  typeBati: Repartition;
+  adresses: FormAdresse[];
+  typologies?: StructureTypologie[];
+  placesACreer?: number;
+  placesAFermer?: number;
+  echeancePlacesACreer?: string;
+  echeancePlacesAFermer?: string;
 };

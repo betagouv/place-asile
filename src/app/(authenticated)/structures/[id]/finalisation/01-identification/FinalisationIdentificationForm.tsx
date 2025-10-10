@@ -11,14 +11,14 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import {
+  FinalisationIdentificationFormValues,
+  finalisationIdentificationSchema,
+} from "@/schemas/finalisation/finalisationIdentification.schema";
 import { Contact } from "@/types/contact.type";
 import { StructureState } from "@/types/structure.type";
 
 import { getCurrentStepData } from "../components/Steps";
-import {
-  FinalisationIdentificationFormValues,
-  finalisationIdentificationSchema,
-} from "./validation/FinalisationIdentificationSchema";
 
 export default function FinalisationIdentificationForm({
   currentStep,

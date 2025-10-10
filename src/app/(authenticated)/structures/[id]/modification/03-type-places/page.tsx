@@ -9,9 +9,9 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { typePlacesSchema } from "@/schemas/base/typePlaces.schema";
 
 import { ModificationTitle } from "../components/ModificationTitle";
-import { modificationTypePlacesSchema } from "./validation/ModificationTypePlacesSchema";
 
 export default function ModificationTypePlaces() {
   const { structure } = useStructureContext();
@@ -29,7 +29,7 @@ export default function ModificationTypePlaces() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={modificationTypePlacesSchema}
+        schema={typePlacesSchema}
         defaultValues={defaultValues}
         onSubmit={handleSubmit}
         mode="onChange"

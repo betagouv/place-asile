@@ -14,12 +14,11 @@ import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
-import { PublicType, StructureType } from "@/types/structure.type";
-
 import {
-  IdentificationFormValues,
-  IdentificationSchema,
-} from "../validation/identificationSchema";
+  AjoutIdentificationFormValues,
+  ajoutIdentificationSchema,
+} from "@/schemas/ajout/ajoutIdentification.schema";
+import { PublicType, StructureType } from "@/types/structure.type";
 
 export default function FormIdentification() {
   const params = useParams();
@@ -67,7 +66,7 @@ export default function FormIdentification() {
   }, [defaultType]);
 
   const { currentValue: localStorageValues } = useLocalStorage<
-    Partial<IdentificationFormValues>
+    Partial<AjoutIdentificationFormValues>
   >(`ajout-structure-${params.dnaCode}-identification`, {});
 
   const mergedDefaultValues = useMemo(() => {
@@ -106,7 +105,7 @@ export default function FormIdentification() {
   }
   return (
     <FormWrapper
-      schema={IdentificationSchema}
+      schema={ajoutIdentificationSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-identification`}
       nextRoute={nextRoute}
       resetRoute={resetRoute}
