@@ -18,7 +18,7 @@ import AddressWithValidation from "@/app/components/forms/AddressWithValidation"
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
-import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdressesSchema";
+import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
 import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 

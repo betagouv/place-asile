@@ -18,7 +18,6 @@ export const identificationSchema = structureBaseSchema
     filiale: z.string().optional(),
     lgbt: z.boolean(),
     fvvTeh: z.boolean(),
-    contacts: z.array(z.union([contactSchema, contactSchema.optional()])),
   })
   .refine(
     (data) => {
@@ -36,4 +35,8 @@ export const identificationSchema = structureBaseSchema
     }
   );
 
-export type IdentificationFormValues = z.infer<typeof identificationSchema>;
+export const identificationSchemaWithContacts = identificationSchema.and(
+  z.object({
+    contacts: z.array(z.union([contactSchema, contactSchema.optional()])),
+  })
+);

@@ -1,16 +1,15 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
+import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
+import { DocumentsSchemaFlexible } from "@/schemas/ajout/ajoutDocuments.schema";
+import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
+import { AjoutTypePlacesFormValues } from "@/schemas/ajout/ajoutTypePlaces.schema";
 import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { CreateOrUpdateAdresse } from "@/types/adresse.type";
 import { Contact } from "@/types/contact.type";
 import { DeepPartial } from "@/types/global";
 import { Structure } from "@/types/structure.type";
-
-import { IdentificationFormValues } from "../../schemas/ajout/ajoutIdentificationSchema";
-import { AdressesFormValues } from "../../schemas/ajout/ajoutAdressesSchema";
-import { DocumentsSchemaFlexible } from "../(password-protected)/ajout-structure/validation/documentsSchema";
-import { TypePlacesFormValues } from "../(password-protected)/ajout-structure/validation/typePlacesSchema";
 
 dayjs.extend(customParseFormat);
 
@@ -25,30 +24,33 @@ export const useStructures = (): UseStructureResult => {
     return date ? dayjs(date, "DD/MM/YYYY").toISOString() : null;
   };
 
-  const handleContacts = (contacts: Partial<Contact>[]): Partial<Contact>[] => {
-    const filteredContacts: Partial<Contact>[] = [];
+  const handleContacts = (
+    contactPrincipal: Partial<Contact> | undefined,
+    contactSecondaire: Partial<Contact> | undefined
+  ): Partial<Contact>[] => {
+    const contacts: Partial<Contact>[] = [];
 
-    if (contacts[0]) {
-      filteredContacts.push(contacts[0]);
+    if (contactPrincipal) {
+      contacts.push(contactPrincipal);
     }
 
     if (
-      contacts[1] &&
-      contacts[1].prenom &&
-      contacts[1].prenom.trim() !== "" &&
-      contacts[1].nom &&
-      contacts[1].nom.trim() !== "" &&
-      contacts[1].email &&
-      contacts[1].email.trim() !== "" &&
-      contacts[1].telephone &&
-      contacts[1].telephone.trim() !== "" &&
-      contacts[1].role &&
-      contacts[1].role.trim() !== ""
+      contactSecondaire &&
+      contactSecondaire.prenom &&
+      contactSecondaire.prenom.trim() !== "" &&
+      contactSecondaire.nom &&
+      contactSecondaire.nom.trim() !== "" &&
+      contactSecondaire.email &&
+      contactSecondaire.email.trim() !== "" &&
+      contactSecondaire.telephone &&
+      contactSecondaire.telephone.trim() !== "" &&
+      contactSecondaire.role &&
+      contactSecondaire.role.trim() !== ""
     ) {
-      filteredContacts.push(contacts[1]);
+      contacts.push(contactSecondaire);
     }
 
-    return filteredContacts;
+    return contacts;
   };
 
   // Takes a form adresse and return a db adresse
@@ -121,7 +123,10 @@ export const useStructures = (): UseStructureResult => {
         values.adresses,
         values.dnaCode
       ),
-      contacts: handleContacts(values.contacts),
+      contacts: handleContacts(
+        values.contactPrincipal,
+        values.contactSecondaire
+      ),
       typologies: values.typologies?.map((typologie) => ({
         ...typologie,
         placesAutorisees: Number(typologie.placesAutorisees),
@@ -209,8 +214,8 @@ type UseStructureResult = {
 };
 
 type FormValues = Partial<
-  IdentificationFormValues &
-    AdressesFormValues &
-    TypePlacesFormValues &
+  AjoutIdentificationFormValues &
+    AjoutAdressesFormValues &
+    AjoutTypePlacesFormValues &
     DocumentsSchemaFlexible
 >;

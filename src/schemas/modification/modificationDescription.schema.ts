@@ -2,10 +2,10 @@ import z from "zod";
 
 import { adresseWithPlacesRequired } from "@/schemas/base/adresse.schema";
 import { adresseAdministrativeWithTypeBatiSchema } from "@/schemas/base/adresseAdministrative.schema";
-import { identificationSchema } from "@/schemas/base/identification.schema";
+import { identificationSchemaWithContacts } from "@/schemas/base/identification.schema";
 import { Repartition } from "@/types/adresse.type";
 
-export const modificationDescriptionSchema = identificationSchema
+export const modificationDescriptionSchema = identificationSchemaWithContacts
   .and(adresseAdministrativeWithTypeBatiSchema)
   .and(
     z.object({

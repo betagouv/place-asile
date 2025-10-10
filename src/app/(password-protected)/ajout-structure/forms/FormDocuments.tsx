@@ -9,18 +9,18 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { getDocumentIndexes } from "@/app/utils/getFinanceDocument.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
 
+import {
+  DocumentsSchemaFlexible,
+  DocumentsSchemaStrict,
+} from "../../../../schemas/ajout/ajoutDocuments.schema";
 import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "../[dnaCode]/04-documents/documents";
 import { Year } from "../components/Year";
-import {
-  DocumentsSchemaFlexible,
-  DocumentsSchemaStrict,
-} from "../validation/documentsSchema";
-import { IdentificationFormValues } from "../../../../schemas/ajout/ajoutIdentificationSchema";
 
 export default function FormDocuments() {
   const params = useParams();
@@ -59,10 +59,9 @@ export default function FormDocuments() {
     });
   };
 
-  const { currentValue } = useLocalStorage<Partial<IdentificationFormValues>>(
-    `ajout-structure-${params.dnaCode}-identification`,
-    {}
-  );
+  const { currentValue } = useLocalStorage<
+    Partial<AjoutIdentificationFormValues>
+  >(`ajout-structure-${params.dnaCode}-identification`, {});
 
   const isAutorisee = isStructureAutorisee(currentValue?.type);
 

@@ -5,46 +5,39 @@ import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 
 import { structureBaseSchema } from "./structure.base.schema";
 
+const numericField = (fieldName: string) =>
+  z.union([
+    z
+      .string()
+      .min(1, { message: `${fieldName} requis` })
+      .transform(Number),
+    z.number().min(0, { message: `${fieldName} requis` }),
+  ]);
+
+export const typologieItemBaseSchema = z.object({
+  placesAutorisees: numericField("Nombre de places"),
+  pmr: numericField("Nombre de places PMR"),
+  lgbt: numericField("Nombre de places LGBT"),
+  fvvTeh: numericField("Nombre de places FVV/TEH"),
+  date: createDateFieldValidator(),
+});
+
+const typologieItemWithIdSchema = typologieItemBaseSchema.extend({
+  id: z.number(),
+});
+
+const placesEvolutionSchema = z.object({
+  placesACreer: zSafeNumber(),
+  placesAFermer: zSafeNumber(),
+  echeancePlacesACreer: createDateFieldValidator().optional(),
+  echeancePlacesAFermer: createDateFieldValidator().optional(),
+});
+
 export const typePlacesSchema = structureBaseSchema
   .extend({
-    typologies: z.array(
-      z.object({
-        id: z.number(),
-        placesAutorisees: z.union([
-          z
-            .string()
-            .min(1, { message: "Nombre de places requis" })
-            .transform(Number),
-          z.number().min(0, { message: "Nombre de places requis" }),
-        ]),
-        pmr: z.union([
-          z
-            .string()
-            .min(1, { message: "Nombre de places PMR requis" })
-            .transform(Number),
-          z.number().min(0, { message: "Nombre de places PMR requis" }),
-        ]),
-        lgbt: z.union([
-          z
-            .string()
-            .min(1, { message: "Nombre de places LGBT requis" })
-            .transform(Number),
-          z.number().min(0, { message: "Nombre de places LGBT requis" }),
-        ]),
-        fvvTeh: z.union([
-          z
-            .string()
-            .min(1, { message: "Nombre de places FVV/TEH requis" })
-            .transform(Number),
-          z.number().min(0, { message: "Nombre de places FVV/TEH requis" }),
-        ]),
-      })
-    ),
-    placesACreer: zSafeNumber(),
-    placesAFermer: zSafeNumber(),
-    echeancePlacesACreer: createDateFieldValidator().optional(),
-    echeancePlacesAFermer: createDateFieldValidator().optional(),
+    typologies: z.array(typologieItemWithIdSchema),
   })
+  .merge(placesEvolutionSchema)
   .refine(
     (data) => {
       return data.placesACreer <= 0 || !!data.echeancePlacesACreer;
@@ -63,5 +56,3 @@ export const typePlacesSchema = structureBaseSchema
       path: ["echeancePlacesAFermer"],
     }
   );
-
-export type TypePlacesFormValues = z.infer<typeof typePlacesSchema>;

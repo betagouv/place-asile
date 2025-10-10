@@ -1,10 +1,10 @@
 import z from "zod";
 
 import { calendrierSchema } from "@/schemas/base/calendrier.schema";
-import { identificationSchema } from "@/schemas/base/identification.schema";
+import { identificationSchemaWithContacts } from "@/schemas/base/identification.schema";
 
 export const finalisationIdentificationSchema =
-  identificationSchema.and(calendrierSchema);
+  identificationSchemaWithContacts.and(calendrierSchema);
 
 export type FinalisationIdentificationFormValues = z.infer<
   typeof finalisationIdentificationSchema

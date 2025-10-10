@@ -17,7 +17,7 @@ import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import {
   AjoutIdentificationFormValues,
   ajoutIdentificationSchema,
-} from "@/schemas/ajout/ajoutIdentificationSchema";
+} from "@/schemas/ajout/ajoutIdentification.schema";
 import { PublicType, StructureType } from "@/types/structure.type";
 
 export default function FormIdentification() {
@@ -300,22 +300,22 @@ export default function FormIdentification() {
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <InputWithValidation
-                  name="contacts[0].prenom"
-                  id="contacts[0].prenom"
+                  name="contactPrincipal.prenom"
+                  id="contactPrincipal.prenom"
                   control={control}
                   type="text"
                   label="Prénom"
                 />
                 <InputWithValidation
-                  name="contacts[0].nom"
-                  id="contacts[0].nom"
+                  name="contactPrincipal.nom"
+                  id="contactPrincipal.nom"
                   control={control}
                   type="text"
                   label="Nom"
                 />
                 <InputWithValidation
-                  name="contacts[0].role"
-                  id="contacts[0].role"
+                  name="contactPrincipal.role"
+                  id="contactPrincipal.role"
                   control={control}
                   type="text"
                   label="Fonction"
@@ -323,15 +323,15 @@ export default function FormIdentification() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputWithValidation
-                  name="contacts[0].email"
-                  id="contacts[0].email"
+                  name="contactPrincipal.email"
+                  id="contactPrincipal.email"
                   control={control}
                   type="email"
                   label="Email"
                 />
                 <InputWithValidation
-                  name="contacts[0].telephone"
-                  id="contacts[0].telephone"
+                  name="contactPrincipal.telephone"
+                  id="contactPrincipal.telephone"
                   control={control}
                   type="tel"
                   label="Téléphone"
@@ -345,22 +345,22 @@ export default function FormIdentification() {
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <InputWithValidation
-                  name="contacts[1].prenom"
-                  id="contacts[1].prenom"
+                  name="contactSecondaire.prenom"
+                  id="contactSecondaire.prenom"
                   control={control}
                   type="text"
                   label="Prénom"
                 />
                 <InputWithValidation
-                  name="contacts[1].nom"
-                  id="contacts[1].nom"
+                  name="contactSecondaire.nom"
+                  id="contactSecondaire.nom"
                   control={control}
                   type="text"
                   label="Nom"
                 />
                 <InputWithValidation
-                  name="contacts[1].role"
-                  id="contacts[1].role"
+                  name="contactSecondaire.role"
+                  id="contactSecondaire.role"
                   control={control}
                   type="text"
                   label="Fonction"
@@ -368,15 +368,15 @@ export default function FormIdentification() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputWithValidation
-                  name="contacts[1].email"
-                  id="contacts[1].email"
+                  name="contactSecondaire.email"
+                  id="contactSecondaire.email"
                   control={control}
                   type="email"
                   label="Email"
                 />
                 <InputWithValidation
-                  name="contacts[1].telephone"
-                  id="contacts[1].telephone"
+                  name="contactSecondaire.telephone"
+                  id="contactSecondaire.telephone"
                   control={control}
                   type="tel"
                   label="Téléphone"

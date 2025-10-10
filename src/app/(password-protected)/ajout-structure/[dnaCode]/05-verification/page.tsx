@@ -8,11 +8,11 @@ import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { useStructures } from "@/app/hooks/useStructures";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
+import { DocumentsSchemaFlexible } from "@/schemas/ajout/ajoutDocuments.schema";
+import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
+import { AjoutTypePlacesFormValues } from "@/schemas/ajout/ajoutTypePlaces.schema";
 
-import { AdressesFormValues } from "../../../../../schemas/ajout/ajoutAdressesSchema";
-import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
-import { IdentificationFormValues } from "../../../../../schemas/ajout/ajoutIdentificationSchema";
-import { TypePlacesFormValues } from "../../validation/typePlacesSchema";
 import { Adresses } from "./components/Adresses";
 import { DocumentsFinanciers } from "./components/DocumentsFinanciers";
 import { Identification } from "./components/Identification";
@@ -30,7 +30,7 @@ export default function StepVerification() {
   const {
     currentValue: identificationValues,
     resetLocalStorageValues: resetIdentification,
-  } = useLocalStorage<Partial<IdentificationFormValues>>(
+  } = useLocalStorage<Partial<AjoutIdentificationFormValues>>(
     `ajout-structure-${params.dnaCode}-identification`,
     {}
   );
@@ -38,7 +38,7 @@ export default function StepVerification() {
   const {
     currentValue: adressesValues,
     resetLocalStorageValues: resetAdresses,
-  } = useLocalStorage<Partial<AdressesFormValues>>(
+  } = useLocalStorage<Partial<AjoutAdressesFormValues>>(
     `ajout-structure-${params.dnaCode}-adresses`,
     {}
   );
@@ -46,7 +46,7 @@ export default function StepVerification() {
   const {
     currentValue: typePlacesValues,
     resetLocalStorageValues: resetTypePlaces,
-  } = useLocalStorage<Partial<TypePlacesFormValues>>(
+  } = useLocalStorage<Partial<AjoutTypePlacesFormValues>>(
     `ajout-structure-${params.dnaCode}-type-places`,
     {}
   );

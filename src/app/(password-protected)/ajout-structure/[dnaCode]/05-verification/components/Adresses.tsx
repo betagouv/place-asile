@@ -3,10 +3,9 @@ import { z } from "zod";
 
 import { CustomTag } from "@/app/components/ui/CustomTag";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { ajoutAdressesSchema } from "@/schemas/ajout/ajoutAdresses.schema";
 
-import { AdressesSchema } from "../../../../../../schemas/ajout/ajoutAdressesSchema";
-
-type AdressesFormValues = z.infer<typeof AdressesSchema>;
+type AdressesFormValues = z.infer<typeof ajoutAdressesSchema>;
 export const Adresses = () => {
   const params = useParams();
   const { currentValue: localStorageValues } = useLocalStorage<
