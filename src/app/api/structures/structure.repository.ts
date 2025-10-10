@@ -307,12 +307,14 @@ const createOrUpdateAdresses = async (
     .filter((adresse) => adresse.id)
     .map((adresse) => adresse.id as number);
 
-  const allTypologies =
-    existingAdresseIds.length > 0
-      ? await prisma.adresseTypologie.findMany({
-          where: { adresseId: { in: existingAdresseIds } },
-        })
-      : [];
+  let allTypologies: Awaited<
+    ReturnType<typeof prisma.adresseTypologie.findMany>
+  > = [];
+  if (existingAdresseIds.length > 0) {
+    allTypologies = await prisma.adresseTypologie.findMany({
+      where: { adresseId: { in: existingAdresseIds } },
+    });
+  }
 
   // Group typologies by adresseId for quick lookup
   const typologiesByAdresseId = new Map<number, typeof allTypologies>();
