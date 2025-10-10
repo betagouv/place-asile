@@ -145,7 +145,7 @@ export function transformTestDataToApiFormat(testData: TestStructureData) {
     adresses: transformedAdresses,
     contacts,
     typologies: transformedTypologies,
-    fileUploads: [], // Empty for test structures
+    fileUploads: [], // Empty - file uploads will be skipped in finalisation tests
   };
 
   return apiData;

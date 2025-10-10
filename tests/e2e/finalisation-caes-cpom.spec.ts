@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
 
-import { CADA_SANS_CPOM_DATA } from "./helpers/test-data";
+import { CAES_AVEC_CPOM_DATA } from "./helpers/test-data";
 import {
   createStructureViaApi,
   getStructureId,
@@ -15,12 +15,12 @@ import { FinalisationTypePlacesPage } from "./helpers/page-objects/finalisation/
 // Increase timeout for full finalisation flow
 test.setTimeout(120000);
 
-test("Finalisation CADA sans CPOM - Flux complet", async ({ page }) => {
+test("Finalisation CAES avec CPOM - Flux complet", async ({ page }) => {
   // Generate unique DNA code
   const timestamp = Date.now().toString().slice(-6);
   const testData = {
-    ...CADA_SANS_CPOM_DATA,
-    dnaCode: `C${timestamp}`,
+    ...CAES_AVEC_CPOM_DATA,
+    dnaCode: `K${timestamp}`,
   };
 
   // Step 0: Create structure via API (state: A_FINALISER by default)

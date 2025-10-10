@@ -24,9 +24,8 @@ export class FinalisationNotesPage {
   }
 
   async verifySuccess() {
-    // Check for success message or that we're on the structure page
-    await expect(
-      this.page.locator("text=/finalisé|success|Réussi/i")
-    ).toBeVisible({ timeout: 5000 });
+    // Verify we're redirected back to the structure page after finalisation
+    // The URL should be /structures/[id] without /finalisation
+    await this.page.waitForURL(/\/structures\/\d+$/, { timeout: 10000 });
   }
 }
