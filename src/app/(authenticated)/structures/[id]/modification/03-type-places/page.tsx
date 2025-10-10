@@ -1,18 +1,19 @@
 "use client";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
-import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
+import { FieldSetOuvertureFermeture } from "@/app/components/forms/fieldsets/structure/FieldSetOuvertureFermeture";
+import { FieldSetTypePlaces } from "@/app/components/forms/fieldsets/structure/FieldSetTypePlaces";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { calendrierSchema } from "@/schemas/base/calendrier.schema";
+import { typePlacesSchema } from "@/schemas/base/typePlaces.schema";
 
 import { ModificationTitle } from "../components/ModificationTitle";
 
-export default function ModificationCalendrier() {
+export default function ModificationTypePlaces() {
   const { structure } = useStructureContext();
 
   const { handleSubmit, state, backendError } = useAgentFormHandling({
@@ -24,11 +25,11 @@ export default function ModificationCalendrier() {
   return (
     <>
       <ModificationTitle
-        step="Calendrier"
+        step="Types de places"
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={calendrierSchema}
+        schema={typePlacesSchema}
         defaultValues={defaultValues}
         onSubmit={handleSubmit}
         mode="onChange"
@@ -40,7 +41,8 @@ export default function ModificationCalendrier() {
         ]}
         className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
       >
-        <FieldSetCalendrier />
+        <FieldSetOuvertureFermeture formKind="modification" />
+        <FieldSetTypePlaces />
       </FormWrapper>
       {state === "error" && (
         <SubmitError

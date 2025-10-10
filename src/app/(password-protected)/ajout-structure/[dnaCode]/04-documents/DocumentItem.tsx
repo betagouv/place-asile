@@ -4,10 +4,10 @@ import z from "zod";
 
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearDate } from "@/app/utils/date.util";
+import { DocumentsSchemaFlexible } from "@/schemas/ajout/ajoutDocuments.schema";
 import { zFileUploadCategory } from "@/types/file-upload.type";
 
 import { UploadItem } from "../../components/UploadItem";
-import { DocumentsSchemaFlexible } from "../../validation/documentsSchema";
 
 export const DocumentItem = ({
   year,

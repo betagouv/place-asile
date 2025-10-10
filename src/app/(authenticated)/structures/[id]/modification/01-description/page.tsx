@@ -13,9 +13,9 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { modificationDescriptionSchema } from "@/schemas/modification/modificationDescription.schema";
 
 import { ModificationTitle } from "../components/ModificationTitle";
-import { modificationDescriptionSchema } from "./validation/ModificationDescriptionSchema";
 
 export default function ModificationDescription() {
   const { structure } = useStructureContext();

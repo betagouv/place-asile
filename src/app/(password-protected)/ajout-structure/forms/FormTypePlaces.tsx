@@ -10,8 +10,7 @@ import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { cn } from "@/app/utils/classname.util";
 import { getYearDate } from "@/app/utils/date.util";
-
-import { TypePlacesSchema } from "../validation/typePlacesSchema";
+import { ajoutTypePlacesSchema } from "@/schemas/ajout/ajoutTypePlaces.schema";
 
 export default function FormTypePlaces() {
   const params = useParams();
@@ -37,7 +36,7 @@ export default function FormTypePlaces() {
 
   return (
     <FormWrapper
-      schema={TypePlacesSchema}
+      schema={ajoutTypePlacesSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-type-places`}
       nextRoute={nextRoute}
       resetRoute={resetRoute}

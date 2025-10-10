@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
@@ -8,6 +9,7 @@ import {
   getCurrentPlacesLogementsSociaux,
   getCurrentPlacesQpv,
 } from "@/app/utils/structure.util";
+import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../context/StructureClientContext";
 import { TypePlaceCharts } from "./TypePlaceCharts";
@@ -16,6 +18,8 @@ import { TypePlaceHistory } from "./TypePlaceHistory";
 export const DefaultTypePlaceBlock = (): ReactElement => {
   const { structure } = useStructureContext();
 
+  const router = useRouter();
+
   const {
     placesACreer,
     placesAFermer,
@@ -23,10 +27,23 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
     echeancePlacesAFermer,
     structureTypologies,
     adresses,
+    state,
   } = structure;
 
   return (
-    <Block title="Type de places" iconClass="fr-icon-map-pin-2-line">
+    <Block
+      title="Type de places"
+      iconClass="fr-icon-map-pin-2-line"
+      onEdit={
+        state === StructureState.FINALISE
+          ? () => {
+              router.push(
+                `/structures/${structure.id}/modification/03-type-places`
+              );
+            }
+          : undefined
+      }
+    >
       <div className="flex">
         <div className="pr-4">
           <InformationCard

@@ -25,16 +25,12 @@ export const fileUploadSchema = z.object({
   uuid: z.string().optional(),
 });
 
-// const controleSchema = z.object({
-//   date: z.coerce.date(),
-//   type: z.nativeEnum(ControleType),
-// });
-
 export const finalisationQualiteSchema = z.object({
   fileUploads: z.array(fileUploadSchema).optional(),
-  // controles: z.array(controleSchema),
 });
 
-export const finalisationQualiteSchemaSimple = z.object({
-  fileUploads: z.array(fileUploadSchema).optional(),
-});
+export type FileUploadFormValues = z.infer<typeof fileUploadSchema>;
+
+export type FinalisationQualiteFormValues = z.infer<
+  typeof finalisationQualiteSchema
+>;

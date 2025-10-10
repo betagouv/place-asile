@@ -123,6 +123,7 @@ export type UpdateFileUpload = {
   categoryName?: string;
   parentFileUploadId?: number;
 };
+
 type UpdateAdresseTypologie = CreateAdresseTypologie & { id?: number };
 export type UpdateAdresse = Omit<CreateAdresse, "adresseTypologies"> & {
   id?: number;

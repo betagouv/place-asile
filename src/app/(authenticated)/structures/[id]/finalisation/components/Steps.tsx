@@ -1,17 +1,5 @@
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
 
-export type Step = {
-  title: string;
-  route: string;
-};
-
-export type StepData = {
-  previousRoute: string;
-  nextRoute: string;
-  title: string;
-  nextTitle: string;
-};
-
 export const steps: Step[] = [
   {
     title: "Identification de la structure",
@@ -70,4 +58,16 @@ export default function Steps({ currentStep, structureId }: StepsProps) {
 type StepsProps = {
   currentStep: number;
   structureId: number;
+};
+
+type Step = {
+  title: string;
+  route: string;
+};
+
+type StepData = {
+  previousRoute: string;
+  nextRoute: string;
+  title: string;
+  nextTitle: string;
 };
