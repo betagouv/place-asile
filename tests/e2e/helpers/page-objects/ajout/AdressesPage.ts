@@ -59,9 +59,7 @@ export class AdressesPage {
       );
     } else if (adresses.adresses) {
       // Handle multiple addresses (not same address)
-      for (let i = 0; i < adresses.adresses.length; i++) {
-        const adresse = adresses.adresses[i];
-
+      for (const [i, adresse] of adresses.adresses.entries()) {
         if (i > 0) {
           // Click "Add address" button for additional addresses
           await this.page.click('button:has-text("Ajouter une adresse")');

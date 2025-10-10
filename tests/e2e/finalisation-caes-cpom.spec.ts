@@ -11,15 +11,14 @@ import {
   createStructureViaApi,
   getStructureId,
 } from "./helpers/structure-creator";
-import { CAES_AVEC_CPOM_DATA } from "./helpers/test-data";
+import { caesAvecCpom } from "./helpers/test-data";
 
 // Increase timeout for full finalisation flow
 test.setTimeout(120000);
 
 test("Finalisation CAES avec CPOM - Flux complet", async ({ page }) => {
-  // Generate unique DNA code
   const testData = {
-    ...CAES_AVEC_CPOM_DATA,
+    ...caesAvecCpom,
     dnaCode: `K${uuidv4()}`,
   };
 

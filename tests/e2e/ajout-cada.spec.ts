@@ -8,14 +8,14 @@ import { DocumentsPage } from "./helpers/page-objects/ajout/DocumentsPage";
 import { IdentificationPage } from "./helpers/page-objects/ajout/IdentificationPage";
 import { TypePlacesPage } from "./helpers/page-objects/ajout/TypePlacesPage";
 import { VerificationPage } from "./helpers/page-objects/ajout/VerificationPage";
-import { CADA_SANS_CPOM_DATA } from "./helpers/test-data";
+import { cadaSansCpom } from "./helpers/test-data";
 
 // Increase timeout for full form flow
 test.setTimeout(30000);
 
 test("CADA sans CPOM - Flux complet de création", async ({ page }) => {
   const data = {
-    ...CADA_SANS_CPOM_DATA,
+    ...cadaSansCpom,
     dnaCode: `C${uuidv4()}`,
   };
 

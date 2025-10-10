@@ -8,14 +8,14 @@ import { DocumentsPage } from "./helpers/page-objects/ajout/DocumentsPage";
 import { IdentificationPage } from "./helpers/page-objects/ajout/IdentificationPage";
 import { TypePlacesPage } from "./helpers/page-objects/ajout/TypePlacesPage";
 import { VerificationPage } from "./helpers/page-objects/ajout/VerificationPage";
-import { CPH_AVEC_CPOM_DATA } from "./helpers/test-data";
+import { cphAvecCpom } from "./helpers/test-data";
 
 // Increase timeout for full form flow
 test.setTimeout(30000);
 
 test("CPH avec CPOM - Flux complet de création", async ({ page }) => {
   const data = {
-    ...CPH_AVEC_CPOM_DATA,
+    ...cphAvecCpom,
     dnaCode: `R${uuidv4()}`,
   };
 

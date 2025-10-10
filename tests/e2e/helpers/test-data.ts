@@ -69,7 +69,7 @@ export type TestStructureData = {
   };
 };
 
-export const CADA_SANS_CPOM_DATA: TestStructureData = {
+export const cadaSansCpom: TestStructureData = {
   dnaCode: "C1234",
   type: StructureType.CADA,
   cpom: false,
@@ -136,18 +136,18 @@ export const CADA_SANS_CPOM_DATA: TestStructureData = {
   },
 };
 
-export const CADA_AVEC_CPOM_DATA: TestStructureData = {
-  ...CADA_SANS_CPOM_DATA,
+export const cadaAvecCpom: TestStructureData = {
+  ...cadaSansCpom,
   cpom: true,
   identification: {
-    ...CADA_SANS_CPOM_DATA.identification,
+    ...cadaSansCpom.identification,
     debutCpom: "2023-01-01",
     finCpom: "2027-12-31",
   },
 };
 
 // CPH (Centre Provisoire d'Hébergement) - Structure autorisée
-export const CPH_SANS_CPOM_DATA: TestStructureData = {
+export const cphSansCpom: TestStructureData = {
   dnaCode: "R1234",
   type: StructureType.CPH,
   cpom: false,
@@ -199,18 +199,18 @@ export const CPH_SANS_CPOM_DATA: TestStructureData = {
   },
 };
 
-export const CPH_AVEC_CPOM_DATA: TestStructureData = {
-  ...CPH_SANS_CPOM_DATA,
+export const cphAvecCpom: TestStructureData = {
+  ...cphSansCpom,
   cpom: true,
   identification: {
-    ...CPH_SANS_CPOM_DATA.identification,
+    ...cphSansCpom.identification,
     debutCpom: "2023-06-01",
     finCpom: "2028-05-31",
   },
 };
 
 // HUDA (Hébergement d'Urgence pour Demandeurs d'Asile) - Structure subventionnée
-export const HUDA_SANS_CPOM_DATA: TestStructureData = {
+export const hudaSansCpom: TestStructureData = {
   dnaCode: "H1234",
   type: StructureType.HUDA,
   cpom: false,
@@ -253,18 +253,18 @@ export const HUDA_SANS_CPOM_DATA: TestStructureData = {
   },
 };
 
-export const HUDA_AVEC_CPOM_DATA: TestStructureData = {
-  ...HUDA_SANS_CPOM_DATA,
+export const hudaAvecCpom: TestStructureData = {
+  ...hudaSansCpom,
   cpom: true,
   identification: {
-    ...HUDA_SANS_CPOM_DATA.identification,
+    ...hudaSansCpom.identification,
     debutCpom: "2024-01-01",
     finCpom: "2028-12-31",
   },
 };
 
 // CAES (Centre d'Accueil et d'Examen des Situations) - Structure subventionnée
-export const CAES_SANS_CPOM_DATA: TestStructureData = {
+export const caesSansCpom: TestStructureData = {
   dnaCode: "K1234",
   type: StructureType.CAES,
   cpom: false,
@@ -314,11 +314,11 @@ export const CAES_SANS_CPOM_DATA: TestStructureData = {
   },
 };
 
-export const CAES_AVEC_CPOM_DATA: TestStructureData = {
-  ...CAES_SANS_CPOM_DATA,
+export const caesAvecCpom: TestStructureData = {
+  ...caesSansCpom,
   cpom: true,
   identification: {
-    ...CAES_SANS_CPOM_DATA.identification,
+    ...caesSansCpom.identification,
     debutCpom: "2024-03-01",
     finCpom: "2029-02-28",
   },

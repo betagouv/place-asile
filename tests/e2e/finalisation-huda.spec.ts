@@ -11,14 +11,14 @@ import {
   createStructureViaApi,
   getStructureId,
 } from "./helpers/structure-creator";
-import { HUDA_SANS_CPOM_DATA } from "./helpers/test-data";
+import { hudaSansCpom } from "./helpers/test-data";
 
 // Increase timeout for full finalisation flow
 test.setTimeout(120000);
 
 test("Finalisation HUDA sans CPOM - Flux complet", async ({ page }) => {
   const testData = {
-    ...HUDA_SANS_CPOM_DATA,
+    ...hudaSansCpom,
     dnaCode: `H${uuidv4()}`,
   };
 

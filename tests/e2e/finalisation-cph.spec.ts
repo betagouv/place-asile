@@ -11,15 +11,14 @@ import {
   createStructureViaApi,
   getStructureId,
 } from "./helpers/structure-creator";
-import { CPH_SANS_CPOM_DATA } from "./helpers/test-data";
+import { cphSansCpom } from "./helpers/test-data";
 
 // Increase timeout for full finalisation flow
 test.setTimeout(120000);
 
 test("Finalisation CPH sans CPOM - Flux complet", async ({ page }) => {
-  // Generate unique DNA code
   const testData = {
-    ...CPH_SANS_CPOM_DATA,
+    ...cphSansCpom,
     dnaCode: `R${uuidv4()}`,
   };
 

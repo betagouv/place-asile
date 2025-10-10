@@ -8,14 +8,14 @@ import { DocumentsPage } from "./helpers/page-objects/ajout/DocumentsPage";
 import { IdentificationPage } from "./helpers/page-objects/ajout/IdentificationPage";
 import { TypePlacesPage } from "./helpers/page-objects/ajout/TypePlacesPage";
 import { VerificationPage } from "./helpers/page-objects/ajout/VerificationPage";
-import { CAES_SANS_CPOM_DATA } from "./helpers/test-data";
+import { caesSansCpom } from "./helpers/test-data";
 
 // Increase timeout for full form flow
 test.setTimeout(30000);
 
 test("CAES sans CPOM - Flux complet de création", async ({ page }) => {
   const data = {
-    ...CAES_SANS_CPOM_DATA,
+    ...caesSansCpom,
     dnaCode: `K${uuidv4()}`,
   };
 

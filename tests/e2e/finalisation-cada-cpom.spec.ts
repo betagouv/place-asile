@@ -11,14 +11,14 @@ import {
   createStructureViaApi,
   getStructureId,
 } from "./helpers/structure-creator";
-import { CADA_AVEC_CPOM_DATA } from "./helpers/test-data";
+import { cadaAvecCpom } from "./helpers/test-data";
 
 // Increase timeout for full finalisation flow
 test.setTimeout(120000);
 
 test("Finalisation CADA avec CPOM - Flux complet", async ({ page }) => {
   const testData = {
-    ...CADA_AVEC_CPOM_DATA,
+    ...cadaAvecCpom,
     dnaCode: `C${uuidv4()}`,
   };
 
