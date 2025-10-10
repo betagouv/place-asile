@@ -293,16 +293,9 @@ const updateStructureTypologies = async (
   );
 };
 
-const createOrUpdateAdresses = async (
-  adresses: UpdateAdresse[] = [],
-  structureDnaCode: string
-): Promise<void> => {
-  if (!adresses || adresses.length === 0) return;
-
-  // Delete adresses that are not in the provided array
-  await deleteAdresses(adresses, structureDnaCode);
-
-  // Fetch all typologies for existing addresses in one query to avoid N+1
+const getEveryAdresseTypologiesOfAdresses = async (
+  adresses: UpdateAdresse[]
+): Promise<Awaited<ReturnType<typeof prisma.adresseTypologie.findMany>>> => {
   const existingAdresseIds = adresses
     .filter((adresse) => adresse.id)
     .map((adresse) => adresse.id as number);
@@ -315,14 +308,19 @@ const createOrUpdateAdresses = async (
       where: { adresseId: { in: existingAdresseIds } },
     });
   }
+  return allTypologies;
+};
+const createOrUpdateAdresses = async (
+  adresses: UpdateAdresse[] = [],
+  structureDnaCode: string
+): Promise<void> => {
+  if (!adresses || adresses.length === 0) return;
 
-  // Group typologies by adresseId for quick lookup
-  const typologiesByAdresseId = new Map<number, typeof allTypologies>();
-  for (const typologie of allTypologies) {
-    const existing = typologiesByAdresseId.get(typologie.adresseId) || [];
-    existing.push(typologie);
-    typologiesByAdresseId.set(typologie.adresseId, existing);
-  }
+  // Delete adresses that are not in the provided array
+  await deleteAdresses(adresses, structureDnaCode);
+
+  // Fetch all typologies for existing addresses
+  const allTypologies = await getEveryAdresseTypologiesOfAdresses(adresses);
 
   for (const adresse of adresses) {
     if (adresse.id) {
@@ -338,16 +336,18 @@ const createOrUpdateAdresses = async (
       });
 
       // Delete typologies not in the array
-      const existingTypologies = typologiesByAdresseId.get(adresse.id) || [];
+      const existingTypologies = allTypologies.filter(
+        (typologie) => typologie.adresseId === adresse.id
+      );
       const typologiesToDelete = existingTypologies.filter(
         (existing) =>
           !adresse.adresseTypologies.some((t) => t.id === existing.id)
       );
-      await Promise.all(
-        typologiesToDelete.map((typologie) =>
-          prisma.adresseTypologie.delete({ where: { id: typologie.id } })
-        )
-      );
+      if (typologiesToDelete.length > 0) {
+        await prisma.adresseTypologie.deleteMany({
+          where: { id: { in: typologiesToDelete.map((t) => t.id) } },
+        });
+      }
 
       // Update or create typologies
       for (const typologie of adresse.adresseTypologies) {
@@ -355,12 +355,7 @@ const createOrUpdateAdresses = async (
           // Update existing typologie
           await prisma.adresseTypologie.update({
             where: { id: typologie.id },
-            data: {
-              placesAutorisees: typologie.placesAutorisees,
-              date: typologie.date,
-              qpv: typologie.qpv,
-              logementSocial: typologie.logementSocial,
-            },
+            data: typologie,
           });
         } else {
           // Create new typologie
