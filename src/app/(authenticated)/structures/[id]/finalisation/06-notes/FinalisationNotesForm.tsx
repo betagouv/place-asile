@@ -9,11 +9,11 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { notesSchema } from "@/schemas/base/notes.schema";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
-import { finalisationNotesSchema } from "./validation/finalisationNotesSchema";
 
 export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
   const { structure } = useStructureContext();
@@ -28,7 +28,7 @@ export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
 
   return (
     <FormWrapper
-      schema={finalisationNotesSchema}
+      schema={notesSchema}
       onSubmit={(data) =>
         handleSubmit({
           ...data,

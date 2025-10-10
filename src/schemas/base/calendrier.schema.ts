@@ -1,35 +1,15 @@
 import z from "zod";
 
-import { contactSchema } from "@/app/(password-protected)/ajout-structure/validation/contactSchema";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
-import {
-  createDateFieldValidator,
-  createOptionalDateValidator,
-} from "@/app/utils/zodCustomFields";
-import { PublicType, StructureType } from "@/types/structure.type";
+import { createOptionalDateValidator } from "@/app/utils/zodCustomFields";
 
-export const finalisationIdentificationSchema = z
-  .object({
-    dnaCode: z.string().nonempty(),
-    operateur: z.object({
-      id: z.number(),
-      name: z.string(),
-    }),
-    type: z.preprocess(
-      (val) => (val === "" ? undefined : val),
-      z.nativeEnum(StructureType)
-    ),
-    creationDate: createDateFieldValidator(),
-    finessCode: z.string().optional().or(z.literal("")),
-    public: z.nativeEnum(PublicType),
-    filiale: z.string().optional(),
-    cpom: z.boolean(),
-    lgbt: z.boolean(),
-    fvvTeh: z.boolean(),
-    contacts: z.array(z.union([contactSchema, contactSchema.optional()])),
+import { structureBaseSchema } from "./structure.base.schema";
+
+export const calendrierSchema = structureBaseSchema
+  .extend({
     debutPeriodeAutorisation: createOptionalDateValidator(),
     finPeriodeAutorisation: createOptionalDateValidator(),
     debutConvention: createOptionalDateValidator(),
@@ -180,23 +160,6 @@ export const finalisationIdentificationSchema = z
       message: "La date de fin doit être postérieure à la date de début",
       path: ["finCpom"],
     }
-  )
-  .refine(
-    (data) => {
-      if (
-        isStructureAutorisee(data.type) &&
-        (!data.finessCode || data.finessCode === "")
-      ) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "Le code FINESS est obligatoire pour les structures autorisées",
-      path: ["finessCode"],
-    }
   );
 
-export type FinalisationIdentificationFormValues = z.infer<
-  typeof finalisationIdentificationSchema
->;
+export type CalendrierFormValues = z.infer<typeof calendrierSchema>;

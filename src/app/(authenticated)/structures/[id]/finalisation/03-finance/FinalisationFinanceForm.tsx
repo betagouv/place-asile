@@ -19,8 +19,6 @@ import {
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { getFinanceFormTutorialLink } from "@/app/utils/tutorials.util";
-import { StructureState } from "@/types/structure.type";
-
 import {
   anyFinanceFormValues,
   autoriseeAvecCpomSchema,
@@ -28,7 +26,8 @@ import {
   basicSchema,
   subventionneeAvecCpomSchema,
   subventionneeSchema,
-} from "./validation/finalisationFinanceSchema";
+} from "@/schemas/finalisation/finalisationFinance.schema";
+import { StructureState } from "@/types/structure.type";
 
 export default function FinalisationFinanceForm({
   currentStep,
