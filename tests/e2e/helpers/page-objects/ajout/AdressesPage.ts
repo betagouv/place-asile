@@ -2,7 +2,7 @@ import { Page } from "@playwright/test";
 
 import { Repartition } from "@/types/adresse.type";
 
-import { TestStructureData } from "../test-data";
+import { TestStructureData } from "../../test-data";
 
 export class AdressesPage {
   constructor(private page: Page) {}

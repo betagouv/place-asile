@@ -1,6 +1,6 @@
 import { expect, Page } from "@playwright/test";
 
-import { TestStructureData } from "../test-data";
+import { TestStructureData } from "../../test-data";
 
 export class VerificationPage {
   constructor(private page: Page) {}

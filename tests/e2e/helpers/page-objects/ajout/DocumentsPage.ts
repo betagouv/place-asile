@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 
-import { TestStructureData } from "../test-data";
+import { TestStructureData } from "../../test-data";
 
 export class DocumentsPage {
   constructor(private page: Page) {}

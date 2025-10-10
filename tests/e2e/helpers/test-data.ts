@@ -1,7 +1,7 @@
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
 
-export interface TestStructureData {
+export type TestStructureData = {
   dnaCode: string;
   type: StructureType;
   cpom: boolean;
@@ -67,7 +67,7 @@ export interface TestStructureData {
       filePath: string;
     }>;
   };
-}
+};
 
 export const CADA_SANS_CPOM_DATA: TestStructureData = {
   dnaCode: "C1234",
@@ -321,49 +321,5 @@ export const CAES_AVEC_CPOM_DATA: TestStructureData = {
     ...CAES_SANS_CPOM_DATA.identification,
     debutCpom: "2024-03-01",
     finCpom: "2029-02-28",
-  },
-};
-
-// PRAHDA (Programme d'Accueil et d'Hébergement des Demandeurs d'Asile)
-// PRAHDA is neither autorisée nor subventionnée, so no specific date fields required
-export const PRAHDA_DATA: TestStructureData = {
-  dnaCode: "P1234",
-  type: StructureType.PRAHDA,
-  cpom: false,
-  identification: {
-    filiale: "Filiale PRAHDA",
-    operateur: {
-      name: "Opérateur PRAHDA",
-      searchTerm: "Opér",
-    },
-    creationDate: "2019-07-10",
-    public: "Tout public",
-    lgbt: true,
-    fvvTeh: true,
-    contactPrincipal: {
-      prenom: "Isabelle",
-      nom: "Rousseau",
-      role: "Directeur·rice",
-      email: "isabelle.rousseau@example.com",
-      telephone: "+33567890123",
-    },
-  },
-  adresses: {
-    nom: "PRAHDA Test",
-    adresseAdministrative: {
-      complete: "30 Rue de Rennes 35000 Rennes",
-      searchTerm: "30 rue rennes",
-    },
-    typeBati: Repartition.COLLECTIF,
-    sameAddress: true,
-  },
-  typologies: [
-    { placesAutorisees: 45, pmr: 4, lgbt: 7, fvvTeh: 6 },
-    { placesAutorisees: 43, pmr: 4, lgbt: 7, fvvTeh: 6 },
-    { placesAutorisees: 40, pmr: 3, lgbt: 6, fvvTeh: 5 },
-  ],
-  documents: {
-    less5Years: true,
-    files: [],
   },
 };
