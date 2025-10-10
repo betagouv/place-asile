@@ -6,7 +6,7 @@ import { FormKind } from "@/types/global";
 import InputWithValidation from "../../InputWithValidation";
 
 export const FieldSetOuvertureFermeture = ({
-  formKind = "finalisation",
+  formKind = FormKind.FINALISATION,
 }: {
   formKind?: FormKind;
 }) => {

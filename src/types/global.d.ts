@@ -13,4 +13,9 @@ export type DeepPartial<T> = T extends object
     }
   : T;
 
-export type FormKind = "modification" | "finalisation";
+export const FormKind = {
+  MODIFICATION: "modification",
+  FINALISATION: "finalisation",
+} as const;
+
+export type FormKind = (typeof FormKind)[keyof typeof FormKind];

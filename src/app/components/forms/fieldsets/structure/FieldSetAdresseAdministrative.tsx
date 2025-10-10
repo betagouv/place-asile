@@ -9,7 +9,7 @@ import InputWithValidation from "../../InputWithValidation";
 import SelectWithValidation from "../../SelectWithValidation";
 
 export const FieldSetAdresseAdministrative = ({
-  formKind = "finalisation",
+  formKind = FormKind.FINALISATION,
 }: {
   formKind?: FormKind;
 }) => {

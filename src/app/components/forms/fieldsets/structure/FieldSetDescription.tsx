@@ -16,7 +16,7 @@ import SelectWithValidation from "../../SelectWithValidation";
 export const FieldSetDescription = ({
   dnaCode,
   disableTypes = true,
-  formKind = "finalisation",
+  formKind = FormKind.FINALISATION,
 }: Props) => {
   const filialesContainerRef = useRef(null);
   const parentFormContext = useFormContext();
