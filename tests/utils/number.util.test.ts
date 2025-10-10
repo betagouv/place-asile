@@ -6,7 +6,7 @@ import {
   parseFrenchNumber,
 } from "@/app/utils/number.util";
 
-describe("number.util", () => {
+describe("number util", () => {
   describe("formatNumber", () => {
     it("should format positive integers correctly", () => {
       expect(formatNumber(1234)).toBe("1\u202f234");

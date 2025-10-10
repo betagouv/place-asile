@@ -128,7 +128,7 @@ export type UpdateStructureTypologie = {
   updatedAt?: Date;
 };
 export type UpdateControle = {
-  date: Date;
+  date?: Date;
   type: string;
   fileUploadKey: string;
   id?: number;
@@ -144,6 +144,7 @@ export type UpdateFileUpload = {
   id?: number;
   categoryName?: string;
   parentFileUploadId?: number;
+  controleId?: number;
   createdAt?: Date;
   updatedAt?: Date;
 };

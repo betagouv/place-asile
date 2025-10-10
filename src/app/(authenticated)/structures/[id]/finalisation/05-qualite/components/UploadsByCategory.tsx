@@ -1,16 +1,25 @@
+import Button from "@codegouvfr/react-dsfr/Button";
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import Link from "next/link";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
-import { FileUploadFormValues } from "@/schemas/finalisation/finalisationQualite.schema";
-import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
+import {
+  ControleFormValues,
+  FileUploadFormValues,
+} from "@/schemas/finalisation/finalisationQualite.schema";
+import { zAgentFileUploadCategory } from "@/types/file-upload.type";
 
 import { FileMetaData } from "../FinalisationQualiteForm";
+import { ControleItem } from "./ControleItem";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
 
 export type FileUploadField = FileUploadFormValues & {
+  id: string;
+  uuid: string;
+};
+
+export type ControleField = ControleFormValues & {
   id: string;
   uuid: string;
 };
@@ -33,7 +42,13 @@ export default function UploadsByCategory({
     name: "fileUploads",
   });
 
+  const { append: appendControle, remove: removeControle } = useFieldArray({
+    control,
+    name: "controles",
+  });
+
   const fileUploads = watch("fileUploads") || [];
+  const controles = watch("controles") || [];
   let filteredFields: FileUploadField[] = [];
 
   const refreshFields = () => {
@@ -63,6 +78,21 @@ export default function UploadsByCategory({
     refreshFields();
   };
 
+  const handleAddNewControle = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+
+    const newField = {
+      date: "",
+      type: "",
+      uuid: uuidv4(),
+    };
+
+    appendControle(newField);
+
+    refreshFields();
+  };
+
   const handleDeleteField = (index: number) => {
     remove(index);
     const avenants = fileUploads.filter(
@@ -76,6 +106,10 @@ export default function UploadsByCategory({
     });
 
     refreshFields();
+  };
+
+  const handleDeleteControle = (index: number) => {
+    removeControle(index);
   };
 
   const getItemIndex = (uuid: string) => {
@@ -98,7 +132,8 @@ export default function UploadsByCategory({
           description={<>{notice}</>}
         />
       )}
-      {filteredFields &&
+      {fileMetaData !== FileMetaData.INSPECTION_CONTROLE &&
+        filteredFields &&
         filteredFields.length > 0 &&
         filteredFields.map((field) => {
           const fieldIndex = getItemIndex(field.uuid);
@@ -110,7 +145,7 @@ export default function UploadsByCategory({
                 field={field}
                 index={fieldIndex}
                 key={field.key || null}
-                fileMetaData={fileMetaData || FileMetaData.DATE_TYPE}
+                fileMetaData={fileMetaData || FileMetaData.INSPECTION_CONTROLE}
                 documentLabel={documentLabel}
                 handleDeleteField={handleDeleteField}
                 canAddAvenant={canAddAvenant}
@@ -118,21 +153,43 @@ export default function UploadsByCategory({
             </div>
           );
         })}
-      {canAddFile && (
-        <Link
-          href={"/"}
-          className="text-action-high-blue-france underline underline-offset-4 mt-8"
+      {fileMetaData === FileMetaData.INSPECTION_CONTROLE &&
+        controles.map((field: ControleField, index: number) => {
+          return (
+            <div key={`controle-${index}`}>
+              <ControleItem
+                field={field}
+                index={index}
+                documentLabel={documentLabel}
+                handleDeleteField={() => handleDeleteControle(index)}
+              />
+            </div>
+          );
+        })}
+      {fileMetaData !== FileMetaData.INSPECTION_CONTROLE && canAddFile && (
+        <Button
           onClick={handleAddNewField}
+          priority="tertiary no outline"
+          className="underline font-normal p-0"
         >
           + {addFileButtonLabel}
-        </Link>
+        </Button>
+      )}
+      {fileMetaData === FileMetaData.INSPECTION_CONTROLE && (
+        <Button
+          onClick={handleAddNewControle}
+          priority="tertiary no outline"
+          className="underline font-normal p-0"
+        >
+          + {addFileButtonLabel}
+        </Button>
       )}
     </fieldset>
   );
 }
 
 type UploadsByCategoryProps = {
-  category: z.infer<typeof zDdetsFileUploadCategory>;
+  category: z.infer<typeof zAgentFileUploadCategory>;
   categoryShortName: string;
   title: string;
   notice?: string | React.ReactElement;
