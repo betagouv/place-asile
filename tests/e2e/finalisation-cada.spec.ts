@@ -26,10 +26,6 @@ test("Finalisation CADA sans CPOM - Flux complet", async ({ page }) => {
   await createStructureViaApi(testData);
   const structureId = await getStructureId(testData.dnaCode);
 
-  console.log(
-    `✅ Structure créée via API: ${testData.dnaCode} (ID: ${structureId})`
-  );
-
   // Step 1: Navigate to finalisation form
   await page.goto(
     `http://localhost:3000/structures/${structureId}/finalisation/01-identification`
