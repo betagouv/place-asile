@@ -3,13 +3,12 @@ import { useParams } from "next/navigation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { formatPhoneNumber } from "@/app/utils/phone.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-
-import { IdentificationFormValues } from "../../../validation/identificationSchema";
+import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
 
 export const Identification = () => {
   const params = useParams();
   const { currentValue: localStorageValues } = useLocalStorage<
-    Partial<IdentificationFormValues>
+    Partial<AjoutIdentificationFormValues>
   >(`ajout-structure-${params.dnaCode}-identification`, {});
 
   return (

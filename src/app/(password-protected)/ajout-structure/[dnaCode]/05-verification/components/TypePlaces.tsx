@@ -1,17 +1,14 @@
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
-import { z } from "zod";
 
 import { Table } from "@/app/components/common/Table";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { AjoutTypePlacesFormValues } from "@/schemas/ajout/ajoutTypePlaces.schema";
 
-import { TypePlacesSchema } from "../../../validation/typePlacesSchema";
-
-type TypePlacesFormValues = z.infer<typeof TypePlacesSchema>;
 export const TypePlaces = () => {
   const params = useParams();
   const { currentValue: localStorageValues } = useLocalStorage<
-    Partial<TypePlacesFormValues>
+    Partial<AjoutTypePlacesFormValues>
   >(`ajout-structure-${params.dnaCode}-type-places`, {});
 
   const years = useMemo(() => [2025, 2024, 2023] as const, []);

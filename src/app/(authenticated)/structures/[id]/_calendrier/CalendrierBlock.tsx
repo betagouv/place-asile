@@ -1,12 +1,17 @@
+import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
 import { DateBars } from "@/app/(authenticated)/structures/[id]/_calendrier/DateBars";
 import { Block } from "@/app/components/common/Block";
+import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../context/StructureClientContext";
 
 export const CalendrierBlock = (): ReactElement => {
   const { structure } = useStructureContext();
+
+  const router = useRouter();
+
   const {
     debutPeriodeAutorisation,
     finPeriodeAutorisation,
@@ -14,6 +19,7 @@ export const CalendrierBlock = (): ReactElement => {
     finConvention,
     debutCpom,
     finCpom,
+    state,
   } = structure;
 
   const datePairs = [];
@@ -39,7 +45,19 @@ export const CalendrierBlock = (): ReactElement => {
     });
   }
   return (
-    <Block title="Calendrier" iconClass="fr-icon-calendar-2-line">
+    <Block
+      title="Calendrier"
+      iconClass="fr-icon-calendar-2-line"
+      onEdit={
+        state === StructureState.FINALISE
+          ? () => {
+              router.push(
+                `/structures/${structure.id}/modification/02-calendrier`
+              );
+            }
+          : undefined
+      }
+    >
       <DateBars datePairs={datePairs} />
     </Block>
   );

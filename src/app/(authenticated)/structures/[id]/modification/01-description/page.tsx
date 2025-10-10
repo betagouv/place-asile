@@ -6,15 +6,16 @@ import { useStructureContext } from "@/app/(authenticated)/structures/[id]/conte
 import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
 import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
 import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";
+import { FieldSetHebergement } from "@/app/components/forms/fieldsets/structure/FieldSetHebergement";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { modificationDescriptionSchema } from "@/schemas/modification/modificationDescription.schema";
 
 import { ModificationTitle } from "../components/ModificationTitle";
-import { modificationDescriptionSchema } from "./validation/ModificationDescriptionSchema";
 
 export default function ModificationDescription() {
   const { structure } = useStructureContext();
@@ -27,7 +28,10 @@ export default function ModificationDescription() {
 
   return (
     <>
-      <ModificationTitle step="Description" closeLink={`/structures/${structure.id}`} />
+      <ModificationTitle
+        step="Description"
+        closeLink={`/structures/${structure.id}`}
+      />
       <FormWrapper
         schema={modificationDescriptionSchema}
         defaultValues={defaultValues}
@@ -61,7 +65,8 @@ export default function ModificationDescription() {
           title=""
           description="L'ensemble des adresses sont des données sensibles qui sont protégées selon les normes du gouvernement. Elles ne seront communiquées qu'aux agents et agentes de DDETS."
         />
-        <FieldSetAdresseAdministrative />
+        <FieldSetAdresseAdministrative formKind="modification" />
+        <FieldSetHebergement />
       </FormWrapper>
       {state === "error" && (
         <SubmitError

@@ -1,6 +1,6 @@
 export type StructureTypologie = {
   id: number;
-  date: Date;
+  date: string;
   placesAutorisees: number;
   pmr: number;
   lgbt: number;

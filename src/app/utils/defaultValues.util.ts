@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
+import { getRepartition } from "@/app/utils/structure.util";
+import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 import { Contact } from "@/types/contact.type";
 import {
@@ -14,63 +16,34 @@ import { formatDate, formatDateString } from "./date.util";
 import { getFinanceDocument } from "./getFinanceDocument.util";
 import { isStructureAutorisee } from "./structure.util";
 
-export type StructureDefaultValues = Omit<
-  StructureWithLatLng,
-  | "creationDate"
-  | "nom"
-  | "typeBati"
-  | "debutPeriodeAutorisation"
-  | "finPeriodeAutorisation"
-  | "debutConvention"
-  | "finConvention"
-  | "debutCpom"
-  | "finCpom"
-  | "finessCode"
-  | "public"
-  | "filiale"
-  | "contacts"
-  | "adresseAdministrativeComplete"
-  | "adresseAdministrative"
-  | "codePostalAdministratif"
-  | "communeAdministrative"
-  | "departementAdministratif"
-  | "typologies"
-  | "placesACreer"
-  | "placesAFermer"
-  | "echeancePlacesACreer"
-  | "echeancePlacesAFermer"
-> & {
-  creationDate: string;
-  nom: string;
-  typeBati: Repartition;
-  debutPeriodeAutorisation?: string;
-  finPeriodeAutorisation?: string;
-  debutConvention?: string;
-  finConvention?: string;
-  debutCpom?: string;
-  finCpom?: string;
-  finessCode?: string;
-  public?: PublicType;
-  filiale?: string;
-  contacts: Contact[];
-  adresseAdministrativeComplete: string;
-  adresseAdministrative: string;
-  codePostalAdministratif: string;
-  communeAdministrative: string;
-  departementAdministratif: string;
-  typologies?: StructureTypologie[];
-  placesACreer?: number;
-  placesAFermer?: number;
-  echeancePlacesACreer?: string;
-  echeancePlacesAFermer?: string;
-};
-
 export const getDefaultValues = ({
   structure,
 }: {
   structure: StructureWithLatLng;
 }): StructureDefaultValues => {
   const isAutorisee = isStructureAutorisee(structure.type);
+  const repartition = getRepartition(structure);
+
+  // We add adresseComplete (who is not saved in db) to the adresses
+  // We also convert logementSocial and qpv to boolean
+  // And also convert repartition db value to form value (capitalize only the first letter)
+  let adresses: FormAdresse[] = [];
+  if (Array.isArray(structure.adresses)) {
+    adresses = structure.adresses.map((adresse) => ({
+      ...adresse,
+      repartition: (adresse.repartition.charAt(0).toUpperCase() +
+        adresse.repartition.slice(1).toLowerCase()) as Repartition,
+      adresseComplete: [adresse.adresse, adresse.codePostal, adresse.commune]
+        .filter(Boolean)
+        .join(" ")
+        .trim(),
+      adresseTypologies: adresse.adresseTypologies?.map((adresseTypologie) => ({
+        ...adresseTypologie,
+        logementSocial: adresseTypologie.logementSocial ? true : false,
+        qpv: adresseTypologie.qpv ? true : false,
+      })),
+    }));
+  }
 
   return {
     ...structure,
@@ -93,8 +66,6 @@ export const getDefaultValues = ({
       : undefined,
     filiale: structure.filiale || undefined,
     contacts: structure.contacts || [],
-    typeBati:
-      (structure as { typeBati?: Repartition }).typeBati || Repartition.MIXTE,
     adresseAdministrativeComplete: [
       structure.adresseAdministrative,
       structure.codePostalAdministratif,
@@ -107,6 +78,8 @@ export const getDefaultValues = ({
     codePostalAdministratif: structure.codePostalAdministratif || "",
     communeAdministrative: structure.communeAdministrative || "",
     departementAdministratif: structure.departementAdministratif || "",
+    typeBati: repartition,
+    adresses,
     typologies: structure?.structureTypologies?.map((typologie) => ({
       id: typologie.id,
       date: typologie.date,
@@ -211,4 +184,56 @@ export const getFinanceFormDefaultValues = ({
     fileUploads: buildFileUploadsDefaultValues(),
   };
   return defaultValues;
+};
+
+type StructureDefaultValues = Omit<
+  StructureWithLatLng,
+  | "creationDate"
+  | "nom"
+  | "debutPeriodeAutorisation"
+  | "finPeriodeAutorisation"
+  | "debutConvention"
+  | "finConvention"
+  | "debutCpom"
+  | "finCpom"
+  | "finessCode"
+  | "public"
+  | "filiale"
+  | "contacts"
+  | "adresseAdministrativeComplete"
+  | "adresseAdministrative"
+  | "codePostalAdministratif"
+  | "communeAdministrative"
+  | "departementAdministratif"
+  | "typologies"
+  | "adresses"
+  | "placesACreer"
+  | "placesAFermer"
+  | "echeancePlacesACreer"
+  | "echeancePlacesAFermer"
+> & {
+  creationDate: string;
+  nom: string;
+  debutPeriodeAutorisation?: string;
+  finPeriodeAutorisation?: string;
+  debutConvention?: string;
+  finConvention?: string;
+  debutCpom?: string;
+  finCpom?: string;
+  finessCode?: string;
+  public?: PublicType;
+  filiale?: string;
+  contacts: Contact[];
+  adresseAdministrativeComplete: string;
+  adresseAdministrative: string;
+  codePostalAdministratif: string;
+  communeAdministrative: string;
+  departementAdministratif: string;
+  typeBati: Repartition;
+  adresses: FormAdresse[];
+  typologies?: StructureTypologie[];
+  placesACreer?: number;
+  placesAFermer?: number;
+  echeancePlacesACreer?: string;
+  echeancePlacesAFermer?: string;
 };

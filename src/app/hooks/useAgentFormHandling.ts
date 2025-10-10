@@ -1,17 +1,17 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
+
+import { FormAdresse } from "@/schemas/base/adresse.schema";
+import { FinalisationQualiteFormValues } from "@/schemas/finalisation/finalisationQualite.schema";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
-import { finalisationQualiteSchemaSimple } from "../(authenticated)/structures/[id]/finalisation/05-qualite/validation/FinalisationQualiteSchema";
 import { CategoryDisplayRulesType } from "../utils/categoryToDisplay.util";
 import { useStructures } from "./useStructures";
 
-// Type for form submission data that can be passed to handleSubmit
 export type FormSubmitData = {
   dnaCode?: string;
-  [key: string]: unknown; // Allow additional dynamic properties for different form schemas
+  [key: string]: unknown;
 };
 
 export const useAgentFormHandling = ({
@@ -25,7 +25,8 @@ export const useAgentFormHandling = ({
 
   const { structure, setStructure } = useStructureContext();
 
-  const { updateAndRefreshStructure } = useStructures();
+  const { updateAndRefreshStructure, transformFormAdressesToApiAdresses } =
+    useStructures();
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const [backendError, setBackendError] = useState<string | undefined>(
@@ -35,9 +36,12 @@ export const useAgentFormHandling = ({
   const handleSubmit = async (data: FormSubmitData) => {
     setState("loading");
     try {
+      const adresses = transformFormAdressesToApiAdresses(
+        data.adresses as FormAdresse[]
+      );
       const updatedStructure = await updateAndRefreshStructure(
         structure.id,
-        data,
+        { ...data, adresses },
         setStructure
       );
       if (updatedStructure === "OK") {
@@ -45,6 +49,7 @@ export const useAgentFormHandling = ({
           router.push(nextRoute);
         }
       } else {
+        console.error(updatedStructure);
         setState("error");
         setBackendError(updatedStructure?.toString());
         throw new Error(updatedStructure?.toString());
@@ -57,8 +62,8 @@ export const useAgentFormHandling = ({
   };
 
   const handleQualiteFormSubmit = async (
-    data: z.infer<typeof finalisationQualiteSchemaSimple>,
-    methods: UseFormReturn<z.infer<typeof finalisationQualiteSchemaSimple>>
+    data: FinalisationQualiteFormValues,
+    methods: UseFormReturn<FinalisationQualiteFormValues>
   ) => {
     if (!categoriesDisplayRules) {
       return;

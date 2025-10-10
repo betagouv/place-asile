@@ -1,16 +1,13 @@
 import { useParams } from "next/navigation";
-import { z } from "zod";
 
 import { CustomTag } from "@/app/components/ui/CustomTag";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
 
-import { AdressesSchema } from "../../../validation/adressesSchema";
-
-type AdressesFormValues = z.infer<typeof AdressesSchema>;
 export const Adresses = () => {
   const params = useParams();
   const { currentValue: localStorageValues } = useLocalStorage<
-    Partial<AdressesFormValues>
+    Partial<AjoutAdressesFormValues>
   >(`ajout-structure-${params.dnaCode}-adresses`, {});
 
   return (
@@ -51,12 +48,18 @@ export const Adresses = () => {
             {hebergement?.adresseComplete && (
               <span>{hebergement?.adresseComplete}</span>
             )}
-            {hebergement?.places && <span>({hebergement?.places} places)</span>}
+            {hebergement?.adresseTypologies?.[0]?.placesAutorisees && (
+              <span>
+                ({hebergement?.adresseTypologies?.[0]?.placesAutorisees} places)
+              </span>
+            )}
             {hebergement?.repartition && (
               <span>– {hebergement?.repartition}</span>
             )}
-            {hebergement?.qpv && <CustomTag>QPV</CustomTag>}
-            {hebergement?.logementSocial && (
+            {hebergement?.adresseTypologies?.[0]?.qpv && (
+              <CustomTag>QPV</CustomTag>
+            )}
+            {hebergement?.adresseTypologies?.[0]?.logementSocial && (
               <CustomTag>Logement social</CustomTag>
             )}
           </p>

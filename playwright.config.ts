@@ -5,6 +5,7 @@ require("dotenv").config();
 
 export default defineConfig({
   testDir: "./tests/e2e",
+  workers: 1, // Run tests sequentially to avoid race conditions
   use: {
     baseURL: "http://localhost:3000",
     headless: false,
