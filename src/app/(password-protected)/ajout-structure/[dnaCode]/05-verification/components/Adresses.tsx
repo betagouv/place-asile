@@ -1,15 +1,13 @@
 import { useParams } from "next/navigation";
-import { z } from "zod";
 
 import { CustomTag } from "@/app/components/ui/CustomTag";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { ajoutAdressesSchema } from "@/schemas/ajout/ajoutAdresses.schema";
+import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
 
-type AdressesFormValues = z.infer<typeof ajoutAdressesSchema>;
 export const Adresses = () => {
   const params = useParams();
   const { currentValue: localStorageValues } = useLocalStorage<
-    Partial<AdressesFormValues>
+    Partial<AjoutAdressesFormValues>
   >(`ajout-structure-${params.dnaCode}-adresses`, {});
 
   return (
