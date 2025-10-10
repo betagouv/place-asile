@@ -314,7 +314,9 @@ const createOrUpdateAdresses = async (
   adresses: UpdateAdresse[] = [],
   structureDnaCode: string
 ): Promise<void> => {
-  if (!adresses || adresses.length === 0) return;
+  if (!adresses || adresses.length === 0) {
+    return;
+  }
 
   // Delete adresses that are not in the provided array
   await deleteAdresses(adresses, structureDnaCode);
@@ -405,6 +407,26 @@ const deleteAdresses = async (
   );
 };
 
+const deleteControles = async (
+  controlesToKeep: UpdateControle[],
+  structureDnaCode: string
+): Promise<void> => {
+  const allControles = await prisma.controle.findMany({
+    where: { structureDnaCode: structureDnaCode },
+  });
+  const controlesToDelete = allControles.filter(
+    (controle) =>
+      !controlesToKeep.some(
+        (controleToKeep) => controleToKeep.id === controle.id
+      )
+  );
+  await Promise.all(
+    controlesToDelete.map((controle) =>
+      prisma.controle.delete({ where: { id: controle.id } })
+    )
+  );
+};
+
 const updateFileUploads = async (
   fileUploads: UpdateFileUpload[] | undefined,
   structureDnaCode: string
@@ -421,6 +443,7 @@ const updateFileUploads = async (
           categoryName: fileUpload.categoryName,
           structureDnaCode,
           parentFileUploadId: fileUpload.parentFileUploadId,
+          controleId: fileUpload.controleId,
         },
       })
     )
@@ -431,6 +454,11 @@ const createOrUpdateControles = async (
   controles: UpdateControle[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
+  if (!controles || controles.length === 0) {
+    return;
+  }
+
+  deleteControles(controles, structureDnaCode);
   await Promise.all(
     (controles || []).map((controle) => {
       if (controle.id) {
@@ -449,7 +477,7 @@ const createOrUpdateControles = async (
           data: {
             structureDnaCode,
             type: convertToControleType(controle.type),
-            date: controle.date,
+            date: controle.date!,
             fileUploads: {
               connect: { key: controle.fileUploadKey },
             },

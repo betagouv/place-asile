@@ -124,7 +124,8 @@ const budgetSchema = z.object({
 });
 
 const controleSchema = z.object({
-  date: z.coerce.date(),
+  id: z.number().optional(),
+  date: frDateField(),
   type: z.nativeEnum(ControleType),
   fileUploadKey: z.string(),
 });
@@ -204,6 +205,7 @@ export const structureUpdateSchema = z.object({
         endDate: frDateField(),
         categoryName: z.string().optional(),
         parentFileUploadId: z.number().optional(),
+        controleId: z.number().optional(),
       })
     )
     .optional(),

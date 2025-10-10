@@ -20,7 +20,7 @@ import { getCurrentStepData } from "../components/Steps";
 import UploadsByCategory from "./components/UploadsByCategory";
 
 export enum FileMetaData {
-  DATE_TYPE,
+  INSPECTION_CONTROLE,
   DATE_START_END,
   NAME,
 }
@@ -98,9 +98,8 @@ export const FinalisationQualiteForm = ({
 
       {categoriesToDisplay.map((category, index) => {
         return (
-          <>
+          <div key={category}>
             <UploadsByCategory
-              key={category}
               category={category}
               categoryShortName={
                 categoriesDisplayRules[category].categoryShortName
@@ -116,8 +115,8 @@ export const FinalisationQualiteForm = ({
               }
               notice={categoriesDisplayRules[category].notice}
             />
-            {index < categoriesToDisplay.length - 1 && <hr />}
-          </>
+            {index < categoriesToDisplay.length - 1 && <hr className="mt-13" />}
+          </div>
         );
       })}
       {state === "error" && (

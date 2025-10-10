@@ -110,9 +110,18 @@ export const useAgentFormHandling = ({
       const filteredFileUploads = fileUploads?.filter((fileUpload) => {
         return fileUpload.key !== undefined;
       });
+      const controles = data.controles?.map((controle) => {
+        return {
+          id: controle.id || undefined,
+          date: controle.date,
+          type: controle.type,
+          fileUploadKey: controle.fileUploads?.[0].key,
+        };
+      });
 
       await handleSubmit({
         fileUploads: filteredFileUploads,
+        controles,
         dnaCode: structure.dnaCode,
       });
     }
