@@ -1,12 +1,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
 
 import { FormAdresse } from "@/schemas/base/adresse.schema";
+import { FinalisationQualiteFormValues } from "@/schemas/finalisation/finalisationQualite.schema";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
-import { finalisationQualiteSchemaSimple } from "../(authenticated)/structures/[id]/finalisation/05-qualite/validation/FinalisationQualiteSchema";
 import { CategoryDisplayRulesType } from "../utils/categoryToDisplay.util";
 import { useStructures } from "./useStructures";
 
@@ -63,8 +62,8 @@ export const useAgentFormHandling = ({
   };
 
   const handleQualiteFormSubmit = async (
-    data: z.infer<typeof finalisationQualiteSchemaSimple>,
-    methods: UseFormReturn<z.infer<typeof finalisationQualiteSchemaSimple>>
+    data: FinalisationQualiteFormValues,
+    methods: UseFormReturn<FinalisationQualiteFormValues>
   ) => {
     if (!categoriesDisplayRules) {
       return;

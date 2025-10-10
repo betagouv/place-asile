@@ -12,12 +12,12 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
+import { finalisationQualiteSchema } from "@/schemas/finalisation/finalisationQualite.schema";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
 import UploadsByCategory from "./components/UploadsByCategory";
-import { finalisationQualiteSchemaSimple } from "./validation/FinalisationQualiteSchema";
 
 export enum FileMetaData {
   DATE_TYPE,
@@ -54,7 +54,7 @@ export const FinalisationQualiteForm = ({
 
   return (
     <FormWrapper
-      schema={finalisationQualiteSchemaSimple}
+      schema={finalisationQualiteSchema}
       onSubmit={handleQualiteFormSubmit}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
