@@ -25,7 +25,7 @@ export const useAgentFormHandling = ({
 
   const { structure, setStructure } = useStructureContext();
 
-  const { updateAndRefreshStructure, transformFormAdressesToDbAdresses } =
+  const { updateAndRefreshStructure, transformFormAdressesToApiAdresses } =
     useStructures();
 
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
@@ -36,7 +36,7 @@ export const useAgentFormHandling = ({
   const handleSubmit = async (data: FormSubmitData) => {
     setState("loading");
     try {
-      const adresses = transformFormAdressesToDbAdresses(
+      const adresses = transformFormAdressesToApiAdresses(
         data.adresses as FormAdresse[]
       );
       const updatedStructure = await updateAndRefreshStructure(

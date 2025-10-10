@@ -54,7 +54,7 @@ export const useStructures = (): UseStructureResult => {
   };
 
   // Takes a form adresse and return a db adresse
-  const transformFormAdressesToDbAdresses = (
+  const transformFormAdressesToApiAdresses = (
     adresses?: FormAdresse[],
     dnaCode?: string
   ): CreateOrUpdateAdresse[] => {
@@ -119,7 +119,7 @@ export const useStructures = (): UseStructureResult => {
       finPeriodeAutorisation: handleDate(values.finPeriodeAutorisation),
       debutCpom: handleDate(values.debutCpom),
       finCpom: handleDate(values.finCpom),
-      adresses: transformFormAdressesToDbAdresses(
+      adresses: transformFormAdressesToApiAdresses(
         values.adresses,
         values.dnaCode
       ),
@@ -195,7 +195,7 @@ export const useStructures = (): UseStructureResult => {
     addStructure,
     updateStructure,
     updateAndRefreshStructure,
-    transformFormAdressesToDbAdresses,
+    transformFormAdressesToApiAdresses,
   };
 };
 
@@ -208,7 +208,7 @@ type UseStructureResult = {
     values: unknown,
     setStructure: (structure: Structure) => void
   ) => Promise<string>;
-  transformFormAdressesToDbAdresses: (
+  transformFormAdressesToApiAdresses: (
     adresses: FormAdresse[]
   ) => CreateOrUpdateAdresse[];
 };
