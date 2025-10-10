@@ -1,6 +1,10 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import Link from "next/link";
-import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
+import {
+  FieldValues,
+  UseFormGetValues,
+  UseFormSetValue,
+} from "react-hook-form";
 
 import { AdressImporter } from "@/app/components/forms/address/AdressImporter";
 import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
@@ -92,6 +96,6 @@ export const Notices = ({
 type Props = {
   typeBati: Repartition;
   hebergementsContainerRef: React.RefObject<null>;
-  getValues: UseFormGetValues<any>;
-  setValue: UseFormSetValue<any>;
+  getValues: UseFormGetValues<FieldValues>;
+  setValue: UseFormSetValue<FieldValues>;
 };

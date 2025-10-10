@@ -1,6 +1,6 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues } from "react-hook-form";
 
 import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
@@ -118,7 +118,7 @@ export const AdresseComponent = ({
 
 type Props = {
   index: number;
-  control: Control<any>;
+  control: Control<FieldValues>;
   sameAddress: boolean;
   handleRemoveAddress: (index: number) => void;
   typeBati: Repartition;
