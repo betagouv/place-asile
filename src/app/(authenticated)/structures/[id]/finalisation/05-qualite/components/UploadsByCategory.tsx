@@ -4,13 +4,13 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
+import { FileUploadFormValues } from "@/schemas/finalisation/finalisationQualite.schema";
 import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
 
 import { FileMetaData } from "../FinalisationQualiteForm";
-import { fileUploadSchema } from "../validation/FinalisationQualiteSchema";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
 
-export type FileUploadField = z.infer<typeof fileUploadSchema> & {
+export type FileUploadField = FileUploadFormValues & {
   id: string;
   uuid: string;
 };

@@ -12,12 +12,11 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { StructureState } from "@/types/structure.type";
-
 import {
-  AdressesFormValues,
-  finalisationAdressesSchema,
-} from "./validation/finalisationAdressesSchema";
+  AdresseAdministrativeFormValues,
+  adresseAdministrativeSchema,
+} from "@/schemas/base/adresseAdministrative.schema";
+import { StructureState } from "@/types/structure.type";
 
 export default function FinalisationAdressesForm({
   currentStep,
@@ -36,13 +35,13 @@ export default function FinalisationAdressesForm({
     nextRoute,
   });
 
-  const onSubmit = (data: AdressesFormValues) => {
+  const onSubmit = (data: AdresseAdministrativeFormValues) => {
     handleSubmit({ ...data, dnaCode: structure.dnaCode });
   };
 
   return (
     <FormWrapper
-      schema={finalisationAdressesSchema}
+      schema={adresseAdministrativeSchema}
       onSubmit={onSubmit}
       defaultValues={defaultValues}
       submitButtonText="Étape suivante"
