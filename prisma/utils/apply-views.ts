@@ -1,6 +1,6 @@
-import fs from "fs";
 import { execSync } from "child_process";
 import dotenv from "dotenv";
+import fs from "fs";
 dotenv.config();
 
 const viewFiles = fs.readdirSync("./prisma/views");
