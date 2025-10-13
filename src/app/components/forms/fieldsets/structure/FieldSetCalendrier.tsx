@@ -49,7 +49,7 @@ export const FieldSetCalendrier = () => {
           <Notice
             severity="info"
             title=""
-            className="rounded [&_p]:flex  [&_p]:items-center"
+            className="rounded [&_p]:flex  [&_p]:items-center max-w-lg"
             description="Uniquement si votre structure est sous convention."
           />
         )}
