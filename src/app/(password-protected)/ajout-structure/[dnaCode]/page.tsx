@@ -4,9 +4,9 @@ import { ReactElement } from "react";
 export default async function AjoutStructurePage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ dnaCode: string }>;
 }): Promise<ReactElement> {
-  const dnaCode = (await params).id;
+  const dnaCode = (await params).dnaCode;
 
   return (
     <div className="max-w-4xl mx-auto flex flex-col items-center">
