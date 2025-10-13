@@ -50,6 +50,9 @@ model Structure {
   budgets                      Budget[]
   operateur                    Operateur?                  @relation(fields: [operateurId], references: [id])
   operateurId                  Int?
+
+  createdAt                    DateTime  @default(now())
+  lastUpdate                   DateTime  @updatedAt @default(now())
 }
 
 model Controle {
@@ -59,6 +62,9 @@ model Controle {
   date             DateTime
   type             ControleType
   fileUploads      FileUpload[]
+
+  createdAt        DateTime  @default(now())
+  lastUpdate       DateTime  @updatedAt @default(now()) 
 }
 
 model Evaluation {
@@ -70,6 +76,9 @@ model Evaluation {
   notePro          Int
   noteStructure    Int
   note             Int
+
+  createdAt        DateTime  @default(now())
+  lastUpdate       DateTime  @updatedAt @default(now())
 }
 
 model EvenementIndesirableGrave {
@@ -80,6 +89,9 @@ model EvenementIndesirableGrave {
   evenementDate    DateTime
   declarationDate  DateTime
   type             String
+
+  createdAt        DateTime  @default(now())
+  lastUpdate       DateTime  @updatedAt @default(now())
 }
 
 model Adresse {
@@ -91,6 +103,9 @@ model Adresse {
   commune           String
   repartition       Repartition
   adresseTypologies AdresseTypologie[]
+
+  createdAt        DateTime  @default(now())
+  lastUpdate       DateTime  @updatedAt @default(now())
 }
 
 model AdresseTypologie {
@@ -101,6 +116,9 @@ model AdresseTypologie {
   date             DateTime
   qpv              Int
   logementSocial   Int
+
+  createdAt        DateTime  @default(now())
+  lastUpdate       DateTime  @updatedAt @default(now())
 }
 
 model Contact {
@@ -112,6 +130,10 @@ model Contact {
   telephone        String
   email            String
   role             String
+  type             ContactType @default(AUTRE)
+
+  createdAt        DateTime  @default(now())
+  lastUpdate       DateTime  @updatedAt @default(now())
 }
 
 model StructureTypologie {
@@ -123,6 +145,9 @@ model StructureTypologie {
   pmr              Int
   lgbt             Int
   fvvTeh           Int
+
+  createdAt        DateTime  @default(now())
+  lastUpdate       DateTime  @updatedAt @default(now())
 }
 
 model Activite {
@@ -139,6 +164,9 @@ model Activite {
   placesVacantes           Int
   presencesInduesBPI       Int
   presencesInduesDeboutees Int
+
+  createdAt                DateTime  @default(now())
+  lastUpdate               DateTime  @updatedAt @default(now())
 }
 
 model FileUpload {
@@ -159,6 +187,9 @@ model FileUpload {
   parentFileUpload   FileUpload?         @relation("FileUploadToFileUpload", fields: [parentFileUploadId], references: [id], onDelete: SetNull)
   parentFileUploadId Int?
   childFileUploads   FileUpload[]        @relation("FileUploadToFileUpload")
+
+  createdAt          DateTime  @default(now())
+  lastUpdate         DateTime  @updatedAt @default(now())
 }
 
 model Budget {
@@ -188,12 +219,21 @@ model Budget {
   reportANouveau                    Float?
   autre                             Float?
   commentaire                       String?
+
+  createdAt                         DateTime  @default(now())
+  lastUpdate                        DateTime  @updatedAt @default(now())
 }
 
 model Operateur {
-  id         Int         @id @default(autoincrement())
-  name       String
-  structures Structure[]
+  id                    Int         @id @default(autoincrement())
+  name                  String
+  structures            Structure[]
+  directionGenerale     String? @map("direction_generale")
+  siret                 String?
+  siegeSocial           String? @map("siege_social")
+
+  createdAt             DateTime  @default(now())
+  lastUpdate            DateTime  @updatedAt @default(now())
 }
 
 enum Repartition {
@@ -219,6 +259,12 @@ enum StructureType {
   CPH
   CAES
   PRAHDA
+}
+
+enum ContactType {
+  PRINCIPAL
+  SECONDAIRE
+  AUTRE
 }
 
 enum FileUploadCategory {

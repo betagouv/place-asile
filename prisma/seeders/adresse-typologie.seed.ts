@@ -13,6 +13,8 @@ export const createFakeAdresseTypologie = ({
     placesAutorisees,
     qpv: faker.number.int({ min: 0, max: placesAutorisees / 5 }),
     logementSocial: faker.number.int({ min: 0, max: placesAutorisees / 5 }),
+    createdAt: faker.date.past(),
+    lastUpdate: faker.date.past(),
   };
 };
 

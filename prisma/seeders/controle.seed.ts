@@ -24,5 +24,7 @@ export const createFakeControle = (): Omit<
         category: FileUploadCategory.INSPECTION_CONTROLE,
       }),
     ],
+    createdAt: faker.date.past(),
+    lastUpdate: faker.date.past(),
   };
 };

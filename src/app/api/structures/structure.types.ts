@@ -1,4 +1,5 @@
 import { Repartition } from "@/types/adresse.type";
+import { ContactType } from "@/types/contact.type";
 
 export type CreateStructure = {
   dnaCode: string;
@@ -48,6 +49,7 @@ type CreateContact = {
   telephone: string;
   email: string;
   role: string;
+  type: ContactType;
 };
 
 type CreateStructureTypologie = {
@@ -98,7 +100,7 @@ type CreateOperateur = {
 
 export type UpdateOperateur = CreateOperateur;
 
-export type UpdateContact = CreateContact & { id?: number };
+export type UpdateContact = CreateContact & { id?: number; type?: ContactType };
 export type UpdateBudget = CreateBudget & { id?: number };
 export type UpdateStructureTypologie = {
   id?: number;

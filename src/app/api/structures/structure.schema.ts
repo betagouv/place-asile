@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createNullableDateValidator } from "@/app/utils/zodCustomFields";
 import { Repartition } from "@/types/adresse.type";
 import { ControleType } from "@/types/controle.type";
+import { ContactType } from "@/types/contact.type";
 import { zFileUploadCategory } from "@/types/file-upload.type";
 import {
   PublicType,
@@ -39,6 +40,7 @@ const contactSchema = z.object({
   telephone: z.string().min(1, "Le numéro de téléphone du contact est requis"),
   email: z.string().email().min(1, "L'email du contact est requis"),
   role: z.string().min(1, "Le rôle du contact est requis"),
+  type: z.nativeEnum(ContactType),
 });
 
 const structureTypologieSchema = z.object({
@@ -193,7 +195,7 @@ export const structureUpdateSchema = z.object({
     .array(adresseSchema.extend({ id: z.number().optional() }))
     .optional(),
   contacts: z
-    .array(contactSchema.extend({ id: z.number().optional() }))
+    .array(contactSchema.extend({ id: z.number().optional(), type: z.nativeEnum(ContactType).optional() }))
     .optional(),
   typologies: z.array(updateStructureTypologieSchema).optional(),
   fileUploads: z

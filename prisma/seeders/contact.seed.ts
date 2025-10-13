@@ -1,7 +1,7 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { Contact } from "@prisma/client";
+import { Contact, ContactType } from "@prisma/client";
 
-export const createFakeContact = (): Omit<
+export const createFakeContact = (type: ContactType): Omit<
   Contact,
   "id" | "structureDnaCode"
 > => {
@@ -14,5 +14,8 @@ export const createFakeContact = (): Omit<
     telephone: faker.phone.number(),
     email: faker.internet.email({ firstName: prenom, lastName: nom }),
     role: faker.helpers.arrayElement(["Directeur", "Contact"]),
+    type,
+    createdAt: faker.date.past(),
+    lastUpdate: faker.date.past(),
   };
 };

@@ -87,6 +87,8 @@ const createFakeStructure = ({
     echeancePlacesAFermer: faker.date.future(),
     notes: faker.lorem.lines(2),
     state,
+    createdAt: faker.date.past(),
+    lastUpdate: faker.date.past(),
   };
 };
 
@@ -112,7 +114,7 @@ export const createFakeStuctureWithRelations = ({
 
   let structureWithRelations = {
     ...fakeStructure,
-    contacts: [createFakeContact(), createFakeContact()],
+    contacts: [createFakeContact("PRINCIPAL"), createFakeContact("SECONDAIRE")],
     adresses: createFakeAdresses({ placesAutorisees }),
     structureTypologies: [
       createFakeStructureTypologie({ year: 2025, placesAutorisees }),
