@@ -1,10 +1,13 @@
 import Button from "@codegouvfr/react-dsfr/Button";
+import { ReactElement } from "react";
 
-export default function AjoutStructurePage({
+export default async function AjoutStructurePage({
   params,
 }: {
-  params: { dnaCode: string };
-}) {
+  params: Promise<{ id: string }>;
+}): Promise<ReactElement> {
+  const dnaCode = (await params).id;
+
   return (
     <div className="max-w-4xl mx-auto flex flex-col items-center">
       <h1 className="flex flex-col items-center gap-4 text-center text-xl font-bold mb-2 text-title-blue-france">
@@ -73,7 +76,7 @@ export default function AjoutStructurePage({
       <Button
         size="large"
         linkProps={{
-          href: `/ajout-structure/${params.dnaCode}/01-identification`,
+          href: `/ajout-structure/${dnaCode}/01-identification`,
         }}
       >
         Je commence à remplir le formulaire
