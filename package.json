@@ -21,6 +21,7 @@
     "test:e2e:ui": "playwright test --ui --grep @manual",
     "prepare": "husky",
     "prisma:migrate": "npx prisma migrate dev",
+    "prisma:migrate:name": "npx prisma migrate dev --name",
     "prisma:deploy": "npx prisma migrate deploy",
     "prisma:seed": "npx prisma db seed",
     "prisma:studio": "npx prisma studio",

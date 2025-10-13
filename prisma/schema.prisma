@@ -228,9 +228,9 @@ model Operateur {
   id                    Int         @id @default(autoincrement())
   name                  String
   structures            Structure[]
-  directionGenerale     String? @map("direction_generale")
+  directionGenerale     String?
   siret                 String?
-  siegeSocial           String? @map("siege_social")
+  siegeSocial           String?
 
   createdAt             DateTime  @default(now())
   lastUpdate            DateTime  @updatedAt @default(now())
