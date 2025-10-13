@@ -40,7 +40,7 @@ const contactSchema = z.object({
   telephone: z.string().min(1, "Le numéro de téléphone du contact est requis"),
   email: z.string().email().min(1, "L'email du contact est requis"),
   role: z.string().min(1, "Le rôle du contact est requis"),
-  type: z.nativeEnum(ContactType),
+  type: z.nativeEnum(ContactType).optional(),
 });
 
 const structureTypologieSchema = z.object({
@@ -215,4 +215,5 @@ export const structureUpdateSchema = z.object({
   controles: z
     .array(controleSchema.extend({ id: z.number().optional() }))
     .optional(),
+  
 });
