@@ -6,7 +6,7 @@ export type Contact = {
   telephone: string;
   email: string;
   role: string;
-  type: ContactType;
+  type?: ContactType;
   createdAt?: Date;
   lastUpdate?: Date;
 };
