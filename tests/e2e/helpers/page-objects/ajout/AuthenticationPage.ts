@@ -3,11 +3,10 @@ import { Page } from "@playwright/test";
 export class AuthenticationPage {
   constructor(private page: Page) {}
 
-  async authenticate(dnaCode: string, firstStep: string = "01-identification") {
-    await this.page.goto(
-      `http://localhost:3000/ajout-structure/${dnaCode}/${firstStep}`,
-      { waitUntil: "domcontentloaded" }
-    );
+  async authenticate(dnaCode: string) {
+    await this.page.goto(`http://localhost:3000/ajout-structure/${dnaCode}`, {
+      waitUntil: "domcontentloaded",
+    });
 
     // Check if auth is bypassed (DEV_AUTH_BYPASS=1)
     const passwordInput = await this.page
@@ -24,7 +23,7 @@ export class AuthenticationPage {
 
       // Wait for the page to load after authentication
       await this.page.waitForURL(
-        `http://localhost:3000/ajout-structure/${dnaCode}/${firstStep}`,
+        `http://localhost:3000/ajout-structure/${dnaCode}`,
         { timeout: 15000 }
       );
     } else {
