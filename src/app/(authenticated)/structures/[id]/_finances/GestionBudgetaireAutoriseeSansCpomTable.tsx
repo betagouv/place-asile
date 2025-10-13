@@ -60,24 +60,24 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
           <colgroup span={1}></colgroup>
           <colgroup span={3}></colgroup>
           <tr className="bg-alt-grey">
-            <td rowSpan={1}></td>
-            {primaryHeadings.map((primaryHeading) => (
+            <th rowSpan={1} className="!border-r-1 border-default-grey"></th>
+            {primaryHeadings.map((primaryHeading, index) => (
               <th
                 key={primaryHeading.title}
                 colSpan={primaryHeading.colSpan}
                 scope="colgroup"
-                className="text-xs py-2 px-4 text-center"
+                className={`text-xs py-2 px-4 text-center ${index === 0 ? "!border-r-3 border-default-grey" : ""}`}
               >
                 {primaryHeading.title}
               </th>
             ))}
           </tr>
           <tr className="border-t-1 border-default-grey">
-            {secondaryHeadings.map((secondaryHeading) => (
+            {secondaryHeadings.map((secondaryHeading, index) => (
               <th
                 scope="col"
                 key={secondaryHeading}
-                className="text-xs py-2 px-4 text-center"
+                className={`text-xs py-2 px-4 text-center ${index === 2 ? "!border-r-3" : ""} ${index === 0 ? "!border-r-1" : ""} border-default-grey`}
               >
                 {secondaryHeading}
               </th>
@@ -87,7 +87,7 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
         <tbody>
           {structure?.budgets?.map((budget) => (
             <tr key={budget.id} className="border-t-1 border-default-grey">
-              <td className="py-2 px-4 text-center text-sm">
+              <td className="py-2 px-4 text-center text-sm !border-r-1 border-default-grey">
                 {new Date(budget.date).getFullYear()}
               </td>
               <td className="py-2 px-4 text-center test-sm">
@@ -100,7 +100,7 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
                   <EmptyCell />
                 )}
               </td>
-              <td className="py-2 px-4 text-center test-sm">
+              <td className="py-2 px-4 text-center test-sm !border-r-3 border-default-grey">
                 {!isNullOrUndefined(budget.dotationAccordee) ? (
                   <NumberDisplay
                     value={budget.dotationAccordee}

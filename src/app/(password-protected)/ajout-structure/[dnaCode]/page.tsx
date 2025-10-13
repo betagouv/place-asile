@@ -42,7 +42,7 @@ export default async function AjoutStructurePage({
             <i className="fr-icon-check-line text-action-high-blue-france text-sm [&::before]:[--icon-size:1.5rem]"></i>
             <span>
               Informations générales (date de création, code FINESS, types de
-              publics, dates des différents contrats...) ;
+              publics, dates des différents conventions...) ;
             </span>
           </li>
           <li className="flex items-start gap-2 mb-3">
@@ -59,7 +59,7 @@ export default async function AjoutStructurePage({
           <li className="flex items-start gap-2 mb-3">
             <i className="fr-icon-check-line text-action-high-blue-france text-sm [&::before]:[--icon-size:1.5rem]"></i>
             <span>
-              Historiques des types de places (total autorisées, spécialisées,
+              Historique des types de places (total autorisées, spécialisées,
               labellisées et PMR) sur les cinq dernières années ;
             </span>
           </li>
