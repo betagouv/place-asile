@@ -1,11 +1,16 @@
 // TODO: Remove every any
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import Link from "next/link";
 import { ReactElement, useState } from "react";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 
 import { useSpreadsheetParse } from "@/app/hooks/useSpreadsheetParse";
-import { SPREADSHEET_MIME_TYPES } from "@/constants";
+import {
+  MODELE_DIFFUS_LINK,
+  MODELE_MIXTE_LINK,
+  SPREADSHEET_MIME_TYPES,
+} from "@/constants";
 import { Repartition } from "@/types/adresse.type";
 
 export const AdressImporter = ({
@@ -56,7 +61,7 @@ export const AdressImporter = ({
   };
 
   return (
-    <div className="grid items-center justify-center bg-alt-blue-france p-4 rounded min-h-[4rem]">
+    <div className="flex flex-col items-center justify-center bg-alt-blue-france p-4 rounded min-h-[4rem]">
       <input
         type="file"
         id="adresses-upload"
@@ -65,7 +70,46 @@ export const AdressImporter = ({
         onChange={() => onAdressesUpload(getValues, setValue, typeBati)}
       />
       {parsingError && (
-        <p className="text-red-500">{parsingError.toString()}</p>
+        <div className="text-red-500 pt-2">
+          <i>L’import du tableur n’a pas fonctionné.</i>
+          <br />
+          Veillez à ce que ces conditions soient remplies :
+          <ul>
+            <li>
+              utilisez{" "}
+              <Link
+                href={
+                  typeBati === Repartition.DIFFUS
+                    ? MODELE_DIFFUS_LINK
+                    : MODELE_MIXTE_LINK
+                }
+                className="underline"
+              >
+                le tableur pré-formaté disponible au téléchargement
+              </Link>{" "}
+              et non un tableur créé par vous-même ;
+            </li>
+            <li>pour le nombre de places autorisées, renseignez un nombre ;</li>
+            <li>
+              dans la colonne “Logement social” veuillez indiquer “Oui” si le
+              logement est loué à un bailleur social et “Non” le cas échéant ;
+            </li>
+            <li>
+              dans la colonne “QPV”, veuillez vérifier si l’adresse en question
+              fait partie d’un Quartier Prioritaire de la Ville sur{" "}
+              <Link
+                href="https://sig.ville.gouv.fr/"
+                className="underline"
+                target="_blank"
+                rel="noopener external"
+              >
+                ce lien
+              </Link>{" "}
+              et indiquer “Oui” si c’est le cas et “Non” le cas échéant ou si
+              vous n’obtenez pas de réponse.
+            </li>
+          </ul>
+        </div>
       )}
     </div>
   );
