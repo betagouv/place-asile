@@ -9,7 +9,7 @@ export const FieldSetCalendrier = () => {
   const { control, watch } = useFormContext();
   const type = watch("type");
   const cpom = watch("cpom");
-
+  console.log(type);
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-xl font-bold mb-4 text-title-blue-france">
@@ -49,7 +49,7 @@ export const FieldSetCalendrier = () => {
           <Notice
             severity="info"
             title=""
-            className="rounded [&_p]:flex  [&_p]:items-center"
+            className="rounded [&_p]:flex  [&_p]:items-center max-w-lg"
             description="Uniquement si votre structure est sous convention."
           />
         )}
