@@ -22,7 +22,7 @@
     "prepare": "husky",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:migrate:name": "npx prisma migrate dev --name",
-    "prisma:deploy": "npx prisma migrate deploy",
+    "prisma:deploy": "npx prisma migrate deploy && node prisma/utils/apply-views.ts",
     "prisma:seed": "npx prisma db seed",
     "prisma:studio": "npx prisma studio",
     "prisma:reset": "npx prisma migrate reset",
