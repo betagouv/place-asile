@@ -1,4 +1,4 @@
-import { Contact } from "@/types/contact.type";
+import { Contact, ContactType } from "@/types/contact.type";
 
 export const createContact = ({
   id,
@@ -7,6 +7,7 @@ export const createContact = ({
   telephone,
   email,
   role,
+  type,
 }: CreateContactArgs): Contact => {
   return {
     id: id ?? 1,
@@ -16,6 +17,7 @@ export const createContact = ({
     telephone: telephone ?? "0123456789",
     email: email ?? "john.doe@example.com",
     role: role ?? "Directeur",
+    type: type ?? ContactType.PRINCIPAL,
   };
 };
 
@@ -26,4 +28,5 @@ type CreateContactArgs = {
   telephone?: string;
   email?: string;
   role?: string;
+  type?: ContactType;
 };

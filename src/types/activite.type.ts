@@ -12,4 +12,6 @@ export type Activite = {
   presencesInduesBPI: number;
   presencesInduesDeboutees: number;
   presencesIndues: number;
+  createdAt?: Date;
+  lastUpdate?: Date;
 };

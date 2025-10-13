@@ -5,6 +5,8 @@ export type AdresseTypologie = {
   date: string;
   qpv: number;
   logementSocial: number;
+  createdAt?: Date;
+  lastUpdate?: Date;
 };
 
 export type CreateOrUpdateAdresseTypologie = Omit<

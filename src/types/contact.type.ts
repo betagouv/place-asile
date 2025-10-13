@@ -7,6 +7,8 @@ export type Contact = {
   email: string;
   role: string;
   type: ContactType;
+  createdAt?: Date;
+  lastUpdate?: Date;
 };
 
 export enum ContactType {

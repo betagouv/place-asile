@@ -6,4 +6,6 @@ export type Evaluation = {
   notePro: number;
   noteStructure: number;
   note: number;
+  createdAt?: Date;
+  lastUpdate?: Date;
 };

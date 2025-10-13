@@ -11,6 +11,8 @@ export const createAdresseTypologie = ({
     date: new Date("01/01/2023").toISOString(),
     qpv: 3,
     logementSocial: 2,
+    createdAt: new Date(),
+    lastUpdate: new Date(),
   };
 };
 

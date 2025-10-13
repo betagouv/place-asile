@@ -53,6 +53,8 @@ export type Structure = {
   fileUploads?: FileUpload[];
   budgets?: Budget[];
   operateur?: Operateur;
+  createdAt?: Date;
+  lastUpdate?: Date;
 };
 
 export type StructureWithLatLng = Structure & {

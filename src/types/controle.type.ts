@@ -6,6 +6,8 @@ export type Controle = {
   date: Date;
   type: ControleType;
   fileUploads: FileUpload[];
+  createdAt?: Date;
+  lastUpdate?: Date;
 };
 
 export enum ControleType {

@@ -45,16 +45,18 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
     presencesInduesDeboutees: metadata.presencesInduesDebouteesIndex
       ? Number(line[metadata.presencesInduesDebouteesIndex]) || 0
       : 0,
+    createdAt: new Date(),
+    lastUpdate: new Date(),
   }));
 };
 
-export const extractActivitesFromOds = (): Omit<Activite, "id">[] => {
+export const extractActivitesFromOds = (): ActiviteInput[] => {
   const sheets = xlsx.parse(`${__dirname}/../data/activites.ods`, {
     cellDates: true,
     blankrows: false,
   });
 
-  const allActivites: Omit<Activite, "id">[] = [];
+  const allActivites: ActiviteInput[] = [];
   sheets.forEach((sheet, index) => {
     const sheetData = sheet.data;
     sheetData.shift();
@@ -114,3 +116,9 @@ const existingStructureCodes = [
   "C8503",
   "H8503",
 ];
+
+// New typeto prevent date issues
+type ActiviteInput = Omit<Activite, "id"> & {
+  createdAt?: Date;
+  lastUpdate?: Date;
+};

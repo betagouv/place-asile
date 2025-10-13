@@ -24,4 +24,6 @@ export type Budget = {
   reportANouveau: number | null;
   fondsDedies: number;
   commentaire?: string;
+  createdAt?: Date;
+  lastUpdate?: Date;
 };
