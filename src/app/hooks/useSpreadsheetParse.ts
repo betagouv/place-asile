@@ -31,9 +31,14 @@ export const useSpreadsheetParse = (): UseExcelParseResult => {
         departement: String(row.codePostal).substring(0, 2),
         repartition:
           repartitionColumnIndex === -1 ? Repartition.DIFFUS : row.repartition,
-        places: row.places,
-        qpv: row.qpv === "Oui",
-        logementSocial: row.logementSocial === "Oui",
+        adresseTypologies: [
+          {
+            placesAutorisees: row.placesAutorisees,
+            date: new Date().toISOString(),
+            qpv: row.qpv?.toLowerCase() === "oui",
+            logementSocial: row.logementSocial?.toLowerCase() === "oui",
+          },
+        ],
       } as unknown as FormAdresse;
       adresses.push(adresse);
     });
@@ -52,40 +57,40 @@ export const useSpreadsheetParse = (): UseExcelParseResult => {
 };
 
 const getSchema = (isMixte: boolean): Schema => ({
-  Adresse: {
-    column: "adresse",
+  adresse: {
+    column: "Adresse",
     type: String,
     required: true,
   },
-  "Code postal": {
-    column: "codePostal",
+  codePostal: {
+    column: "Code postal",
     type: String,
     required: true,
   },
-  Ville: {
-    column: "ville",
+  ville: {
+    column: "Ville",
     type: String,
     required: true,
   },
-  "Places autorisées": {
-    column: "places",
+  placesAutorisees: {
+    column: "Places autorisées",
     type: Number,
     required: true,
   },
-  "Logement social": {
-    column: "logementSocial",
+  logementSocial: {
+    column: "Logement social",
     type: String,
-    oneOf: ["Oui", "Non"],
+    oneOf: ["Oui", "oui", "OUI", "Non", "non", "NON"],
     required: true,
   },
-  QPV: {
-    column: "qpv",
+  qpv: {
+    column: "QPV",
     type: String,
-    oneOf: ["Oui", "Non"],
+    oneOf: ["Oui", "oui", "OUI", "Non", "non", "NON"],
     required: true,
   },
-  "Type de bâti": {
-    column: "repartition",
+  repartition: {
+    column: "Type de bâti",
     type: String,
     oneOf: [Repartition.DIFFUS, Repartition.COLLECTIF],
     required: isMixte,
