@@ -10,11 +10,11 @@ export default async function AjoutStructurePage({
 
   return (
     <div className="max-w-4xl mx-auto flex flex-col items-center">
-      <h1 className="flex flex-col items-center gap-4 text-center text-xl font-bold mb-2 text-title-blue-france">
+      <h2 className="flex flex-col items-center gap-4 text-center text-xl font-bold mb-2 text-title-blue-france">
         <i className="fr-icon-draft-line text-action-high-blue-france text-4xl [&::before]:[--icon-size:5rem]"></i>
         Vous allez créer la page dédiée
         <br />à votre structure sur Place d’Asile.
-      </h1>
+      </h2>
       <p className="text-center mb-10">
         Nous vous remercions pour cette contribution à l’outil !<br />
         <br />
@@ -32,11 +32,11 @@ export default async function AjoutStructurePage({
         informations et des documents en amont.
       </p>
       <div className="bg-white rounded-lg p-6 max-w-xl mb-10">
-        <h2 className="text-base font-bold mb-4 text-title-blue-france text-center">
+        <h3 className="text-base font-bold mb-4 text-title-blue-france text-center">
           Aperçu des informations et documents
           <br />
           nécessaires au formulaire
-        </h2>
+        </h3>
         <ul className="p-0">
           <li className="flex items-start gap-2 mb-3">
             <i className="fr-icon-check-line text-action-high-blue-france text-sm [&::before]:[--icon-size:1.5rem]"></i>

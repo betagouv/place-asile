@@ -6,6 +6,7 @@ import { AuthenticationPage } from "./helpers/page-objects/ajout/AuthenticationP
 import { ConfirmationPage } from "./helpers/page-objects/ajout/ConfirmationPage";
 import { DocumentsPage } from "./helpers/page-objects/ajout/DocumentsPage";
 import { IdentificationPage } from "./helpers/page-objects/ajout/IdentificationPage";
+import { PresentationPage } from "./helpers/page-objects/ajout/PresentationPage";
 import { TypePlacesPage } from "./helpers/page-objects/ajout/TypePlacesPage";
 import { VerificationPage } from "./helpers/page-objects/ajout/VerificationPage";
 import { hudaAvecCpom } from "./helpers/test-data";
@@ -22,6 +23,10 @@ test("HUDA avec CPOM - Flux complet de création", async ({ page }) => {
   // Étape 0: Authentification
   const authPage = new AuthenticationPage(page);
   await authPage.authenticate(data.dnaCode);
+
+  // Étape 0.5: Page de présentation
+  const presentationPage = new PresentationPage(page);
+  await presentationPage.navigateToFirstStep(data.dnaCode);
 
   // Étape 1: Identification
   const identificationPage = new IdentificationPage(page);
