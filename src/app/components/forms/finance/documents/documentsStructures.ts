@@ -19,7 +19,7 @@ export const structureAutoriseesDocuments: StructureDocument[] = [
     label: "Budget prévisionnel retenu (ou exécutoire)",
     subLabel: "par l'autorité de tarification",
     value: "BUDGET_PREVISIONNEL_RETENU",
-    yearIndex: 1,
+    yearIndex: 0,
   },
   {
     label: "Budget réctificatif (optionnel)",
@@ -43,7 +43,7 @@ export const structureAutoriseesDocuments: StructureDocument[] = [
     label: "Compte administratif retenu",
     subLabel: "par l'autorité de tarification",
     value: "COMPTE_ADMINISTRATIF_RETENU",
-    yearIndex: 3,
+    yearIndex: 2,
   },
 ];
 export const structureSubventionneesDocuments: StructureDocument[] = [
