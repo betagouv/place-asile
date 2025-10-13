@@ -13,7 +13,7 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
   const { structure } = useStructureContext();
 
   const primaryHeadingsStructureAutorisee = [
-    { title: "BUDGET EXÉCUTOIRE DE LA STRUCTURE", colSpan: 2 },
+    { title: "BUDGET DE LA STRUCTURE", colSpan: 2 },
     { title: "COMPTE ADMINISTRATIF DE LA STRUCTURE", colSpan: 1 },
     { title: "COMPTE ADMINISTRATIF DU CPOM", colSpan: 3 },
   ];
