@@ -40,7 +40,7 @@ export const StructureAutorisee = () => {
           key="budgetExecutoire"
           className="!border-r-3"
         >
-          Budget exécutoire de la structure
+          Budget de la structure
         </th>,
         <th
           scope="col"

@@ -11,7 +11,7 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
   const { structure } = useStructureContext();
 
   const primaryHeadings = [
-    { title: "BUDGET EXÉCUTOIRE DE LA STRUCTURE", colSpan: 2 },
+    { title: "BUDGET DE LA STRUCTURE", colSpan: 2 },
     { title: "COMPTE ADMINISTRATIF DE LA STRUCTURE", colSpan: 4 },
   ];
 
