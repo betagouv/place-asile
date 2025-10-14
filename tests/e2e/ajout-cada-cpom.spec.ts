@@ -15,7 +15,11 @@ import { IdentificationPage } from "./helpers/page-objects/ajout/IdentificationP
 import { PresentationPage } from "./helpers/page-objects/ajout/PresentationPage";
 import { TypePlacesPage } from "./helpers/page-objects/ajout/TypePlacesPage";
 import { VerificationPage } from "./helpers/page-objects/ajout/VerificationPage";
-import { deleteStructureViaApi } from "./helpers/structure-creator";
+import { StructureDetailPage } from "./helpers/page-objects/StructureDetailPage";
+import {
+  deleteStructureViaApi,
+  getStructureId,
+} from "./helpers/structure-creator";
 import { cadaAvecCpom } from "./helpers/test-data";
 
 // Increase timeout for full form flow
@@ -64,6 +68,12 @@ test("CADA avec CPOM - Flux complet de création", async ({ page }) => {
     // Étape 6: Confirmation
     const confirmationPage = new ConfirmationPage(page);
     await confirmationPage.verifySuccess();
+
+    // Étape 7: Navigate to structure detail page and verify data
+    const structureId = await getStructureId(data.dnaCode);
+    const structureDetailPage = new StructureDetailPage(page);
+    await structureDetailPage.navigateToStructure(structureId);
+    await structureDetailPage.verifyStructureData(data);
   } finally {
     // Cleanup: Delete the created structure
     await deleteStructureViaApi(data.dnaCode);
