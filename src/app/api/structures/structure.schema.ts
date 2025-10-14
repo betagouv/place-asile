@@ -55,47 +55,72 @@ const fileUploadSchema = z.object({
   category: zFileUploadCategory,
 });
 
-export const structureCreationSchema = z.object({
-  dnaCode: z.string().min(1, "Le code DNA est requis"),
-  operateur: z.object({ id: z.number(), name: z.string() }),
-  filiale: z.string().optional(),
-  type: z.nativeEnum(StructureType),
-  adresseAdministrative: z
-    .string()
-    .min(1, "L'adresse administrative est requise"),
-  codePostalAdministratif: z
-    .string()
-    .min(1, "Le code postal administratif est requis"),
-  communeAdministrative: z
-    .string()
-    .min(1, "La commune de l'adresse administrative est requise"),
-  departementAdministratif: z
-    .string()
-    .min(1, "Le département de l'adresse administrative est requis"),
-  nom: z.string().optional(),
-  debutConvention: createNullableDateValidator().optional(),
-  finConvention: createNullableDateValidator().optional(),
-  cpom: z.boolean({
-    message: "Le CPOM est requis",
-  }),
-  creationDate: z.coerce.date({ message: "La date de création est requise" }),
-  finessCode: z.string().optional(),
-  lgbt: z.boolean({
-    message: "L'accueil de LGBT dans la structure est requis",
-  }),
-  fvvTeh: z.boolean({
-    message: "L'accueil de FVV-TEH dans la structure est requis",
-  }),
-  public: z.nativeEnum(PublicType),
-  debutPeriodeAutorisation: createNullableDateValidator().optional(),
-  finPeriodeAutorisation: createNullableDateValidator().optional(),
-  debutCpom: createNullableDateValidator().optional(),
-  finCpom: createNullableDateValidator().optional(),
-  adresses: z.array(adresseSchema),
-  contacts: z.array(contactSchema),
-  typologies: z.array(structureTypologieSchema),
-  fileUploads: z.array(fileUploadSchema),
-});
+export const structureCreationSchema = z
+  .object({
+    dnaCode: z.string().min(1, "Le code DNA est requis"),
+    operateur: z.object({ id: z.number(), name: z.string() }),
+    filiale: z.string().optional(),
+    type: z.nativeEnum(StructureType),
+    adresseAdministrative: z
+      .string()
+      .min(1, "L'adresse administrative est requise"),
+    codePostalAdministratif: z
+      .string()
+      .min(1, "Le code postal administratif est requis"),
+    communeAdministrative: z
+      .string()
+      .min(1, "La commune de l'adresse administrative est requise"),
+    departementAdministratif: z
+      .string()
+      .min(1, "Le département de l'adresse administrative est requis"),
+    nom: z.string().optional(),
+    debutConvention: createNullableDateValidator().optional(),
+    finConvention: createNullableDateValidator().optional(),
+    cpom: z.boolean({
+      message: "Le CPOM est requis",
+    }),
+    creationDate: z.coerce.date({ message: "La date de création est requise" }),
+    finessCode: z.string().optional(),
+    lgbt: z.boolean({
+      message: "L'accueil de LGBT dans la structure est requis",
+    }),
+    fvvTeh: z.boolean({
+      message: "L'accueil de FVV-TEH dans la structure est requis",
+    }),
+    public: z.nativeEnum(PublicType),
+    debutPeriodeAutorisation: createNullableDateValidator().optional(),
+    finPeriodeAutorisation: createNullableDateValidator().optional(),
+    debutCpom: createNullableDateValidator().optional(),
+    finCpom: createNullableDateValidator().optional(),
+    adresses: z.array(adresseSchema),
+    contacts: z.array(contactSchema).min(1, "Au moins un contact est requis"),
+    typologies: z.array(structureTypologieSchema),
+    fileUploads: z.array(fileUploadSchema),
+  })
+  .refine(
+    (data) => {
+      if (data.cpom && !data.debutCpom) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "La date de début CPOM est obligatoire",
+      path: ["debutCpom"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.cpom && !data.finCpom) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "La date de fin CPOM est obligatoire",
+      path: ["finCpom"],
+    }
+  );
 
 const budgetSchema = z.object({
   date: mandatoryFrDateField(),
