@@ -1,4 +1,3 @@
-import { StructureState } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
@@ -7,6 +6,7 @@ import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../context/StructureClientContext";
 import { BudgetExecutoire } from "./BudgetExecutoire";
