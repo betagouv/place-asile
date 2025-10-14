@@ -1,6 +1,13 @@
 import { expect, test } from "@playwright/test";
 import { v4 as uuidv4 } from "uuid";
 
+import { mockAddressApi } from "./helpers/mock-address-api";
+
+// Mock the address API to avoid rate limiting
+test.beforeEach(async ({ page }) => {
+  await mockAddressApi(page);
+});
+
 import { transformTestDataToApiFormat } from "./helpers/api-data-transformer";
 import { deleteStructureViaApi } from "./helpers/structure-creator";
 import {
