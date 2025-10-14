@@ -5,9 +5,9 @@ import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
 import { FileUploadFormValues } from "@/schemas/finalisation/finalisationQualite.schema";
+import { FileMetaData } from "@/types/file-meta-data";
 import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
 
-import { FileMetaData } from "../FinalisationQualiteForm";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
 
 export type FileUploadField = FileUploadFormValues & {

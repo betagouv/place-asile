@@ -1,10 +1,10 @@
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
-import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useFormContext } from "react-hook-form";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 // TODO: globalize this component
 import { UploadItem } from "@/app/(password-protected)/ajout-structure/components/UploadItem";
+import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearRange } from "@/app/utils/date.util";
 import { getYearDate } from "@/app/utils/date.util";
@@ -46,26 +46,7 @@ export const Documents = ({ className }: { className?: string }) => {
       <h2 className="text-xl font-bold mb-4 text-title-blue-france">
         Documents administratifs et financiers transmis par l’opérateur
       </h2>
-      <Notice
-        severity="info"
-        title=""
-        className="rounded [&_p]:flex  [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
-        description={
-          <>
-            Taille maximale par fichier : 10 Mo. Formats supportés : pdf, xls,
-            xlsx, csv et ods.
-            <br />
-            <a
-              target="_blank"
-              className="underline"
-              rel="noopener noreferrer"
-              href="https://stirling-pdf.framalab.org/compress-pdf?lang=fr_FR"
-            >
-              Votre fichier est trop lourd ? Compressez-le
-            </a>
-          </>
-        }
-      />
+      <MaxSizeNotice />
       {yearsToDisplay.map((year) => (
         <Accordion
           key={year}

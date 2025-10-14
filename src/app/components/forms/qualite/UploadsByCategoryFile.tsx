@@ -7,8 +7,8 @@ import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { ControleType } from "@/types/controle.type";
+import { FileMetaData } from "@/types/file-meta-data";
 
-import { FileMetaData } from "../FinalisationQualiteForm";
 import { FileUploadField } from "./UploadsByCategory";
 
 export const UploadsByCategoryFile = ({

@@ -1,10 +1,10 @@
+import { FileMetaData } from "@/types/file-meta-data";
 import {
   DdetsFileUploadCategory,
   DdetsFileUploadCategoryType,
 } from "@/types/file-upload.type";
 import { StructureWithLatLng } from "@/types/structure.type";
 
-import { FileMetaData } from "../(authenticated)/structures/[id]/finalisation/05-qualite/FinalisationQualiteForm";
 import { isStructureSubventionnee } from "./structure.util";
 
 export const getCategoriesToDisplay = (

@@ -1,9 +1,10 @@
 "use client";
-import Notice from "@codegouvfr/react-dsfr/Notice";
-
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
+import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
+import { Disclaimer } from "@/app/components/forms/qualite/Disclaimer";
+import UploadsByCategory from "@/app/components/forms/qualite/UploadsByCategory";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
@@ -17,13 +18,6 @@ import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
-import UploadsByCategory from "./components/UploadsByCategory";
-
-export enum FileMetaData {
-  DATE_TYPE,
-  DATE_START_END,
-  NAME,
-}
 
 export const FinalisationQualiteForm = ({
   currentStep,
@@ -68,33 +62,9 @@ export const FinalisationQualiteForm = ({
           description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
         />
       )}
-      <p className="w-4/5">
-        Veuillez importer l’ensemble des actes administratifs historiques
-        afférents à la structure, que les dates d’effets soient actuelles ou
-        révolues. Veuillez également renseigner les informations concernant
-        l’ensemble des inspections-contrôles auxquelles la structure a été
-        soumise.
-      </p>
-      <Notice
-        severity="info"
-        title=""
-        className="rounded [&_p]:flex [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
-        description={
-          <>
-            Taille maximale par fichier : 10 Mo. Formats supportés : pdf, xls,
-            xlsx, csv et ods.
-            <br />
-            <a
-              target="_blank"
-              className="underline"
-              rel="noopener noreferrer"
-              href="https://stirling-pdf.framalab.org/compress-pdf?lang=fr_FR"
-            >
-              Votre fichier est trop lourd ? Compressez-le
-            </a>
-          </>
-        }
-      />
+      <Disclaimer />
+
+      <MaxSizeNotice />
 
       {categoriesToDisplay.map((category, index) => {
         return (
