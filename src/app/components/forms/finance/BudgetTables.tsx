@@ -1,7 +1,11 @@
+import Notice from "@codegouvfr/react-dsfr/Notice";
+import Link from "next/link";
+
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { getFinanceFormTutorialLink } from "@/app/utils/tutorials.util";
 
 import { useStructureContext } from "../../../(authenticated)/structures/[id]/context/StructureClientContext";
 import { DetailAffectationTable } from "./DetailAffectationTable";
@@ -18,6 +22,28 @@ export const BudgetTables = () => {
 
   return (
     <>
+      <Notice
+        severity="warning"
+        title=""
+        className="rounded [&_p]:flex [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
+        description={
+          <>
+            La complétion de cette partie étant complexe, veuillez vous référer{" "}
+            <Link
+              href={getFinanceFormTutorialLink({
+                isAutorisee,
+                isSubventionnee,
+                hasCpom,
+              })}
+              target="_blank"
+              className="underline"
+            >
+              au tutoriel que nous avons créé pour vous guider à cette fin
+            </Link>
+            .
+          </>
+        }
+      />
       <fieldset className="flex flex-col gap-6 min-w-0 w-full">
         <legend className="text-lg font-bold mb-8 text-title-blue-france">
           Gestion budgétaire

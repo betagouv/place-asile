@@ -1,3 +1,5 @@
+import { StructureState } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
@@ -18,6 +20,9 @@ import { HistoriqueBudgets } from "./HistoriqueBudgets";
 
 export const FinancesBlock = (): ReactElement => {
   const { structure } = useStructureContext();
+
+  const router = useRouter();
+
   const isAutorisee = isStructureAutorisee(structure.type);
   const isConventionnee = isStructureSubventionnee(structure.type);
   const isDetailAffectationsDisplayed =
@@ -35,7 +40,19 @@ export const FinancesBlock = (): ReactElement => {
     return <GestionBudgetaireAvecCpomTable />;
   };
   return (
-    <Block title="Finances" iconClass="fr-icon-money-euro-box-line">
+    <Block
+      title="Finances"
+      iconClass="fr-icon-money-euro-box-line"
+      onEdit={
+        structure.state === StructureState.FINALISE
+          ? () => {
+              router.push(
+                `/structures/${structure.id}/modification/04-finance`
+              );
+            }
+          : undefined
+      }
+    >
       <div className="pb-2">
         <h4 className="text-title-blue-france pb-2 fr-h6">
           Budget exécutoire pour {new Date().getFullYear() - 1}
