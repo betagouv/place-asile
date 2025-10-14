@@ -46,7 +46,7 @@ const createFakeAdresse = ({
       createFakeAdresseTypologie({ year: 2023, placesAutorisees }),
     ],
     createdAt: faker.date.past(),
-    lastUpdate: faker.date.past(),
+    updatedAt: faker.date.past(),
   };
 };
 

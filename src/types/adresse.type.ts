@@ -12,7 +12,7 @@ export type Adresse = {
   repartition: Repartition;
   adresseTypologies?: AdresseTypologie[];
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export type CreateOrUpdateAdresse = Omit<

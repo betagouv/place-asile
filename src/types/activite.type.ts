@@ -13,5 +13,5 @@ export type Activite = {
   presencesInduesDeboutees: number;
   presencesIndues: number;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };

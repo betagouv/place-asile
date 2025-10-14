@@ -52,7 +52,7 @@ model Structure {
   operateurId                  Int?
 
   createdAt                    DateTime  @default(now())
-  lastUpdate                   DateTime  @updatedAt @default(now())
+  updatedAt                    DateTime  @updatedAt @default(now())
 }
 
 model Controle {
@@ -64,7 +64,7 @@ model Controle {
   fileUploads      FileUpload[]
 
   createdAt        DateTime  @default(now())
-  lastUpdate       DateTime  @updatedAt @default(now()) 
+  updatedAt        DateTime  @updatedAt @default(now()) 
 }
 
 model Evaluation {
@@ -78,7 +78,7 @@ model Evaluation {
   note             Int
 
   createdAt        DateTime  @default(now())
-  lastUpdate       DateTime  @updatedAt @default(now())
+  updatedAt        DateTime  @updatedAt @default(now())
 }
 
 model EvenementIndesirableGrave {
@@ -91,7 +91,7 @@ model EvenementIndesirableGrave {
   type             String
 
   createdAt        DateTime  @default(now())
-  lastUpdate       DateTime  @updatedAt @default(now())
+  updatedAt        DateTime  @updatedAt @default(now())
 }
 
 model Adresse {
@@ -105,7 +105,7 @@ model Adresse {
   adresseTypologies AdresseTypologie[]
 
   createdAt        DateTime  @default(now())
-  lastUpdate       DateTime  @updatedAt @default(now())
+  updatedAt        DateTime  @updatedAt @default(now())
 }
 
 model AdresseTypologie {
@@ -118,7 +118,7 @@ model AdresseTypologie {
   logementSocial   Int
 
   createdAt        DateTime  @default(now())
-  lastUpdate       DateTime  @updatedAt @default(now())
+  updatedAt        DateTime  @updatedAt @default(now())
 }
 
 model Contact {
@@ -133,7 +133,7 @@ model Contact {
   type             ContactType @default(AUTRE)
 
   createdAt        DateTime  @default(now())
-  lastUpdate       DateTime  @updatedAt @default(now())
+  updatedAt        DateTime  @updatedAt @default(now())
 }
 
 model StructureTypologie {
@@ -147,7 +147,7 @@ model StructureTypologie {
   fvvTeh           Int
 
   createdAt        DateTime  @default(now())
-  lastUpdate       DateTime  @updatedAt @default(now())
+  updatedAt        DateTime  @updatedAt @default(now())
 }
 
 model Activite {
@@ -165,8 +165,8 @@ model Activite {
   presencesInduesBPI       Int
   presencesInduesDeboutees Int
 
-  createdAt                DateTime  @default(now())
-  lastUpdate               DateTime  @updatedAt @default(now())
+  createdAt                DateTime?  @default(now())
+  updatedAt                DateTime?  @updatedAt @default(now())
 }
 
 model FileUpload {
@@ -189,7 +189,7 @@ model FileUpload {
   childFileUploads   FileUpload[]        @relation("FileUploadToFileUpload")
 
   createdAt          DateTime  @default(now())
-  lastUpdate         DateTime  @updatedAt @default(now())
+  updatedAt          DateTime  @updatedAt @default(now())
 }
 
 model Budget {
@@ -221,7 +221,7 @@ model Budget {
   commentaire                       String?
 
   createdAt                         DateTime  @default(now())
-  lastUpdate                        DateTime  @updatedAt @default(now())
+  updatedAt                         DateTime  @updatedAt @default(now())
 }
 
 model Operateur {
@@ -233,7 +233,7 @@ model Operateur {
   siegeSocial           String?
 
   createdAt             DateTime  @default(now())
-  lastUpdate            DateTime  @updatedAt @default(now())
+  updatedAt            DateTime  @updatedAt @default(now())
 }
 
 enum Repartition {

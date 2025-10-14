@@ -215,5 +215,4 @@ export const structureUpdateSchema = z.object({
   controles: z
     .array(controleSchema.extend({ id: z.number().optional() }))
     .optional(),
-  
 });

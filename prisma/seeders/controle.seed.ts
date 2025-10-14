@@ -25,6 +25,6 @@ export const createFakeControle = (): Omit<
       }),
     ],
     createdAt: faker.date.past(),
-    lastUpdate: faker.date.past(),
+    updatedAt: faker.date.past(),
   };
 };

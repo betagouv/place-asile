@@ -3,5 +3,5 @@ export type Operateur = {
   structureDnaCode: string;
   name: string;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };

@@ -78,7 +78,7 @@ export type AdresseWithTypologies = Adresse & {
 
 type AdresseInput = Omit<AdresseWithTypologies, "id"> & {
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export const frDateField = () =>

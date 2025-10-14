@@ -54,7 +54,7 @@ export type Structure = {
   budgets?: Budget[];
   operateur?: Operateur;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export type StructureWithLatLng = Structure & {

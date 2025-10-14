@@ -46,7 +46,7 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
       ? Number(line[metadata.presencesInduesDebouteesIndex]) || 0
       : 0,
     createdAt: new Date(),
-    lastUpdate: new Date(),
+    updatedAt: new Date(),
   }));
 };
 
@@ -117,8 +117,8 @@ const existingStructureCodes = [
   "H8503",
 ];
 
-// New typeto prevent date issues
+// New type to prevent date issues
 type ActiviteInput = Omit<Activite, "id"> & {
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };

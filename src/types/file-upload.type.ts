@@ -15,7 +15,7 @@ export type FileUpload = {
   parentFileUploadId?: number | null;
   childrenFileUploads?: FileUpload[];
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export const DdetsFileUploadCategory = [

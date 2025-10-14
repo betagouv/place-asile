@@ -8,7 +8,7 @@ export type Contact = {
   role: string;
   type?: ContactType;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export enum ContactType {

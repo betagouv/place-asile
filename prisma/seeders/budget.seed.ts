@@ -63,7 +63,7 @@ export const createFakeBudget = ({
     autre: faker.number.int({ min: 1, max: 10000 }),
     commentaire: faker.lorem.lines(2),
     createdAt: faker.date.past(),
-    lastUpdate: faker.date.past(),
+    updatedAt: faker.date.past(),
   };
 };
 

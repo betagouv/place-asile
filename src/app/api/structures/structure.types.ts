@@ -28,7 +28,7 @@ export type CreateStructure = {
   typologies: CreateStructureTypologie[];
   fileUploads: CreateFileUpload[];
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export type CreateAdresse = {
@@ -38,7 +38,7 @@ export type CreateAdresse = {
   repartition: string;
   adresseTypologies: CreateAdresseTypologie[];
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 type CreateFileUpload = {
@@ -46,7 +46,7 @@ type CreateFileUpload = {
   date: Date;
   category: string;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 type CreateContact = {
@@ -57,7 +57,7 @@ type CreateContact = {
   role: string;
   type?: ContactType;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 type CreateStructureTypologie = {
@@ -67,7 +67,7 @@ type CreateStructureTypologie = {
   lgbt: number;
   fvvTeh: number;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export type CreateAdresseTypologie = {
@@ -76,7 +76,7 @@ export type CreateAdresseTypologie = {
   qpv: number;
   logementSocial: number;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 type CreateBudget = {
@@ -104,14 +104,14 @@ type CreateBudget = {
   autre?: number | null;
   commentaire?: string | null;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 type CreateOperateur = {
   id: number;
   name: string;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export type UpdateOperateur = CreateOperateur;
@@ -125,7 +125,7 @@ export type UpdateStructureTypologie = {
   lgbt: number;
   fvvTeh: number;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 export type UpdateControle = {
   date: Date;
@@ -133,7 +133,7 @@ export type UpdateControle = {
   fileUploadKey: string;
   id?: number;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 export type UpdateFileUpload = {
   key: string;
@@ -145,7 +145,7 @@ export type UpdateFileUpload = {
   categoryName?: string;
   parentFileUploadId?: number;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 type UpdateAdresseTypologie = CreateAdresseTypologie & { id?: number };
@@ -153,7 +153,7 @@ export type UpdateAdresse = Omit<CreateAdresse, "adresseTypologies"> & {
   id?: number;
   adresseTypologies: UpdateAdresseTypologie[];
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export type UpdateStructure = {
@@ -191,5 +191,5 @@ export type UpdateStructure = {
   fileUploads?: UpdateFileUpload[];
   budgets?: UpdateBudget[];
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };

@@ -61,7 +61,7 @@ const createFakeStructure = ({
     adresseAdministrative: faker.location.streetAddress(),
     communeAdministrative: faker.location.city(),
     codePostalAdministratif: faker.location.zipCode(),
-    departementAdministratif: faker.location.county(),
+    departementAdministratif: String(faker.number.int({ min: 1, max: 95 })).padStart(2, '0'),
     latitude: Prisma.Decimal(
       faker.location.latitude({ min: 43.550851, max: 49.131627 })
     ),
@@ -88,7 +88,7 @@ const createFakeStructure = ({
     notes: faker.lorem.lines(2),
     state,
     createdAt: faker.date.past(),
-    lastUpdate: faker.date.past(),
+    updatedAt: faker.date.past(),
   };
 };
 

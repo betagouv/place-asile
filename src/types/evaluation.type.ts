@@ -7,5 +7,5 @@ export type Evaluation = {
   noteStructure: number;
   note: number;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };

@@ -6,5 +6,5 @@ export type StructureTypologie = {
   lgbt: number;
   fvvTeh: number;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };

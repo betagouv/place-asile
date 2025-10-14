@@ -16,6 +16,6 @@ export const createFakeContact = (type: ContactType): Omit<
     role: faker.helpers.arrayElement(["Directeur", "Contact"]),
     type,
     createdAt: faker.date.past(),
-    lastUpdate: faker.date.past(),
+    updatedAt: faker.date.past(),
   };
 };

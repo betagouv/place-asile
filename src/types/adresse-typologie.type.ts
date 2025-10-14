@@ -1,12 +1,12 @@
 export type AdresseTypologie = {
   id: number;
   adresseId: number;
-  placesAutorisees: number;
+  placesAutorisees: number; 
   date: string;
   qpv: number;
   logementSocial: number;
   createdAt?: Date;
-  lastUpdate?: Date;
+  updatedAt?: Date;
 };
 
 export type CreateOrUpdateAdresseTypologie = Omit<
