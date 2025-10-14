@@ -512,3 +512,17 @@ export const updateOne = async (
 
   return updatedStructure;
 };
+
+export const deleteOne = async (dnaCode: string): Promise<void> => {
+  try {
+    await prisma.structure.delete({
+      where: {
+        dnaCode,
+      },
+    });
+  } catch (error) {
+    throw new Error(
+      `Impossible de supprimer la structure avec le code DNA ${dnaCode}: ${error}`
+    );
+  }
+};

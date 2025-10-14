@@ -1,4 +1,5 @@
 import { TestStructureData } from "./test-data";
+import { generateMockFileUploads } from "./mock-file-upload";
 
 /**
  * Transforms test data format to API structure creation format
@@ -64,10 +65,10 @@ export function transformTestDataToApiFormat(testData: TestStructureData) {
   // Transform typologies with dates
   const transformedTypologies = typologies.map((typo, index) => ({
     date: new Date(`${2025 - index}-01-01`), // 2025, 2024, 2023
-    placesAutorisees: typo.placesAutorisees,
-    pmr: typo.pmr,
-    lgbt: typo.lgbt,
-    fvvTeh: typo.fvvTeh,
+    placesAutorisees: Math.round(typo.placesAutorisees), // Round decimal places for API
+    pmr: Math.round(typo.pmr),
+    lgbt: Math.round(typo.lgbt),
+    fvvTeh: Math.round(typo.fvvTeh),
   }));
 
   // Transform addresses with nested typologies
@@ -80,7 +81,7 @@ export function transformTestDataToApiFormat(testData: TestStructureData) {
           repartition: adresses.typeBati,
           adresseTypologies: [
             {
-              placesAutorisees: typologies[0].placesAutorisees,
+              placesAutorisees: Math.round(typologies[0].placesAutorisees), // Round decimal places
               date: new Date("2025-01-01"),
               qpv: 0, // Convert boolean to number
               logementSocial: 0, // Convert boolean to number
@@ -97,7 +98,7 @@ export function transformTestDataToApiFormat(testData: TestStructureData) {
           repartition: addr.repartition || adresses.typeBati,
           adresseTypologies: [
             {
-              placesAutorisees: addr.placesAutorisees,
+              placesAutorisees: Math.round(addr.placesAutorisees), // Round decimal places
               date: new Date("2025-01-01"),
               qpv: 0,
               logementSocial: 0,
@@ -145,8 +146,50 @@ export function transformTestDataToApiFormat(testData: TestStructureData) {
     adresses: transformedAdresses,
     contacts,
     typologies: transformedTypologies,
-    fileUploads: [], // Empty - file uploads will be skipped in finalisation tests
+    fileUploads: transformFileUploads(testData),
   };
 
   return apiData;
+}
+
+/**
+ * Transform file uploads from test data
+ */
+function transformFileUploads(testData: TestStructureData) {
+  const { documents, type } = testData;
+
+  // If test data has explicit files, use them
+  if (documents.files && documents.files.length > 0) {
+    return documents.files.map((file) => ({
+      key: file.fileName, // Use fileName as key for mock
+      date: new Date(file.year + "-01-01"),
+      category: file.category,
+    }));
+  }
+
+  // Otherwise, generate mock file uploads based on structure type and age
+  const currentYear = new Date().getFullYear();
+  const years = [];
+
+  // Generate years based on structure age
+  if (documents.less5Years) {
+    // For structures less than 5 years old, only current year
+    years.push(currentYear.toString());
+  } else {
+    // For older structures, include current year and previous years
+    for (let i = 0; i < 3; i++) {
+      years.push((currentYear - i).toString());
+    }
+  }
+
+  const mockUploads = generateMockFileUploads(type, years, {
+    includeOptional: true,
+    differentFormats: true,
+  });
+
+  return mockUploads.map((upload) => ({
+    key: upload.key,
+    date: new Date(upload.date),
+    category: upload.category,
+  }));
 }

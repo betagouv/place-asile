@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { createOne, findAll, updateOne } from "./structure.repository";
+import {
+  createOne,
+  deleteOne,
+  findAll,
+  updateOne,
+} from "./structure.repository";
 import {
   structureCreationSchema,
   structureUpdateSchema,
@@ -32,6 +37,28 @@ export async function PUT(request: NextRequest) {
     await updateOne(result);
     return NextResponse.json("Structure mise à jour avec succès", {
       status: 201,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(error, { status: 400 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const dnaCode = searchParams.get("dnaCode");
+
+    if (!dnaCode) {
+      return NextResponse.json(
+        { error: "Le code DNA est requis" },
+        { status: 400 }
+      );
+    }
+
+    await deleteOne(dnaCode);
+    return NextResponse.json("Structure supprimée avec succès", {
+      status: 200,
     });
   } catch (error) {
     console.error(error);
