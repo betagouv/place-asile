@@ -29,10 +29,15 @@ try {
     { stdio: "inherit" }
   );
   console.log(`✅ Schema "${schema}" recreated`);
-} catch (error: any) {
+} catch (error: unknown) {
   console.error(`❌ Failed to recreate schema "${schema}"`);
-  if (typeof error?.status !== "undefined") console.error(`Exit code: ${error.status}`);
-  if (error?.stderr) console.error(String(error.stderr));
+  if (typeof error === "object" && error && "status" in error) {
+    console.error(`Exit code: ${(error as { status?: number }).status}`);
+  }
+  if (typeof error === "object" && error && "stderr" in error) {
+    const stderr = (error as { stderr?: unknown }).stderr;
+    if (stderr) console.error(String(stderr));
+  }
   process.exit(1);
 }
 
@@ -44,10 +49,15 @@ for (const file of viewFiles) {
       stdio: "inherit",
     });
     console.log(`✅ Applied ${file}`);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`❌ Failed to apply ${file}`);
-    if (error && typeof error.status !== "undefined") console.error(`Exit code: ${error.status}`);
-    if (error && error.stderr) console.error(String(error.stderr));
+    if (typeof error === "object" && error && "status" in error) {
+      console.error(`Exit code: ${(error as { status?: number }).status}`);
+    }
+    if (typeof error === "object" && error && "stderr" in error) {
+      const stderr = (error as { stderr?: unknown }).stderr;
+      if (stderr) console.error(String(stderr));
+    }
     process.exit(1);
   }
 }
