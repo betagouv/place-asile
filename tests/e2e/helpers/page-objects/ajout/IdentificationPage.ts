@@ -69,26 +69,28 @@ export class IdentificationPage {
     }
 
     // Contact Principal
-    await this.page.fill(
-      'input[name="contactPrincipal.prenom"]',
-      identification.contactPrincipal.prenom
-    );
-    await this.page.fill(
-      'input[name="contactPrincipal.nom"]',
-      identification.contactPrincipal.nom
-    );
-    await this.page.fill(
-      'input[name="contactPrincipal.role"]',
-      identification.contactPrincipal.role
-    );
-    await this.page.fill(
-      'input[name="contactPrincipal.email"]',
-      identification.contactPrincipal.email
-    );
-    await this.page.fill(
-      'input[name="contactPrincipal.telephone"]',
-      identification.contactPrincipal.telephone
-    );
+    if (identification.contactPrincipal) {
+      await this.page.fill(
+        'input[name="contactPrincipal.prenom"]',
+        identification.contactPrincipal.prenom
+      );
+      await this.page.fill(
+        'input[name="contactPrincipal.nom"]',
+        identification.contactPrincipal.nom
+      );
+      await this.page.fill(
+        'input[name="contactPrincipal.role"]',
+        identification.contactPrincipal.role
+      );
+      await this.page.fill(
+        'input[name="contactPrincipal.email"]',
+        identification.contactPrincipal.email
+      );
+      await this.page.fill(
+        'input[name="contactPrincipal.telephone"]',
+        identification.contactPrincipal.telephone
+      );
+    }
 
     // Contact Secondaire (if provided)
     if (identification.contactSecondaire) {

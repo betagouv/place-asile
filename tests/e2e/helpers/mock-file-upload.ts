@@ -1,7 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { FileUploadCategory } from "@/types/file-upload.type";
-
 export type MockFileUpload = {
   key: string;
   category: string;

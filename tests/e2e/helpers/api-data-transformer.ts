@@ -1,4 +1,3 @@
-import { generateMockFileUploads } from "./mock-file-upload";
 import { TestStructureData } from "./test-data";
 
 // Helper function to get a valid operateur ID
@@ -11,7 +10,7 @@ async function getValidOperateurId(): Promise<number> {
         return structures[0].operateur.id;
       }
     }
-  } catch (error) {
+  } catch {
     console.warn(
       "Could not fetch structures to get operateur ID, using default ID 11"
     );
@@ -181,46 +180,4 @@ export async function transformTestDataToApiFormat(
   };
 
   return apiData;
-}
-
-/**
- * Transform file uploads from test data
- */
-function transformFileUploads(testData: TestStructureData) {
-  const { documents, type } = testData;
-
-  // If test data has explicit files, use them
-  if (documents.files && documents.files.length > 0) {
-    return documents.files.map((file) => ({
-      key: file.fileName, // Use fileName as key for mock
-      date: new Date(file.year + "-01-01"),
-      category: file.category,
-    }));
-  }
-
-  // Otherwise, generate mock file uploads based on structure type and age
-  const currentYear = new Date().getFullYear();
-  const years = [];
-
-  // Generate years based on structure age
-  if (documents.less5Years) {
-    // For structures less than 5 years old, only current year
-    years.push(currentYear.toString());
-  } else {
-    // For older structures, include current year and previous years
-    for (let i = 0; i < 3; i++) {
-      years.push((currentYear - i).toString());
-    }
-  }
-
-  const mockUploads = generateMockFileUploads(type, years, {
-    includeOptional: true,
-    differentFormats: true,
-  });
-
-  return mockUploads.map((upload) => ({
-    key: upload.key,
-    date: new Date(upload.date),
-    category: upload.category,
-  }));
 }

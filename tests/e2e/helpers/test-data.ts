@@ -16,7 +16,7 @@ export type TestStructureData = {
     public: string;
     lgbt: boolean;
     fvvTeh: boolean;
-    contactPrincipal: {
+    contactPrincipal?: {
       prenom: string;
       nom: string;
       role: string;

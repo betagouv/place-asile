@@ -28,7 +28,6 @@ export class AdressesPage {
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        console.log(`Address autocomplete attempt ${attempt}/${maxRetries}`);
         await this.page.waitForSelector('[role="option"]', {
           state: "visible",
           timeout: 15000, // Increased timeout to 15 seconds
@@ -40,7 +39,7 @@ export class AdressesPage {
       } catch (error) {
         console.warn(
           `Address autocomplete attempt ${attempt} failed:`,
-          error.message
+          error instanceof Error ? error.message : String(error)
         );
         if (attempt < maxRetries && !this.page.isClosed()) {
           // Wait longer between retries to avoid rate limiting

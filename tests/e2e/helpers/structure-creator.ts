@@ -10,7 +10,7 @@ import { TestStructureData } from "./test-data";
 export async function createStructureViaApi(
   testData: TestStructureData
 ): Promise<string> {
-  const apiData = transformTestDataToApiFormat(testData);
+  const apiData = await transformTestDataToApiFormat(testData);
 
   const response = await fetch("http://localhost:3000/api/structures", {
     method: "POST",

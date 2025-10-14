@@ -25,15 +25,13 @@ import {
 test.setTimeout(60000);
 
 // Cleanup after each test
-test.afterEach(async ({ page }) => {
+test.afterEach(async () => {
   // Cleanup is handled per test case since we need the specific dnaCode
 });
 
 test.describe("Comprehensive Structure Creation Tests", () => {
   test.describe("Positive Test Cases - Should Succeed", () => {
-    test("1. CADA with CPOM, decimal budgets, young structure", async ({
-      page,
-    }) => {
+    test("1. CADA with CPOM, decimal budgets, young structure", async () => {
       const testData = {
         ...cadaCpomDecimalYoung,
         dnaCode: `C${Date.now()}-${uuidv4()}`,
@@ -66,7 +64,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("2. CADA sans CPOM, missing optional fields", async ({ page }) => {
+    test("2. CADA sans CPOM, missing optional fields", async () => {
       const testData = {
         ...cadaSansCpomMissingOptional,
         dnaCode: `C${uuidv4()}`,
@@ -97,9 +95,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("3. CPH with CPOM, Diffus addresses, decimal values", async ({
-      page,
-    }) => {
+    test("3. CPH with CPOM, Diffus addresses, decimal values", async () => {
       const testData = {
         ...cphCpomDiffusDecimal,
         dnaCode: `R${uuidv4()}`,
@@ -130,9 +126,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("4. CPH sans CPOM, Mixte addresses, famille public type", async ({
-      page,
-    }) => {
+    test("4. CPH sans CPOM, Mixte addresses, famille public type", async () => {
       const testData = {
         ...cphSansCpomMixteFamille,
         dnaCode: `R${uuidv4()}`,
@@ -163,9 +157,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("5. HUDA with CPOM, young structure, missing finessCode", async ({
-      page,
-    }) => {
+    test("5. HUDA with CPOM, young structure, missing finessCode", async () => {
       const testData = {
         ...hudaCpomYoungNoFiness,
         dnaCode: `H${uuidv4()}`,
@@ -196,9 +188,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("6. HUDA sans CPOM, decimal places, personnes isolées", async ({
-      page,
-    }) => {
+    test("6. HUDA sans CPOM, decimal places, personnes isolées", async () => {
       const testData = {
         ...hudaSansCpomDecimalIsoles,
         dnaCode: `H${uuidv4()}`,
@@ -229,9 +219,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("7. CAES with CPOM, collectif, all optional fields filled", async ({
-      page,
-    }) => {
+    test("7. CAES with CPOM, collectif, all optional fields filled", async () => {
       const testData = {
         ...caesCpomCollectifComplete,
         dnaCode: `K${uuidv4()}`,
@@ -262,9 +250,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("8. CAES sans CPOM, edge values (0 LGBT, high places)", async ({
-      page,
-    }) => {
+    test("8. CAES sans CPOM, edge values (0 LGBT, high places)", async () => {
       const testData = {
         ...caesSansCpomEdgeValues,
         dnaCode: `K${uuidv4()}`,
@@ -295,7 +281,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("10. Structure with decimal placesAutorisees", async ({ page }) => {
+    test("10. Structure with decimal placesAutorisees", async () => {
       const testData = {
         ...structureDecimalPlaces,
         dnaCode: `D${uuidv4()}`,
@@ -326,9 +312,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("11. Structure with multiple diffus addresses and varying typologies", async ({
-      page,
-    }) => {
+    test("11. Structure with multiple diffus addresses and varying typologies", async ({}) => {
       const testData = {
         ...structureMultipleDiffus,
         dnaCode: `D${uuidv4()}`,
@@ -359,7 +343,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("12. Structure with mock document uploads", async ({ page }) => {
+    test("12. Structure with mock document uploads", async () => {
       const testData = {
         ...structureWithMockDocuments,
         dnaCode: `D${uuidv4()}`,
@@ -390,7 +374,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("13. Young structure with budget data", async ({ page }) => {
+    test("13. Young structure with budget data", async () => {
       const testData = {
         ...youngStructureWithBudget,
         dnaCode: `D${uuidv4()}`,
@@ -421,9 +405,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("14. Structure with affectationReserves validation case", async ({
-      page,
-    }) => {
+    test("14. Structure with affectationReserves validation case", async ({}) => {
       const testData = {
         ...structureAffectationReserves,
         dnaCode: `D${uuidv4()}`,
@@ -456,9 +438,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
   });
 
   test.describe("Negative Test Cases - Should Fail Validation", () => {
-    test("9. CADA missing required CPOM dates should fail", async ({
-      page,
-    }) => {
+    test("9. CADA missing required CPOM dates should fail", async ({}) => {
       const testData = {
         ...cadaMissingCpomDates,
         dnaCode: `C${uuidv4()}`,
@@ -488,9 +468,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("15. Structure with missing required contact should fail", async ({
-      page,
-    }) => {
+    test("15. Structure with missing required contact should fail", async ({}) => {
       const testData = {
         ...structureMissingRequiredContact,
         dnaCode: `D${uuidv4()}`,
@@ -521,7 +499,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
   });
 
   test.describe("Edge Cases and Special Scenarios", () => {
-    test("Decimal values are properly handled", async ({ page }) => {
+    test("Decimal values are properly handled", async () => {
       const testData = {
         ...cadaCpomDecimalYoung,
         dnaCode: `C${uuidv4()}`,
@@ -545,7 +523,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         const getResponse = await fetch("http://localhost:3000/api/structures");
         const structures = await getResponse.json();
         const createdStructure = structures.find(
-          (s: any) => s.dnaCode === testData.dnaCode
+          (s: { dnaCode: string }) => s.dnaCode === testData.dnaCode
         );
 
         expect(createdStructure).toBeDefined();
@@ -558,7 +536,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("Multiple addresses are properly created", async ({ page }) => {
+    test("Multiple addresses are properly created", async () => {
       const testData = {
         ...structureMultipleDiffus,
         dnaCode: `D${uuidv4()}`,
@@ -579,12 +557,10 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
 
         // Verify multiple addresses were created
-        const getResponse = await page.request.get(
-          "http://localhost:3000/api/structures"
-        );
+        const getResponse = await fetch("http://localhost:3000/api/structures");
         const structures = await getResponse.json();
         const createdStructure = structures.find(
-          (s: any) => s.dnaCode === testData.dnaCode
+          (s: { dnaCode: string }) => s.dnaCode === testData.dnaCode
         );
 
         expect(createdStructure).toBeDefined();
@@ -594,7 +570,7 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       }
     });
 
-    test("Mock file uploads are properly handled", async ({ page }) => {
+    test("Mock file uploads are properly handled", async () => {
       const testData = {
         ...structureWithMockDocuments,
         dnaCode: `D${uuidv4()}`,
@@ -615,12 +591,10 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
 
         // Verify file uploads were created
-        const getResponse = await page.request.get(
-          "http://localhost:3000/api/structures"
-        );
+        const getResponse = await fetch("http://localhost:3000/api/structures");
         const structures = await getResponse.json();
         const createdStructure = structures.find(
-          (s: any) => s.dnaCode === testData.dnaCode
+          (s: { dnaCode: string }) => s.dnaCode === testData.dnaCode
         );
 
         expect(createdStructure).toBeDefined();
