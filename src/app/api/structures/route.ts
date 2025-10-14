@@ -26,7 +26,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json("Structure créée avec succès", { status: 201 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json(error, { status: 400 });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 400 }
+    );
   }
 }
 
@@ -40,7 +43,10 @@ export async function PUT(request: NextRequest) {
     });
   } catch (error) {
     console.error(error);
-    return NextResponse.json(error, { status: 400 });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 400 }
+    );
   }
 }
 
@@ -62,6 +68,9 @@ export async function DELETE(request: NextRequest) {
     });
   } catch (error) {
     console.error(error);
-    return NextResponse.json(error, { status: 400 });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 400 }
+    );
   }
 }

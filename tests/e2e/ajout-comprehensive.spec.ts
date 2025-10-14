@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { v4 as uuidv4 } from "uuid";
 
+import { transformTestDataToApiFormat } from "./helpers/api-data-transformer";
 import { deleteStructureViaApi } from "./helpers/structure-creator";
 import {
   cadaCpomDecimalYoung,
@@ -35,19 +36,29 @@ test.describe("Comprehensive Structure Creation Tests", () => {
     }) => {
       const testData = {
         ...cadaCpomDecimalYoung,
-        dnaCode: `C${uuidv4()}`,
+        dnaCode: `C${Date.now()}-${uuidv4()}`,
       };
 
       try {
-        // Test structure creation via API
-        const response = await page.request.post(
-          "http://localhost:3000/api/structures",
-          {
-            data: testData,
-          }
-        );
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
 
-        expect(response.status()).toBe(201);
+        // Test structure creation via API
+        const response = await fetch("http://localhost:3000/api/structures", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(apiData),
+        });
+
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         // Cleanup
@@ -62,14 +73,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -85,14 +105,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -108,14 +137,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -131,14 +169,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -154,14 +201,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -177,14 +233,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -200,14 +265,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -221,14 +295,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -244,14 +327,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -265,14 +357,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -286,14 +387,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -309,14 +419,23 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
-        expect(response.status()).toBe(201);
+        if (response.status !== 201) {
+          const errorText = await response.text();
+          console.error("API Error Response:", errorText);
+          console.error("API Data:", JSON.stringify(apiData, null, 2));
+        }
+
+        expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         await deleteStructureViaApi(testData.dnaCode);
@@ -334,10 +453,13 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
@@ -362,10 +484,13 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
@@ -389,10 +514,13 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
@@ -424,10 +552,13 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
@@ -456,10 +587,13 @@ test.describe("Comprehensive Structure Creation Tests", () => {
       };
 
       try {
+        // Transform test data to API format
+        const apiData = await transformTestDataToApiFormat(testData);
+
         const response = await page.request.post(
           "http://localhost:3000/api/structures",
           {
-            data: testData,
+            data: apiData,
           }
         );
 
