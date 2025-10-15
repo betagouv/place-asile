@@ -1,7 +1,4 @@
 "use client";
-import { Notice } from "@codegouvfr/react-dsfr/Notice";
-import Link from "next/link";
-
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 import { BudgetTables } from "@/app/components/forms/finance/BudgetTables";
@@ -18,7 +15,6 @@ import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
-import { getFinanceFormTutorialLink } from "@/app/utils/tutorials.util";
 import {
   anyFinanceFormValues,
   autoriseeAvecCpomSchema,
@@ -26,7 +22,7 @@ import {
   basicSchema,
   subventionneeAvecCpomSchema,
   subventionneeSchema,
-} from "@/schemas/finalisation/finalisationFinance.schema";
+} from "@/schemas/base/finance.schema";
 import { StructureState } from "@/types/structure.type";
 
 export default function FinalisationFinanceForm({
@@ -95,28 +91,7 @@ export default function FinalisationFinanceForm({
       )}
       <IndicateursGeneraux />
       <hr />
-      <Notice
-        severity="warning"
-        title=""
-        className="rounded [&_p]:flex [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
-        description={
-          <>
-            La complétion de cette partie étant complexe, veuillez vous référer{" "}
-            <Link
-              href={getFinanceFormTutorialLink({
-                isAutorisee,
-                isSubventionnee,
-                hasCpom,
-              })}
-              target="_blank"
-              className="underline"
-            >
-              au tutoriel que nous avons créé pour vous guider à cette fin
-            </Link>
-            .
-          </>
-        }
-      />
+
       <BudgetTables />
       {state === "error" && (
         <SubmitError

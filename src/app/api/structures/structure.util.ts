@@ -61,21 +61,24 @@ export const convertToControleType = (controleType: string): ControleType => {
 export const handleAdresses = (
   dnaCode: string,
   adresses: CreateAdresse[] | UpdateAdresse[]
-): Omit<AdresseWithTypologies, "id">[] => {
-  return adresses.map((adresse) => {
-    return {
-      adresse: adresse.adresse,
-      codePostal: adresse.codePostal,
-      commune: adresse.commune,
-      repartition: convertToRepartition(adresse.repartition),
-      structureDnaCode: dnaCode,
-      adresseTypologies: adresse.adresseTypologies,
-    };
-  });
+): AdresseInput[] => {
+  return adresses.map((adresse) => ({
+    adresse: adresse.adresse,
+    codePostal: adresse.codePostal,
+    commune: adresse.commune,
+    repartition: convertToRepartition(adresse.repartition),
+    structureDnaCode: dnaCode,
+    adresseTypologies: adresse.adresseTypologies,
+  } as AdresseInput));
 };
 
 export type AdresseWithTypologies = Adresse & {
   adresseTypologies: CreateAdresseTypologie[];
+};
+
+type AdresseInput = Omit<AdresseWithTypologies, "id"> & {
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export const frDateField = () =>

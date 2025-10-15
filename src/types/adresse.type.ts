@@ -11,6 +11,8 @@ export type Adresse = {
   commune: string;
   repartition: Repartition;
   adresseTypologies?: AdresseTypologie[];
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type CreateOrUpdateAdresse = Omit<

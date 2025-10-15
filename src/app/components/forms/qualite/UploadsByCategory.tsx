@@ -1,4 +1,5 @@
 import Button from "@codegouvfr/react-dsfr/Button";
+import Button from "@codegouvfr/react-dsfr/Button";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
@@ -15,6 +16,11 @@ import { ControleItem } from "./ControleItem";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
 
 export type FileUploadField = FileUploadFormValues & {
+  id: string;
+  uuid: string;
+};
+
+export type ControleField = ControleFormValues & {
   id: string;
   uuid: string;
 };
@@ -47,9 +53,8 @@ export default function UploadsByCategory({
     name: "controles",
   });
 
-  console.log(watch("controles"));
-
   const fileUploads = watch("fileUploads") || [];
+  const controles = watch("controles") || [];
   const controles = watch("controles") || [];
   let filteredFields: FileUploadField[] = [];
 
@@ -95,6 +100,21 @@ export default function UploadsByCategory({
     refreshFields();
   };
 
+  const handleAddNewControle = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+
+    const newField = {
+      date: "",
+      type: "",
+      uuid: uuidv4(),
+    };
+
+    appendControle(newField);
+
+    refreshFields();
+  };
+
   const handleDeleteField = (index: number) => {
     remove(index);
     const avenants = fileUploads.filter(
@@ -111,9 +131,7 @@ export default function UploadsByCategory({
   };
 
   const handleDeleteControle = (index: number) => {
-    console.log(">>>>>>>>>>", index);
     removeControle(index);
-    // refreshFields();
   };
 
   const getItemIndex = (uuid: string) => {
@@ -138,6 +156,8 @@ export default function UploadsByCategory({
       )}
       {fileMetaData !== FileMetaData.INSPECTION_CONTROLE &&
         filteredFields &&
+      {fileMetaData !== FileMetaData.INSPECTION_CONTROLE &&
+        filteredFields &&
         filteredFields.length > 0 &&
         filteredFields.map((field) => {
           const fieldIndex = getItemIndex(field.uuid);
@@ -149,6 +169,7 @@ export default function UploadsByCategory({
                 field={field}
                 index={fieldIndex}
                 key={field.key || null}
+                fileMetaData={fileMetaData || FileMetaData.INSPECTION_CONTROLE}
                 fileMetaData={fileMetaData || FileMetaData.INSPECTION_CONTROLE}
                 documentLabel={documentLabel}
                 handleDeleteField={handleDeleteField}
@@ -184,6 +205,17 @@ export default function UploadsByCategory({
           onClick={handleAddNewControle}
           priority="tertiary no outline"
           className="underline font-normal p-0"
+          priority="tertiary no outline"
+          className="underline font-normal p-0"
+        >
+          + {addFileButtonLabel}
+        </Button>
+      )}
+      {fileMetaData === FileMetaData.INSPECTION_CONTROLE && (
+        <Button
+          onClick={handleAddNewControle}
+          priority="tertiary no outline"
+          className="underline font-normal p-0"
         >
           + {addFileButtonLabel}
         </Button>
@@ -193,6 +225,7 @@ export default function UploadsByCategory({
 }
 
 type UploadsByCategoryProps = {
+  category: z.infer<typeof zAgentFileUploadCategory>;
   category: z.infer<typeof zAgentFileUploadCategory>;
   categoryShortName: string;
   title: string;
