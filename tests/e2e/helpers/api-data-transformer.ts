@@ -84,12 +84,13 @@ export async function transformTestDataToApiFormat(
   }
 
   // Transform typologies with dates
+  const currentYear = new Date().getFullYear();
   const transformedTypologies = typologies.map((typo, index) => ({
-    date: new Date(`${2025 - index}-01-01`), // 2025, 2024, 2023
-    placesAutorisees: Math.round(typo.placesAutorisees), // Round decimal places for API
-    pmr: Math.round(typo.pmr),
-    lgbt: Math.round(typo.lgbt),
-    fvvTeh: Math.round(typo.fvvTeh),
+    date: new Date(`${currentYear - index}-01-01`), // Current year, previous year, etc.
+    placesAutorisees: typo.placesAutorisees,
+    pmr: typo.pmr,
+    lgbt: typo.lgbt,
+    fvvTeh: typo.fvvTeh,
   }));
 
   // Transform addresses with nested typologies
@@ -102,8 +103,8 @@ export async function transformTestDataToApiFormat(
           repartition: adresses.typeBati,
           adresseTypologies: [
             {
-              placesAutorisees: Math.round(typologies[0].placesAutorisees), // Round decimal places
-              date: new Date("2025-01-01"),
+              placesAutorisees: typologies[0].placesAutorisees,
+              date: new Date(`${currentYear}-01-01`),
               qpv: 0, // Convert boolean to number
               logementSocial: 0, // Convert boolean to number
             },
@@ -119,8 +120,8 @@ export async function transformTestDataToApiFormat(
           repartition: addr.repartition || adresses.typeBati,
           adresseTypologies: [
             {
-              placesAutorisees: Math.round(addr.placesAutorisees), // Round decimal places
-              date: new Date("2025-01-01T00:00:00.000Z"),
+              placesAutorisees: addr.placesAutorisees,
+              date: new Date(`${currentYear}-01-01T00:00:00.000Z`),
               qpv: 0,
               logementSocial: 0,
             },
@@ -162,11 +163,10 @@ export async function transformTestDataToApiFormat(
         identification.debutPeriodeAutorisation
       ),
     }),
-    // Only include finPeriodeAutorisation for structures with CPOM
-    ...(testData.cpom &&
-      identification.finPeriodeAutorisation && {
-        finPeriodeAutorisation: new Date(identification.finPeriodeAutorisation),
-      }),
+    // Include finPeriodeAutorisation for authorized structures (CADA, CPH)
+    ...(identification.finPeriodeAutorisation && {
+      finPeriodeAutorisation: new Date(identification.finPeriodeAutorisation),
+    }),
     ...(identification.debutCpom && {
       debutCpom: new Date(identification.debutCpom),
     }),

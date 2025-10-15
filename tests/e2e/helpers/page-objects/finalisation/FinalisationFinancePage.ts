@@ -1,5 +1,18 @@
 import { Page } from "@playwright/test";
 
+export type FinalisationBudgetData = {
+  ETP: number;
+  tauxEncadrement: number;
+  coutJournalier: number;
+  dotationDemandee?: number;
+  dotationAccordee?: number;
+  totalProduits?: number;
+  totalChargesProposees?: number;
+  totalCharges?: number;
+  repriseEtat?: number;
+  affectationReservesFondsDedies?: number;
+};
+
 export class FinalisationFinancePage {
   constructor(private page: Page) {}
 
@@ -9,61 +22,79 @@ export class FinalisationFinancePage {
     });
   }
 
-  async fillMinimalData() {
+  async fillFinanceData(budgets: FinalisationBudgetData[]) {
     // Finance form has many required fields per year
     // Wait for the form to fully render
     await this.page.waitForTimeout(1000);
 
-    // Fill required fields for each of the 5 years (2025, 2024, 2023, 2022, 2021)
-    for (let i = 0; i < 5; i++) {
-      // Basic indicators (required for all years)
-      await this.page.fill(`input[name="budgets.${i}.ETP"]`, "10");
-      await this.page.fill(`input[name="budgets.${i}.tauxEncadrement"]`, "0.5");
-      await this.page.fill(`input[name="budgets.${i}.coutJournalier"]`, "50");
+    // Fill required fields for each provided budget (typically 5 years)
+    for (let i = 0; i < budgets.length; i++) {
+      const budget = budgets[i];
 
-      // Year 2025 and 2024 (current/forecast years)
-      if (i <= 1) {
+      // Basic indicators (required for all years)
+      await this.page.fill(
+        `input[name="budgets.${i}.ETP"]`,
+        budget.ETP.toString()
+      );
+      await this.page.fill(
+        `input[name="budgets.${i}.tauxEncadrement"]`,
+        budget.tauxEncadrement.toString()
+      );
+      await this.page.fill(
+        `input[name="budgets.${i}.coutJournalier"]`,
+        budget.coutJournalier.toString()
+      );
+
+      // Optional fields - fill if provided
+      if (budget.dotationDemandee !== undefined) {
         await this.page.fill(
           `input[name="budgets.${i}.dotationDemandee"]`,
-          "100000"
-        );
-        await this.page.fill(
-          `input[name="budgets.${i}.dotationAccordee"]`,
-          "100000"
+          budget.dotationDemandee.toString()
         );
       }
-
-      // Years 2023, 2022, 2021 (historical years - more fields required)
-      if (i >= 2) {
-        await this.page.fill(
-          `input[name="budgets.${i}.dotationDemandee"]`,
-          "100000"
-        );
+      if (budget.dotationAccordee !== undefined) {
         await this.page.fill(
           `input[name="budgets.${i}.dotationAccordee"]`,
-          "100000"
+          budget.dotationAccordee.toString()
         );
+      }
+      if (budget.totalProduits !== undefined) {
         await this.page.fill(
           `input[name="budgets.${i}.totalProduits"]`,
-          "100000"
-        );
-        await this.page.fill(
-          `input[name="budgets.${i}.totalChargesProposees"]`,
-          "95000"
-        );
-        await this.page.fill(
-          `input[name="budgets.${i}.totalCharges"]`,
-          "95000"
-        );
-        await this.page.fill(`input[name="budgets.${i}.repriseEtat"]`, "0");
-        await this.page.fill(
-          `input[name="budgets.${i}.affectationReservesFondsDedies"]`,
-          "0"
+          budget.totalProduits.toString()
         );
       }
+      if (budget.totalChargesProposees !== undefined) {
+        await this.page.fill(
+          `input[name="budgets.${i}.totalChargesProposees"]`,
+          budget.totalChargesProposees.toString()
+        );
+      }
+      if (budget.totalCharges !== undefined) {
+        await this.page.fill(
+          `input[name="budgets.${i}.totalCharges"]`,
+          budget.totalCharges.toString()
+        );
+      }
+      if (budget.repriseEtat !== undefined) {
+        await this.page.fill(
+          `input[name="budgets.${i}.repriseEtat"]`,
+          budget.repriseEtat.toString()
+        );
+      }
+      if (budget.affectationReservesFondsDedies !== undefined) {
+        await this.page.fill(
+          `input[name="budgets.${i}.affectationReservesFondsDedies"]`,
+          budget.affectationReservesFondsDedies.toString()
+        );
+      }
+
+      // Small wait between years to allow form to process
+      await this.page.waitForTimeout(100);
     }
 
-    console.log("✅ Filled finance form with minimal test data");
+    // Wait for any form calculations/validations to complete
+    await this.page.waitForTimeout(500);
   }
 
   async submit(structureId: number) {

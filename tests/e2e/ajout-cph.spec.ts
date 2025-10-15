@@ -2,11 +2,6 @@ import { test } from "@playwright/test";
 import { v4 as uuidv4 } from "uuid";
 
 import { mockAddressApi } from "./helpers/mock-address-api";
-
-// Mock the address API to avoid rate limiting
-test.beforeEach(async ({ page }) => {
-  await mockAddressApi(page);
-});
 import { AdressesPage } from "./helpers/page-objects/ajout/AdressesPage";
 import { AuthenticationPage } from "./helpers/page-objects/ajout/AuthenticationPage";
 import { ConfirmationPage } from "./helpers/page-objects/ajout/ConfirmationPage";
@@ -21,6 +16,11 @@ import {
   getStructureId,
 } from "./helpers/structure-creator";
 import { cphSansCpom } from "./helpers/test-data";
+
+// Mock the address API to avoid rate limiting
+test.beforeEach(async ({ page }) => {
+  await mockAddressApi(page);
+});
 
 // Increase timeout for full form flow
 test.setTimeout(30000);

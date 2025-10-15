@@ -24,7 +24,7 @@ import {
 import { cadaSansCpom } from "./helpers/test-data";
 
 // Increase timeout for full form flow
-test.setTimeout(60000);
+test.setTimeout(30000);
 
 test("CADA sans CPOM - Flux complet de création", async ({ page }) => {
   const data = {

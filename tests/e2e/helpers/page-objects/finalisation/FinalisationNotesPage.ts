@@ -9,7 +9,7 @@ export class FinalisationNotesPage {
     });
   }
 
-  async fillNotes(notes: string = "Notes de test pour la finalisation") {
+  async fillNotes(notes: string) {
     await this.page.fill('textarea[name="notes"]', notes);
   }
 

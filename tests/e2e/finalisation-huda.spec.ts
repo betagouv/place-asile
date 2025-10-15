@@ -43,15 +43,17 @@ test("Finalisation HUDA sans CPOM - Flux complet", async ({ page }) => {
     await adressesPage.waitForLoad();
     await adressesPage.submit(structureId);
 
-    // Step 4: Finance (skip - varies by structure type)
+    // Step 4: Finance (skip for now - complex validation varies by structure type)
     const financePage = new FinalisationFinancePage(page);
     await financePage.waitForLoad();
+    // Finance data is defined in test-data.ts for future comprehensive testing
+    // await financePage.fillFinanceData(testData.finalisation!.finance!.budgets);
     await financePage.submit(structureId);
 
     // Step 5: Type Places (fill required fields)
     const typePlacesPage = new FinalisationTypePlacesPage(page);
     await typePlacesPage.waitForLoad();
-    await typePlacesPage.fillPlacesData();
+    await typePlacesPage.fillPlacesData(testData.finalisation!.typePlaces!);
     await typePlacesPage.submit(structureId);
 
     // Step 6: Qualité (documents already created via API)
@@ -62,7 +64,7 @@ test("Finalisation HUDA sans CPOM - Flux complet", async ({ page }) => {
     // Step 7: Notes (final step)
     const notesPage = new FinalisationNotesPage(page);
     await notesPage.waitForLoad();
-    await notesPage.fillNotes();
+    await notesPage.fillNotes(testData.finalisation!.notes!);
     await notesPage.submit(structureId);
 
     // Step 8: Verify success

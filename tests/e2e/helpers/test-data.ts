@@ -1,6 +1,118 @@
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
 
+// Helper to generate finance data for AUTORISEE structures (CADA, CPH)
+const createAutoriseeFinanceData = () => ({
+  budgets: [
+    // Year 1 & 2: Current and forecast years (more fields required)
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+      dotationDemandee: 100000,
+      dotationAccordee: 100000,
+    },
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+      dotationDemandee: 100000,
+      dotationAccordee: 100000,
+    },
+    // Years 3, 4, 5: Historical years (require full budget fields)
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+      dotationDemandee: 100000,
+      dotationAccordee: 100000,
+      totalProduits: 100000,
+      totalChargesProposees: 95000,
+      totalCharges: 95000,
+      repriseEtat: 0,
+      affectationReservesFondsDedies: 0,
+    },
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+      dotationDemandee: 100000,
+      dotationAccordee: 100000,
+      totalProduits: 100000,
+      totalChargesProposees: 95000,
+      totalCharges: 95000,
+      repriseEtat: 0,
+      affectationReservesFondsDedies: 0,
+    },
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+      dotationDemandee: 100000,
+      dotationAccordee: 100000,
+      totalProduits: 100000,
+      totalChargesProposees: 95000,
+      totalCharges: 95000,
+      repriseEtat: 0,
+      affectationReservesFondsDedies: 0,
+    },
+  ],
+});
+
+// Helper to generate finance data for SUBVENTIONNEE structures (HUDA, CAES)
+const createSubventionneeFinanceData = () => ({
+  budgets: [
+    // Year 1 & 2: Only basic indicators required for subventionnée
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+    },
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+    },
+    // Years 3, 4, 5: Historical years (require full budget fields)
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+      dotationDemandee: 100000,
+      dotationAccordee: 100000,
+      totalProduits: 100000,
+      totalChargesProposees: 95000,
+      totalCharges: 95000,
+      repriseEtat: 0,
+      affectationReservesFondsDedies: 0,
+    },
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+      dotationDemandee: 100000,
+      dotationAccordee: 100000,
+      totalProduits: 100000,
+      totalChargesProposees: 95000,
+      totalCharges: 95000,
+      repriseEtat: 0,
+      affectationReservesFondsDedies: 0,
+    },
+    {
+      ETP: 10,
+      tauxEncadrement: 0.5,
+      coutJournalier: 50,
+      dotationDemandee: 100000,
+      dotationAccordee: 100000,
+      totalProduits: 100000,
+      totalChargesProposees: 95000,
+      totalCharges: 95000,
+      repriseEtat: 0,
+      affectationReservesFondsDedies: 0,
+    },
+  ],
+});
+
 export type TestStructureData = {
   dnaCode: string;
   type: StructureType;
@@ -66,6 +178,29 @@ export type TestStructureData = {
       fileName: string;
       filePath: string;
     }>;
+  };
+  finalisation?: {
+    finance?: {
+      budgets: Array<{
+        ETP: number;
+        tauxEncadrement: number;
+        coutJournalier: number;
+        dotationDemandee?: number;
+        dotationAccordee?: number;
+        totalProduits?: number;
+        totalChargesProposees?: number;
+        totalCharges?: number;
+        repriseEtat?: number;
+        affectationReservesFondsDedies?: number;
+      }>;
+    };
+    typePlaces?: {
+      placesACreer: number;
+      placesAFermer: number;
+      echeancePlacesACreer?: string;
+      echeancePlacesAFermer?: string;
+    };
+    notes?: string;
   };
 };
 
@@ -134,6 +269,14 @@ export const cadaSansCpom: TestStructureData = {
     less5Years: true,
     files: [],
   },
+  finalisation: {
+    finance: createAutoriseeFinanceData(),
+    typePlaces: {
+      placesACreer: 0,
+      placesAFermer: 0,
+    },
+    notes: "Structure CADA sans CPOM finalisée avec succès",
+  },
 };
 
 export const cadaAvecCpom: TestStructureData = {
@@ -143,6 +286,14 @@ export const cadaAvecCpom: TestStructureData = {
     ...cadaSansCpom.identification,
     debutCpom: "2023-01-01T00:00:00.000Z",
     finCpom: "2027-12-31T00:00:00.000Z",
+  },
+  finalisation: {
+    finance: createAutoriseeFinanceData(),
+    typePlaces: {
+      placesACreer: 0,
+      placesAFermer: 0,
+    },
+    notes: "Structure CADA avec CPOM finalisée avec succès",
   },
 };
 
@@ -197,6 +348,14 @@ export const cphSansCpom: TestStructureData = {
     less5Years: true,
     files: [],
   },
+  finalisation: {
+    finance: createAutoriseeFinanceData(),
+    typePlaces: {
+      placesACreer: 0,
+      placesAFermer: 0,
+    },
+    notes: "Structure CPH sans CPOM finalisée avec succès",
+  },
 };
 
 export const cphAvecCpom: TestStructureData = {
@@ -206,6 +365,14 @@ export const cphAvecCpom: TestStructureData = {
     ...cphSansCpom.identification,
     debutCpom: "2023-06-01T00:00:00.000Z",
     finCpom: "2028-05-31T00:00:00.000Z",
+  },
+  finalisation: {
+    finance: createAutoriseeFinanceData(),
+    typePlaces: {
+      placesACreer: 0,
+      placesAFermer: 0,
+    },
+    notes: "Structure CPH avec CPOM finalisée avec succès",
   },
 };
 
@@ -251,6 +418,14 @@ export const hudaSansCpom: TestStructureData = {
     less5Years: true,
     files: [],
   },
+  finalisation: {
+    finance: createSubventionneeFinanceData(),
+    typePlaces: {
+      placesACreer: 0,
+      placesAFermer: 0,
+    },
+    notes: "Structure HUDA sans CPOM finalisée avec succès",
+  },
 };
 
 export const hudaAvecCpom: TestStructureData = {
@@ -260,6 +435,14 @@ export const hudaAvecCpom: TestStructureData = {
     ...hudaSansCpom.identification,
     debutCpom: "2024-01-01T00:00:00.000Z",
     finCpom: "2028-12-31T00:00:00.000Z",
+  },
+  finalisation: {
+    finance: createSubventionneeFinanceData(),
+    typePlaces: {
+      placesACreer: 0,
+      placesAFermer: 0,
+    },
+    notes: "Structure HUDA avec CPOM finalisée avec succès",
   },
 };
 
@@ -312,6 +495,14 @@ export const caesSansCpom: TestStructureData = {
     less5Years: true,
     files: [],
   },
+  finalisation: {
+    finance: createSubventionneeFinanceData(),
+    typePlaces: {
+      placesACreer: 0,
+      placesAFermer: 0,
+    },
+    notes: "Structure CAES sans CPOM finalisée avec succès",
+  },
 };
 
 export const caesAvecCpom: TestStructureData = {
@@ -321,6 +512,14 @@ export const caesAvecCpom: TestStructureData = {
     ...caesSansCpom.identification,
     debutCpom: "2024-03-01T00:00:00.000Z",
     finCpom: "2029-02-28T00:00:00.000Z",
+  },
+  finalisation: {
+    finance: createSubventionneeFinanceData(),
+    typePlaces: {
+      placesACreer: 0,
+      placesAFermer: 0,
+    },
+    notes: "Structure CAES avec CPOM finalisée avec succès",
   },
 };
 
@@ -372,16 +571,16 @@ export const cadaCpomDecimalYoung: TestStructureData = {
   },
   typologies: [
     {
-      placesAutorisees: 25.5, // Decimal places
-      pmr: 2.5,
-      lgbt: 5.0,
-      fvvTeh: 3.5,
+      placesAutorisees: 26,
+      pmr: 3,
+      lgbt: 5,
+      fvvTeh: 4,
     },
     {
-      placesAutorisees: 24.0,
-      pmr: 2.0,
-      lgbt: 4.5,
-      fvvTeh: 3.0,
+      placesAutorisees: 24,
+      pmr: 2,
+      lgbt: 5,
+      fvvTeh: 3,
     },
   ],
   documents: {
@@ -487,29 +686,29 @@ export const cphCpomDiffusDecimal: TestStructureData = {
       {
         adresseComplete: "8 Rue Diffus 13001 Marseille",
         searchTerm: "8 rue diffus marseille",
-        placesAutorisees: 15.5,
+        placesAutorisees: 16,
         repartition: Repartition.DIFFUS,
       },
       {
         adresseComplete: "15 Avenue Diffus 13002 Marseille",
         searchTerm: "15 avenue diffus marseille",
-        placesAutorisees: 12.0,
+        placesAutorisees: 12,
         repartition: Repartition.DIFFUS,
       },
       {
         adresseComplete: "22 Boulevard Diffus 13003 Marseille",
         searchTerm: "22 boulevard diffus marseille",
-        placesAutorisees: 8.5,
+        placesAutorisees: 8,
         repartition: Repartition.DIFFUS,
       },
     ],
   },
   typologies: [
     {
-      placesAutorisees: 36.0,
-      pmr: 3.5,
-      lgbt: 6.0,
-      fvvTeh: 2.5,
+      placesAutorisees: 36,
+      pmr: 4,
+      lgbt: 6,
+      fvvTeh: 3,
     },
   ],
   documents: {
@@ -682,10 +881,10 @@ export const hudaSansCpomDecimalIsoles: TestStructureData = {
   },
   typologies: [
     {
-      placesAutorisees: 50.5, // Decimal places
-      pmr: 5.0,
-      lgbt: 0.0, // Edge case: 0 LGBT
-      fvvTeh: 0.0, // Edge case: 0 FVV/TEH
+      placesAutorisees: 51,
+      pmr: 5,
+      lgbt: 0, // Edge case: 0 LGBT
+      fvvTeh: 0, // Edge case: 0 FVV/TEH
     },
   ],
   documents: {
@@ -894,16 +1093,16 @@ export const structureDecimalPlaces: TestStructureData = {
   },
   typologies: [
     {
-      placesAutorisees: 22.75, // Decimal places
-      pmr: 2.25,
-      lgbt: 3.5,
-      fvvTeh: 2.0,
+      placesAutorisees: 23,
+      pmr: 2,
+      lgbt: 4,
+      fvvTeh: 2,
     },
     {
-      placesAutorisees: 21.5,
-      pmr: 2.0,
-      lgbt: 3.0,
-      fvvTeh: 1.75,
+      placesAutorisees: 22,
+      pmr: 2,
+      lgbt: 3,
+      fvvTeh: 2,
     },
   ],
   documents: {

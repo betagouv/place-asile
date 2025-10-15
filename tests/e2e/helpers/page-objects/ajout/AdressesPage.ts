@@ -49,8 +49,8 @@ export class AdressesPage {
     }
 
     if (!autocompleteWorked) {
-      console.warn(
-        "All address autocomplete attempts failed, skipping address step"
+      throw new Error(
+        `Failed to autocomplete address after ${maxRetries} attempts. Address API may be down or rate limiting.`
       );
     }
 

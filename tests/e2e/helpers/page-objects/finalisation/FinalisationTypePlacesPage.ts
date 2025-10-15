@@ -1,5 +1,12 @@
 import { Page } from "@playwright/test";
 
+export type FinalisationTypePlacesData = {
+  placesACreer: number;
+  placesAFermer: number;
+  echeancePlacesACreer?: string;
+  echeancePlacesAFermer?: string;
+};
+
 export class FinalisationTypePlacesPage {
   constructor(private page: Page) {}
 
@@ -9,10 +16,29 @@ export class FinalisationTypePlacesPage {
     });
   }
 
-  async fillPlacesData() {
-    // Fill placesACreer and placesAFermer with 0 to skip optional date fields
-    await this.page.fill('input[name="placesACreer"]', "0");
-    await this.page.fill('input[name="placesAFermer"]', "0");
+  async fillPlacesData(data: FinalisationTypePlacesData) {
+    await this.page.fill(
+      'input[name="placesACreer"]',
+      data.placesACreer.toString()
+    );
+    await this.page.fill(
+      'input[name="placesAFermer"]',
+      data.placesAFermer.toString()
+    );
+
+    // Fill optional date fields if places are being created/closed
+    if (data.placesACreer > 0 && data.echeancePlacesACreer) {
+      await this.page.fill(
+        'input[name="echeancePlacesACreer"]',
+        data.echeancePlacesACreer
+      );
+    }
+    if (data.placesAFermer > 0 && data.echeancePlacesAFermer) {
+      await this.page.fill(
+        'input[name="echeancePlacesAFermer"]',
+        data.echeancePlacesAFermer
+      );
+    }
   }
 
   async submit(structureId: number) {
