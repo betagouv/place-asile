@@ -15,7 +15,7 @@ export const ControleTable = (): ReactElement => {
     const link = await getDownloadLink(fileUploadKey);
     window.open(link);
   };
-  console.log(structure?.controles);
+
   const getControles = () => {
     return structure?.controles?.map((controle) => [
       new Date(controle.date).toLocaleDateString("fr-FR"),
