@@ -19,7 +19,7 @@ import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
 import {
   FinalisationQualiteFormValues,
   finalisationQualiteSchema,
-} from "@/schemas/finalisation/finalisationQualité.schema";
+} from "@/schemas/finalisation/finalisationQualite.schema";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";

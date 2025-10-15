@@ -1,7 +1,7 @@
 import { UseFormReturn } from "react-hook-form";
 
 import { FileUploadFormValues } from "@/schemas/base/documents.schema";
-import { FinalisationQualiteFormValues } from "@/schemas/finalisation/finalisationQualité.schema";
+import { FinalisationQualiteFormValues } from "@/schemas/finalisation/finalisationQualite.schema";
 import { CategoryDisplayRulesType } from "@/types/categoryToDisplay.type";
 
 export const filterFileUploads = async (

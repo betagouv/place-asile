@@ -434,15 +434,14 @@ const deleteFileUploads = async (
   const allFileUploads = await prisma.fileUpload.findMany({
     where: { structureDnaCode: structureDnaCode },
   });
-  console.log("allFileUploads", allFileUploads);
-  console.log("fileUploadsToKeep", fileUploadsToKeep);
+
   const fileUploadsToDelete = allFileUploads.filter(
     (fileUpload) =>
       !fileUploadsToKeep.some(
         (fileUploadToKeep) => fileUploadToKeep.key === fileUpload.key
       )
   );
-  console.log("fileUploadsToDelete", fileUploadsToDelete);
+
   await Promise.all(
     fileUploadsToDelete.map((fileUpload) =>
       prisma.fileUpload.delete({ where: { id: fileUpload.id } })
