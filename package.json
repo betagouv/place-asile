@@ -31,7 +31,8 @@
     "predev": "react-dsfr update-icons --silent",
     "prebuild": "react-dsfr update-icons",
     "postinstall": "npx patch-package",
-    "sql:format": "sql-formatter prisma/views/*.sql --config sql-formatter.config.json --fix"
+    "sql:format:check": "set -e; failed=0; for f in prisma/views/*.sql; do tmp=$(mktemp); sql-formatter \"$f\" --config sql-formatter.config.json > \"$tmp\"; if ! diff -u \"$f\" \"$tmp\" >/dev/null; then echo \"SQL formatting issues in $f\"; failed=1; fi; rm -f \"$tmp\"; done; [ \"$failed\" -eq 0 ] || exit 1",
+    "sql:format:fix": "for f in prisma/views/*.sql; do sql-formatter \"$f\" --config sql-formatter.config.json --fix; done"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"

@@ -7,50 +7,49 @@ const viewFiles = fs.readdirSync("./prisma/views");
 console.log("Creating views...");
 console.log("DATABASE_URL", process.env.DATABASE_URL);
 
-// Get db URL
-const dbUrl = process.env.DATABASE_URL || "";
-const psqlUrl = (() => {
-  try {
-    const u = new URL(dbUrl);
-    u.search = ""; // to drop everything after a "?"
-    return u.toString();
-  } catch {
-    return dbUrl;
-  }
-})();
+const databaseUrl = process.env.DATABASE_URL || "";
+const psqlUrl = getDbUrl(databaseUrl);
 
 // Drop and recreate reporting schema
 const schema = process.env.REPORTING_SCHEMA || "reporting";
-try {
-  execSync(
-    `psql "${psqlUrl}" -v ON_ERROR_STOP=1 ` +
-      `-c "DROP SCHEMA IF EXISTS \\"${schema}\\" CASCADE;" ` +
-      `-c "CREATE SCHEMA \\"${schema}\\";"`,
-    { stdio: "inherit" }
-  );
-  console.log(`✅ Schema "${schema}" recreated`);
-} catch (error: unknown) {
-  console.error(`❌ Failed to recreate schema "${schema}"`);
-  if (typeof error === "object" && error && "status" in error) {
-    console.error(`Exit code: ${(error as { status?: number }).status}`);
-  }
-  if (typeof error === "object" && error && "stderr" in error) {
-    const stderr = (error as { stderr?: unknown }).stderr;
-    if (stderr) console.error(String(stderr));
-  }
-  process.exit(1);
-}
 
-// Apply views
+runPsqlOrExit(
+  `psql "${psqlUrl}" -v ON_ERROR_STOP=1 ` +
+    `-c "DROP SCHEMA IF EXISTS \"${schema}\" CASCADE;" ` +
+    `-c "CREATE SCHEMA \"${schema}\";"`,
+  `✅ Schema "${schema}" recreated`,
+  `❌ Failed to recreate schema "${schema}"`
+);
+
 for (const file of viewFiles) {
   console.log(`➡️ Applying ${file}`);
+  runPsqlOrExit(
+    `psql "${psqlUrl}" -v ON_ERROR_STOP=1 -v SCHEMA="${schema}" -f prisma/views/${file}`,
+    `✅ Applied ${file}`,
+    `❌ Failed to apply ${file}`
+  );
+}
+
+console.log("Views created successfully");
+
+// Utils
+
+function getDbUrl(rawDatabaseUrl: string): string {
   try {
-    execSync(`psql "${psqlUrl}" -v ON_ERROR_STOP=1 -v SCHEMA="${schema}" -f prisma/views/${file}`, {
-      stdio: "inherit",
-    });
-    console.log(`✅ Applied ${file}`);
+    const parsedUrl = new URL(rawDatabaseUrl);
+    parsedUrl.search = ""; // to drop everything after a "?"
+    return parsedUrl.toString();
+  } catch {
+    return rawDatabaseUrl;
+  }
+}
+
+function runPsqlOrExit(command: string, successMsg?: string, failureMsg?: string): void {
+  try {
+    execSync(command, { stdio: "inherit" });
+    if (successMsg) console.log(successMsg);
   } catch (error: unknown) {
-    console.error(`❌ Failed to apply ${file}`);
+    if (failureMsg) console.error(failureMsg);
     if (typeof error === "object" && error && "status" in error) {
       console.error(`Exit code: ${(error as { status?: number }).status}`);
     }
@@ -61,5 +60,3 @@ for (const file of viewFiles) {
     process.exit(1);
   }
 }
-
-console.log("Views created successfully");

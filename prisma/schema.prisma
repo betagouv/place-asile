@@ -278,6 +278,7 @@ enum StructureType {
 }
 
 enum ContactType {
+  @@schema("public")
   PRINCIPAL
   SECONDAIRE
   AUTRE
@@ -320,4 +321,45 @@ view ComparaisonPlaces {
   diff_places_activite      Int?
   pct_diff_places           Float?
   pct_diff_places_activite  Float?
+}
+
+view StructuresAggregates {
+  @@schema("reporting")
+  dnaCode                       String?
+  places_autorisees_structure   Int?
+  pmr_structure                 Int?
+  lgbt_structure                Int?
+  fvv_teh_structure             Int?
+  places_autorisees_adresse     Int?
+  qpv_adresse                   Int?
+  logement_social_adresse       Int?
+  date_adresse                  DateTime?
+  nb_adresses                   Int?
+  date_structure                DateTime?
+  nb_places_activite            Int?
+  diff_places_adresse           Int?
+  pct_diff_places_adresse       Float?
+  diff_places_activite          Int?
+  pct_diff_places_activite      Float?
+  created_at                    DateTime?
+  updated_at                    DateTime?
+}
+
+view OperateursAggregates {
+  @@schema("reporting")
+  id                            Int
+  name                          String
+  directionGenerale             String?
+  siret                         String?
+  siegeSocial                   String?
+  nb_structures                 Int
+  places_autorisees_structure   Int?
+  pmr_structure                 Int?
+  lgbt_structure                Int?
+  fvv_teh_structure             Int?
+  places_autorisees_adresse     Int?
+  qpv_adresse                   Int?
+  logement_social_adresse       Int?
+  created_at                    DateTime?
+  updated_at                    DateTime?
 }
