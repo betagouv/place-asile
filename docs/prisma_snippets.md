@@ -1,5 +1,5 @@
-# Table des matière
-- [Table des matière](#table-des-matière)
+# Table des matières
+- [Table des matières](#table-des-matières)
 - [Quelques snippets pour aller plus loin avec Prisma](#quelques-snippets-pour-aller-plus-loin-avec-prisma)
   - [Migration](#migration)
   - [Évolution du schéma](#évolution-du-schéma)
