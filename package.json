@@ -21,6 +21,7 @@
     "test:e2e:ui": "playwright test --ui --grep @manual",
     "prepare": "husky",
     "prisma:migrate": "npx prisma migrate dev",
+    "prisma:apply-views": "npx tsx prisma/utils/apply-views.ts",
     "prisma:migrate:name": "npx prisma migrate dev --name",
     "prisma:deploy": "npx prisma migrate deploy",
     "prisma:seed": "npx prisma db seed",
@@ -29,7 +30,9 @@
     "prisma:push": "npx prisma db push && npx prisma generate",
     "predev": "react-dsfr update-icons --silent",
     "prebuild": "react-dsfr update-icons",
-    "postinstall": "npx patch-package"
+    "postinstall": "npx patch-package",
+    "sql:format:check": "set -e; failed=0; for f in prisma/views/*.sql; do tmp=$(mktemp); sql-formatter \"$f\" --config sql-formatter.config.json > \"$tmp\"; if ! diff -u \"$f\" \"$tmp\" >/dev/null; then echo \"SQL formatting issues in $f\"; failed=1; fi; rm -f \"$tmp\"; done; [ \"$failed\" -eq 0 ] || exit 1",
+    "sql:format:fix": "for f in prisma/views/*.sql; do sql-formatter \"$f\" --config sql-formatter.config.json --fix; done"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -87,6 +90,7 @@
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.6.2",
     "sass": "^1.93.2",
+    "sql-formatter": "^15.6.10",
     "stylelint": "^16.25.0",
     "stylelint-config-standard": "^39.0.1",
     "tsx": "^4.20.6",
