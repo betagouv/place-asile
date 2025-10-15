@@ -3,11 +3,12 @@
 import "chartist/dist/index.css";
 
 import * as Chartist from "chartist";
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 
-// TODO : corriger les erreurs de réhydratation de ce composant
 export default function BarChart({ data, options }: Props) {
   const chartRef = useRef(null);
+  const id = useId();
+  const chartClass = `piechart-${id.replace(/:/g, "-")}`;
 
   useEffect(() => {
     let chart = null;
@@ -31,19 +32,18 @@ export default function BarChart({ data, options }: Props) {
     };
   }, [data, options]);
 
-  // TODO : use real DSFR colors
   return (
-    <>
+    <div className={chartClass}>
       <div ref={chartRef} style={{ height: 300 }} />
       <style>
         {`
-          .ct-series-a .ct-slice-pie { fill: #FCC63A !important; }
-          .ct-series-b .ct-slice-pie { fill: #C3992A !important; }
-          .ct-series-c .ct-slice-pie { fill: #FBB8F6 !important; }
-          .ct-series-d .ct-slice-pie { fill: #B6CFFB !important; }
-        `}
+          .${chartClass} .ct-series-a .ct-bar { stroke: var(--yellow-moutarde-850-200) !important; }
+          .${chartClass} .ct-series-b .ct-bar { stroke: var(--yellow-moutarde-main-679) !important; }
+          .${chartClass} .ct-series-c .ct-bar { stroke: var(--purple-glycine-850-200)  !important; }
+          .${chartClass} .ct-series-d .ct-bar { stroke: var(--blue-cumulus-850-200) !important; }
+          `}
       </style>
-    </>
+    </div>
   );
 }
 
