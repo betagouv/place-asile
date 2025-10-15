@@ -1,6 +1,5 @@
 "use client";
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
-import { getCurrentStepData } from "@/app/(authenticated)/structures/[id]/finalisation/components/Steps";
 import { BudgetTables } from "@/app/components/forms/finance/BudgetTables";
 import { Documents } from "@/app/components/forms/finance/documents/Documents";
 import { IndicateursGeneraux } from "@/app/components/forms/finance/IndicateursGeneraux";
@@ -8,7 +7,6 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
-import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getFinanceFormDefaultValues } from "@/app/utils/defaultValues.util";
 import {
@@ -23,23 +21,15 @@ import {
   subventionneeAvecCpomSchema,
   subventionneeSchema,
 } from "@/schemas/base/finance.schema";
-import { StructureState } from "@/types/structure.type";
 
-export default function FinalisationFinanceForm({
-  currentStep,
-}: {
-  currentStep: number;
-}) {
+import { ModificationTitle } from "../components/ModificationTitle";
+
+export default function ModificationFinanceForm() {
   const { structure } = useStructureContext();
 
   const hasCpom = structure?.cpom;
   const isAutorisee = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
-
-  const { nextRoute, previousRoute } = getCurrentStepData(
-    currentStep,
-    structure.id
-  );
 
   let schema;
 
@@ -52,7 +42,7 @@ export default function FinalisationFinanceForm({
   const defaultValues = getFinanceFormDefaultValues({ structure });
 
   const { handleSubmit, state, backendError } = useAgentFormHandling({
-    nextRoute,
+    nextRoute: `/structures/${structure.id}`,
   });
 
   const onSubmit = (data: anyFinanceFormValues) => {
@@ -65,40 +55,35 @@ export default function FinalisationFinanceForm({
   };
 
   return (
-    <FormWrapper
-      schema={schema || basicSchema}
-      defaultValues={defaultValues as unknown as anyFinanceFormValues}
-      submitButtonText="Étape suivante"
-      previousStep={previousRoute}
-      availableFooterButtons={[FooterButtonType.SUBMIT]}
-      onSubmit={onSubmit}
-      className="w-full"
-    >
-      {structure.state === StructureState.A_FINALISER && (
-        <InformationBar
-          variant="warning"
-          title="À vérifier"
-          description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-        />
-      )}
-      <Documents className="mb-6" />
-      {structure.state === StructureState.A_FINALISER && (
-        <InformationBar
-          variant="info"
-          title="À compléter"
-          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-        />
-      )}
-      <IndicateursGeneraux />
-      <hr />
+    <>
+      <ModificationTitle
+        step="Finances"
+        closeLink={`/structures/${structure.id}`}
+      />
+      <FormWrapper
+        schema={schema || basicSchema}
+        defaultValues={defaultValues as unknown as anyFinanceFormValues}
+        resetRoute={`/structures/${structure.id}`}
+        submitButtonText="Valider"
+        availableFooterButtons={[
+          FooterButtonType.CANCEL,
+          FooterButtonType.SUBMIT,
+        ]}
+        onSubmit={onSubmit}
+        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
+      >
+        <Documents className="mb-6" />
+        <IndicateursGeneraux />
+        <hr />
 
-      <BudgetTables />
-      {state === "error" && (
-        <SubmitError
-          structureDnaCode={structure.dnaCode}
-          backendError={backendError}
-        />
-      )}
-    </FormWrapper>
+        <BudgetTables />
+        {state === "error" && (
+          <SubmitError
+            structureDnaCode={structure.dnaCode}
+            backendError={backendError}
+          />
+        )}
+      </FormWrapper>
+    </>
   );
 }

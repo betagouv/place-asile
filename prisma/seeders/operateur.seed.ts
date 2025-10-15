@@ -9,5 +9,10 @@ export const createFakeOperateur = (index: number): Omit<Operateur, "id"> => {
 
   return {
     name: faker.helpers.arrayElement(operateurs),
+    directionGenerale: faker.lorem.words(2),
+    siret: faker.number.int(10000000000000).toString(),
+    siegeSocial: faker.lorem.words(2),
+    createdAt: faker.date.past(),
+    updatedAt: faker.date.past(),
   };
 };

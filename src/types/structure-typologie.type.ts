@@ -5,4 +5,6 @@ export type StructureTypologie = {
   pmr: number;
   lgbt: number;
   fvvTeh: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 };

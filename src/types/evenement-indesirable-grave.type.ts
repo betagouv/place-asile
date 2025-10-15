@@ -5,4 +5,6 @@ export type EvenementIndesirableGrave = {
   evenementDate: Date;
   declarationDate: Date;
   type: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };

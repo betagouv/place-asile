@@ -5,9 +5,10 @@ import { getRepartition } from "@/app/utils/structure.util";
 import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 import { Contact } from "@/types/contact.type";
+import { ControleType } from "@/types/controle.type";
 import {
-  DdetsFileUploadCategoryType,
-  zDdetsFileUploadCategory,
+  AgentFileUploadCategoryType,
+  zAgentFileUploadCategory,
 } from "@/types/file-upload.type";
 import { PublicType, StructureWithLatLng } from "@/types/structure.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
@@ -104,13 +105,13 @@ export const getQualiteFormDefaultValues = ({
   categoriesToDisplay,
 }: {
   structure: StructureWithLatLng;
-  categoriesToDisplay: DdetsFileUploadCategoryType[number][];
+  categoriesToDisplay: AgentFileUploadCategoryType[number][];
 }) => {
   const filteredFileUploads = structure.fileUploads?.filter(
     (fileUpload) =>
       fileUpload?.category &&
       categoriesToDisplay.includes(
-        fileUpload.category as DdetsFileUploadCategoryType[number]
+        fileUpload.category as AgentFileUploadCategoryType[number]
       )
   );
 
@@ -120,7 +121,7 @@ export const getQualiteFormDefaultValues = ({
       uuid: uuidv4(),
       key: fileUpload.key,
       category: String(fileUpload.category) as z.infer<
-        typeof zDdetsFileUploadCategory
+        typeof zAgentFileUploadCategory
       >,
       date:
         fileUpload.date && fileUpload.date instanceof Date
@@ -142,7 +143,7 @@ export const getQualiteFormDefaultValues = ({
   const createEmptyDefaultValues = () => {
     const filesToAdd: {
       uuid: string;
-      category: z.infer<typeof zDdetsFileUploadCategory>;
+      category: z.infer<typeof zAgentFileUploadCategory>;
     }[] = [];
 
     const missingCategories = categoriesToDisplay.filter(
@@ -162,8 +163,21 @@ export const getQualiteFormDefaultValues = ({
     return filesToAdd;
   };
 
+  const controles = structure.controles?.map((controle) => {
+    return {
+      id: controle.id,
+      date:
+        controle.date && controle.date instanceof Date
+          ? controle.date.toISOString()
+          : controle.date || undefined,
+      type: ControleType[controle.type as unknown as keyof typeof ControleType],
+      fileUploads: controle.fileUploads,
+    };
+  });
+
   const defaultValues = {
     fileUploads: [...defaultValuesFromDb, ...createEmptyDefaultValues()],
+    controles,
   };
 
   return defaultValues;

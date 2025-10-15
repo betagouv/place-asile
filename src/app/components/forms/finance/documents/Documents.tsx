@@ -53,8 +53,7 @@ export const Documents = ({ className }: { className?: string }) => {
         description={
           <>
             Taille maximale par fichier : 10 Mo. Formats supportés : pdf, xls,
-            xlsx, csv et ods.
-            <br />
+            xlsx, csv et ods.{" "}
             <a
               target="_blank"
               className="underline"
