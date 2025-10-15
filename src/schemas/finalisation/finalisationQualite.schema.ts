@@ -1,20 +1,21 @@
 import z from "zod";
 
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
+import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 import { ControleType } from "@/types/controle.type";
-import { zDdetsFileUploadCategory } from "@/types/file-upload.type";
+import { zAgentFileUploadCategory } from "@/types/file-upload.type";
 
 const avenantSchema = z.object({
   key: z.string().optional(),
   date: createDateFieldValidator().optional(),
-  category: zDdetsFileUploadCategory,
+  category: zAgentFileUploadCategory,
 });
 
 export const fileUploadSchema = z.object({
   // TODO : rendre key et category obligatoires
   key: z.string().optional(),
   date: createDateFieldValidator().optional(),
-  category: zDdetsFileUploadCategory,
+  category: zAgentFileUploadCategory,
   startDate: createDateFieldValidator().optional(),
   endDate: createDateFieldValidator().optional(),
   avenants: z.array(avenantSchema).optional(),
@@ -25,11 +26,23 @@ export const fileUploadSchema = z.object({
   uuid: z.string().optional(),
 });
 
+const controleSchema = z.object({
+  id: z.union([
+    z.string().nullable().optional(),
+    zSafeNumber().nullable().optional(),
+  ]),
+  date: createDateFieldValidator().optional(),
+  type: z.nativeEnum(ControleType).optional(),
+  fileUploads: z.array(z.object({ key: z.string().optional() })).optional(),
+});
+
 export const finalisationQualiteSchema = z.object({
   fileUploads: z.array(fileUploadSchema).optional(),
+  controles: z.array(controleSchema).optional(),
 });
 
 export type FileUploadFormValues = z.infer<typeof fileUploadSchema>;
+export type ControleFormValues = z.infer<typeof controleSchema>;
 
 export type FinalisationQualiteFormValues = z.infer<
   typeof finalisationQualiteSchema

@@ -70,11 +70,11 @@ export const UploadsByCategoryFile = ({
 
   return (
     <>
-      <div className="grid  grid-cols-[1fr_1fr_auto] gap-6 items-center ">
-        {fileMetaData === FileMetaData.DATE_TYPE && (
+      <div className="grid grid-cols-[1fr_1fr_auto] gap-6 items-center ">
+        {fileMetaData === FileMetaData.INSPECTION_CONTROLE && (
           <div className="flex gap-6 items-center h-full">
             <InputWithValidation
-              name={`fileUploads.${index}.date`}
+              name={`controles.${index}.date`}
               defaultValue={field.date}
               control={control}
               label="Date"
@@ -83,7 +83,7 @@ export const UploadsByCategoryFile = ({
             />
 
             <SelectWithValidation
-              name={`fileUploads.${index}.type`}
+              name={`controles.${index}.type`}
               control={control}
               label="Type"
               className="w-full"

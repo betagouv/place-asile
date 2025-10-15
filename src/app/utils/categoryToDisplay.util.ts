@@ -1,7 +1,7 @@
 import { FileMetaData } from "@/types/file-meta-data";
 import {
-  DdetsFileUploadCategory,
-  DdetsFileUploadCategoryType,
+  AgentFileUploadCategory,
+  AgentFileUploadCategoryType,
 } from "@/types/file-upload.type";
 import { StructureWithLatLng } from "@/types/structure.type";
 
@@ -9,8 +9,8 @@ import { isStructureSubventionnee } from "./structure.util";
 
 export const getCategoriesToDisplay = (
   structure: StructureWithLatLng
-): DdetsFileUploadCategoryType[number][] =>
-  DdetsFileUploadCategory.filter((category) => {
+): AgentFileUploadCategoryType[number][] =>
+  AgentFileUploadCategory.filter((category) => {
     if (category === "CPOM" && !structure.cpom) {
       return false;
     }
@@ -47,7 +47,7 @@ export const getCategoriesDisplayRules = (
     addFileButtonLabel: "Ajouter un arrêté de tarification",
   },
   CPOM: {
-    categoryShortName: "cpom",
+    categoryShortName: "CPOM",
     title: "CPOM",
     canAddFile: true,
     isOptional: false,
@@ -72,7 +72,7 @@ export const getCategoriesDisplayRules = (
     canAddFile: true,
     isOptional: true,
     canAddAvenant: false,
-    fileMetaData: FileMetaData.DATE_TYPE,
+    fileMetaData: FileMetaData.INSPECTION_CONTROLE,
     documentLabel: "Rapport",
     addFileButtonLabel: "Ajouter une inspection-contrôle",
   },
@@ -92,7 +92,7 @@ export const getCategoriesDisplayRules = (
 });
 
 export type CategoryDisplayRulesType = Record<
-  (typeof DdetsFileUploadCategory)[number],
+  (typeof AgentFileUploadCategory)[number],
   {
     categoryShortName: string;
     title: string;

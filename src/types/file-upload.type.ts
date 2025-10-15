@@ -16,7 +16,7 @@ export type FileUpload = {
   childrenFileUploads?: FileUpload[];
 };
 
-export const DdetsFileUploadCategory = [
+export const AgentFileUploadCategory = [
   "ARRETE_AUTORISATION",
   "CPOM",
   "CONVENTION",
@@ -38,14 +38,14 @@ export const OperateurFileUploadCategory = [
   "RAPPORT_ACTIVITE_OPERATEUR",
 ] as const;
 
-export type DdetsFileUploadCategoryType = typeof DdetsFileUploadCategory;
+export type AgentFileUploadCategoryType = typeof AgentFileUploadCategory;
 export type OperateurFileUploadCategoryType =
   typeof OperateurFileUploadCategory;
 
-export const zDdetsFileUploadCategory = z.enum(
+export const zAgentFileUploadCategory = z.enum(
   Object.values(
-    DdetsFileUploadCategory
-  ) as unknown as DdetsFileUploadCategoryType
+    AgentFileUploadCategory
+  ) as unknown as AgentFileUploadCategoryType
 );
 
 export const zOperateurFileUploadCategory = z.enum(
@@ -55,7 +55,7 @@ export const zOperateurFileUploadCategory = z.enum(
 );
 
 export const FileUploadCategory = [
-  ...DdetsFileUploadCategory,
+  ...AgentFileUploadCategory,
   ...OperateurFileUploadCategory,
 ] as const;
 

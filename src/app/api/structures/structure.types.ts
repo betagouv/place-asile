@@ -108,7 +108,7 @@ export type UpdateStructureTypologie = {
   fvvTeh: number;
 };
 export type UpdateControle = {
-  date: Date;
+  date?: Date;
   type: string;
   fileUploadKey: string;
   id?: number;
@@ -122,6 +122,7 @@ export type UpdateFileUpload = {
   id?: number;
   categoryName?: string;
   parentFileUploadId?: number;
+  controleId?: number;
 };
 
 type UpdateAdresseTypologie = CreateAdresseTypologie & { id?: number };
