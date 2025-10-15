@@ -12,6 +12,7 @@ export const filterFileUploads = async (
   if (!categoriesDisplayRules || !fileUploads) {
     return;
   }
+
   const setError = methods.setError;
 
   const requiredCategories = Object.keys(categoriesDisplayRules).filter(

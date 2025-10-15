@@ -427,10 +427,39 @@ const deleteControles = async (
   );
 };
 
+const deleteFileUploads = async (
+  fileUploadsToKeep: UpdateFileUpload[],
+  structureDnaCode: string
+): Promise<void> => {
+  const allFileUploads = await prisma.fileUpload.findMany({
+    where: { structureDnaCode: structureDnaCode },
+  });
+  console.log("allFileUploads", allFileUploads);
+  console.log("fileUploadsToKeep", fileUploadsToKeep);
+  const fileUploadsToDelete = allFileUploads.filter(
+    (fileUpload) =>
+      !fileUploadsToKeep.some(
+        (fileUploadToKeep) => fileUploadToKeep.key === fileUpload.key
+      )
+  );
+  console.log("fileUploadsToDelete", fileUploadsToDelete);
+  await Promise.all(
+    fileUploadsToDelete.map((fileUpload) =>
+      prisma.fileUpload.delete({ where: { id: fileUpload.id } })
+    )
+  );
+};
+
 const updateFileUploads = async (
   fileUploads: UpdateFileUpload[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
+  if (!fileUploads || fileUploads.length === 0) {
+    return;
+  }
+
+  await deleteFileUploads(fileUploads, structureDnaCode);
+
   await Promise.all(
     (fileUploads || []).map((fileUpload) =>
       prisma.fileUpload.update({
@@ -459,6 +488,7 @@ const createOrUpdateControles = async (
   }
 
   deleteControles(controles, structureDnaCode);
+
   await Promise.all(
     (controles || []).map((controle) => {
       if (controle.id) {
