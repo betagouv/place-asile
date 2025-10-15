@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
-import dotenv from "dotenv";
 import fs from "fs";
+import dotenv from "dotenv";
 dotenv.config();
 
 const scriptsPath = "src/views/scripts/";
