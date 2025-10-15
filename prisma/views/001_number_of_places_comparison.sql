@@ -58,20 +58,20 @@ SELECT
   pps.total_places_autorisees,
   pst.places_autorisees,
   pa.total_places_activite,
-  pst.places_autorisees - pps.total_places_autorisees AS "diffPlaces",
-  pa.total_places_activite - pps.total_places_autorisees AS "diffPlacesActivite",
+  pst.places_autorisees - pps.total_places_autorisees AS diff_places,
+  pa.total_places_activite - pps.total_places_autorisees AS diff_places_activite,
   COALESCE(
     ABS(
       pst.places_autorisees - pps.total_places_autorisees
     ) / NULLIF(pst.places_autorisees::float, 0) * 100,
     0
-  ) AS "pctDiffPlaces",
+  ) AS pct_diff_places,
   COALESCE(
     ABS(
       pa.total_places_activite - pps.total_places_autorisees
     ) / NULLIF(pa.total_places_activite::float, 0) * 100,
     0
-  ) AS "pctDiffPlacesActivite"
+  ) AS pct_diff_places_activite
 FROM
   places_par_structure pps
   JOIN places_structure_typologie pst ON pst."dnaCode" = pps."dnaCode"
@@ -84,4 +84,4 @@ WHERE
     pst.places_autorisees - pps.total_places_autorisees
   ) <> 0
 ORDER BY
-  "pctDiffPlaces" DESC;
+  pct_diff_places DESC;

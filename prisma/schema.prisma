@@ -1,19 +1,22 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas = ["public", "reporting"]
 }
 
 model Structure {
+  @@schema("public")
   id                           Int                         @id @default(autoincrement())
   dnaCode                      String                      @unique
   oldOperateur                 String
   filiale                      String?
   type                         StructureType
-  oldNbPlaces                     Int
+  oldNbPlaces                  Int
   placesACreer                 Int?
   placesAFermer                Int?
   echeancePlacesACreer         DateTime?
@@ -56,6 +59,7 @@ model Structure {
 }
 
 model Controle {
+  @@schema("public")
   id               Int          @id @default(autoincrement())
   structure        Structure    @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
@@ -68,6 +72,7 @@ model Controle {
 }
 
 model Evaluation {
+  @@schema("public")
   id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
@@ -82,6 +87,7 @@ model Evaluation {
 }
 
 model EvenementIndesirableGrave {
+  @@schema("public")
   id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
@@ -95,6 +101,7 @@ model EvenementIndesirableGrave {
 }
 
 model Adresse {
+  @@schema("public")
   id                Int                @id @default(autoincrement())
   structure         Structure          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode  String
@@ -109,6 +116,7 @@ model Adresse {
 }
 
 model AdresseTypologie {
+  @@schema("public")
   id               Int      @id @default(autoincrement())
   adresse          Adresse  @relation(fields: [adresseId], references: [id], onDelete: Cascade)
   adresseId        Int
@@ -122,6 +130,7 @@ model AdresseTypologie {
 }
 
 model Contact {
+  @@schema("public")
   id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
@@ -137,6 +146,7 @@ model Contact {
 }
 
 model StructureTypologie {
+  @@schema("public")
   id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
@@ -151,6 +161,7 @@ model StructureTypologie {
 }
 
 model Activite {
+  @@schema("public")
   id                       Int        @id @default(autoincrement())
   structure                Structure? @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode         String
@@ -167,6 +178,7 @@ model Activite {
 }
 
 model FileUpload {
+  @@schema("public")
   id                 Int                 @id @default(autoincrement())
   structure          Structure?          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode   String?
@@ -190,6 +202,7 @@ model FileUpload {
 }
 
 model Budget {
+  @@schema("public")
   id                                Int        @id @default(autoincrement())
   structure                         Structure? @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode                  String
@@ -222,6 +235,7 @@ model Budget {
 }
 
 model Operateur {
+  @@schema("public")
   id                    Int         @id @default(autoincrement())
   name                  String
   structures            Structure[]
@@ -233,24 +247,29 @@ model Operateur {
   updatedAt            DateTime  @updatedAt @default(now())
 }
 
+// Enums
 enum Repartition {
+  @@schema("public")
   DIFFUS
   COLLECTIF
   MIXTE
 }
 
 enum ControleType {
+  @@schema("public")
   INOPINE
   PROGRAMME
 }
 
 enum PublicType {
+  @@schema("public")
   TOUT_PUBLIC
   FAMILLE
   PERSONNES_ISOLEES
 }
 
 enum StructureType {
+  @@schema("public")
   CADA
   HUDA
   CPH
@@ -265,6 +284,7 @@ enum ContactType {
 }
 
 enum FileUploadCategory {
+  @@schema("public")
   BUDGET_PREVISIONNEL_DEMANDE
   RAPPORT_BUDGETAIRE
   BUDGET_PREVISIONNEL_RETENU
@@ -284,6 +304,20 @@ enum FileUploadCategory {
 }
 
 enum StructureState {
+  @@schema("public")
   A_FINALISER
   FINALISE
+}
+
+// Views
+view ComparaisonPlaces {
+  @@schema("reporting")
+  dnaCode                   String?
+  total_places_autorisees   Int?
+  places_autorisees         Int?
+  total_places_activite     Int?
+  diff_places               Int?
+  diff_places_activite      Int?
+  pct_diff_places           Float?
+  pct_diff_places_activite  Float?
 }
