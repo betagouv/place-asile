@@ -67,7 +67,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
         // Cleanup
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -98,7 +105,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -129,7 +143,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -160,7 +181,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -191,7 +219,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -222,7 +257,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -253,7 +295,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -284,7 +333,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -315,7 +371,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -346,7 +409,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -377,7 +447,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -408,7 +485,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -439,7 +523,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(response.status).toBe(201);
         expect(await response.text()).toContain("Structure créée avec succès");
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
   });
@@ -471,7 +562,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         // The exact error message depends on the validation schema
       } finally {
         // Try to cleanup in case it was created despite validation error
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -500,7 +598,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(responseBody).toBeDefined();
       } finally {
         // Try to cleanup in case it was created despite validation error
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
   });
@@ -539,7 +644,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
           26
         ); // 25.5 rounded
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -573,7 +685,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         expect(createdStructure).toBeDefined();
         expect(createdStructure.adresses).toHaveLength(4); // 4 different addresses
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
 
@@ -609,7 +728,14 @@ test.describe("Comprehensive Structure Creation Tests", () => {
         // expect(createdStructure.fileUploads).toBeDefined();
         // expect(createdStructure.fileUploads.length).toBeGreaterThan(0);
       } finally {
-        await deleteStructureViaApi(testData.dnaCode);
+        try {
+          await deleteStructureViaApi(testData.dnaCode);
+        } catch (error) {
+          console.warn(
+            `Cleanup failed for structure ${testData.dnaCode}:`,
+            error
+          );
+        }
       }
     });
   });

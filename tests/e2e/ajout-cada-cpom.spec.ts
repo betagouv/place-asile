@@ -76,6 +76,10 @@ test("CADA avec CPOM - Flux complet de création", async ({ page }) => {
     await structureDetailPage.verifyStructureData(data);
   } finally {
     // Cleanup: Delete the created structure
-    await deleteStructureViaApi(data.dnaCode);
+    try {
+      await deleteStructureViaApi(data.dnaCode);
+    } catch (error) {
+      console.warn(`Cleanup failed for structure ${data.dnaCode}:`, error);
+    }
   }
 });

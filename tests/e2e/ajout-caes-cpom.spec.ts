@@ -26,9 +26,6 @@ import { caesAvecCpom } from "./helpers/test-data";
 test.setTimeout(30000);
 
 test("CAES avec CPOM - Flux complet de création", async ({ page }) => {
-  // Add small delay to avoid rate limiting on address API
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
   const data = {
     ...caesAvecCpom,
     dnaCode: `K${uuidv4()}`,
@@ -79,6 +76,10 @@ test("CAES avec CPOM - Flux complet de création", async ({ page }) => {
     await structureDetailPage.verifyStructureData(data);
   } finally {
     // Cleanup: Delete the created structure
-    await deleteStructureViaApi(data.dnaCode);
+    try {
+      await deleteStructureViaApi(data.dnaCode);
+    } catch (error) {
+      console.warn(`Cleanup failed for structure ${data.dnaCode}:`, error);
+    }
   }
 });

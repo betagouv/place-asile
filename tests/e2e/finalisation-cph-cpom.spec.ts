@@ -69,6 +69,10 @@ test("Finalisation CPH avec CPOM - Flux complet", async ({ page }) => {
     await notesPage.verifySuccess();
   } finally {
     // Cleanup: Delete the created structure
-    await deleteStructureViaApi(testData.dnaCode);
+    try {
+      await deleteStructureViaApi(testData.dnaCode);
+    } catch (error) {
+      console.warn(`Cleanup failed for structure ${testData.dnaCode}:`, error);
+    }
   }
 });
