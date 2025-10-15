@@ -48,13 +48,13 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
   }));
 };
 
-export const extractActivitesFromOds = (): Omit<Activite, "id"> [] => {
+export const extractActivitesFromOds = (): Omit<Activite, "id">[] => {
   const sheets = xlsx.parse(`${__dirname}/../data/activites.ods`, {
     cellDates: true,
     blankrows: false,
   });
 
-  const allActivites: Omit<Activite, "id"> [] = [];
+  const allActivites: Omit<Activite, "id">[] = [];
   sheets.forEach((sheet, index) => {
     const sheetData = sheet.data;
     sheetData.shift();
