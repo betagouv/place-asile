@@ -1,1 +1,1 @@
-postdeploy: yarn prisma:deploy && yarn prisma:apply-views
+postdeploy: yarn prisma:deploy && DATABASE_URL=$DATABASE_URL REPORTING_SCHEMA=$REPORTING_SCHEMA yarn prisma:apply-views
