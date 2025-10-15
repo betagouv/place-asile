@@ -7,7 +7,6 @@ export const formatNumber = (value: number | null | undefined): string => {
   if (value === null || value === undefined || isNaN(value)) {
     return "0";
   }
-
   return new Intl.NumberFormat("fr-FR").format(value);
 };
 
@@ -24,8 +23,6 @@ export const formatCurrency = (value: number | null | undefined): string => {
   return new Intl.NumberFormat("fr-FR", {
     style: "currency",
     currency: "EUR",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
   }).format(value);
 };
 
