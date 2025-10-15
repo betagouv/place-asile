@@ -1,12 +1,12 @@
 "use client";
 import { UseFormReturn } from "react-hook-form";
 
+import { Disclaimer } from "@/app/components/forms/documents/Disclaimer";
+import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
-import { Disclaimer } from "@/app/components/forms/qualite/Disclaimer";
-import UploadsByCategory from "@/app/components/forms/qualite/UploadsByCategory";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";

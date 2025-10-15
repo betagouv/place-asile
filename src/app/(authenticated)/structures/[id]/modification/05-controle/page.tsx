@@ -4,7 +4,7 @@ import Notice from "@codegouvfr/react-dsfr/Notice";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
-import UploadsByCategory from "@/app/components/forms/qualite/UploadsByCategory";
+import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";

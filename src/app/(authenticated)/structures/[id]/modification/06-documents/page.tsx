@@ -5,7 +5,7 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
-import UploadsByCategory from "@/app/components/forms/qualite/UploadsByCategory";
+import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import {

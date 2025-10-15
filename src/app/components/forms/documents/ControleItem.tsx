@@ -20,8 +20,8 @@ export const ControleItem = ({
   register(`fileUploads.${index}.parentFileUploadId`);
 
   return (
-    <div className="grid grid-cols-[1fr_1fr_auto] gap-6 items-center ">
-      <div className="flex gap-6 items-center h-full">
+    <div className="grid grid-cols-[1fr_1fr_auto] gap-6 items-start ">
+      <div className="flex gap-6 items-start h-full">
         <InputWithValidation
           name={`controles.${index}.date`}
           defaultValue={field.date}

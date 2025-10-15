@@ -141,7 +141,7 @@ export default function UploadsByCategory({
           const fieldIndex = getItemIndex(field.uuid);
 
           return (
-            <div key={fieldIndex}>
+            <div key={fieldIndex} className="mb-4">
               <UploadsByCategoryFile
                 categoryShortName={categoryShortName}
                 field={field}
@@ -158,7 +158,7 @@ export default function UploadsByCategory({
       {fileMetaData === FileMetaData.INSPECTION_CONTROLE &&
         controles.map((field: ControleField, index: number) => {
           return (
-            <div key={`controle-${index}`}>
+            <div key={`controle-${field.id || field.uuid || index}`}>
               <ControleItem
                 field={field}
                 index={index}
