@@ -164,9 +164,6 @@ model Activite {
   placesVacantes           Int
   presencesInduesBPI       Int
   presencesInduesDeboutees Int
-
-  createdAt                DateTime?  @default(now())
-  updatedAt                DateTime?  @updatedAt @default(now())
 }
 
 model FileUpload {
