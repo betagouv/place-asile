@@ -102,6 +102,8 @@ Enfin, vous pouvez vérifier le contenu de la base de données en exécutant :
 yarn prisma:studio
 ```
 
+👉 Pour aller plus loin : [ce readme](docs/prisma_snippets.md)
+
 ## 🏗️ Architecture
 
 Pour en savoir plus sur l'architecture du projet, allez sur [le document d'architecture](https://github.com/betagouv/place-asile/blob/dev/docs/architecture.md)
