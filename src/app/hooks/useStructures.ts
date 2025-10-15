@@ -7,7 +7,7 @@ import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentificati
 import { AjoutTypePlacesFormValues } from "@/schemas/ajout/ajoutTypePlaces.schema";
 import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { CreateOrUpdateAdresse } from "@/types/adresse.type";
-import { Contact } from "@/types/contact.type";
+import { Contact, ContactType } from "@/types/contact.type";
 import { DeepPartial } from "@/types/global";
 import { Structure } from "@/types/structure.type";
 
@@ -31,7 +31,7 @@ export const useStructures = (): UseStructureResult => {
     const contacts: Partial<Contact>[] = [];
 
     if (contactPrincipal) {
-      contacts.push(contactPrincipal);
+      contacts.push({ ...contactPrincipal, type: ContactType.PRINCIPAL });
     }
 
     if (
@@ -47,7 +47,7 @@ export const useStructures = (): UseStructureResult => {
       contactSecondaire.role &&
       contactSecondaire.role.trim() !== ""
     ) {
-      contacts.push(contactSecondaire);
+      contacts.push({ ...contactSecondaire, type: ContactType.SECONDAIRE });
     }
 
     return contacts;

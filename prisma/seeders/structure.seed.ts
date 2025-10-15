@@ -61,7 +61,7 @@ const createFakeStructure = ({
     adresseAdministrative: faker.location.streetAddress(),
     communeAdministrative: faker.location.city(),
     codePostalAdministratif: faker.location.zipCode(),
-    departementAdministratif: faker.location.county(),
+    departementAdministratif: String(faker.number.int({ min: 1, max: 95 })).padStart(2, '0'),
     latitude: Prisma.Decimal(
       faker.location.latitude({ min: 43.550851, max: 49.131627 })
     ),
@@ -87,6 +87,8 @@ const createFakeStructure = ({
     echeancePlacesAFermer: faker.date.future(),
     notes: faker.lorem.lines(2),
     state,
+    createdAt: faker.date.past(),
+    updatedAt: faker.date.past(),
   };
 };
 
@@ -112,7 +114,7 @@ export const createFakeStuctureWithRelations = ({
 
   let structureWithRelations = {
     ...fakeStructure,
-    contacts: [createFakeContact(), createFakeContact()],
+    contacts: [createFakeContact("PRINCIPAL"), createFakeContact("SECONDAIRE")],
     adresses: createFakeAdresses({ placesAutorisees }),
     structureTypologies: [
       createFakeStructureTypologie({ year: 2025, placesAutorisees }),

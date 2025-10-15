@@ -94,6 +94,8 @@ const buildFakeFileUpload = ({
     categoryName:
       category === FileUploadCategory.AUTRE ? faker.lorem.word() : null,
     parentFileUploadId: parentFileUploadId ?? null,
+    createdAt: faker.date.past(),
+    updatedAt: faker.date.past(),
   };
 };
 
