@@ -7,10 +7,10 @@ import { z } from "zod";
 import {
   ControleFormValues,
   FileUploadFormValues,
-} from "@/schemas/finalisation/finalisationQualite.schema";
+} from "@/schemas/base/documents.schema";
+import { FileMetaData } from "@/types/file-upload.type";
 import { zAgentFileUploadCategory } from "@/types/file-upload.type";
 
-import { FileMetaData } from "../FinalisationQualiteForm";
 import { ControleItem } from "./ControleItem";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
 
@@ -46,6 +46,8 @@ export default function UploadsByCategory({
     control,
     name: "controles",
   });
+
+  console.log(watch("controles"));
 
   const fileUploads = watch("fileUploads") || [];
   const controles = watch("controles") || [];

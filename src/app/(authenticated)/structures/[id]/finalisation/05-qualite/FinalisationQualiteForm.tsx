@@ -1,4 +1,6 @@
 "use client";
+import { UseFormReturn } from "react-hook-form";
+
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
@@ -13,18 +15,15 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
-import { finalisationQualiteSchema } from "@/schemas/finalisation/finalisationQualite.schema";
+import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
+import {
+  FinalisationQualiteFormValues,
+  finalisationQualiteSchema,
+} from "@/schemas/finalisation/finalisationQualité.schema";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
-import UploadsByCategory from "./components/UploadsByCategory";
-
-export enum FileMetaData {
-  INSPECTION_CONTROLE,
-  DATE_START_END,
-  NAME,
-}
 
 export const FinalisationQualiteForm = ({
   currentStep,
@@ -41,22 +40,45 @@ export const FinalisationQualiteForm = ({
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleQualiteFormSubmit, state, backendError } = useAgentFormHandling(
-    {
-      nextRoute,
-      categoriesDisplayRules,
-    }
-  );
+  const { handleSubmit, state, backendError } = useAgentFormHandling({
+    nextRoute,
+  });
 
   const defaultValues = getQualiteFormDefaultValues({
     structure,
     categoriesToDisplay,
   });
 
+  const onSubmit = async (
+    data: FinalisationQualiteFormValues,
+    methods: UseFormReturn<FinalisationQualiteFormValues>
+  ) => {
+    const fileUploads = filterFileUploads(
+      data.fileUploads,
+      methods,
+      categoriesDisplayRules
+    );
+
+    const controles = data.controles?.map((controle) => {
+      return {
+        id: controle.id || undefined,
+        date: controle.date,
+        type: controle.type,
+        fileUploadKey: controle.fileUploads?.[0].key,
+      };
+    });
+
+    await handleSubmit({
+      fileUploads,
+      controles,
+      dnaCode: structure.dnaCode,
+    });
+  };
+
   return (
     <FormWrapper
       schema={finalisationQualiteSchema}
-      onSubmit={handleQualiteFormSubmit}
+      onSubmit={onSubmit}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}

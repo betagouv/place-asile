@@ -34,8 +34,8 @@ export default function FinalisationTypePlacesForm({
   return (
     <FormWrapper
       schema={typePlacesSchema}
-      onSubmit={(data) => {
-        handleSubmit({
+      onSubmit={async (data) => {
+        await handleSubmit({
           ...data,
           dnaCode: structure.dnaCode,
         });

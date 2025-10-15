@@ -59,13 +59,13 @@ export default function FinalisationFinanceForm({
     nextRoute,
   });
 
-  const onSubmit = (data: anyFinanceFormValues) => {
+  const onSubmit = async (data: anyFinanceFormValues) => {
     data.budgets.forEach((budget) => {
       if (budget.id === "") {
         delete budget.id;
       }
     });
-    handleSubmit({ ...data, dnaCode: structure.dnaCode });
+    await handleSubmit({ ...data, dnaCode: structure.dnaCode });
   };
 
   return (

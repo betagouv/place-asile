@@ -29,8 +29,8 @@ export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
   return (
     <FormWrapper
       schema={notesSchema}
-      onSubmit={(data) =>
-        handleSubmit({
+      onSubmit={async (data) =>
+        await handleSubmit({
           ...data,
           dnaCode: structure.dnaCode,
           state: StructureState.FINALISE,

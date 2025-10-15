@@ -1,4 +1,6 @@
 "use client";
+import { UseFormReturn } from "react-hook-form";
+
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
@@ -11,7 +13,11 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
-import { finalisationQualiteSchema } from "@/schemas/finalisation/finalisationQualite.schema";
+import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
+import {
+  ModificationDocumentFormValues,
+  modificationDocumentSchema,
+} from "@/schemas/modification/modificationDocument.schema";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -25,17 +31,30 @@ export default function ModificationQualiteForm() {
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleQualiteFormSubmit, state, backendError } = useAgentFormHandling(
-    {
-      nextRoute: `/structures/${structure.id}`,
-      categoriesDisplayRules,
-    }
-  );
+  const { handleSubmit, state, backendError } = useAgentFormHandling({
+    nextRoute: `/structures/${structure.id}`,
+  });
 
   const defaultValues = getQualiteFormDefaultValues({
     structure,
     categoriesToDisplay,
   });
+
+  const onSubmit = async (
+    data: ModificationDocumentFormValues,
+    methods: UseFormReturn<ModificationDocumentFormValues>
+  ) => {
+    const fileUploads = filterFileUploads(
+      data.fileUploads,
+      methods,
+      categoriesDisplayRules
+    );
+
+    await handleSubmit({
+      fileUploads,
+      dnaCode: structure.dnaCode,
+    });
+  };
 
   return (
     <>
@@ -44,8 +63,8 @@ export default function ModificationQualiteForm() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={finalisationQualiteSchema}
-        onSubmit={handleQualiteFormSubmit}
+        schema={modificationDocumentSchema}
+        onSubmit={onSubmit}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}
         availableFooterButtons={[FooterButtonType.SUBMIT]}

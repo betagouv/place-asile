@@ -31,7 +31,7 @@ export const DefaultControlesBlock = (): ReactElement => {
         structure.state === StructureState.FINALISE
           ? () => {
               router.push(
-                `/structures/${structure.id}/modification/05-qualite`
+                `/structures/${structure.id}/modification/05-controle`
               );
             }
           : undefined

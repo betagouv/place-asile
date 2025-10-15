@@ -1,4 +1,5 @@
-import { FileMetaData } from "@/types/file-meta-data";
+import { CategoryDisplayRulesType } from "@/types/categoryToDisplay.type";
+import { FileMetaData } from "@/types/file-upload.type";
 import {
   AgentFileUploadCategory,
   AgentFileUploadCategoryType,
@@ -90,18 +91,3 @@ export const getCategoriesDisplayRules = (
         Plans Pluriannuels d’Investissements)`,
   },
 });
-
-export type CategoryDisplayRulesType = Record<
-  (typeof AgentFileUploadCategory)[number],
-  {
-    categoryShortName: string;
-    title: string;
-    canAddFile: boolean;
-    canAddAvenant: boolean;
-    isOptional: boolean;
-    fileMetaData: FileMetaData;
-    documentLabel: string;
-    addFileButtonLabel: string;
-    notice?: string | React.ReactElement;
-  }
->;

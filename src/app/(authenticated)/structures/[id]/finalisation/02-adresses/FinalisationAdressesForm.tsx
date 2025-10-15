@@ -35,8 +35,8 @@ export default function FinalisationAdressesForm({
     nextRoute,
   });
 
-  const onSubmit = (data: AdresseAdministrativeFormValues) => {
-    handleSubmit({ ...data, dnaCode: structure.dnaCode });
+  const onSubmit = async (data: AdresseAdministrativeFormValues) => {
+    await handleSubmit({ ...data, dnaCode: structure.dnaCode });
   };
 
   return (

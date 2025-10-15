@@ -26,7 +26,7 @@ export const fileUploadSchema = z.object({
   uuid: z.string().optional(),
 });
 
-const controleSchema = z.object({
+export const controleSchema = z.object({
   id: z.union([
     z.string().nullable().optional(),
     zSafeNumber().nullable().optional(),
@@ -36,14 +36,5 @@ const controleSchema = z.object({
   fileUploads: z.array(z.object({ key: z.string().optional() })).optional(),
 });
 
-export const finalisationQualiteSchema = z.object({
-  fileUploads: z.array(fileUploadSchema).optional(),
-  controles: z.array(controleSchema).optional(),
-});
-
 export type FileUploadFormValues = z.infer<typeof fileUploadSchema>;
 export type ControleFormValues = z.infer<typeof controleSchema>;
-
-export type FinalisationQualiteFormValues = z.infer<
-  typeof finalisationQualiteSchema
->;
