@@ -1,9 +1,10 @@
 import { execSync } from "child_process";
-import dotenv from "dotenv";
 import fs from "fs";
+import dotenv from "dotenv";
 dotenv.config();
 
-const viewFiles = fs.readdirSync("./prisma/views");
+const scriptsPath = "src/views/scripts/";
+const viewFiles = fs.readdirSync(scriptsPath);
 console.log("Creating views...");
 console.log("DATABASE_URL", process.env.DATABASE_URL);
 
@@ -24,7 +25,7 @@ runPsqlOrExit(
 for (const file of viewFiles) {
   console.log(`➡️ Applying ${file}`);
   runPsqlOrExit(
-    `psql "${psqlUrl}" -v ON_ERROR_STOP=1 -v SCHEMA="${schema}" -f prisma/views/${file}`,
+    `psql "${psqlUrl}" -v ON_ERROR_STOP=1 -v SCHEMA="${schema}" -f ${scriptsPath}${file}`,
     `✅ Applied ${file}`,
     `❌ Failed to apply ${file}`
   );
