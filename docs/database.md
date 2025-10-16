@@ -94,10 +94,9 @@ yarn sql:format:check # Pour vérifier simplement le bon formattage
 yarn sql:format:fix   # Pour le régler
 ```
 
-
 ### Vues sur Prisma
 
-Prisma a réemment introduit le principe de [views](https://www.prisma.io/docs/orm/prisma-schema/data-model/views) (encore en preview)
+Prisma a récemment introduit le principe de [views](https://www.prisma.io/docs/orm/prisma-schema/data-model/views) (encore en preview)
 
 Cela nécessite : 
 - L'ajout d'une fonctionnalité `views` dans `previewFeatures`

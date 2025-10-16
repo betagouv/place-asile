@@ -72,7 +72,7 @@ yarn lint:css
 
 ## 🗃️ Base de données
 
-Tout le processus de création et migration de la base de données est décrit dans  [ce document](docs/database.md)
+Tout le processus de création et migration de la base de données est décrit dans [ce document](docs/database.md)
 
 ## 🏗️ Architecture
 
