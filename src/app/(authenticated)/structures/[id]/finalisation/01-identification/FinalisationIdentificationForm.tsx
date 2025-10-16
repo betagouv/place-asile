@@ -7,8 +7,8 @@ import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
+import WarningVerifyFields from "@/app/components/forms/WarningVerifyFields";
 import { SubmitError } from "@/app/components/SubmitError";
-import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
@@ -16,7 +16,6 @@ import {
   finalisationIdentificationSchema,
 } from "@/schemas/finalisation/finalisationIdentification.schema";
 import { Contact } from "@/types/contact.type";
-import { StructureState } from "@/types/structure.type";
 
 import { getCurrentStepData } from "../components/Steps";
 
@@ -58,13 +57,7 @@ export default function FinalisationIdentificationForm({
         onSubmit={onSubmit}
         mode="onChange"
       >
-        {structure.state === StructureState.A_FINALISER && (
-          <InformationBar
-            variant="warning"
-            title="À vérifier"
-            description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-          />
-        )}
+        <WarningVerifyFields structure={structure} />
         <FieldSetDescription dnaCode={structure.dnaCode} />
         <hr />
         <FieldSetContacts />

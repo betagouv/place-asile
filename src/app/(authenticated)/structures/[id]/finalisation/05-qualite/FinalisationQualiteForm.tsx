@@ -4,6 +4,7 @@ import Notice from "@codegouvfr/react-dsfr/Notice";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
+import WarningRequiredFields from "@/app/components/forms/WarningRequiredFields";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
@@ -61,13 +62,8 @@ export const FinalisationQualiteForm = ({
       availableFooterButtons={[FooterButtonType.SUBMIT]}
       defaultValues={defaultValues}
     >
-      {structure.state === StructureState.A_FINALISER && (
-        <InformationBar
-          variant="info"
-          title="À compléter"
-          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-        />
-      )}
+      <WarningRequiredFields structure={structure} />
+
       <p className="w-4/5">
         Veuillez importer l’ensemble des actes administratifs historiques
         afférents à la structure, que les dates d’effets soient actuelles ou

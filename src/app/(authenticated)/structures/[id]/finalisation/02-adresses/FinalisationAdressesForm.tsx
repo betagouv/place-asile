@@ -8,15 +8,14 @@ import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
+import WarningVerifyFields from "@/app/components/forms/WarningVerifyFields";
 import { SubmitError } from "@/app/components/SubmitError";
-import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   AdresseAdministrativeFormValues,
   adresseAdministrativeSchema,
 } from "@/schemas/base/adresseAdministrative.schema";
-import { StructureState } from "@/types/structure.type";
 
 export default function FinalisationAdressesForm({
   currentStep,
@@ -48,13 +47,7 @@ export default function FinalisationAdressesForm({
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
     >
-      {structure.state === StructureState.A_FINALISER && (
-        <InformationBar
-          variant="warning"
-          title="À vérifier"
-          description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-        />
-      )}
+      <WarningVerifyFields structure={structure} />
 
       <Notice
         severity="info"
