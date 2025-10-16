@@ -1,12 +1,12 @@
-import Notice from "@codegouvfr/react-dsfr/Notice";
 import { ReactElement } from "react";
 
 import { FieldSetNotes } from "@/app/components/forms/fieldsets/structure/FieldSetNotes";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
+import { NoteDisclaimer } from "@/app/components/forms/notes/NoteDisclaimer";
+import WarningRequiredFields from "@/app/components/forms/WarningRequiredFields";
 import { SubmitError } from "@/app/components/SubmitError";
-import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { notesSchema } from "@/schemas/base/notes.schema";
@@ -41,20 +41,10 @@ export const FinalisationNotesForm = ({ currentStep }: Props): ReactElement => {
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
     >
-      {structure.state === StructureState.A_FINALISER && (
-        <InformationBar
-          variant="info"
-          title="À compléter"
-          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-        />
-      )}
+      <WarningRequiredFields structure={structure} />
 
-      <Notice
-        severity="info"
-        title=""
-        className="rounded [&_p]:flex [&_p]:items-center"
-        description="Afin de centraliser toutes les données concernant cette structure, vous pouvez utiliser cette espace pour annoter les informations nécessaires au pilotage : élément contextuel, prochaine échéance, document à produire, point d'attention, élément relationnel avec la structure... Ces éléments ne seront pas communiqués aux structures et ne seront partagés qu'aux agents et agentes en charge. Veuillez préciser votre nom et la date de l’information pour un meilleur suivi."
-      />
+      <NoteDisclaimer />
+
       <FieldSetNotes />
       {state === "error" && (
         <SubmitError

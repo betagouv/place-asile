@@ -7,8 +7,8 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
+import WarningRequiredFields from "@/app/components/forms/WarningRequiredFields";
 import { SubmitError } from "@/app/components/SubmitError";
-import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import {
   getCategoriesDisplayRules,
@@ -20,7 +20,6 @@ import {
   FinalisationQualiteFormValues,
   finalisationQualiteSchema,
 } from "@/schemas/finalisation/finalisationQualite.schema";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
@@ -84,13 +83,8 @@ export const FinalisationQualiteForm = ({
       availableFooterButtons={[FooterButtonType.SUBMIT]}
       defaultValues={defaultValues}
     >
-      {structure.state === StructureState.A_FINALISER && (
-        <InformationBar
-          variant="info"
-          title="À compléter"
-          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-        />
-      )}
+      <WarningRequiredFields structure={structure} />
+
       <Disclaimer />
 
       <MaxSizeNotice />

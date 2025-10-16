@@ -7,8 +7,9 @@ import { IndicateursGeneraux } from "@/app/components/forms/finance/IndicateursG
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
+import WarningRequiredFields from "@/app/components/forms/WarningRequiredFields";
+import WarningVerifyFields from "@/app/components/forms/WarningVerifyFields";
 import { SubmitError } from "@/app/components/SubmitError";
-import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getFinanceFormDefaultValues } from "@/app/utils/defaultValues.util";
 import {
@@ -23,7 +24,6 @@ import {
   subventionneeAvecCpomSchema,
   subventionneeSchema,
 } from "@/schemas/base/finance.schema";
-import { StructureState } from "@/types/structure.type";
 
 export default function FinalisationFinanceForm({
   currentStep,
@@ -74,21 +74,11 @@ export default function FinalisationFinanceForm({
       onSubmit={onSubmit}
       className="w-full"
     >
-      {structure.state === StructureState.A_FINALISER && (
-        <InformationBar
-          variant="warning"
-          title="À vérifier"
-          description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-        />
-      )}
+      <WarningVerifyFields structure={structure} />
+
       <Documents className="mb-6" />
-      {structure.state === StructureState.A_FINALISER && (
-        <InformationBar
-          variant="info"
-          title="À compléter"
-          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-        />
-      )}
+      <WarningRequiredFields structure={structure} />
+
       <IndicateursGeneraux />
       <hr />
 

@@ -7,12 +7,12 @@ import { FieldSetTypePlaces } from "@/app/components/forms/fieldsets/structure/F
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
+import WarningRequiredFields from "@/app/components/forms/WarningRequiredFields";
+import WarningVerifyFields from "@/app/components/forms/WarningVerifyFields";
 import { SubmitError } from "@/app/components/SubmitError";
-import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { typePlacesSchema } from "@/schemas/base/typePlaces.schema";
-import { StructureState } from "@/types/structure.type";
 
 export default function FinalisationTypePlacesForm({
   currentStep,
@@ -45,24 +45,13 @@ export default function FinalisationTypePlacesForm({
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
     >
-      {structure.state === StructureState.A_FINALISER && (
-        <InformationBar
-          variant="warning"
-          title="À vérifier"
-          description="Veuillez vérifier les informations et/ou les documents suivants transmis par l’opérateur."
-        />
-      )}
+      <WarningVerifyFields structure={structure} />
 
       <FieldSetTypePlaces />
 
       <div>
-        {structure.state === StructureState.A_FINALISER && (
-          <InformationBar
-            variant="info"
-            title="À compléter"
-            description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
-          />
-        )}
+        <WarningRequiredFields structure={structure} />
+
         <FieldSetOuvertureFermeture />
       </div>
 
