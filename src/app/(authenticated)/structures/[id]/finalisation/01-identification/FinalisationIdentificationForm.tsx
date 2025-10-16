@@ -37,13 +37,13 @@ export default function FinalisationIdentificationForm({
     nextRoute,
   });
 
-  const onSubmit = (data: FinalisationIdentificationFormValues) => {
+  const onSubmit = async (data: FinalisationIdentificationFormValues) => {
     const contacts = data.contacts
       .filter((contact): contact is Contact => contact !== undefined)
       .filter((contact: Contact) =>
         Object.values(contact).every((field) => field !== undefined)
       );
-    handleSubmit({ ...data, contacts });
+    await handleSubmit({ ...data, contacts });
   };
 
   return (

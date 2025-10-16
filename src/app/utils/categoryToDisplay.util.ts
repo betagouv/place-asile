@@ -1,10 +1,13 @@
 import {
+  AdditionalFieldsType,
+  CategoryDisplayRulesType,
+} from "@/types/categoryToDisplay.type";
+import {
   AgentFileUploadCategory,
   AgentFileUploadCategoryType,
 } from "@/types/file-upload.type";
 import { StructureWithLatLng } from "@/types/structure.type";
 
-import { FileMetaData } from "../(authenticated)/structures/[id]/finalisation/05-qualite/FinalisationQualiteForm";
 import { isStructureSubventionnee } from "./structure.util";
 
 export const getCategoriesToDisplay = (
@@ -32,7 +35,7 @@ export const getCategoriesDisplayRules = (
     canAddFile: true,
     canAddAvenant: true,
     isOptional: false,
-    fileMetaData: FileMetaData.DATE_START_END,
+    additionalFieldsType: AdditionalFieldsType.DATE_START_END,
     documentLabel: "Document",
     addFileButtonLabel: "Ajouter un arrêté d'autorisation",
   },
@@ -42,7 +45,7 @@ export const getCategoriesDisplayRules = (
     canAddFile: true,
     canAddAvenant: true,
     isOptional: false,
-    fileMetaData: FileMetaData.DATE_START_END,
+    additionalFieldsType: AdditionalFieldsType.DATE_START_END,
     documentLabel: "Document",
     addFileButtonLabel: "Ajouter un arrêté de tarification",
   },
@@ -52,7 +55,7 @@ export const getCategoriesDisplayRules = (
     canAddFile: true,
     isOptional: false,
     canAddAvenant: true,
-    fileMetaData: FileMetaData.DATE_START_END,
+    additionalFieldsType: AdditionalFieldsType.DATE_START_END,
     documentLabel: "Document",
     addFileButtonLabel: "Ajouter un CPOM",
   },
@@ -62,7 +65,7 @@ export const getCategoriesDisplayRules = (
     canAddFile: true,
     canAddAvenant: true,
     isOptional: !isStructureSubventionnee(structure.type),
-    fileMetaData: FileMetaData.DATE_START_END,
+    additionalFieldsType: AdditionalFieldsType.DATE_START_END,
     documentLabel: "Document",
     addFileButtonLabel: "Ajouter une convention",
   },
@@ -72,7 +75,7 @@ export const getCategoriesDisplayRules = (
     canAddFile: true,
     isOptional: true,
     canAddAvenant: false,
-    fileMetaData: FileMetaData.INSPECTION_CONTROLE,
+    additionalFieldsType: AdditionalFieldsType.INSPECTION_CONTROLE,
     documentLabel: "Rapport",
     addFileButtonLabel: "Ajouter une inspection-contrôle",
   },
@@ -82,7 +85,7 @@ export const getCategoriesDisplayRules = (
     canAddFile: true,
     canAddAvenant: false,
     isOptional: true,
-    fileMetaData: FileMetaData.NAME,
+    additionalFieldsType: AdditionalFieldsType.NAME,
     documentLabel: "Document",
     addFileButtonLabel: "Ajouter un document",
     notice: `Dans cette catégorie, vous avez la possibilité d’importer d’autres
@@ -90,18 +93,3 @@ export const getCategoriesDisplayRules = (
         Plans Pluriannuels d’Investissements)`,
   },
 });
-
-export type CategoryDisplayRulesType = Record<
-  (typeof AgentFileUploadCategory)[number],
-  {
-    categoryShortName: string;
-    title: string;
-    canAddFile: boolean;
-    canAddAvenant: boolean;
-    isOptional: boolean;
-    fileMetaData: FileMetaData;
-    documentLabel: string;
-    addFileButtonLabel: string;
-    notice?: string | React.ReactElement;
-  }
->;
