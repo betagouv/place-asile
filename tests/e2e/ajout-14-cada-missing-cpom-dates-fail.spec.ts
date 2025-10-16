@@ -2,12 +2,9 @@ import { expect, test } from "@playwright/test";
 import { v4 as uuidv4 } from "uuid";
 
 import { mockAddressApi } from "./helpers/mock-address-api";
-import { AdressesPage } from "./helpers/page-objects/ajout/AdressesPage";
 import { AuthenticationPage } from "./helpers/page-objects/ajout/AuthenticationPage";
-import { DocumentsPage } from "./helpers/page-objects/ajout/DocumentsPage";
 import { IdentificationPage } from "./helpers/page-objects/ajout/IdentificationPage";
 import { PresentationPage } from "./helpers/page-objects/ajout/PresentationPage";
-import { TypePlacesPage } from "./helpers/page-objects/ajout/TypePlacesPage";
 import { deleteStructureViaApi } from "./helpers/structure-creator";
 import { cadaMissingCpomDates } from "./helpers/test-data";
 
