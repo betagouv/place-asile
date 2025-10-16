@@ -1,9 +1,11 @@
+import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
 // import { EIGTable } from "./EIGTable";
 import { getLastVisitInMonths } from "@/app/utils/structure.util";
+import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../context/StructureClientContext";
 // import { DemarchesSimplifieesInfo } from "./DemarchesSimplifiesInfo";
@@ -13,13 +15,28 @@ import { ControleTable } from "./ControleTable";
 
 export const DefaultControlesBlock = (): ReactElement => {
   const { structure } = useStructureContext();
+
+  const router = useRouter();
+
   const evaluations = structure.evaluations || [];
   const controles = structure.controles || [];
   // const evenementsIndesirablesGraves =
   //   structure.evenementsIndesirablesGraves || [];
 
   return (
-    <Block title="Controle qualité" iconClass="fr-icon-search-line">
+    <Block
+      title="Controle qualité"
+      iconClass="fr-icon-search-line"
+      onEdit={
+        structure.state === StructureState.FINALISE
+          ? () => {
+              router.push(
+                `/structures/${structure.id}/modification/05-controle`
+              );
+            }
+          : undefined
+      }
+    >
       <div className="flex">
         <div className="pr-4">
           <InformationCard

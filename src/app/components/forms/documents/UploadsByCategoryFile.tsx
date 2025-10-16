@@ -4,17 +4,15 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
-import { ControleType } from "@/types/controle.type";
+import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
 
-import { FileMetaData } from "../FinalisationQualiteForm";
 import { FileUploadField } from "./UploadsByCategory";
 
 export const UploadsByCategoryFile = ({
   field,
   index,
-  fileMetaData,
+  additionalFieldsType,
   documentLabel,
   handleDeleteField,
   canAddAvenant = false,
@@ -70,32 +68,9 @@ export const UploadsByCategoryFile = ({
 
   return (
     <>
-      <div className="grid grid-cols-[1fr_1fr_auto] gap-6 items-center ">
-        {fileMetaData === FileMetaData.INSPECTION_CONTROLE && (
-          <div className="flex gap-6 items-center h-full">
-            <InputWithValidation
-              name={`controles.${index}.date`}
-              defaultValue={field.date}
-              control={control}
-              label="Date"
-              className="w-full mb-0"
-              type="date"
-            />
-
-            <SelectWithValidation
-              name={`controles.${index}.type`}
-              control={control}
-              label="Type"
-              className="w-full"
-            >
-              <option>Sélectionnez une option</option>
-              <option value={ControleType.PROGRAMME}>Programmé</option>
-              <option value={ControleType.INOPINE}>Inopiné</option>
-            </SelectWithValidation>
-          </div>
-        )}
-        {fileMetaData === FileMetaData.DATE_START_END && (
-          <div className="flex gap-6 items-center h-full">
+      <div className="grid grid-cols-[1fr_1fr_auto] gap-6 items-start">
+        {additionalFieldsType === AdditionalFieldsType.DATE_START_END && (
+          <div className="flex gap-6 items-start h-full">
             <InputWithValidation
               name={`fileUploads.${index}.startDate`}
               defaultValue={field.startDate}
@@ -114,8 +89,8 @@ export const UploadsByCategoryFile = ({
             />
           </div>
         )}
-        {fileMetaData === FileMetaData.NAME && (
-          <div className="flex gap-6 items-center h-full">
+        {additionalFieldsType === AdditionalFieldsType.NAME && (
+          <div className="flex gap-6 items-start h-full">
             <InputWithValidation
               name={`fileUploads.${index}.categoryName`}
               control={control}
@@ -151,13 +126,13 @@ export const UploadsByCategoryFile = ({
         )}
       </div>
       {canAddAvenant && (
-        <div className="flex flex-col ml-8 pl-8 border-l-2 border-default-grey">
+        <div className="flex flex-col mt-4 ml-8 pl-8 border-l-2 border-default-grey">
           {avenants?.map((avenant) => {
             const typedAvenant = avenant as unknown as FileUploadField;
             const avenantIndex = getAvenantIndex(typedAvenant.uuid);
             return (
               <span key={`${typedAvenant.uuid}`}>
-                <div className="flex gap-6 items-center h-full">
+                <div className="flex gap-6 items-start h-full">
                   <InputWithValidation
                     name={`fileUploads.${avenantIndex}.date`}
                     control={control}
@@ -207,7 +182,7 @@ export const UploadsByCategoryFile = ({
 type UploadsByCategoryFileProps = {
   field: FileUploadField;
   index: number;
-  fileMetaData: FileMetaData;
+  additionalFieldsType: AdditionalFieldsType;
   documentLabel: string;
   categoryShortName: string;
   handleDeleteField: (index: number) => void;

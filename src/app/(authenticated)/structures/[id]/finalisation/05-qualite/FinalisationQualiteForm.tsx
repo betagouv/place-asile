@@ -1,9 +1,12 @@
 "use client";
-import Notice from "@codegouvfr/react-dsfr/Notice";
+import { UseFormReturn } from "react-hook-form";
 
+import { Disclaimer } from "@/app/components/forms/documents/Disclaimer";
+import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
+import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
@@ -12,18 +15,15 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
-import { finalisationQualiteSchema } from "@/schemas/finalisation/finalisationQualite.schema";
+import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
+import {
+  FinalisationQualiteFormValues,
+  finalisationQualiteSchema,
+} from "@/schemas/finalisation/finalisationQualite.schema";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
-import UploadsByCategory from "./components/UploadsByCategory";
-
-export enum FileMetaData {
-  INSPECTION_CONTROLE,
-  DATE_START_END,
-  NAME,
-}
 
 export const FinalisationQualiteForm = ({
   currentStep,
@@ -40,22 +40,45 @@ export const FinalisationQualiteForm = ({
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleQualiteFormSubmit, state, backendError } = useAgentFormHandling(
-    {
-      nextRoute,
-      categoriesDisplayRules,
-    }
-  );
+  const { handleSubmit, state, backendError } = useAgentFormHandling({
+    nextRoute,
+  });
 
   const defaultValues = getQualiteFormDefaultValues({
     structure,
     categoriesToDisplay,
   });
 
+  const onSubmit = async (
+    data: FinalisationQualiteFormValues,
+    methods: UseFormReturn<FinalisationQualiteFormValues>
+  ) => {
+    const fileUploads = filterFileUploads(
+      data.fileUploads,
+      methods,
+      categoriesDisplayRules
+    );
+
+    const controles = data.controles?.map((controle) => {
+      return {
+        id: controle.id || undefined,
+        date: controle.date,
+        type: controle.type,
+        fileUploadKey: controle.fileUploads?.[0].key,
+      };
+    });
+
+    await handleSubmit({
+      fileUploads,
+      controles,
+      dnaCode: structure.dnaCode,
+    });
+  };
+
   return (
     <FormWrapper
       schema={finalisationQualiteSchema}
-      onSubmit={handleQualiteFormSubmit}
+      onSubmit={onSubmit}
       submitButtonText="Étape suivante"
       previousStep={previousRoute}
       availableFooterButtons={[FooterButtonType.SUBMIT]}
@@ -68,33 +91,9 @@ export const FinalisationQualiteForm = ({
           description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
         />
       )}
-      <p className="w-4/5">
-        Veuillez importer l’ensemble des actes administratifs historiques
-        afférents à la structure, que les dates d’effets soient actuelles ou
-        révolues. Veuillez également renseigner les informations concernant
-        l’ensemble des inspections-contrôles auxquelles la structure a été
-        soumise.
-      </p>
-      <Notice
-        severity="info"
-        title=""
-        className="rounded [&_p]:flex [&_p]:items-center mb-8 w-fit [&_.fr-notice\_\_desc]:text-text-default-grey"
-        description={
-          <>
-            Taille maximale par fichier : 10 Mo. Formats supportés : pdf, xls,
-            xlsx, csv et ods.
-            <br />
-            <a
-              target="_blank"
-              className="underline"
-              rel="noopener noreferrer"
-              href="https://stirling-pdf.framalab.org/compress-pdf?lang=fr_FR"
-            >
-              Votre fichier est trop lourd ? Compressez-le
-            </a>
-          </>
-        }
-      />
+      <Disclaimer />
+
+      <MaxSizeNotice />
 
       {categoriesToDisplay.map((category, index) => {
         return (
@@ -108,7 +107,9 @@ export const FinalisationQualiteForm = ({
               canAddFile={categoriesDisplayRules[category].canAddFile}
               canAddAvenant={categoriesDisplayRules[category].canAddAvenant}
               isOptional={categoriesDisplayRules[category].isOptional}
-              fileMetaData={categoriesDisplayRules[category].fileMetaData}
+              additionalFieldsType={
+                categoriesDisplayRules[category].additionalFieldsType
+              }
               documentLabel={categoriesDisplayRules[category].documentLabel}
               addFileButtonLabel={
                 categoriesDisplayRules[category].addFileButtonLabel
