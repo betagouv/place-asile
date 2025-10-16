@@ -8,7 +8,7 @@ import {
   ControleFormValues,
   FileUploadFormValues,
 } from "@/schemas/base/documents.schema";
-import { FileMetaData } from "@/types/file-upload.type";
+import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
 import { zAgentFileUploadCategory } from "@/types/file-upload.type";
 
 import { ControleItem } from "./ControleItem";
@@ -33,7 +33,7 @@ export default function UploadsByCategory({
   canAddFile,
   canAddAvenant = false,
   addFileButtonLabel,
-  fileMetaData,
+  additionalFieldsType,
   documentLabel,
 }: UploadsByCategoryProps) {
   const { control, watch } = useFormContext();
@@ -134,7 +134,7 @@ export default function UploadsByCategory({
           description={<>{notice}</>}
         />
       )}
-      {fileMetaData !== FileMetaData.INSPECTION_CONTROLE &&
+      {additionalFieldsType !== AdditionalFieldsType.INSPECTION_CONTROLE &&
         filteredFields &&
         filteredFields.length > 0 &&
         filteredFields.map((field) => {
@@ -147,7 +147,10 @@ export default function UploadsByCategory({
                 field={field}
                 index={fieldIndex}
                 key={field.key || null}
-                fileMetaData={fileMetaData || FileMetaData.INSPECTION_CONTROLE}
+                additionalFieldsType={
+                  additionalFieldsType ||
+                  AdditionalFieldsType.INSPECTION_CONTROLE
+                }
                 documentLabel={documentLabel}
                 handleDeleteField={handleDeleteField}
                 canAddAvenant={canAddAvenant}
@@ -155,7 +158,7 @@ export default function UploadsByCategory({
             </div>
           );
         })}
-      {fileMetaData === FileMetaData.INSPECTION_CONTROLE &&
+      {additionalFieldsType === AdditionalFieldsType.INSPECTION_CONTROLE &&
         controles.map((field: ControleField, index: number) => {
           return (
             <div key={`controle-${field.id || field.uuid || index}`}>
@@ -168,16 +171,17 @@ export default function UploadsByCategory({
             </div>
           );
         })}
-      {fileMetaData !== FileMetaData.INSPECTION_CONTROLE && canAddFile && (
-        <Button
-          onClick={handleAddNewField}
-          priority="tertiary no outline"
-          className="underline font-normal p-0"
-        >
-          + {addFileButtonLabel}
-        </Button>
-      )}
-      {fileMetaData === FileMetaData.INSPECTION_CONTROLE && (
+      {additionalFieldsType !== AdditionalFieldsType.INSPECTION_CONTROLE &&
+        canAddFile && (
+          <Button
+            onClick={handleAddNewField}
+            priority="tertiary no outline"
+            className="underline font-normal p-0"
+          >
+            + {addFileButtonLabel}
+          </Button>
+        )}
+      {additionalFieldsType === AdditionalFieldsType.INSPECTION_CONTROLE && (
         <Button
           onClick={handleAddNewControle}
           priority="tertiary no outline"
@@ -199,6 +203,6 @@ type UploadsByCategoryProps = {
   canAddFile?: boolean;
   canAddAvenant?: boolean;
   addFileButtonLabel?: string;
-  fileMetaData?: FileMetaData;
+  additionalFieldsType?: AdditionalFieldsType;
   documentLabel: string;
 };

@@ -5,14 +5,14 @@ import { v4 as uuidv4 } from "uuid";
 
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
-import { FileMetaData } from "@/types/file-upload.type";
+import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
 
 import { FileUploadField } from "./UploadsByCategory";
 
 export const UploadsByCategoryFile = ({
   field,
   index,
-  fileMetaData,
+  additionalFieldsType,
   documentLabel,
   handleDeleteField,
   canAddAvenant = false,
@@ -69,7 +69,7 @@ export const UploadsByCategoryFile = ({
   return (
     <>
       <div className="grid grid-cols-[1fr_1fr_auto] gap-6 items-start">
-        {fileMetaData === FileMetaData.DATE_START_END && (
+        {additionalFieldsType === AdditionalFieldsType.DATE_START_END && (
           <div className="flex gap-6 items-start h-full">
             <InputWithValidation
               name={`fileUploads.${index}.startDate`}
@@ -89,7 +89,7 @@ export const UploadsByCategoryFile = ({
             />
           </div>
         )}
-        {fileMetaData === FileMetaData.NAME && (
+        {additionalFieldsType === AdditionalFieldsType.NAME && (
           <div className="flex gap-6 items-start h-full">
             <InputWithValidation
               name={`fileUploads.${index}.categoryName`}
@@ -182,7 +182,7 @@ export const UploadsByCategoryFile = ({
 type UploadsByCategoryFileProps = {
   field: FileUploadField;
   index: number;
-  fileMetaData: FileMetaData;
+  additionalFieldsType: AdditionalFieldsType;
   documentLabel: string;
   categoryShortName: string;
   handleDeleteField: (index: number) => void;

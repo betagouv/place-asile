@@ -66,9 +66,3 @@ export type FileUploadCategoryType = typeof FileUploadCategory;
 export const zFileUploadCategory = z.enum(
   Object.values(FileUploadCategory) as unknown as FileUploadCategoryType
 );
-
-export enum FileMetaData {
-  INSPECTION_CONTROLE,
-  DATE_START_END,
-  NAME,
-}

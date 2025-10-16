@@ -1,4 +1,4 @@
-import { AgentFileUploadCategory, FileMetaData } from "./file-upload.type";
+import { AgentFileUploadCategory } from "./file-upload.type";
 
 export type CategoryDisplayRulesType = Record<
   (typeof AgentFileUploadCategory)[number],
@@ -8,9 +8,15 @@ export type CategoryDisplayRulesType = Record<
     canAddFile: boolean;
     canAddAvenant: boolean;
     isOptional: boolean;
-    fileMetaData: FileMetaData;
+    additionalFieldsType: AdditionalFieldsType;
     documentLabel: string;
     addFileButtonLabel: string;
     notice?: string | React.ReactElement;
   }
 >;
+
+export enum AdditionalFieldsType {
+  INSPECTION_CONTROLE,
+  DATE_START_END,
+  NAME,
+}

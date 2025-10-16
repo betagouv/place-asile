@@ -60,6 +60,7 @@ export default function ModificationControleForm() {
         resetRoute={`/structures/${structure.id}`}
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
+        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
       >
         <Notice
           severity="info"
@@ -77,8 +78,8 @@ export default function ModificationControleForm() {
             categoriesDisplayRules["INSPECTION_CONTROLE"].canAddAvenant
           }
           isOptional={false}
-          fileMetaData={
-            categoriesDisplayRules["INSPECTION_CONTROLE"].fileMetaData
+          additionalFieldsType={
+            categoriesDisplayRules["INSPECTION_CONTROLE"].additionalFieldsType
           }
           documentLabel={
             categoriesDisplayRules["INSPECTION_CONTROLE"].documentLabel

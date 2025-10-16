@@ -69,6 +69,7 @@ export default function ModificationQualiteForm() {
         resetRoute={`/structures/${structure.id}`}
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
+        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
       >
         <MaxSizeNotice />
 
@@ -85,7 +86,9 @@ export default function ModificationQualiteForm() {
                 canAddFile={categoriesDisplayRules[category].canAddFile}
                 canAddAvenant={categoriesDisplayRules[category].canAddAvenant}
                 isOptional={categoriesDisplayRules[category].isOptional}
-                fileMetaData={categoriesDisplayRules[category].fileMetaData}
+                additionalFieldsType={
+                  categoriesDisplayRules[category].additionalFieldsType
+                }
                 documentLabel={categoriesDisplayRules[category].documentLabel}
                 addFileButtonLabel={
                   categoriesDisplayRules[category].addFileButtonLabel
