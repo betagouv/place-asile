@@ -1,15 +1,7 @@
 import { execSync } from "child_process";
-<<<<<<< HEAD
+import dotenv from "dotenv";
 import fs from "fs";
-<<<<<<< HEAD
 import path from "path";
-=======
-import dotenv from "dotenv";
->>>>>>> ad7db3b (move scripts to src)
-=======
-import dotenv from "dotenv";
-import fs from "fs";
->>>>>>> b067da0 (move scripts to src)
 dotenv.config();
 
 const scriptsPath = path.join(__dirname, "scripts");
