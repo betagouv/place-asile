@@ -1,15 +1,15 @@
 import { execSync } from "child_process";
-import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-dotenv.config();
 
-const scriptsPath = path.join(__dirname, "scripts");
+
+const scriptsPath = path.join(__dirname, "views");
 const viewFiles = fs.readdirSync(scriptsPath);
 console.log("Creating views...");
-console.log("DATABASE_URL", process.env.DATABASE_URL);
 
 const databaseUrl = process.env.DATABASE_URL || "";
+console.log("DATABASE_URL", databaseUrl);
+
 const psqlUrl = getDbUrl(databaseUrl);
 
 // Drop and recreate reporting schema
