@@ -72,37 +72,7 @@ yarn lint:css
 
 ## 🗃️ Base de données
 
-Ce projet utilise [`Prisma`](https://www.prisma.io/docs) pour interagir avec la base de données PostgreSQL. Pour lancer la création de la base de données, remplissez d'abord la variable `DATABASE_URL` dans `.env` avec les identifiants de base de données. Puis, lancez la commande suivante pour construire la base de données :
-
-```bash
-yarn prisma:migrate
-```
-
-En cas de modification du schéma de données (dans `schema.prisma`), lancez la commande suivante et donnez un nom de migration en `camelCase` :
-
-```bash
-yarn prisma:migrate --create-only
-```
-
-Pour remplir la base avec des données de test, lancez :
-
-```bash
-yarn prisma:seed
-```
-
-En cas de besoin, la base de données peut être vidée avec :
-
-```bash
-yarn prisma:reset
-```
-
-Enfin, vous pouvez vérifier le contenu de la base de données en exécutant :
-
-```bash
-yarn prisma:studio
-```
-
-👉 Pour aller plus loin : [ce readme](docs/prisma_snippets.md)
+Tout le processus de création et migration de la base de données est décrit dans  [ce document](docs/database.md)
 
 ## 🏗️ Architecture
 
@@ -142,9 +112,14 @@ npx patch-package @codegouvfr/react-dsfr
 
 ## 🔓 Gestion des pages protégées par mot de passe
 
-Pour le moment seule la route `/ajout-structure` est protégée par mot de passe.
+Pour le moment seule la route `/ajout-structure` est protégée par mot de passe. Les pages de dashboard sont protégées par un accès ProConnect.
 
 Pour définir le mot de passe il suffit d'ajouter la variable `PAGE_PASSWORD` dans le fichier `.env`.
+
+En mode développement, il est possible aussi de bypasser ces accès privés grace à la variable d'environnement `DEV_AUTH_BYPASS=1`
+Les pages sont ensuite accessibles via : 
+- http://localhost:3000/ajout-structure/123abc pour créer une structure (ici `123abc`)
+- http://localhost:3000/structures pour accéder au tableau de bord
 
 ## 🚀 Mise en production
 
