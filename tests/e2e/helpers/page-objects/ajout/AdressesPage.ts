@@ -84,8 +84,8 @@ export class AdressesPage {
       // Handle multiple addresses (not same address)
       for (const [i, adresse] of adresses.adresses.entries()) {
         if (i > 0) {
-          // Click "Add address" button for additional addresses
-          await this.page.click('button:has-text("Ajouter une adresse")');
+          // Click "Add hébergement" button for additional addresses
+          await this.page.click('button:has-text("Ajouter un hébergement")');
           await this.page.waitForTimeout(300);
         }
 
