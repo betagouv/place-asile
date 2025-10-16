@@ -6,8 +6,8 @@ import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategor
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
-import WarningRequiredFields from "@/app/components/forms/WarningRequiredFields";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
+import WarningRequiredFields from "@/app/components/forms/WarningRequiredFields";
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import {
@@ -20,7 +20,6 @@ import {
   FinalisationQualiteFormValues,
   finalisationQualiteSchema,
 } from "@/schemas/finalisation/finalisationQualite.schema";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
