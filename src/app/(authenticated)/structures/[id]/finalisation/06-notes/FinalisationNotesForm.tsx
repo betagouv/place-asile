@@ -7,7 +7,6 @@ import FormWrapper, {
 import { NoteDisclaimer } from "@/app/components/forms/notes/NoteDisclaimer";
 import WarningRequiredFields from "@/app/components/forms/WarningRequiredFields";
 import { SubmitError } from "@/app/components/SubmitError";
-import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { notesSchema } from "@/schemas/base/notes.schema";

@@ -6,7 +6,6 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import WarningRequiredFields from "@/app/components/forms/WarningRequiredFields";
 import { SubmitError } from "@/app/components/SubmitError";
-import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import {
   getCategoriesDisplayRules,
@@ -14,7 +13,6 @@ import {
 } from "@/app/utils/categoryToDisplay.util";
 import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
 import { finalisationQualiteSchema } from "@/schemas/finalisation/finalisationQualite.schema";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { getCurrentStepData } from "../components/Steps";
