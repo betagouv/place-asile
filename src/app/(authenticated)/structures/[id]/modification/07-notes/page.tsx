@@ -43,6 +43,7 @@ export default function ModificationNotesForm(): ReactElement {
           FooterButtonType.CANCEL,
           FooterButtonType.SUBMIT,
         ]}
+        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
       >
         <NoteDisclaimer />
         <FieldSetNotes />
