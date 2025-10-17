@@ -5,8 +5,8 @@ import { FileUploadFormValues } from "@/schemas/base/documents.schema";
 import { Repartition } from "@/types/adresse.type";
 import { Budget } from "@/types/budget.type";
 import { Contact } from "@/types/contact.type";
-import { PublicType, StructureWithLatLng } from "@/types/structure.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
+import { PublicType, StructureWithLatLng } from "@/types/structure.type";
 
 import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { buildFileUploadsDefaultValues } from "./buildFileUploadsDefaultValues.util";

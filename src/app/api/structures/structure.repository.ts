@@ -10,6 +10,7 @@ import {
   UpdateBudget,
   UpdateContact,
   UpdateControle,
+  UpdateEvaluation,
   UpdateFileUpload,
   UpdateStructure,
   UpdateStructureTypologie,
@@ -444,6 +445,26 @@ const deleteControles = async (
   );
 };
 
+const deleteEvaluations = async (
+  evaluationsToKeep: UpdateEvaluation[],
+  structureDnaCode: string
+): Promise<void> => {
+  const allEvaluations = await prisma.evaluation.findMany({
+    where: { structureDnaCode: structureDnaCode },
+  });
+  const evaluationsToDelete = allEvaluations.filter(
+    (evaluation) =>
+      !evaluationsToKeep.some(
+        (evaluationToKeep) => evaluationToKeep.id === evaluation.id
+      )
+  );
+  await Promise.all(
+    evaluationsToDelete.map((evaluation) =>
+      prisma.evaluation.delete({ where: { id: evaluation.id } })
+    )
+  );
+};
+
 const deleteFileUploads = async (
   fileUploadsToKeep: UpdateFileUpload[],
   structureDnaCode: string
@@ -529,6 +550,52 @@ const createOrUpdateControles = async (
   );
 };
 
+const createOrUpdateEvaluations = async (
+  evaluations: UpdateEvaluation[] | undefined,
+  structureDnaCode: string
+): Promise<void> => {
+  if (!evaluations || evaluations.length === 0) {
+    return;
+  }
+
+  deleteEvaluations(evaluations, structureDnaCode);
+
+  await Promise.all(
+    (evaluations || []).map((evaluation) => {
+      if (evaluation.id) {
+        return prisma.evaluation.update({
+          where: { id: evaluation.id },
+          data: {
+            date: evaluation.date,
+            notePersonne: evaluation.notePersonne,
+            notePro: evaluation.notePro,
+            noteStructure: evaluation.noteStructure,
+            note: evaluation.note,
+            // TODO : brancher les fileUploads
+            // fileUploads: {
+            //   connect: { key: evaluation.fileUploadKey },
+            // },
+          },
+        });
+      } else {
+        return prisma.evaluation.create({
+          data: {
+            structureDnaCode,
+            date: evaluation.date,
+            notePersonne: evaluation.notePersonne!,
+            notePro: evaluation.notePro!,
+            noteStructure: evaluation.noteStructure!,
+            note: evaluation.note!,
+            // fileUploads: {
+            //   connect: { key: evaluation.fileUploadKey },
+            // },
+          },
+        });
+      }
+    })
+  );
+};
+
 export const updateOne = async (
   structure: UpdateStructure
 ): Promise<Structure> => {
@@ -543,6 +610,7 @@ export const updateOne = async (
       adresses,
       fileUploads,
       controles,
+      evaluations,
       operateur,
       forms,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -561,8 +629,8 @@ export const updateOne = async (
         operateur: {
           connect: operateur
             ? {
-              id: operateur?.id,
-            }
+                id: operateur?.id,
+              }
             : undefined,
         },
       },
@@ -575,7 +643,7 @@ export const updateOne = async (
     await updateFileUploads(fileUploads, structure.dnaCode);
     await createOrUpdateControles(controles, structure.dnaCode);
     await createOrUpdateForms(forms, structure.dnaCode);
-
+    await createOrUpdateEvaluations(evaluations, structure.dnaCode);
   } catch (error) {
     throw new Error(
       `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}: ${error}`

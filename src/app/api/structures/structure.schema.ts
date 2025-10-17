@@ -133,6 +133,16 @@ const controleSchema = z.object({
   fileUploadKey: z.string(),
 });
 
+const evaluationSchema = z.object({
+  id: z.number().optional(),
+  date: mandatoryFrDateField(),
+  notePersonne: z.number().optional(),
+  notePro: z.number().optional(),
+  noteStructure: z.number().optional(),
+  note: z.number().optional(),
+  fileUploads: z.array(fileUploadSchema),
+});
+
 const updateStructureTypologieSchema = z.object({
   id: z.number().optional(),
   placesAutorisees: z.number().int(),
@@ -237,13 +247,21 @@ export const structureUpdateSchema = z.object({
     .array(controleSchema.extend({ id: z.number().optional() }))
     .optional(),
   forms: z
-    .array(formSchema.extend({
-      id: z.number().optional(),
-      slug: z.string(),
-      formSteps: z.array(formStepSchema.extend({
+    .array(
+      formSchema.extend({
         id: z.number().optional(),
         slug: z.string(),
-        status: z.nativeEnum(StepStatus),
-      }))
-    })).optional(),
+        formSteps: z.array(
+          formStepSchema.extend({
+            id: z.number().optional(),
+            slug: z.string(),
+            status: z.nativeEnum(StepStatus),
+          })
+        ),
+      })
+    )
+    .optional(),
+  evaluations: z
+    .array(evaluationSchema.extend({ id: z.number().optional() }))
+    .optional(),
 });

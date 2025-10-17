@@ -15,7 +15,7 @@ export const createFakeFileUpload = ({
   structureType,
 }: CreateFakeFileUploadOptions): Omit<
   FileUpload,
-  "id" | "structureDnaCode" | "controleId"
+  "id" | "structureDnaCode" | "controleId" | "evaluationId"
 > => {
   return buildFakeFileUpload({
     category,
@@ -28,7 +28,7 @@ export const createFakeFileUploadWithParent = ({
   parentFileUploadId,
 }: CreateFakeFileUploadWithParentOptions): Omit<
   FileUpload,
-  "id" | "structureDnaCode" | "controleId"
+  "id" | "structureDnaCode" | "controleId" | "evaluationId"
 > => {
   return buildFakeFileUpload({
     parentFileUploadId,
@@ -75,7 +75,7 @@ const buildFakeFileUpload = ({
   parentFileUploadId,
 }: BuildFakeFileUploadOptions): Omit<
   FileUpload,
-  "id" | "structureDnaCode" | "controleId"
+  "id" | "structureDnaCode" | "controleId" | "evaluationId"
 > => {
   const fakeCategories = getFakeFileUploadCategories(cpom, structureType);
   const [startDate, endDate] = generateDatePair();

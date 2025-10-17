@@ -1,6 +1,7 @@
 import z from "zod";
 
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
+import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 import { ControleType } from "@/types/controle.type";
 import {
   zAgentFileUploadCategory,
@@ -49,8 +50,23 @@ export const fileUploadsAutoSaveSchema = z.object({
   fileUploads: z.array(fileUploadAutoSaveSchema).optional(),
 });
 
+export const evaluationSchema = z.object({
+  id: z.union([
+    z.string().nullable().optional(),
+    zSafeNumber().nullable().optional(),
+  ]),
+  notePersonne: zSafeNumber().nullable().optional(),
+  notePro: zSafeNumber().nullable().optional(),
+  noteStructure: zSafeNumber().nullable().optional(),
+  note: zSafeNumber().nullable().optional(),
+  date: createDateFieldValidator().nullable().optional(),
+  fileUploads: z.array(z.object({ key: z.string().optional() })).optional(),
+});
+
 export type FileUploadFormValues = z.infer<typeof fileUploadSchema>;
 
 export type FileUploadsFormValues = z.infer<typeof fileUploadsSchema>;
 
-export type FileUploadsAutoSaveFormValues = z.infer<typeof fileUploadsAutoSaveSchema>;
+export type FileUploadsAutoSaveFormValues = z.infer<
+  typeof fileUploadsAutoSaveSchema
+>;
