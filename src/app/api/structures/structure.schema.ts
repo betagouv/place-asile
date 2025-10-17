@@ -101,9 +101,9 @@ export const structureCreationSchema = z.object({
 
 const budgetSchema = z.object({
   date: mandatoryFrDateField(),
-  ETP: z.number(),
-  tauxEncadrement: z.number(),
-  coutJournalier: z.number(),
+  ETP: z.number().optional(),
+  tauxEncadrement: z.number().optional(),
+  coutJournalier: z.number().optional(),
   dotationDemandee: z.number().nullable().optional(),
   dotationAccordee: z.number().nullable().optional(),
   totalProduits: z.number().nullable().optional(),
@@ -196,7 +196,12 @@ export const structureUpdateSchema = z.object({
     .array(adresseSchema.extend({ id: z.number().optional() }))
     .optional(),
   contacts: z
-    .array(contactSchema.extend({ id: z.number().optional(), type: z.nativeEnum(ContactType).optional() }))
+    .array(
+      contactSchema.extend({
+        id: z.number().optional(),
+        type: z.nativeEnum(ContactType).optional(),
+      })
+    )
     .optional(),
   typologies: z.array(updateStructureTypologieSchema).optional(),
   fileUploads: z
