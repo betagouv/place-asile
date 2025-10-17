@@ -16,7 +16,8 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { transformAgentFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
-  FinalisationIdentificationFormValues,
+  FinalisationIdentificationAutoSaveFormValues,
+  finalisationIdentificationAutoSaveSchema,
   finalisationIdentificationSchema,
 } from "@/schemas/finalisation/finalisationIdentification.schema";
 import { FetchState } from "@/types/fetch-state.type";
@@ -35,7 +36,9 @@ export default function FinalisationIdentification(): ReactElement {
   const { handleValidation, handleAutoSave, state, backendError } =
     useAgentFormHandling();
 
-  const onAutoSave = async (data: FinalisationIdentificationFormValues) => {
+  const onAutoSave = async (
+    data: FinalisationIdentificationAutoSaveFormValues
+  ) => {
     const contacts = transformAgentFormContactsToApiContacts(data.contacts);
     await handleAutoSave({ ...data, contacts });
   };
@@ -53,7 +56,7 @@ export default function FinalisationIdentification(): ReactElement {
         className="rounded-t-none"
       >
         <AutoSave
-          schema={finalisationIdentificationSchema}
+          schema={finalisationIdentificationAutoSaveSchema}
           onSave={onAutoSave}
           state={state}
         />

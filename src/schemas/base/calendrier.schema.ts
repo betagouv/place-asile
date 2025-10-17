@@ -8,15 +8,15 @@ import { createOptionalDateValidator } from "@/app/utils/zodCustomFields";
 
 import { structureBaseSchema } from "./structure.base.schema";
 
-export const calendrierSchema = structureBaseSchema
-  .extend({
-    debutPeriodeAutorisation: createOptionalDateValidator(),
-    finPeriodeAutorisation: createOptionalDateValidator(),
-    debutConvention: createOptionalDateValidator(),
-    finConvention: createOptionalDateValidator(),
-    debutCpom: createOptionalDateValidator(),
-    finCpom: createOptionalDateValidator(),
-  })
+const baseCalendrierSchema = structureBaseSchema.extend({
+  debutPeriodeAutorisation: createOptionalDateValidator(),
+  finPeriodeAutorisation: createOptionalDateValidator(),
+  debutConvention: createOptionalDateValidator(),
+  finConvention: createOptionalDateValidator(),
+  debutCpom: createOptionalDateValidator(),
+  finCpom: createOptionalDateValidator(),
+});
+export const calendrierSchema = baseCalendrierSchema
   .refine(
     (data) => {
       if (data.cpom && !data.debutCpom) {
@@ -161,5 +161,7 @@ export const calendrierSchema = structureBaseSchema
       path: ["finCpom"],
     }
   );
+
+export const calendrierAutoSaveSchema = baseCalendrierSchema.partial();
 
 export type CalendrierFormValues = z.infer<typeof calendrierSchema>;

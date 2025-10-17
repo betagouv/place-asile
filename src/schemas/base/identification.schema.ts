@@ -6,19 +6,21 @@ import { PublicType } from "@/types/structure.type";
 
 import { structureBaseSchema } from "./structure.base.schema";
 
+const baseIdentificationSchema = structureBaseSchema.extend({
+  operateur: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+  creationDate: z.string().min(1),
+  finessCode: z.string().optional().or(z.literal("")),
+  public: z.nativeEnum(PublicType),
+  filiale: z.string().optional(),
+  lgbt: z.boolean(),
+  fvvTeh: z.boolean(),
+});
+
 export const identificationSchema = structureBaseSchema
-  .extend({
-    operateur: z.object({
-      id: z.number(),
-      name: z.string(),
-    }),
-    creationDate: z.string().min(1),
-    finessCode: z.string().optional().or(z.literal("")),
-    public: z.nativeEnum(PublicType),
-    filiale: z.string().optional(),
-    lgbt: z.boolean(),
-    fvvTeh: z.boolean(),
-  })
+  .and(baseIdentificationSchema)
   .refine(
     (data) => {
       if (
@@ -41,4 +43,18 @@ export const identificationSchemaWithContacts = identificationSchema.and(
   })
 );
 
-export type IdentificationWithContactsFormValues = z.infer<typeof identificationSchemaWithContacts>;
+export const identificationSchemaWithContactsAutoSaveSchema =
+  structureBaseSchema
+    .partial()
+    .and(baseIdentificationSchema.partial())
+    .and(
+      z
+        .object({
+          contacts: z.array(z.union([contactSchema, contactSchema.optional()])),
+        })
+        .partial()
+    );
+
+export type IdentificationWithContactsFormValues = z.infer<
+  typeof identificationSchemaWithContacts
+>;

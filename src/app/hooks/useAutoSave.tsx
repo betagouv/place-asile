@@ -8,14 +8,17 @@ export const useAutoSave = <TSchema extends z.ZodTypeAny>(
   schema: TSchema,
   onSave: (data: z.infer<TSchema>) => Promise<void>
 ) => {
-  const { watch, trigger, getValues } = useFormContext<z.infer<TSchema>>();
+  const { watch, getValues } = useFormContext<z.infer<TSchema>>();
 
   const debouncedSave = useDebounceCallback(async () => {
-    const isValid = await trigger();
-    if (isValid) {
-      const allValues = getValues();
-      const data = schema.parse(allValues);
-      await onSave(data);
+    const allValues = getValues();
+
+    const result = schema.safeParse(allValues);
+
+    if (result.success) {
+      await onSave(result.data);
+    } else {
+      console.debug("AutoSave: données partielles", result.error);
     }
   }, 1000);
 
