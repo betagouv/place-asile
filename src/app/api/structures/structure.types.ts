@@ -81,9 +81,9 @@ export type CreateAdresseTypologie = {
 
 type CreateBudget = {
   date: Date;
-  ETP: number;
-  tauxEncadrement: number;
-  coutJournalier: number;
+  ETP?: number;
+  tauxEncadrement?: number;
+  coutJournalier?: number;
   dotationDemandee?: number | null;
   dotationAccordee?: number | null;
   totalProduits?: number | null;
