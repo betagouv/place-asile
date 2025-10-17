@@ -53,6 +53,9 @@ model Structure {
   budgets                      Budget[]
   operateur                    Operateur?                  @relation(fields: [operateurId], references: [id])
   operateurId                  Int?
+  forms                        Form[]
+  campaigns                    Campaign[]
+  reporting                    StructureReferential? @relation(fields: [dnaCode], references: [dnaCode])
 
   createdAt                    DateTime  @default(now())
   updatedAt                    DateTime  @updatedAt @default(now())
@@ -234,6 +237,94 @@ model Budget {
   updatedAt                         DateTime  @updatedAt @default(now())
 }
 
+// Formulaires
+model FormDefinition {
+  @@schema("public")
+
+  id                Int                @id @default(autoincrement())
+  formId            Int?               // optionnel si tu veux relier à un "type" parent
+  name              String
+  version           Int
+  stepsDefinition   FormStepDefinition[]
+
+  forms             Form[]
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt @default(now())
+}
+
+model FormStepDefinition {
+  @@schema("public")
+
+  id                Int                @id @default(autoincrement())
+  formDefinitionId  Int
+  label             String
+  authorType        AuthorType
+
+  formDefinition    FormDefinition     @relation(fields: [formDefinitionId], references: [id])
+  formSteps         FormStep[]
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt @default(now())
+}
+
+model Form {
+  @@schema("public")
+
+  id                Int                @id @default(autoincrement())
+  structureCodeDna  String
+  formDefinitionId  Int
+  status            Boolean            @default(false) // Lié au bouton "Finaliser"
+
+  structure         Structure          @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade)
+  formDefinition    FormDefinition     @relation(fields: [formDefinitionId], references: [id])
+  formSteps         FormStep[]
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt @default(now())
+}
+
+model FormStep {
+  @@schema("public")
+
+  id                Int                @id @default(autoincrement())
+  formId            Int
+  stepDefinitionId  Int
+  status            StepStatus         @default(NON_COMMENCE)
+  // TODO : ajouter le champ authorId en lien avec une table Auteur plus tard
+
+  form              Form               @relation(fields: [formId], references: [id], onDelete: Cascade)
+  stepDefinition    FormStepDefinition @relation(fields: [stepDefinitionId], references: [id])
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt @default(now())
+}
+
+model Campaign {
+  @@schema("public")
+
+  id                Int                @id @default(autoincrement())
+  structureCodeDna  String
+  name              String
+  launched          Boolean            @default(false)
+
+  structure         Structure          @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade)
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt @default(now())
+}
+
+model StructureReferential {
+  @@schema("reporting")
+  dnaCode           String             @id
+  name              String?
+  structures        Structure[]
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt @default(now())
+}
+
+
 model Operateur {
   @@schema("public")
   id                    Int         @id @default(autoincrement())
@@ -308,6 +399,20 @@ enum StructureState {
   @@schema("public")
   A_FINALISER
   FINALISE
+}
+
+enum AuthorType {
+  @@schema("public")
+  OPERATEUR
+  AGENT
+}
+
+enum StepStatus {
+  @@schema("public")
+  NON_COMMENCE
+  COMMENCE
+  FINALISE
+  VALIDE
 }
 
 // Views
