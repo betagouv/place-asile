@@ -14,6 +14,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { modificationDescriptionSchema } from "@/schemas/modification/modificationDescription.schema";
+import { FetchState } from "@/types/fetch-state.type";
 import { FormKind } from "@/types/global";
 
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -69,7 +70,7 @@ export default function ModificationDescription() {
         <FieldSetAdresseAdministrative formKind={FormKind.MODIFICATION} />
         <FieldSetHebergement />
       </FormWrapper>
-      {state === "error" && (
+      {state === FetchState.ERROR && (
         <SubmitError
           structureDnaCode={structure.dnaCode}
           backendError={backendError}

@@ -20,6 +20,19 @@ export const formatDateString = (
   return date.isValid() ? date.format("DD/MM/YYYY") : defaultValue;
 };
 
+export const formatDateToIsoString = (
+  date: string | undefined,
+  defaultToToday: boolean = false
+): string | null => {
+  if (date) {
+    return dayjs(date, "DD/MM/YYYY").toISOString();
+  }
+  if (defaultToToday) {
+    return dayjs().toISOString();
+  }
+  return null;
+};
+
 export const getMonthsBetween = (
   startDate: Date | string | null,
   endDate: Date | string | null

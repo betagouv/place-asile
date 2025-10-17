@@ -6,6 +6,7 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
+import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
@@ -16,10 +17,12 @@ import {
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
-import { ModificationTitle } from "../components/ModificationTitle";
+import { Tabs } from "../_components/Tabs";
 
 export default function ModificationControleForm() {
   const { structure } = useStructureContext();
+
+  const currentStep = 4;
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
@@ -49,11 +52,8 @@ export default function ModificationControleForm() {
   };
 
   return (
-    <>
-      <ModificationTitle
-        step="Contrôle qualité"
-        closeLink={`/structures/${structure.id}`}
-      />
+    <div>
+      <Tabs currentStep={currentStep} structure={structure} />
       <FormWrapper
         schema={modificationControleSchema}
         onSubmit={onSubmit}
@@ -61,8 +61,13 @@ export default function ModificationControleForm() {
         resetRoute={`/structures/${structure.id}`}
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
-        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
+        className="rounded-t-none"
       >
+        <InformationBar
+          variant="complete"
+          title="À compléter"
+          description="Veuillez renseigner les informations et documents concernant l’ensemble des évaluations et inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
+        />
         <Notice
           severity="info"
           title=""
@@ -97,6 +102,6 @@ export default function ModificationControleForm() {
           />
         )}
       </FormWrapper>
-    </>
+    </div>
   );
 }

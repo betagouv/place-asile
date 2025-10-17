@@ -1,12 +1,14 @@
 "use client";
 import { UseFormReturn } from "react-hook-form";
 
+import { Disclaimer } from "@/app/components/forms/documents/Disclaimer";
 import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import { SubmitError } from "@/app/components/SubmitError";
+import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import {
   getCategoriesDisplayRules,
@@ -15,16 +17,18 @@ import {
 import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
 import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
 import {
-  ModificationDocumentFormValues,
-  modificationDocumentSchema,
-} from "@/schemas/modification/modificationDocument.schema";
+  FinalisationQualiteFormValues,
+  finalisationQualiteSchema,
+} from "@/schemas/finalisation/finalisationQualite.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
-import { ModificationTitle } from "../components/ModificationTitle";
+import { Tabs } from "../_components/Tabs";
 
-export default function ModificationQualiteForm() {
+export default function FinalisationQualite() {
   const { structure } = useStructureContext();
+
+  const currentStep = 5;
 
   const categoriesToDisplay = getCategoriesToDisplay(structure).filter(
     (category) => category !== "INSPECTION_CONTROLE"
@@ -32,9 +36,7 @@ export default function ModificationQualiteForm() {
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling({
-    nextRoute: `/structures/${structure.id}`,
-  });
+  const { handleSubmit, state, backendError } = useAgentFormHandling();
 
   const defaultValues = getQualiteFormDefaultValues({
     structure,
@@ -42,43 +44,56 @@ export default function ModificationQualiteForm() {
   });
 
   const onSubmit = async (
-    data: ModificationDocumentFormValues,
-    methods: UseFormReturn<ModificationDocumentFormValues>
+    data: FinalisationQualiteFormValues,
+    methods: UseFormReturn<FinalisationQualiteFormValues>
   ) => {
-    const fileUploads = await filterFileUploads(
+    const fileUploads = filterFileUploads(
       data.fileUploads,
       methods,
       categoriesDisplayRules
     );
 
+    const controles = data.controles?.map((controle) => {
+      return {
+        id: controle.id || undefined,
+        date: controle.date,
+        type: controle.type,
+        fileUploadKey: controle.fileUploads?.[0].key,
+      };
+    });
+
     await handleSubmit({
       fileUploads,
+      controles,
       dnaCode: structure.dnaCode,
     });
   };
 
   return (
-    <>
-      <ModificationTitle
-        step="Actes administratifs"
-        closeLink={`/structures/${structure.id}`}
-      />
+    <div>
+      <Tabs currentStep={currentStep} structure={structure} />
       <FormWrapper
-        schema={modificationDocumentSchema}
+        schema={finalisationQualiteSchema}
         onSubmit={onSubmit}
-        submitButtonText="Valider"
-        resetRoute={`/structures/${structure.id}`}
+        submitButtonText="Étape suivante"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
-        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
+        className="rounded-t-none"
       >
+        <InformationBar
+          variant="complete"
+          title="À compléter"
+          description="Veuillez importer l’ensemble des actes administratifs historiques afférents à la structure, que les dates d’effets soient actuelles ou révolues."
+        />
+
+        <Disclaimer />
+
         <MaxSizeNotice />
 
         {categoriesToDisplay.map((category, index) => {
           return (
-            <>
+            <div key={category}>
               <UploadsByCategory
-                key={category}
                 category={category}
                 categoryShortName={
                   categoriesDisplayRules[category].categoryShortName
@@ -96,8 +111,10 @@ export default function ModificationQualiteForm() {
                 }
                 notice={categoriesDisplayRules[category].notice}
               />
-              {index < categoriesToDisplay.length - 1 && <hr />}
-            </>
+              {index < categoriesToDisplay.length - 1 && (
+                <hr className="mt-13" />
+              )}
+            </div>
           );
         })}
         {state === FetchState.ERROR && (
@@ -107,6 +124,6 @@ export default function ModificationQualiteForm() {
           />
         )}
       </FormWrapper>
-    </>
+    </div>
   );
 }

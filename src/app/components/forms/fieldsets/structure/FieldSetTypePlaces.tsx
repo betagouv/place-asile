@@ -5,10 +5,15 @@ import { useFormContext } from "react-hook-form";
 import { Table } from "@/app/components/common/Table";
 import { cn } from "@/app/utils/classname.util";
 import { getYearDate } from "@/app/utils/date.util";
+import { FormKind } from "@/types/global";
 
 import InputWithValidation from "../../InputWithValidation";
 
-export const FieldSetTypePlaces = () => {
+export const FieldSetTypePlaces = ({
+  formKind = FormKind.FINALISATION,
+}: {
+  formKind?: FormKind;
+}) => {
   const fieldsetRef = useRef<HTMLFieldSetElement>(null);
   const { control, register, formState } = useFormContext();
 
@@ -25,7 +30,9 @@ export const FieldSetTypePlaces = () => {
   return (
     <fieldset className="flex flex-col" ref={fieldsetRef}>
       <legend className="text-lg font-bold mb-8 text-title-blue-france">
-        Détails et historique
+        {formKind === FormKind.FINALISATION
+          ? "Types de place"
+          : "Détails et historique"}
       </legend>
       <p>
         Veuillez renseigner l’historique du nombre de places pour chaque

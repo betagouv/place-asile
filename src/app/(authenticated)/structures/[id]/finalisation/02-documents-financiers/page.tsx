@@ -1,9 +1,7 @@
 "use client";
-
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
 import { AutoSave } from "@/app/components/forms/AutoSave";
-import { BudgetTables } from "@/app/components/forms/finance/BudgetTables";
-import { IndicateursGeneraux } from "@/app/components/forms/finance/IndicateursGeneraux";
+import { Documents } from "@/app/components/forms/finance/documents/Documents";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
@@ -27,10 +25,10 @@ import { FetchState } from "@/types/fetch-state.type";
 
 import { Tabs } from "../_components/Tabs";
 
-export default function FinalisationFinance() {
+export default function FinalisationDocumentsFinanciers() {
   const { structure } = useStructureContext();
 
-  const currentStep = 3;
+  const currentStep = 2;
 
   const hasCpom = structure?.cpom;
   const isAutorisee = isStructureAutorisee(structure?.type);
@@ -50,7 +48,6 @@ export default function FinalisationFinance() {
     useAgentFormHandling();
 
   const onAutoSave = async (data: anyFinanceFormValues) => {
-    console.log("onAutoSave", data);
     data.budgets.forEach((budget) => {
       if (budget.id === "") {
         delete budget.id;
@@ -75,17 +72,14 @@ export default function FinalisationFinance() {
           onSave={onAutoSave}
           state={state}
         />
-
         <InformationBar
-          variant="complete"
-          title="À compléter"
-          description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
+          variant="verify"
+          title="À vérifier"
+          description="Veuillez vérifier les documents financiers fournis par l’opérateur concernant les cinq dernières années."
         />
 
-        <IndicateursGeneraux />
-        <hr />
+        <Documents className="mb-6" />
 
-        <BudgetTables />
         {state === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}

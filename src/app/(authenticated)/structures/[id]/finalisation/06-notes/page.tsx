@@ -1,19 +1,63 @@
 "use client";
-import { ReactElement } from "react";
+
+import { AutoSave } from "@/app/components/forms/AutoSave";
+import { FieldSetNotes } from "@/app/components/forms/fieldsets/structure/FieldSetNotes";
+import FormWrapper, {
+  FooterButtonType,
+} from "@/app/components/forms/FormWrapper";
+import { NoteDisclaimer } from "@/app/components/forms/notes/NoteDisclaimer";
+import { SubmitError } from "@/app/components/SubmitError";
+import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { NotesFormValues, notesSchema } from "@/schemas/base/notes.schema";
+import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
-import Steps from "../components/Steps";
-import { FinalisationNotesForm } from "./FinalisationNotesForm";
+import { Tabs } from "../_components/Tabs";
 
-export default function Notes(): ReactElement {
+export default function FinalisationNotes() {
   const { structure } = useStructureContext();
-  const structureId = structure.id;
+
   const currentStep = 6;
 
+  const defaultValues = getDefaultValues({ structure });
+
+  const { handleValidation, handleAutoSave, state, backendError } =
+    useAgentFormHandling();
+
+  const onAutoSave = async (data: NotesFormValues) => {
+    await handleAutoSave({ ...data, dnaCode: structure.dnaCode });
+  };
+
   return (
-    <>
-      <Steps currentStep={currentStep} structureId={structureId} />
-      <FinalisationNotesForm currentStep={currentStep} />
-    </>
+    <div>
+      <Tabs currentStep={currentStep} structure={structure} />
+      <FormWrapper
+        schema={notesSchema}
+        onSubmit={handleValidation}
+        defaultValues={defaultValues}
+        submitButtonText="Je valide la saisie de cette page"
+        availableFooterButtons={[FooterButtonType.SUBMIT]}
+        className="rounded-t-none"
+      >
+        <AutoSave schema={notesSchema} onSave={onAutoSave} state={state} />
+        <InformationBar
+          variant="complete"
+          title="À compléter"
+          description="Veuillez utiliser cet espace pour centraliser et annoter les informations nécessaires au pilotage de la structure : élément contextuel, prochaine échéance, document à produire, point d'attention, élément relationnel avec la structure..."
+        />
+
+        <NoteDisclaimer />
+
+        <FieldSetNotes />
+        {state === FetchState.ERROR && (
+          <SubmitError
+            structureDnaCode={structure.dnaCode}
+            backendError={backendError}
+          />
+        )}
+      </FormWrapper>
+    </div>
   );
 }

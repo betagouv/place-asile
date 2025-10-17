@@ -56,3 +56,5 @@ export const typePlacesSchema = structureBaseSchema
       path: ["echeancePlacesAFermer"],
     }
   );
+
+export type TypePlacesFormValues = z.infer<typeof typePlacesSchema>;

@@ -40,3 +40,5 @@ export const identificationSchemaWithContacts = identificationSchema.and(
     contacts: z.array(z.union([contactSchema, contactSchema.optional()])),
   })
 );
+
+export type IdentificationWithContactsFormValues = z.infer<typeof identificationSchemaWithContacts>;

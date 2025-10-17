@@ -31,7 +31,7 @@ export default InputSimple;
 
 type InputSimpleProps = HTMLAttributes<HTMLDivElement> & {
   label?: string;
-  state?: "default" | "error" | "success";
+  state?: string;
   stateRelatedMessage?: string;
   nativeInputProps?: InputHTMLAttributes<HTMLInputElement>;
   className?: string;

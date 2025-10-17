@@ -10,6 +10,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { typePlacesSchema } from "@/schemas/base/typePlaces.schema";
+import { FetchState } from "@/types/fetch-state.type";
 import { FormKind } from "@/types/global";
 
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -45,7 +46,7 @@ export default function ModificationTypePlaces() {
         <FieldSetOuvertureFermeture formKind={FormKind.MODIFICATION} />
         <FieldSetTypePlaces />
       </FormWrapper>
-      {state === "error" && (
+      {state === FetchState.ERROR && (
         <SubmitError
           structureDnaCode={structure.dnaCode}
           backendError={backendError}

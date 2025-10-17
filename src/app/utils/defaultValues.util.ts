@@ -1,19 +1,19 @@
-import { v4 as uuidv4 } from "uuid";
-import { z } from "zod";
-
 import { getRepartition } from "@/app/utils/structure.util";
 import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 import { Contact } from "@/types/contact.type";
-import { ControleType } from "@/types/controle.type";
-import {
-  AgentFileUploadCategoryType,
-  zAgentFileUploadCategory,
-} from "@/types/file-upload.type";
+import { AgentFileUploadCategoryType } from "@/types/file-upload.type";
 import { PublicType, StructureWithLatLng } from "@/types/structure.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
 
+import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { formatDate, formatDateString } from "./date.util";
+import {
+  createEmptyDefaultValues,
+  filterFileUploads,
+  getControlesDefaultValues,
+  getDefaultValuesFromDb,
+} from "./files.util";
 import { getFinanceDocument } from "./getFinanceDocument.util";
 import { isStructureAutorisee } from "./structure.util";
 
@@ -21,30 +21,9 @@ export const getDefaultValues = ({
   structure,
 }: {
   structure: StructureWithLatLng;
-}): StructureDefaultValues => {
+}): Partial<StructureDefaultValues> => {
   const isAutorisee = isStructureAutorisee(structure.type);
   const repartition = getRepartition(structure);
-
-  // We add adresseComplete (who is not saved in db) to the adresses
-  // We also convert logementSocial and qpv to boolean
-  // And also convert repartition db value to form value (capitalize only the first letter)
-  let adresses: FormAdresse[] = [];
-  if (Array.isArray(structure.adresses)) {
-    adresses = structure.adresses.map((adresse) => ({
-      ...adresse,
-      repartition: (adresse.repartition.charAt(0).toUpperCase() +
-        adresse.repartition.slice(1).toLowerCase()) as Repartition,
-      adresseComplete: [adresse.adresse, adresse.codePostal, adresse.commune]
-        .filter(Boolean)
-        .join(" ")
-        .trim(),
-      adresseTypologies: adresse.adresseTypologies?.map((adresseTypologie) => ({
-        ...adresseTypologie,
-        logementSocial: adresseTypologie.logementSocial ? true : false,
-        qpv: adresseTypologie.qpv ? true : false,
-      })),
-    }));
-  }
 
   return {
     ...structure,
@@ -80,7 +59,7 @@ export const getDefaultValues = ({
     communeAdministrative: structure.communeAdministrative || "",
     departementAdministratif: structure.departementAdministratif || "",
     typeBati: repartition,
-    adresses,
+    adresses: transformApiAdressesToFormAdresses(structure.adresses),
     typologies: structure?.structureTypologies?.map((typologie) => ({
       id: typologie.id,
       date: typologie.date,
@@ -107,76 +86,20 @@ export const getQualiteFormDefaultValues = ({
   structure: StructureWithLatLng;
   categoriesToDisplay: AgentFileUploadCategoryType[number][];
 }) => {
-  const filteredFileUploads = structure.fileUploads?.filter(
-    (fileUpload) =>
-      fileUpload?.category &&
-      categoriesToDisplay.includes(
-        fileUpload.category as AgentFileUploadCategoryType[number]
-      )
-  );
-
-  const defaultValuesFromDb = (filteredFileUploads || [])?.map((fileUpload) => {
-    const formattedFileUploads = {
-      ...fileUpload,
-      uuid: uuidv4(),
-      key: fileUpload.key,
-      category: String(fileUpload.category) as z.infer<
-        typeof zAgentFileUploadCategory
-      >,
-      date:
-        fileUpload.date && fileUpload.date instanceof Date
-          ? fileUpload.date.toISOString()
-          : fileUpload.date || undefined,
-      startDate:
-        fileUpload.startDate && fileUpload.startDate instanceof Date
-          ? fileUpload.startDate.toISOString()
-          : fileUpload.startDate || undefined,
-      endDate:
-        fileUpload.endDate && fileUpload.endDate instanceof Date
-          ? fileUpload.endDate.toISOString()
-          : fileUpload.endDate || undefined,
-      categoryName: fileUpload.categoryName || "Document",
-      parentFileUploadId: Number(fileUpload.parentFileUploadId) || undefined,
-    };
-    return formattedFileUploads;
+  const filteredFileUploads = filterFileUploads({
+    structure,
+    categoriesToDisplay,
   });
-  const createEmptyDefaultValues = () => {
-    const filesToAdd: {
-      uuid: string;
-      category: z.infer<typeof zAgentFileUploadCategory>;
-    }[] = [];
 
-    const missingCategories = categoriesToDisplay.filter(
-      (category) =>
-        !filteredFileUploads?.some(
-          (fileUpload) => fileUpload.category === category
-        )
-    );
+  const defaultValuesFromDb = getDefaultValuesFromDb(filteredFileUploads);
 
-    missingCategories.forEach((category) => {
-      filesToAdd.push({
-        uuid: uuidv4(),
-        category: category,
-      });
-    });
-
-    return filesToAdd;
-  };
-
-  const controles = structure.controles?.map((controle) => {
-    return {
-      id: controle.id,
-      date:
-        controle.date && controle.date instanceof Date
-          ? controle.date.toISOString()
-          : controle.date || undefined,
-      type: ControleType[controle.type as unknown as keyof typeof ControleType],
-      fileUploads: controle.fileUploads,
-    };
-  });
+  const controles = getControlesDefaultValues(structure.controles);
 
   const defaultValues = {
-    fileUploads: [...defaultValuesFromDb, ...createEmptyDefaultValues()],
+    fileUploads: [
+      ...defaultValuesFromDb,
+      ...createEmptyDefaultValues(categoriesToDisplay, filteredFileUploads),
+    ],
     controles,
   };
 

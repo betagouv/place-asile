@@ -2,37 +2,65 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { FormAdresse } from "@/schemas/base/adresse.schema";
+import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
+import { transformFormAdressesToApiAdresses } from "../utils/adresse.util";
 import { useStructures } from "./useStructures";
 
-export type FormSubmitData = {
-  dnaCode?: string;
-  [key: string]: unknown;
-};
-
-export const useAgentFormHandling = ({ nextRoute }: { nextRoute?: string }) => {
+export const useAgentFormHandling = ({
+  nextRoute,
+}: { nextRoute?: string } = {}) => {
   const router = useRouter();
 
   const { structure, setStructure } = useStructureContext();
 
-  const { updateAndRefreshStructure, transformFormAdressesToApiAdresses } =
-    useStructures();
+  const { updateAndRefreshStructure } = useStructures();
 
-  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const [state, setState] = useState<FetchState>(FetchState.IDLE);
   const [backendError, setBackendError] = useState<string | undefined>(
     undefined
   );
 
-  const handleSubmit = async (data: FormSubmitData) => {
-    setState("loading");
+  const handleAutoSave = async (data: FormSubmitData) => {
+    setState(FetchState.LOADING);
+    const adresses = transformFormAdressesToApiAdresses(
+      data.adresses as FormAdresse[]
+    );
     try {
-      const adresses = transformFormAdressesToApiAdresses(
-        data.adresses as FormAdresse[]
-      );
       const updatedStructure = await updateAndRefreshStructure(
         structure.id,
         { ...data, adresses },
+        setStructure
+      );
+      if (updatedStructure === "OK") {
+        setState(FetchState.IDLE);
+      } else {
+        console.error(updatedStructure);
+        setState(FetchState.ERROR);
+        setBackendError(updatedStructure?.toString());
+        throw new Error(updatedStructure?.toString());
+      }
+    } catch (error) {
+      setState(FetchState.ERROR);
+      setBackendError(error instanceof Error ? error.message : String(error));
+      throw error;
+    }
+  };
+
+  const handleValidation = async (data: FormSubmitData) => {
+    setState(FetchState.LOADING);
+    console.log("handleValidation", data);
+    setState(FetchState.IDLE);
+  };
+
+  const handleSubmit = async (data: FormSubmitData) => {
+    setState(FetchState.LOADING);
+
+    try {
+      const updatedStructure = await updateAndRefreshStructure(
+        structure.id,
+        data,
         setStructure
       );
       if (updatedStructure === "OK") {
@@ -41,12 +69,12 @@ export const useAgentFormHandling = ({ nextRoute }: { nextRoute?: string }) => {
         }
       } else {
         console.error(updatedStructure);
-        setState("error");
+        setState(FetchState.ERROR);
         setBackendError(updatedStructure?.toString());
         throw new Error(updatedStructure?.toString());
       }
     } catch (error) {
-      setState("error");
+      setState(FetchState.ERROR);
       setBackendError(error instanceof Error ? error.message : String(error));
       throw error;
     }
@@ -54,7 +82,14 @@ export const useAgentFormHandling = ({ nextRoute }: { nextRoute?: string }) => {
 
   return {
     handleSubmit,
+    handleAutoSave,
+    handleValidation,
     state,
     backendError,
   };
+};
+
+export type FormSubmitData = {
+  dnaCode?: string;
+  [key: string]: unknown;
 };

@@ -10,6 +10,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { notesSchema } from "@/schemas/base/notes.schema";
+import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -47,7 +48,7 @@ export default function ModificationNotesForm(): ReactElement {
       >
         <NoteDisclaimer />
         <FieldSetNotes />
-        {state === "error" && (
+        {state === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

@@ -21,6 +21,7 @@ import {
   subventionneeAvecCpomSchema,
   subventionneeSchema,
 } from "@/schemas/base/finance.schema";
+import { FetchState } from "@/types/fetch-state.type";
 
 import { ModificationTitle } from "../components/ModificationTitle";
 
@@ -77,7 +78,7 @@ export default function ModificationFinanceForm() {
         <hr />
 
         <BudgetTables />
-        {state === "error" && (
+        {state === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}
