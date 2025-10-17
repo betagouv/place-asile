@@ -55,7 +55,7 @@ model Structure {
   operateurId                  Int?
   forms                        Form[]
   campaigns                    Campaign[]
-  reporting                    StructureReferential? @relation(fields: [dnaCode], references: [dnaCode])
+  referential                  StructureReferential? @relation("StructureToReferential")
 
   createdAt                    DateTime  @default(now())
   updatedAt                    DateTime  @updatedAt @default(now())
@@ -318,7 +318,7 @@ model StructureReferential {
   @@schema("reporting")
   dnaCode           String             @id
   name              String?
-  structures        Structure[]
+  structure         Structure? @relation("StructureToReferential", fields: [dnaCode], references: [dnaCode])
 
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt @default(now())
