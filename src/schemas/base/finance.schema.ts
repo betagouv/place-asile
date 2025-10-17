@@ -108,7 +108,19 @@ const budgetSchema = budgetBaseSchema.superRefine(
   validateAffectationReservesDetails
 );
 
-const budgetAutoSaveSchema = budgetBaseSchema.partial();
+const budgetAutoSaveSchema = budgetBaseSchema
+  .extend({
+    ETP: zSafeNumber()
+      .nullable()
+      .transform((val) => (val === null ? undefined : val)),
+    tauxEncadrement: zSafeDecimals()
+      .nullable()
+      .transform((val) => (val === null ? undefined : val)),
+    coutJournalier: zSafeDecimals()
+      .nullable()
+      .transform((val) => (val === null ? undefined : val)),
+  })
+  .partial();
 
 export const DocumentsTypeStrict = z.object({
   key: z.string(),
