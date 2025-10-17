@@ -19,6 +19,8 @@ import {
   anyFinanceFormValues,
   autoriseeAvecCpomSchema,
   autoriseeSchema,
+  basicAutoSaveFormValues,
+  basicAutoSaveSchema,
   basicSchema,
   subventionneeAvecCpomSchema,
   subventionneeSchema,
@@ -37,7 +39,6 @@ export default function FinalisationFinance() {
   const isSubventionnee = isStructureSubventionnee(structure?.type);
 
   let schema;
-
   if (isAutorisee) {
     schema = hasCpom ? autoriseeAvecCpomSchema : autoriseeSchema;
   } else if (isSubventionnee) {
@@ -49,13 +50,14 @@ export default function FinalisationFinance() {
   const { handleValidation, handleAutoSave, state, backendError } =
     useAgentFormHandling();
 
-  const onAutoSave = async (data: anyFinanceFormValues) => {
-    console.log("onAutoSave", data);
-    data.budgets.forEach((budget) => {
-      if (budget.id === "") {
-        delete budget.id;
-      }
-    });
+  const onAutoSave = async (data: basicAutoSaveFormValues) => {
+    if (data.budgets) {
+      data.budgets.forEach((budget) => {
+        if (budget.id === "") {
+          delete budget.id;
+        }
+      });
+    }
     await handleAutoSave({ ...data, dnaCode: structure.dnaCode });
   };
 
@@ -71,7 +73,7 @@ export default function FinalisationFinance() {
         className="rounded-t-none"
       >
         <AutoSave
-          schema={schema || basicSchema}
+          schema={basicAutoSaveSchema}
           onSave={onAutoSave}
           state={state}
         />

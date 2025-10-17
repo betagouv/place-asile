@@ -108,6 +108,8 @@ const budgetSchema = budgetBaseSchema.superRefine(
   validateAffectationReservesDetails
 );
 
+const budgetAutoSaveSchema = budgetBaseSchema.partial();
+
 export const DocumentsTypeStrict = z.object({
   key: z.string(),
   date: createDateFieldValidator(),
@@ -125,6 +127,18 @@ export const basicSchema = z.object({
     budgetSchema,
   ]),
 });
+
+export const basicAutoSaveSchema = z
+  .object({
+    budgets: z.tuple([
+      budgetAutoSaveSchema,
+      budgetAutoSaveSchema,
+      budgetAutoSaveSchema,
+      budgetAutoSaveSchema,
+      budgetAutoSaveSchema,
+    ]),
+  })
+  .partial();
 
 //
 // Structures Autorisées
@@ -241,7 +255,6 @@ export const subventionneeSchema = z.object({
   ]),
 });
 
-// Types
 export type basicSchemaTypeFormValues = z.infer<typeof basicSchema>;
 export type autoriseeSchemaTypeFormValues = z.infer<typeof autoriseeSchema>;
 export type autoriseeAvecCpomSchemaTypeFormValues = z.infer<
@@ -260,3 +273,5 @@ export type anyFinanceFormValues =
   | autoriseeAvecCpomSchemaTypeFormValues
   | subventionneeSchemaTypeFormValues
   | subventionneeAvecCpomSchemaTypeFormValues;
+
+export type basicAutoSaveFormValues = z.infer<typeof basicAutoSaveSchema>;

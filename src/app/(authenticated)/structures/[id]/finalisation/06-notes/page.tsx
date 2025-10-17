@@ -10,7 +10,11 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { NotesFormValues, notesSchema } from "@/schemas/base/notes.schema";
+import {
+  NotesAutoSaveFormValues,
+  notesAutoSaveSchema,
+  notesSchema,
+} from "@/schemas/base/notes.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
@@ -26,7 +30,7 @@ export default function FinalisationNotes() {
   const { handleValidation, handleAutoSave, state, backendError } =
     useAgentFormHandling();
 
-  const onAutoSave = async (data: NotesFormValues) => {
+  const onAutoSave = async (data: NotesAutoSaveFormValues) => {
     await handleAutoSave({ ...data, dnaCode: structure.dnaCode });
   };
 
@@ -41,7 +45,11 @@ export default function FinalisationNotes() {
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         className="rounded-t-none"
       >
-        <AutoSave schema={notesSchema} onSave={onAutoSave} state={state} />
+        <AutoSave
+          schema={notesAutoSaveSchema}
+          onSave={onAutoSave}
+          state={state}
+        />
         <InformationBar
           variant="complete"
           title="À compléter"
