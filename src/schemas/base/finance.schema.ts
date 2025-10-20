@@ -122,15 +122,7 @@ const budgetAutoSaveSchema = budgetBaseSchema
   })
   .partial();
 
-export const DocumentsTypeStrict = z.object({
-  key: z.string(),
-  date: createDateFieldValidator(),
-  // TODO fix the cateogry type
-  category: z.string(),
-});
-
 export const basicSchema = z.object({
-  fileUploads: z.array(DocumentsTypeStrict),
   budgets: z.tuple([
     budgetSchema,
     budgetSchema,
@@ -198,7 +190,6 @@ const autoriseeY2 = budgetBaseSchema.extend({
 });
 
 export const autoriseeSchema = z.object({
-  // fileUploads: z.array(DocumentsTypeStrict),
   budgets: z.tuple([
     autoriseeCurrentYear,
     autoriseeY2,
@@ -209,7 +200,6 @@ export const autoriseeSchema = z.object({
 });
 
 export const autoriseeAvecCpomSchema = z.object({
-  // fileUploads: z.array(DocumentsTypeStrict),
   budgets: z.tuple([
     autoriseeCurrentYear,
     autoriseeY2,
@@ -235,7 +225,6 @@ const subventionneeFirstYears = z.object({
 });
 
 export const subventionneeAvecCpomSchema = z.object({
-  // fileUploads: z.array(DocumentsTypeStrict),
   budgets: z.tuple([
     subventionneeFirstYears,
     subventionneeFirstYears,
@@ -257,7 +246,6 @@ const subventionneeSansCpom = budgetBaseSchema.extend({
 });
 
 export const subventionneeSchema = z.object({
-  // fileUploads: z.array(Document  sTypeStrict),
   budgets: z.tuple([
     subventionneeFirstYears,
     subventionneeFirstYears,

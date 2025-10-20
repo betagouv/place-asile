@@ -7,29 +7,24 @@ import { zOperateurFileUploadCategory } from "@/types/file-upload.type";
 
 dayjs.extend(customParseFormat);
 
-export const DocumentsTypeFlexible = z.object({
+const DocumentFinancierFlexibleSchema = z.object({
   key: z.string().optional(),
   date: createDateFieldValidator().optional(),
   category: zOperateurFileUploadCategory.optional(),
 });
 
-export type DocumentsTypeFlexible = z.infer<typeof DocumentsSchemaFlexible>;
-
-export const DocumentsSchemaFlexible = z.object({
-  less5Years: z.boolean(),
-  fileUploads: z.array(DocumentsTypeFlexible),
+export const DocumentsFinanciersFlexibleSchema = z.object({
+  less5Years: z.boolean().optional(),
+  fileUploads: z.array(DocumentFinancierFlexibleSchema),
 });
 
-export const DocumentsTypeConditional = z
-  .object({
-    key: z.string().optional(),
-    date: createDateFieldValidator().optional(),
-    category: zOperateurFileUploadCategory.optional(),
-  })
-  .superRefine((data, ctx) => {
+const DocumentFinancierConditionalSchema =
+  DocumentFinancierFlexibleSchema.superRefine((data, ctx) => {
     if (
       data.category !==
-        ("BUDGET_RECTIFICATIF" as z.infer<typeof zOperateurFileUploadCategory>) &&
+        ("BUDGET_RECTIFICATIF" as z.infer<
+          typeof zOperateurFileUploadCategory
+        >) &&
       data.category !==
         ("RAPPORT_BUDGETAIRE" as z.infer<typeof zOperateurFileUploadCategory>)
     ) {
@@ -57,18 +52,11 @@ export const DocumentsTypeConditional = z
     }
   });
 
-export type DocumentsSchemaFlexible = z.infer<typeof DocumentsSchemaFlexible>;
-
-export const DocumentsTypeStrict = z.object({
-  key: z.string(),
-  date: createDateFieldValidator(),
-  category: zOperateurFileUploadCategory,
+export const DocumentsFinanciersStrictSchema = z.object({
+  less5Years: z.boolean().optional(),
+  fileUploads: z.array(DocumentFinancierConditionalSchema),
 });
 
-export const DocumentsSchemaStrict = z.object({
-  less5Years: z.boolean(),
-  fileUploads: z.array(DocumentsTypeConditional),
-});
-
-export type DocumentsTypeStrict = z.infer<typeof DocumentsSchemaStrict>;
-export type DocumentsSchemaStrict = z.infer<typeof DocumentsSchemaStrict>;
+export type DocumentsFinanciersFlexibleFormValues = z.infer<
+  typeof DocumentsFinanciersFlexibleSchema
+>;

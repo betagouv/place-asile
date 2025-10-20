@@ -10,7 +10,7 @@ import { Budget } from "@/types/budget.type";
 import { Structure } from "@/types/structure.type";
 
 import { StructureDocument } from "../(password-protected)/ajout-structure/[dnaCode]/04-documents/documents";
-import { getDateStringToYear, getYearRange } from "./date.util";
+import { getDateStringToYear, getYearDate, getYearRange } from "./date.util";
 
 export const getFinanceDocument = ({
   structure,
@@ -55,7 +55,16 @@ export const getFinanceDocument = ({
           new Date(fileUpload.date || "").getFullYear() === Number(year)
         );
       });
-      return fileUpload ?? null;
+
+      if (fileUpload) {
+        return fileUpload;
+      }
+
+      return {
+        key: undefined,
+        category: fileUploadCategory,
+        date: getYearDate(year),
+      };
     });
     return fileUploads;
   };

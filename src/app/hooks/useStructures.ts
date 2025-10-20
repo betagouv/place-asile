@@ -5,9 +5,9 @@ import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
 import { transformAjoutFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { formatDateToIsoString } from "@/app/utils/date.util";
 import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
-import { DocumentsSchemaFlexible } from "@/schemas/ajout/ajoutDocuments.schema";
 import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
 import { AjoutTypePlacesFormValues } from "@/schemas/ajout/ajoutTypePlaces.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/base/documentsFinanciers.schema";
 import { DeepPartial } from "@/types/global";
 import { Structure } from "@/types/structure.type";
 
@@ -143,5 +143,5 @@ export type AjoutFormValues = Partial<
   AjoutIdentificationFormValues &
     AjoutAdressesFormValues &
     AjoutTypePlacesFormValues &
-    DocumentsSchemaFlexible
+    DocumentsFinanciersFlexibleFormValues
 >;

@@ -6,7 +6,6 @@ import { UploadItem } from "@/app/(password-protected)/ajout-structure/component
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearRange } from "@/app/utils/date.util";
-import { getYearDate } from "@/app/utils/date.util";
 import { getDocumentIndexes } from "@/app/utils/getFinanceDocument.util";
 import {
   isStructureAutorisee,
@@ -64,13 +63,11 @@ export const Documents = ({ className }: { className?: string }) => {
                     <input
                       type="hidden"
                       aria-hidden="true"
-                      defaultValue={document.value}
                       {...register(`fileUploads.${currentDocIndex}.category`)}
                     />
                     <input
                       type="hidden"
                       aria-hidden="true"
-                      defaultValue={getYearDate(year.toString())}
                       {...register(`fileUploads.${currentDocIndex}.date`)}
                     />
                   </UploadItem>
