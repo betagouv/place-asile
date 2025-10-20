@@ -1,5 +1,5 @@
 // scripts/migrate-forms-prod.ts
-import { PrismaClient, AuthorType, StepStatus } from '@prisma/client';
+import { AuthorType, PrismaClient, StepStatus } from '@prisma/client';
 
 const prisma = new PrismaClient();
 

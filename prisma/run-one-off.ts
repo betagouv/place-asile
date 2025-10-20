@@ -16,6 +16,6 @@ console.log(`🚀 Exécution du script one-off : ${scriptPath}`);
 try {
     execSync(`npx tsx -r dotenv/config ${scriptPath}`, { stdio: "inherit" });
 } catch (err) {
-    console.error(`❌ Erreur lors de l'exécution du script ${scriptName}`);
+    console.error(`❌ Erreur lors de l'exécution du script ${scriptName}`, err);
     process.exit(1);
 }

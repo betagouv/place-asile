@@ -3,12 +3,12 @@ import { PrismaClient, StructureState } from "@prisma/client";
 
 import { StructureType } from "@/types/structure.type";
 
+import { migrateFormsProduction } from "../scripts/one-off-scripts/20251020-migrate-forms-prod";
 import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
 import { createFakeStuctureWithRelations } from "./seeders/structure.seed";
 import { wipeTables } from "./utils/wipe";
-import { migrateFormsProduction } from "../scripts/one-off-scripts/20251020-migrate-forms-prod";
 
 const prisma = new PrismaClient();
 
