@@ -150,7 +150,7 @@ Plus globalement, cela vient du fait que prisma vient **d'abord** réaliser l'en
 
 #### Comment exécuter un script one off
 
-1. **Créer le script** dans `scripts/one-off-scripts/` avec le format `YYYYMMDD-description.ts`
+1. **Créer le script** dans `prisma/one-off-scripts/` avec le format `YYYYMMDD-description.ts`
    ```bash
    # Exemple : scripts/one-off-scripts/20251020-migrate-forms-prod.ts
    ```
