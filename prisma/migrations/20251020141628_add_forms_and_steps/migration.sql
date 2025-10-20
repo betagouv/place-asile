@@ -5,12 +5,11 @@ CREATE SCHEMA IF NOT EXISTS "reporting";
 CREATE TYPE "public"."AuthorType" AS ENUM ('OPERATEUR', 'AGENT');
 
 -- CreateEnum
-CREATE TYPE "public"."StepStatus" AS ENUM ('NON_COMMENCE', 'COMMENCE', 'FINALISE', 'VALIDE');
+CREATE TYPE "public"."StepStatus" AS ENUM ('NON_COMMENCE', 'COMMENCE', 'A_VERIFIER', 'FINALISE', 'VALIDE');
 
 -- CreateTable
 CREATE TABLE "public"."FormDefinition" (
     "id" SERIAL NOT NULL,
-    "formId" INTEGER,
     "name" TEXT NOT NULL,
     "version" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -76,6 +75,18 @@ CREATE TABLE "reporting"."StructureReferential" (
 
     CONSTRAINT "StructureReferential_pkey" PRIMARY KEY ("dnaCode")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "FormDefinition_name_version_key" ON "public"."FormDefinition"("name", "version");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "FormStepDefinition_formDefinitionId_label_key" ON "public"."FormStepDefinition"("formDefinitionId", "label");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Form_structureCodeDna_formDefinitionId_key" ON "public"."Form"("structureCodeDna", "formDefinitionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "FormStep_formId_stepDefinitionId_key" ON "public"."FormStep"("formId", "stepDefinitionId");
 
 -- AddForeignKey
 ALTER TABLE "public"."FormStepDefinition" ADD CONSTRAINT "FormStepDefinition_formDefinitionId_fkey" FOREIGN KEY ("formDefinitionId") REFERENCES "public"."FormDefinition"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

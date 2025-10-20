@@ -242,12 +242,13 @@ model FormDefinition {
   @@schema("public")
 
   id                Int                @id @default(autoincrement())
-  formId            Int?               // optionnel si tu veux relier à un "type" parent
   name              String
   version           Int
   stepsDefinition   FormStepDefinition[]
 
   forms             Form[]
+
+  @@unique([name, version])
 
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt @default(now())
@@ -263,6 +264,8 @@ model FormStepDefinition {
 
   formDefinition    FormDefinition     @relation(fields: [formDefinitionId], references: [id])
   formSteps         FormStep[]
+
+  @@unique([formDefinitionId, label])
 
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt @default(now())
@@ -280,6 +283,8 @@ model Form {
   formDefinition    FormDefinition     @relation(fields: [formDefinitionId], references: [id])
   formSteps         FormStep[]
 
+  @@unique([structureCodeDna, formDefinitionId])
+
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt @default(now())
 }
@@ -295,6 +300,8 @@ model FormStep {
 
   form              Form               @relation(fields: [formId], references: [id], onDelete: Cascade)
   stepDefinition    FormStepDefinition @relation(fields: [stepDefinitionId], references: [id])
+
+  @@unique([formId, stepDefinitionId])
 
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt @default(now())
@@ -411,6 +418,7 @@ enum StepStatus {
   @@schema("public")
   NON_COMMENCE
   COMMENCE
+  A_VERIFIER
   FINALISE
   VALIDE
 }

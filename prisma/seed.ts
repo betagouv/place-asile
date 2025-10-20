@@ -8,6 +8,7 @@ import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.s
 import { convertToPrismaObject } from "./seeders/seed-util";
 import { createFakeStuctureWithRelations } from "./seeders/structure.seed";
 import { wipeTables } from "./utils/wipe";
+import { migrateFormsProduction } from "../scripts/one-off-scripts/20251020-migrate-forms-prod";
 
 const prisma = new PrismaClient();
 
@@ -53,6 +54,9 @@ export async function seed(): Promise<void> {
     );
     await seedParentChildFileUploads(structure.dnaCode);
   }
+
+  console.log("🚀 Exécution du script one-off : migrate-forms-prod");
+  await migrateFormsProduction();
 }
 
 seed();
