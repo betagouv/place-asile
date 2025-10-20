@@ -8,7 +8,7 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
-import { getFinanceFormDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFileUploadsDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -40,7 +40,7 @@ export default function ModificationFinanceForm() {
     schema = hasCpom ? subventionneeAvecCpomSchema : subventionneeSchema;
   }
 
-  const defaultValues = getFinanceFormDefaultValues({ structure });
+  const defaultValues = getFileUploadsDefaultValues({ structure });
 
   const { handleSubmit, state, backendError } = useAgentFormHandling({
     nextRoute: `/structures/${structure.id}`,

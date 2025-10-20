@@ -8,7 +8,7 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
-import { getFinanceFormDefaultValues } from "@/app/utils/defaultValues.util";
+import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   DocumentsFinanciersFlexibleFormValues,
   DocumentsFinanciersFlexibleSchema,
@@ -22,12 +22,13 @@ export default function FinalisationDocumentsFinanciers() {
 
   const currentStep = 2;
 
-  const defaultValues = getFinanceFormDefaultValues({ structure });
+  const defaultValues = getQualiteFormDefaultValues({ structure });
 
   const { handleValidation, handleAutoSave, state, backendError } =
     useAgentFormHandling();
 
   const onAutoSave = async (data: DocumentsFinanciersFlexibleFormValues) => {
+    console.log(data.fileUploads);
     const fileUploads = data.fileUploads.filter((fileUpload) => fileUpload.key);
 
     await handleAutoSave({ ...data, fileUploads, dnaCode: structure.dnaCode });

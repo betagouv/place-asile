@@ -12,7 +12,7 @@ import {
   getCategoriesDisplayRules,
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
-import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFileUploadsDefaultValues } from "@/app/utils/defaultValues.util";
 import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
 import {
   ModificationDocumentFormValues,
@@ -36,7 +36,7 @@ export default function ModificationQualiteForm() {
     nextRoute: `/structures/${structure.id}`,
   });
 
-  const defaultValues = getQualiteFormDefaultValues({
+  const defaultValues = getFileUploadsDefaultValues({
     structure,
     categoriesToDisplay,
   });

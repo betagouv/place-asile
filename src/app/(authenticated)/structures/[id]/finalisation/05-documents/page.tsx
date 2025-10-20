@@ -1,6 +1,6 @@
 "use client";
-import { UseFormReturn } from "react-hook-form";
 
+import { AutoSave } from "@/app/components/forms/AutoSave";
 import { Disclaimer } from "@/app/components/forms/documents/Disclaimer";
 import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import FormWrapper, {
@@ -15,7 +15,6 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
-import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
 import {
   FinalisationQualiteFormValues,
   finalisationQualiteSchema,
@@ -36,23 +35,18 @@ export default function FinalisationQualite() {
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling();
+  const { handleValidation, handleAutoSave, state, backendError } =
+    useAgentFormHandling();
 
   const defaultValues = getQualiteFormDefaultValues({
     structure,
     categoriesToDisplay,
   });
 
-  const onSubmit = async (
-    data: FinalisationQualiteFormValues,
-    methods: UseFormReturn<FinalisationQualiteFormValues>
-  ) => {
-    const fileUploads = filterFileUploads(
-      data.fileUploads,
-      methods,
-      categoriesDisplayRules
+  const onAutoSave = async (data: FinalisationQualiteFormValues) => {
+    const fileUploads = data.fileUploads?.filter(
+      (fileUpload) => fileUpload.key
     );
-
     const controles = data.controles?.map((controle) => {
       return {
         id: controle.id || undefined,
@@ -62,8 +56,8 @@ export default function FinalisationQualite() {
       };
     });
 
-    await handleSubmit({
-      fileUploads,
+    await handleAutoSave({
+      fileUploads: fileUploads,
       controles,
       dnaCode: structure.dnaCode,
     });
@@ -74,12 +68,17 @@ export default function FinalisationQualite() {
       <Tabs currentStep={currentStep} structure={structure} />
       <FormWrapper
         schema={finalisationQualiteSchema}
-        onSubmit={onSubmit}
+        onSubmit={handleValidation}
         submitButtonText="Étape suivante"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
         className="rounded-t-none"
       >
+        <AutoSave
+          schema={finalisationQualiteSchema}
+          onSave={onAutoSave}
+          state={state}
+        />
         <InformationBar
           variant="complete"
           title="À compléter"

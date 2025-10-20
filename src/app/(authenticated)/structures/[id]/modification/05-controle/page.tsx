@@ -8,7 +8,7 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
-import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFileUploadsDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   ModificationControleFormValues,
   modificationControleSchema,
@@ -27,7 +27,7 @@ export default function ModificationControleForm() {
     nextRoute: `/structures/${structure.id}`,
   });
 
-  const defaultValues = getQualiteFormDefaultValues({
+  const defaultValues = getFileUploadsDefaultValues({
     structure,
     categoriesToDisplay: ["INSPECTION_CONTROLE"],
   });

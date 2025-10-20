@@ -10,7 +10,7 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
-import { getFinanceFormDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFileUploadsDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -45,7 +45,7 @@ export default function FinalisationFinance() {
     schema = hasCpom ? subventionneeAvecCpomSchema : subventionneeSchema;
   }
 
-  const defaultValues = getFinanceFormDefaultValues({ structure });
+  const defaultValues = getFileUploadsDefaultValues({ structure });
 
   const { handleValidation, handleAutoSave, state, backendError } =
     useAgentFormHandling();
