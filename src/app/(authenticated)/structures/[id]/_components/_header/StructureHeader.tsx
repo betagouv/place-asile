@@ -143,6 +143,21 @@ export function StructureHeader(): ReactElement | null {
           que vous avez saisies.
         </p>
       </autoSaveModal.Component>
+      <autoSaveModal.Component
+        title="Vous avez terminé la création de cette structure !"
+        buttons={[
+          {
+            doClosesModal: true,
+            children: "J’ai compris",
+            type: "button",
+          },
+        ]}
+      >
+        <p>
+          Les données ont bien été enregistrées. Merci pour votre contribution
+          qui va rendre l’outil plus précis.
+        </p>
+      </autoSaveModal.Component>
     </>
   ) : null;
 }
