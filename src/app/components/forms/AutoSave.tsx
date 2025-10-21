@@ -9,24 +9,15 @@
 import { z } from "zod";
 
 import { useAutoSave } from "@/app/hooks/useAutoSave";
-import { FetchState } from "@/types/fetch-state.type";
 
 export const AutoSave = <TSchema extends z.ZodTypeAny>({
   schema,
   onSave,
-  state,
 }: {
   schema: TSchema;
   onSave: (data: z.infer<TSchema>) => Promise<void>;
-  state: FetchState;
 }) => {
   useAutoSave(schema, onSave);
 
-  if (state === FetchState.LOADING) {
-    return <span>LOADING</span>;
-  }
-  if (state === FetchState.ERROR) {
-    return <span>ERROR</span>;
-  }
-  return <span>IDLE</span>;
+  return null;
 };

@@ -9,6 +9,7 @@ import FormWrapper, {
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import {
   getCategoriesDisplayRules,
@@ -36,7 +37,7 @@ export default function FinalisationQualite() {
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleValidation, handleAutoSave, state, backendError } =
+  const { handleValidation, handleAutoSave, backendError } =
     useAgentFormHandling();
 
   const defaultValues = getDefaultValues({
@@ -54,6 +55,10 @@ export default function FinalisationQualite() {
     });
   };
 
+  const { getFetchState } = useFetchState();
+
+  const saveState = getFetchState("structure-save");
+
   return (
     <div>
       <Tabs currentStep={currentStep} structure={structure} />
@@ -65,11 +70,7 @@ export default function FinalisationQualite() {
         defaultValues={defaultValues}
         className="rounded-t-none"
       >
-        <AutoSave
-          schema={fileUploadsAutoSaveSchema}
-          onSave={onAutoSave}
-          state={state}
-        />
+        <AutoSave schema={fileUploadsAutoSaveSchema} onSave={onAutoSave} />
         <InformationBar
           variant="complete"
           title="À compléter"
@@ -107,7 +108,7 @@ export default function FinalisationQualite() {
             </div>
           );
         })}
-        {state === FetchState.ERROR && (
+        {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

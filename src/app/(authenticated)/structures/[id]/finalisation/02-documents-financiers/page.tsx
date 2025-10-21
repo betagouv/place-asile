@@ -7,6 +7,7 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
@@ -24,7 +25,7 @@ export default function FinalisationDocumentsFinanciers() {
 
   const defaultValues = getDefaultValues({ structure });
 
-  const { handleValidation, handleAutoSave, state, backendError } =
+  const { handleValidation, handleAutoSave, backendError } =
     useAgentFormHandling();
 
   const onAutoSave = async (data: DocumentsFinanciersFlexibleFormValues) => {
@@ -33,6 +34,10 @@ export default function FinalisationDocumentsFinanciers() {
 
     await handleAutoSave({ ...data, fileUploads, dnaCode: structure.dnaCode });
   };
+
+  const { getFetchState } = useFetchState();
+
+  const saveState = getFetchState("structure-save");
 
   return (
     <div>
@@ -50,7 +55,6 @@ export default function FinalisationDocumentsFinanciers() {
         <AutoSave
           schema={DocumentsFinanciersFlexibleSchema}
           onSave={onAutoSave}
-          state={state}
         />
         <InformationBar
           variant="verify"
@@ -60,7 +64,7 @@ export default function FinalisationDocumentsFinanciers() {
 
         <Documents className="mb-6" />
 
-        {state === FetchState.ERROR && (
+        {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

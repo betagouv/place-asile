@@ -5,6 +5,7 @@ import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
+import { useFetchState } from "../context/FetchStateContext";
 import { transformFormAdressesToApiAdresses } from "../utils/adresse.util";
 import { useStructures } from "./useStructures";
 
@@ -17,13 +18,14 @@ export const useAgentFormHandling = ({
 
   const { updateAndRefreshStructure } = useStructures();
 
-  const [state, setState] = useState<FetchState>(FetchState.IDLE);
+  const { setFetchState, getFetchState } = useFetchState();
+
   const [backendError, setBackendError] = useState<string | undefined>(
     undefined
   );
 
   const handleAutoSave = async (data: FormSubmitData) => {
-    setState(FetchState.LOADING);
+    setFetchState("structure-save", FetchState.LOADING);
     const adresses = transformFormAdressesToApiAdresses(
       data.adresses as FormAdresse[]
     );
@@ -34,28 +36,28 @@ export const useAgentFormHandling = ({
         setStructure
       );
       if (updatedStructure === "OK") {
-        setState(FetchState.IDLE);
+        setFetchState("structure-save", FetchState.IDLE);
       } else {
         console.error(updatedStructure);
-        setState(FetchState.ERROR);
+        setFetchState("structure-save", FetchState.ERROR);
         setBackendError(updatedStructure?.toString());
         throw new Error(updatedStructure?.toString());
       }
     } catch (error) {
-      setState(FetchState.ERROR);
+      setFetchState("structure-save", FetchState.ERROR);
       setBackendError(error instanceof Error ? error.message : String(error));
       throw error;
     }
   };
 
   const handleValidation = async (data: FormSubmitData) => {
-    setState(FetchState.LOADING);
+    setFetchState("structure-save", FetchState.LOADING);
     console.log("handleValidation", data);
-    setState(FetchState.IDLE);
+    setFetchState("structure-save", FetchState.IDLE);
   };
 
   const handleSubmit = async (data: FormSubmitData) => {
-    setState(FetchState.LOADING);
+    setFetchState("structure-save", FetchState.LOADING);
 
     try {
       const updatedStructure = await updateAndRefreshStructure(
@@ -69,12 +71,12 @@ export const useAgentFormHandling = ({
         }
       } else {
         console.error(updatedStructure);
-        setState(FetchState.ERROR);
+        setFetchState("structure-save", FetchState.ERROR);
         setBackendError(updatedStructure?.toString());
         throw new Error(updatedStructure?.toString());
       }
     } catch (error) {
-      setState(FetchState.ERROR);
+      setFetchState("structure-save", FetchState.ERROR);
       setBackendError(error instanceof Error ? error.message : String(error));
       throw error;
     }
@@ -84,8 +86,8 @@ export const useAgentFormHandling = ({
     handleSubmit,
     handleAutoSave,
     handleValidation,
-    state,
     backendError,
+    save: getFetchState("structure-save"),
   };
 };
 

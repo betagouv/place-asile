@@ -9,6 +9,7 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
@@ -47,7 +48,7 @@ export default function FinalisationFinance() {
 
   const defaultValues = getDefaultValues({ structure });
 
-  const { handleValidation, handleAutoSave, state, backendError } =
+  const { handleValidation, handleAutoSave, backendError } =
     useAgentFormHandling();
 
   const onAutoSave = async (data: basicAutoSaveFormValues) => {
@@ -61,6 +62,10 @@ export default function FinalisationFinance() {
     await handleAutoSave({ ...data, dnaCode: structure.dnaCode });
   };
 
+  const { getFetchState } = useFetchState();
+
+  const saveState = getFetchState("structure-save");
+
   return (
     <div>
       <Tabs currentStep={currentStep} structure={structure} />
@@ -72,11 +77,7 @@ export default function FinalisationFinance() {
         onSubmit={handleValidation}
         className="rounded-t-none"
       >
-        <AutoSave
-          schema={basicAutoSaveSchema}
-          onSave={onAutoSave}
-          state={state}
-        />
+        <AutoSave schema={basicAutoSaveSchema} onSave={onAutoSave} />
 
         <InformationBar
           variant="complete"
@@ -88,7 +89,7 @@ export default function FinalisationFinance() {
         <hr />
 
         <BudgetTables />
-        {state === FetchState.ERROR && (
+        {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

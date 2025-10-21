@@ -12,6 +12,7 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { transformAgentFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
@@ -33,7 +34,7 @@ export default function FinalisationIdentification(): ReactElement {
 
   const defaultValues = getDefaultValues({ structure });
 
-  const { handleValidation, handleAutoSave, state, backendError } =
+  const { handleValidation, handleAutoSave, backendError } =
     useAgentFormHandling();
 
   const onAutoSave = async (
@@ -42,6 +43,10 @@ export default function FinalisationIdentification(): ReactElement {
     const contacts = transformAgentFormContactsToApiContacts(data.contacts);
     await handleAutoSave({ ...data, contacts });
   };
+
+  const { getFetchState } = useFetchState();
+
+  const saveState = getFetchState("structure-save");
 
   return (
     <div>
@@ -58,7 +63,6 @@ export default function FinalisationIdentification(): ReactElement {
         <AutoSave
           schema={finalisationIdentificationAutoSaveSchema}
           onSave={onAutoSave}
-          state={state}
         />
         <InformationBar
           variant="verify"
@@ -80,7 +84,7 @@ export default function FinalisationIdentification(): ReactElement {
 
         <FieldSetTypePlaces formKind={FormKind.FINALISATION} />
 
-        {state === FetchState.ERROR && (
+        {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

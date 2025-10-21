@@ -8,6 +8,7 @@ import FormWrapper, {
 import { NoteDisclaimer } from "@/app/components/forms/notes/NoteDisclaimer";
 import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
@@ -27,12 +28,16 @@ export default function FinalisationNotes() {
 
   const defaultValues = getDefaultValues({ structure });
 
-  const { handleValidation, handleAutoSave, state, backendError } =
+  const { handleValidation, handleAutoSave, backendError } =
     useAgentFormHandling();
 
   const onAutoSave = async (data: NotesAutoSaveFormValues) => {
     await handleAutoSave({ ...data, dnaCode: structure.dnaCode });
   };
+
+  const { getFetchState } = useFetchState();
+
+  const saveState = getFetchState("structure-save");
 
   return (
     <div>
@@ -45,11 +50,7 @@ export default function FinalisationNotes() {
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         className="rounded-t-none"
       >
-        <AutoSave
-          schema={notesAutoSaveSchema}
-          onSave={onAutoSave}
-          state={state}
-        />
+        <AutoSave schema={notesAutoSaveSchema} onSave={onAutoSave} />
         <InformationBar
           variant="complete"
           title="À compléter"
@@ -59,7 +60,7 @@ export default function FinalisationNotes() {
         <NoteDisclaimer />
 
         <FieldSetNotes />
-        {state === FetchState.ERROR && (
+        {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

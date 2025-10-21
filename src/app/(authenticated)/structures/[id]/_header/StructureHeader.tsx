@@ -5,7 +5,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { ReactElement } from "react";
 import { useEffect, useRef } from "react";
 
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { getOperateurLabel } from "@/app/utils/structure.util";
+import { FetchState } from "@/types/fetch-state.type";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../context/StructureClientContext";
@@ -55,6 +57,10 @@ export function StructureHeader(): ReactElement | null {
     router.push(`/structures/${structure.id}/finalisation/01-identification`);
   };
 
+  const { getFetchState } = useFetchState();
+
+  const saveState = getFetchState("structure-save");
+
   return structure ? (
     <>
       <div className="sticky top-0 z-2 bg-lifted-grey" ref={structureHeaderRef}>
@@ -72,14 +78,17 @@ export function StructureHeader(): ReactElement | null {
             </h2>
             <h3 className="text-title-blue-france fr-h6 mb-0">
               <strong className="pr-2">
-                {type}, {getOperateurLabel(filiale, operateur?.name)}, {structureTypologies?.[0].placesAutorisees}{" "}
-                places
+                {type}, {getOperateurLabel(filiale, operateur?.name)},{" "}
+                {structureTypologies?.[0].placesAutorisees} places
               </strong>
               <span className="pr-2">{" – "}</span>
               <span className="mb-0 text-title-grey fr-text--lg italic font-normal">
                 {nom ? `${nom}, ` : ""} {communeAdministrative},{" "}
                 {departementAdministratif}
               </span>
+              {saveState === FetchState.LOADING && <span>Loading</span>}
+              {saveState === FetchState.ERROR && <span>Error</span>}
+              {saveState === FetchState.IDLE && <span>Idle</span>}
             </h3>
           </div>
           <div className="grow" />
