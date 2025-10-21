@@ -11,9 +11,9 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getFileUploadsDefaultValues } from "@/app/utils/defaultValues.util";
 import {
-  ModificationControleFormValues,
-  modificationControleSchema,
-} from "@/schemas/modification/modificationControle.schema";
+  ControlesFormValues,
+  controlesSchema,
+} from "@/schemas/base/controles.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
@@ -32,10 +32,9 @@ export default function ModificationControleForm() {
 
   const defaultValues = getFileUploadsDefaultValues({
     structure,
-    categoriesToDisplay: ["INSPECTION_CONTROLE"],
   });
 
-  const onSubmit = async (data: ModificationControleFormValues) => {
+  const onSubmit = async (data: ControlesFormValues) => {
     const controles = data.controles?.map((controle) => {
       return {
         id: controle.id || undefined,
@@ -55,7 +54,7 @@ export default function ModificationControleForm() {
     <div>
       <Tabs currentStep={currentStep} structure={structure} />
       <FormWrapper
-        schema={modificationControleSchema}
+        schema={controlesSchema}
         onSubmit={onSubmit}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}

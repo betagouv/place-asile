@@ -15,9 +15,9 @@ import {
 import { getFileUploadsDefaultValues } from "@/app/utils/defaultValues.util";
 import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
 import {
-  ModificationDocumentFormValues,
-  modificationDocumentSchema,
-} from "@/schemas/modification/modificationDocument.schema";
+  FileUploadsFormValues,
+  fileUploadsSchema,
+} from "@/schemas/base/documents.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
@@ -38,12 +38,11 @@ export default function ModificationQualiteForm() {
 
   const defaultValues = getFileUploadsDefaultValues({
     structure,
-    categoriesToDisplay,
   });
 
   const onSubmit = async (
-    data: ModificationDocumentFormValues,
-    methods: UseFormReturn<ModificationDocumentFormValues>
+    data: FileUploadsFormValues,
+    methods: UseFormReturn<FileUploadsFormValues>
   ) => {
     const fileUploads = await filterFileUploads(
       data.fileUploads,
@@ -64,7 +63,7 @@ export default function ModificationQualiteForm() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={modificationDocumentSchema}
+        schema={fileUploadsSchema}
         onSubmit={onSubmit}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}

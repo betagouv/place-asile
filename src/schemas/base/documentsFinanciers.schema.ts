@@ -3,14 +3,17 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { z } from "zod";
 
 import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
-import { zOperateurFileUploadCategory } from "@/types/file-upload.type";
+import {
+  zFileUploadCategory,
+  zOperateurFileUploadCategory,
+} from "@/types/file-upload.type";
 
 dayjs.extend(customParseFormat);
 
 const DocumentFinancierFlexibleSchema = z.object({
   key: z.string().optional(),
   date: createDateFieldValidator().optional(),
-  category: zOperateurFileUploadCategory.optional(),
+  category: zFileUploadCategory.optional(),
 });
 
 export const DocumentsFinanciersFlexibleSchema = z.object({

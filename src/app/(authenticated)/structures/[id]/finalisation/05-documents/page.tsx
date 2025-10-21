@@ -14,11 +14,12 @@ import {
   getCategoriesDisplayRules,
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
-import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFileUploadsDefaultValues } from "@/app/utils/defaultValues.util";
 import {
-  FinalisationQualiteFormValues,
-  finalisationQualiteSchema,
-} from "@/schemas/finalisation/finalisationQualite.schema";
+  FileUploadsAutoSaveFormValues,
+  fileUploadsAutoSaveSchema,
+  fileUploadsSchema,
+} from "@/schemas/base/documents.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../context/StructureClientContext";
@@ -38,27 +39,17 @@ export default function FinalisationQualite() {
   const { handleValidation, handleAutoSave, state, backendError } =
     useAgentFormHandling();
 
-  const defaultValues = getQualiteFormDefaultValues({
+  const defaultValues = getFileUploadsDefaultValues({
     structure,
-    categoriesToDisplay,
   });
 
-  const onAutoSave = async (data: FinalisationQualiteFormValues) => {
+  const onAutoSave = async (data: FileUploadsAutoSaveFormValues) => {
     const fileUploads = data.fileUploads?.filter(
       (fileUpload) => fileUpload.key
     );
-    const controles = data.controles?.map((controle) => {
-      return {
-        id: controle.id || undefined,
-        date: controle.date,
-        type: controle.type,
-        fileUploadKey: controle.fileUploads?.[0].key,
-      };
-    });
 
     await handleAutoSave({
       fileUploads: fileUploads,
-      controles,
       dnaCode: structure.dnaCode,
     });
   };
@@ -67,7 +58,7 @@ export default function FinalisationQualite() {
     <div>
       <Tabs currentStep={currentStep} structure={structure} />
       <FormWrapper
-        schema={finalisationQualiteSchema}
+        schema={fileUploadsSchema}
         onSubmit={handleValidation}
         submitButtonText="Étape suivante"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
@@ -75,7 +66,7 @@ export default function FinalisationQualite() {
         className="rounded-t-none"
       >
         <AutoSave
-          schema={finalisationQualiteSchema}
+          schema={fileUploadsAutoSaveSchema}
           onSave={onAutoSave}
           state={state}
         />
