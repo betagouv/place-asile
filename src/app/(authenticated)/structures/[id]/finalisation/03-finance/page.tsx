@@ -32,7 +32,7 @@ import { Tabs } from "../_components/Tabs";
 export default function FinalisationFinance() {
   const { structure } = useStructureContext();
 
-  const currentStep = 3;
+  const currentStep = "03-finance";
 
   const hasCpom = structure?.cpom;
   const isAutorisee = isStructureAutorisee(structure?.type);

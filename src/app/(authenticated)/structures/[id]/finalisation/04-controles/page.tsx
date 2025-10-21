@@ -23,7 +23,7 @@ import { Tabs } from "../_components/Tabs";
 export default function ModificationControleForm() {
   const { structure } = useStructureContext();
 
-  const currentStep = 4;
+  const currentStep = "04-controles";
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 

@@ -29,7 +29,7 @@ import { Tabs } from "../_components/Tabs";
 export default function FinalisationQualite() {
   const { structure } = useStructureContext();
 
-  const currentStep = 5;
+  const currentStep = "05-documents";
 
   const categoriesToDisplay = getCategoriesToDisplay(structure).filter(
     (category) => category !== "INSPECTION_CONTROLE"

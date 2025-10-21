@@ -21,7 +21,7 @@ import { Tabs } from "../_components/Tabs";
 export default function FinalisationDocumentsFinanciers() {
   const { structure } = useStructureContext();
 
-  const currentStep = 2;
+  const currentStep = "02-documents-financiers";
 
   const defaultValues = getDefaultValues({ structure });
 

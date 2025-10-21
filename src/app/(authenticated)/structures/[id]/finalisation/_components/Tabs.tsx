@@ -64,12 +64,12 @@ export const steps: Step[] = [
 export const Tabs = ({ structure, currentStep }: Props) => {
   return (
     <div className="grid grid-cols-6 gap-1 mb-[-1px]">
-      {steps.map((step, index) => (
+      {steps.map((step) => (
         <Tab
           key={step.route}
           title={step.title}
           route={`/structures/${structure.id}/finalisation/${step.route}`}
-          current={index + 1 === currentStep}
+          current={step.route === currentStep}
         />
       ))}
     </div>
@@ -77,7 +77,7 @@ export const Tabs = ({ structure, currentStep }: Props) => {
 };
 
 type Props = {
-  currentStep: number;
+  currentStep: string;
   structure: Structure;
 };
 

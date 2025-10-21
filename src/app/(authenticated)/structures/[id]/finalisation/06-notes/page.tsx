@@ -24,7 +24,7 @@ import { Tabs } from "../_components/Tabs";
 export default function FinalisationNotes() {
   const { structure } = useStructureContext();
 
-  const currentStep = 6;
+  const currentStep = "06-notes";
 
   const defaultValues = getDefaultValues({ structure });
 

@@ -30,7 +30,7 @@ import { Tabs } from "../_components/Tabs";
 export default function FinalisationIdentification(): ReactElement {
   const { structure } = useStructureContext();
 
-  const currentStep = 1;
+  const currentStep = "01-identification";
 
   const defaultValues = getDefaultValues({ structure });
 
