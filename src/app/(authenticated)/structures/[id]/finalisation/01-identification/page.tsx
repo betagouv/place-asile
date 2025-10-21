@@ -35,7 +35,7 @@ export default function FinalisationIdentification(): ReactElement {
   const defaultValues = getDefaultValues({ structure });
 
   const { handleValidation, handleAutoSave, backendError } =
-    useAgentFormHandling();
+    useAgentFormHandling({ currentStep });
 
   const onAutoSave = async (
     data: FinalisationIdentificationAutoSaveFormValues

@@ -26,7 +26,7 @@ export default function FinalisationDocumentsFinanciers() {
   const defaultValues = getDefaultValues({ structure });
 
   const { handleValidation, handleAutoSave, backendError } =
-    useAgentFormHandling();
+    useAgentFormHandling({ currentStep });
 
   const onAutoSave = async (data: DocumentsFinanciersFlexibleFormValues) => {
     const fileUploads = data.fileUploads.filter((fileUpload) => fileUpload.key);

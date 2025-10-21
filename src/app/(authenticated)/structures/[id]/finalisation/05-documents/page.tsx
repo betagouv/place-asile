@@ -38,7 +38,7 @@ export default function FinalisationQualite() {
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
   const { handleValidation, handleAutoSave, backendError } =
-    useAgentFormHandling();
+    useAgentFormHandling({ currentStep });
 
   const defaultValues = getDefaultValues({
     structure,

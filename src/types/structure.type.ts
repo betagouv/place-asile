@@ -59,9 +59,7 @@ export type Structure = {
 };
 
 export type FinalisationStep = {
-  step: number;
-  title: string;
-  route: string;
+  label: string;
   completed: boolean;
 };
 

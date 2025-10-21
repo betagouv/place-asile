@@ -29,7 +29,7 @@ export default function FinalisationNotes() {
   const defaultValues = getDefaultValues({ structure });
 
   const { handleValidation, handleAutoSave, backendError } =
-    useAgentFormHandling();
+    useAgentFormHandling({ currentStep });
 
   const onAutoSave = async (data: NotesAutoSaveFormValues) => {
     await handleAutoSave({ ...data, dnaCode: structure.dnaCode });

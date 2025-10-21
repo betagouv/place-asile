@@ -1,4 +1,5 @@
 "use client";
+
 import Notice from "@codegouvfr/react-dsfr/Notice";
 
 import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
@@ -28,7 +29,7 @@ export default function ModificationControleForm() {
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
   const { handleSubmit, backendError } = useAgentFormHandling({
-    nextRoute: `/structures/${structure.id}`,
+    currentStep,
   });
 
   const defaultValues = getDefaultValues({

@@ -10,7 +10,8 @@ import { useStructures } from "./useStructures";
 
 export const useAgentFormHandling = ({
   nextRoute,
-}: { nextRoute?: string } = {}) => {
+  currentStep,
+}: Props = {}) => {
   const router = useRouter();
 
   const { structure, setStructure } = useStructureContext();
@@ -53,9 +54,15 @@ export const useAgentFormHandling = ({
   };
 
   const handleValidation = async (data: FormSubmitData) => {
-    setFetchState("structure-save", FetchState.LOADING);
-    console.log("handleValidation", data);
-    setFetchState("structure-save", FetchState.IDLE);
+    await updateStructure({
+      ...data,
+      finalisationSteps: [
+        ...(structure.finalisationSteps || []).filter(
+          (step) => step.label !== currentStep
+        ),
+        { label: currentStep, completed: true },
+      ],
+    });
   };
 
   const handleFinalisation = async () => {
@@ -88,6 +95,11 @@ export const useAgentFormHandling = ({
     backendError,
     isStructureReadyToFinalise,
   };
+};
+
+export type Props = {
+  nextRoute?: string;
+  currentStep?: string;
 };
 
 export type FormSubmitData = {
