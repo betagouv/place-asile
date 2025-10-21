@@ -2,7 +2,7 @@ import { render, screen, within } from "@testing-library/react";
 
 import { Structure } from "@/types/structure.type";
 
-import { StructuresTable } from "../../../src/app/(authenticated)/structures/StructuresTable";
+import { StructuresTable } from "../../../src/app/(authenticated)/structures/_components/StructuresTable";
 import { createAdresse } from "../../test-utils/adresse.factory";
 import { createStructure } from "../../test-utils/structure.factory";
 import { createStructureTypologie } from "../../test-utils/structure-typologie.factory";
@@ -13,12 +13,18 @@ describe("StructuresTable", () => {
     const adresse1 = createAdresse({});
     const adresse2 = createAdresse({});
     const adresse3 = createAdresse({});
-    const structureTypologies1 = [createStructureTypologie()]
-    const structureTypologies2 = [createStructureTypologie()]
-    const structureTypologies3 = [createStructureTypologie()]
-    const structure1 = createStructure({structureTypologies: structureTypologies1});
-    const structure2 = createStructure({structureTypologies: structureTypologies2});
-    const structure3 = createStructure({structureTypologies: structureTypologies3});
+    const structureTypologies1 = [createStructureTypologie()];
+    const structureTypologies2 = [createStructureTypologie()];
+    const structureTypologies3 = [createStructureTypologie()];
+    const structure1 = createStructure({
+      structureTypologies: structureTypologies1,
+    });
+    const structure2 = createStructure({
+      structureTypologies: structureTypologies2,
+    });
+    const structure3 = createStructure({
+      structureTypologies: structureTypologies3,
+    });
     structure1.adresses = [adresse1];
     structure2.adresses = [adresse2];
     structure3.adresses = [adresse3];

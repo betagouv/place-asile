@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { FetchState } from "@/types/fetch-state.type";
 
-import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "../(authenticated)/structures/[id]/_context/StructureClientContext";
 import { useFetchState } from "../context/FetchStateContext";
 import { useStructures } from "./useStructures";
 

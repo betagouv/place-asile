@@ -1,7 +1,7 @@
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
 import { useFormContext } from "react-hook-form";
 
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 // TODO: globalize this component
 import { UploadItem } from "@/app/(password-protected)/ajout-structure/components/UploadItem";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
@@ -19,7 +19,7 @@ import {
   structureSubventionneesDocuments,
 } from "./documentsStructures";
 
-export const Documents = ({ className }: { className?: string }) => {
+export const DocumentsAccordion = ({ className }: { className?: string }) => {
   const { structure } = useStructureContext();
   const { control, register, formState } = useFormContext();
   const isSubventionnee = isStructureSubventionnee(structure?.type);

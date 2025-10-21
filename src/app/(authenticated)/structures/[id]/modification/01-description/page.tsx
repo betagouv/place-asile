@@ -2,7 +2,7 @@
 
 import Notice from "@codegouvfr/react-dsfr/Notice";
 
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
 import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
 import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";

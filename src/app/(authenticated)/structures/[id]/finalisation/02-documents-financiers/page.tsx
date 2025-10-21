@@ -1,5 +1,5 @@
 "use client";
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { AutoSave } from "@/app/components/forms/AutoSave";
 import { Documents } from "@/app/components/forms/finance/documents/Documents";
 import FormWrapper, {

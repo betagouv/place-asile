@@ -16,7 +16,7 @@ import {
 } from "@/schemas/base/controles.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
-import { useStructureContext } from "../../context/StructureClientContext";
+import { useStructureContext } from "../../_context/StructureClientContext";
 import { ModificationTitle } from "../components/ModificationTitle";
 
 export default function ModificationControleForm() {

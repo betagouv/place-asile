@@ -1,7 +1,7 @@
 "use client";
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { BudgetTables } from "@/app/components/forms/finance/BudgetTables";
-import { Documents } from "@/app/components/forms/finance/documents/Documents";
+import { DocumentsAccordion } from "@/app/components/forms/finance/documents/DocumentsAccordion";
 import { IndicateursGeneraux } from "@/app/components/forms/finance/IndicateursGeneraux";
 import FormWrapper, {
   FooterButtonType,
@@ -77,7 +77,7 @@ export default function ModificationFinanceForm() {
         onSubmit={onSubmit}
         className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
       >
-        <Documents className="mb-6" />
+        <DocumentsAccordion className="mb-6" />
         <IndicateursGeneraux />
         <hr />
 
