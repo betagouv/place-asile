@@ -14,7 +14,7 @@ import {
   getCategoriesDisplayRules,
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
-import { getFileUploadsDefaultValues } from "@/app/utils/defaultValues.util";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   FileUploadsAutoSaveFormValues,
   fileUploadsAutoSaveSchema,
@@ -39,7 +39,7 @@ export default function FinalisationQualite() {
   const { handleValidation, handleAutoSave, state, backendError } =
     useAgentFormHandling();
 
-  const defaultValues = getFileUploadsDefaultValues({
+  const defaultValues = getDefaultValues({
     structure,
   });
 

@@ -9,7 +9,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
-import { getFileUploadsDefaultValues } from "@/app/utils/defaultValues.util";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   ControlesFormValues,
   controlesSchema,
@@ -30,7 +30,7 @@ export default function ModificationControleForm() {
     nextRoute: `/structures/${structure.id}`,
   });
 
-  const defaultValues = getFileUploadsDefaultValues({
+  const defaultValues = getDefaultValues({
     structure,
   });
 

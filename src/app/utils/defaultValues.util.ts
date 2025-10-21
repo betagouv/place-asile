@@ -1,10 +1,10 @@
 import { getRepartition } from "@/app/utils/structure.util";
 import { FormAdresse } from "@/schemas/base/adresse.schema";
+import { ControleFormValues } from "@/schemas/base/controles.schema";
 import { FileUploadFormValues } from "@/schemas/base/documents.schema";
 import { Repartition } from "@/types/adresse.type";
 import { Budget } from "@/types/budget.type";
 import { Contact } from "@/types/contact.type";
-import { AgentFileUploadCategoryType } from "@/types/file-upload.type";
 import { PublicType, StructureWithLatLng } from "@/types/structure.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
 
@@ -46,6 +46,17 @@ export const getDefaultValues = ({
         ? budgetsFilteredByYears[index]
         : emptyBudget
     );
+
+  const categoriesToDisplay = getCategoriesToDisplay(structure);
+
+  const filteredFileUploads = filterFileUploads({
+    structure,
+    categoriesToDisplay,
+  });
+
+  const defaultValuesFromDb = getDefaultValuesFromDb(filteredFileUploads);
+
+  const controles = getControlesDefaultValues(structure.controles);
 
   return {
     ...structure,
@@ -99,55 +110,6 @@ export const getDefaultValues = ({
       ? formatDate(structure.echeancePlacesAFermer)
       : undefined,
     budgets,
-  };
-};
-
-export const getQualiteFormDefaultValues = ({
-  structure,
-  categoriesToDisplay,
-}: {
-  structure: StructureWithLatLng;
-  categoriesToDisplay: AgentFileUploadCategoryType[number][];
-}) => {
-  const filteredFileUploads = filterFileUploads({
-    structure,
-    categoriesToDisplay,
-  });
-
-  const defaultValuesFromDb = getDefaultValuesFromDb(filteredFileUploads);
-
-  const controles = getControlesDefaultValues(structure.controles);
-
-  const defaultValues = {
-    fileUploads: [
-      ...defaultValuesFromDb,
-      ...createEmptyDefaultValues(categoriesToDisplay, filteredFileUploads),
-    ],
-    controles,
-  };
-
-  return defaultValues;
-};
-
-export const getFileUploadsDefaultValues = ({
-  structure,
-}: {
-  structure: StructureWithLatLng;
-}) => {
-  const isAutorisee = isStructureAutorisee(structure?.type);
-
-  const categoriesToDisplay = getCategoriesToDisplay(structure);
-
-  const filteredFileUploads = filterFileUploads({
-    structure,
-    categoriesToDisplay,
-  });
-
-  const defaultValuesFromDb = getDefaultValuesFromDb(filteredFileUploads);
-
-  const controles = getControlesDefaultValues(structure.controles);
-
-  const defaultValues = {
     fileUploads: [
       ...buildFileUploadsDefaultValues({ structure, isAutorisee }),
       ...defaultValuesFromDb,
@@ -155,7 +117,6 @@ export const getFileUploadsDefaultValues = ({
     ] as FileUploadFormValues[],
     controles,
   };
-  return defaultValues;
 };
 
 type StructureDefaultValues = Omit<
@@ -183,6 +144,8 @@ type StructureDefaultValues = Omit<
   | "placesAFermer"
   | "echeancePlacesACreer"
   | "echeancePlacesAFermer"
+  | "fileUploads"
+  | "controles"
 > & {
   creationDate: string;
   nom: string;
@@ -208,4 +171,6 @@ type StructureDefaultValues = Omit<
   placesAFermer?: number;
   echeancePlacesACreer?: string;
   echeancePlacesAFermer?: string;
+  fileUploads: FileUploadFormValues[];
+  controles: ControleFormValues[];
 };
