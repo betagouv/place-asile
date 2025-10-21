@@ -16,7 +16,7 @@
 //   }
 // };
 
-import { StepStatus } from '@/app/api/forms/types';
+import { StepStatus } from '@/app/api/forms/form.types';
 
 export type ValidateFormStepRequest = {
     structureDnaCode: string;
