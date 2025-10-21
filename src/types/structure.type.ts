@@ -55,6 +55,14 @@ export type Structure = {
   operateur?: Operateur;
   createdAt?: Date;
   updatedAt?: Date;
+  finalisationSteps?: FinalisationStep[];
+};
+
+export type FinalisationStep = {
+  step: number;
+  title: string;
+  route: string;
+  completed: boolean;
 };
 
 export type StructureWithLatLng = Structure & {

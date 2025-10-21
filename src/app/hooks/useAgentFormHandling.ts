@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { FetchState } from "@/types/fetch-state.type";
@@ -56,6 +56,12 @@ export const useAgentFormHandling = ({
     setFetchState("structure-save", FetchState.IDLE);
   };
 
+  const handleFinalisation = async () => {
+    setFetchState("structure-save", FetchState.LOADING);
+    console.log("handleFinalisation");
+    setFetchState("structure-save", FetchState.IDLE);
+  };
+
   const handleSubmit = async (data: FormSubmitData) => {
     setFetchState("structure-save", FetchState.LOADING);
 
@@ -82,12 +88,25 @@ export const useAgentFormHandling = ({
     }
   };
 
+  const [isStructureReadyToFinalise, setIsStructureReadyToFinalise] =
+    useState(false);
+
+  useEffect(() => {
+    if (structure.finalisationSteps?.every((step) => step.completed)) {
+      setIsStructureReadyToFinalise(true);
+    } else {
+      setIsStructureReadyToFinalise(false);
+    }
+  }, [structure]);
+
   return {
     handleSubmit,
     handleAutoSave,
     handleValidation,
+    handleFinalisation,
     backendError,
-    save: getFetchState("structure-save"),
+    state: getFetchState("structure-save"),
+    isStructureReadyToFinalise,
   };
 };
 

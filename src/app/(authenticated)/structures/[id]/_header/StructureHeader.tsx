@@ -1,11 +1,13 @@
 "use client";
 
+import Button from "@codegouvfr/react-dsfr/Button";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { ReactElement } from "react";
 import { useEffect, useRef } from "react";
 
 import { useFetchState } from "@/app/context/FetchStateContext";
+import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getOperateurLabel } from "@/app/utils/structure.util";
 import { FetchState } from "@/types/fetch-state.type";
 import { StructureState } from "@/types/structure.type";
@@ -16,12 +18,18 @@ import { NavigationMenu } from "./NavigationMenu";
 
 export function StructureHeader(): ReactElement | null {
   const { structure } = useStructureContext();
-  const router = useRouter();
+
+  const { handleFinalisation, isStructureReadyToFinalise } =
+    useAgentFormHandling();
+
   const structureHeaderRef = useRef<HTMLDivElement>(null);
   const structureHeaderHeight = useRef(0);
 
   const pathname = usePathname();
   const isRootPath = pathname === `/structures/${structure?.id}`;
+  const isFinalisationPath = pathname.startsWith(
+    `/structures/${structure?.id}/finalisation`
+  );
 
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -53,10 +61,6 @@ export function StructureHeader(): ReactElement | null {
     departementAdministratif,
   } = structure || {};
 
-  const onEditClick = () => {
-    router.push(`/structures/${structure.id}/finalisation/01-identification`);
-  };
-
   const { getFetchState } = useFetchState();
 
   const saveState = getFetchState("structure-save");
@@ -86,21 +90,27 @@ export function StructureHeader(): ReactElement | null {
                 {nom ? `${nom}, ` : ""} {communeAdministrative},{" "}
                 {departementAdministratif}
               </span>
-              {saveState === FetchState.LOADING && <span>Loading</span>}
-              {saveState === FetchState.ERROR && <span>Error</span>}
-              {saveState === FetchState.IDLE && <span>Idle</span>}
             </h3>
           </div>
           <div className="grow" />
-          {isRootPath && structure.state === StructureState.FINALISE && (
-            <Link
-              href={`/structures/${structure.id}/finalisation/01-identification`}
-              className="h-full fr-btn fr-btn--secondary fr-btn--sm"
-              onClick={onEditClick}
-            >
-              <span className="fr-icon-edit-line fr-icon--sm pr-2" />
-              Modifier
-            </Link>
+          {isFinalisationPath && (
+            <div className="flex items-center gap-3">
+              {saveState === FetchState.LOADING && (
+                <span className="fr-icon-more-fill text-mention-grey" />
+              )}
+              {saveState === FetchState.ERROR && (
+                <span className="fr-icon-warning-line text-default-error" />
+              )}
+              {saveState === FetchState.IDLE && (
+                <span className="fr-icon-save-line text-mention-grey" />
+              )}
+              <Button
+                disabled={!isStructureReadyToFinalise}
+                onClick={handleFinalisation}
+              >
+                Finaliser la création
+              </Button>
+            </div>
           )}
         </div>
         {isRootPath && <NavigationMenu />}

@@ -11,7 +11,6 @@ export const useAutoSave = <TSchema extends z.ZodTypeAny>(
   const { watch, getValues } = useFormContext<z.infer<TSchema>>();
 
   const debouncedSave = useDebounceCallback(async () => {
-    console.log("debouncedSave");
     const allValues = getValues();
 
     const result = schema.safeParse(allValues);
