@@ -59,8 +59,14 @@ export const DocumentsAccordion = ({ className }: { className?: string }) => {
             {documents.map((document) => {
               const todayYear = new Date().getFullYear();
               if (Number(year) <= todayYear - document.yearIndex) {
+              if (Number(year) <= todayYear - document.yearIndex) {
                 const documentKey = `${document.value}-${year}`;
                 const currentDocIndex = documentIndexes[documentKey];
+
+                if (currentDocIndex === undefined) {
+                  console.warn(`Document index not found for key: ${documentKey}`);
+                  return null;
+                }
 
                 return (
                   <UploadItem

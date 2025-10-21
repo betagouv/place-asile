@@ -34,9 +34,9 @@ export default function FinalisationFinance() {
 
   const currentStep = "03-finance";
 
-  const hasCpom = structure?.cpom;
-  const isAutorisee = isStructureAutorisee(structure?.type);
-  const isSubventionnee = isStructureSubventionnee(structure?.type);
+  const hasCpom = structure.cpom;
+  const isAutorisee = isStructureAutorisee(structure.type);
+  const isSubventionnee = isStructureSubventionnee(structure.type);
 
   let schema;
   if (isAutorisee) {
@@ -51,14 +51,11 @@ export default function FinalisationFinance() {
     useAgentFormHandling({ currentStep });
 
   const onAutoSave = async (data: basicAutoSaveFormValues) => {
-    if (data.budgets) {
-      data.budgets.forEach((budget) => {
-        if (budget.id === "") {
-          delete budget.id;
-        }
-      });
-    }
-    await handleAutoSave({ ...data, dnaCode: structure.dnaCode });
+    const budgets = data.budgets?.map((budget) => {
+      const { id, ...rest } = budget;
+      return id === "" ? rest : budget;
+    });
+    await handleAutoSave({ ...data, budgets, dnaCode: structure.dnaCode });
   };
 
   const { getFetchState } = useFetchState();

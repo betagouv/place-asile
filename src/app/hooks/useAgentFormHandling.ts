@@ -53,9 +53,8 @@ export const useAgentFormHandling = ({
     await updateStructure(data);
   };
 
-  const handleValidation = async (data: FormSubmitData) => {
+  const handleValidation = async () => {
     await updateStructure({
-      ...data,
       finalisationSteps: [
         ...(structure.finalisationSteps || []).filter(
           (step) => step.label !== currentStep

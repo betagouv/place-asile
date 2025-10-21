@@ -68,10 +68,10 @@ const getCommuneLabel = (structure: Structure) => {
   return (
     <>
       <span>{mainCommune} </span>
-      {mainCommune && communesWithoutMainCommune.length > 1 && (
+      {mainCommune && communesWithoutMainCommune.length > 0 && (
         <span className="underline text-mention-grey inline-flex ms-1">
           <Tooltip title={communesWithoutMainCommune.join(", ")}>
-            + {communesWithoutMainCommune.length} autres
+            {communesWithoutMainCommune.length} autres
           </Tooltip>
         </span>
       )}

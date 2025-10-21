@@ -42,9 +42,7 @@ export default function FinalisationDocumentsFinanciers() {
       <Tabs currentStep={currentStep} structure={structure} />
       <FormWrapper
         schema={DocumentsFinanciersFlexibleSchema}
-        defaultValues={
-          defaultValues as unknown as DocumentsFinanciersFlexibleFormValues
-        }
+        defaultValues={defaultValues}
         submitButtonText="Je valide la saisie de cette page"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         onSubmit={handleValidation}
