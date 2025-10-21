@@ -121,7 +121,8 @@ export function StructureHeader(): ReactElement | null {
               <Button
                 disabled={!isStructureReadyToFinalise}
                 onClick={async () => {
-                  await handleFinalisation(finalisationSuccessModal.open);
+                  await handleFinalisation();
+                  finalisationSuccessModal.open();
                 }}
               >
                 Finaliser la création

@@ -23,28 +23,33 @@ export const useAgentFormHandling = ({
     undefined
   );
 
-  const handleAutoSave = async (data: FormSubmitData) => {
+  const updateStructure = async (data: FormSubmitData): Promise<void> => {
     setFetchState("structure-save", FetchState.LOADING);
 
     try {
-      const updatedStructure = await updateAndRefreshStructure(
+      const result = await updateAndRefreshStructure(
         structure.id,
         data,
         setStructure
       );
-      if (updatedStructure === "OK") {
-        setFetchState("structure-save", FetchState.IDLE);
-      } else {
-        console.error(updatedStructure);
-        setFetchState("structure-save", FetchState.ERROR);
-        setBackendError(updatedStructure?.toString());
-        throw new Error(updatedStructure?.toString());
+
+      if (result !== "OK") {
+        throw new Error(result?.toString());
       }
+
+      setFetchState("structure-save", FetchState.IDLE);
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      console.error(errorMessage);
       setFetchState("structure-save", FetchState.ERROR);
-      setBackendError(error instanceof Error ? error.message : String(error));
+      setBackendError(errorMessage);
       throw error;
     }
+  };
+
+  const handleAutoSave = async (data: FormSubmitData) => {
+    await updateStructure(data);
   };
 
   const handleValidation = async (data: FormSubmitData) => {
@@ -53,55 +58,14 @@ export const useAgentFormHandling = ({
     setFetchState("structure-save", FetchState.IDLE);
   };
 
-  const handleFinalisation = async (callback?: () => void) => {
-    setFetchState("structure-save", FetchState.LOADING);
-    try {
-      const updatedStructure = await updateAndRefreshStructure(
-        structure.id,
-        { state: StructureState.FINALISE },
-        setStructure
-      );
-      if (updatedStructure === "OK") {
-        setFetchState("structure-save", FetchState.IDLE);
-        if (callback) {
-          callback();
-        }
-      } else {
-        console.error(updatedStructure);
-        setFetchState("structure-save", FetchState.ERROR);
-        setBackendError(updatedStructure?.toString());
-        throw new Error(updatedStructure?.toString());
-      }
-    } catch (error) {
-      setFetchState("structure-save", FetchState.ERROR);
-      setBackendError(error instanceof Error ? error.message : String(error));
-      throw error;
-    }
+  const handleFinalisation = async () => {
+    await updateStructure({ state: StructureState.FINALISE });
   };
 
   const handleSubmit = async (data: FormSubmitData) => {
-    setFetchState("structure-save", FetchState.LOADING);
-
-    try {
-      const updatedStructure = await updateAndRefreshStructure(
-        structure.id,
-        data,
-        setStructure
-      );
-      if (updatedStructure === "OK") {
-        if (nextRoute) {
-          router.push(nextRoute);
-        }
-      } else {
-        console.error(updatedStructure);
-        setFetchState("structure-save", FetchState.ERROR);
-        setBackendError(updatedStructure?.toString());
-        throw new Error(updatedStructure?.toString());
-      }
-    } catch (error) {
-      setFetchState("structure-save", FetchState.ERROR);
-      setBackendError(error instanceof Error ? error.message : String(error));
-      throw error;
+    await updateStructure(data);
+    if (nextRoute) {
+      router.push(nextRoute);
     }
   };
 
