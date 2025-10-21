@@ -51,15 +51,19 @@ export const useStepValidation = () => {
 
     const getFormStep = async (structureDnaCode: string, stepLabel: string, formName: string, formVersion: number): Promise<unknown> => {
         try {
-            const response = await fetch(
-                `/api/forms?structureDnaCode=${encodeURIComponent(structureDnaCode)}&formName=${encodeURIComponent(formName)}&formVersion=${formVersion}&stepLabel=${encodeURIComponent(stepLabel)}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
+            const response = await fetch('/api/forms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'get-step',
+                    structureDnaCode,
+                    formName,
+                    formVersion,
+                    stepLabel
+                })
+            });
 
             if (response.status < 400) {
                 const result = await response.json();
@@ -76,15 +80,16 @@ export const useStepValidation = () => {
 
     const getFormsByStructure = async (structureDnaCode: string): Promise<unknown> => {
         try {
-            const response = await fetch(
-                `/api/forms?structureDnaCode=${encodeURIComponent(structureDnaCode)}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
+            const response = await fetch('/api/forms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'get-forms',
+                    structureDnaCode
+                })
+            });
 
             if (response.status < 400) {
                 const result = await response.json();
@@ -102,11 +107,12 @@ export const useStepValidation = () => {
     const updateFormStep = async (structureDnaCode: string, stepLabel: string, formName: string, formVersion: number, status: StepStatus): Promise<unknown> => {
         try {
             const response = await fetch('/api/forms', {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    action: 'update-step',
                     structureDnaCode,
                     stepLabel,
                     formName,
