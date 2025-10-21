@@ -53,14 +53,15 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
     return totalProduits - totalCharges;
   };
 
-  const computeCumulFondsDedies = (date: Date) => {
+  const computeCumulFondsDedies = (date: string) => {
+    const dateObject = new Date(date);
     let currentYearFondsDedies = 0;
     let previousYearFondsDedies = 0;
     budgets?.forEach((budget) => {
-      if (dayjs(budget.date).isSame(dayjs(date))) {
+      if (dayjs(budget.date).isSame(dayjs(dateObject))) {
         currentYearFondsDedies = budget.fondsDedies;
       }
-      if (dayjs(budget.date).isSame(dayjs(date).subtract(1, "year"))) {
+      if (dayjs(budget.date).isSame(dayjs(dateObject).subtract(1, "year"))) {
         previousYearFondsDedies = budget.fondsDedies;
       }
     });
