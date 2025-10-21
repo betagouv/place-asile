@@ -4,6 +4,8 @@ import { z } from "zod";
 
 import { useDebounceCallback } from "@/app/hooks/useDebounceCallback";
 
+const DEBOUNCE_TIME = 500;
+
 export const useAutoSave = <TSchema extends z.ZodTypeAny>(
   schema: TSchema,
   onSave: (data: z.infer<TSchema>) => Promise<void>
@@ -20,7 +22,7 @@ export const useAutoSave = <TSchema extends z.ZodTypeAny>(
     } else {
       console.error("AutoSave: données partielles", result.error);
     }
-  }, 500);
+  }, DEBOUNCE_TIME);
 
   useEffect(() => {
     const subscription = watch(() => {
