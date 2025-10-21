@@ -7,6 +7,7 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
@@ -42,7 +43,7 @@ export default function ModificationFinanceForm() {
 
   const defaultValues = getDefaultValues({ structure });
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling({
+  const { handleSubmit, backendError } = useAgentFormHandling({
     nextRoute: `/structures/${structure.id}`,
   });
 
@@ -54,6 +55,10 @@ export default function ModificationFinanceForm() {
     });
     handleSubmit({ ...data, dnaCode: structure.dnaCode });
   };
+
+  const { getFetchState } = useFetchState();
+
+  const saveState = getFetchState("structure-save");
 
   return (
     <>
@@ -78,7 +83,7 @@ export default function ModificationFinanceForm() {
         <hr />
 
         <BudgetTables />
-        {state === FetchState.ERROR && (
+        {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

@@ -11,6 +11,7 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { modificationDescriptionSchema } from "@/schemas/modification/modificationDescription.schema";
@@ -22,11 +23,15 @@ import { ModificationTitle } from "../components/ModificationTitle";
 export default function ModificationDescription() {
   const { structure } = useStructureContext();
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling({
+  const { handleSubmit, backendError } = useAgentFormHandling({
     nextRoute: `/structures/${structure.id}`,
   });
 
   const defaultValues = getDefaultValues({ structure });
+
+  const { getFetchState } = useFetchState();
+
+  const saveState = getFetchState("structure-save");
 
   return (
     <>
@@ -70,7 +75,7 @@ export default function ModificationDescription() {
         <FieldSetAdresseAdministrative formKind={FormKind.MODIFICATION} />
         <FieldSetHebergement />
       </FormWrapper>
-      {state === FetchState.ERROR && (
+      {saveState === FetchState.ERROR && (
         <SubmitError
           structureDnaCode={structure.dnaCode}
           backendError={backendError}

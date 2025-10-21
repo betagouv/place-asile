@@ -7,6 +7,7 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import { SubmitError } from "@/app/components/SubmitError";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import {
   getCategoriesDisplayRules,
@@ -32,7 +33,7 @@ export default function ModificationQualiteForm() {
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling({
+  const { handleSubmit, backendError } = useAgentFormHandling({
     nextRoute: `/structures/${structure.id}`,
   });
 
@@ -55,6 +56,10 @@ export default function ModificationQualiteForm() {
       dnaCode: structure.dnaCode,
     });
   };
+
+  const { getFetchState } = useFetchState();
+
+  const saveState = getFetchState("structure-save");
 
   return (
     <>
@@ -99,7 +104,7 @@ export default function ModificationQualiteForm() {
             </>
           );
         })}
-        {state === FetchState.ERROR && (
+        {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

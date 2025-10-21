@@ -18,7 +18,7 @@ export const useAgentFormHandling = ({
 
   const { updateAndRefreshStructure } = useStructures();
 
-  const { setFetchState, getFetchState } = useFetchState();
+  const { setFetchState } = useFetchState();
 
   const [backendError, setBackendError] = useState<string | undefined>(
     undefined
@@ -105,7 +105,6 @@ export const useAgentFormHandling = ({
     handleValidation,
     handleFinalisation,
     backendError,
-    state: getFetchState("structure-save"),
     isStructureReadyToFinalise,
   };
 };
