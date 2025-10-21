@@ -6,7 +6,7 @@ import { cn } from "@/app/utils/classname.util";
 import { Structure } from "@/types/structure.type";
 
 export const Tab = ({ title, route, current, structure }: Props) => {
-  // console.log("structure", structure);
+  console.log("structure", structure);
   return (
     <Link
       href={route}
