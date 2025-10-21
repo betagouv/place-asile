@@ -18,7 +18,11 @@ import { FinalisationHeader } from "./FinalisationHeader";
 import { NavigationMenu } from "./NavigationMenu";
 
 const autoSaveModal = createModal({
-  id: "finalisation-modal",
+  id: "autosave-modal",
+  isOpenedByDefault: false,
+});
+const finalisationSuccessModal = createModal({
+  id: "finalisation-success-modal",
   isOpenedByDefault: false,
 });
 
@@ -116,7 +120,9 @@ export function StructureHeader(): ReactElement | null {
               </Button>
               <Button
                 disabled={!isStructureReadyToFinalise}
-                onClick={handleFinalisation}
+                onClick={async () => {
+                  await handleFinalisation(finalisationSuccessModal.open);
+                }}
               >
                 Finaliser la création
               </Button>
@@ -143,7 +149,7 @@ export function StructureHeader(): ReactElement | null {
           que vous avez saisies.
         </p>
       </autoSaveModal.Component>
-      <autoSaveModal.Component
+      <finalisationSuccessModal.Component
         title="Vous avez terminé la création de cette structure !"
         buttons={[
           {
@@ -157,7 +163,7 @@ export function StructureHeader(): ReactElement | null {
           Les données ont bien été enregistrées. Merci pour votre contribution
           qui va rendre l’outil plus précis.
         </p>
-      </autoSaveModal.Component>
+      </finalisationSuccessModal.Component>
     </>
   ) : null;
 }

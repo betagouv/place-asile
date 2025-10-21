@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { FetchState } from "@/types/fetch-state.type";
+import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/_context/StructureClientContext";
 import { useFetchState } from "../context/FetchStateContext";
@@ -52,10 +53,30 @@ export const useAgentFormHandling = ({
     setFetchState("structure-save", FetchState.IDLE);
   };
 
-  const handleFinalisation = async () => {
+  const handleFinalisation = async (callback?: () => void) => {
     setFetchState("structure-save", FetchState.LOADING);
-    console.log("handleFinalisation");
-    setFetchState("structure-save", FetchState.IDLE);
+    try {
+      const updatedStructure = await updateAndRefreshStructure(
+        structure.id,
+        { state: StructureState.FINALISE },
+        setStructure
+      );
+      if (updatedStructure === "OK") {
+        setFetchState("structure-save", FetchState.IDLE);
+        if (callback) {
+          callback();
+        }
+      } else {
+        console.error(updatedStructure);
+        setFetchState("structure-save", FetchState.ERROR);
+        setBackendError(updatedStructure?.toString());
+        throw new Error(updatedStructure?.toString());
+      }
+    } catch (error) {
+      setFetchState("structure-save", FetchState.ERROR);
+      setBackendError(error instanceof Error ? error.message : String(error));
+      throw error;
+    }
   };
 
   const handleSubmit = async (data: FormSubmitData) => {
