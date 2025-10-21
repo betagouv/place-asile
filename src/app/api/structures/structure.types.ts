@@ -142,8 +142,8 @@ export type UpdateFileUpload = {
   startDate?: Date;
   endDate?: Date;
   id?: number;
-  categoryName?: string;
-  parentFileUploadId?: number;
+  categoryName?: string | null;
+  parentFileUploadId?: number | null;
   controleId?: number;
   createdAt?: Date;
   updatedAt?: Date;
