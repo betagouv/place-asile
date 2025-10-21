@@ -7,6 +7,17 @@ import { createAdresse } from "../../test-utils/adresse.factory";
 import { createStructure } from "../../test-utils/structure.factory";
 import { createStructureTypologie } from "../../test-utils/structure-typologie.factory";
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+  }),
+}));
+
 describe("StructuresTable", () => {
   it("should show table headings and content elements when rendered", () => {
     // GIVEN
@@ -62,7 +73,7 @@ describe("StructuresTable", () => {
       "02/01/2024 - 02/01/2027"
     );
     expect(firstStructureCells[7]).toHaveAccessibleName(
-      "Détails de la structure C0001"
+      "Finaliser la création de la structure C0001"
     );
     const secondStructureCells = within(structureRows[2]).getAllByRole("cell");
     expect(secondStructureCells[0]).toHaveAccessibleName("C0001");
@@ -75,7 +86,7 @@ describe("StructuresTable", () => {
       "02/01/2024 - 02/01/2027"
     );
     expect(secondStructureCells[7]).toHaveAccessibleName(
-      "Détails de la structure C0001"
+      "Finaliser la création de la structure C0001"
     );
     const thirdStructureCells = within(structureRows[3]).getAllByRole("cell");
     expect(thirdStructureCells[0]).toHaveAccessibleName("C0001");
@@ -88,7 +99,7 @@ describe("StructuresTable", () => {
       "02/01/2024 - 02/01/2027"
     );
     expect(thirdStructureCells[7]).toHaveAccessibleName(
-      "Détails de la structure C0001"
+      "Finaliser la création de la structure C0001"
     );
     const pagination = screen.getByRole("navigation");
     const pages = within(pagination).getAllByRole("link");
