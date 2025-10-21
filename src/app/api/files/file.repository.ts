@@ -1,6 +1,6 @@
 import { FileUpload } from "@prisma/client";
 
-import prisma from "../../../../lib/prisma";
+import prisma from "@/lib/prisma";
 
 export const createOne = async ({
   key,

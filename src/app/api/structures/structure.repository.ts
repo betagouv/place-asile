@@ -1,8 +1,8 @@
 import { FileUploadCategory, Prisma, Structure } from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
+import prisma from "@/lib/prisma";
 
-import prisma from "../../../../lib/prisma";
 import {
   CreateStructure,
   UpdateAdresse,
@@ -548,8 +548,8 @@ export const updateOne = async (
         operateur: {
           connect: operateur
             ? {
-                id: operateur?.id,
-              }
+              id: operateur?.id,
+            }
             : undefined,
         },
       },

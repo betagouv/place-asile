@@ -1,74 +1,139 @@
-import { PrismaClient, StepStatus } from '@prisma/client';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
+import {
+  getFormSchema,
+  getFormStepSchema,
+  updateFormStepDataSchema,
+  validateStepSchema,
+} from "./form.schema";
+import {
+  getForm,
+  getFormStep,
+  updateFormStepData,
+  validateStep,
+} from "./form.service";
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const action = searchParams.get("action");
+
+  try {
+    switch (action) {
+      case "form": {
+        const structureCodeDna = searchParams.get("structureCodeDna");
+        const formName = searchParams.get("formName");
+        const formVersion = searchParams.get("formVersion");
+
+        if (!structureCodeDna || !formName || !formVersion) {
+          return NextResponse.json(
+            { error: "Missing required parameters" },
+            { status: 400 }
+          );
+        }
+
+        const validatedData = getFormSchema.parse({
+          structureCodeDna,
+          formName,
+          formVersion: parseInt(formVersion),
+        });
+
+        const form = await getForm(validatedData);
+        return NextResponse.json(form);
+      }
+
+      case "step": {
+        const structureCodeDna = searchParams.get("structureCodeDna");
+        const formName = searchParams.get("formName");
+        const formVersion = searchParams.get("formVersion");
+        const stepLabel = searchParams.get("stepLabel");
+
+        if (!structureCodeDna || !formName || !formVersion || !stepLabel) {
+          return NextResponse.json(
+            { error: "Missing required parameters" },
+            { status: 400 }
+          );
+        }
+
+        const validatedData = getFormStepSchema.parse({
+          structureCodeDna,
+          formName,
+          formVersion: parseInt(formVersion),
+          stepLabel,
+        });
+
+        const formStep = await getFormStep(validatedData);
+        return NextResponse.json(formStep);
+      }
+
+      default:
+        return NextResponse.json(
+          { error: "Invalid action" },
+          { status: 400 }
+        );
+    }
+  } catch (error) {
+    console.error("Error in GET /api/forms:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(request: NextRequest) {
-    try {
-        const { structureDnaCode, formName, formVersion, stepLabel, status } = await request.json();
+  const { searchParams } = new URL(request.url);
+  const action = searchParams.get("action");
 
-        // 1. Get FormDefinition and FormStepDefinition
-        const formDefinition = await prisma.formDefinition.findUnique({
-            where: {
-                name_version: {
-                    name: formName,
-                    version: formVersion
-                }
-            }
-        });
+  try {
+    switch (action) {
+      case "validate-step": {
+        const body = await request.json();
+        const validatedData = validateStepSchema.parse(body);
 
-        if (!formDefinition) {
-            return NextResponse.json({ error: 'FormDefinition non trouvée' }, { status: 404 });
-        }
-
-        const stepDefinition = await prisma.formStepDefinition.findFirst({
-            where: {
-                formDefinitionId: formDefinition.id,
-                label: stepLabel
-            }
-        });
-
-        if (!stepDefinition) {
-            return NextResponse.json({ error: 'FormStepDefinition non trouvée' }, { status: 404 });
-        }
-
-        // 2. Create or update Form
-        const form = await prisma.form.upsert({
-            where: {
-                structureCodeDna_formDefinitionId: {
-                    structureCodeDna: structureDnaCode,
-                    formDefinitionId: formDefinition.id
-                }
-            },
-            update: {},
-            create: {
-                structureCodeDna: structureDnaCode,
-                formDefinitionId: formDefinition.id,
-                status: false,
-            }
-        });
-
-        // 3. Create or update FormStep
-        const formStep = await prisma.formStep.upsert({
-            where: {
-                formId_stepDefinitionId: {
-                    formId: form.id,
-                    stepDefinitionId: stepDefinition.id
-                }
-            },
-            update: {
-                status: status as StepStatus
-            },
-            create: {
-                formId: form.id,
-                stepDefinitionId: stepDefinition.id,
-                status: status as StepStatus,
-            }
-        });
-
+        const formStep = await validateStep(validatedData);
         return NextResponse.json({ success: true, formStep });
-    } catch (error) {
-        console.error('Erreur validation étape:', error);
-        return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+      }
+
+      default:
+        return NextResponse.json(
+          { error: "Invalid action" },
+          { status: 400 }
+        );
     }
+  } catch (error) {
+    console.error("Error in POST /api/forms:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const action = searchParams.get("action");
+
+  try {
+    switch (action) {
+      case "update-step": {
+        const body = await request.json();
+        const validatedData = updateFormStepDataSchema.parse(body);
+
+        const formStep = await updateFormStepData(validatedData);
+        return NextResponse.json({ success: true, formStep });
+      }
+
+      default:
+        return NextResponse.json(
+          { error: "Invalid action" },
+          { status: 400 }
+        );
+    }
+  } catch (error) {
+    console.error("Error in PUT /api/forms:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
