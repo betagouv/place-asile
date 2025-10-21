@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { cn } from "@/app/utils/classname.util";
 
-export const Tab = ({ title, route, current }: Props) => {
+export const Tab = ({ title, route, current, type }: Props) => {
   return (
     <Link
       href={route}
@@ -19,7 +19,7 @@ export const Tab = ({ title, route, current }: Props) => {
         <strong>{title}</strong>
         <span className="fr-icon-arrow-right-line"></span>
       </span>
-      {route.includes("01") && (
+      {type === "verification" && (
         <Tag
           className="!bg-[var(--color-background-contrast-yellow-tournesol)] !text-[var(--color-text-action-high-yellow-tournesol)] font-bold"
           iconId="fr-icon-eye-line"
@@ -28,7 +28,7 @@ export const Tab = ({ title, route, current }: Props) => {
           À VÉRIFIER
         </Tag>
       )}
-      {!route.includes("01") && (
+      {type === "completion" && (
         <Tag
           className="!bg-[var(--color-background-contrast-warning)]  !text-[var(--color-text-default-warning)] font-bold"
           iconId="fr-icon-eye-line"
@@ -45,4 +45,5 @@ type Props = {
   title: ReactNode;
   route: string;
   current: boolean;
+  type: "verification" | "completion";
 };

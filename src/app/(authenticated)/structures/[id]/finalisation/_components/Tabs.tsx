@@ -14,6 +14,7 @@ export const steps: Step[] = [
       </>
     ),
     route: "01-identification",
+    type: "verification",
   },
   {
     title: (
@@ -24,6 +25,7 @@ export const steps: Step[] = [
       </>
     ),
     route: "02-documents-financiers",
+    type: "verification",
   },
   {
     title: (
@@ -34,6 +36,7 @@ export const steps: Step[] = [
       </>
     ),
     route: "03-finance",
+    type: "completion",
   },
   {
     title: (
@@ -44,6 +47,7 @@ export const steps: Step[] = [
       </>
     ),
     route: "04-controles",
+    type: "completion",
   },
   {
     title: (
@@ -54,10 +58,12 @@ export const steps: Step[] = [
       </>
     ),
     route: "05-documents",
+    type: "completion",
   },
   {
     title: <>Notes</>,
     route: "06-notes",
+    type: "completion",
   },
 ];
 
@@ -68,6 +74,7 @@ export const Tabs = ({ structure, currentStep }: Props) => {
         <Tab
           key={step.route}
           title={step.title}
+          type={step.type}
           route={`/structures/${structure.id}/finalisation/${step.route}`}
           current={step.route === currentStep}
         />
@@ -84,4 +91,5 @@ type Props = {
 type Step = {
   title: ReactNode;
   route: string;
+  type: "verification" | "completion";
 };
