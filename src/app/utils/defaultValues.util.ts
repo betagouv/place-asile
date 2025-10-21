@@ -39,13 +39,18 @@ export const getDefaultValues = ({
       years.includes(Number(getDateStringToYear(budget.date.toString())))
     ) || [];
 
-  const budgets: Budget[] = Array(5)
+  const budgets = Array(5)
     .fill({})
-    .map((emptyBudget, index) =>
-      index < budgetsFilteredByYears.length
-        ? budgetsFilteredByYears[index]
-        : emptyBudget
-    );
+    .map((emptyBudget, index) => {
+      if (index < budgetsFilteredByYears.length) {
+        const budget = budgetsFilteredByYears[index];
+        return {
+          ...budget,
+          date: formatDateString(budget.date),
+        };
+      }
+      return emptyBudget;
+    }) as [Budget, Budget, Budget, Budget, Budget];
 
   const categoriesToDisplay = getCategoriesToDisplay(structure);
 
@@ -146,6 +151,7 @@ type StructureDefaultValues = Omit<
   | "echeancePlacesAFermer"
   | "fileUploads"
   | "controles"
+  | "budgets"
 > & {
   creationDate: string;
   nom: string;
@@ -173,4 +179,5 @@ type StructureDefaultValues = Omit<
   echeancePlacesAFermer?: string;
   fileUploads: FileUploadFormValues[];
   controles: ControleFormValues[];
+  budgets: [Budget, Budget, Budget, Budget, Budget];
 };

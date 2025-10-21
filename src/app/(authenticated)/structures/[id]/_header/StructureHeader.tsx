@@ -62,7 +62,6 @@ export function StructureHeader(): ReactElement | null {
   } = structure || {};
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return structure ? (

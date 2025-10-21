@@ -58,7 +58,6 @@ export default function ModificationQualiteForm() {
   };
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (

@@ -24,7 +24,6 @@ export default function ModificationCalendrier() {
   const defaultValues = getDefaultValues({ structure });
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (

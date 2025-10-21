@@ -45,7 +45,6 @@ export default function FinalisationIdentification(): ReactElement {
   };
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (

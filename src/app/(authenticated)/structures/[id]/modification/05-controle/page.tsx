@@ -49,7 +49,6 @@ export default function ModificationControleForm() {
   };
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (

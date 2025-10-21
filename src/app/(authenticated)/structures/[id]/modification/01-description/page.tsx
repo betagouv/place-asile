@@ -35,7 +35,6 @@ export default function ModificationDescription() {
   const defaultValues = getDefaultValues({ structure });
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   const onSubmit = (data: ModificationDescriptionFormValues) => {

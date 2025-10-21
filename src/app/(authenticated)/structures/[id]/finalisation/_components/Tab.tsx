@@ -9,7 +9,7 @@ export const Tab = ({ title, route, current }: Props) => {
     <Link
       href={route}
       className={cn(
-        "py-3 pr-3 pl-5 border-default-grey border rounded-t-sm",
+        "h-full flex flex-col justify-between py-3 pr-3 pl-5 border-default-grey border rounded-t-sm",
         current
           ? "bg-white border-b-0"
           : "bg-alt-blue-france hover:bg-alt-blue-france-hover"

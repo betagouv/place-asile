@@ -56,7 +56,6 @@ export default function FinalisationQualite() {
   };
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (

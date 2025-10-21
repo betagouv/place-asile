@@ -17,7 +17,6 @@ import {
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import {
-  anyFinanceFormValues,
   autoriseeAvecCpomSchema,
   autoriseeSchema,
   basicAutoSaveFormValues,
@@ -63,7 +62,6 @@ export default function FinalisationFinance() {
   };
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (
@@ -71,7 +69,7 @@ export default function FinalisationFinance() {
       <Tabs currentStep={currentStep} structure={structure} />
       <FormWrapper
         schema={schema || basicSchema}
-        defaultValues={defaultValues as unknown as anyFinanceFormValues}
+        defaultValues={defaultValues}
         submitButtonText="Je valide la saisie de cette page"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         onSubmit={handleValidation}

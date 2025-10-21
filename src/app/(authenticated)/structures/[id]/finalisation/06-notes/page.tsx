@@ -36,7 +36,6 @@ export default function FinalisationNotes() {
   };
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (

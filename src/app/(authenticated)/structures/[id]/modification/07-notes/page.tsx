@@ -26,7 +26,6 @@ export default function ModificationNotesForm(): ReactElement {
   });
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (

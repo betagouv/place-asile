@@ -29,14 +29,12 @@ export default function FinalisationDocumentsFinanciers() {
     useAgentFormHandling();
 
   const onAutoSave = async (data: DocumentsFinanciersFlexibleFormValues) => {
-    console.log(data.fileUploads);
     const fileUploads = data.fileUploads.filter((fileUpload) => fileUpload.key);
 
     await handleAutoSave({ ...data, fileUploads, dnaCode: structure.dnaCode });
   };
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (

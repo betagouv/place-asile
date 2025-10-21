@@ -57,7 +57,6 @@ export default function ModificationFinanceForm() {
   };
 
   const { getFetchState } = useFetchState();
-
   const saveState = getFetchState("structure-save");
 
   return (
