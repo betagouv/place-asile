@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@codegouvfr/react-dsfr/Button";
+import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactElement } from "react";
@@ -15,6 +16,11 @@ import { StructureState } from "@/types/structure.type";
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { FinalisationHeader } from "./FinalisationHeader";
 import { NavigationMenu } from "./NavigationMenu";
+
+const autoSaveModal = createModal({
+  id: "finalisation-modal",
+  isOpenedByDefault: false,
+});
 
 export function StructureHeader(): ReactElement | null {
   const { structure } = useStructureContext();
@@ -94,15 +100,20 @@ export function StructureHeader(): ReactElement | null {
           <div className="grow" />
           {isFinalisationPath && (
             <div className="flex items-center gap-3">
-              {saveState === FetchState.LOADING && (
-                <span className="fr-icon-more-fill text-mention-grey" />
-              )}
-              {saveState === FetchState.ERROR && (
-                <span className="fr-icon-warning-line text-default-error" />
-              )}
-              {saveState === FetchState.IDLE && (
-                <span className="fr-icon-save-line text-mention-grey" />
-              )}
+              <Button
+                onClick={() => autoSaveModal.open()}
+                className="fr-btn--tertiary-no-outline"
+              >
+                {saveState === FetchState.LOADING && (
+                  <span className="fr-icon-more-fill text-mention-grey" />
+                )}
+                {saveState === FetchState.ERROR && (
+                  <span className="fr-icon-warning-line text-default-error" />
+                )}
+                {saveState === FetchState.IDLE && (
+                  <span className="fr-icon-save-line text-mention-grey" />
+                )}
+              </Button>
               <Button
                 disabled={!isStructureReadyToFinalise}
                 onClick={handleFinalisation}
@@ -117,6 +128,21 @@ export function StructureHeader(): ReactElement | null {
           <FinalisationHeader />
         )}
       </div>
+      <autoSaveModal.Component
+        title="Votre progression est enregistrée automatiquement"
+        buttons={[
+          {
+            doClosesModal: true,
+            children: "J’ai compris",
+            type: "button",
+          },
+        ]}
+      >
+        <p>
+          Aucune action n’est requise de votre part pour enregistrer les données
+          que vous avez saisies.
+        </p>
+      </autoSaveModal.Component>
     </>
   ) : null;
 }
