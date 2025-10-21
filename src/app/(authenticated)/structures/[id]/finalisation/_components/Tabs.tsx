@@ -70,7 +70,6 @@ export const Tabs = ({ structure, currentStep }: Props) => {
           title={step.title}
           route={`/structures/${structure.id}/finalisation/${step.route}`}
           current={index + 1 === currentStep}
-          structure={structure}
         />
       ))}
     </div>

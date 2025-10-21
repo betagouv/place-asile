@@ -13,8 +13,13 @@ import FormWrapper, {
 import { SubmitError } from "@/app/components/SubmitError";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
+import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { modificationDescriptionSchema } from "@/schemas/modification/modificationDescription.schema";
+import { FormAdresse } from "@/schemas/base/adresse.schema";
+import {
+  ModificationDescriptionFormValues,
+  modificationDescriptionSchema,
+} from "@/schemas/modification/modificationDescription.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { FormKind } from "@/types/global";
 
@@ -33,6 +38,14 @@ export default function ModificationDescription() {
 
   const saveState = getFetchState("structure-save");
 
+  const onSubmit = (data: ModificationDescriptionFormValues) => {
+    handleSubmit({
+      ...data,
+      adresses: transformFormAdressesToApiAdresses(
+        data.adresses as FormAdresse[]
+      ),
+    });
+  };
   return (
     <>
       <ModificationTitle
@@ -42,7 +55,7 @@ export default function ModificationDescription() {
       <FormWrapper
         schema={modificationDescriptionSchema}
         defaultValues={defaultValues}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         mode="onChange"
         resetRoute={`/structures/${structure.id}`}
         submitButtonText="Valider"

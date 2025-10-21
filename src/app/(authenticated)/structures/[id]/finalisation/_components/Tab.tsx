@@ -3,10 +3,8 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import { cn } from "@/app/utils/classname.util";
-import { Structure } from "@/types/structure.type";
 
-export const Tab = ({ title, route, current, structure }: Props) => {
-  console.log("structure", structure);
+export const Tab = ({ title, route, current }: Props) => {
   return (
     <Link
       href={route}
@@ -47,5 +45,4 @@ type Props = {
   title: ReactNode;
   route: string;
   current: boolean;
-  structure: Structure;
 };

@@ -1,12 +1,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
 import { useFetchState } from "../context/FetchStateContext";
-import { transformFormAdressesToApiAdresses } from "../utils/adresse.util";
 import { useStructures } from "./useStructures";
 
 export const useAgentFormHandling = ({
@@ -26,13 +24,11 @@ export const useAgentFormHandling = ({
 
   const handleAutoSave = async (data: FormSubmitData) => {
     setFetchState("structure-save", FetchState.LOADING);
-    const adresses = transformFormAdressesToApiAdresses(
-      data.adresses as FormAdresse[]
-    );
+
     try {
       const updatedStructure = await updateAndRefreshStructure(
         structure.id,
-        { ...data, adresses },
+        data,
         setStructure
       );
       if (updatedStructure === "OK") {
