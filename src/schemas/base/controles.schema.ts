@@ -5,10 +5,7 @@ import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 import { ControleType } from "@/types/controle.type";
 
 export const controleSchema = z.object({
-  id: z.union([
-    z.string().nullable().optional(),
-    zSafeNumber().nullable().optional(),
-  ]),
+  id: z.union([z.string().nullish(), zSafeNumber().nullish()]),
   date: createDateFieldValidator().optional(),
   type: z.nativeEnum(ControleType).optional(),
   fileUploads: z.array(z.object({ key: z.string().optional() })).optional(),
