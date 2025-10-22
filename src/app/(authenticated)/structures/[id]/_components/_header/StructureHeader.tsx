@@ -10,10 +10,10 @@ import { useEffect, useRef } from "react";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getOperateurLabel } from "@/app/utils/structure.util";
-import { FetchState } from "@/types/fetch-state.type";
 import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
+import { AutoSaveStatus } from "./AutoSaveStatus";
 import { FinalisationHeader } from "./FinalisationHeader";
 import { NavigationMenu } from "./NavigationMenu";
 
@@ -104,20 +104,11 @@ export function StructureHeader(): ReactElement | null {
           <div className="grow" />
           {isFinalisationPath && (
             <div className="flex items-center gap-3">
-              <Button
-                onClick={() => autoSaveModal.open()}
-                className="fr-btn--tertiary-no-outline"
-              >
-                {saveState === FetchState.LOADING && (
-                  <span className="fr-icon-more-fill text-mention-grey" />
-                )}
-                {saveState === FetchState.ERROR && (
-                  <span className="fr-icon-warning-line text-default-error" />
-                )}
-                {saveState === FetchState.IDLE && (
-                  <span className="fr-icon-save-line text-mention-grey" />
-                )}
-              </Button>
+              <AutoSaveStatus
+                onStatusClick={() => autoSaveModal.open()}
+                saveState={saveState}
+              />
+
               <Button
                 disabled={!isStructureReadyToFinalise}
                 onClick={async () => {
