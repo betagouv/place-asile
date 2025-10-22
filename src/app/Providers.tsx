@@ -6,6 +6,8 @@ import { init } from "@socialgouv/matomo-next";
 import { SessionProvider } from "next-auth/react";
 import { PropsWithChildren, ReactElement, useEffect } from "react";
 
+import { FetchStateProvider } from "./context/FetchStateContext";
+
 export const Providers = ({ children }: PropsWithChildren): ReactElement => {
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
@@ -17,5 +19,9 @@ export const Providers = ({ children }: PropsWithChildren): ReactElement => {
     }
   }, []);
 
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider>
+      <FetchStateProvider>{children}</FetchStateProvider>
+    </SessionProvider>
+  );
 };

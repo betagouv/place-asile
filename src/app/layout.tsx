@@ -4,7 +4,6 @@ import "./globals.css"; // IMPORTANT cet import doit rester en premier pour que 
 import type { Metadata } from "next";
 import { PropsWithChildren, Suspense } from "react";
 
-import { FetchStateProvider } from "./context/FetchStateContext";
 import { DsfrProvider } from "./dsfr-bootstrap";
 import {
   DsfrHead,
@@ -33,9 +32,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body className="overscroll-none bg-default-grey-hover h-full">
         <DsfrProvider lang={lang}>
           <Providers>
-            <FetchStateProvider>
-              <Suspense>{children}</Suspense>
-            </FetchStateProvider>
+            <Suspense>{children}</Suspense>
           </Providers>
         </DsfrProvider>
       </body>
