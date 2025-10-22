@@ -11,6 +11,7 @@ export const Tab = ({ title, route, current, type }: Props) => {
   const isCompleted = structure.finalisationSteps?.some(
     (step) => step.label === route
   );
+
   return (
     <Link
       href={route}

@@ -92,7 +92,7 @@ export const StructuresTable = ({
         <p>
           La création de cette structure n’est pas terminée : son opérateur a
           transmis les données demandées mais celles-ci doivent être vérifiées
-          et complétées par un agent ou une agente. {selectedStructure?.dnaCode}
+          et complétées par un agent ou une agente.
         </p>
       </finalisationModal.Component>
     </>
