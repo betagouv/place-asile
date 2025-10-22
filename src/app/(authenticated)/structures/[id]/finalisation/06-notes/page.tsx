@@ -40,7 +40,7 @@ export default function FinalisationNotes() {
 
   return (
     <div>
-      <Tabs currentStep={currentStep} structure={structure} />
+      <Tabs currentStep={currentStep} />
       <FormWrapper
         schema={notesSchema}
         onSubmit={handleValidation}

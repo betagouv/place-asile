@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 
-import { Structure } from "@/types/structure.type";
-
 import { Tab } from "./Tab";
 
 export const steps: Step[] = [
@@ -67,7 +65,7 @@ export const steps: Step[] = [
   },
 ];
 
-export const Tabs = ({ structure, currentStep }: Props) => {
+export const Tabs = ({ currentStep }: Props) => {
   return (
     <div className="grid grid-cols-6 gap-1 mb-[-1px]">
       {steps.map((step) => (
@@ -75,7 +73,7 @@ export const Tabs = ({ structure, currentStep }: Props) => {
           key={step.route}
           title={step.title}
           type={step.type}
-          route={`/structures/${structure.id}/finalisation/${step.route}`}
+          route={step.route}
           current={step.route === currentStep}
         />
       ))}
@@ -85,7 +83,6 @@ export const Tabs = ({ structure, currentStep }: Props) => {
 
 type Props = {
   currentStep: string;
-  structure: Structure;
 };
 
 type Step = {

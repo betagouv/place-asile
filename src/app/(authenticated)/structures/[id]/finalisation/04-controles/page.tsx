@@ -57,7 +57,7 @@ export default function ModificationControleForm() {
 
   return (
     <div>
-      <Tabs currentStep={currentStep} structure={structure} />
+      <Tabs currentStep={currentStep} />
       <FormWrapper
         schema={controlesSchema}
         onSubmit={onSubmit}

@@ -39,7 +39,7 @@ export default function FinalisationDocumentsFinanciers() {
 
   return (
     <div>
-      <Tabs currentStep={currentStep} structure={structure} />
+      <Tabs currentStep={currentStep} />
       <FormWrapper
         schema={DocumentsFinanciersFlexibleSchema}
         defaultValues={defaultValues}

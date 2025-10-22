@@ -49,7 +49,7 @@ export default function FinalisationIdentification(): ReactElement {
 
   return (
     <div>
-      <Tabs currentStep={currentStep} structure={structure} />
+      <Tabs currentStep={currentStep} />
       <FormWrapper
         schema={finalisationIdentificationSchema}
         defaultValues={defaultValues}

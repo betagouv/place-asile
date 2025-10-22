@@ -63,7 +63,7 @@ export default function FinalisationFinance() {
 
   return (
     <div>
-      <Tabs currentStep={currentStep} structure={structure} />
+      <Tabs currentStep={currentStep} />
       <FormWrapper
         schema={schema || basicSchema}
         defaultValues={defaultValues}

@@ -14,7 +14,7 @@ export const Tab = ({ title, route, current, type }: Props) => {
 
   return (
     <Link
-      href={route}
+      href={`/structures/${structure.id}/finalisation/${route}`}
       className={cn(
         "h-full flex flex-col justify-between py-3 pr-3 pl-5 border-default-grey border rounded-t-sm",
         current

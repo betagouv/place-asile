@@ -60,7 +60,7 @@ export default function FinalisationQualite() {
 
   return (
     <div>
-      <Tabs currentStep={currentStep} structure={structure} />
+      <Tabs currentStep={currentStep} />
       <FormWrapper
         schema={fileUploadsSchema}
         onSubmit={handleValidation}
