@@ -9,15 +9,15 @@ export async function migrateFormsProduction() {
     // Créer FormDefinition
     const formDefinition = await prisma.formDefinition.upsert({
         where: {
-        name_version: {
-            name: 'Structure agent',
-            version: 1
-        }
+            name_version: {
+                name: 'finalisation', // Première version finalisation structure par agent
+                version: 1
+            }
         },
         update: {},
         create: {
-        name: 'Structure agent',
-        version: 1,
+            name: 'finalisation',
+            version: 1,
         }
     });
 
@@ -25,29 +25,29 @@ export async function migrateFormsProduction() {
 
     // Créer les FormStepDefinitions
     const steps = [
-        { label: 'Identification de la structure', authorType: AuthorType.OPERATEUR},
-        { label: 'Documents financiers', authorType: AuthorType.OPERATEUR },
-        { label: 'Analyse financière', authorType: AuthorType.AGENT },
-        { label: 'Contrôle qualité et objectifs', authorType: AuthorType.AGENT },
-        { label: 'Actes administratifs', authorType: AuthorType.AGENT },
-        { label: 'Notes', authorType: AuthorType.AGENT },
+        { label: '01-identification', authorType: AuthorType.OPERATEUR },
+        { label: '02-adresses', authorType: AuthorType.OPERATEUR },
+        { label: '03-finance', authorType: AuthorType.OPERATEUR },
+        { label: '04-type-places', authorType: AuthorType.OPERATEUR },
+        { label: '05-qualite', authorType: AuthorType.OPERATEUR },
+        { label: '06-notes', authorType: AuthorType.OPERATEUR },
     ];
 
     const stepDefinitions = [];
     for (const step of steps) {
         const stepDefinition = await prisma.formStepDefinition.upsert({
-        where: {
-            formDefinitionId_label: {
-            formDefinitionId: formDefinition.id,
-            label: step.label
+            where: {
+                formDefinitionId_label: {
+                    formDefinitionId: formDefinition.id,
+                    label: step.label
+                }
+            },
+            update: {},
+            create: {
+                formDefinitionId: formDefinition.id,
+                label: step.label,
+                authorType: step.authorType,
             }
-        },
-        update: {},
-        create: {
-            formDefinitionId: formDefinition.id,
-            label: step.label,
-            authorType: step.authorType,
-        }
         });
 
         stepDefinitions.push(stepDefinition);
@@ -63,47 +63,47 @@ export async function migrateFormsProduction() {
 
     for (const structure of structures) {
         const form = await prisma.form.upsert({
-        where: {
-            structureCodeDna_formDefinitionId: {
-            structureCodeDna: structure.dnaCode,
-            formDefinitionId: formDefinition.id
+            where: {
+                structureCodeDna_formDefinitionId: {
+                    structureCodeDna: structure.dnaCode,
+                    formDefinitionId: formDefinition.id
+                }
+            },
+            update: {},
+            create: {
+                structureCodeDna: structure.dnaCode,
+                formDefinitionId: formDefinition.id,
+                status: structure.state === 'FINALISE',
             }
-        },
-        update: {},
-        create: {
-            structureCodeDna: structure.dnaCode,
-            formDefinitionId: formDefinition.id,
-            status: structure.state === 'FINALISE',
-        }
         });
         createdForms++;
 
         for (const stepDefinition of stepDefinitions) {
-        let status: StepStatus = StepStatus.NON_COMMENCE;
+            let status: StepStatus = StepStatus.NON_COMMENCE;
 
-        if (structure.state === 'FINALISE') {
-            status = StepStatus.VALIDE;
-        } else if (stepDefinition.authorType === 'OPERATEUR') {
-            status = StepStatus.A_VERIFIER;
-        }
+            if (structure.state === 'FINALISE') {
+                status = StepStatus.VALIDE;
+            } else if (stepDefinition.authorType === 'OPERATEUR') {
+                status = StepStatus.A_VERIFIER;
+            }
 
-        await prisma.formStep.upsert({
-            where: {
-            formId_stepDefinitionId: {
-                formId: form.id,
-                stepDefinitionId: stepDefinition.id
-            }
-            },
-            update: {
-            status
-            },
-            create: {
-            formId: form.id,
-            stepDefinitionId: stepDefinition.id,
-            status,
-            }
-        });
-        createdSteps++;
+            await prisma.formStep.upsert({
+                where: {
+                    formId_stepDefinitionId: {
+                        formId: form.id,
+                        stepDefinitionId: stepDefinition.id
+                    }
+                },
+                update: {
+                    status
+                },
+                create: {
+                    formId: form.id,
+                    stepDefinitionId: stepDefinition.id,
+                    status,
+                }
+            });
+            createdSteps++;
         }
     }
 
@@ -113,10 +113,10 @@ export async function migrateFormsProduction() {
 }
 
 migrateFormsProduction()
-.catch((e) => {
-    console.error('❌ Erreur:', e);
-    process.exit(1);
-})
-.finally(async () => {
-    await prisma.$disconnect();
-});
+    .catch((e) => {
+        console.error('❌ Erreur:', e);
+        process.exit(1);
+    })
+    .finally(async () => {
+        await prisma.$disconnect();
+    });
