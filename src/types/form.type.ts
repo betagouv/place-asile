@@ -34,14 +34,14 @@ export type FormStepDefinition = {
 };
 
 export enum AuthorType {
-    OPERATEUR = "Opérateur",
-    AGENT = "Agent",
+    OPERATEUR = "operateur",
+    AGENT = "agent",
 }
 
 export enum StepStatus {
-    NON_COMMENCE = "Non commencé",
-    COMMENCE = "Commencé",
-    A_VERIFIER = "À vérifier",
-    FINALISE = "Finalisé",
-    VALIDE = "Validé",
+    NON_COMMENCE = "non_commence",
+    COMMENCE = "commence",
+    A_VERIFIER = "a_verifier",
+    FINALISE = "finalise",
+    VALIDE = "valide",
 }

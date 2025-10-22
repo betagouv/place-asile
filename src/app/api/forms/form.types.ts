@@ -4,7 +4,7 @@
 //     FormStep,
 //     FormStepDefinition,
 // } from "@/types/form.type";
-import { AuthorType, StepStatus } from "@/types/form.type";
+import { AuthorType as CustomAuthorType, StepStatus } from "@/types/form.type";
 
 // export type {
 //     Form,
@@ -14,7 +14,7 @@ import { AuthorType, StepStatus } from "@/types/form.type";
 // };
 
 export {
-    AuthorType,
+    CustomAuthorType,
     StepStatus,
 };
 
@@ -28,7 +28,7 @@ export type CreateFormDefinition = {
 export type CreateFormStepDefinition = {
     formDefinitionId: number;
     label: string;
-    authorType: AuthorType;
+    authorType: CustomAuthorType;
     createdAt?: Date;
     updatedAt?: Date;
 };
@@ -58,10 +58,20 @@ export type CreateFormStep = {
 
 export type UpdateFormStep = CreateFormStep & {
     id?: number;
-    formId: number;
+    formId?: number; // Optionnel car fourni par contexte
     stepDefinitionId: number;
+    stepDefinition?: {
+        label: string;
+        authorType: CustomAuthorType;
+    };
 };
 
 export type UpdateForm = CreateForm & {
     id?: number;
+    formDefinition: {
+        name: string;
+        version: number;
+        id?: number;
+    };
+    formSteps: UpdateFormStep[];
 };
