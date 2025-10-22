@@ -1,50 +1,67 @@
-import { v4 as uuidv4 } from "uuid";
-import { z } from "zod";
-
 import { getRepartition } from "@/app/utils/structure.util";
 import { FormAdresse } from "@/schemas/base/adresse.schema";
+import { ControleFormValues } from "@/schemas/base/controles.schema";
+import { FileUploadFormValues } from "@/schemas/base/documents.schema";
 import { Repartition } from "@/types/adresse.type";
+import { Budget } from "@/types/budget.type";
 import { Contact } from "@/types/contact.type";
-import { ControleType } from "@/types/controle.type";
-import {
-  AgentFileUploadCategoryType,
-  zAgentFileUploadCategory,
-} from "@/types/file-upload.type";
 import { PublicType, StructureWithLatLng } from "@/types/structure.type";
 import { StructureTypologie } from "@/types/structure-typologie.type";
 
-import { formatDate, formatDateString } from "./date.util";
-import { getFinanceDocument } from "./getFinanceDocument.util";
+import { transformApiAdressesToFormAdresses } from "./adresse.util";
+import { buildFileUploadsDefaultValues } from "./buildFileUploadsDefaultValues.util";
+import { getCategoriesToDisplay } from "./categoryToDisplay.util";
+import {
+  formatDate,
+  formatDateString,
+  getDateStringToYear,
+  getYearRange,
+} from "./date.util";
+import {
+  createEmptyDefaultValues,
+  filterFileUploads,
+  getControlesDefaultValues,
+  getDefaultValuesFromDb,
+} from "./files.util";
 import { isStructureAutorisee } from "./structure.util";
 
 export const getDefaultValues = ({
   structure,
 }: {
   structure: StructureWithLatLng;
-}): StructureDefaultValues => {
+}): Partial<StructureDefaultValues> => {
   const isAutorisee = isStructureAutorisee(structure.type);
   const repartition = getRepartition(structure);
 
-  // We add adresseComplete (who is not saved in db) to the adresses
-  // We also convert logementSocial and qpv to boolean
-  // And also convert repartition db value to form value (capitalize only the first letter)
-  let adresses: FormAdresse[] = [];
-  if (Array.isArray(structure.adresses)) {
-    adresses = structure.adresses.map((adresse) => ({
-      ...adresse,
-      repartition: (adresse.repartition.charAt(0).toUpperCase() +
-        adresse.repartition.slice(1).toLowerCase()) as Repartition,
-      adresseComplete: [adresse.adresse, adresse.codePostal, adresse.commune]
-        .filter(Boolean)
-        .join(" ")
-        .trim(),
-      adresseTypologies: adresse.adresseTypologies?.map((adresseTypologie) => ({
-        ...adresseTypologie,
-        logementSocial: adresseTypologie.logementSocial ? true : false,
-        qpv: adresseTypologie.qpv ? true : false,
-      })),
-    }));
-  }
+  const { years } = getYearRange();
+  const budgetsFilteredByYears =
+    structure?.budgets?.filter((budget) =>
+      years.includes(Number(getDateStringToYear(budget.date.toString())))
+    ) || [];
+
+  const budgets = Array(5)
+    .fill({})
+    .map((emptyBudget, index) => {
+      if (index < budgetsFilteredByYears.length) {
+        const budget = budgetsFilteredByYears[index];
+        return {
+          ...budget,
+          date: formatDateString(budget.date),
+        };
+      }
+      return emptyBudget;
+    }) as [Budget, Budget, Budget, Budget, Budget];
+
+  const categoriesToDisplay = getCategoriesToDisplay(structure);
+
+  const filteredFileUploads = filterFileUploads({
+    structure,
+    categoriesToDisplay,
+  });
+
+  const defaultValuesFromDb = getDefaultValuesFromDb(filteredFileUploads);
+
+  const controles = getControlesDefaultValues(structure.controles);
 
   return {
     ...structure,
@@ -80,7 +97,7 @@ export const getDefaultValues = ({
     communeAdministrative: structure.communeAdministrative || "",
     departementAdministratif: structure.departementAdministratif || "",
     typeBati: repartition,
-    adresses,
+    adresses: transformApiAdressesToFormAdresses(structure.adresses),
     typologies: structure?.structureTypologies?.map((typologie) => ({
       id: typologie.id,
       date: typologie.date,
@@ -97,107 +114,14 @@ export const getDefaultValues = ({
     echeancePlacesAFermer: structure.echeancePlacesAFermer
       ? formatDate(structure.echeancePlacesAFermer)
       : undefined,
-  };
-};
-
-export const getQualiteFormDefaultValues = ({
-  structure,
-  categoriesToDisplay,
-}: {
-  structure: StructureWithLatLng;
-  categoriesToDisplay: AgentFileUploadCategoryType[number][];
-}) => {
-  const filteredFileUploads = structure.fileUploads?.filter(
-    (fileUpload) =>
-      fileUpload?.category &&
-      categoriesToDisplay.includes(
-        fileUpload.category as AgentFileUploadCategoryType[number]
-      )
-  );
-
-  const defaultValuesFromDb = (filteredFileUploads || [])?.map((fileUpload) => {
-    const formattedFileUploads = {
-      ...fileUpload,
-      uuid: uuidv4(),
-      key: fileUpload.key,
-      category: String(fileUpload.category) as z.infer<
-        typeof zAgentFileUploadCategory
-      >,
-      date:
-        fileUpload.date && fileUpload.date instanceof Date
-          ? fileUpload.date.toISOString()
-          : fileUpload.date || undefined,
-      startDate:
-        fileUpload.startDate && fileUpload.startDate instanceof Date
-          ? fileUpload.startDate.toISOString()
-          : fileUpload.startDate || undefined,
-      endDate:
-        fileUpload.endDate && fileUpload.endDate instanceof Date
-          ? fileUpload.endDate.toISOString()
-          : fileUpload.endDate || undefined,
-      categoryName: fileUpload.categoryName || "Document",
-      parentFileUploadId: Number(fileUpload.parentFileUploadId) || undefined,
-    };
-    return formattedFileUploads;
-  });
-  const createEmptyDefaultValues = () => {
-    const filesToAdd: {
-      uuid: string;
-      category: z.infer<typeof zAgentFileUploadCategory>;
-    }[] = [];
-
-    const missingCategories = categoriesToDisplay.filter(
-      (category) =>
-        !filteredFileUploads?.some(
-          (fileUpload) => fileUpload.category === category
-        )
-    );
-
-    missingCategories.forEach((category) => {
-      filesToAdd.push({
-        uuid: uuidv4(),
-        category: category,
-      });
-    });
-
-    return filesToAdd;
-  };
-
-  const controles = structure.controles?.map((controle) => {
-    return {
-      id: controle.id,
-      date:
-        controle.date && controle.date instanceof Date
-          ? controle.date.toISOString()
-          : controle.date || undefined,
-      type: ControleType[controle.type as unknown as keyof typeof ControleType],
-      fileUploads: controle.fileUploads,
-    };
-  });
-
-  const defaultValues = {
-    fileUploads: [...defaultValuesFromDb, ...createEmptyDefaultValues()],
+    budgets,
+    fileUploads: [
+      ...buildFileUploadsDefaultValues({ structure, isAutorisee }),
+      ...defaultValuesFromDb,
+      ...createEmptyDefaultValues(categoriesToDisplay, filteredFileUploads),
+    ] as FileUploadFormValues[],
     controles,
   };
-
-  return defaultValues;
-};
-
-export const getFinanceFormDefaultValues = ({
-  structure,
-}: {
-  structure: StructureWithLatLng;
-}) => {
-  const isAutorisee = isStructureAutorisee(structure?.type);
-  const { budgetArray, buildFileUploadsDefaultValues } = getFinanceDocument({
-    structure,
-    isAutorisee,
-  });
-  const defaultValues = {
-    budgets: budgetArray,
-    fileUploads: buildFileUploadsDefaultValues(),
-  };
-  return defaultValues;
 };
 
 type StructureDefaultValues = Omit<
@@ -225,6 +149,9 @@ type StructureDefaultValues = Omit<
   | "placesAFermer"
   | "echeancePlacesACreer"
   | "echeancePlacesAFermer"
+  | "fileUploads"
+  | "controles"
+  | "budgets"
 > & {
   creationDate: string;
   nom: string;
@@ -250,4 +177,7 @@ type StructureDefaultValues = Omit<
   placesAFermer?: number;
   echeancePlacesACreer?: string;
   echeancePlacesAFermer?: string;
+  fileUploads: FileUploadFormValues[];
+  controles: ControleFormValues[];
+  budgets: [Budget, Budget, Budget, Budget, Budget];
 };

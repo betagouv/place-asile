@@ -30,7 +30,7 @@ interface AdressesListProps {
   setError: UseFormSetError<AjoutAdressesFormValues>;
 }
 
-const AdressesList = ({
+export const AdressesList = ({
   watch,
   control,
   setValue,
@@ -328,5 +328,3 @@ const AdressesList = ({
     </div>
   );
 };
-
-export default AdressesList;

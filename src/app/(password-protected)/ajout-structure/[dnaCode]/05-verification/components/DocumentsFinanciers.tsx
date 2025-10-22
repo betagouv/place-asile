@@ -1,12 +1,11 @@
 import { useParams } from "next/navigation";
 import { ReactElement, useMemo } from "react";
-import { z } from "zod";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getDocumentIndexes } from "@/app/utils/getFinanceDocument.util";
+import { getDocumentIndexes } from "@/app/utils/buildFileUploadsDefaultValues.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { DocumentsSchemaFlexible } from "@/schemas/ajout/ajoutDocuments.schema";
 import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/base/documentsFinanciers.schema";
 
 import { FileItem } from "../../../components/FileItem";
 import { Year } from "../../../components/Year";
@@ -15,11 +14,10 @@ import {
   structureSubventionneesDocuments,
 } from "../../04-documents/documents";
 
-type DocumentsFinanciersFormValues = z.infer<typeof DocumentsSchemaFlexible>;
 export const DocumentsFinanciers = (): ReactElement => {
   const params = useParams();
   const { currentValue: localStorageValues } = useLocalStorage<
-    Partial<DocumentsFinanciersFormValues>
+    Partial<DocumentsFinanciersFlexibleFormValues>
   >(`ajout-structure-${params.dnaCode}-documents`, {});
 
   const { currentValue: identificationValues } = useLocalStorage<

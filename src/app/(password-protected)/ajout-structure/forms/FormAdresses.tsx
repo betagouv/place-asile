@@ -12,7 +12,7 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { ajoutAdressesSchema } from "@/schemas/ajout/ajoutAdresses.schema";
 import { Repartition } from "@/types/adresse.type";
 
-import AdressesList from "../[dnaCode]/02-adresses/AdressesList";
+import { AdressesList } from "../[dnaCode]/02-adresses/AdressesList";
 
 export default function FormAdresses() {
   const params = useParams();

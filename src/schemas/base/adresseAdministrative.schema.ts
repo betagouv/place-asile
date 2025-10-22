@@ -17,6 +17,9 @@ export const adresseAdministrativeWithTypeBatiSchema =
     sameAddress: z.boolean().optional(),
   });
 
+export const adresseAdministrativeAutoSaveSchema =
+  adresseAdministrativeSchema.partial();
+
 export type AdresseAdministrativeFormValues = z.infer<
   typeof adresseAdministrativeSchema
 >;

@@ -7,11 +7,13 @@ import FormWrapper, {
 } from "@/app/components/forms/FormWrapper";
 import { NoteDisclaimer } from "@/app/components/forms/notes/NoteDisclaimer";
 import { SubmitError } from "@/app/components/SubmitError";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { notesSchema } from "@/schemas/base/notes.schema";
+import { FetchState } from "@/types/fetch-state.type";
 
-import { useStructureContext } from "../../context/StructureClientContext";
+import { useStructureContext } from "../../_context/StructureClientContext";
 import { ModificationTitle } from "../components/ModificationTitle";
 
 export default function ModificationNotesForm(): ReactElement {
@@ -19,9 +21,12 @@ export default function ModificationNotesForm(): ReactElement {
 
   const defaultValues = getDefaultValues({ structure });
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling({
+  const { handleSubmit, backendError } = useAgentFormHandling({
     nextRoute: `/structures/${structure.id}`,
   });
+
+  const { getFetchState } = useFetchState();
+  const saveState = getFetchState("structure-save");
 
   return (
     <>
@@ -47,7 +52,7 @@ export default function ModificationNotesForm(): ReactElement {
       >
         <NoteDisclaimer />
         <FieldSetNotes />
-        {state === "error" && (
+        {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { ReactElement } from "react";
 
-import { steps } from "./components/Steps";
+import { steps } from "./_components/Tabs";
 
 export default async function Finalisation({
   params,

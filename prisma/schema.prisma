@@ -210,9 +210,9 @@ model Budget {
   structure                         Structure? @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode                  String
   date                              DateTime
-  ETP                               Float
-  tauxEncadrement                   Float
-  coutJournalier                    Float
+  ETP                               Float?
+  tauxEncadrement                   Float?
+  coutJournalier                    Float?
   dotationDemandee                  Float?
   dotationAccordee                  Float?
   totalProduits                     Float?

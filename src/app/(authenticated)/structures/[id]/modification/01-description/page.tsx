@@ -2,7 +2,7 @@
 
 import Notice from "@codegouvfr/react-dsfr/Notice";
 
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
 import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
 import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";
@@ -11,9 +11,16 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
+import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { modificationDescriptionSchema } from "@/schemas/modification/modificationDescription.schema";
+import { FormAdresse } from "@/schemas/base/adresse.schema";
+import {
+  ModificationDescriptionFormValues,
+  modificationDescriptionSchema,
+} from "@/schemas/modification/modificationDescription.schema";
+import { FetchState } from "@/types/fetch-state.type";
 import { FormKind } from "@/types/global";
 
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -21,12 +28,23 @@ import { ModificationTitle } from "../components/ModificationTitle";
 export default function ModificationDescription() {
   const { structure } = useStructureContext();
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling({
+  const { handleSubmit, backendError } = useAgentFormHandling({
     nextRoute: `/structures/${structure.id}`,
   });
 
   const defaultValues = getDefaultValues({ structure });
 
+  const { getFetchState } = useFetchState();
+  const saveState = getFetchState("structure-save");
+
+  const onSubmit = (data: ModificationDescriptionFormValues) => {
+    handleSubmit({
+      ...data,
+      adresses: transformFormAdressesToApiAdresses(
+        data.adresses as FormAdresse[]
+      ),
+    });
+  };
   return (
     <>
       <ModificationTitle
@@ -36,7 +54,7 @@ export default function ModificationDescription() {
       <FormWrapper
         schema={modificationDescriptionSchema}
         defaultValues={defaultValues}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         mode="onChange"
         resetRoute={`/structures/${structure.id}`}
         submitButtonText="Valider"
@@ -69,7 +87,7 @@ export default function ModificationDescription() {
         <FieldSetAdresseAdministrative formKind={FormKind.MODIFICATION} />
         <FieldSetHebergement />
       </FormWrapper>
-      {state === "error" && (
+      {saveState === FetchState.ERROR && (
         <SubmitError
           structureDnaCode={structure.dnaCode}
           backendError={backendError}

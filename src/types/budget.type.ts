@@ -1,7 +1,7 @@
 export type Budget = {
   id: number;
   structureDnaCode: string;
-  date: Date;
+  date: string;
   ETP: number;
   tauxEncadrement: number;
   coutJournalier: number;
