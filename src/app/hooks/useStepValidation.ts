@@ -1,3 +1,6 @@
+
+// FINALEMENT NON UTILISE CAR TOUT GERE VIA STRUCTURE
+
 // TODO : UTILISATION EN FRONT :
 // 
 // const { validateFormStep } = useStepValidation();
@@ -16,128 +19,130 @@
 //   }
 // };
 
-import { StepStatus } from '@/app/api/forms/form.types';
 
-export type ValidateFormStepRequest = {
-    structureDnaCode: string;
-    formName: string;
-    formVersion: number;
-    stepLabel: string;
-    status: StepStatus;
-};
 
-export const useStepValidation = () => {
-    const validateFormStep = async (request: ValidateFormStepRequest): Promise<string> => {
-        try {
-            const response = await fetch('/api/forms', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(request)
-            });
+// import { StepStatus } from '@/app/api/forms/form.types';
 
-            if (response.status < 400) {
-                return "OK";
-            } else {
-                const result = await response.json();
-                return JSON.stringify(result);
-            }
-        } catch (error) {
-            console.error(error);
-            return String(error);
-        }
-    };
+// export type ValidateFormStepRequest = {
+//     structureDnaCode: string;
+//     formName: string;
+//     formVersion: number;
+//     stepLabel: string;
+//     status: StepStatus;
+// };
 
-    const getFormStep = async (structureDnaCode: string, stepLabel: string, formName: string, formVersion: number): Promise<unknown> => {
-        try {
-            const response = await fetch('/api/forms', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'get-step',
-                    structureDnaCode,
-                    formName,
-                    formVersion,
-                    stepLabel
-                })
-            });
+// export const useStepValidation = () => {
+//     const validateFormStep = async (request: ValidateFormStepRequest): Promise<string> => {
+//         try {
+//             const response = await fetch('/api/forms', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify(request)
+//             });
 
-            if (response.status < 400) {
-                const result = await response.json();
-                return result.formStep;
-            } else {
-                const result = await response.json();
-                throw new Error(JSON.stringify(result));
-            }
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    };
+//             if (response.status < 400) {
+//                 return "OK";
+//             } else {
+//                 const result = await response.json();
+//                 return JSON.stringify(result);
+//             }
+//         } catch (error) {
+//             console.error(error);
+//             return String(error);
+//         }
+//     };
 
-    const getFormsByStructure = async (structureDnaCode: string): Promise<unknown> => {
-        try {
-            const response = await fetch('/api/forms', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'get-forms',
-                    structureDnaCode
-                })
-            });
+//     const getFormStep = async (structureDnaCode: string, stepLabel: string, formName: string, formVersion: number): Promise<unknown> => {
+//         try {
+//             const response = await fetch('/api/forms', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify({
+//                     action: 'get-step',
+//                     structureDnaCode,
+//                     formName,
+//                     formVersion,
+//                     stepLabel
+//                 })
+//             });
 
-            if (response.status < 400) {
-                const result = await response.json();
-                return result.forms;
-            } else {
-                const result = await response.json();
-                throw new Error(JSON.stringify(result));
-            }
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    };
+//             if (response.status < 400) {
+//                 const result = await response.json();
+//                 return result.formStep;
+//             } else {
+//                 const result = await response.json();
+//                 throw new Error(JSON.stringify(result));
+//             }
+//         } catch (error) {
+//             console.error(error);
+//             throw error;
+//         }
+//     };
 
-    const updateFormStep = async (structureDnaCode: string, stepLabel: string, formName: string, formVersion: number, status: StepStatus): Promise<unknown> => {
-        try {
-            const response = await fetch('/api/forms', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'update-step',
-                    structureDnaCode,
-                    stepLabel,
-                    formName,
-                    formVersion,
-                    status
-                })
-            });
+//     const getFormsByStructure = async (structureDnaCode: string): Promise<unknown> => {
+//         try {
+//             const response = await fetch('/api/forms', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify({
+//                     action: 'get-forms',
+//                     structureDnaCode
+//                 })
+//             });
 
-            if (response.status < 400) {
-                const result = await response.json();
-                return result.formStep;
-            } else {
-                const result = await response.json();
-                throw new Error(JSON.stringify(result));
-            }
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    };
+//             if (response.status < 400) {
+//                 const result = await response.json();
+//                 return result.forms;
+//             } else {
+//                 const result = await response.json();
+//                 throw new Error(JSON.stringify(result));
+//             }
+//         } catch (error) {
+//             console.error(error);
+//             throw error;
+//         }
+//     };
 
-    return {
-        validateFormStep,
-        getFormStep,
-        getFormsByStructure,
-        updateFormStep
-    };
-};
+//     const updateFormStep = async (structureDnaCode: string, stepLabel: string, formName: string, formVersion: number, status: StepStatus): Promise<unknown> => {
+//         try {
+//             const response = await fetch('/api/forms', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify({
+//                     action: 'update-step',
+//                     structureDnaCode,
+//                     stepLabel,
+//                     formName,
+//                     formVersion,
+//                     status
+//                 })
+//             });
+
+//             if (response.status < 400) {
+//                 const result = await response.json();
+//                 return result.formStep;
+//             } else {
+//                 const result = await response.json();
+//                 throw new Error(JSON.stringify(result));
+//             }
+//         } catch (error) {
+//             console.error(error);
+//             throw error;
+//         }
+//     };
+
+//     return {
+//         validateFormStep,
+//         getFormStep,
+//         getFormsByStructure,
+//         updateFormStep
+//     };
+// };
