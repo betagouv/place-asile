@@ -26,6 +26,10 @@ export default function FinalisationNotes() {
 
   const currentStep = "06-notes";
 
+  const isCompleted = structure.finalisationSteps?.some(
+    (step) => step.label === currentStep
+  );
+
   const defaultValues = getDefaultValues({ structure });
 
   const { handleValidation, handleAutoSave, backendError } =
@@ -51,8 +55,8 @@ export default function FinalisationNotes() {
       >
         <AutoSave schema={notesAutoSaveSchema} onSave={onAutoSave} />
         <InformationBar
-          variant="complete"
-          title="À compléter"
+          variant={isCompleted ? "success" : "complete"}
+          title={isCompleted ? "Complété" : "À compléter"}
           description="Veuillez utiliser cet espace pour centraliser et annoter les informations nécessaires au pilotage de la structure : élément contextuel, prochaine échéance, document à produire, point d'attention, élément relationnel avec la structure..."
         />
 

@@ -31,6 +31,10 @@ export default function FinalisationQualite() {
 
   const currentStep = "05-documents";
 
+  const isCompleted = structure.finalisationSteps?.some(
+    (step) => step.label === currentStep
+  );
+
   const categoriesToDisplay = getCategoriesToDisplay(structure).filter(
     (category) => category !== "INSPECTION_CONTROLE"
   );
@@ -71,8 +75,8 @@ export default function FinalisationQualite() {
       >
         <AutoSave schema={fileUploadsAutoSaveSchema} onSave={onAutoSave} />
         <InformationBar
-          variant="complete"
-          title="À compléter"
+          variant={isCompleted ? "success" : "complete"}
+          title={isCompleted ? "Complété" : "À compléter"}
           description="Veuillez importer l’ensemble des actes administratifs historiques afférents à la structure, que les dates d’effets soient actuelles ou révolues."
         />
 

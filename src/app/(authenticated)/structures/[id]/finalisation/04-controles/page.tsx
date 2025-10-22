@@ -26,6 +26,10 @@ export default function ModificationControleForm() {
 
   const currentStep = "04-controles";
 
+  const isCompleted = structure.finalisationSteps?.some(
+    (step) => step.label === currentStep
+  );
+
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
   const { handleSubmit, backendError } = useAgentFormHandling({
@@ -68,8 +72,8 @@ export default function ModificationControleForm() {
         className="rounded-t-none"
       >
         <InformationBar
-          variant="complete"
-          title="À compléter"
+          variant={isCompleted ? "success" : "complete"}
+          title={isCompleted ? "Complété" : "À compléter"}
           description="Veuillez renseigner les informations et documents concernant l’ensemble des évaluations et inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
         />
         <Notice

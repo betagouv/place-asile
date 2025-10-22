@@ -34,6 +34,10 @@ export default function FinalisationFinance() {
 
   const currentStep = "03-finance";
 
+  const isCompleted = structure.finalisationSteps?.some(
+    (step) => step.label === currentStep
+  );
+
   const hasCpom = structure.cpom;
   const isAutorisee = isStructureAutorisee(structure.type);
   const isSubventionnee = isStructureSubventionnee(structure.type);
@@ -75,8 +79,8 @@ export default function FinalisationFinance() {
         <AutoSave schema={basicAutoSaveSchema} onSave={onAutoSave} />
 
         <InformationBar
-          variant="complete"
-          title="À compléter"
+          variant={isCompleted ? "success" : "complete"}
+          title={isCompleted ? "Complété" : "À compléter"}
           description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
         />
 

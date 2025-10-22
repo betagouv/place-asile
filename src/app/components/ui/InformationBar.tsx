@@ -13,7 +13,9 @@ export const InformationBar = ({ variant, title, description }: Props) => {
         variant === "verify" &&
           "text-label-yellow-tournesol border-b-2 border-plain-yellow-tournesol",
         variant === "complete" &&
-          "text-default-warning border-b-2 border-plain-warning"
+          "text-default-warning border-b-2 border-plain-warning",
+        variant === "success" &&
+          "text-default-success border-b-2 border-plain-success"
       )}
     >
       <span className={cn("mt-1", iconClassName)}></span>
@@ -26,7 +28,7 @@ export const InformationBar = ({ variant, title, description }: Props) => {
 };
 
 type Props = {
-  variant: "verify" | "complete";
+  variant: "verify" | "complete" | "success";
   title: string;
   description: string;
 };

@@ -32,6 +32,10 @@ export default function FinalisationIdentification(): ReactElement {
 
   const currentStep = "01-identification";
 
+  const isCompleted = structure.finalisationSteps?.some(
+    (step) => step.label === currentStep
+  );
+
   const defaultValues = getDefaultValues({ structure });
 
   const { handleValidation, handleAutoSave, backendError } =
@@ -64,8 +68,8 @@ export default function FinalisationIdentification(): ReactElement {
           onSave={onAutoSave}
         />
         <InformationBar
-          variant="verify"
-          title="À vérifier"
+          variant={isCompleted ? "success" : "verify"}
+          title={isCompleted ? "Vérifié" : "À vérifier"}
           description="Veuillez vérifier les informations suivantes transmises par l’opérateur."
         />
 

@@ -23,6 +23,10 @@ export default function FinalisationDocumentsFinanciers() {
 
   const currentStep = "02-documents-financiers";
 
+  const isCompleted = structure.finalisationSteps?.some(
+    (step) => step.label === currentStep
+  );
+
   const defaultValues = getDefaultValues({ structure });
 
   const { handleValidation, handleAutoSave, backendError } =
@@ -54,7 +58,7 @@ export default function FinalisationDocumentsFinanciers() {
         />
         <InformationBar
           variant="verify"
-          title="À vérifier"
+          title={isCompleted ? "Vérifié" : "À vérifier"}
           description="Veuillez vérifier les documents financiers fournis par l’opérateur concernant les cinq dernières années."
         />
 
