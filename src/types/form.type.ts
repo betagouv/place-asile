@@ -3,6 +3,7 @@ export type Form = {
     structureCodeDna: string;
     formDefinitionId: number;
     status: boolean;
+    formSteps: FormStep[];
     createdAt?: Date;
     updatedAt?: Date;
 };
@@ -11,6 +12,8 @@ export type FormDefinition = {
     id: number;
     name: string;
     version: number;
+    formStepDefinitions: FormStepDefinition[];
+    forms: Form[];
     createdAt?: Date;
     updatedAt?: Date;
 };
@@ -29,6 +32,7 @@ export type FormStepDefinition = {
     formDefinitionId: number;
     label: string;
     authorType: AuthorType;
+    formSteps: FormStep[];
     createdAt?: Date;
     updatedAt?: Date;
 };
