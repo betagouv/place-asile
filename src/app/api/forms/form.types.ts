@@ -1,98 +1,67 @@
-// Import des types Prisma
-import type {
-    Form,
-    FormDefinition,
-    FormStep,
-    FormStepDefinition,
-} from "@prisma/client";
-import {
-    AuthorType,
-    StepStatus,
-} from "@prisma/client";
+// import type {
+//     Form,
+//     FormDefinition,
+//     FormStep,
+//     FormStepDefinition,
+// } from "@/types/form.type";
+import { AuthorType, StepStatus } from "@/types/form.type";
 
-
-
-// Types personnalisés qui étendent Prisma
-type FormWithDetails = Form & {
-    formDefinition: FormDefinition;
-    formSteps: (FormStep & {
-        stepDefinition: FormStepDefinition;
-    })[];
-};
-
-type FormStepWithDetails = FormStep & {
-    stepDefinition: FormStepDefinition;
-    form: Form;
-};
-
-
-// Réexportation des types Prisma
-export type {
-    Form,
-    FormDefinition,
-    FormStep,
-    FormStepDefinition,
-    FormStepWithDetails,
-    FormWithDetails,
-};
+// export type {
+//     Form,
+//     FormDefinition,
+//     FormStep,
+//     FormStepDefinition,
+// };
 
 export {
     AuthorType,
     StepStatus,
 };
 
-// Types spécifiques aux forms (API requests)
-export interface CreateFormDefinitionRequest {
+export type CreateFormDefinition = {
     name: string;
     version: number;
-    authorType: AuthorType;
-    description?: string;
-}
+    createdAt?: Date;
+    updatedAt?: Date;
+};
 
-export interface CreateFormStepDefinitionRequest {
+export type CreateFormStepDefinition = {
     formDefinitionId: number;
     label: string;
-    description?: string;
     authorType: AuthorType;
-}
+    createdAt?: Date;
+    updatedAt?: Date;
+};
 
-export interface CreateFormRequest {
-    structureCodeDna: string;
+export type UpdateFormDefinition = CreateFormDefinition & {
+    id?: number;
+};
+
+export type UpdateFormStepDefinition = CreateFormStepDefinition & {
+    id?: number;
+};
+
+export type CreateForm = {
     formDefinitionId: number;
-}
+    status: boolean;
+    formDefinition: UpdateFormDefinition;
+    formSteps: UpdateFormStep[];
+    createdAt?: Date;
+    updatedAt?: Date;
+};
 
-export interface CreateFormStepRequest {
+export type CreateFormStep = {
+    status: StepStatus;
+    createdAt?: Date;
+    updatedAt?: Date;
+};
+
+export type UpdateFormStep = CreateFormStep & {
+    id?: number;
     formId: number;
     stepDefinitionId: number;
-    data?: Record<string, unknown>;
-}
+};
 
-export interface ValidateStepRequest {
-    structureCodeDna: string;
-    formName: string;
-    formVersion: number;
-    stepLabel: string;
-    data?: Record<string, unknown>;
-}
-
-export interface GetFormRequest {
-    structureCodeDna: string;
-    formName: string;
-    formVersion: number;
-}
-
-export interface GetFormStepRequest {
-    structureCodeDna: string;
-    formName: string;
-    formVersion: number;
-    stepLabel: string;
-}
-
-export interface UpdateFormStepDataRequest {
-    structureCodeDna: string;
-    formName: string;
-    formVersion: number;
-    stepLabel: string;
-    data?: Record<string, unknown>;
-    status?: StepStatus;
-}
+export type UpdateForm = CreateForm & {
+    id?: number;
+};

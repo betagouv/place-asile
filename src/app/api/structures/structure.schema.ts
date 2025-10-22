@@ -5,6 +5,7 @@ import { Repartition } from "@/types/adresse.type";
 import { ContactType } from "@/types/contact.type";
 import { ControleType } from "@/types/controle.type";
 import { zFileUploadCategory } from "@/types/file-upload.type";
+import { AuthorType, StepStatus } from "@/types/form.type";
 import {
   PublicType,
   StructureState,
@@ -140,6 +141,32 @@ const updateStructureTypologieSchema = z.object({
   fvvTeh: z.number().int(),
 });
 
+const formSchema = z.object({
+  id: z.number().optional(),
+  formDefinitionId: z.number(),
+  status: z.boolean(),
+});
+
+const formStepSchema = z.object({
+  id: z.number().optional(),
+  formId: z.number(),
+  stepDefinitionId: z.number(),
+  status: z.nativeEnum(StepStatus),
+});
+
+const formStepDefinitionSchema = z.object({
+  id: z.number().optional(),
+  formDefinitionId: z.number(),
+  label: z.string(),
+  authorType: z.nativeEnum(AuthorType),
+});
+
+const formDefinitionSchema = z.object({
+  id: z.number().optional(),
+  name: z.string(),
+  version: z.number(),
+});
+
 export const structureUpdateSchema = z.object({
   dnaCode: z.string().min(1, "Le code DNA est requis"),
   operateur: z.object({ id: z.number(), name: z.string() }).optional(),
@@ -217,4 +244,21 @@ export const structureUpdateSchema = z.object({
   controles: z
     .array(controleSchema.extend({ id: z.number().optional() }))
     .optional(),
+  forms: z
+    .array(formSchema.extend({
+      id: z.number().optional(),
+      formDefinition: formDefinitionSchema,
+      formSteps: z.array(formStepSchema.extend({
+        id: z.number().optional(),
+        formId: z.number(),
+        stepDefinitionId: z.number(),
+        status: z.nativeEnum(StepStatus),
+      })),
+      formStepsDefinitions: z.array(formStepDefinitionSchema.extend({
+        id: z.number().optional(),
+        formDefinitionId: z.number().optional(),
+        label: z.string(),
+        authorType: z.nativeEnum(AuthorType),
+      })),
+    })).optional(),
 });

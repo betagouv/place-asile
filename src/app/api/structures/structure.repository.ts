@@ -3,6 +3,7 @@ import { FileUploadCategory, Prisma, Structure } from "@prisma/client";
 import { getCoordinates } from "@/app/utils/adresse.util";
 import prisma from "@/lib/prisma";
 
+import { createOrUpdateForms } from "../forms/form.repository";
 import {
   CreateStructure,
   UpdateAdresse,
@@ -43,8 +44,8 @@ export const findAll = async (): Promise<Structure[]> => {
   });
 };
 
-export const findOne = async (id: number): Promise<Structure | null> => {
-  return prisma.structure.findUnique({
+export const findOne = async (id: number): Promise<Structure> => {
+  const structure = await prisma.structure.findFirstOrThrow({
     where: {
       id,
     },
@@ -95,8 +96,19 @@ export const findOne = async (id: number): Promise<Structure | null> => {
         },
       },
       operateur: true,
+      forms: {
+        include: {
+          formDefinition: true,
+          formSteps: {
+            include: {
+              stepDefinition: true,
+            },
+          },
+        },
+      }
     },
   });
+  return structure;
 };
 
 export const findByDnaCode = async (
@@ -490,36 +502,31 @@ const createOrUpdateControles = async (
 
   await Promise.all(
     (controles || []).map((controle) => {
-      if (controle.id) {
-        return prisma.controle.update({
-          where: { id: controle.id },
-          data: {
-            type: convertToControleType(controle.type),
-            date: controle.date,
-            fileUploads: {
-              connect: { key: controle.fileUploadKey },
-            },
+      return prisma.controle.upsert({
+        where: { id: controle.id },
+        update: {
+          type: convertToControleType(controle.type),
+          date: controle.date,
+          fileUploads: {
+            connect: { key: controle.fileUploadKey },
           },
-        });
-      } else {
-        return prisma.controle.create({
-          data: {
-            structureDnaCode,
-            type: convertToControleType(controle.type),
-            date: controle.date!,
-            fileUploads: {
-              connect: { key: controle.fileUploadKey },
-            },
+        },
+        create: {
+          structureDnaCode,
+          type: convertToControleType(controle.type),
+          date: controle.date!,
+          fileUploads: {
+            connect: { key: controle.fileUploadKey },
           },
-        });
-      }
+        },
+      });
     })
   );
 };
 
 export const updateOne = async (
   structure: UpdateStructure
-): Promise<Structure | null> => {
+): Promise<Structure> => {
   let updatedStructure = null;
   try {
     const {
@@ -532,6 +539,7 @@ export const updateOne = async (
       fileUploads,
       controles,
       operateur,
+      forms,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       typeBati,
       ...structureProperties
@@ -561,6 +569,11 @@ export const updateOne = async (
     await createOrUpdateAdresses(adresses, structure.dnaCode);
     await updateFileUploads(fileUploads, structure.dnaCode);
     await createOrUpdateControles(controles, structure.dnaCode);
+
+    // Gérer les forms si présents
+    if (forms) {
+      await createOrUpdateForms(forms, structure.dnaCode);
+    }
   } catch (error) {
     throw new Error(
       `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}: ${error}`

@@ -1,120 +1,79 @@
+// src/app/api/forms/form.repository.ts
 import prisma from "@/lib/prisma";
 
-import { AuthorType, Form, FormDefinition, FormStep, FormStepDefinition, StepStatus } from "./form.types";
+import {
+    CreateFormDefinition,
+    CreateFormStepDefinition,
+    UpdateForm,
+    UpdateFormStep,
+} from "./form.types";
+import { convertToAuthorType, convertToStepStatus } from "./form.util";
 
-// FormDefinition operations
-export const createFormDefinition = async (data: {
-    name: string;
-    version: number;
-    authorType: string;
-    description?: string;
-}): Promise<FormDefinition> => {
-    return prisma.formDefinition.create({
-        data,
+export const createFormDefinition = async (
+    formDefinition: CreateFormDefinition
+): Promise<void> => {
+    await prisma.formDefinition.create({
+        data:
+        {
+            name: formDefinition.name,
+            version: formDefinition.version,
+        }
     });
 };
 
-export const findFormDefinition = async (name: string, version: number): Promise<FormDefinition | null> => {
-    return prisma.formDefinition.findUnique({
-        where: {
-            name_version: {
-                name,
-                version,
-            },
-        },
+export const createFormStepDefinition = async (
+    formStepDefinition: CreateFormStepDefinition
+): Promise<void> => {
+    await prisma.formStepDefinition.create({
+        data: {
+            formDefinitionId: formStepDefinition.formDefinitionId,
+            label: formStepDefinition.label,
+            authorType: convertToAuthorType(formStepDefinition.authorType),
+        }
     });
 };
 
-// FormStepDefinition operations
-export const createFormStepDefinition = async (data: {
-    formDefinitionId: number;
-    label: string;
-    description?: string;
-    authorType: AuthorType;
-}): Promise<FormStepDefinition> => {
-    return prisma.formStepDefinition.create({
-        data,
-    });
-};
-
-export const findFormStepDefinition = async (formDefinitionId: number, label: string): Promise<FormStepDefinition | null> => {
-    return prisma.formStepDefinition.findUnique({
-        where: {
-            formDefinitionId_label: {
-                formDefinitionId,
-                label,
-            },
-        },
-    });
-};
-
-// Form operations
-export const createForm = async (data: {
-    structureCodeDna: string;
-    formDefinitionId: number;
-}): Promise<Form> => {
-    return prisma.form.create({
-        data,
-    });
-};
-
-export const findForm = async (structureCodeDna: string, formDefinitionId: number): Promise<Form | null> => {
-    return prisma.form.findUnique({
-        where: {
-            structureCodeDna_formDefinitionId: {
-                structureCodeDna,
-                formDefinitionId,
-            },
-        },
-        include: {
-            formDefinition: true,
-        },
-    });
-};
-
-// FormStep operations
-export const createFormStep = async (data: {
-    formId: number;
-    stepDefinitionId: number;
-    data?: Record<string, unknown>;
-}): Promise<FormStep> => {
-    return prisma.formStep.create({
-        data,
-    });
-};
-
-export const findFormStep = async (formId: number, stepDefinitionId: number): Promise<FormStep | null> => {
-    return prisma.formStep.findUnique({
-        where: {
-            formId_stepDefinitionId: {
-                formId,
-                stepDefinitionId,
-            },
-        },
-        include: {
-            stepDefinition: true,
-        },
-    });
-};
-
-export const updateFormStep = async (
+export const createOrUpdateFormSteps = async (
     formId: number,
-    stepDefinitionId: number,
-    data: {
-        data?: Record<string, unknown>;
-        status?: StepStatus;
-    }
-): Promise<FormStep> => {
-    return prisma.formStep.update({
-        where: {
-            formId_stepDefinitionId: {
-                formId,
-                stepDefinitionId,
+    formSteps: UpdateFormStep[] | undefined
+): Promise<void> => {
+    if (!formSteps) return;
+    await Promise.all(formSteps.map(async (formStep) => {
+        return prisma.formStep.upsert({
+            where: {
+                id: formStep.id,
             },
-        },
-        data,
-        include: {
-            stepDefinition: true,
-        },
-    });
+            update: {
+                status: convertToStepStatus(formStep.status),
+            },
+            create: {
+                formId: formId,
+                stepDefinitionId: formStep.stepDefinitionId,
+                status: convertToStepStatus(formStep.status),
+            }
+        });
+    }));
+};
+
+export const createOrUpdateForms = async (
+    forms: UpdateForm[] | undefined,
+    structureCodeDna: string
+): Promise<void> => {
+    if (!forms) return;
+    await Promise.all(forms.map(async (form) => {
+        const createdForm = await prisma.form.upsert({
+            where: {
+                id: form.id,
+            },
+            update: {
+                status: form.status,
+            },
+            create: {
+                formDefinitionId: form.formDefinitionId,
+                structureCodeDna: structureCodeDna,
+                status: form.status,
+            }
+        });
+        createOrUpdateFormSteps(createdForm.id, form.formSteps);
+    }));
 };
