@@ -40,6 +40,9 @@ export const getDefaultValues = ({
     ) || [];
   const budgets = Array(5)
     .fill({})
+    .map((_, index) => ({
+      date: formatDateString(years[index].toString()),
+    }))
     .map((emptyBudget, index) => {
       if (index < budgetsFilteredByYears.length) {
         const budget = budgetsFilteredByYears[index];
