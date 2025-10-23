@@ -1,5 +1,7 @@
 "use client";
 
+import { ReactElement } from "react";
+
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { AutoSave } from "@/app/components/forms/AutoSave";
 import { BudgetTables } from "@/app/components/forms/finance/BudgetTables";
@@ -29,7 +31,7 @@ import { FetchState } from "@/types/fetch-state.type";
 
 import { Tabs } from "../_components/Tabs";
 
-export default function FinalisationFinance() {
+export default function FinalisationFinance(): ReactElement {
   const { structure } = useStructureContext();
 
   const currentStep = "03-finance";
