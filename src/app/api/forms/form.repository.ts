@@ -2,189 +2,84 @@ import prisma from "@/lib/prisma";
 import { StepStatus } from "@/types/form.type";
 
 import {
-    CreateFormDefinition,
-    CreateFormStepDefinition,
     UpdateForm,
-    UpdateFormStep,
 } from "./form.types";
 import { convertToStepStatus } from "./form.util";
-
-export const createFormDefinition = async (
-    formDefinition: CreateFormDefinition
-): Promise<void> => {
-    await prisma.formDefinition.create({
-        data: {
-            name: formDefinition.name,
-            version: formDefinition.version,
-        }
-    });
-};
-
-export const createFormStepDefinition = async (
-    formStepDefinition: CreateFormStepDefinition
-): Promise<void> => {
-    await prisma.formStepDefinition.create({
-        data: {
-            formDefinitionId: formStepDefinition.formDefinitionId,
-            label: formStepDefinition.label,
-        }
-    });
-};
-
-// Nouvelle fonction pour s'assurer qu'une FormDefinition existe
-export const ensureFormDefinitionExists = async (
-    formDefinition: { name: string; version: number }
-): Promise<number> => {
-    const existing = await prisma.formDefinition.findUnique({
-        where: {
-            name_version: {
-                name: formDefinition.name,
-                version: formDefinition.version,
-            }
-        }
-    });
-
-    if (existing) return existing.id;
-
-    const created = await prisma.formDefinition.create({
-        data: {
-            name: formDefinition.name,
-            version: formDefinition.version,
-        }
-    });
-
-    return created.id;
-};
-
-// Nouvelle fonction pour s'assurer qu'une FormStepDefinition existe
-export const ensureFormStepDefinitionExists = async (
-    stepDefinition: { formDefinitionId: number; label: string }
-): Promise<number> => {
-    const existing = await prisma.formStepDefinition.findUnique({
-        where: {
-            formDefinitionId_label: {
-                formDefinitionId: stepDefinition.formDefinitionId,
-                label: stepDefinition.label,
-            }
-        }
-    });
-
-    if (existing) return existing.id;
-
-    const created = await prisma.formStepDefinition.create({
-        data: {
-            formDefinitionId: stepDefinition.formDefinitionId,
-            label: stepDefinition.label,
-        }
-    });
-
-    return created.id;
-};
-
-export const createOrUpdateFormSteps = async (
-    formId: number,
-    formSteps: UpdateFormStep[] | undefined
-): Promise<void> => {
-    if (!formSteps) return;
-
-    await Promise.all(formSteps.map(async (formStep) => {
-        return prisma.formStep.upsert({
-            where: {
-                formId_stepDefinitionId: {
-                    formId: formId,
-                    stepDefinitionId: formStep.stepDefinitionId,
-                }
-            },
-            update: {
-                status: convertToStepStatus(formStep.status),
-            },
-            create: {
-                formId: formId,
-                stepDefinitionId: formStep.stepDefinitionId,
-                status: convertToStepStatus(formStep.status),
-            }
-        });
-    }));
-};
 
 export const createOrUpdateForms = async (
     forms: UpdateForm[] | undefined,
     structureCodeDna: string
 ): Promise<void> => {
-    // ✅ Gérer undefined directement dans la fonction
     if (!forms || forms.length === 0) return;
 
     await Promise.all(forms.map(async (form) => {
         await createCompleteFormWithSteps(structureCodeDna, {
-            formDefinition: form.formDefinition,
+            slug: form.slug,
             status: form.status,
             formSteps: (form.formSteps || []).map(step => ({
-                stepDefinitionId: step.stepDefinitionId,
+                slug: step.slug,
                 status: step.status,
-                stepDefinition: {
-                    label: step.stepDefinition?.label || `Step ${step.stepDefinitionId}`,
-                }
             }))
         });
     }));
 };
 
-export const createCompleteFormWithSteps = async (
+const createCompleteFormWithSteps = async (
     structureCodeDna: string,
     formData: {
-        formDefinition: { name: string; version: number };
+        slug: string; // formDefinition slug
         status: boolean;
         formSteps: Array<{
-            stepDefinitionId: number;
+            slug: string; // formStepDefinition slug
             status: StepStatus;
-            stepDefinition?: {
-                label: string;
-            };
         }>;
     }
 ): Promise<void> => {
     await prisma.$transaction(async (tx) => {
-        // 1. Créer ou récupérer la FormDefinition
-        const formDefinitionId = await ensureFormDefinitionExists(formData.formDefinition);
+
+        // 1. Récupérer la FormDefinition par slug
+        const formDefinition = await tx.formDefinition.findUnique({
+            where: { slug: formData.slug },
+            include: { stepsDefinition: true }
+        });
+
+        if (!formDefinition) {
+            throw new Error(`FormDefinition with slug ${formData.slug} not found`);
+        }
 
         // 2. Créer ou mettre à jour le Form
         const form = await tx.form.upsert({
             where: {
                 structureCodeDna_formDefinitionId: {
                     structureCodeDna: structureCodeDna,
-                    formDefinitionId: formDefinitionId,
+                    formDefinitionId: formDefinition.id,
                 }
             },
             update: {
                 status: formData.status,
             },
             create: {
-                formDefinitionId: formDefinitionId,
+                formDefinitionId: formDefinition.id,
                 structureCodeDna: structureCodeDna,
                 status: formData.status,
             }
         });
 
-        // 3. ✅ AJOUTER: Créer les FormStepDefinition si nécessaire
-        if (formData.formSteps) {
-            for (const step of formData.formSteps) {
-                if (step.stepDefinition) {
-                    await ensureFormStepDefinitionExists({
-                        formDefinitionId: formDefinitionId,
-                        label: step.stepDefinition.label,
-                    });
-                }
-            }
-        }
-
-        // 4. Créer ou mettre à jour les FormSteps
+        // 3. Créer ou mettre à jour les FormSteps
         if (formData.formSteps) {
             await Promise.all(formData.formSteps.map(async (step) => {
+                // 3.1. Récupérer le FormStepDefinition par slug
+                const formStepDefinition = formDefinition.stepsDefinition.find(step => step.slug === step.slug);
+                if (!formStepDefinition) {
+                    throw new Error(`FormStepDefinition with slug ${step.slug} not found`);
+                }
+
+                // 3.2. Créer ou mettre à jour le FormStep
                 await tx.formStep.upsert({
                     where: {
                         formId_stepDefinitionId: {
                             formId: form.id,
-                            stepDefinitionId: step.stepDefinitionId,
+                            stepDefinitionId: formStepDefinition.id,
                         }
                     },
                     update: {
@@ -192,7 +87,7 @@ export const createCompleteFormWithSteps = async (
                     },
                     create: {
                         formId: form.id,
-                        stepDefinitionId: step.stepDefinitionId,
+                        stepDefinitionId: formStepDefinition.id,
                         status: convertToStepStatus(step.status),
                     }
                 });

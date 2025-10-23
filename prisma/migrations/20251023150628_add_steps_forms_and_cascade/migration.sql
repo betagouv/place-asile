@@ -9,6 +9,7 @@ CREATE TABLE "public"."FormDefinition" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "version" INTEGER NOT NULL,
+    "slug" TEXT NOT NULL,
 
     CONSTRAINT "FormDefinition_pkey" PRIMARY KEY ("id")
 );
@@ -18,6 +19,7 @@ CREATE TABLE "public"."FormStepDefinition" (
     "id" SERIAL NOT NULL,
     "formDefinitionId" INTEGER NOT NULL,
     "label" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
 
     CONSTRAINT "FormStepDefinition_pkey" PRIMARY KEY ("id")
 );
@@ -65,10 +67,10 @@ CREATE TABLE "reporting"."Referential" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "FormDefinition_name_version_key" ON "public"."FormDefinition"("name", "version");
+CREATE UNIQUE INDEX "FormDefinition_slug_key" ON "public"."FormDefinition"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "FormStepDefinition_formDefinitionId_label_key" ON "public"."FormStepDefinition"("formDefinitionId", "label");
+CREATE UNIQUE INDEX "FormStepDefinition_formDefinitionId_slug_key" ON "public"."FormStepDefinition"("formDefinitionId", "slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Form_structureCodeDna_formDefinitionId_key" ON "public"."Form"("structureCodeDna", "formDefinitionId");

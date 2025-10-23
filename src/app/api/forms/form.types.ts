@@ -4,38 +4,16 @@ export {
     StepStatus,
 };
 
-export type CreateFormDefinition = {
-    name: string;
-    version: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-};
-
-export type CreateFormStepDefinition = {
-    formDefinitionId: number;
-    label: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-};
-
-export type UpdateFormDefinition = CreateFormDefinition & {
-    id?: number;
-};
-
-export type UpdateFormStepDefinition = CreateFormStepDefinition & {
-    id?: number;
-};
-
 export type CreateForm = {
-    formDefinitionId: number;
+    slug: string;
     status: boolean;
-    formDefinition: UpdateFormDefinition;
     formSteps: UpdateFormStep[];
     createdAt?: Date;
     updatedAt?: Date;
 };
 
 export type CreateFormStep = {
+    slug: string;
     status: StepStatus;
     createdAt?: Date;
     updatedAt?: Date;
@@ -44,18 +22,11 @@ export type CreateFormStep = {
 export type UpdateFormStep = CreateFormStep & {
     id?: number;
     formId?: number; // Optionnel car fourni par contexte
-    stepDefinitionId: number;
-    stepDefinition?: {
-        label: string;
-    };
+    slug: string;
 };
 
 export type UpdateForm = CreateForm & {
     id?: number;
-    formDefinition: {
-        name: string;
-        version: number;
-        id?: number;
-    };
+    slug: string;
     formSteps: UpdateFormStep[];
 };

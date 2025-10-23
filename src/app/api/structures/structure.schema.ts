@@ -143,24 +143,15 @@ const updateStructureTypologieSchema = z.object({
 
 const formSchema = z.object({
   id: z.number().optional(),
-  formDefinitionId: z.number(),
+  slug: z.string(),
   status: z.boolean(),
 });
 
 const formStepSchema = z.object({
   id: z.number().optional(),
   formId: z.number().optional(),
-  stepDefinitionId: z.number(),
+  slug: z.string(),
   status: z.nativeEnum(StepStatus),
-  stepDefinition: z.object({
-    label: z.string(),
-  }).optional(),
-});
-
-const formDefinitionSchema = z.object({
-  id: z.number().optional(),
-  name: z.string(),
-  version: z.number(),
 });
 
 export const structureUpdateSchema = z.object({
@@ -248,15 +239,11 @@ export const structureUpdateSchema = z.object({
   forms: z
     .array(formSchema.extend({
       id: z.number().optional(),
-      formDefinition: formDefinitionSchema,
+      slug: z.string(),
       formSteps: z.array(formStepSchema.extend({
         id: z.number().optional(),
-        formId: z.number().optional(),
-        stepDefinitionId: z.number(),
+        slug: z.string(),
         status: z.nativeEnum(StepStatus),
-        stepDefinition: z.object({
-          label: z.string(),
-        }).optional(),
       }))
     })).optional(),
 });

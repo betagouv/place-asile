@@ -8,13 +8,14 @@ export async function migrateFormsAndSteps() {
   // Créer FormDefinition
   const formDefinition = await prisma.formDefinition.upsert({
     where: {
-      name_version: {
-        name: "finalisation", // Première version finalisation structure par agent
-        version: 1,
-      },
+      slug: "finalisation-v1",
     },
-    update: {},
+    update: {
+      name: "finalisation",
+      version: 1,
+    },
     create: {
+      slug: "finalisation-v1",
       name: "finalisation",
       version: 1,
     },
@@ -24,27 +25,30 @@ export async function migrateFormsAndSteps() {
 
   // Créer les FormStepDefinitions
   const steps = [
-    { label: "01-identification" },
-    { label: "02-documents-financiers" },
-    { label: "03-finance" },
-    { label: "04-controles" },
-    { label: "05-documents" },
-    { label: "06-notes" },
+    { label: "01-identification", slug: "01-identification" },
+    { label: "02-documents-financiers", slug: "02-documents-financiers" },
+    { label: "03-finance", slug: "03-finance" },
+    { label: "04-controles", slug: "04-controles" },
+    { label: "05-documents", slug: "05-documents" },
+    { label: "06-notes", slug: "06-notes" },
   ];
 
   const stepDefinitions = [];
   for (const step of steps) {
     const stepDefinition = await prisma.formStepDefinition.upsert({
       where: {
-        formDefinitionId_label: {
+        formDefinitionId_slug: {
           formDefinitionId: formDefinition.id,
-          label: step.label,
+          slug: step.slug,
         },
       },
-      update: {},
+      update: {
+        slug: step.slug,
+      },
       create: {
-        formDefinitionId: formDefinition.id,
         label: step.label,
+        formDefinitionId: formDefinition.id,
+        slug: step.slug,
       },
     });
 
