@@ -28,14 +28,3 @@ export const MODELE_DIFFUS_LINK = "/adresses-diffus.xlsx";
 export const MODELE_MIXTE_LINK = "/adresses-mixte.xlsx";
 
 export const PLACE_ASILE_CONTACT_EMAIL = "placedasile@beta.gouv.fr";
-
-export const AUTHOR_TYPES = [
-  {
-    value: "operateur",
-    label: "OPERATEUR",
-  },
-  {
-    value: "agent",
-    label: "AGENT",
-  },
-];

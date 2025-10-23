@@ -262,10 +262,9 @@ model FormDefinition {
 }
 
 model FormStepDefinition {
-  id               Int        @id @default(autoincrement())
+  id               Int    @id @default(autoincrement())
   formDefinitionId Int
   label            String
-  authorType       AuthorType
 
   formDefinition FormDefinition @relation(fields: [formDefinitionId], references: [id])
   formSteps      FormStep[]
@@ -407,13 +406,6 @@ enum FileUploadCategory {
 enum StructureState {
   A_FINALISER
   FINALISE
-
-  @@schema("public")
-}
-
-enum AuthorType {
-  OPERATEUR
-  AGENT
 
   @@schema("public")
 }

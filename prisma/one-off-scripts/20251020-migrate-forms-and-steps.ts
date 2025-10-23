@@ -1,5 +1,4 @@
-// scripts/migrate-forms-prod.ts
-import { AuthorType, PrismaClient, StepStatus } from "@prisma/client";
+import { PrismaClient, StepStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -25,12 +24,12 @@ export async function migrateFormsAndSteps() {
 
   // Créer les FormStepDefinitions
   const steps = [
-    { label: "01-identification", authorType: AuthorType.OPERATEUR },
-    { label: "02-documents-financiers", authorType: AuthorType.OPERATEUR },
-    { label: "03-finance", authorType: AuthorType.AGENT },
-    { label: "04-controles", authorType: AuthorType.AGENT },
-    { label: "05-documents", authorType: AuthorType.AGENT },
-    { label: "06-notes", authorType: AuthorType.AGENT },
+    { label: "01-identification" },
+    { label: "02-documents-financiers" },
+    { label: "03-finance" },
+    { label: "04-controles" },
+    { label: "05-documents" },
+    { label: "06-notes" },
   ];
 
   const stepDefinitions = [];
@@ -46,7 +45,6 @@ export async function migrateFormsAndSteps() {
       create: {
         formDefinitionId: formDefinition.id,
         label: step.label,
-        authorType: step.authorType,
       },
     });
 
@@ -83,7 +81,8 @@ export async function migrateFormsAndSteps() {
 
       if (structure.state === "FINALISE") {
         status = StepStatus.VALIDE;
-      } else if (stepDefinition.authorType === "OPERATEUR") {
+      }
+      else if (stepDefinition.label === "01-identification" || stepDefinition.label === "02-documents-financiers") {
         status = StepStatus.A_VERIFIER;
       }
 

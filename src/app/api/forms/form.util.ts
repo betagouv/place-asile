@@ -1,10 +1,8 @@
 import {
-    AuthorType,
     StepStatus,
 } from "@prisma/client";
 
 import prisma from "@/lib/prisma";
-import { AuthorType as CustomAuthorType } from "@/types/form.type";
 
 export const createFormDefinition = async (data: {
     name: string;
@@ -16,7 +14,6 @@ export const createFormDefinition = async (data: {
 export const createFormStepDefinition = async (data: {
     formDefinitionId: number;
     label: string;
-    authorType: AuthorType;
 }) => {
     return prisma.formStepDefinition.create({ data });
 };
@@ -27,31 +24,6 @@ export const createFormStep = async (data: {
     status: StepStatus;
 }) => {
     return prisma.formStep.create({ data });
-};
-
-export const convertToAuthorType = (
-    authorType: string | null | undefined
-): AuthorType => {
-    if (!authorType) return AuthorType.OPERATEUR;
-    const authorTypes: Record<string, AuthorType> = {
-        'operateur': AuthorType.OPERATEUR,
-        'agent': AuthorType.AGENT,
-    };
-    return authorTypes[authorType.trim().toLowerCase()] || AuthorType.OPERATEUR;
-};
-
-//  Convert before sending to Prisma
-export const convertCustomAuthorTypeToPrisma = (
-    customType: CustomAuthorType
-): AuthorType => {
-    switch (customType) {
-        case CustomAuthorType.OPERATEUR:
-            return AuthorType.OPERATEUR;
-        case CustomAuthorType.AGENT:
-            return AuthorType.AGENT;
-        default:
-            return AuthorType.OPERATEUR;
-    }
 };
 
 export const convertToStepStatus = (

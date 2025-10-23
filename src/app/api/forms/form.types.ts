@@ -1,7 +1,6 @@
-import { AuthorType as CustomAuthorType, StepStatus } from "@/types/form.type";
+import { StepStatus } from "@/types/form.type";
 
 export {
-    CustomAuthorType,
     StepStatus,
 };
 
@@ -15,7 +14,6 @@ export type CreateFormDefinition = {
 export type CreateFormStepDefinition = {
     formDefinitionId: number;
     label: string;
-    authorType: CustomAuthorType;
     createdAt?: Date;
     updatedAt?: Date;
 };
@@ -49,7 +47,6 @@ export type UpdateFormStep = CreateFormStep & {
     stepDefinitionId: number;
     stepDefinition?: {
         label: string;
-        authorType: CustomAuthorType;
     };
 };
 

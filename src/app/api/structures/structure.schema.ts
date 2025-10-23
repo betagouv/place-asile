@@ -5,7 +5,7 @@ import { Repartition } from "@/types/adresse.type";
 import { ContactType } from "@/types/contact.type";
 import { ControleType } from "@/types/controle.type";
 import { zFileUploadCategory } from "@/types/file-upload.type";
-import { AuthorType, StepStatus } from "@/types/form.type";
+import { StepStatus } from "@/types/form.type";
 import {
   PublicType,
   StructureState,
@@ -154,16 +154,8 @@ const formStepSchema = z.object({
   status: z.nativeEnum(StepStatus),
   stepDefinition: z.object({
     label: z.string(),
-    authorType: z.nativeEnum(AuthorType),
   }).optional(),
 });
-
-// const formStepDefinitionSchema = z.object({
-//   id: z.number().optional(),
-//   formDefinitionId: z.number(),
-//   label: z.string(),
-//   authorType: z.nativeEnum(AuthorType),
-// });
 
 const formDefinitionSchema = z.object({
   id: z.number().optional(),
@@ -264,7 +256,6 @@ export const structureUpdateSchema = z.object({
         status: z.nativeEnum(StepStatus),
         stepDefinition: z.object({
           label: z.string(),
-          authorType: z.nativeEnum(AuthorType),
         }).optional(),
       }))
     })).optional(),

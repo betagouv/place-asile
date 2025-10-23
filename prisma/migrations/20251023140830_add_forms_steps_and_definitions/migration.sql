@@ -2,9 +2,6 @@
 CREATE SCHEMA IF NOT EXISTS "reporting";
 
 -- CreateEnum
-CREATE TYPE "public"."AuthorType" AS ENUM ('OPERATEUR', 'AGENT');
-
--- CreateEnum
 CREATE TYPE "public"."StepStatus" AS ENUM ('NON_COMMENCE', 'COMMENCE', 'A_VERIFIER', 'FINALISE', 'VALIDE');
 
 -- CreateTable
@@ -21,7 +18,6 @@ CREATE TABLE "public"."FormStepDefinition" (
     "id" SERIAL NOT NULL,
     "formDefinitionId" INTEGER NOT NULL,
     "label" TEXT NOT NULL,
-    "authorType" "public"."AuthorType" NOT NULL,
 
     CONSTRAINT "FormStepDefinition_pkey" PRIMARY KEY ("id")
 );

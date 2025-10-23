@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { AuthorType, StepStatus } from "@/types/form.type";
+import { StepStatus } from "@/types/form.type";
 
 import {
     CreateFormDefinition,
@@ -7,7 +7,7 @@ import {
     UpdateForm,
     UpdateFormStep,
 } from "./form.types";
-import { convertToAuthorType, convertToStepStatus } from "./form.util";
+import { convertToStepStatus } from "./form.util";
 
 export const createFormDefinition = async (
     formDefinition: CreateFormDefinition
@@ -27,7 +27,6 @@ export const createFormStepDefinition = async (
         data: {
             formDefinitionId: formStepDefinition.formDefinitionId,
             label: formStepDefinition.label,
-            authorType: convertToAuthorType(formStepDefinition.authorType),
         }
     });
 };
@@ -59,7 +58,7 @@ export const ensureFormDefinitionExists = async (
 
 // Nouvelle fonction pour s'assurer qu'une FormStepDefinition existe
 export const ensureFormStepDefinitionExists = async (
-    stepDefinition: { formDefinitionId: number; label: string; authorType: string }
+    stepDefinition: { formDefinitionId: number; label: string }
 ): Promise<number> => {
     const existing = await prisma.formStepDefinition.findUnique({
         where: {
@@ -76,7 +75,6 @@ export const ensureFormStepDefinitionExists = async (
         data: {
             formDefinitionId: stepDefinition.formDefinitionId,
             label: stepDefinition.label,
-            authorType: convertToAuthorType(stepDefinition.authorType),
         }
     });
 
@@ -125,7 +123,6 @@ export const createOrUpdateForms = async (
                 status: step.status,
                 stepDefinition: {
                     label: step.stepDefinition?.label || `Step ${step.stepDefinitionId}`,
-                    authorType: step.stepDefinition?.authorType || AuthorType.OPERATEUR,
                 }
             }))
         });
@@ -142,7 +139,6 @@ export const createCompleteFormWithSteps = async (
             status: StepStatus;
             stepDefinition?: {
                 label: string;
-                authorType: AuthorType;
             };
         }>;
     }
@@ -176,7 +172,6 @@ export const createCompleteFormWithSteps = async (
                     await ensureFormStepDefinitionExists({
                         formDefinitionId: formDefinitionId,
                         label: step.stepDefinition.label,
-                        authorType: step.stepDefinition.authorType,
                     });
                 }
             }

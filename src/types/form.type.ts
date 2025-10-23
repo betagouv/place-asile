@@ -28,13 +28,7 @@ export type FormStepDefinition = {
     id: number;
     formDefinitionId: number;
     label: string;
-    authorType: AuthorType;
 };
-
-export enum AuthorType {
-    OPERATEUR = "OPERATEUR",
-    AGENT = "AGENT",
-}
 
 export enum StepStatus {
     NON_COMMENCE = "NON_COMMENCE",
