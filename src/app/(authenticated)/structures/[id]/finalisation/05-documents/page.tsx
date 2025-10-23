@@ -51,7 +51,6 @@ export default function FinalisationQualite() {
   });
 
   const onAutoSave = async (data: FileUploadsAutoSaveFormValues) => {
-    console.log("onAutoSave", data);
     const fileUploads = data.fileUploads?.filter(
       (fileUpload) => fileUpload.key
     );
