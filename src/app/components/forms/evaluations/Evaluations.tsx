@@ -3,7 +3,7 @@ import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 import { ReactElement } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 
-import { EvaluationFormValues } from "@/schemas/base/documents.schema";
+import { EvaluationFormValues } from "@/schemas/base/evaluation.schema";
 
 import { Evaluation } from "./Evaluation";
 

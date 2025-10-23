@@ -27,9 +27,11 @@ export const AutoSave = <TSchema extends z.ZodTypeAny>({
     const result = schema.safeParse(allValues);
 
     if (result.success) {
+      console.log("Saving", result.data);
       await onSave(result.data);
     } else {
       console.error("AutoSave: données partielles", result.error);
+      console.error("Error data", result.data);
     }
   }, DEBOUNCE_TIME);
 

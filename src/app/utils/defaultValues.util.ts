@@ -2,11 +2,12 @@ import { getRepartition } from "@/app/utils/structure.util";
 import { FormAdresse } from "@/schemas/base/adresse.schema";
 import { ControleFormValues } from "@/schemas/base/controles.schema";
 import { FileUploadFormValues } from "@/schemas/base/documents.schema";
+import { EvaluationFormValues } from "@/schemas/base/evaluation.schema";
 import { Repartition } from "@/types/adresse.type";
 import { Budget } from "@/types/budget.type";
 import { Contact } from "@/types/contact.type";
-import { StructureTypologie } from "@/types/structure-typologie.type";
 import { PublicType, StructureWithLatLng } from "@/types/structure.type";
+import { StructureTypologie } from "@/types/structure-typologie.type";
 
 import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { buildFileUploadsDefaultValues } from "./buildFileUploadsDefaultValues.util";
@@ -17,6 +18,7 @@ import {
   getDateStringToYear,
   getYearRange,
 } from "./date.util";
+import { getEvaluationsDefaultValues } from "./evaluations.util";
 import {
   createEmptyDefaultValues,
   filterFileUploads,
@@ -64,6 +66,7 @@ export const getDefaultValues = ({
   const defaultValuesFromDb = getDefaultValuesFromDb(filteredFileUploads);
 
   const controles = getControlesDefaultValues(structure.controles);
+  const evaluations = getEvaluationsDefaultValues(structure.evaluations);
 
   return {
     ...structure,
@@ -123,6 +126,7 @@ export const getDefaultValues = ({
       ...createEmptyDefaultValues(categoriesToDisplay, filteredFileUploads),
     ] as FileUploadFormValues[],
     controles,
+    evaluations,
   };
 };
 
@@ -153,6 +157,7 @@ type StructureDefaultValues = Omit<
   | "echeancePlacesAFermer"
   | "fileUploads"
   | "controles"
+  | "evaluations"
   | "budgets"
 > & {
   creationDate: string;
@@ -181,5 +186,6 @@ type StructureDefaultValues = Omit<
   echeancePlacesAFermer?: string;
   fileUploads: FileUploadFormValues[];
   controles: ControleFormValues[];
+  evaluations: EvaluationFormValues[];
   budgets: [Budget, Budget, Budget, Budget, Budget];
 };

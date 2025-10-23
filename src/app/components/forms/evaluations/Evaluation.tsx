@@ -1,9 +1,9 @@
 import Button from "@codegouvfr/react-dsfr/Button";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { formatDateString } from "@/app/utils/date.util";
-import { EvaluationFormValues } from "@/schemas/base/documents.schema";
+import { EvaluationFormValues } from "@/schemas/base/evaluation.schema";
 
 import InputWithValidation from "../InputWithValidation";
 import UploadWithValidation from "../UploadWithValidation";
@@ -18,8 +18,11 @@ export const Evaluation = ({
   const evaluations = watch("evaluations") || [];
   const currentEvaluation = evaluations[index];
   const [type, setType] = useState<"empty" | "old" | "new">("empty");
-  const handleType = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const evaluationYear = new Date(event.target.value).getFullYear();
+
+  const setEvaluationType = (date: string): void => {
+    console.log("!!!!!!!!!!!!!", new Date(date));
+
+    const evaluationYear = new Date(date).getFullYear();
     if (!evaluationYear) {
       setType("empty");
     }
@@ -30,10 +33,18 @@ export const Evaluation = ({
     }
   };
 
+  const handleType = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEvaluationType(event.target.value);
+  };
+
+  useEffect(() => {
+    setEvaluationType(currentEvaluation.date);
+  }, [currentEvaluation]);
+
   return (
     <div>
       <h3 className="text-xl font-bold mb-4 text-title-blue-france">
-        {evaluations[index]?.date
+        {currentEvaluation?.date
           ? `Evaluation du ${formatDateString(currentEvaluation?.date)}`
           : "Nouvelle évaluation"}
       </h3>

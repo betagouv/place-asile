@@ -72,6 +72,9 @@ export const findOne = async (id: number): Promise<Structure> => {
         },
       },
       evaluations: {
+        include: {
+          fileUploads: true,
+        },
         orderBy: {
           date: "desc",
         },
@@ -534,6 +537,7 @@ const createOrUpdateControles = async (
           type: convertToControleType(controle.type),
           date: controle.date,
           fileUploads: {
+            // TODO : refactor to use array of fileUploads instead of fileUploadKey
             connect: { key: controle.fileUploadKey },
           },
         },
@@ -559,7 +563,6 @@ const createOrUpdateEvaluations = async (
   }
 
   deleteEvaluations(evaluations, structureDnaCode);
-
   await Promise.all(
     (evaluations || []).map((evaluation) => {
       if (evaluation.id) {
@@ -571,10 +574,9 @@ const createOrUpdateEvaluations = async (
             notePro: evaluation.notePro,
             noteStructure: evaluation.noteStructure,
             note: evaluation.note,
-            // TODO : brancher les fileUploads
-            // fileUploads: {
-            //   connect: { key: evaluation.fileUploadKey },
-            // },
+            fileUploads: {
+              connect: evaluation.fileUploads,
+            },
           },
         });
       } else {
@@ -586,9 +588,9 @@ const createOrUpdateEvaluations = async (
             notePro: evaluation.notePro!,
             noteStructure: evaluation.noteStructure!,
             note: evaluation.note!,
-            // fileUploads: {
-            //   connect: { key: evaluation.fileUploadKey },
-            // },
+            fileUploads: {
+              connect: evaluation.fileUploads,
+            },
           },
         });
       }

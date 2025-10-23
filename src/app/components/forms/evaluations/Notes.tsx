@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 
-import { EvaluationFormValues } from "@/schemas/base/documents.schema";
+import { EvaluationFormValues } from "@/schemas/base/evaluation.schema";
 
 import InputWithValidation from "../InputWithValidation";
 
@@ -17,6 +17,7 @@ export const Notes = ({ index, field }: Props): ReactElement => {
             <InputWithValidation
               name={`evaluations.${index}.notePersonne`}
               min={0}
+              max={4}
               defaultValue={field.date}
               control={control}
               label="La personne"
@@ -29,6 +30,7 @@ export const Notes = ({ index, field }: Props): ReactElement => {
             <InputWithValidation
               name={`evaluations.${index}.notePro`}
               min={0}
+              max={4}
               defaultValue={field.date}
               control={control}
               label="Les professionnels"
@@ -41,6 +43,7 @@ export const Notes = ({ index, field }: Props): ReactElement => {
             <InputWithValidation
               name={`evaluations.${index}.noteStructure`}
               min={0}
+              max={4}
               defaultValue={field.date}
               control={control}
               label="La structure"
@@ -53,6 +56,7 @@ export const Notes = ({ index, field }: Props): ReactElement => {
             <InputWithValidation
               name={`evaluations.${index}.note`}
               min={0}
+              max={4}
               defaultValue={field.date}
               control={control}
               label="Moyenne"

@@ -77,18 +77,18 @@ model Controle {
 }
 
 model Evaluation {
-  id               Int       @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  id               Int          @id @default(autoincrement())
+  structure        Structure    @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode String
   date             DateTime
   notePersonne     Int?
   notePro          Int?
   noteStructure    Int?
   note             Int?
+  fileUploads      FileUpload[]
 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @default(now()) @updatedAt
-  fileUploads FileUpload[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@schema("public")
 }

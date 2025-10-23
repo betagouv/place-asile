@@ -140,7 +140,7 @@ const evaluationSchema = z.object({
   notePro: z.number().optional(),
   noteStructure: z.number().optional(),
   note: z.number().optional(),
-  fileUploads: z.array(fileUploadSchema),
+  fileUploads: z.array(z.object({ key: z.string() })),
 });
 
 const updateStructureTypologieSchema = z.object({

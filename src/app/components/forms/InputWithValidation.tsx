@@ -22,6 +22,7 @@ export default function InputWithValidation<
   control,
   type,
   min,
+  max,
   label,
   hintText,
   disabled,
@@ -118,6 +119,7 @@ export default function InputWithValidation<
               ? field.value
               : "",
         min,
+        max,
         onBlur: field.onBlur,
         disabled: disabled,
         step: "any",
@@ -141,6 +143,7 @@ export default function InputWithValidation<
         value: type === "date" ? getHtmlDateValue() : (field.value ?? ""),
         onBlur: field.onBlur,
         min,
+        max,
         id,
       }}
       label={label}
@@ -160,6 +163,7 @@ type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     id?: string;
     type: string;
     min?: number;
+    max?: number;
     label: string;
     control?: Control<TFieldValues>;
     hintText?: string;

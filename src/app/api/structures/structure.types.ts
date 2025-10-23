@@ -145,7 +145,7 @@ export type UpdateEvaluation = {
   notePro?: number;
   noteStructure?: number;
   note?: number;
-  fileUploads?: UpdateFileUpload[];
+  fileUploads?: { key: string }[];
 };
 
 export type UpdateFileUpload = {
