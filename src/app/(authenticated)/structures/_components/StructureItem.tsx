@@ -51,7 +51,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
         ) : (
           <Button
             onClick={() => handleOpenModal(structure)}
-            className="fr-btn--tertiary-no-outline fr-icon-file-add-line"
+            className="fr-btn--tertiary-no-outline fr-icon-edit-line"
             title={`Finaliser la création de la structure ${structure.dnaCode}`}
           >
             Finaliser la création de la structure {structure.dnaCode}
