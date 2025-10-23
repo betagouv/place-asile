@@ -29,7 +29,7 @@ const finalisationSuccessModal = createModal({
 export function StructureHeader(): ReactElement | null {
   const { structure } = useStructureContext();
 
-  const isStructureFinalized = getFinalisationFormStatus(structure);
+  const isStructureFinalisee = getFinalisationFormStatus(structure);
 
   const router = useRouter();
 
@@ -126,7 +126,7 @@ export function StructureHeader(): ReactElement | null {
           )}
         </div>
         {isRootPath && <NavigationMenu />}
-        {isRootPath && !isStructureFinalized && <FinalisationHeader />}
+        {isRootPath && !isStructureFinalisee && <FinalisationHeader />}
       </div>
       <autoSaveModal.Component
         title="Votre progression est enregistrée automatiquement"

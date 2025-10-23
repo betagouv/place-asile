@@ -15,7 +15,7 @@ import { Structure } from "@/types/structure.type";
 import { RepartitionBadge } from "./RepartitionBadge";
 
 export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
-  const isStructureFinalized = getFinalisationFormStatus(structure);
+  const isStructureFinalisee = getFinalisationFormStatus(structure);
 
   return (
     <tr
@@ -40,7 +40,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
         <EmptyCell />
       )}
       <td>
-        {isStructureFinalized ? (
+        {isStructureFinalisee ? (
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
             title={`Détails de la structure ${structure.dnaCode}`}
