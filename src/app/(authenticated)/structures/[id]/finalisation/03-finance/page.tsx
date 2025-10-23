@@ -34,6 +34,7 @@ import { StepStatus } from "@/types/form.type";
 import { Tabs } from "../_components/Tabs";
 
 export default function FinalisationFinance(): ReactElement {
+export default function FinalisationFinance(): ReactElement {
   const { structure } = useStructureContext();
 
   const currentStep = "03-finance";

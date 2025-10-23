@@ -59,11 +59,6 @@ export type Structure = {
   forms?: Form[];
 };
 
-export type FinalisationStep = {
-  label: string;
-  completed: boolean;
-};
-
 export type StructureWithLatLng = Structure & {
   latitude: number;
   longitude: number;
