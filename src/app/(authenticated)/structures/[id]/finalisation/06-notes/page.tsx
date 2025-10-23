@@ -1,19 +1,75 @@
 "use client";
-import { ReactElement } from "react";
 
-import { useStructureContext } from "../../context/StructureClientContext";
-import Steps from "../components/Steps";
-import { FinalisationNotesForm } from "./FinalisationNotesForm";
+import { AutoSave } from "@/app/components/forms/AutoSave";
+import { FieldSetNotes } from "@/app/components/forms/fieldsets/structure/FieldSetNotes";
+import FormWrapper, {
+  FooterButtonType,
+} from "@/app/components/forms/FormWrapper";
+import { NoteDisclaimer } from "@/app/components/forms/notes/NoteDisclaimer";
+import { SubmitError } from "@/app/components/SubmitError";
+import { InformationBar } from "@/app/components/ui/InformationBar";
+import { useFetchState } from "@/app/context/FetchStateContext";
+import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import {
+  NotesAutoSaveFormValues,
+  notesAutoSaveSchema,
+  notesSchema,
+} from "@/schemas/base/notes.schema";
+import { FetchState } from "@/types/fetch-state.type";
 
-export default function Notes(): ReactElement {
+import { useStructureContext } from "../../_context/StructureClientContext";
+import { Tabs } from "../_components/Tabs";
+
+export default function FinalisationNotes() {
   const { structure } = useStructureContext();
-  const structureId = structure.id;
-  const currentStep = 6;
+
+  const currentStep = "06-notes";
+
+  const isCompleted = structure.finalisationSteps?.some(
+    (step) => step.label === currentStep
+  );
+
+  const defaultValues = getDefaultValues({ structure });
+
+  const { handleValidation, handleAutoSave, backendError } =
+    useAgentFormHandling({ currentStep });
+
+  const onAutoSave = async (data: NotesAutoSaveFormValues) => {
+    await handleAutoSave({ ...data, dnaCode: structure.dnaCode });
+  };
+
+  const { getFetchState } = useFetchState();
+  const saveState = getFetchState("structure-save");
 
   return (
-    <>
-      <Steps currentStep={currentStep} structureId={structureId} />
-      <FinalisationNotesForm currentStep={currentStep} />
-    </>
+    <div>
+      <Tabs currentStep={currentStep} />
+      <FormWrapper
+        schema={notesSchema}
+        onSubmit={handleValidation}
+        defaultValues={defaultValues}
+        submitButtonText="Je valide la saisie de cette page"
+        availableFooterButtons={[FooterButtonType.SUBMIT]}
+        className="rounded-t-none"
+      >
+        <AutoSave schema={notesAutoSaveSchema} onSave={onAutoSave} />
+        <InformationBar
+          variant={isCompleted ? "success" : "complete"}
+          title={isCompleted ? "Complété" : "À compléter"}
+          description="Veuillez utiliser cet espace pour centraliser et annoter les informations nécessaires au pilotage de la structure : élément contextuel, prochaine échéance, document à produire, point d'attention, élément relationnel avec la structure..."
+        />
+
+        <NoteDisclaimer />
+
+        <FieldSetNotes />
+        {saveState === FetchState.ERROR && (
+          <SubmitError
+            structureDnaCode={structure.dnaCode}
+            backendError={backendError}
+          />
+        )}
+      </FormWrapper>
+    </div>
   );
 }

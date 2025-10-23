@@ -81,9 +81,9 @@ export type CreateAdresseTypologie = {
 
 type CreateBudget = {
   date: Date;
-  ETP: number;
-  tauxEncadrement: number;
-  coutJournalier: number;
+  ETP?: number;
+  tauxEncadrement?: number;
+  coutJournalier?: number;
   dotationDemandee?: number | null;
   dotationAccordee?: number | null;
   totalProduits?: number | null;
@@ -142,8 +142,8 @@ export type UpdateFileUpload = {
   startDate?: Date;
   endDate?: Date;
   id?: number;
-  categoryName?: string;
-  parentFileUploadId?: number;
+  categoryName?: string | null;
+  parentFileUploadId?: number | null;
   controleId?: number;
   createdAt?: Date;
   updatedAt?: Date;

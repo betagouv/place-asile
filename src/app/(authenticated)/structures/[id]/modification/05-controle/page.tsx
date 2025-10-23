@@ -6,15 +6,17 @@ import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
-import { getQualiteFormDefaultValues } from "@/app/utils/defaultValues.util";
+import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
-  ModificationControleFormValues,
-  modificationControleSchema,
-} from "@/schemas/modification/modificationControle.schema";
+  ControlesFormValues,
+  controlesSchema,
+} from "@/schemas/base/controles.schema";
+import { FetchState } from "@/types/fetch-state.type";
 
-import { useStructureContext } from "../../context/StructureClientContext";
+import { useStructureContext } from "../../_context/StructureClientContext";
 import { ModificationTitle } from "../components/ModificationTitle";
 
 export default function ModificationControleForm() {
@@ -22,16 +24,15 @@ export default function ModificationControleForm() {
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling({
+  const { handleSubmit, backendError } = useAgentFormHandling({
     nextRoute: `/structures/${structure.id}`,
   });
 
-  const defaultValues = getQualiteFormDefaultValues({
+  const defaultValues = getDefaultValues({
     structure,
-    categoriesToDisplay: ["INSPECTION_CONTROLE"],
   });
 
-  const onSubmit = async (data: ModificationControleFormValues) => {
+  const onSubmit = async (data: ControlesFormValues) => {
     const controles = data.controles?.map((controle) => {
       return {
         id: controle.id || undefined,
@@ -47,6 +48,9 @@ export default function ModificationControleForm() {
     });
   };
 
+  const { getFetchState } = useFetchState();
+  const saveState = getFetchState("structure-save");
+
   return (
     <>
       <ModificationTitle
@@ -54,7 +58,7 @@ export default function ModificationControleForm() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={modificationControleSchema}
+        schema={controlesSchema}
         onSubmit={onSubmit}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}
@@ -89,7 +93,7 @@ export default function ModificationControleForm() {
           }
           notice={categoriesDisplayRules["INSPECTION_CONTROLE"].notice}
         />
-        {state === "error" && (
+        {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}
             backendError={backendError}

@@ -20,6 +20,19 @@ export const formatDateString = (
   return date.isValid() ? date.format("DD/MM/YYYY") : defaultValue;
 };
 
+export const formatDateToIsoString = (
+  date: string | undefined,
+  defaultToToday: boolean = false
+): string | null => {
+  if (date) {
+    return dayjs(date, "DD/MM/YYYY").toISOString();
+  }
+  if (defaultToToday) {
+    return dayjs().toISOString();
+  }
+  return null;
+};
+
 export const getMonthsBetween = (
   startDate: Date | string | null,
   endDate: Date | string | null
@@ -68,16 +81,11 @@ export const parseFrDate = (value: unknown): Date | unknown => {
   return value;
 };
 
-export const getDateStringToYear = (
-  dateValue?: string
-): { dateStringToYear: (date?: string) => string } => {
-  const dateStringToYear = (date?: string) => {
-    if (!date && !dateValue) return "";
-    const dateToConvert = date || dateValue;
-    const parsedDate = new Date(dateToConvert!);
-    return parsedDate.getFullYear().toString();
-  };
-  return { dateStringToYear };
+export const getDateStringToYear = (date?: string) => {
+  if (!date) return "";
+  const dateToConvert = date;
+  const parsedDate = new Date(dateToConvert!);
+  return parsedDate.getFullYear().toString();
 };
 
 export const getYearRange = ({

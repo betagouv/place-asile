@@ -1,60 +1,107 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { FormAdresse } from "@/schemas/base/adresse.schema";
+import { FetchState } from "@/types/fetch-state.type";
+import { StructureState } from "@/types/structure.type";
 
-import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "../(authenticated)/structures/[id]/_context/StructureClientContext";
+import { useFetchState } from "../context/FetchStateContext";
 import { useStructures } from "./useStructures";
 
-export type FormSubmitData = {
-  dnaCode?: string;
-  [key: string]: unknown;
-};
-
-export const useAgentFormHandling = ({ nextRoute }: { nextRoute?: string }) => {
+export const useAgentFormHandling = ({
+  nextRoute,
+  currentStep,
+}: Props = {}) => {
   const router = useRouter();
 
   const { structure, setStructure } = useStructureContext();
 
-  const { updateAndRefreshStructure, transformFormAdressesToApiAdresses } =
-    useStructures();
+  const { updateAndRefreshStructure } = useStructures();
 
-  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const { setFetchState } = useFetchState();
+
   const [backendError, setBackendError] = useState<string | undefined>(
     undefined
   );
 
-  const handleSubmit = async (data: FormSubmitData) => {
-    setState("loading");
+  const updateStructure = async (data: FormSubmitData): Promise<void> => {
+    setFetchState("structure-save", FetchState.LOADING);
+
     try {
-      const adresses = transformFormAdressesToApiAdresses(
-        data.adresses as FormAdresse[]
-      );
-      const updatedStructure = await updateAndRefreshStructure(
+      const result = await updateAndRefreshStructure(
         structure.id,
-        { ...data, adresses },
+        data,
         setStructure
       );
-      if (updatedStructure === "OK") {
-        if (nextRoute) {
-          router.push(nextRoute);
-        }
-      } else {
-        console.error(updatedStructure);
-        setState("error");
-        setBackendError(updatedStructure?.toString());
-        throw new Error(updatedStructure?.toString());
+
+      if (result !== "OK") {
+        throw new Error(result?.toString());
       }
+
+      setFetchState("structure-save", FetchState.IDLE);
     } catch (error) {
-      setState("error");
-      setBackendError(error instanceof Error ? error.message : String(error));
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      console.error(errorMessage);
+      setFetchState("structure-save", FetchState.ERROR);
+      setBackendError(errorMessage);
       throw error;
     }
   };
 
+  const handleAutoSave = async (data: FormSubmitData) => {
+    await updateStructure(data);
+  };
+
+  const handleValidation = async () => {
+    await updateStructure({
+      finalisationSteps: [
+        ...(structure.finalisationSteps || []).filter(
+          (step) => step.label !== currentStep
+        ),
+        { label: currentStep, completed: true },
+      ],
+    });
+  };
+
+  const handleFinalisation = async () => {
+    await updateStructure({ state: StructureState.FINALISE });
+  };
+
+  const handleSubmit = async (data: FormSubmitData) => {
+    await updateStructure(data);
+    if (nextRoute) {
+      router.push(nextRoute);
+    }
+  };
+
+  const [isStructureReadyToFinalise, setIsStructureReadyToFinalise] =
+    useState(false);
+
+  useEffect(() => {
+    if (structure.finalisationSteps?.every((step) => step.completed)) {
+      setIsStructureReadyToFinalise(true);
+    } else {
+      setIsStructureReadyToFinalise(false);
+    }
+  }, [structure]);
+
   return {
     handleSubmit,
-    state,
+    handleAutoSave,
+    handleValidation,
+    handleFinalisation,
     backendError,
+    isStructureReadyToFinalise,
   };
+};
+
+export type Props = {
+  nextRoute?: string;
+  currentStep?: string;
+};
+
+export type FormSubmitData = {
+  dnaCode?: string;
+  [key: string]: unknown;
 };

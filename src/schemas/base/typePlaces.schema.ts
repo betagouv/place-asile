@@ -33,11 +33,13 @@ const placesEvolutionSchema = z.object({
   echeancePlacesAFermer: createDateFieldValidator().optional(),
 });
 
-export const typePlacesSchema = structureBaseSchema
+const baseTypePlacesSchema = structureBaseSchema
   .extend({
     typologies: z.array(typologieItemWithIdSchema),
   })
-  .merge(placesEvolutionSchema)
+  .merge(placesEvolutionSchema);
+
+export const typePlacesSchema = baseTypePlacesSchema
   .refine(
     (data) => {
       return data.placesACreer <= 0 || !!data.echeancePlacesACreer;
@@ -56,3 +58,7 @@ export const typePlacesSchema = structureBaseSchema
       path: ["echeancePlacesAFermer"],
     }
   );
+
+export const typePlacesAutoSaveSchema = baseTypePlacesSchema.partial();
+
+export type TypePlacesFormValues = z.infer<typeof typePlacesSchema>;

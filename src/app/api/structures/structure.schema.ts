@@ -101,28 +101,28 @@ export const structureCreationSchema = z.object({
 
 const budgetSchema = z.object({
   date: mandatoryFrDateField(),
-  ETP: z.number(),
-  tauxEncadrement: z.number(),
-  coutJournalier: z.number(),
-  dotationDemandee: z.number().nullable().optional(),
-  dotationAccordee: z.number().nullable().optional(),
-  totalProduits: z.number().nullable().optional(),
-  totalCharges: z.number().nullable().optional(),
-  totalChargesProposees: z.number().nullable().optional(),
-  cumulResultatsNetsCPOM: z.number().nullable().optional(),
-  repriseEtat: z.number().nullable().optional(),
-  excedentRecupere: z.number().nullable().optional(),
-  excedentDeduit: z.number().nullable().optional(),
-  reserveInvestissement: z.number().nullable().optional(),
-  chargesNonReconductibles: z.number().nullable().optional(),
-  reserveCompensationDeficits: z.number().nullable().optional(),
-  reserveCompensationBFR: z.number().nullable().optional(),
-  reserveCompensationAmortissements: z.number().nullable().optional(),
-  fondsDedies: z.number().nullable().optional(),
-  affectationReservesFondsDedies: z.number().nullable().optional(),
-  reportANouveau: z.number().nullable().optional(),
-  autre: z.number().nullable().optional(),
-  commentaire: z.string().nullable().optional(),
+  ETP: z.number().optional(),
+  tauxEncadrement: z.number().optional(),
+  coutJournalier: z.number().optional(),
+  dotationDemandee: z.number().nullish(),
+  dotationAccordee: z.number().nullish(),
+  totalProduits: z.number().nullish(),
+  totalCharges: z.number().nullish(),
+  totalChargesProposees: z.number().nullish(),
+  cumulResultatsNetsCPOM: z.number().nullish(),
+  repriseEtat: z.number().nullish(),
+  excedentRecupere: z.number().nullish(),
+  excedentDeduit: z.number().nullish(),
+  reserveInvestissement: z.number().nullish(),
+  chargesNonReconductibles: z.number().nullish(),
+  reserveCompensationDeficits: z.number().nullish(),
+  reserveCompensationBFR: z.number().nullish(),
+  reserveCompensationAmortissements: z.number().nullish(),
+  fondsDedies: z.number().nullish(),
+  affectationReservesFondsDedies: z.number().nullish(),
+  reportANouveau: z.number().nullish(),
+  autre: z.number().nullish(),
+  commentaire: z.string().nullish(),
 });
 
 const controleSchema = z.object({
@@ -190,13 +190,18 @@ export const structureUpdateSchema = z.object({
   placesAFermer: z.number().int().optional(),
   echeancePlacesACreer: frDateField(),
   echeancePlacesAFermer: frDateField(),
-  notes: z.string().optional().nullable(),
+  notes: z.string().nullish(),
   state: z.nativeEnum(StructureState).optional(),
   adresses: z
     .array(adresseSchema.extend({ id: z.number().optional() }))
     .optional(),
   contacts: z
-    .array(contactSchema.extend({ id: z.number().optional(), type: z.nativeEnum(ContactType).optional() }))
+    .array(
+      contactSchema.extend({
+        id: z.number().optional(),
+        type: z.nativeEnum(ContactType).optional(),
+      })
+    )
     .optional(),
   typologies: z.array(updateStructureTypologieSchema).optional(),
   fileUploads: z
@@ -205,8 +210,8 @@ export const structureUpdateSchema = z.object({
         date: frDateField(),
         startDate: frDateField(),
         endDate: frDateField(),
-        categoryName: z.string().optional(),
-        parentFileUploadId: z.number().optional(),
+        categoryName: z.string().nullish(),
+        parentFileUploadId: z.number().nullish(),
         controleId: z.number().optional(),
       })
     )

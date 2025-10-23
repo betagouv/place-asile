@@ -1,3 +1,4 @@
+import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useFormContext } from "react-hook-form";
 
 import { cn } from "@/app/utils/classname.util";
@@ -43,6 +44,14 @@ export const FieldSetAdresseAdministrative = ({
       <legend className="text-xl font-bold mb-4 text-title-blue-france">
         Adresse administrative
       </legend>
+      {formKind === FormKind.FINALISATION && (
+        <Notice
+          severity="info"
+          title=""
+          className="rounded [&_p]:flex  [&_p]:items-center"
+          description="L’ensemble des adresses ne seront communiquées qu’aux agentes et agents en charge de cette politique publique."
+        />
+      )}
       <div
         className={cn(
           "grid grid-cols-1 gap-6",

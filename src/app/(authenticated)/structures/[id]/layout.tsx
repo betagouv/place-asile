@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 
 import { StructureWithLatLng } from "@/types/structure.type";
 
-import { StructureHeader } from "./_header/StructureHeader";
-import { StructureProvider } from "./context/StructureContext";
+import { StructureHeader } from "./_components/_header/StructureHeader";
+import { StructureProvider } from "./_context/StructureContext";
 
 async function getStructure(id: string): Promise<StructureWithLatLng> {
   try {
