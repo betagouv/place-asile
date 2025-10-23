@@ -50,9 +50,7 @@ export const getDefaultValues = ({
       }
       return emptyBudget;
     }) as [Budget, Budget, Budget, Budget, Budget];
-  console.log(structure.budgets);
-  console.log(budgetsFilteredByYears);
-  console.log(budgets);
+
   const categoriesToDisplay = getCategoriesToDisplay(structure);
 
   const filteredFileUploads = filterFileUploads({
