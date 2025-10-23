@@ -113,37 +113,23 @@ export const createOrUpdateForms = async (
     forms: UpdateForm[] | undefined,
     structureCodeDna: string
 ): Promise<void> => {
-    if (!forms) return;
+    // ✅ Gérer undefined directement dans la fonction
+    if (!forms || forms.length === 0) return;
 
-    // Utiliser une transaction pour s'assurer de la cohérence
-    await prisma.$transaction(async (tx) => {
-        await Promise.all(forms.map(async (form) => {
-            // S'assurer que la FormDefinition existe
-            const formDefinitionId = await ensureFormDefinitionExists({
-                name: form.formDefinition.name,
-                version: form.formDefinition.version,
-            });
-
-            const createdForm = await tx.form.upsert({
-                where: {
-                    structureCodeDna_formDefinitionId: {
-                        structureCodeDna: structureCodeDna,
-                        formDefinitionId: formDefinitionId,
-                    }
-                },
-                update: {
-                    status: form.status,
-                },
-                create: {
-                    formDefinitionId: formDefinitionId,
-                    structureCodeDna: structureCodeDna,
-                    status: form.status,
+    await Promise.all(forms.map(async (form) => {
+        await createCompleteFormWithSteps(structureCodeDna, {
+            formDefinition: form.formDefinition,
+            status: form.status,
+            formSteps: (form.formSteps || []).map(step => ({
+                stepDefinitionId: step.stepDefinitionId,
+                status: step.status,
+                stepDefinition: {
+                    label: step.stepDefinition?.label || `Step ${step.stepDefinitionId}`,
+                    authorType: step.stepDefinition?.authorType || AuthorType.OPERATEUR,
                 }
-            });
-
-            await createOrUpdateFormSteps(createdForm.id, form.formSteps);
-        }));
-    });
+            }))
+        });
+    }));
 };
 
 export const createCompleteFormWithSteps = async (

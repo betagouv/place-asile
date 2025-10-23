@@ -3,7 +3,7 @@ import { PrismaClient, StructureState } from "@prisma/client";
 
 import { StructureType } from "@/types/structure.type";
 
-import { migrateFormsProduction } from "./one-off-scripts/20251020-migrate-forms-prod";
+import { migrateFormsProduction } from "./one-off-scripts/20251020-migrate-forms-and-steps";
 import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
@@ -55,7 +55,7 @@ export async function seed(): Promise<void> {
     await seedParentChildFileUploads(structure.dnaCode);
   }
 
-  console.log("🚀 Exécution du script one-off : migrate-forms-prod");
+  console.log("🚀 Exécution du script one-off : migrate-forms-and-steps");
   await migrateFormsProduction();
 }
 

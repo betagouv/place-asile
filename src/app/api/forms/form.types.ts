@@ -1,17 +1,4 @@
-// import type {
-//     Form,
-//     FormDefinition,
-//     FormStep,
-//     FormStepDefinition,
-// } from "@/types/form.type";
 import { AuthorType as CustomAuthorType, StepStatus } from "@/types/form.type";
-
-// export type {
-//     Form,
-//     FormDefinition,
-//     FormStep,
-//     FormStepDefinition,
-// };
 
 export {
     CustomAuthorType,

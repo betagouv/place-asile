@@ -1,16 +1,15 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["views"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas = ["public", "reporting"]
+  schemas  = ["public", "reporting"]
 }
 
 model Structure {
-  @@schema("public")
   id                           Int                         @id @default(autoincrement())
   dnaCode                      String                      @unique
   oldOperateur                 String
@@ -55,14 +54,15 @@ model Structure {
   operateurId                  Int?
   forms                        Form[]
   campaigns                    Campaign[]
-  referential                  StructureReferential? @relation("StructureToReferential")
+  referential                  Referential?                @relation("StructureToReferential")
 
-  createdAt                    DateTime  @default(now())
-  updatedAt                    DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model Controle {
-  @@schema("public")
   id               Int          @id @default(autoincrement())
   structure        Structure    @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
@@ -70,12 +70,13 @@ model Controle {
   type             ControleType
   fileUploads      FileUpload[]
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt @default(now()) 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model Evaluation {
-  @@schema("public")
   id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
@@ -85,12 +86,13 @@ model Evaluation {
   noteStructure    Int
   note             Int
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model EvenementIndesirableGrave {
-  @@schema("public")
   id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
@@ -99,12 +101,13 @@ model EvenementIndesirableGrave {
   declarationDate  DateTime
   type             String
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model Adresse {
-  @@schema("public")
   id                Int                @id @default(autoincrement())
   structure         Structure          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode  String
@@ -114,12 +117,13 @@ model Adresse {
   repartition       Repartition
   adresseTypologies AdresseTypologie[]
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model AdresseTypologie {
-  @@schema("public")
   id               Int      @id @default(autoincrement())
   adresse          Adresse  @relation(fields: [adresseId], references: [id], onDelete: Cascade)
   adresseId        Int
@@ -128,14 +132,15 @@ model AdresseTypologie {
   qpv              Int
   logementSocial   Int
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model Contact {
-  @@schema("public")
-  id               Int       @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
+  id               Int         @id @default(autoincrement())
+  structure        Structure   @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
   prenom           String
   nom              String
@@ -144,12 +149,13 @@ model Contact {
   role             String
   type             ContactType @default(AUTRE)
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model StructureTypologie {
-  @@schema("public")
   id               Int       @id @default(autoincrement())
   structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode String
@@ -159,12 +165,13 @@ model StructureTypologie {
   lgbt             Int
   fvvTeh           Int
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model Activite {
-  @@schema("public")
   id                       Int        @id @default(autoincrement())
   structure                Structure? @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode         String
@@ -178,10 +185,11 @@ model Activite {
   placesVacantes           Int
   presencesInduesBPI       Int
   presencesInduesDeboutees Int
+
+  @@schema("public")
 }
 
 model FileUpload {
-  @@schema("public")
   id                 Int                 @id @default(autoincrement())
   structure          Structure?          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode   String?
@@ -200,12 +208,13 @@ model FileUpload {
   parentFileUploadId Int?
   childFileUploads   FileUpload[]        @relation("FileUploadToFileUpload")
 
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model Budget {
-  @@schema("public")
   id                                Int        @id @default(autoincrement())
   structure                         Structure? @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade)
   structureDnaCode                  String
@@ -233,157 +242,154 @@ model Budget {
   autre                             Float?
   commentaire                       String?
 
-  createdAt                         DateTime  @default(now())
-  updatedAt                         DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 // Formulaires
 model FormDefinition {
-  @@schema("public")
+  id              Int                  @id @default(autoincrement())
+  name            String
+  version         Int
+  stepsDefinition FormStepDefinition[]
 
-  id                Int                @id @default(autoincrement())
-  name              String
-  version           Int
-  stepsDefinition   FormStepDefinition[]
-
-  forms             Form[]
+  forms Form[]
 
   @@unique([name, version])
-
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt @default(now())
+  @@schema("public")
 }
 
 model FormStepDefinition {
-  @@schema("public")
+  id               Int        @id @default(autoincrement())
+  formDefinitionId Int
+  label            String
+  authorType       AuthorType
 
-  id                Int                @id @default(autoincrement())
-  formDefinitionId  Int
-  label             String
-  authorType        AuthorType
-
-  formDefinition    FormDefinition     @relation(fields: [formDefinitionId], references: [id])
-  formSteps         FormStep[]
+  formDefinition FormDefinition @relation(fields: [formDefinitionId], references: [id])
+  formSteps      FormStep[]
 
   @@unique([formDefinitionId, label])
-
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt @default(now())
+  @@schema("public")
 }
 
 model Form {
-  @@schema("public")
+  id               Int     @id @default(autoincrement())
+  structureCodeDna String
+  formDefinitionId Int
+  status           Boolean @default(false) // Lié au bouton "Finaliser"
 
-  id                Int                @id @default(autoincrement())
-  structureCodeDna  String
-  formDefinitionId  Int
-  status            Boolean            @default(false) // Lié au bouton "Finaliser"
+  structure      Structure      @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade)
+  formDefinition FormDefinition @relation(fields: [formDefinitionId], references: [id])
+  formSteps      FormStep[]
 
-  structure         Structure          @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade)
-  formDefinition    FormDefinition     @relation(fields: [formDefinitionId], references: [id])
-  formSteps         FormStep[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([structureCodeDna, formDefinitionId])
-
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt @default(now())
+  @@schema("public")
 }
 
 model FormStep {
-  @@schema("public")
-
-  id                Int                @id @default(autoincrement())
-  formId            Int
-  stepDefinitionId  Int
-  status            StepStatus         @default(NON_COMMENCE)
+  id               Int        @id @default(autoincrement())
+  formId           Int
+  stepDefinitionId Int
+  status           StepStatus @default(NON_COMMENCE)
   // TODO : ajouter le champ authorId en lien avec une table Auteur plus tard
 
-  form              Form               @relation(fields: [formId], references: [id], onDelete: Cascade)
-  stepDefinition    FormStepDefinition @relation(fields: [stepDefinitionId], references: [id])
+  form           Form               @relation(fields: [formId], references: [id], onDelete: Cascade)
+  stepDefinition FormStepDefinition @relation(fields: [stepDefinitionId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([formId, stepDefinitionId])
-
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt @default(now())
+  @@schema("public")
 }
 
 model Campaign {
+  id               Int     @id @default(autoincrement())
+  structureCodeDna String
+  name             String
+  launched         Boolean @default(false)
+
+  structure Structure @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@schema("public")
-
-  id                Int                @id @default(autoincrement())
-  structureCodeDna  String
-  name              String
-  launched          Boolean            @default(false)
-
-  structure         Structure          @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade)
-
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt @default(now())
 }
 
-model StructureReferential {
+model Referential {
+  dnaCode   String     @id
+  name      String?
+  structure Structure? @relation("StructureToReferential", fields: [dnaCode], references: [dnaCode])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@schema("reporting")
-  dnaCode           String             @id
-  name              String?
-  structure         Structure? @relation("StructureToReferential", fields: [dnaCode], references: [dnaCode])
-
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt @default(now())
 }
-
 
 model Operateur {
-  @@schema("public")
-  id                    Int         @id @default(autoincrement())
-  name                  String
-  structures            Structure[]
-  directionGenerale     String?
-  siret                 String?
-  siegeSocial           String?
+  id                Int         @id @default(autoincrement())
+  name              String
+  structures        Structure[]
+  directionGenerale String?
+  siret             String?
+  siegeSocial       String?
 
-  createdAt             DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 // Enums
 enum Repartition {
-  @@schema("public")
   DIFFUS
   COLLECTIF
   MIXTE
+
+  @@schema("public")
 }
 
 enum ControleType {
-  @@schema("public")
   INOPINE
   PROGRAMME
+
+  @@schema("public")
 }
 
 enum PublicType {
-  @@schema("public")
   TOUT_PUBLIC
   FAMILLE
   PERSONNES_ISOLEES
+
+  @@schema("public")
 }
 
 enum StructureType {
-  @@schema("public")
   CADA
   HUDA
   CPH
   CAES
   PRAHDA
+
+  @@schema("public")
 }
 
 enum ContactType {
-  @@schema("public")
   PRINCIPAL
   SECONDAIRE
   AUTRE
+
+  @@schema("public")
 }
 
 enum FileUploadCategory {
-  @@schema("public")
   BUDGET_PREVISIONNEL_DEMANDE
   RAPPORT_BUDGETAIRE
   BUDGET_PREVISIONNEL_RETENU
@@ -400,79 +406,87 @@ enum FileUploadCategory {
   CPOM
   INSPECTION_CONTROLE
   AUTRE
+
+  @@schema("public")
 }
 
 enum StructureState {
-  @@schema("public")
   A_FINALISER
   FINALISE
+
+  @@schema("public")
 }
 
 enum AuthorType {
-  @@schema("public")
   OPERATEUR
   AGENT
+
+  @@schema("public")
 }
 
 enum StepStatus {
-  @@schema("public")
   NON_COMMENCE
   COMMENCE
   A_VERIFIER
   FINALISE
   VALIDE
+
+  @@schema("public")
 }
 
 // Views
 view ComparaisonPlaces {
+  dnaCode                  String?
+  total_places_autorisees  Int?
+  places_autorisees        Int?
+  total_places_activite    Int?
+  diff_places              Int?
+  diff_places_activite     Int?
+  pct_diff_places          Float?
+  pct_diff_places_activite Float?
+
   @@schema("reporting")
-  dnaCode                   String?
-  total_places_autorisees   Int?
-  places_autorisees         Int?
-  total_places_activite     Int?
-  diff_places               Int?
-  diff_places_activite      Int?
-  pct_diff_places           Float?
-  pct_diff_places_activite  Float?
 }
 
 view StructuresAggregates {
+  dnaCode                     String?
+  places_autorisees_structure Int?
+  pmr_structure               Int?
+  lgbt_structure              Int?
+  fvv_teh_structure           Int?
+  places_autorisees_adresse   Int?
+  qpv_adresse                 Int?
+  logement_social_adresse     Int?
+  date_adresse                DateTime?
+  nb_adresses                 Int?
+  date_structure              DateTime?
+  nb_places_activite          Int?
+  diff_places_adresse         Int?
+  pct_diff_places_adresse     Float?
+  diff_places_activite        Int?
+  pct_diff_places_activite    Float?
+  created_at                  DateTime?
+  updated_at                  DateTime?
+
   @@schema("reporting")
-  dnaCode                       String?
-  places_autorisees_structure   Int?
-  pmr_structure                 Int?
-  lgbt_structure                Int?
-  fvv_teh_structure             Int?
-  places_autorisees_adresse     Int?
-  qpv_adresse                   Int?
-  logement_social_adresse       Int?
-  date_adresse                  DateTime?
-  nb_adresses                   Int?
-  date_structure                DateTime?
-  nb_places_activite            Int?
-  diff_places_adresse           Int?
-  pct_diff_places_adresse       Float?
-  diff_places_activite          Int?
-  pct_diff_places_activite      Float?
-  created_at                    DateTime?
-  updated_at                    DateTime?
 }
 
 view OperateursAggregates {
+  id                          Int
+  name                        String
+  directionGenerale           String?
+  siret                       String?
+  siegeSocial                 String?
+  nb_structures               Int
+  places_autorisees_structure Int?
+  pmr_structure               Int?
+  lgbt_structure              Int?
+  fvv_teh_structure           Int?
+  places_autorisees_adresse   Int?
+  qpv_adresse                 Int?
+  logement_social_adresse     Int?
+  created_at                  DateTime?
+  updated_at                  DateTime?
+
   @@schema("reporting")
-  id                            Int
-  name                          String
-  directionGenerale             String?
-  siret                         String?
-  siegeSocial                   String?
-  nb_structures                 Int
-  places_autorisees_structure   Int?
-  pmr_structure                 Int?
-  lgbt_structure                Int?
-  fvv_teh_structure             Int?
-  places_autorisees_adresse     Int?
-  qpv_adresse                   Int?
-  logement_social_adresse       Int?
-  created_at                    DateTime?
-  updated_at                    DateTime?
 }

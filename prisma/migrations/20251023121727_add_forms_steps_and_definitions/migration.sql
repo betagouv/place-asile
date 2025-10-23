@@ -12,8 +12,6 @@ CREATE TABLE "public"."FormDefinition" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "version" INTEGER NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "FormDefinition_pkey" PRIMARY KEY ("id")
 );
@@ -24,8 +22,6 @@ CREATE TABLE "public"."FormStepDefinition" (
     "formDefinitionId" INTEGER NOT NULL,
     "label" TEXT NOT NULL,
     "authorType" "public"."AuthorType" NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "FormStepDefinition_pkey" PRIMARY KEY ("id")
 );
@@ -67,13 +63,13 @@ CREATE TABLE "public"."Campaign" (
 );
 
 -- CreateTable
-CREATE TABLE "reporting"."StructureReferential" (
+CREATE TABLE "reporting"."Referential" (
     "dnaCode" TEXT NOT NULL,
     "name" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "StructureReferential_pkey" PRIMARY KEY ("dnaCode")
+    CONSTRAINT "Referential_pkey" PRIMARY KEY ("dnaCode")
 );
 
 -- CreateIndex
@@ -107,4 +103,4 @@ ALTER TABLE "public"."FormStep" ADD CONSTRAINT "FormStep_stepDefinitionId_fkey" 
 ALTER TABLE "public"."Campaign" ADD CONSTRAINT "Campaign_structureCodeDna_fkey" FOREIGN KEY ("structureCodeDna") REFERENCES "public"."Structure"("dnaCode") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "reporting"."StructureReferential" ADD CONSTRAINT "StructureReferential_dnaCode_fkey" FOREIGN KEY ("dnaCode") REFERENCES "public"."Structure"("dnaCode") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "reporting"."Referential" ADD CONSTRAINT "Referential_dnaCode_fkey" FOREIGN KEY ("dnaCode") REFERENCES "public"."Structure"("dnaCode") ON DELETE RESTRICT ON UPDATE CASCADE;
