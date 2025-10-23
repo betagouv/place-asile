@@ -2,8 +2,8 @@ import { FileUploadCategory, Prisma, Structure } from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
 import prisma from "@/lib/prisma";
-import { createOrUpdateForms } from "../forms/form.repository";
 
+import { createOrUpdateForms } from "../forms/form.repository";
 import {
   CreateStructure,
   UpdateAdresse,
