@@ -1,5 +1,5 @@
-// src/app/api/forms/form.repository.ts
 import prisma from "@/lib/prisma";
+import { AuthorType, StepStatus } from "@/types/form.type";
 
 import {
     CreateFormDefinition,
@@ -13,8 +13,7 @@ export const createFormDefinition = async (
     formDefinition: CreateFormDefinition
 ): Promise<void> => {
     await prisma.formDefinition.create({
-        data:
-        {
+        data: {
             name: formDefinition.name,
             version: formDefinition.version,
         }
@@ -33,15 +32,70 @@ export const createFormStepDefinition = async (
     });
 };
 
+// Nouvelle fonction pour s'assurer qu'une FormDefinition existe
+export const ensureFormDefinitionExists = async (
+    formDefinition: { name: string; version: number }
+): Promise<number> => {
+    const existing = await prisma.formDefinition.findUnique({
+        where: {
+            name_version: {
+                name: formDefinition.name,
+                version: formDefinition.version,
+            }
+        }
+    });
+
+    if (existing) return existing.id;
+
+    const created = await prisma.formDefinition.create({
+        data: {
+            name: formDefinition.name,
+            version: formDefinition.version,
+        }
+    });
+
+    return created.id;
+};
+
+// Nouvelle fonction pour s'assurer qu'une FormStepDefinition existe
+export const ensureFormStepDefinitionExists = async (
+    stepDefinition: { formDefinitionId: number; label: string; authorType: string }
+): Promise<number> => {
+    const existing = await prisma.formStepDefinition.findUnique({
+        where: {
+            formDefinitionId_label: {
+                formDefinitionId: stepDefinition.formDefinitionId,
+                label: stepDefinition.label,
+            }
+        }
+    });
+
+    if (existing) return existing.id;
+
+    const created = await prisma.formStepDefinition.create({
+        data: {
+            formDefinitionId: stepDefinition.formDefinitionId,
+            label: stepDefinition.label,
+            authorType: convertToAuthorType(stepDefinition.authorType),
+        }
+    });
+
+    return created.id;
+};
+
 export const createOrUpdateFormSteps = async (
     formId: number,
     formSteps: UpdateFormStep[] | undefined
 ): Promise<void> => {
     if (!formSteps) return;
+
     await Promise.all(formSteps.map(async (formStep) => {
         return prisma.formStep.upsert({
             where: {
-                id: formStep.id,
+                formId_stepDefinitionId: {
+                    formId: formId,
+                    stepDefinitionId: formStep.stepDefinitionId,
+                }
             },
             update: {
                 status: convertToStepStatus(formStep.status),
@@ -60,20 +114,108 @@ export const createOrUpdateForms = async (
     structureCodeDna: string
 ): Promise<void> => {
     if (!forms) return;
-    await Promise.all(forms.map(async (form) => {
-        const createdForm = await prisma.form.upsert({
+
+    // Utiliser une transaction pour s'assurer de la cohérence
+    await prisma.$transaction(async (tx) => {
+        await Promise.all(forms.map(async (form) => {
+            // S'assurer que la FormDefinition existe
+            const formDefinitionId = await ensureFormDefinitionExists({
+                name: form.formDefinition.name,
+                version: form.formDefinition.version,
+            });
+
+            const createdForm = await tx.form.upsert({
+                where: {
+                    structureCodeDna_formDefinitionId: {
+                        structureCodeDna: structureCodeDna,
+                        formDefinitionId: formDefinitionId,
+                    }
+                },
+                update: {
+                    status: form.status,
+                },
+                create: {
+                    formDefinitionId: formDefinitionId,
+                    structureCodeDna: structureCodeDna,
+                    status: form.status,
+                }
+            });
+
+            await createOrUpdateFormSteps(createdForm.id, form.formSteps);
+        }));
+    });
+};
+
+export const createCompleteFormWithSteps = async (
+    structureCodeDna: string,
+    formData: {
+        formDefinition: { name: string; version: number };
+        status: boolean;
+        formSteps: Array<{
+            stepDefinitionId: number;
+            status: StepStatus;
+            stepDefinition?: {
+                label: string;
+                authorType: AuthorType;
+            };
+        }>;
+    }
+): Promise<void> => {
+    await prisma.$transaction(async (tx) => {
+        // 1. Créer ou récupérer la FormDefinition
+        const formDefinitionId = await ensureFormDefinitionExists(formData.formDefinition);
+
+        // 2. Créer ou mettre à jour le Form
+        const form = await tx.form.upsert({
             where: {
-                id: form.id,
+                structureCodeDna_formDefinitionId: {
+                    structureCodeDna: structureCodeDna,
+                    formDefinitionId: formDefinitionId,
+                }
             },
             update: {
-                status: form.status,
+                status: formData.status,
             },
             create: {
-                formDefinitionId: form.formDefinitionId,
+                formDefinitionId: formDefinitionId,
                 structureCodeDna: structureCodeDna,
-                status: form.status,
+                status: formData.status,
             }
         });
-        createOrUpdateFormSteps(createdForm.id, form.formSteps);
-    }));
+
+        // 3. ✅ AJOUTER: Créer les FormStepDefinition si nécessaire
+        if (formData.formSteps) {
+            for (const step of formData.formSteps) {
+                if (step.stepDefinition) {
+                    await ensureFormStepDefinitionExists({
+                        formDefinitionId: formDefinitionId,
+                        label: step.stepDefinition.label,
+                        authorType: step.stepDefinition.authorType,
+                    });
+                }
+            }
+        }
+
+        // 4. Créer ou mettre à jour les FormSteps
+        if (formData.formSteps) {
+            await Promise.all(formData.formSteps.map(async (step) => {
+                await tx.formStep.upsert({
+                    where: {
+                        formId_stepDefinitionId: {
+                            formId: form.id,
+                            stepDefinitionId: step.stepDefinitionId,
+                        }
+                    },
+                    update: {
+                        status: convertToStepStatus(step.status),
+                    },
+                    create: {
+                        formId: form.id,
+                        stepDefinitionId: step.stepDefinitionId,
+                        status: convertToStepStatus(step.status),
+                    }
+                });
+            }));
+        }
+    });
 };

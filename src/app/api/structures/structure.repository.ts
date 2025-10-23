@@ -2,8 +2,9 @@ import { FileUploadCategory, Prisma, Structure } from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
 import prisma from "@/lib/prisma";
+import { AuthorType as CustomAuthorType } from "@/types/form.type";
 
-import { createOrUpdateForms } from "../forms/form.repository";
+import { createCompleteFormWithSteps } from "../forms/form.repository";
 import {
   CreateStructure,
   UpdateAdresse,
@@ -572,7 +573,20 @@ export const updateOne = async (
 
     // Gérer les forms si présents
     if (forms) {
-      await createOrUpdateForms(forms, structure.dnaCode);
+      await Promise.all(forms.map(async (form) => {
+        await createCompleteFormWithSteps(structure.dnaCode, {
+          formDefinition: form.formDefinition,
+          status: form.status,
+          formSteps: (form.formSteps || []).map(step => ({
+            stepDefinitionId: step.stepDefinitionId,
+            status: step.status,
+            stepDefinition: {
+              label: step.stepDefinition?.label || '',
+              authorType: step.stepDefinition?.authorType || CustomAuthorType.OPERATEUR,
+            }
+          }))
+        });
+      }));
     }
   } catch (error) {
     throw new Error(

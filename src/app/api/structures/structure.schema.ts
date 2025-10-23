@@ -149,17 +149,21 @@ const formSchema = z.object({
 
 const formStepSchema = z.object({
   id: z.number().optional(),
-  formId: z.number(),
+  formId: z.number().optional(),
   stepDefinitionId: z.number(),
   status: z.nativeEnum(StepStatus),
+  stepDefinition: z.object({
+    label: z.string(),
+    authorType: z.nativeEnum(AuthorType),
+  }).optional(),
 });
 
-const formStepDefinitionSchema = z.object({
-  id: z.number().optional(),
-  formDefinitionId: z.number(),
-  label: z.string(),
-  authorType: z.nativeEnum(AuthorType),
-});
+// const formStepDefinitionSchema = z.object({
+//   id: z.number().optional(),
+//   formDefinitionId: z.number(),
+//   label: z.string(),
+//   authorType: z.nativeEnum(AuthorType),
+// });
 
 const formDefinitionSchema = z.object({
   id: z.number().optional(),
@@ -255,15 +259,13 @@ export const structureUpdateSchema = z.object({
       formDefinition: formDefinitionSchema,
       formSteps: z.array(formStepSchema.extend({
         id: z.number().optional(),
-        formId: z.number(),
+        formId: z.number().optional(),
         stepDefinitionId: z.number(),
         status: z.nativeEnum(StepStatus),
-      })),
-      formStepsDefinitions: z.array(formStepDefinitionSchema.extend({
-        id: z.number().optional(),
-        formDefinitionId: z.number().optional(),
-        label: z.string(),
-        authorType: z.nativeEnum(AuthorType),
-      })),
+        stepDefinition: z.object({
+          label: z.string(),
+          authorType: z.nativeEnum(AuthorType),
+        }).optional(),
+      }))
     })).optional(),
 });
