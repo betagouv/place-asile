@@ -16,12 +16,13 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import {
   FileUploadsAutoSaveFormValues,
   fileUploadsAutoSaveSchema,
-  fileUploadsSchema,
 } from "@/schemas/base/documents.schema";
 import { FetchState } from "@/types/fetch-state.type";
+import { StepStatus } from "@/types/form.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { Tabs } from "../_components/Tabs";
@@ -31,8 +32,9 @@ export default function FinalisationQualite() {
 
   const currentStep = "05-documents";
 
-  const isCompleted = structure.finalisationSteps?.some(
-    (step) => step.label === currentStep
+  const currentFormStepStatus = getFinalisationFormStepStatus(
+    currentStep,
+    structure
   );
 
   const categoriesToDisplay = getCategoriesToDisplay(structure).filter(
@@ -49,6 +51,7 @@ export default function FinalisationQualite() {
   });
 
   const onAutoSave = async (data: FileUploadsAutoSaveFormValues) => {
+    console.log("onAutoSave", data);
     const fileUploads = data.fileUploads?.filter(
       (fileUpload) => fileUpload.key
     );
@@ -66,17 +69,23 @@ export default function FinalisationQualite() {
     <div>
       <Tabs currentStep={currentStep} />
       <FormWrapper
-        schema={fileUploadsSchema}
+        schema={fileUploadsAutoSaveSchema}
         onSubmit={handleValidation}
-        submitButtonText="Étape suivante"
+        submitButtonText="Je valide la saisie de cette page"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
         className="rounded-t-none"
       >
         <AutoSave schema={fileUploadsAutoSaveSchema} onSave={onAutoSave} />
         <InformationBar
-          variant={isCompleted ? "success" : "complete"}
-          title={isCompleted ? "Complété" : "À compléter"}
+          variant={
+            currentFormStepStatus === StepStatus.VALIDE ? "success" : "complete"
+          }
+          title={
+            currentFormStepStatus === StepStatus.VALIDE
+              ? "Complété"
+              : "À compléter"
+          }
           description="Veuillez importer l’ensemble des actes administratifs historiques afférents à la structure, que les dates d’effets soient actuelles ou révolues."
         />
 

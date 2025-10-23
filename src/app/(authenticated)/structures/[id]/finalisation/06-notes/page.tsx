@@ -11,12 +11,14 @@ import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import {
   NotesAutoSaveFormValues,
   notesAutoSaveSchema,
   notesSchema,
 } from "@/schemas/base/notes.schema";
 import { FetchState } from "@/types/fetch-state.type";
+import { StepStatus } from "@/types/form.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { Tabs } from "../_components/Tabs";
@@ -26,8 +28,9 @@ export default function FinalisationNotes() {
 
   const currentStep = "06-notes";
 
-  const isCompleted = structure.finalisationSteps?.some(
-    (step) => step.label === currentStep
+  const currentFormStepStatus = getFinalisationFormStepStatus(
+    currentStep,
+    structure
   );
 
   const defaultValues = getDefaultValues({ structure });
@@ -55,8 +58,14 @@ export default function FinalisationNotes() {
       >
         <AutoSave schema={notesAutoSaveSchema} onSave={onAutoSave} />
         <InformationBar
-          variant={isCompleted ? "success" : "complete"}
-          title={isCompleted ? "Complété" : "À compléter"}
+          variant={
+            currentFormStepStatus === StepStatus.VALIDE ? "success" : "complete"
+          }
+          title={
+            currentFormStepStatus === StepStatus.VALIDE
+              ? "Complété"
+              : "À compléter"
+          }
           description="Veuillez utiliser cet espace pour centraliser et annoter les informations nécessaires au pilotage de la structure : élément contextuel, prochaine échéance, document à produire, point d'attention, élément relationnel avec la structure..."
         />
 

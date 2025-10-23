@@ -3,14 +3,14 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ReactElement } from "react";
 import { useEffect, useRef } from "react";
 
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
+import { getFinalisationFormStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import { getOperateurLabel } from "@/app/utils/structure.util";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { AutoSaveStatus } from "./AutoSaveStatus";
@@ -28,6 +28,10 @@ const finalisationSuccessModal = createModal({
 
 export function StructureHeader(): ReactElement | null {
   const { structure } = useStructureContext();
+
+  const isStructureFinalized = getFinalisationFormStatus(structure);
+
+  const router = useRouter();
 
   const { handleFinalisation, isStructureReadyToFinalise } =
     useAgentFormHandling();
@@ -122,9 +126,7 @@ export function StructureHeader(): ReactElement | null {
           )}
         </div>
         {isRootPath && <NavigationMenu />}
-        {isRootPath && structure.state === StructureState.A_FINALISER && (
-          <FinalisationHeader />
-        )}
+        {isRootPath && !isStructureFinalized && <FinalisationHeader />}
       </div>
       <autoSaveModal.Component
         title="Votre progression est enregistrée automatiquement"
@@ -148,6 +150,9 @@ export function StructureHeader(): ReactElement | null {
             doClosesModal: true,
             children: "J’ai compris",
             type: "button",
+            onClick: () => {
+              router.push(`/structures/${structure?.id}`);
+            },
           },
         ]}
       >

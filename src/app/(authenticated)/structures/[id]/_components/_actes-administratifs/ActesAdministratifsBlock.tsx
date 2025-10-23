@@ -4,7 +4,6 @@ import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
 import { DownloadItem } from "@/app/components/common/DownloadItem";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
@@ -58,15 +57,9 @@ export const ActesAdministratifsBlock = (): ReactElement => {
     <Block
       title="Actes administratifs"
       iconClass="fr-icon-file-text-line"
-      onEdit={
-        structure.state === StructureState.FINALISE
-          ? () => {
-              router.push(
-                `/structures/${structure.id}/modification/06-documents`
-              );
-            }
-          : undefined
-      }
+      onEdit={() => {
+        router.push(`/structures/${structure.id}/modification/06-documents`);
+      }}
     >
       {displayedCategories.length === 0 ? (
         <>Aucun document importé</>

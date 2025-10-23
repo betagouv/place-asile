@@ -41,6 +41,11 @@ export const findAll = async (): Promise<Structure[]> => {
           date: "desc",
         },
       },
+      forms: {
+        include: {
+          formDefinition: true,
+        },
+      },
     },
   });
 };
@@ -106,7 +111,7 @@ export const findOne = async (id: number): Promise<Structure> => {
             },
           },
         },
-      }
+      },
     },
   });
   return structure;
@@ -557,8 +562,8 @@ export const updateOne = async (
         operateur: {
           connect: operateur
             ? {
-              id: operateur?.id,
-            }
+                id: operateur?.id,
+              }
             : undefined,
         },
       },
@@ -573,20 +578,23 @@ export const updateOne = async (
 
     // Gérer les forms si présents
     if (forms) {
-      await Promise.all(forms.map(async (form) => {
-        await createCompleteFormWithSteps(structure.dnaCode, {
-          formDefinition: form.formDefinition,
-          status: form.status,
-          formSteps: (form.formSteps || []).map(step => ({
-            stepDefinitionId: step.stepDefinitionId,
-            status: step.status,
-            stepDefinition: {
-              label: step.stepDefinition?.label || '',
-              authorType: step.stepDefinition?.authorType || CustomAuthorType.OPERATEUR,
-            }
-          }))
-        });
-      }));
+      await Promise.all(
+        forms.map(async (form) => {
+          await createCompleteFormWithSteps(structure.dnaCode, {
+            formDefinition: form.formDefinition,
+            status: form.status,
+            formSteps: (form.formSteps || []).map((step) => ({
+              stepDefinitionId: step.stepDefinitionId,
+              status: step.status,
+              stepDefinition: {
+                label: step.stepDefinition?.label || "",
+                authorType:
+                  step.stepDefinition?.authorType || CustomAuthorType.OPERATEUR,
+              },
+            })),
+          });
+        })
+      );
     }
   } catch (error) {
     throw new Error(

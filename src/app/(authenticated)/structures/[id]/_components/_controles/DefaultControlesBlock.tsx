@@ -5,7 +5,6 @@ import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
 // import { EIGTable } from "./EIGTable";
 import { getLastVisitInMonths } from "@/app/utils/structure.util";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 // import { DemarchesSimplifieesInfo } from "./DemarchesSimplifiesInfo";
@@ -27,15 +26,9 @@ export const DefaultControlesBlock = (): ReactElement => {
     <Block
       title="Controle qualité"
       iconClass="fr-icon-search-line"
-      onEdit={
-        structure.state === StructureState.FINALISE
-          ? () => {
-              router.push(
-                `/structures/${structure.id}/modification/05-controle`
-              );
-            }
-          : undefined
-      }
+      onEdit={() => {
+        router.push(`/structures/${structure.id}/modification/05-controle`);
+      }}
     >
       <div className="flex">
         <div className="pr-4">

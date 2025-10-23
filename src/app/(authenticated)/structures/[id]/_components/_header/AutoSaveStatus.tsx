@@ -6,7 +6,7 @@ export const AutoSaveStatus = ({ onStatusClick, saveState }: Props) => {
   return (
     <Button onClick={onStatusClick} className="fr-btn--tertiary-no-outline">
       {saveState === FetchState.LOADING && (
-        <span className="fr-icon-more-fill text-mention-grey" />
+        <span className="fr-icon-refresh-line text-mention-grey" />
       )}
       {saveState === FetchState.ERROR && (
         <span className="fr-icon-warning-line text-default-error" />

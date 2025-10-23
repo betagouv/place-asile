@@ -2,10 +2,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { FetchState } from "@/types/fetch-state.type";
-import { StructureState } from "@/types/structure.type";
+import { StepStatus } from "@/types/form.type";
 
 import { useStructureContext } from "../(authenticated)/structures/[id]/_context/StructureClientContext";
 import { useFetchState } from "../context/FetchStateContext";
+import {
+  FINALISATION_FORM_LABEL,
+  FINALISATION_FORM_VERSION,
+} from "../utils/getFinalisationFormStatus.util";
 import { useStructures } from "./useStructures";
 
 export const useAgentFormHandling = ({
@@ -54,18 +58,58 @@ export const useAgentFormHandling = ({
   };
 
   const handleValidation = async () => {
-    await updateStructure({
-      finalisationSteps: [
-        ...(structure.finalisationSteps || []).filter(
-          (step) => step.label !== currentStep
-        ),
-        { label: currentStep, completed: true },
-      ],
+    const forms = structure.forms?.map((form) => {
+      if (
+        form.formDefinition.name === FINALISATION_FORM_LABEL &&
+        form.formDefinition.version === FINALISATION_FORM_VERSION
+      ) {
+        return {
+          ...form,
+          formSteps: form.formSteps.map((formStep) => {
+            if (formStep.stepDefinition.label === currentStep) {
+              return {
+                ...formStep,
+                status: StepStatus.VALIDE,
+              };
+            } else {
+              return formStep;
+            }
+          }),
+        };
+      } else {
+        return form;
+      }
     });
+
+    await updateStructure({
+      dnaCode: structure.dnaCode,
+      forms,
+    });
+
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const handleFinalisation = async () => {
-    await updateStructure({ state: StructureState.FINALISE });
+    const forms = structure.forms?.map((form) => {
+      if (
+        form.formDefinition.name === FINALISATION_FORM_LABEL &&
+        form.formDefinition.version === FINALISATION_FORM_VERSION
+      ) {
+        return {
+          ...form,
+          status: true,
+        };
+      } else {
+        return form;
+      }
+    });
+
+    await updateStructure({
+      dnaCode: structure.dnaCode,
+      forms,
+    });
   };
 
   const handleSubmit = async (data: FormSubmitData) => {
@@ -79,11 +123,18 @@ export const useAgentFormHandling = ({
     useState(false);
 
   useEffect(() => {
-    if (structure.finalisationSteps?.every((step) => step.completed)) {
-      setIsStructureReadyToFinalise(true);
-    } else {
-      setIsStructureReadyToFinalise(false);
-    }
+    const finalisationForm = structure.forms?.find(
+      (form) =>
+        form.formDefinition.name === FINALISATION_FORM_LABEL &&
+        form.formDefinition.version === FINALISATION_FORM_VERSION
+    );
+
+    const isFinalisationFormCompleted =
+      finalisationForm?.formSteps?.every(
+        (step) => step.status === StepStatus.VALIDE
+      ) || false;
+
+    setIsStructureReadyToFinalise(isFinalisationFormCompleted);
   }, [structure]);
 
   return {

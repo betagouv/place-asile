@@ -12,6 +12,7 @@ import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -26,6 +27,7 @@ import {
   subventionneeSchema,
 } from "@/schemas/base/finance.schema";
 import { FetchState } from "@/types/fetch-state.type";
+import { StepStatus } from "@/types/form.type";
 
 import { Tabs } from "../_components/Tabs";
 
@@ -34,8 +36,9 @@ export default function FinalisationFinance() {
 
   const currentStep = "03-finance";
 
-  const isCompleted = structure.finalisationSteps?.some(
-    (step) => step.label === currentStep
+  const currentFormStepStatus = getFinalisationFormStepStatus(
+    currentStep,
+    structure
   );
 
   const hasCpom = structure.cpom;
@@ -79,8 +82,14 @@ export default function FinalisationFinance() {
         <AutoSave schema={basicAutoSaveSchema} onSave={onAutoSave} />
 
         <InformationBar
-          variant={isCompleted ? "success" : "complete"}
-          title={isCompleted ? "Complété" : "À compléter"}
+          variant={
+            currentFormStepStatus === StepStatus.VALIDE ? "success" : "complete"
+          }
+          title={
+            currentFormStepStatus === StepStatus.VALIDE
+              ? "Complété"
+              : "À compléter"
+          }
           description="Veuillez remplir les champs obligatoires ci-dessous. Si une donnée vous est inconnue, contactez-nous."
         />
 

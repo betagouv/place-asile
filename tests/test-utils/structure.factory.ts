@@ -53,13 +53,14 @@ export const createStructure = ({
     adresses: adresses ?? [],
     notes: "Note 1",
     state: state ?? StructureState.A_FINALISER,
-    structureTypologies: structureTypologies ?? []
+    structureTypologies: structureTypologies ?? [],
+    forms: [],
   };
 };
 
 type CreateStructuresArgs = {
   adresseAdministrative?: string;
-  structureTypologies?: StructureTypologie[]
+  structureTypologies?: StructureTypologie[];
   adresses?: Adresse[];
   type?: StructureType;
   finessCode?: string;
