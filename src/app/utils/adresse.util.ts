@@ -61,13 +61,15 @@ export const transformApiAdressesToFormAdresses = (
 ): FormAdresse[] => {
   // We add adresseComplete (who is not saved in db) to the adresses
   // We also convert logementSocial and qpv to boolean
-  // And also convert repartition db value to form value (capitalize only the first letter)
+  // And also convert repartition db value to form value (from uppercase to enum value)
   let formAdresses: FormAdresse[] = [];
   if (adresses.length > 0) {
     formAdresses = adresses.map((adresse) => ({
       ...adresse,
-      repartition: (adresse.repartition.charAt(0).toUpperCase() +
-        adresse.repartition.slice(1).toLowerCase()) as Repartition,
+      repartition:
+        Repartition[
+          adresse.repartition.trim().toUpperCase() as keyof typeof Repartition
+        ],
       adresseComplete: [adresse.adresse, adresse.codePostal, adresse.commune]
         .filter(Boolean)
         .join(" ")
