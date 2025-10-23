@@ -30,7 +30,6 @@ export const getFinalisationFormStepStatus = (
 };
 
 export const getFinalisationFormStatus = (structure: Structure) => {
-  console.log(structure.forms);
   const finalisationForm = structure.forms?.find(
     (form) =>
       form.formDefinition.name === FINALISATION_FORM_LABEL &&
