@@ -56,8 +56,6 @@ CREATE TABLE "public"."Campaign" (
     "structureCodeDna" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "launched" BOOLEAN NOT NULL DEFAULT false,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Campaign_pkey" PRIMARY KEY ("id")
 );
@@ -66,8 +64,6 @@ CREATE TABLE "public"."Campaign" (
 CREATE TABLE "reporting"."Referential" (
     "dnaCode" TEXT NOT NULL,
     "name" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Referential_pkey" PRIMARY KEY ("dnaCode")
 );

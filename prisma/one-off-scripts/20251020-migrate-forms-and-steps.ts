@@ -3,7 +3,7 @@ import { AuthorType, PrismaClient, StepStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function migrateFormsProduction() {
+export async function migrateFormsAndSteps() {
   console.log("🚀 Début de la migration des Forms...");
 
   // Créer FormDefinition
@@ -112,7 +112,7 @@ export async function migrateFormsProduction() {
   console.log(` - ${createdSteps} FormSteps créés/mis à jour`);
 }
 
-migrateFormsProduction()
+migrateFormsAndSteps()
   .catch((e) => {
     console.error("❌ Erreur:", e);
     process.exit(1);

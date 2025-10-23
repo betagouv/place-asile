@@ -316,9 +316,6 @@ model Campaign {
 
   structure Structure @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
   @@schema("public")
 }
 
@@ -326,9 +323,6 @@ model Referential {
   dnaCode   String     @id
   name      String?
   structure Structure? @relation("StructureToReferential", fields: [dnaCode], references: [dnaCode])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
 
   @@schema("reporting")
 }
