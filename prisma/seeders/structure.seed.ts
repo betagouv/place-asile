@@ -23,15 +23,9 @@ import { createFakeStructureTypologie } from "./structure-typologie.seed";
 
 let counter = 1;
 
-const generateDnaCode = ({
-  cpom,
-  type,
-  state,
-}: FakeStructureOptions): string => {
+const generateDnaCode = ({ cpom, type }: FakeStructureOptions): string => {
   const cpomLabel = cpom ? "CPOM" : "SANS_CPOM";
-  const stateLabel =
-    state === StructureState.FINALISE ? "FINALISE" : "A_FINALISER";
-  return `${type}-${cpomLabel}-${stateLabel}-${counter++}`;
+  return `${type}-${cpomLabel}-${counter++}`;
 };
 
 const createFakeStructure = ({
@@ -61,7 +55,9 @@ const createFakeStructure = ({
     adresseAdministrative: faker.location.streetAddress(),
     communeAdministrative: faker.location.city(),
     codePostalAdministratif: faker.location.zipCode(),
-    departementAdministratif: String(faker.number.int({ min: 1, max: 95 })).padStart(2, '0'),
+    departementAdministratif: String(
+      faker.number.int({ min: 1, max: 95 })
+    ).padStart(2, "0"),
     latitude: Prisma.Decimal(
       faker.location.latitude({ min: 43.550851, max: 49.131627 })
     ),
