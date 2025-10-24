@@ -20,15 +20,14 @@ export const Evaluation = ({
   const [type, setType] = useState<"empty" | "old" | "new">("empty");
 
   const setEvaluationType = (date: string): void => {
-    console.log("!!!!!!!!!!!!!", new Date(date));
-
     const evaluationYear = new Date(date).getFullYear();
     if (!evaluationYear) {
       setType("empty");
     }
     if (evaluationYear < 2022) {
       setType("old");
-    } else {
+    }
+    if (evaluationYear >= 2022) {
       setType("new");
     }
   };

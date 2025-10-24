@@ -22,10 +22,10 @@ export const Evaluations = (): ReactElement => {
 
     const newField = {
       date: "",
-      notePersonne: "",
-      notePro: "",
-      noteStructure: "",
-      note: "",
+      notePersonne: null,
+      notePro: null,
+      noteStructure: null,
+      note: null,
     };
 
     append(newField);

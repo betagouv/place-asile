@@ -584,10 +584,10 @@ const createOrUpdateEvaluations = async (
           data: {
             structureDnaCode,
             date: evaluation.date,
-            notePersonne: evaluation.notePersonne!,
-            notePro: evaluation.notePro!,
-            noteStructure: evaluation.noteStructure!,
-            note: evaluation.note!,
+            notePersonne: evaluation.notePersonne,
+            notePro: evaluation.notePro,
+            noteStructure: evaluation.noteStructure,
+            note: evaluation.note,
             fileUploads: {
               connect: evaluation.fileUploads,
             },

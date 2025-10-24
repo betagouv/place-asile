@@ -24,7 +24,7 @@ export const getCategoryLabel = (
     ARRETE_TARIFICATION: "Arrêté de tarification",
     CPOM: "CPOM",
     INSPECTION_CONTROLE: "Inspection contrôle",
-    EVALUATION: "Evaluation",
+    EVALUATION: "Évaluation",
     AUTRE: "Autre",
   };
   return labels[category] || "";

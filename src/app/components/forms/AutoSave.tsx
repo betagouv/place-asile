@@ -31,7 +31,6 @@ export const AutoSave = <TSchema extends z.ZodTypeAny>({
       await onSave(result.data);
     } else {
       console.error("AutoSave: données partielles", result.error);
-      console.error("Error data", result.data);
     }
   }, DEBOUNCE_TIME);
 

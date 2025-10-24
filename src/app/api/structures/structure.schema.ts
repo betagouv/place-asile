@@ -136,10 +136,10 @@ const controleSchema = z.object({
 const evaluationSchema = z.object({
   id: z.number().optional(),
   date: mandatoryFrDateField(),
-  notePersonne: z.number().optional(),
-  notePro: z.number().optional(),
-  noteStructure: z.number().optional(),
-  note: z.number().optional(),
+  notePersonne: z.number().nullish(),
+  notePro: z.number().nullish(),
+  noteStructure: z.number().nullish(),
+  note: z.number().nullish(),
   fileUploads: z.array(z.object({ key: z.string() })),
 });
 

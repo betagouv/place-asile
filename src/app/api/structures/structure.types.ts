@@ -141,10 +141,10 @@ export type UpdateControle = {
 export type UpdateEvaluation = {
   id?: number;
   date: Date;
-  notePersonne?: number;
-  notePro?: number;
-  noteStructure?: number;
-  note?: number;
+  notePersonne?: number | null;
+  notePro?: number | null;
+  noteStructure?: number | null;
+  note?: number | null;
   fileUploads?: { key: string }[];
 };
 
