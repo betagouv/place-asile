@@ -13,7 +13,10 @@ const scriptPath = `prisma/one-off-scripts/${scriptName}.ts`;
 console.log(`🚀 Exécution du script one-off : ${scriptPath}`);
 
 try {
-    execSync(`npx tsx ${scriptPath}`, { stdio: "inherit" });
+    execSync(`yarn tsx prisma/one-off-scripts/${scriptName}.ts`, {
+        stdio: 'inherit',
+        cwd: process.cwd(),
+    });
 } catch (err) {
     console.error(`❌ Erreur lors de l'exécution du script ${scriptName}`, err);
     process.exit(1);
