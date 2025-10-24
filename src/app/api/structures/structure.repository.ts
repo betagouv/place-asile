@@ -2,18 +2,18 @@ import { FileUploadCategory, Prisma, Structure } from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
 import prisma from "@/lib/prisma";
+import { AdresseApiType } from "@/schemas/api/adresse.schema";
+import { BudgetApiType } from "@/schemas/api/budget.schema";
+import { ContactApiType } from "@/schemas/api/contact.schema";
+import { ControleApiType } from "@/schemas/api/controle.schema";
+import { FileUploadApiType } from "@/schemas/api/fileUpload.schema";
+import {
+  StructureCreationApiType,
+  StructureUpdateApiType,
+} from "@/schemas/api/structure.schema";
+import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 
 import { createOrUpdateForms } from "../forms/form.repository";
-import {
-  CreateStructure,
-  UpdateAdresse,
-  UpdateBudget,
-  UpdateContact,
-  UpdateControle,
-  UpdateFileUpload,
-  UpdateStructure,
-  UpdateStructureTypologie,
-} from "./structure.types";
 import {
   convertToControleType,
   convertToPublicType,
@@ -166,7 +166,7 @@ export const findByDnaCode = async (
 };
 
 export const createOne = async (
-  structure: CreateStructure
+  structure: StructureCreationApiType
 ): Promise<Structure> => {
   const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
   const coordinates = await getCoordinates(fullAdress);
@@ -252,7 +252,7 @@ export const createOne = async (
 };
 
 const createOrUpdateContacts = async (
-  contacts: UpdateContact[] | undefined,
+  contacts: ContactApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   await Promise.all(
@@ -275,7 +275,7 @@ const createOrUpdateContacts = async (
 };
 
 const createOrUpdateBudgets = async (
-  budgets: UpdateBudget[] | undefined,
+  budgets: BudgetApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   await Promise.all(
@@ -298,7 +298,7 @@ const createOrUpdateBudgets = async (
 };
 
 const updateStructureTypologies = async (
-  typologies: UpdateStructureTypologie[] | undefined
+  typologies: StructureTypologieApiType[] | undefined
 ): Promise<void> => {
   await Promise.all(
     (typologies || []).map((typologie) => {
@@ -311,7 +311,7 @@ const updateStructureTypologies = async (
 };
 
 const getEveryAdresseTypologiesOfAdresses = async (
-  adresses: UpdateAdresse[]
+  adresses: AdresseApiType[]
 ): Promise<Awaited<ReturnType<typeof prisma.adresseTypologie.findMany>>> => {
   const existingAdresseIds = adresses
     .filter((adresse) => adresse.id)
@@ -328,7 +328,7 @@ const getEveryAdresseTypologiesOfAdresses = async (
   return allTypologies;
 };
 const createOrUpdateAdresses = async (
-  adresses: UpdateAdresse[] = [],
+  adresses: AdresseApiType[] = [],
   structureDnaCode: string
 ): Promise<void> => {
   if (!adresses || adresses.length === 0) {
@@ -408,7 +408,7 @@ const createOrUpdateAdresses = async (
 };
 
 const deleteAdresses = async (
-  adressesToKeep: UpdateAdresse[],
+  adressesToKeep: AdresseApiType[],
   structureDnaCode: string
 ): Promise<void> => {
   const everyAdressesOfStructure = await prisma.adresse.findMany({
@@ -425,7 +425,7 @@ const deleteAdresses = async (
 };
 
 const deleteControles = async (
-  controlesToKeep: UpdateControle[],
+  controlesToKeep: ControleApiType[],
   structureDnaCode: string
 ): Promise<void> => {
   const allControles = await prisma.controle.findMany({
@@ -445,7 +445,7 @@ const deleteControles = async (
 };
 
 const deleteFileUploads = async (
-  fileUploadsToKeep: UpdateFileUpload[],
+  fileUploadsToKeep: FileUploadApiType[],
   structureDnaCode: string
 ): Promise<void> => {
   const allFileUploads = await prisma.fileUpload.findMany({
@@ -467,7 +467,7 @@ const deleteFileUploads = async (
 };
 
 const updateFileUploads = async (
-  fileUploads: UpdateFileUpload[] | undefined,
+  fileUploads: FileUploadApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   if (!fileUploads || fileUploads.length === 0) {
@@ -496,7 +496,7 @@ const updateFileUploads = async (
 };
 
 const createOrUpdateControles = async (
-  controles: UpdateControle[] | undefined,
+  controles: ControleApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   if (!controles || controles.length === 0) {
@@ -530,13 +530,11 @@ const createOrUpdateControles = async (
 };
 
 export const updateOne = async (
-  structure: UpdateStructure
+  structure: StructureUpdateApiType
 ): Promise<Structure> => {
   let updatedStructure = null;
   try {
     const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      type,
       contacts,
       budgets,
       typologies,
@@ -545,8 +543,6 @@ export const updateOne = async (
       controles,
       operateur,
       forms,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      typeBati,
       ...structureProperties
     } = structure;
 
@@ -561,8 +557,8 @@ export const updateOne = async (
         operateur: {
           connect: operateur
             ? {
-              id: operateur?.id,
-            }
+                id: operateur?.id,
+              }
             : undefined,
         },
       },
@@ -575,7 +571,6 @@ export const updateOne = async (
     await updateFileUploads(fileUploads, structure.dnaCode);
     await createOrUpdateControles(controles, structure.dnaCode);
     await createOrUpdateForms(forms, structure.dnaCode);
-
   } catch (error) {
     throw new Error(
       `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}: ${error}`

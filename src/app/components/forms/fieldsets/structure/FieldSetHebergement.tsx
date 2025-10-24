@@ -3,7 +3,7 @@ import autoAnimate from "@formkit/auto-animate";
 import { useEffect, useRef } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 
-import { FormAdresse } from "@/schemas/base/adresse.schema";
+import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { Adresse, Repartition } from "@/types/adresse.type";
 
 import { AdresseComponent } from "./fieldSetHebergement/Adresse";

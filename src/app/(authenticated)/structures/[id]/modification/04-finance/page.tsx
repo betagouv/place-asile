@@ -21,7 +21,7 @@ import {
   basicSchema,
   subventionneeAvecCpomSchema,
   subventionneeSchema,
-} from "@/schemas/base/finance.schema";
+} from "@/schemas/forms/base/finance.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { ModificationTitle } from "../components/ModificationTitle";

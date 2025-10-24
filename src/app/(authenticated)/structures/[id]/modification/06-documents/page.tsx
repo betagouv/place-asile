@@ -18,7 +18,7 @@ import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
 import {
   FileUploadsFormValues,
   fileUploadsSchema,
-} from "@/schemas/base/documents.schema";
+} from "@/schemas/forms/base/documents.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";

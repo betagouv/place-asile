@@ -13,7 +13,7 @@ import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   ControlesFormValues,
   controlesSchema,
-} from "@/schemas/base/controles.schema";
+} from "@/schemas/forms/base/controles.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";

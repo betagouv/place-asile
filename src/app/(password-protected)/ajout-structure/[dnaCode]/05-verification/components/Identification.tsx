@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { formatPhoneNumber } from "@/app/utils/phone.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
+import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 
 export const Identification = () => {
   const params = useParams();

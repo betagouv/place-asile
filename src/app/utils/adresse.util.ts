@@ -1,4 +1,4 @@
-import { FormAdresse } from "@/schemas/base/adresse.schema";
+import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import {
   Adresse,
   CreateOrUpdateAdresse,

@@ -3,7 +3,7 @@ import { useMemo } from "react";
 
 import { Table } from "@/app/components/common/Table";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { AjoutTypePlacesFormValues } from "@/schemas/ajout/ajoutTypePlaces.schema";
+import { AjoutTypePlacesFormValues } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
 
 export const TypePlaces = () => {
   const params = useParams();

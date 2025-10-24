@@ -8,12 +8,10 @@ import {
 import z from "zod";
 
 import { parseFrDate } from "@/app/utils/date.util";
-
 import {
-  CreateAdresse,
-  CreateAdresseTypologie,
-  UpdateAdresse,
-} from "./structure.types";
+  AdresseApiType,
+  AdresseTypologieApiType,
+} from "@/schemas/api/adresse.schema";
 
 export const convertToRepartition = (repartition: string): Repartition => {
   const repartitions: Record<string, Repartition> = {
@@ -60,20 +58,23 @@ export const convertToControleType = (controleType: string): ControleType => {
 
 export const handleAdresses = (
   dnaCode: string,
-  adresses: CreateAdresse[] | UpdateAdresse[]
+  adresses: AdresseApiType[]
 ): AdresseInput[] => {
-  return adresses.map((adresse) => ({
-    adresse: adresse.adresse,
-    codePostal: adresse.codePostal,
-    commune: adresse.commune,
-    repartition: convertToRepartition(adresse.repartition),
-    structureDnaCode: dnaCode,
-    adresseTypologies: adresse.adresseTypologies,
-  } as AdresseInput));
+  return adresses.map(
+    (adresse) =>
+      ({
+        adresse: adresse.adresse,
+        codePostal: adresse.codePostal,
+        commune: adresse.commune,
+        repartition: convertToRepartition(adresse.repartition),
+        structureDnaCode: dnaCode,
+        adresseTypologies: adresse.adresseTypologies,
+      }) as AdresseInput
+  );
 };
 
 export type AdresseWithTypologies = Adresse & {
-  adresseTypologies: CreateAdresseTypologie[];
+  adresseTypologies: AdresseTypologieApiType[];
 };
 
 type AdresseInput = Omit<AdresseWithTypologies, "id"> & {

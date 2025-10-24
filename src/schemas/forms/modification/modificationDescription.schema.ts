@@ -1,10 +1,12 @@
 import z from "zod";
 
-import { adresseWithPlacesRequired } from "@/schemas/base/adresse.schema";
-import { adresseAdministrativeWithTypeBatiSchema } from "@/schemas/base/adresseAdministrative.schema";
+import { adresseWithPlacesRequired } from "@/schemas/forms/base/adresse.schema";
+import { adresseAdministrativeWithTypeBatiSchema } from "@/schemas/forms/base/adresseAdministrative.schema";
+import { identificationSchemaWithContacts } from "@/schemas/forms/base/identification.schema";
 import { Repartition } from "@/types/adresse.type";
 
-export const ajoutAdressesSchema = adresseAdministrativeWithTypeBatiSchema
+export const modificationDescriptionSchema = identificationSchemaWithContacts
+  .and(adresseAdministrativeWithTypeBatiSchema)
   .and(
     z.object({
       adresses: z.array(adresseWithPlacesRequired),
@@ -35,4 +37,6 @@ export const ajoutAdressesSchema = adresseAdministrativeWithTypeBatiSchema
     });
   });
 
-export type AjoutAdressesFormValues = z.infer<typeof ajoutAdressesSchema>;
+export type ModificationDescriptionFormValues = z.infer<
+  typeof modificationDescriptionSchema
+>;

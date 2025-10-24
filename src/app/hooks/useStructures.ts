@@ -4,10 +4,10 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
 import { transformAjoutFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { formatDateToIsoString } from "@/app/utils/date.util";
-import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
-import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
-import { AjoutTypePlacesFormValues } from "@/schemas/ajout/ajoutTypePlaces.schema";
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/base/documentsFinanciers.schema";
+import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
+import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
+import { AjoutTypePlacesFormValues } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentsFinanciers.schema";
 import { DeepPartial } from "@/types/global";
 import { Structure } from "@/types/structure.type";
 

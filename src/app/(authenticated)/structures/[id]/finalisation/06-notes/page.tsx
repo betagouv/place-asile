@@ -16,7 +16,7 @@ import {
   NotesAutoSaveFormValues,
   notesAutoSaveSchema,
   notesSchema,
-} from "@/schemas/base/notes.schema";
+} from "@/schemas/forms/base/notes.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 

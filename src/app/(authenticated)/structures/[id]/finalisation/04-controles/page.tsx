@@ -13,7 +13,7 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
-import { controlesSchema } from "@/schemas/base/controles.schema";
+import { controlesSchema } from "@/schemas/forms/base/controles.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 

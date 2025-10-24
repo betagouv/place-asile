@@ -1,7 +1,7 @@
 import { getRepartition } from "@/app/utils/structure.util";
-import { FormAdresse } from "@/schemas/base/adresse.schema";
-import { ControleFormValues } from "@/schemas/base/controles.schema";
-import { FileUploadFormValues } from "@/schemas/base/documents.schema";
+import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
+import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
+import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
 import { Repartition } from "@/types/adresse.type";
 import { Budget } from "@/types/budget.type";
 import { Contact } from "@/types/contact.type";

@@ -1,7 +1,7 @@
 import z from "zod";
 
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { contactSchema } from "@/schemas/base/contact.schema";
+import { contactSchema } from "@/schemas/forms/base/contact.schema";
 import { PublicType } from "@/types/structure.type";
 
 import { structureBaseSchema } from "./structure.base.schema";

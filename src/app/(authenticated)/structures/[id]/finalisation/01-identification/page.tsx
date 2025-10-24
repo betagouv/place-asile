@@ -21,7 +21,7 @@ import {
   FinalisationIdentificationAutoSaveFormValues,
   finalisationIdentificationAutoSaveSchema,
   finalisationIdentificationSchema,
-} from "@/schemas/finalisation/finalisationIdentification.schema";
+} from "@/schemas/forms/finalisation/finalisationIdentification.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 import { FormKind } from "@/types/global";
