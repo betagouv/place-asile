@@ -155,12 +155,10 @@ Plus globalement, cela vient du fait que prisma vient **d'abord** réaliser l'en
    # Exemple : scripts/one-off-scripts/20251020-migrate-forms-prod.ts
    ```
 
-2. **Exécuter le script** :
+2. **Exécuter le script en prod** :
    ```bash
-   yarn one-off 20251020-migrate-forms-prod # préfixer de scalingo si exécution en prod
+   scalingo -a <scalingo_app_name> run "yarn one-off 20251020-migrate-forms-and-steps"
    ```
-
-3. **Le script sera exécuté** avec les variables d'environnement chargées automatiquement
 
 #### Bonnes pratiques
 
