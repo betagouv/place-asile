@@ -6,7 +6,6 @@ import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { BudgetExecutoire } from "./BudgetExecutoire";
@@ -43,15 +42,9 @@ export const FinancesBlock = (): ReactElement => {
     <Block
       title="Finances"
       iconClass="fr-icon-money-euro-box-line"
-      onEdit={
-        structure.state === StructureState.FINALISE
-          ? () => {
-              router.push(
-                `/structures/${structure.id}/modification/04-finance`
-              );
-            }
-          : undefined
-      }
+      onEdit={() => {
+        router.push(`/structures/${structure.id}/modification/04-finance`);
+      }}
     >
       <div className="pb-2">
         <h4 className="text-title-blue-france pb-2 fr-h6">

@@ -4,16 +4,19 @@ import Link from "next/link";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { formatDate } from "@/app/utils/date.util";
+import { getFinalisationFormStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import {
   getOperateurLabel,
   getPlacesByCommunes,
   getRepartition,
 } from "@/app/utils/structure.util";
-import { Structure, StructureState } from "@/types/structure.type";
+import { Structure } from "@/types/structure.type";
 
 import { RepartitionBadge } from "./RepartitionBadge";
 
 export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
+  const isStructureFinalisee = getFinalisationFormStatus(structure);
+
   return (
     <tr
       id={`table-row-key-${index}`}
@@ -37,7 +40,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
         <EmptyCell />
       )}
       <td>
-        {structure.state === StructureState.FINALISE ? (
+        {isStructureFinalisee ? (
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
             title={`Détails de la structure ${structure.dnaCode}`}
@@ -48,7 +51,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
         ) : (
           <Button
             onClick={() => handleOpenModal(structure)}
-            className="fr-btn--tertiary-no-outline fr-icon-file-add-line"
+            className="fr-btn--tertiary-no-outline fr-icon-edit-line"
             title={`Finaliser la création de la structure ${structure.dnaCode}`}
           >
             Finaliser la création de la structure {structure.dnaCode}

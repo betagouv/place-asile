@@ -18,7 +18,7 @@ export const User = (): ReactElement => {
           className="fr-text--xs p-0 fr-icon-logout-box-r-line fr-btn--icon-right"
           onClick={() => redirect("/deconnexion")}
         >
-          Deconnexion
+          Déconnexion
         </button>
       </div>
     </div>

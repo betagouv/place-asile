@@ -69,7 +69,7 @@ export default function Structures(): ReactElement {
           setFilteredStructures={setFilteredStructures}
         />
         <p className="pl-3 text-mention-grey mb-0">
-          {filteredStructures.length} entrée(s)
+          {filteredStructures.length} entrée{filteredStructures.length > 1 ? "s" : ""}
         </p>
       </div>
       {selectedVisualization === "tableau" && (

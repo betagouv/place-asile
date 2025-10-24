@@ -2,7 +2,6 @@ import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
@@ -15,13 +14,9 @@ export const NotesBlock = (): ReactElement => {
     <Block
       iconClass="fr-icon-message-2-line"
       title="Notes"
-      onEdit={
-        structure.state === StructureState.FINALISE
-          ? () => {
-              router.push(`/structures/${structure.id}/modification/07-notes`);
-            }
-          : undefined
-      }
+      onEdit={() => {
+        router.push(`/structures/${structure.id}/modification/07-notes`);
+      }}
     >
       <span className="whitespace-pre-wrap">
         {structure.notes || "Aucune note renseignée"}

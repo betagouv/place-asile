@@ -3,14 +3,15 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import { cn } from "@/app/utils/classname.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { StepStatus } from "@/types/form.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
 export const Tab = ({ title, route, current, type }: Props) => {
   const { structure } = useStructureContext();
-  const isCompleted = structure.finalisationSteps?.some(
-    (step) => step.label === route
-  );
+
+  const currentFormStepStatus = getFinalisationFormStepStatus(route, structure);
 
   return (
     <Link
@@ -26,43 +27,33 @@ export const Tab = ({ title, route, current, type }: Props) => {
         <strong>{title}</strong>
         <span className="fr-icon-arrow-right-line"></span>
       </span>
-      {type === "verification" &&
-        (isCompleted ? (
-          <Tag
-            className="!bg-[var(--success-950-100)] !text-[var(---success-425-625)] font-bold"
-            iconId="fr-icon-check-line"
-            small
-          >
-            VÉRIFIÉ
-          </Tag>
-        ) : (
-          <Tag
-            className="!bg-[var(--color-background-contrast-yellow-tournesol)] !text-[var(--color-text-action-high-yellow-tournesol)] font-bold"
-            iconId="fr-icon-eye-line"
-            small
-          >
-            À VÉRIFIER
-          </Tag>
-        ))}
-
-      {type === "completion" &&
-        (isCompleted ? (
-          <Tag
-            className="!bg-[var(--success-950-100)] !text-[var(---success-425-625)] font-bold"
-            iconId="fr-icon-check-line"
-            small
-          >
-            COMPLÉTÉ
-          </Tag>
-        ) : (
-          <Tag
-            className="!bg-[var(--color-background-contrast-warning)]  !text-[var(--color-text-default-warning)] font-bold"
-            iconId="fr-icon-eye-line"
-            small
-          >
-            A COMPLÈTER
-          </Tag>
-        ))}
+      {currentFormStepStatus === StepStatus.VALIDE && (
+        <Tag
+          className="!bg-[var(--success-950-100)] !text-[var(---success-425-625)] font-bold"
+          iconId="fr-icon-check-line"
+          small
+        >
+          {type === "verification" ? "VÉRIFIÉ" : "COMPLÉTÉ"}
+        </Tag>
+      )}
+      {currentFormStepStatus === StepStatus.A_VERIFIER && (
+        <Tag
+          className="!bg-[var(--color-background-contrast-yellow-tournesol)] !text-[var(--color-text-action-high-yellow-tournesol)] font-bold"
+          iconId="fr-icon-eye-line"
+          small
+        >
+          À VÉRIFIER
+        </Tag>
+      )}
+      {currentFormStepStatus === StepStatus.NON_COMMENCE && (
+        <Tag
+          className="!bg-[var(--color-background-contrast-warning)]  !text-[var(--color-text-default-warning)] font-bold"
+          iconId="fr-icon-eye-line"
+          small
+        >
+          A COMPLÈTER
+        </Tag>
+      )}
     </Link>
   );
 };

@@ -1,8 +1,8 @@
 import { Operateur, Prisma } from "@prisma/client";
 
 import { normalizeAccents } from "@/app/utils/string.util";
+import prisma from "@/lib/prisma";
 
-import prisma from "../../../../lib/prisma";
 import { CreateOperateurs } from "./operateur.types";
 
 export const findBySearchTerm = async (

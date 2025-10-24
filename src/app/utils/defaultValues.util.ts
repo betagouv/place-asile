@@ -38,9 +38,11 @@ export const getDefaultValues = ({
     structure?.budgets?.filter((budget) =>
       years.includes(Number(getDateStringToYear(budget.date.toString())))
     ) || [];
-
   const budgets = Array(5)
     .fill({})
+    .map((_, index) => ({
+      date: formatDateString(years[index].toString()),
+    }))
     .map((emptyBudget, index) => {
       if (index < budgetsFilteredByYears.length) {
         const budget = budgetsFilteredByYears[index];

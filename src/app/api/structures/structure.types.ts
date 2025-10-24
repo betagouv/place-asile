@@ -1,6 +1,8 @@
 import { Repartition } from "@/types/adresse.type";
 import { ContactType } from "@/types/contact.type";
 
+import { UpdateForm } from "../forms/form.types";
+
 export type CreateStructure = {
   dnaCode: string;
   operateur: CreateOperateur;
@@ -191,6 +193,7 @@ export type UpdateStructure = {
   typologies?: UpdateStructureTypologie[];
   fileUploads?: UpdateFileUpload[];
   budgets?: UpdateBudget[];
+  forms?: UpdateForm[];
   createdAt?: Date;
   updatedAt?: Date;
 };

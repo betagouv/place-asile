@@ -5,6 +5,7 @@ import { Repartition } from "@/types/adresse.type";
 import { ContactType } from "@/types/contact.type";
 import { ControleType } from "@/types/controle.type";
 import { zFileUploadCategory } from "@/types/file-upload.type";
+import { StepStatus } from "@/types/form.type";
 import {
   PublicType,
   StructureState,
@@ -140,6 +141,19 @@ const updateStructureTypologieSchema = z.object({
   fvvTeh: z.number().int(),
 });
 
+const formSchema = z.object({
+  id: z.number().optional(),
+  slug: z.string(),
+  status: z.boolean(),
+});
+
+const formStepSchema = z.object({
+  id: z.number().optional(),
+  formId: z.number().optional(),
+  slug: z.string(),
+  status: z.nativeEnum(StepStatus),
+});
+
 export const structureUpdateSchema = z.object({
   dnaCode: z.string().min(1, "Le code DNA est requis"),
   operateur: z.object({ id: z.number(), name: z.string() }).optional(),
@@ -222,4 +236,14 @@ export const structureUpdateSchema = z.object({
   controles: z
     .array(controleSchema.extend({ id: z.number().optional() }))
     .optional(),
+  forms: z
+    .array(formSchema.extend({
+      id: z.number().optional(),
+      slug: z.string(),
+      formSteps: z.array(formStepSchema.extend({
+        id: z.number().optional(),
+        slug: z.string(),
+        status: z.nativeEnum(StepStatus),
+      }))
+    })).optional(),
 });

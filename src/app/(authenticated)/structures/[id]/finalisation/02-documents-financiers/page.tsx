@@ -10,11 +10,13 @@ import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import {
   DocumentsFinanciersFlexibleFormValues,
   DocumentsFinanciersFlexibleSchema,
 } from "@/schemas/base/documentsFinanciers.schema";
 import { FetchState } from "@/types/fetch-state.type";
+import { StepStatus } from "@/types/form.type";
 
 import { Tabs } from "../_components/Tabs";
 
@@ -23,8 +25,9 @@ export default function FinalisationDocumentsFinanciers() {
 
   const currentStep = "02-documents-financiers";
 
-  const isCompleted = structure.finalisationSteps?.some(
-    (step) => step.label === currentStep
+  const currentFormStepStatus = getFinalisationFormStepStatus(
+    currentStep,
+    structure
   );
 
   const defaultValues = getDefaultValues({ structure });
@@ -57,8 +60,14 @@ export default function FinalisationDocumentsFinanciers() {
           onSave={onAutoSave}
         />
         <InformationBar
-          variant="verify"
-          title={isCompleted ? "Vérifié" : "À vérifier"}
+          variant={
+            currentFormStepStatus === StepStatus.VALIDE ? "success" : "verify"
+          }
+          title={
+            currentFormStepStatus === StepStatus.VALIDE
+              ? "Vérifié"
+              : "À vérifier"
+          }
           description="Veuillez vérifier les documents financiers fournis par l’opérateur concernant les cinq dernières années."
         />
 

@@ -16,12 +16,14 @@ import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { transformAgentFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import {
   FinalisationIdentificationAutoSaveFormValues,
   finalisationIdentificationAutoSaveSchema,
   finalisationIdentificationSchema,
 } from "@/schemas/finalisation/finalisationIdentification.schema";
 import { FetchState } from "@/types/fetch-state.type";
+import { StepStatus } from "@/types/form.type";
 import { FormKind } from "@/types/global";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
@@ -32,8 +34,9 @@ export default function FinalisationIdentification(): ReactElement {
 
   const currentStep = "01-identification";
 
-  const isCompleted = structure.finalisationSteps?.some(
-    (step) => step.label === currentStep
+  const currentFormStepStatus = getFinalisationFormStepStatus(
+    currentStep,
+    structure
   );
 
   const defaultValues = getDefaultValues({ structure });
@@ -68,8 +71,14 @@ export default function FinalisationIdentification(): ReactElement {
           onSave={onAutoSave}
         />
         <InformationBar
-          variant={isCompleted ? "success" : "verify"}
-          title={isCompleted ? "Vérifié" : "À vérifier"}
+          variant={
+            currentFormStepStatus === StepStatus.VALIDE ? "success" : "verify"
+          }
+          title={
+            currentFormStepStatus === StepStatus.VALIDE
+              ? "Vérifié"
+              : "À vérifier"
+          }
           description="Veuillez vérifier les informations suivantes transmises par l’opérateur."
         />
 

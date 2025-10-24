@@ -34,6 +34,7 @@ const eslintConfig = [{
 }, {
   files: [
     "src/app/api/**/*.{js,ts,jsx,tsx}",
+    "src/lib/**/*.{js,ts,jsx,tsx}",
     "lib/**/*.{js,ts,jsx,tsx}",
     "prisma/**/*.{js,ts,jsx,tsx}"
   ],

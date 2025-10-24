@@ -8,6 +8,7 @@ import { Controle } from "./controle.type";
 import { Evaluation } from "./evaluation.type";
 import { EvenementIndesirableGrave } from "./evenement-indesirable-grave.type";
 import { FileUpload } from "./file-upload.type";
+import { Form } from "./form.type";
 import { Operateur } from "./operateur.type";
 import { StructureTypologie } from "./structure-typologie.type";
 
@@ -55,12 +56,7 @@ export type Structure = {
   operateur?: Operateur;
   createdAt?: Date;
   updatedAt?: Date;
-  finalisationSteps?: FinalisationStep[];
-};
-
-export type FinalisationStep = {
-  label: string;
-  completed: boolean;
+  forms?: Form[];
 };
 
 export type StructureWithLatLng = Structure & {

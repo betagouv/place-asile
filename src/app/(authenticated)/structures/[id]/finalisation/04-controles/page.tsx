@@ -12,11 +12,10 @@ import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import {
-  ControlesFormValues,
-  controlesSchema,
-} from "@/schemas/base/controles.schema";
+import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { controlesSchema } from "@/schemas/base/controles.schema";
 import { FetchState } from "@/types/fetch-state.type";
+import { StepStatus } from "@/types/form.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { Tabs } from "../_components/Tabs";
@@ -26,13 +25,14 @@ export default function ModificationControleForm() {
 
   const currentStep = "04-controles";
 
-  const isCompleted = structure.finalisationSteps?.some(
-    (step) => step.label === currentStep
+  const currentFormStepStatus = getFinalisationFormStepStatus(
+    currentStep,
+    structure
   );
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleSubmit, backendError } = useAgentFormHandling({
+  const { handleValidation, backendError } = useAgentFormHandling({
     currentStep,
   });
 
@@ -40,21 +40,21 @@ export default function ModificationControleForm() {
     structure,
   });
 
-  const onSubmit = async (data: ControlesFormValues) => {
-    const controles = data.controles?.map((controle) => {
-      return {
-        id: controle.id || undefined,
-        date: controle.date,
-        type: controle.type,
-        fileUploadKey: controle.fileUploads?.[0].key,
-      };
-    });
+  // const onSubmit = async (data: ControlesFormValues) => {
+  //   const controles = data.controles?.map((controle) => {
+  //     return {
+  //       id: controle.id || undefined,
+  //       date: controle.date,
+  //       type: controle.type,
+  //       fileUploadKey: controle.fileUploads?.[0].key,
+  //     };
+  //   });
 
-    await handleSubmit({
-      controles,
-      dnaCode: structure.dnaCode,
-    });
-  };
+  //   // await handleSubmit({
+  //   //   controles,
+  //   //   dnaCode: structure.dnaCode,
+  //   // });
+  // };
 
   const { getFetchState } = useFetchState();
   const saveState = getFetchState("structure-save");
@@ -64,7 +64,7 @@ export default function ModificationControleForm() {
       <Tabs currentStep={currentStep} />
       <FormWrapper
         schema={controlesSchema}
-        onSubmit={onSubmit}
+        onSubmit={handleValidation}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}
         availableFooterButtons={[FooterButtonType.SUBMIT]}
@@ -72,8 +72,14 @@ export default function ModificationControleForm() {
         className="rounded-t-none"
       >
         <InformationBar
-          variant={isCompleted ? "success" : "complete"}
-          title={isCompleted ? "Complété" : "À compléter"}
+          variant={
+            currentFormStepStatus === StepStatus.VALIDE ? "success" : "complete"
+          }
+          title={
+            currentFormStepStatus === StepStatus.VALIDE
+              ? "Complété"
+              : "À compléter"
+          }
           description="Veuillez renseigner les informations et documents concernant l’ensemble des évaluations et inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
         />
         <Notice
