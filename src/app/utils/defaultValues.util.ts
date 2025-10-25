@@ -1,12 +1,13 @@
 import { getRepartition } from "@/app/utils/structure.util";
+import { BudgetApiType } from "@/schemas/api/budget.schema";
+import { ContactApiType } from "@/schemas/api/contact.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
+import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
 import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
 import { Repartition } from "@/types/adresse.type";
-import { Budget } from "@/types/budget.type";
-import { Contact } from "@/types/contact.type";
-import { PublicType, StructureWithLatLng } from "@/types/structure.type";
-import { StructureTypologie } from "@/types/structure-typologie.type";
+import { PublicType } from "@/types/structure.type";
 
 import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { buildFileUploadsDefaultValues } from "./buildFileUploadsDefaultValues.util";
@@ -28,7 +29,7 @@ import { isStructureAutorisee } from "./structure.util";
 export const getDefaultValues = ({
   structure,
 }: {
-  structure: StructureWithLatLng;
+  structure: StructureApiType;
 }): Partial<StructureDefaultValues> => {
   const isAutorisee = isStructureAutorisee(structure.type);
   const repartition = getRepartition(structure);
@@ -52,7 +53,13 @@ export const getDefaultValues = ({
         };
       }
       return emptyBudget;
-    }) as [Budget, Budget, Budget, Budget, Budget];
+    }) as [
+    BudgetApiType,
+    BudgetApiType,
+    BudgetApiType,
+    BudgetApiType,
+    BudgetApiType,
+  ];
 
   const categoriesToDisplay = getCategoriesToDisplay(structure);
 
@@ -127,7 +134,7 @@ export const getDefaultValues = ({
 };
 
 type StructureDefaultValues = Omit<
-  StructureWithLatLng,
+  StructureApiType,
   | "creationDate"
   | "nom"
   | "debutPeriodeAutorisation"
@@ -166,7 +173,7 @@ type StructureDefaultValues = Omit<
   finessCode?: string;
   public?: PublicType;
   filiale?: string;
-  contacts: Contact[];
+  contacts: ContactApiType[];
   adresseAdministrativeComplete: string;
   adresseAdministrative: string;
   codePostalAdministratif: string;
@@ -174,12 +181,18 @@ type StructureDefaultValues = Omit<
   departementAdministratif: string;
   typeBati: Repartition;
   adresses: FormAdresse[];
-  typologies?: StructureTypologie[];
+  typologies?: StructureTypologieApiType[];
   placesACreer?: number;
   placesAFermer?: number;
   echeancePlacesACreer?: string;
   echeancePlacesAFermer?: string;
   fileUploads: FileUploadFormValues[];
   controles: ControleFormValues[];
-  budgets: [Budget, Budget, Budget, Budget, Budget];
+  budgets: [
+    BudgetApiType,
+    BudgetApiType,
+    BudgetApiType,
+    BudgetApiType,
+    BudgetApiType,
+  ];
 };

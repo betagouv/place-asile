@@ -7,11 +7,12 @@ import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
-import { Controle } from "@/types/controle.type";
-import { Evaluation } from "@/types/evaluation.type";
+import { AdresseApiType } from "@/schemas/api/adresse.schema";
+import { ControleApiType } from "@/schemas/api/controle.schema";
+import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import { StructureType } from "@/types/structure.type";
 
-import { Adresse, Repartition } from "../../src/types/adresse.type";
+import { Repartition } from "../../src/types/adresse.type";
 import { createAdresse } from "../test-utils/adresse.factory";
 import { createAdresseTypologie } from "../test-utils/adresse-typologie.factory";
 import { createControle } from "../test-utils/controle.factory";
@@ -22,7 +23,7 @@ describe("structure util", () => {
   describe("getPlacesByCommunes", () => {
     it("should return an empty object when given an empty array", () => {
       // GIVEN
-      const adresses: Adresse[] = [];
+      const adresses: AdresseApiType[] = [];
 
       // WHEN
       const placesByCommune = getPlacesByCommunes(adresses);
@@ -33,23 +34,19 @@ describe("structure util", () => {
     it("should return correct places by commune when given a adresses array", () => {
       // GIVEN
       const typologie1 = createAdresseTypologie({
-        adresseId: 1,
         placesAutorisees: 2,
       });
       const typologie2 = createAdresseTypologie({
-        adresseId: 2,
         placesAutorisees: 3,
       });
       const typologie3 = createAdresseTypologie({
-        adresseId: 3,
         placesAutorisees: 1,
       });
       const typologie4 = createAdresseTypologie({
-        adresseId: 4,
         placesAutorisees: 1,
       });
 
-      const adresses: Adresse[] = [
+      const adresses: AdresseApiType[] = [
         createAdresse({ id: 1, commune: "Paris", typologies: [typologie1] }),
         createAdresse({ id: 2, commune: "Paris", typologies: [typologie2] }),
         createAdresse({ id: 3, commune: "Rouen", typologies: [typologie3] }),
@@ -120,8 +117,8 @@ describe("structure util", () => {
   describe("getLastVisitInMonths", () => {
     it("should return 0 when both arrays are empty", () => {
       // GIVEN
-      const evaluations: Evaluation[] = [];
-      const controles: Controle[] = [];
+      const evaluations: EvaluationApiType[] = [];
+      const controles: ControleApiType[] = [];
 
       // WHEN
       const result = getLastVisitInMonths(evaluations, controles);
@@ -132,10 +129,10 @@ describe("structure util", () => {
 
     it("should return the difference in months from the most recent evaluation when controles array is empty", () => {
       // GIVEN
-      const evaluations: Evaluation[] = [
-        createEvaluation({ date: dayjs().subtract(2, "month").toDate() }),
+      const evaluations: EvaluationApiType[] = [
+        createEvaluation({ date: dayjs().subtract(2, "month").toISOString() }),
       ];
-      const controles: Controle[] = [];
+      const controles: ControleApiType[] = [];
 
       // WHEN
       const result = getLastVisitInMonths(evaluations, controles);
@@ -146,9 +143,9 @@ describe("structure util", () => {
 
     it("should return the difference in months from the most recent controle when evaluations array is empty", () => {
       // GIVEN
-      const evaluations: Evaluation[] = [];
-      const controles: Controle[] = [
-        createControle({ date: dayjs().subtract(1, "month").toDate() }),
+      const evaluations: EvaluationApiType[] = [];
+      const controles: ControleApiType[] = [
+        createControle({ date: dayjs().subtract(1, "month").toISOString() }),
       ];
 
       // WHEN
@@ -160,11 +157,11 @@ describe("structure util", () => {
 
     it("should return the difference in months from the most recent evaluation when it is later than the last controle", () => {
       // GIVEN
-      const evaluations: Evaluation[] = [
-        createEvaluation({ date: dayjs().subtract(1, "month").toDate() }),
+      const evaluations: EvaluationApiType[] = [
+        createEvaluation({ date: dayjs().subtract(1, "month").toISOString() }),
       ];
-      const controles: Controle[] = [
-        createControle({ date: dayjs().subtract(3, "month").toDate() }),
+      const controles: ControleApiType[] = [
+        createControle({ date: dayjs().subtract(3, "month").toISOString() }),
       ];
 
       // WHEN
@@ -176,11 +173,11 @@ describe("structure util", () => {
 
     it("should return the difference in months from the most recent controle when it is later than the last evaluation", () => {
       // GIVEN
-      const evaluations: Evaluation[] = [
-        createEvaluation({ date: dayjs().subtract(4, "month").toDate() }),
+      const evaluations: EvaluationApiType[] = [
+        createEvaluation({ date: dayjs().subtract(4, "month").toISOString() }),
       ];
-      const controles: Controle[] = [
-        createControle({ date: dayjs().subtract(2, "month").toDate() }),
+      const controles: ControleApiType[] = [
+        createControle({ date: dayjs().subtract(2, "month").toISOString() }),
       ];
 
       // WHEN

@@ -4,17 +4,17 @@ import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
-import { createOptionalDateValidator } from "@/app/utils/zodCustomFields";
+import { frenchDateToISO } from "@/app/utils/zodCustomFields";
 
 import { structureBaseSchema } from "./structure.base.schema";
 
 const baseCalendrierSchema = structureBaseSchema.extend({
-  debutPeriodeAutorisation: createOptionalDateValidator(),
-  finPeriodeAutorisation: createOptionalDateValidator(),
-  debutConvention: createOptionalDateValidator(),
-  finConvention: createOptionalDateValidator(),
-  debutCpom: createOptionalDateValidator(),
-  finCpom: createOptionalDateValidator(),
+  debutPeriodeAutorisation: frenchDateToISO().optional(),
+  finPeriodeAutorisation: frenchDateToISO().optional(),
+  debutConvention: frenchDateToISO().optional(),
+  finConvention: frenchDateToISO().optional(),
+  debutCpom: frenchDateToISO().optional(),
+  finCpom: frenchDateToISO().optional(),
 });
 export const calendrierSchema = baseCalendrierSchema
   .refine(

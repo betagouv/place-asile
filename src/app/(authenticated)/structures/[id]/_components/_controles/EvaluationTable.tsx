@@ -1,12 +1,12 @@
 import { Table } from "@codegouvfr/react-dsfr/Table";
 import { ReactElement } from "react";
 
-import { Evaluation } from "@/types/evaluation.type";
+import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 
 export const EvaluationTable = ({ evaluations }: Props): ReactElement => {
   const getEvaluations = () => {
     return evaluations.map((evaluation) => [
-      new Date(evaluation.date).toLocaleDateString("fr-FR"),
+      new Date(evaluation.date ?? "").toLocaleDateString("fr-FR"),
       evaluation.notePersonne,
       evaluation.notePro,
       evaluation.noteStructure,
@@ -32,5 +32,5 @@ export const EvaluationTable = ({ evaluations }: Props): ReactElement => {
 };
 
 type Props = {
-  evaluations: Evaluation[];
+  evaluations: EvaluationApiType[];
 };

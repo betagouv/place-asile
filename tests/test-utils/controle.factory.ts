@@ -1,16 +1,22 @@
-import { Controle, ControleType } from "@/types/controle.type";
+import { ControleApiType } from "@/schemas/api/controle.schema";
+import { ControleType } from "@/types/controle.type";
 
-export const createControle = ({ id, date }: CreateControleArgs): Controle => {
+export const createControle = ({
+  id,
+  date,
+}: CreateControleArgs): ControleApiType => {
   return {
     id: id ?? 1,
     structureDnaCode: "C0001",
-    date: date ?? new Date("01/02/2022"),
+    date: date ?? new Date("01/02/2022").toISOString(),
     type: ControleType.INOPINE,
     fileUploads: [
       {
         id: 1,
+        date: new Date("01/02/2022").toISOString(),
         fileSize: 42,
         key: "uuid-1234.pdf",
+        category: "INSPECTION_CONTROLE",
         mimeType: "application/pdf",
         originalName: "1234.pdf",
       },
@@ -20,5 +26,5 @@ export const createControle = ({ id, date }: CreateControleArgs): Controle => {
 
 type CreateControleArgs = {
   id?: number;
-  date?: Date;
+  date?: string;
 };

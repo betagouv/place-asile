@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
+import { frenchDateToISO } from "@/app/utils/zodCustomFields";
 import { ControleType } from "@/types/controle.type";
 import {
   zAgentFileUploadCategory,
@@ -9,16 +9,16 @@ import {
 
 const avenantSchema = z.object({
   key: z.string().optional(),
-  date: createDateFieldValidator.optional(),
+  date: frenchDateToISO().optional(),
   category: zAgentFileUploadCategory,
 });
 
 export const fileUploadSchema = z.object({
   key: z.string(),
-  date: createDateFieldValidator.optional(),
+  date: frenchDateToISO().optional(),
   category: zFileUploadCategory,
-  startDate: createDateFieldValidator(),
-  endDate: createDateFieldValidator(),
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
   avenants: z.array(avenantSchema).optional(),
   categoryName: z.string().nullish(),
   // TODO : mieux séparer controleSchema et fileUploadSchema
@@ -29,10 +29,10 @@ export const fileUploadSchema = z.object({
 
 export const fileUploadAutoSaveSchema = z.object({
   key: z.string().optional(),
-  date: createDateFieldValidator.optional(),
+  date: frenchDateToISO().optional(),
   category: zFileUploadCategory,
-  startDate: createDateFieldValidator.optional(),
-  endDate: createDateFieldValidator.optional(),
+  startDate: frenchDateToISO().optional(),
+  endDate: frenchDateToISO().optional(),
   avenants: z.array(avenantSchema).optional(),
   categoryName: z.string().nullish(),
   // TODO : mieux séparer controleSchema et fileUploadSchema
@@ -53,4 +53,6 @@ export type FileUploadFormValues = z.infer<typeof fileUploadSchema>;
 
 export type FileUploadsFormValues = z.infer<typeof fileUploadsSchema>;
 
-export type FileUploadsAutoSaveFormValues = z.infer<typeof fileUploadsAutoSaveSchema>;
+export type FileUploadsAutoSaveFormValues = z.infer<
+  typeof fileUploadsAutoSaveSchema
+>;

@@ -9,24 +9,24 @@ export const adresseTypologieApiSchema = z.object({
     .int()
     .positive()
     .min(1, "Le nombre de places total est requis"),
-  date: z.coerce.date({
+  date: z.string().datetime({
     message: "La date de la typologie d'adresse est requise",
   }),
   qpv: z.number().int(),
   logementSocial: z.number().int(),
-  createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional(),
+  createdAt: z.string().datetime().optional(),
+  updatedAt: z.string().datetime().optional(),
 });
 
 export const adresseApiSchema = z.object({
   id: z.number().optional(),
-  adresse: z.string().min(1, "L'adresse du logement est requise"),
-  codePostal: z.string().min(1, "Le code postal du logement est requis"),
-  commune: z.string().min(1, "Le code postal du logement est requis"),
-  repartition: z.nativeEnum(Repartition),
+  adresse: z.string().optional(),
+  codePostal: z.string().optional(),
+  commune: z.string().optional(),
+  repartition: z.nativeEnum(Repartition).optional(),
   adresseTypologies: z.array(adresseTypologieApiSchema),
-  createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional(),
+  createdAt: z.string().datetime().optional(),
+  updatedAt: z.string().datetime().optional(),
 });
 
 export type AdresseApiType = z.infer<typeof adresseApiSchema>;

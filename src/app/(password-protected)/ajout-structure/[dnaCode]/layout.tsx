@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { Structure } from "@/types/structure.type";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 export default async function RootLayout({
   children,
@@ -26,7 +26,7 @@ export default async function RootLayout({
       return <>{children}</>;
     }
 
-    const structure: Structure | null = await result.json();
+    const structure: StructureApiType | null = await result.json();
 
     if (structure) {
       redirect(`/ajout-structure/existe-deja?dnaCode=${dnaCode}`);

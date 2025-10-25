@@ -30,7 +30,7 @@ const createCompleteFormWithSteps = async (
     slug: string; // formDefinition slug
     status: boolean;
     formSteps: Array<{
-      slug: string; // formStepDefinition slug
+      slug: string; // stepDefinition slug
       status: StepStatus;
     }>;
   }
@@ -68,14 +68,12 @@ const createCompleteFormWithSteps = async (
     if (formData.formSteps) {
       await Promise.all(
         formData.formSteps.map(async (step) => {
-          // 3.1. Récupérer le FormStepDefinition par slug
-          const formStepDefinition = formDefinition.stepsDefinition.find(
+          // 3.1. Récupérer le stepDefinition par slug
+          const stepDefinition = formDefinition.stepsDefinition.find(
             (step) => step.slug === step.slug
           );
-          if (!formStepDefinition) {
-            throw new Error(
-              `FormStepDefinition with slug ${step.slug} not found`
-            );
+          if (!stepDefinition) {
+            throw new Error(`stepDefinition with slug ${step.slug} not found`);
           }
 
           // 3.2. Créer ou mettre à jour le FormStep
@@ -83,7 +81,7 @@ const createCompleteFormWithSteps = async (
             where: {
               formId_stepDefinitionId: {
                 formId: form.id,
-                stepDefinitionId: formStepDefinition.id,
+                stepDefinitionId: stepDefinition.id,
               },
             },
             update: {
@@ -91,7 +89,7 @@ const createCompleteFormWithSteps = async (
             },
             create: {
               formId: form.id,
-              stepDefinitionId: formStepDefinition.id,
+              stepDefinitionId: stepDefinition.id,
               status: convertToStepStatus(step.status),
             },
           });

@@ -22,7 +22,24 @@ import {
   handleAdresses,
 } from "./structure.util";
 
-export const findAll = async (): Promise<Structure[]> => {
+export const findAll = async (): Promise<
+  Prisma.StructureGetPayload<{
+    include: {
+      adresses: {
+        include: {
+          adresseTypologies: true;
+        };
+      };
+      operateur: true;
+      structureTypologies: true;
+      forms: {
+        include: {
+          formDefinition: true;
+        };
+      };
+    };
+  }>[]
+> => {
   return prisma.structure.findMany({
     include: {
       adresses: {
@@ -50,6 +67,7 @@ export const findAll = async (): Promise<Structure[]> => {
 };
 
 export const findOne = async (id: number): Promise<Structure> => {
+  console.log("findOne", id);
   const structure = await prisma.structure.findFirstOrThrow({
     where: {
       id,
@@ -118,7 +136,23 @@ export const findOne = async (id: number): Promise<Structure> => {
 
 export const findByDnaCode = async (
   dnaCode: string
-): Promise<Structure | null> => {
+): Promise<Prisma.StructureGetPayload<{
+  include: {
+    adresses: {
+      include: {
+        adresseTypologies: true;
+      };
+    };
+    contacts: true;
+    operateur: true;
+    structureTypologies: true;
+    forms: {
+      include: {
+        formDefinition: true;
+      };
+    };
+  };
+}> | null> => {
   return prisma.structure.findUnique({
     where: {
       dnaCode,
@@ -134,31 +168,15 @@ export const findByDnaCode = async (
         },
       },
       contacts: true,
+      operateur: true,
       structureTypologies: {
         orderBy: {
           date: "desc",
         },
       },
-      evaluations: {
-        orderBy: {
-          date: "desc",
-        },
-      },
-      controles: {
-        orderBy: {
-          date: "desc",
-        },
-      },
-      activites: {
-        orderBy: {
-          date: "desc",
-        },
-      },
-      evenementsIndesirablesGraves: true,
-      fileUploads: true,
-      budgets: {
-        orderBy: {
-          date: "desc",
+      forms: {
+        include: {
+          formDefinition: true,
         },
       },
     },
@@ -208,7 +226,7 @@ export const createOne = async (
       },
       structureTypologies: {
         createMany: {
-          data: structure.typologies,
+          data: structure.structureTypologies,
         },
       },
     },
@@ -252,7 +270,7 @@ export const createOne = async (
 };
 
 const createOrUpdateContacts = async (
-  contacts: ContactApiType[] | undefined,
+  contacts: Partial<ContactApiType>[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   await Promise.all(
@@ -298,7 +316,7 @@ const createOrUpdateBudgets = async (
 };
 
 const updateStructureTypologies = async (
-  typologies: StructureTypologieApiType[] | undefined
+  typologies: Partial<StructureTypologieApiType>[] | undefined
 ): Promise<void> => {
   await Promise.all(
     (typologies || []).map((typologie) => {
@@ -311,7 +329,7 @@ const updateStructureTypologies = async (
 };
 
 const getEveryAdresseTypologiesOfAdresses = async (
-  adresses: AdresseApiType[]
+  adresses: Partial<AdresseApiType>[]
 ): Promise<Awaited<ReturnType<typeof prisma.adresseTypologie.findMany>>> => {
   const existingAdresseIds = adresses
     .filter((adresse) => adresse.id)
@@ -328,7 +346,7 @@ const getEveryAdresseTypologiesOfAdresses = async (
   return allTypologies;
 };
 const createOrUpdateAdresses = async (
-  adresses: AdresseApiType[] = [],
+  adresses: Partial<AdresseApiType>[] = [],
   structureDnaCode: string
 ): Promise<void> => {
   if (!adresses || adresses.length === 0) {
@@ -360,7 +378,7 @@ const createOrUpdateAdresses = async (
       );
       const typologiesToDelete = existingTypologies.filter(
         (existing) =>
-          !adresse.adresseTypologies.some((t) => t.id === existing.id)
+          !adresse.adresseTypologies?.some((t) => t.id === existing.id)
       );
       if (typologiesToDelete.length > 0) {
         await prisma.adresseTypologie.deleteMany({
@@ -369,7 +387,7 @@ const createOrUpdateAdresses = async (
       }
 
       // Update or create typologies
-      for (const typologie of adresse.adresseTypologies) {
+      for (const typologie of adresse.adresseTypologies || []) {
         if (typologie.id) {
           // Update existing typologie
           await prisma.adresseTypologie.update({
@@ -408,7 +426,7 @@ const createOrUpdateAdresses = async (
 };
 
 const deleteAdresses = async (
-  adressesToKeep: AdresseApiType[],
+  adressesToKeep: Partial<AdresseApiType>[],
   structureDnaCode: string
 ): Promise<void> => {
   const everyAdressesOfStructure = await prisma.adresse.findMany({
@@ -445,7 +463,7 @@ const deleteControles = async (
 };
 
 const deleteFileUploads = async (
-  fileUploadsToKeep: FileUploadApiType[],
+  fileUploadsToKeep: Partial<FileUploadApiType>[],
   structureDnaCode: string
 ): Promise<void> => {
   const allFileUploads = await prisma.fileUpload.findMany({
@@ -467,7 +485,7 @@ const deleteFileUploads = async (
 };
 
 const updateFileUploads = async (
-  fileUploads: FileUploadApiType[] | undefined,
+  fileUploads: Partial<FileUploadApiType>[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   if (!fileUploads || fileUploads.length === 0) {
@@ -535,14 +553,22 @@ export const updateOne = async (
   let updatedStructure = null;
   try {
     const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      id,
       contacts,
       budgets,
-      typologies,
+      structureTypologies,
       adresses,
       fileUploads,
       controles,
       operateur,
       forms,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      evaluations,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      evenementsIndesirablesGraves,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars,
+      activites,
       ...structureProperties
     } = structure;
 
@@ -566,7 +592,7 @@ export const updateOne = async (
 
     await createOrUpdateContacts(contacts, structure.dnaCode);
     await createOrUpdateBudgets(budgets, structure.dnaCode);
-    await updateStructureTypologies(typologies);
+    await updateStructureTypologies(structureTypologies);
     await createOrUpdateAdresses(adresses, structure.dnaCode);
     await updateFileUploads(fileUploads, structure.dnaCode);
     await createOrUpdateControles(controles, structure.dnaCode);

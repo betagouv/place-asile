@@ -3,7 +3,6 @@ import { ReactElement } from "react";
 
 import { DateBars } from "@/app/(authenticated)/structures/[id]/_components/_calendrier/DateBars";
 import { Block } from "@/app/components/common/Block";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
@@ -19,7 +18,6 @@ export const CalendrierBlock = (): ReactElement => {
     finConvention,
     debutCpom,
     finCpom,
-    state,
   } = structure;
 
   const datePairs = [];
@@ -48,15 +46,9 @@ export const CalendrierBlock = (): ReactElement => {
     <Block
       title="Calendrier"
       iconClass="fr-icon-calendar-2-line"
-      onEdit={
-        state === StructureState.FINALISE
-          ? () => {
-              router.push(
-                `/structures/${structure.id}/modification/02-calendrier`
-              );
-            }
-          : undefined
-      }
+      onEdit={() => {
+        router.push(`/structures/${structure.id}/modification/02-calendrier`);
+      }}
     >
       <DateBars datePairs={datePairs} />
     </Block>

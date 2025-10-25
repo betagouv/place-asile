@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 
 import BarChart from "@/app/components/common/BarChart";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { Budget } from "@/types/budget.type";
+import { BudgetApiType } from "@/schemas/api/budget.schema";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
@@ -22,7 +22,7 @@ export const DotationChart = (): ReactElement => {
     })
     .reverse();
 
-  const getPropertySerie = (propertyName: keyof Budget): number[] => {
+  const getPropertySerie = (propertyName: keyof BudgetApiType): number[] => {
     return (
       yearsWithBudget.map((budget) => Number(budget.budget?.[propertyName])) ||
       []

@@ -1,10 +1,8 @@
 import z from "zod";
 
-import { mandatoryFrDateField } from "@/app/api/structures/structure.util";
-
 export const budgetApiSchema = z.object({
   id: z.number().optional(),
-  date: mandatoryFrDateField(),
+  date: z.string().datetime(),
   ETP: z.number().optional(),
   tauxEncadrement: z.number().optional(),
   coutJournalier: z.number().optional(),
@@ -27,8 +25,8 @@ export const budgetApiSchema = z.object({
   reportANouveau: z.number().nullish(),
   autre: z.number().nullish(),
   commentaire: z.string().nullish(),
-  createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional(),
+  createdAt: z.string().datetime().optional(),
+  updatedAt: z.string().datetime().optional(),
 });
 
 export type BudgetApiType = z.infer<typeof budgetApiSchema>;

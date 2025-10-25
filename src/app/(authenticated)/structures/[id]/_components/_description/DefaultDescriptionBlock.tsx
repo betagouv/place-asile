@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
 import { getOperateurLabel } from "@/app/utils/structure.util";
-import { PublicType, StructureState } from "@/types/structure.type";
+import { PublicType } from "@/types/structure.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { AdressesViewer } from "./AdressesViewer";
@@ -23,7 +23,6 @@ export const DefaultDescriptionBlock = (): ReactElement => {
     cpom,
     lgbt,
     fvvTeh,
-    state,
   } = structure;
 
   const getVulnerabiliteLabel = () => {
@@ -41,15 +40,9 @@ export const DefaultDescriptionBlock = (): ReactElement => {
     <Block
       title="Description"
       iconClass="fr-icon-menu-2-fill"
-      onEdit={
-        state === StructureState.FINALISE
-          ? () => {
-              router.push(
-                `/structures/${structure.id}/modification/01-description`
-              );
-            }
-          : undefined
-      }
+      onEdit={() => {
+        router.push(`/structures/${structure.id}/modification/01-description`);
+      }}
     >
       <div className="flex mb-2">
         <div className="flex-1">

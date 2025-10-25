@@ -118,7 +118,10 @@ describe("date util", () => {
       const endDate = new Date("2025-03-10");
 
       // WHEN
-      const result = getMonthsBetween(startDate, endDate);
+      const result = getMonthsBetween(
+        startDate.toISOString(),
+        endDate.toISOString()
+      );
 
       // THEN
       expect(result).toEqual([

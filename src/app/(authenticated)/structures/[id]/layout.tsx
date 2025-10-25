@@ -1,12 +1,12 @@
 import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
 import { notFound } from "next/navigation";
 
-import { StructureWithLatLng } from "@/types/structure.type";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { StructureHeader } from "./_components/_header/StructureHeader";
 import { StructureProvider } from "./_context/StructureContext";
 
-async function getStructure(id: string): Promise<StructureWithLatLng> {
+async function getStructure(id: string): Promise<StructureApiType> {
   try {
     // Use NEXT_URL instead of NEXT_PUBLIC_BASE_URL
     const baseUrl = process.env.NEXT_URL || "";

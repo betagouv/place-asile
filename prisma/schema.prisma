@@ -111,10 +111,10 @@ model Adresse {
   id                Int                @id @default(autoincrement())
   structure         Structure          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode  String
-  adresse           String
-  codePostal        String
-  commune           String
-  repartition       Repartition
+  adresse           String?
+  codePostal        String?
+  commune           String?
+  repartition       Repartition?
   adresseTypologies AdresseTypologie[]
 
   createdAt DateTime @default(now())
@@ -142,11 +142,11 @@ model Contact {
   id               Int         @id @default(autoincrement())
   structure        Structure   @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode String
-  prenom           String
-  nom              String
-  telephone        String
-  email            String
-  role             String
+  prenom           String?
+  nom              String?
+  telephone        String?
+  email            String?
+  role             String?
   type             ContactType @default(AUTRE)
 
   createdAt DateTime @default(now())

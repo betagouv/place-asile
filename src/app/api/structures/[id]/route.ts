@@ -8,6 +8,7 @@ import {
 
 export async function GET(request: NextRequest) {
   try {
+    console.log(request.nextUrl.pathname);
     const id = request.nextUrl.pathname.split("/").pop();
     const structure = await findOne(Number(id));
 

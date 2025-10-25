@@ -6,7 +6,11 @@ export const AccordionTitle = ({ title, lastVisit }: Props): ReactElement => {
       <span>{title}</span>
       <span className="text-mention-grey italic fr-pr-1w">
         Dernier le{" "}
-        <strong>{new Date(lastVisit).toLocaleDateString("fr-FR")}</strong>
+        {lastVisit ? (
+          <strong>{new Date(lastVisit).toLocaleDateString("fr-FR")}</strong>
+        ) : (
+          <strong>-</strong>
+        )}
       </span>
     </div>
   );
@@ -14,5 +18,5 @@ export const AccordionTitle = ({ title, lastVisit }: Props): ReactElement => {
 
 type Props = {
   title: string;
-  lastVisit: Date;
+  lastVisit?: string;
 };

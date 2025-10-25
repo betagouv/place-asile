@@ -2,7 +2,7 @@ import Accordion from "@codegouvfr/react-dsfr/Accordion";
 import { ReactElement } from "react";
 
 import { DownloadItem } from "@/app/components/common/DownloadItem";
-import { Budget } from "@/types/budget.type";
+import { BudgetApiType } from "@/schemas/api/budget.schema";
 import {
   OperateurFileUploadCategory,
   OperateurFileUploadCategoryType,
@@ -13,7 +13,7 @@ import { useStructureContext } from "../../_context/StructureClientContext";
 export const DocumentsAdministratifs = (): ReactElement => {
   const { structure } = useStructureContext();
 
-  const getFileUploadsToDisplay = (budget: Budget) => {
+  const getFileUploadsToDisplay = (budget: BudgetApiType) => {
     return (structure.fileUploads || [])?.filter((fileUpload) => {
       const isSameYear =
         new Date(fileUpload.date!).getFullYear() ===

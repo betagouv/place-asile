@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 
-import { Structure } from "@/types/structure.type";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { StructuresTable } from "../../../src/app/(authenticated)/structures/_components/StructuresTable";
 import { createAdresse } from "../../test-utils/adresse.factory";
@@ -34,7 +34,7 @@ describe("StructuresTable", () => {
     structure1.adresses = [adresse1];
     structure2.adresses = [adresse2];
     structure3.adresses = [adresse3];
-    const structures: Structure[] = [structure1, structure2, structure3];
+    const structures: StructureApiType[] = [structure1, structure2, structure3];
     const ariaLabelledBy = "";
 
     // WHEN

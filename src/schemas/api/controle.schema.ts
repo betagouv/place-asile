@@ -1,15 +1,18 @@
 import { z } from "zod";
 
-import { frDateField } from "@/app/api/structures/structure.util";
 import { ControleType } from "@/types/controle.type";
+
+import { fileUploadApiSchema } from "./fileUpload.schema";
 
 export const controleApiSchema = z.object({
   id: z.number().optional(),
-  date: frDateField(),
+  structureDnaCode: z.string().optional(),
+  date: z.string().datetime(),
   type: z.nativeEnum(ControleType),
-  fileUploadKey: z.string(),
-  createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional(),
+  fileUploadKey: z.string().optional(),
+  fileUploads: z.array(fileUploadApiSchema).optional(),
+  createdAt: z.string().datetime().optional(),
+  updatedAt: z.string().datetime().optional(),
 });
 
 export type ControleApiType = z.infer<typeof controleApiSchema>;

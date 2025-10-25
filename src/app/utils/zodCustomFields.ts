@@ -51,18 +51,6 @@ export const createOptionalDateValidator = () => {
     );
 };
 
-export const createNullableDateValidator = () => {
-  return z.preprocess(
-    (val) => {
-      if (val === null || val === undefined || val === '') {
-        return null
-      };
-      return val;
-    },
-    z.coerce.date().nullable()
-  );
-}
-
 export const createDateFieldValidator = Object.assign(
   () => createRequiredDateValidator(),
   {
@@ -148,3 +136,20 @@ function formatDate(day: number, month: number, year: number): string {
     "0"
   )}/${year}`;
 }
+
+export const frenchDateToISO = () =>
+  z
+    .string()
+    .transform((val) => {
+      // If it's already ISO, return as-is
+      if (/^\d{4}-\d{2}-\d{2}/.test(val)) {
+        return val;
+      }
+      // If it's French format, convert
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(val)) {
+        const [day, month, year] = val.split("/");
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      }
+      return val;
+    })
+    .pipe(z.string().datetime());

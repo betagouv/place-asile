@@ -8,7 +8,7 @@ import { structureBaseSchema } from "./structure.base.schema";
 
 const baseIdentificationSchema = structureBaseSchema.extend({
   operateur: z.object({
-    id: z.number(),
+    id: z.number().optional(),
     name: z.string(),
   }),
   creationDate: z.string().min(1),

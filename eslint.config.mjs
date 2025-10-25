@@ -10,37 +10,49 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [{
-  ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"]
-}, ...compat.extends("next/core-web-vitals", "next/typescript"), {
-  plugins: {
-    "simple-import-sort": simpleImportSort,
-  },
-  rules: {
-    "no-restricted-imports": [
-      "error",
-      {
-        paths: [
-          {
-            name: "@prisma/client",
-            message: "L'import de @prisma/client est interdit en dehors de src/app/api/, lib/ ou prisma/."
-          }
-        ]
-      }
+const eslintConfig = [
+  {
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      "out/**",
+      "build/**",
+      "next-env.d.ts",
     ],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-  }
-}, {
-  files: [
-    "src/app/api/**/*.{js,ts,jsx,tsx}",
-    "src/lib/**/*.{js,ts,jsx,tsx}",
-    "lib/**/*.{js,ts,jsx,tsx}",
-    "prisma/**/*.{js,ts,jsx,tsx}"
-  ],
-  rules: {
-    "no-restricted-imports": "off"
-  }
-}];
+  },
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "@prisma/client",
+              message:
+                "L'import de @prisma/client est interdit en dehors de src/app/api/, lib/ ou prisma/.",
+            },
+          ],
+        },
+      ],
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+    },
+  },
+  {
+    files: [
+      "src/app/api/**/*.{js,ts,jsx,tsx}",
+      "src/lib/**/*.{js,ts,jsx,tsx}",
+      "lib/**/*.{js,ts,jsx,tsx}",
+      "prisma/**/*.{js,ts,jsx,tsx}",
+    ],
+    rules: {
+      "no-restricted-imports": "off",
+    },
+  },
+];
 
 export default eslintConfig;

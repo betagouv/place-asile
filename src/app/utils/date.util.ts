@@ -34,8 +34,8 @@ export const formatDateToIsoString = (
 };
 
 export const getMonthsBetween = (
-  startDate: Date | string | null,
-  endDate: Date | string | null
+  startDate?: string | null,
+  endDate?: string | null
 ): dayjs.Dayjs[] => {
   const start = dayjs(startDate).startOf("month");
   const end = dayjs(endDate).startOf("month");

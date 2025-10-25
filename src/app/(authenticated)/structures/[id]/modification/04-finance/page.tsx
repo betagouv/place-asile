@@ -47,13 +47,12 @@ export default function ModificationFinanceForm() {
     nextRoute: `/structures/${structure.id}`,
   });
 
-  const onSubmit = (data: anyFinanceFormValues) => {
-    data.budgets.forEach((budget) => {
-      if (budget.id === "") {
-        delete budget.id;
-      }
+  const onSubmit = async (data: anyFinanceFormValues) => {
+    const budgets = data.budgets?.map((budget) => {
+      const { id, ...rest } = budget;
+      return id === "" ? rest : budget;
     });
-    handleSubmit({ ...data, dnaCode: structure.dnaCode });
+    await handleSubmit({ ...data, budgets, dnaCode: structure.dnaCode });
   };
 
   const { getFetchState } = useFetchState();

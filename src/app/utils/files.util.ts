@@ -1,19 +1,20 @@
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
-import { Controle, ControleType } from "@/types/controle.type";
+import { ControleApiType } from "@/schemas/api/controle.schema";
+import { FileUploadApiType } from "@/schemas/api/fileUpload.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
+import { ControleType } from "@/types/controle.type";
 import {
   AgentFileUploadCategoryType,
-  FileUpload,
   zAgentFileUploadCategory,
 } from "@/types/file-upload.type";
-import { StructureWithLatLng } from "@/types/structure.type";
 
 export const filterFileUploads = ({
   structure,
   categoriesToDisplay,
 }: {
-  structure: StructureWithLatLng;
+  structure: StructureApiType;
   categoriesToDisplay: AgentFileUploadCategoryType[number][];
 }) => {
   return structure.fileUploads?.filter(
@@ -26,7 +27,7 @@ export const filterFileUploads = ({
 };
 
 export const getDefaultValuesFromDb = (
-  filteredFileUploads: FileUpload[] = []
+  filteredFileUploads: FileUploadApiType[] = []
 ) => {
   return filteredFileUploads.map((fileUpload) => {
     const formattedFileUploads = {
@@ -36,18 +37,9 @@ export const getDefaultValuesFromDb = (
       category: String(fileUpload.category) as z.infer<
         typeof zAgentFileUploadCategory
       >,
-      date:
-        fileUpload.date && fileUpload.date instanceof Date
-          ? fileUpload.date.toISOString()
-          : fileUpload.date || undefined,
-      startDate:
-        fileUpload.startDate && fileUpload.startDate instanceof Date
-          ? fileUpload.startDate.toISOString()
-          : fileUpload.startDate || undefined,
-      endDate:
-        fileUpload.endDate && fileUpload.endDate instanceof Date
-          ? fileUpload.endDate.toISOString()
-          : fileUpload.endDate || undefined,
+      date: fileUpload.date,
+      startDate: fileUpload.startDate,
+      endDate: fileUpload.endDate,
       categoryName: fileUpload.categoryName || "Document",
       parentFileUploadId: Number(fileUpload.parentFileUploadId) || undefined,
     };
@@ -57,7 +49,7 @@ export const getDefaultValuesFromDb = (
 
 export const createEmptyDefaultValues = (
   categoriesToDisplay: AgentFileUploadCategoryType[number][],
-  filteredFileUploads: FileUpload[] = []
+  filteredFileUploads: FileUploadApiType[] = []
 ) => {
   const filesToAdd: {
     uuid: string;
@@ -81,14 +73,13 @@ export const createEmptyDefaultValues = (
   return filesToAdd;
 };
 
-export const getControlesDefaultValues = (controles: Controle[] = []) => {
+export const getControlesDefaultValues = (
+  controles: ControleApiType[] = []
+) => {
   return controles.map((controle) => {
     return {
       id: controle.id,
-      date:
-        controle.date && controle.date instanceof Date
-          ? controle.date.toISOString()
-          : controle.date || undefined,
+      date: controle.date,
       type: ControleType[controle.type as unknown as keyof typeof ControleType],
       fileUploads: controle.fileUploads,
     };

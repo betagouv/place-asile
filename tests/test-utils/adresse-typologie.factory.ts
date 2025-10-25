@@ -1,12 +1,10 @@
-import { AdresseTypologie } from "@/types/adresse-typologie.type";
+import { AdresseTypologieApiType } from "@/schemas/api/adresse.schema";
 
 export const createAdresseTypologie = ({
-  adresseId,
   placesAutorisees,
-}: CreateTypologiesArgs): AdresseTypologie => {
+}: CreateTypologiesArgs): AdresseTypologieApiType => {
   return {
     id: 1,
-    adresseId: adresseId ?? 1,
     placesAutorisees: placesAutorisees ?? 5,
     date: new Date("01/01/2023").toISOString(),
     qpv: 3,

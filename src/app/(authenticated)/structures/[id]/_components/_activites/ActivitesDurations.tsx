@@ -102,6 +102,6 @@ export const ActivitesDurations = ({
 
 type Props = {
   setSelectedMonths: (selectedMonths: dayjs.Dayjs[]) => void;
-  debutConvention: Date | null;
-  finConvention: Date | null;
+  debutConvention?: string | null;
+  finConvention?: string | null;
 };

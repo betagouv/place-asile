@@ -1,9 +1,6 @@
+import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
-import {
-  Adresse,
-  CreateOrUpdateAdresse,
-  Repartition,
-} from "@/types/adresse.type";
+import { Repartition } from "@/types/adresse.type";
 
 export const getCoordinates = async (address: string): Promise<Coordinates> => {
   const result = await fetch(
@@ -18,9 +15,9 @@ export const getCoordinates = async (address: string): Promise<Coordinates> => {
 };
 
 export const transformFormAdressesToApiAdresses = (
-  adresses?: FormAdresse[],
+  adresses: FormAdresse[] = [],
   dnaCode?: string
-): CreateOrUpdateAdresse[] => {
+): AdresseApiType[] => {
   if (!adresses) {
     return [];
   }
@@ -40,8 +37,8 @@ export const transformFormAdressesToApiAdresses = (
         codePostal: adresse.codePostal,
         commune: adresse.commune,
         repartition: adresse.repartition,
-        adresseTypologies: adresse.adresseTypologies?.map(
-          (adresseTypologie) => ({
+        adresseTypologies:
+          adresse.adresseTypologies?.map((adresseTypologie) => ({
             ...adresseTypologie,
             placesAutorisees: Number(adresseTypologie.placesAutorisees),
             logementSocial: adresseTypologie.logementSocial
@@ -50,14 +47,13 @@ export const transformFormAdressesToApiAdresses = (
             qpv: adresseTypologie.qpv
               ? Number(adresseTypologie.placesAutorisees)
               : 0,
-          })
-        ),
+          })) || [],
       };
     });
 };
 
 export const transformApiAdressesToFormAdresses = (
-  adresses: Adresse[] = []
+  adresses: AdresseApiType[] = []
 ): FormAdresse[] => {
   // We add adresseComplete (who is not saved in db) to the adresses
   // We also convert logementSocial and qpv to boolean
@@ -66,9 +62,12 @@ export const transformApiAdressesToFormAdresses = (
   if (adresses.length > 0) {
     formAdresses = adresses.map((adresse) => ({
       ...adresse,
+      adresse: adresse.adresse ?? "",
+      codePostal: adresse.codePostal ?? "",
+      commune: adresse.commune ?? "",
       repartition:
         Repartition[
-          adresse.repartition.trim().toUpperCase() as keyof typeof Repartition
+          adresse.repartition?.trim().toUpperCase() as keyof typeof Repartition
         ],
       adresseComplete: [adresse.adresse, adresse.codePostal, adresse.commune]
         .filter(Boolean)

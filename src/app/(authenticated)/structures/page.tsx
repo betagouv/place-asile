@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 
 import Loader from "@/app/components/ui/Loader";
-import { Structure } from "@/types/structure.type";
+import { StructureSimpleApiType } from "@/schemas/api/structure.schema";
 
 import { SegmentedControl } from "../../components/common/SegmentedControl";
 import { useStructures } from "../../hooks/useStructures";
@@ -13,7 +13,7 @@ import { SearchBar } from "./_components/SearchBar";
 import { StructuresTable } from "./_components/StructuresTable";
 
 export default function Structures(): ReactElement {
-  const [structures, setStructures] = useState<Structure[]>([]);
+  const [structures, setStructures] = useState<StructureSimpleApiType[]>([]);
   const [loadingState, setLoadingState] = useState<
     "idle" | "loading" | "loaded" | "error"
   >("idle");
@@ -69,7 +69,8 @@ export default function Structures(): ReactElement {
           setFilteredStructures={setFilteredStructures}
         />
         <p className="pl-3 text-mention-grey mb-0">
-          {filteredStructures.length} entrée{filteredStructures.length > 1 ? "s" : ""}
+          {filteredStructures.length} entrée
+          {filteredStructures.length > 1 ? "s" : ""}
         </p>
       </div>
       {selectedVisualization === "tableau" && (

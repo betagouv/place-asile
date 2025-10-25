@@ -14,8 +14,8 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
+import { transformAgentFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import {
   ModificationDescriptionFormValues,
   modificationDescriptionSchema,
@@ -40,9 +40,8 @@ export default function ModificationDescription() {
   const onSubmit = (data: ModificationDescriptionFormValues) => {
     handleSubmit({
       ...data,
-      adresses: transformFormAdressesToApiAdresses(
-        data.adresses as FormAdresse[]
-      ),
+      adresses: transformFormAdressesToApiAdresses(data.adresses),
+      contacts: transformAgentFormContactsToApiContacts(data.contacts),
     });
   };
   return (

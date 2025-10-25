@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { StructureUpdateApiType } from "@/schemas/api/structure.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 
@@ -28,7 +29,9 @@ export const useAgentFormHandling = ({
     undefined
   );
 
-  const updateStructure = async (data: FormSubmitData): Promise<void> => {
+  const updateStructure = async (
+    data: StructureUpdateApiType
+  ): Promise<void> => {
     setFetchState("structure-save", FetchState.LOADING);
 
     try {
@@ -53,7 +56,7 @@ export const useAgentFormHandling = ({
     }
   };
 
-  const handleAutoSave = async (data: FormSubmitData) => {
+  const handleAutoSave = async (data: StructureUpdateApiType) => {
     await updateStructure(data);
   };
 
@@ -112,7 +115,7 @@ export const useAgentFormHandling = ({
     });
   };
 
-  const handleSubmit = async (data: FormSubmitData) => {
+  const handleSubmit = async (data: StructureUpdateApiType) => {
     await updateStructure(data);
     if (nextRoute) {
       router.push(nextRoute);
@@ -150,9 +153,4 @@ export const useAgentFormHandling = ({
 export type Props = {
   nextRoute?: string;
   currentStep?: string;
-};
-
-export type FormSubmitData = {
-  dnaCode?: string;
-  [key: string]: unknown;
 };

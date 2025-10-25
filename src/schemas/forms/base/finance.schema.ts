@@ -1,6 +1,5 @@
 import z from "zod";
 
-import { createDateFieldValidator } from "@/app/utils/zodCustomFields";
 import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
 import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 
@@ -68,7 +67,7 @@ const budgetBaseSchema = z.object({
   // Date
   // TODO : vérifier que c'est plutôt un number
   id: z.union([z.string().nullish(), zSafeNumber().nullish()]),
-  date: createDateFieldValidator(),
+  date: z.string().datetime(),
 
   // Gestion budgetaire
   ETP: zSafeNumber(),
@@ -117,7 +116,10 @@ const budgetAutoSaveSchema = budgetBaseSchema
       .nullable()
       .transform((val) => (val === null ? undefined : val)),
   })
-  .partial();
+  .partial()
+  .extend({
+    date: z.string().datetime(),
+  });
 
 export const basicSchema = z.object({
   budgets: z.tuple([
@@ -212,7 +214,7 @@ export const autoriseeAvecCpomSchema = z.object({
 
 const subventionneeFirstYears = z.object({
   id: z.union([z.string().nullish(), zSafeNumber().nullish()]),
-  date: createDateFieldValidator(),
+  date: z.string().datetime(),
   ETP: zSafeNumber(),
   tauxEncadrement: zSafeNumber(),
   coutJournalier: zSafeNumber(),

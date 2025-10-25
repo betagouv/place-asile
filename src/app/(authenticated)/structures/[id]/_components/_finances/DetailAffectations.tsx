@@ -4,14 +4,14 @@ import { ReactElement } from "react";
 
 import styles from "@/app/components/common/Accordion.module.css";
 import { formatCurrency } from "@/app/utils/number.util";
-import { Budget } from "@/types/budget.type";
+import { BudgetApiType } from "@/schemas/api/budget.schema";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
 export const DetailAffectations = (): ReactElement => {
   const { structure } = useStructureContext();
 
-  const isBudgetEmpty = (budget: Budget): boolean => {
+  const isBudgetEmpty = (budget: BudgetApiType): boolean => {
     return !!budget.affectationReservesFondsDedies;
   };
 

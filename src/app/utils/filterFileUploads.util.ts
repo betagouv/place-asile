@@ -52,7 +52,7 @@ export const filterFileUploads = async (
       }
     }, 100);
 
-    return null;
+    return undefined;
   }
 
   return fileUploads;

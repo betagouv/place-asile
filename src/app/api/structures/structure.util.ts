@@ -5,21 +5,21 @@ import {
   Repartition,
   StructureType,
 } from "@prisma/client";
-import z from "zod";
 
-import { parseFrDate } from "@/app/utils/date.util";
 import {
   AdresseApiType,
   AdresseTypologieApiType,
 } from "@/schemas/api/adresse.schema";
 
-export const convertToRepartition = (repartition: string): Repartition => {
+export const convertToRepartition = (
+  repartition: string | undefined
+): Repartition => {
   const repartitions: Record<string, Repartition> = {
     Diffus: Repartition.DIFFUS,
     Collectif: Repartition.COLLECTIF,
     Mixte: Repartition.MIXTE,
   };
-  return repartitions[repartition.trim()];
+  return repartitions[repartition?.trim() ?? ""] ?? Repartition.MIXTE;
 };
 
 export const convertToPublicType = (
@@ -81,9 +81,3 @@ type AdresseInput = Omit<AdresseWithTypologies, "id"> & {
   createdAt?: Date;
   updatedAt?: Date;
 };
-
-export const frDateField = () =>
-  z.preprocess(parseFrDate, z.coerce.date().optional());
-
-export const mandatoryFrDateField = () =>
-  z.preprocess(parseFrDate, z.coerce.date());

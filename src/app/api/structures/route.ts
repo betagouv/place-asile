@@ -6,11 +6,11 @@ import {
 } from "@/schemas/api/structure.schema";
 
 import { createOne, findAll, updateOne } from "./structure.repository";
-import { addCoordinates } from "./structure.service";
+import { formatStructuresFromDbToApi } from "./structure.service";
 
 export async function GET() {
   const structures = await findAll();
-  const structuresWithCoordinates = addCoordinates(structures);
+  const structuresWithCoordinates = formatStructuresFromDbToApi(structures);
   return NextResponse.json(structuresWithCoordinates);
 }
 
