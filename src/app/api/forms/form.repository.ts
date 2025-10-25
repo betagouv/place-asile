@@ -13,10 +13,10 @@ export const createOrUpdateForms = async (
   await Promise.all(
     forms.map(async (form) => {
       await createCompleteFormWithSteps(structureCodeDna, {
-        slug: form.slug,
+        slug: form.formDefinition.slug,
         status: form.status,
         formSteps: (form.formSteps || []).map((step) => ({
-          slug: step.slug,
+          slug: step.stepDefinition.slug,
           status: step.status,
         })),
       });
