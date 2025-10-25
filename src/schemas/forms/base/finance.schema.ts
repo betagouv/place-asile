@@ -1,5 +1,6 @@
 import z from "zod";
 
+import { frenchDateToISO } from "@/app/utils/zodCustomFields";
 import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
 import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 
@@ -67,7 +68,7 @@ const budgetBaseSchema = z.object({
   // Date
   // TODO : vérifier que c'est plutôt un number
   id: z.union([z.string().nullish(), zSafeNumber().nullish()]),
-  date: z.string().datetime(),
+  date: frenchDateToISO(),
 
   // Gestion budgetaire
   ETP: zSafeNumber(),
@@ -118,7 +119,7 @@ const budgetAutoSaveSchema = budgetBaseSchema
   })
   .partial()
   .extend({
-    date: z.string().datetime(),
+    date: frenchDateToISO(),
   });
 
 export const basicSchema = z.object({
@@ -214,7 +215,7 @@ export const autoriseeAvecCpomSchema = z.object({
 
 const subventionneeFirstYears = z.object({
   id: z.union([z.string().nullish(), zSafeNumber().nullish()]),
-  date: z.string().datetime(),
+  date: frenchDateToISO(),
   ETP: zSafeNumber(),
   tauxEncadrement: zSafeNumber(),
   coutJournalier: zSafeNumber(),

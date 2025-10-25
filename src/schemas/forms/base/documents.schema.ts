@@ -17,8 +17,8 @@ export const fileUploadSchema = z.object({
   key: z.string(),
   date: frenchDateToISO().optional(),
   category: zFileUploadCategory,
-  startDate: z.string().datetime(),
-  endDate: z.string().datetime(),
+  startDate: frenchDateToISO(),
+  endDate: frenchDateToISO(),
   avenants: z.array(avenantSchema).optional(),
   categoryName: z.string().nullish(),
   // TODO : mieux séparer controleSchema et fileUploadSchema

@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { z } from "zod";
 
+import { frenchDateToISO } from "@/app/utils/zodCustomFields";
 import {
   zFileUploadCategory,
   zOperateurFileUploadCategory,
@@ -11,7 +12,7 @@ dayjs.extend(customParseFormat);
 
 const DocumentFinancierFlexibleSchema = z.object({
   key: z.string().optional(),
-  date: z.string().datetime().optional(),
+  date: frenchDateToISO().optional(),
   category: zFileUploadCategory.optional(),
 });
 

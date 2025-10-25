@@ -1,5 +1,6 @@
 import z from "zod";
 
+import { frenchDateToISO } from "@/app/utils/zodCustomFields";
 import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 
 import { structureBaseSchema } from "./structure.base.schema";
@@ -18,7 +19,7 @@ export const typologieItemBaseSchema = z.object({
   pmr: numericField("Nombre de places PMR"),
   lgbt: numericField("Nombre de places LGBT"),
   fvvTeh: numericField("Nombre de places FVV/TEH"),
-  date: z.string().datetime(),
+  date: frenchDateToISO(),
 });
 
 const typologieItemWithIdSchema = typologieItemBaseSchema.extend({
@@ -28,8 +29,8 @@ const typologieItemWithIdSchema = typologieItemBaseSchema.extend({
 const placesEvolutionSchema = z.object({
   placesACreer: zSafeNumber(),
   placesAFermer: zSafeNumber(),
-  echeancePlacesACreer: z.string().datetime().optional(),
-  echeancePlacesAFermer: z.string().datetime().optional(),
+  echeancePlacesACreer: frenchDateToISO().optional(),
+  echeancePlacesAFermer: frenchDateToISO().optional(),
 });
 
 const baseTypePlacesSchema = structureBaseSchema
