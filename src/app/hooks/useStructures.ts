@@ -133,7 +133,7 @@ const transformAjoutFormStructureToApiStructure = (
       pmr: Number(typologie.pmr),
       lgbt: Number(typologie.lgbt),
       fvvTeh: Number(typologie.fvvTeh),
-      date: typologie.date,
+      date: formatDateToIsoString(typologie.date) as string,
     })),
     fileUploads: values.fileUploads?.filter((fileUpload) => fileUpload.key),
   };
