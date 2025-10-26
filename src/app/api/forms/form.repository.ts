@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import { FormApiType } from "@/schemas/api/form.schema";
-import { StepStatus } from "@/types/form.type";
 
 import { convertToStepStatus } from "./form.util";
 
@@ -12,42 +11,30 @@ export const createOrUpdateForms = async (
 
   await Promise.all(
     forms.map(async (form) => {
-      await createCompleteFormWithSteps(structureCodeDna, {
-        slug: form.formDefinition.slug,
-        status: form.status,
-        formSteps: (form.formSteps || []).map((step) => ({
-          slug: step.stepDefinition.slug,
-          status: step.status,
-        })),
-      });
+      await createCompleteFormWithSteps(structureCodeDna, form);
     })
   );
 };
 
 const createCompleteFormWithSteps = async (
   structureCodeDna: string,
-  formData: {
-    slug: string; // formDefinition slug
-    status: boolean;
-    formSteps: Array<{
-      slug: string; // stepDefinition slug
-      status: StepStatus;
-    }>;
-  }
+  form: FormApiType
 ): Promise<void> => {
   await prisma.$transaction(async (tx) => {
     // 1. Récupérer la FormDefinition par slug
     const formDefinition = await tx.formDefinition.findUnique({
-      where: { slug: formData.slug },
+      where: { slug: form.formDefinition.slug },
       include: { stepsDefinition: true },
     });
 
     if (!formDefinition) {
-      throw new Error(`FormDefinition with slug ${formData.slug} not found`);
+      throw new Error(
+        `FormDefinition with slug ${form.formDefinition.slug} not found`
+      );
     }
 
     // 2. Créer ou mettre à jour le Form
-    const form = await tx.form.upsert({
+    const formEntity = await tx.form.upsert({
       where: {
         structureCodeDna_formDefinitionId: {
           structureCodeDna: structureCodeDna,
@@ -55,32 +42,34 @@ const createCompleteFormWithSteps = async (
         },
       },
       update: {
-        status: formData.status,
+        status: form.status,
       },
       create: {
         formDefinitionId: formDefinition.id,
         structureCodeDna: structureCodeDna,
-        status: formData.status,
+        status: form.status,
       },
     });
 
     // 3. Créer ou mettre à jour les FormSteps
-    if (formData.formSteps) {
+    if (form.formSteps) {
       await Promise.all(
-        formData.formSteps.map(async (step) => {
+        form.formSteps.map(async (step) => {
           // 3.1. Récupérer le stepDefinition par slug
           const stepDefinition = formDefinition.stepsDefinition.find(
-            (step) => step.slug === step.slug
+            (stepDefinition) => stepDefinition.slug === step.stepDefinition.slug
           );
           if (!stepDefinition) {
-            throw new Error(`stepDefinition with slug ${step.slug} not found`);
+            throw new Error(
+              `stepDefinition with slug ${step.stepDefinition.slug} not found`
+            );
           }
 
           // 3.2. Créer ou mettre à jour le FormStep
           await tx.formStep.upsert({
             where: {
               formId_stepDefinitionId: {
-                formId: form.id,
+                formId: formEntity.id,
                 stepDefinitionId: stepDefinition.id,
               },
             },
@@ -88,7 +77,7 @@ const createCompleteFormWithSteps = async (
               status: convertToStepStatus(step.status),
             },
             create: {
-              formId: form.id,
+              formId: formEntity.id,
               stepDefinitionId: stepDefinition.id,
               status: convertToStepStatus(step.status),
             },
