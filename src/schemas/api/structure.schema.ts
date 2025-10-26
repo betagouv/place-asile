@@ -32,8 +32,8 @@ const structureBaseApiSchema = z.object({
   departementAdministratif: z
     .string()
     .min(1, "Le département de l'adresse administrative est requis"),
-  latitude: z.number().optional(),
-  longitude: z.number().optional(),
+  latitude: z.string().optional(),
+  longitude: z.string().optional(),
   debutConvention: z.string().datetime().nullish(),
   finConvention: z.string().datetime().nullish(),
   cpom: z.boolean({

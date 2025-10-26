@@ -15,7 +15,10 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
         <StructureMarker
           id={structure.id}
           dnaCode={structure.dnaCode}
-          coordinates={[structure.longitude || 0, structure.latitude || 0]}
+          coordinates={[
+            Number(structure.latitude || 0),
+            Number(structure.longitude || 0),
+          ]}
           operateur={structure.operateur?.name}
           filiale={structure.filiale}
           type={structure.type}

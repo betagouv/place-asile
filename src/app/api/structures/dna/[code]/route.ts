@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { findByDnaCode } from "../../structure.repository";
-import { formatStructuresFromDbToApi } from "../../structure.service";
 
 // TODO : refacto pour fusionner avec [id]
 export async function GET(request: NextRequest) {
@@ -21,8 +20,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(null, { status: 404 });
     }
 
-    const structureWithCoordinates = formatStructuresFromDbToApi([structure]);
-    return NextResponse.json(structureWithCoordinates);
+    return NextResponse.json(structure);
   } catch (error) {
     console.error("Error fetching structure by DNA code:", error);
     return NextResponse.json(

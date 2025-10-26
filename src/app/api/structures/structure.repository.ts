@@ -22,24 +22,7 @@ import {
   handleAdresses,
 } from "./structure.util";
 
-export const findAll = async (): Promise<
-  Prisma.StructureGetPayload<{
-    include: {
-      adresses: {
-        include: {
-          adresseTypologies: true;
-        };
-      };
-      operateur: true;
-      structureTypologies: true;
-      forms: {
-        include: {
-          formDefinition: true;
-        };
-      };
-    };
-  }>[]
-> => {
+export const findAll = async (): Promise<Structure[]> => {
   return prisma.structure.findMany({
     include: {
       adresses: {
@@ -136,23 +119,7 @@ export const findOne = async (id: number): Promise<Structure> => {
 
 export const findByDnaCode = async (
   dnaCode: string
-): Promise<Prisma.StructureGetPayload<{
-  include: {
-    adresses: {
-      include: {
-        adresseTypologies: true;
-      };
-    };
-    contacts: true;
-    operateur: true;
-    structureTypologies: true;
-    forms: {
-      include: {
-        formDefinition: true;
-      };
-    };
-  };
-}> | null> => {
+): Promise<Structure | null> => {
   return prisma.structure.findUnique({
     where: {
       dnaCode,
