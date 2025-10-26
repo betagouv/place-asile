@@ -50,7 +50,6 @@ export const findAll = async (): Promise<Structure[]> => {
 };
 
 export const findOne = async (id: number): Promise<Structure> => {
-  console.log("findOne", id);
   const structure = await prisma.structure.findFirstOrThrow({
     where: {
       id,
