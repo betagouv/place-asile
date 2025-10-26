@@ -1,6 +1,6 @@
 import { ChangeEvent, ReactElement } from "react";
 
-import { StructureSimpleApiType } from "@/schemas/api/structure.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 export const SearchBar = ({
   structures,
@@ -40,6 +40,6 @@ export const SearchBar = ({
 };
 
 type Props = {
-  structures: StructureSimpleApiType[];
-  setFilteredStructures: (filteredStructures: StructureSimpleApiType[]) => void;
+  structures: StructureApiType[];
+  setFilteredStructures: (filteredStructures: StructureApiType[]) => void;
 };

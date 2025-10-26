@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 
 import Loader from "@/app/components/ui/Loader";
-import { StructureSimpleApiType } from "@/schemas/api/structure.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { SegmentedControl } from "../../components/common/SegmentedControl";
 import { useStructures } from "../../hooks/useStructures";
@@ -13,7 +13,7 @@ import { SearchBar } from "./_components/SearchBar";
 import { StructuresTable } from "./_components/StructuresTable";
 
 export default function Structures(): ReactElement {
-  const [structures, setStructures] = useState<StructureSimpleApiType[]>([]);
+  const [structures, setStructures] = useState<StructureApiType[]>([]);
   const [loadingState, setLoadingState] = useState<
     "idle" | "loading" | "loaded" | "error"
   >("idle");

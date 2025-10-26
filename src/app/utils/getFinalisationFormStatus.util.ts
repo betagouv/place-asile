@@ -1,7 +1,4 @@
-import {
-  StructureApiType,
-  StructureSimpleApiType,
-} from "@/schemas/api/structure.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 import { StepStatus } from "@/types/form.type";
 
 export const FINALISATION_FORM_LABEL = "finalisation";
@@ -32,9 +29,7 @@ export const getFinalisationFormStepStatus = (
   return currentFormStep.status;
 };
 
-export const getFinalisationFormStatus = (
-  structure: StructureApiType | StructureSimpleApiType
-) => {
+export const getFinalisationFormStatus = (structure: StructureApiType) => {
   const finalisationForm = structure.forms?.find(
     (form) =>
       form.formDefinition?.name === FINALISATION_FORM_LABEL &&

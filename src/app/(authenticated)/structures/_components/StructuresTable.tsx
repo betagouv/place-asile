@@ -7,7 +7,7 @@ import { ReactElement, useState } from "react";
 import { Pagination } from "@/app/components/common/Pagination";
 import { Table } from "@/app/components/common/Table";
 import { usePagination } from "@/app/hooks/usePagination";
-import { StructureSimpleApiType } from "@/schemas/api/structure.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { StructureItem } from "./StructureItem";
 
@@ -21,7 +21,7 @@ export const StructuresTable = ({
   ariaLabelledBy,
 }: Props): ReactElement => {
   const { currentPage, setCurrentPage, totalPages, currentData } =
-    usePagination<StructureSimpleApiType>(structures);
+    usePagination<StructureApiType>(structures);
 
   const router = useRouter();
 
@@ -37,9 +37,9 @@ export const StructuresTable = ({
   ];
 
   const [selectedStructure, setSelectedStructure] =
-    useState<StructureSimpleApiType | null>(null);
+    useState<StructureApiType | null>(null);
 
-  const handleOpenModal = (structure: StructureSimpleApiType) => {
+  const handleOpenModal = (structure: StructureApiType) => {
     setSelectedStructure(structure);
     finalisationModal.open();
   };
@@ -99,6 +99,6 @@ export const StructuresTable = ({
 };
 
 type Props = {
-  structures: StructureSimpleApiType[];
+  structures: StructureApiType[];
   ariaLabelledBy: string;
 };

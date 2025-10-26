@@ -14,10 +14,10 @@ import { formApiSchema } from "./form.schema";
 import { operateurApiSchema } from "./operateur.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
 
-const structureBaseApiSchema = z.object({
+export const structureCreationApiSchema = z.object({
   dnaCode: z.string().min(1, "Le code DNA est requis"),
   filiale: z.string().optional(),
-  operateur: operateurApiSchema.optional(),
+  operateur: operateurApiSchema,
   type: z.nativeEnum(StructureType),
   nom: z.string().optional(),
   adresseAdministrative: z
@@ -58,15 +58,6 @@ const structureBaseApiSchema = z.object({
   structureTypologies: z.array(structureTypologieApiSchema),
   createdAt: z.string().datetime().optional(),
   updatedAt: z.string().datetime().optional(),
-});
-
-export const structureSimpleApiSchema = structureBaseApiSchema.extend({
-  id: z.number(),
-  forms: z.array(formApiSchema.partial()).optional(),
-});
-
-export const structureCreationApiSchema = structureBaseApiSchema.extend({
-  operateur: operateurApiSchema,
   contacts: z.array(contactApiSchema),
   fileUploads: z.array(fileUploadApiSchema),
 });
@@ -109,8 +100,6 @@ export const structureApiSchema = structureCreationApiSchema.and(
     id: z.number(),
   })
 );
-
-export type StructureSimpleApiType = z.infer<typeof structureSimpleApiSchema>;
 
 export type StructureCreationApiType = z.infer<
   typeof structureCreationApiSchema

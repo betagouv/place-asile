@@ -3,7 +3,7 @@
 import { ReactElement } from "react";
 
 import { getRepartition } from "@/app/utils/structure.util";
-import { StructureSimpleApiType } from "@/schemas/api/structure.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { Map } from "../../../components/map/Map";
 import { StructureMarker } from "./StructureMarker";
@@ -39,7 +39,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
 };
 
 type Props = {
-  structures: StructureSimpleApiType[];
+  structures: StructureApiType[];
 };
 
 export default StructuresMap;
