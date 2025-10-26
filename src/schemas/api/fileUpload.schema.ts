@@ -1,6 +1,9 @@
 import z from "zod";
 
-import { frenchDateToISO } from "@/app/utils/zodCustomFields";
+import {
+  frenchDateToISO,
+  optionalFrenchDateToISO,
+} from "@/app/utils/zodCustomFields";
 import { zFileUploadCategory } from "@/types/file-upload.type";
 
 export const fileUploadApiSchema = z.object({
@@ -12,8 +15,8 @@ export const fileUploadApiSchema = z.object({
   originalName: z.string().optional(),
   date: frenchDateToISO(),
   category: zFileUploadCategory,
-  startDate: frenchDateToISO().optional(),
-  endDate: frenchDateToISO().optional(),
+  startDate: optionalFrenchDateToISO(),
+  endDate: optionalFrenchDateToISO(),
   categoryName: z.string().nullish(),
   parentFileUploadId: z.number().nullish(),
   controleId: z.number().nullish(),

@@ -10,6 +10,7 @@ export const FieldSetCalendrier = () => {
   const type = watch("type");
   const cpom = watch("cpom");
 
+  console.log(String(watch("debutCpom")) === "");
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-xl font-bold mb-4 text-title-blue-france">
