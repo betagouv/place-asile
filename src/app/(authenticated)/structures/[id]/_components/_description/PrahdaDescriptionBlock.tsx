@@ -26,7 +26,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
         </div>
         <div className="flex-1">
           <strong className="pr-2">Type de structure</strong>
-          {StructureType[type as unknown as keyof typeof StructureType]}
+          {StructureType[type]}
         </div>
       </div>
       <hr />
