@@ -32,7 +32,6 @@ export const StructureMarker = ({
   debutConvention,
   finConvention,
 }: Props): ReactElement => {
-  console.log(coordinates);
   const getCommunesLabel = (): ReactElement => {
     const placesByCommunes = getPlacesByCommunes(adresses);
     return (
