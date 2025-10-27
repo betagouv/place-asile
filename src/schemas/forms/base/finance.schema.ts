@@ -250,18 +250,16 @@ export const subventionneeAvecCpomSchema = z.object({
   ]),
 });
 
-const subventionneeSansCpom = budgetBaseSchema
-  .extend({
-    cumulResultatsNetsCPOM: zSafeDecimals().nullable(),
-    affectationReservesFondsDedies: zSafeDecimals().nullable(),
-    chargesNonReconductibles: zSafeDecimals().nullable(),
-    reserveCompensationAmortissements: zSafeDecimals().nullable(),
-    reserveCompensationBFR: zSafeDecimals().nullable(),
-    reserveCompensationDeficits: zSafeDecimals().nullable(),
-    reserveInvestissement: zSafeDecimals().nullable(),
-    totalChargesProposees: zSafeDecimals().nullable(),
-  })
-  .superRefine(validateAffectationReservesDetailsSansCpom);
+const subventionneeSansCpom = budgetBaseSchema.extend({
+  cumulResultatsNetsCPOM: zSafeDecimalsNullish(),
+  affectationReservesFondsDedies: zSafeDecimalsNullish(),
+  chargesNonReconductibles: zSafeDecimalsNullish(),
+  reserveCompensationAmortissements: zSafeDecimalsNullish(),
+  reserveCompensationBFR: zSafeDecimalsNullish(),
+  reserveCompensationDeficits: zSafeDecimalsNullish(),
+  reserveInvestissement: zSafeDecimalsNullish(),
+  totalChargesProposees: zSafeDecimalsNullish(),
+});
 
 export const subventionneeSchema = z.object({
   budgets: z.tuple([
