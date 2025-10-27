@@ -3,6 +3,7 @@ import { PrismaClient, StructureState } from "@prisma/client";
 
 import { StructureType } from "@/types/structure.type";
 
+import { createDepartements } from "./seeders/departements-seed";
 import { createFakeFormDefinition, createFakeFormStepDefinition } from "./seeders/form.seed";
 import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
@@ -34,6 +35,13 @@ export async function seed(): Promise<void> {
   });
 
   console.log(`✅ ${formStepDefinitions.count} FormStepDefinitions créées`);
+
+  const departementsToInsert = createDepartements();
+  await prisma.departement.createMany({
+    data: departementsToInsert,
+  });
+
+  console.log(`🌍 Départements créés : ${departementsToInsert.length}`);
 
   const operateursToInsert = Array.from({ length: 5 }, (_, index) =>
     createFakeOperateur(index)
