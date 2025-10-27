@@ -7,8 +7,6 @@ export const structureTypologieApiSchema = z.object({
   pmr: z.number().int(),
   lgbt: z.number().int(),
   fvvTeh: z.number().int(),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
 
 export type StructureTypologieApiType = z.infer<

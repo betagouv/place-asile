@@ -46,7 +46,7 @@ export const getDefaultValues = ({
     ...structure,
     nom: structure.nom ?? "",
     operateur: structure.operateur ?? undefined,
-    creationDate: structure.creationDate,
+    creationDate: structure.creationDate ?? "",
     debutPeriodeAutorisation: isAutorisee
       ? (structure.debutPeriodeAutorisation ?? undefined)
       : undefined,

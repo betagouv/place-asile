@@ -70,13 +70,6 @@ export const parseFrDate = (value: unknown): Date | unknown => {
   return value;
 };
 
-export const getYearFromDate = (date?: string) => {
-  if (!date) return "";
-  const dateToConvert = date;
-  const parsedDate = new Date(dateToConvert!);
-  return parsedDate.getFullYear().toString();
-};
-
 export const getYearRange = ({
   startYear = 2021,
   endYear = new Date().getFullYear(),

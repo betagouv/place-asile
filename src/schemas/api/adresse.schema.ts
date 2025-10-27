@@ -14,8 +14,6 @@ export const adresseTypologieApiSchema = z.object({
   }),
   qpv: z.number().int(),
   logementSocial: z.number().int(),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
 
 export const adresseApiSchema = z.object({
@@ -25,8 +23,6 @@ export const adresseApiSchema = z.object({
   commune: z.string().optional(),
   repartition: z.nativeEnum(Repartition).optional(),
   adresseTypologies: z.array(adresseTypologieApiSchema),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
 
 export type AdresseApiType = z.infer<typeof adresseApiSchema>;

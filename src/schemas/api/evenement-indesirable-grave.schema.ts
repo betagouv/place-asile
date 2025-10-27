@@ -7,8 +7,6 @@ export const evenementIndesirableGraveApiSchema = z.object({
   evenementDate: z.string().datetime().optional(),
   declarationDate: z.string().datetime().optional(),
   type: z.string().optional(),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
 
 export type EvenementIndesirableGraveApiType = z.infer<

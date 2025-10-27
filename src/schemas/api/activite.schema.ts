@@ -14,8 +14,6 @@ export const activiteApiSchema = z.object({
   presencesInduesBPI: z.number(),
   presencesInduesDeboutees: z.number(),
   presencesIndues: z.number(),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
 
 export type ActiviteApiType = z.infer<typeof activiteApiSchema>;

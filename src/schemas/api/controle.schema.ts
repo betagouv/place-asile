@@ -11,8 +11,6 @@ export const controleApiSchema = z.object({
   type: z.nativeEnum(ControleType),
   fileUploadKey: z.string().optional(),
   fileUploads: z.array(fileUploadApiSchema).optional(),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
 
 export type ControleApiType = z.infer<typeof controleApiSchema>;

@@ -19,7 +19,7 @@ export const convertToRepartition = (
     Collectif: Repartition.COLLECTIF,
     Mixte: Repartition.MIXTE,
   };
-  return repartitions[repartition?.trim() ?? ""] ?? Repartition.MIXTE;
+  return repartitions[repartition?.trim() ?? ""];
 };
 
 export const convertToPublicType = (
