@@ -88,6 +88,25 @@ model StructureOfii {
   @@schema("public")
 }
 
+model CodeDna {
+  id                       Int         @id @default(autoincrement())
+  dnaCode                  String      @unique
+  creationDate             DateTime
+  adresseAdministrative    String
+  codePostalAdministratif  String
+  communeAdministrative    String
+  departementAdministratif String
+  latitude                 Decimal
+  longitude                Decimal
+  contacts                 Contact[]
+  type                     CodeDnaType @default(SECONDAIRE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
+}
+
 model Controle {
   id               Int          @id @default(autoincrement())
   structure        Structure    @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
@@ -178,6 +197,8 @@ model Contact {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  CodeDna   CodeDna? @relation(fields: [codeDnaId], references: [id])
+  codeDnaId Int?
 
   @@unique([structureDnaCode, type])
   @@schema("public")
@@ -234,7 +255,7 @@ model FileUpload {
   evaluation         Evaluation?         @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
   evaluationId       Int?
   categoryName       String?
-  parentFileUpload   FileUpload?         @relation("FileUploadToFileUpload", fields: [parentFileUploadId], references: [id], onDelete: Cascade) 
+  parentFileUpload   FileUpload?         @relation("FileUploadToFileUpload", fields: [parentFileUploadId], references: [id], onDelete: Cascade)
   parentFileUploadId Int?
   childFileUploads   FileUpload[]        @relation("FileUploadToFileUpload")
 
@@ -412,6 +433,13 @@ enum ContactType {
   PRINCIPAL
   SECONDAIRE
   AUTRE
+
+  @@schema("public")
+}
+
+enum CodeDnaType {
+  PRINCIPAL
+  SECONDAIRE
 
   @@schema("public")
 }
