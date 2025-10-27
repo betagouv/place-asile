@@ -413,13 +413,18 @@ describe("finalisationFinanceSchema", () => {
         coutJournalier: 50,
       };
 
+      const budgetWithAffectation = createSansCpom({
+        affectationReservesFondsDedies: 1000,
+        // Detail fields remain null - should fail
+      });
+
       const result = subventionneeSchema.safeParse({
         budgets: [
           firstYearBudget,
           firstYearBudget,
-          firstYearBudget,
-          firstYearBudget,
-          firstYearBudget,
+          budgetWithAffectation,
+          budgetWithAffectation,
+          budgetWithAffectation,
         ],
       });
 
