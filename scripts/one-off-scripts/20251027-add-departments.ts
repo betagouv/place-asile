@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+
 import { DEPARTEMENTS } from "@/constants";
 const prisma = new PrismaClient();
 

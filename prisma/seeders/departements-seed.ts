@@ -1,4 +1,5 @@
 import { Departement } from "@prisma/client";
+
 import { DEPARTEMENTS } from "@/constants";
 
 export const createDepartements = (): Omit<Departement, "id">[] => {
