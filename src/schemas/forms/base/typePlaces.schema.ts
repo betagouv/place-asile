@@ -29,7 +29,7 @@ const typologieItemWithIdSchema = typologieItemBaseSchema.extend({
   id: z.number().optional(),
 });
 
-const placesEvolutionSchema = z.object({
+export const placesEvolutionSchema = z.object({
   placesACreer: zSafeNumber(),
   placesAFermer: zSafeNumber(),
   echeancePlacesACreer: optionalFrenchDateToISO(),
@@ -65,3 +65,4 @@ export const typePlacesSchema = baseTypePlacesSchema
 export const typePlacesAutoSaveSchema = baseTypePlacesSchema.partial();
 
 export type TypePlacesFormValues = z.infer<typeof typePlacesSchema>;
+export type PlacesEvolutionFormValues = z.infer<typeof placesEvolutionSchema>;

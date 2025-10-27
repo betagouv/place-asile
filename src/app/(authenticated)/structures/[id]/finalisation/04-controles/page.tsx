@@ -1,10 +1,9 @@
 "use client";
 
-import Notice from "@codegouvfr/react-dsfr/Notice";
-
 import { AutoSave } from "@/app/components/forms/AutoSave";
 import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import { Evaluations } from "@/app/components/forms/evaluations/Evaluations";
+import { FieldSetOuvertureFermeture } from "@/app/components/forms/fieldsets/structure/FieldSetOuvertureFermeture";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
@@ -15,11 +14,14 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
-import { ControlesFormValues } from "@/schemas/forms/base/controles.schema";
-import { EvaluationsFormValues } from "@/schemas/forms/base/evaluation.schema";
-import { finalisationQualiteSchama } from "@/schemas/forms/finalisation/finalisationQualite.schema";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+import {
+  FinalisationQualiteFormValues,
+  finalisationQualiteSchama,
+} from "@/schemas/forms/finalisation/finalisationQualite.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
+import { FormKind } from "@/types/global";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { Tabs } from "../_components/Tabs";
@@ -45,9 +47,7 @@ export default function ModificationControleForm() {
     structure,
   });
 
-  const onAutoSave = async (
-    data: ControlesFormValues & EvaluationsFormValues
-  ) => {
+  const onAutoSave = async (data: FinalisationQualiteFormValues) => {
     const controles = data.controles?.map((controle) => {
       return {
         id: controle.id || undefined,
@@ -68,6 +68,7 @@ export default function ModificationControleForm() {
     });
 
     await handleAutoSave({
+      ...data,
       controles,
       evaluations,
       dnaCode: structure.dnaCode,
@@ -101,12 +102,13 @@ export default function ModificationControleForm() {
           }
           description="Veuillez renseigner les informations et documents concernant l’ensemble des évaluations et inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
         />
-        <Notice
-          severity="info"
-          title=""
-          description="Les Évaluations et les Évènements Indésirables Graves sont renseignés à partir du DNA. Il y a une erreur ? Contactez-nous."
-        />
-        <Evaluations />
+        {isStructureAutorisee(structure.type) && (
+          <>
+            <Evaluations />
+            <hr />
+          </>
+        )}
+
         <UploadsByCategory
           category={"INSPECTION_CONTROLE"}
           categoryShortName={
@@ -129,6 +131,8 @@ export default function ModificationControleForm() {
           }
           notice={categoriesDisplayRules["INSPECTION_CONTROLE"].notice}
         />
+        <hr />
+        <FieldSetOuvertureFermeture formKind={FormKind.FINALISATION} />
         {saveState === FetchState.ERROR && (
           <SubmitError
             structureDnaCode={structure.dnaCode}

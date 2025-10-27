@@ -23,12 +23,16 @@ export const FieldSetOuvertureFermeture = ({
           description="Le nombre de places “QPV” et “Logement social” se modifient dans le bloc “Description”."
         />
       )}
-      <legend className="text-lg font-bold mb-8 text-title-blue-france">
-        Ouverture et fermeture en {currentYear}
+      <legend className="text-xl font-bold mb-8 text-title-blue-france">
+        {formKind === FormKind.FINALISATION ? (
+          <>Objectifs d’ouverture et fermeture en {currentYear}</>
+        ) : (
+          <>Ouvertures et fermetures en {currentYear}</>
+        )}
       </legend>
       <p className="mb-2">
         En {currentYear}, sur le nombre total de places autorisées, combien
-        restent à créer ? (Indiquez “0” si non prévu)
+        restent à créer ? <i>(Indiquez “0” si non prévu)</i>
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6 mb-4">
         <InputWithValidation
@@ -48,7 +52,7 @@ export const FieldSetOuvertureFermeture = ({
       </div>
       <p className="mb-2">
         En {currentYear}, sur le nombre total de places autorisées, combien
-        restent à fermer ? (Indiquez “0” si non prévu)
+        restent à fermer ? <i>(Indiquez “0” si non prévu)</i>
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
         <InputWithValidation
