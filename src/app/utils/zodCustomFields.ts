@@ -34,3 +34,17 @@ export const optionalFrenchDateToISO = () =>
       return transformFrenchDateToISO(val);
     })
     .pipe(z.string().datetime().optional());
+
+export const zSafeDecimalsNullish = () =>
+  z.preprocess((val: unknown): number | null => {
+    if (val === "" || val === null || val === undefined) {
+      return null;
+    }
+    if (typeof val === "string") {
+      const normalizedValue = val.replace(",", ".");
+      const parsed = Number(normalizedValue);
+      return isNaN(parsed) ? null : parsed;
+    }
+    const parsed = Number(val);
+    return isNaN(parsed) ? null : parsed;
+  }, z.number().nullable());

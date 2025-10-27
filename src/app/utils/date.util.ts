@@ -9,17 +9,6 @@ export const formatDate = (date: Date | string | number): string => {
   return dateObject.toLocaleDateString("fr-FR");
 };
 
-export const formatDateString = (
-  dateValue: Date | string | null | undefined,
-  defaultValue: string = ""
-): string => {
-  if (!dateValue) {
-    return defaultValue;
-  }
-  const date = dayjs(dateValue);
-  return date.isValid() ? date.format("DD/MM/YYYY") : defaultValue;
-};
-
 export const formatDateToIsoString = (
   date: string | undefined,
   defaultToToday: boolean = false
@@ -81,7 +70,7 @@ export const parseFrDate = (value: unknown): Date | unknown => {
   return value;
 };
 
-export const getDateStringToYear = (date?: string) => {
+export const getYearFromDate = (date?: string) => {
   if (!date) return "";
   const dateToConvert = date;
   const parsedDate = new Date(dateToConvert!);
