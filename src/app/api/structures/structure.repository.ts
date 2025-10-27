@@ -1,4 +1,4 @@
-import { FileUploadCategory, Prisma, Structure } from "@prisma/client";
+import { ContactType, FileUploadCategory, Prisma, Structure } from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
 import prisma from "@/lib/prisma";
@@ -249,19 +249,26 @@ const createOrUpdateContacts = async (
 ): Promise<void> => {
   await Promise.all(
     (contacts || []).map((contact) => {
-      if (contact.id) {
-        return prisma.contact.update({
-          where: { id: contact.id },
-          data: contact,
-        });
-      } else {
-        return prisma.contact.create({
-          data: {
-            structureDnaCode,
-            ...contact,
-          },
-        });
-      }
+      return prisma.contact.upsert({
+        where: { id: contact.id },
+        update: {
+          prenom: contact.prenom ?? "",
+          nom: contact.nom ?? "",
+          telephone: contact.telephone ?? "",
+          email: contact.email ?? "",
+          role: contact.role ?? "",
+          type: contact.type ?? ContactType.AUTRE,
+        },
+        create: {
+          structureDnaCode,
+          prenom: contact.prenom ?? "",
+          nom: contact.nom ?? "",
+          telephone: contact.telephone ?? "",
+          email: contact.email ?? "",
+          role: contact.role ?? "",
+          type: contact.type ?? ContactType.AUTRE,
+        },
+      });
     })
   );
 };
@@ -362,16 +369,12 @@ const createOrUpdateAdresses = async (
 
       // Update or create typologies
       for (const typologie of adresse.adresseTypologies || []) {
-        if (typologie.id) {
-          // Update existing typologie
-          await prisma.adresseTypologie.update({
+        // Update existing typologie
+        await prisma.adresseTypologie.upsert
+          ({
             where: { id: typologie.id },
-            data: typologie,
-          });
-        } else {
-          // Create new typologie
-          await prisma.adresseTypologie.create({
-            data: {
+            update: typologie,
+            create: {
               adresseId: adresse.id,
               placesAutorisees: typologie.placesAutorisees,
               date: typologie.date,
@@ -379,22 +382,7 @@ const createOrUpdateAdresses = async (
               logementSocial: typologie.logementSocial,
             },
           });
-        }
       }
-    } else {
-      // Create new address with typologies
-      await prisma.adresse.create({
-        data: {
-          adresse: adresse.adresse,
-          codePostal: adresse.codePostal,
-          commune: adresse.commune,
-          repartition: convertToRepartition(adresse.repartition),
-          structureDnaCode: structureDnaCode,
-          adresseTypologies: {
-            create: adresse.adresseTypologies,
-          },
-        },
-      });
     }
   }
 };
@@ -553,35 +541,30 @@ const createOrUpdateEvaluations = async (
   deleteEvaluations(evaluations, structureDnaCode);
   await Promise.all(
     (evaluations || []).map((evaluation) => {
-      if (evaluation.id) {
-        return prisma.evaluation.update({
-          where: { id: evaluation.id },
-          data: {
-            date: evaluation.date,
-            notePersonne: evaluation.notePersonne,
-            notePro: evaluation.notePro,
-            noteStructure: evaluation.noteStructure,
-            note: evaluation.note,
-            fileUploads: {
-              connect: evaluation.fileUploads,
-            },
+      return prisma.evaluation.upsert({
+        where: { id: evaluation.id },
+        update: {
+          date: evaluation.date,
+          notePersonne: evaluation.notePersonne,
+          notePro: evaluation.notePro,
+          noteStructure: evaluation.noteStructure,
+          note: evaluation.note,
+          fileUploads: {
+            connect: evaluation.fileUploads,
           },
-        });
-      } else {
-        return prisma.evaluation.create({
-          data: {
-            structureDnaCode,
-            date: evaluation.date,
-            notePersonne: evaluation.notePersonne,
-            notePro: evaluation.notePro,
-            noteStructure: evaluation.noteStructure,
-            note: evaluation.note,
-            fileUploads: {
-              connect: evaluation.fileUploads,
-            },
+        },
+        create: {
+          structureDnaCode,
+          date: evaluation.date ?? "",
+          notePersonne: evaluation.notePersonne,
+          notePro: evaluation.notePro,
+          noteStructure: evaluation.noteStructure,
+          note: evaluation.note,
+          fileUploads: {
+            connect: evaluation.fileUploads,
           },
-        });
-      }
+        },
+      });
     })
   );
 };
