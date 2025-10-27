@@ -2,6 +2,8 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+import dotenv from "dotenv";
+dotenv.config();
 
 const scriptsPath = path.join(__dirname, "views");
 const viewFiles = fs.readdirSync(scriptsPath);
@@ -17,8 +19,8 @@ const schema = process.env.REPORTING_SCHEMA || "reporting";
 
 runPsqlOrExit(
   `psql "${psqlUrl}" -v ON_ERROR_STOP=1 ` +
-    `-c "DROP SCHEMA IF EXISTS \"${schema}\" CASCADE;" ` +
-    `-c "CREATE SCHEMA \"${schema}\";"`,
+  `-c "DROP SCHEMA IF EXISTS \"${schema}\" CASCADE;" ` +
+  `-c "CREATE SCHEMA \"${schema}\";"`,
   `✅ Schema "${schema}" recreated`,
   `❌ Failed to recreate schema "${schema}"`
 );

@@ -9,6 +9,15 @@ datasource db {
   schemas  = ["public", "reporting"]
 }
 
+model Departement {
+  id     Int    @id @default(autoincrement())
+  numero String @unique
+  name   String
+  region String
+
+  @@schema("public")
+}
+
 model Structure {
   id                           Int                         @id @default(autoincrement())
   dnaCode                      String                      @unique
