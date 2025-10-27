@@ -1,44 +1,65 @@
 import z from "zod";
 
 import {
-  optionalFrenchDateToISO,
+  frenchDateToISO,
   zSafeDecimalsNullish,
 } from "@/app/utils/zodCustomFields";
-import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
 
-const idSchema = z.preprocess(
-  (val) => (val === "" ? undefined : val),
-  z.number().optional()
-);
+const idPreprocess = (val: unknown) => (val === "" ? undefined : val);
+
 const fileUploadSchema = z.object({
-  key: z.string(),
-  id: idSchema,
-});
-const fileUploadAutoSaveSchema = z.object({
   key: z.string().optional(),
-  id: idSchema,
+  id: z.preprocess(idPreprocess, z.number().optional()),
 });
 
-const evaluationBaseSchema = z.object({
-  id: idSchema,
-  date: optionalFrenchDateToISO(),
-});
-
-export const evaluationSchema = evaluationBaseSchema.extend({
-  notePersonne: zSafeDecimals(),
-  notePro: zSafeDecimals(),
-  noteStructure: zSafeDecimals(),
-  note: zSafeDecimals(),
-  fileUploads: z.array(fileUploadSchema).optional(),
-});
-
-export const evaluationAutoSaveSchema = evaluationBaseSchema.extend({
+const evaluationAutoSaveSchema = z.object({
+  id: z.preprocess(idPreprocess, z.number().optional()),
+  date: frenchDateToISO(),
   notePersonne: zSafeDecimalsNullish(),
   notePro: zSafeDecimalsNullish(),
   noteStructure: zSafeDecimalsNullish(),
   note: zSafeDecimalsNullish(),
-  fileUploads: z.array(fileUploadAutoSaveSchema).optional(),
+  fileUploads: z.array(fileUploadSchema.optional()).optional(),
 });
+
+export const evaluationSchema = evaluationAutoSaveSchema
+  .refine(
+    (data) => {
+      const year = data.date ? new Date(data.date).getFullYear() : undefined;
+      const requireNotes = year !== undefined && year >= 2022;
+
+      if (requireNotes) {
+        if (
+          data.notePersonne === undefined ||
+          data.notePro === undefined ||
+          data.noteStructure === undefined ||
+          data.note === undefined
+        ) {
+          return false;
+        }
+      }
+      return true;
+    },
+    {
+      message: "Les notes doivent être renseignées",
+      path: ["notePersonne", "notePro", "noteStructure", "note"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.fileUploads) {
+        return (
+          data.fileUploads[0]?.key !== undefined &&
+          data.fileUploads[0]?.id !== undefined
+        );
+      }
+      return true;
+    },
+    {
+      message: "Les fichiers doivent être renseignés",
+      path: ["fileUploads"],
+    }
+  );
 
 export const evaluationsSchema = z.object({
   evaluations: z.array(evaluationSchema).optional(),

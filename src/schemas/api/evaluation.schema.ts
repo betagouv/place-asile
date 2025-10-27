@@ -9,7 +9,7 @@ export const evaluationApiSchema = z.object({
   noteStructure: z.number().nullish(),
   note: z.number().nullish(),
   fileUploads: z
-    .array(z.object({ key: z.string().optional(), id: z.number().optional() }))
+    .array(z.object({ key: z.string(), id: z.number() }))
     .optional(),
 });
 

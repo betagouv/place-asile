@@ -548,6 +548,7 @@ const createOrUpdateEvaluations = async (
   }
 
   deleteEvaluations(evaluations, structureDnaCode);
+
   await Promise.all(
     (evaluations || []).map((evaluation) => {
       if (evaluation.id) {
