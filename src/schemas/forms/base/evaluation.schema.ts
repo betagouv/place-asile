@@ -28,15 +28,14 @@ export const evaluationSchema = evaluationAutoSaveSchema
       const year = data.date ? new Date(data.date).getFullYear() : undefined;
       const requireNotes = year !== undefined && year >= 2022;
 
-      if (requireNotes) {
-        if (
-          data.notePersonne === undefined ||
+      if (
+        requireNotes &&
+        (data.notePersonne === undefined ||
           data.notePro === undefined ||
           data.noteStructure === undefined ||
-          data.note === undefined
-        ) {
-          return false;
-        }
+          data.note === undefined)
+      ) {
+        return false;
       }
       return true;
     },
