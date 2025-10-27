@@ -1,11 +1,11 @@
 import { getRepartition } from "@/app/utils/structure.util";
-import { BudgetApiType } from "@/schemas/api/budget.schema";
 import { ContactApiType } from "@/schemas/api/contact.schema";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
 import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
+import { budgetSchemaTypeFormValues } from "@/schemas/forms/base/finance.schema";
 import { Repartition } from "@/types/adresse.type";
 import { PublicType } from "@/types/structure.type";
 
@@ -155,10 +155,10 @@ type StructureDefaultValues = Omit<
   fileUploads: FileUploadFormValues[];
   controles: ControleFormValues[];
   budgets: [
-    BudgetApiType,
-    BudgetApiType,
-    BudgetApiType,
-    BudgetApiType,
-    BudgetApiType,
+    budgetSchemaTypeFormValues,
+    budgetSchemaTypeFormValues,
+    budgetSchemaTypeFormValues,
+    budgetSchemaTypeFormValues,
+    budgetSchemaTypeFormValues,
   ];
 };

@@ -465,7 +465,6 @@ describe("finalisationFinanceSchema", () => {
       const budget = createValidBudget();
 
       const result = basicSchema.safeParse({
-        fileUploads: [],
         budgets: [budget, budget, budget, budget, budget],
       });
 
