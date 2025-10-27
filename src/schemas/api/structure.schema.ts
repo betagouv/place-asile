@@ -56,7 +56,7 @@ export const structureCreationApiSchema = z.object({
   finCpom: z.string().datetime().nullish(),
   adresses: z.array(adresseApiSchema),
   structureTypologies: z.array(structureTypologieApiSchema),
-  forms: z.array(formApiSchema),
+  forms: z.array(formApiSchema).optional(),
 
   contacts: z.array(contactApiSchema),
   fileUploads: z.array(fileUploadApiSchema),
