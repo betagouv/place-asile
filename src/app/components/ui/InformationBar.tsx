@@ -4,16 +4,18 @@ import { cn } from "@/app/utils/classname.util";
 
 export const InformationBar = ({ variant, title, description }: Props) => {
   const iconClassName: FrIconClassName | RiIconClassName =
-    variant === "info" ? "fr-icon-edit-line" : "fr-icon-eye-line";
+    variant === "complete" ? "fr-icon-edit-line" : "fr-icon-eye-line";
 
   return (
     <div
       className={cn(
         "flex gap-4 pt-2",
-        variant === "info" &&
-          "text-default-success border-t-2 border-plain-success",
-        variant === "warning" &&
-          "text-default-warning border-t-2 border-plain-warning"
+        variant === "verify" &&
+          "text-label-yellow-tournesol border-b-2 border-plain-yellow-tournesol",
+        variant === "complete" &&
+          "text-default-warning border-b-2 border-plain-warning",
+        variant === "success" &&
+          "text-default-success border-b-2 border-plain-success"
       )}
     >
       <span className={cn("mt-1", iconClassName)}></span>
@@ -26,7 +28,7 @@ export const InformationBar = ({ variant, title, description }: Props) => {
 };
 
 type Props = {
-  variant: "info" | "warning";
+  variant: "verify" | "complete" | "success";
   title: string;
   description: string;
 };

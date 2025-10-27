@@ -1,5 +1,8 @@
-import { Adresse, Repartition } from "@/types/adresse.type";
-import { AdresseTypologie } from "@/types/adresse-typologie.type";
+import {
+  AdresseApiType,
+  AdresseTypologieApiType,
+} from "@/schemas/api/adresse.schema";
+import { Repartition } from "@/types/adresse.type";
 
 export const createAdresse = ({
   id,
@@ -7,10 +10,9 @@ export const createAdresse = ({
   commune,
   typologies,
   repartition,
-}: CreateLogementsArgs): Adresse => {
+}: CreateLogementsArgs): AdresseApiType => {
   return {
     id: id ?? 1,
-    structureDnaCode: "C0001",
     adresse: adresse ?? "1, rue de la République",
     codePostal: "75001",
     commune: commune ?? "Paris",
@@ -23,6 +25,6 @@ type CreateLogementsArgs = {
   id?: number;
   adresse?: string;
   commune?: string;
-  typologies?: AdresseTypologie[];
+  typologies?: AdresseTypologieApiType[];
   repartition?: Repartition;
 };

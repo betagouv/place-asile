@@ -4,7 +4,7 @@ import z from "zod";
 
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearDate } from "@/app/utils/date.util";
-import { DocumentsSchemaFlexible } from "@/schemas/ajout/ajoutDocuments.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentsFinanciers.schema";
 import { zFileUploadCategory } from "@/types/file-upload.type";
 
 import { UploadItem } from "../../components/UploadItem";
@@ -46,9 +46,9 @@ export const DocumentItem = ({
 
 type Props = {
   year: string;
-  control: Control<DocumentsSchemaFlexible>;
+  control: Control<DocumentsFinanciersFlexibleFormValues>;
   index: number;
-  register: UseFormRegister<DocumentsSchemaFlexible>;
+  register: UseFormRegister<DocumentsFinanciersFlexibleFormValues>;
   categoryLabel: string;
   categorySubLabel?: string;
   categoryValue: z.infer<typeof zFileUploadCategory>;

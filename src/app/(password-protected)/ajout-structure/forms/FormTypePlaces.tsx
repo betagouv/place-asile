@@ -10,7 +10,7 @@ import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { cn } from "@/app/utils/classname.util";
 import { getYearDate } from "@/app/utils/date.util";
-import { ajoutTypePlacesSchema } from "@/schemas/ajout/ajoutTypePlaces.schema";
+import { ajoutTypePlacesSchema } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
 
 export default function FormTypePlaces() {
   const params = useParams();

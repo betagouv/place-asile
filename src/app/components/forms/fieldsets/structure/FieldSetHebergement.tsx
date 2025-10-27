@@ -3,8 +3,8 @@ import autoAnimate from "@formkit/auto-animate";
 import { useEffect, useRef } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 
-import { FormAdresse } from "@/schemas/base/adresse.schema";
-import { Adresse, Repartition } from "@/types/adresse.type";
+import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
+import { Repartition } from "@/types/adresse.type";
 
 import { AdresseComponent } from "./fieldSetHebergement/Adresse";
 import { Notices } from "./fieldSetHebergement/Notices";
@@ -107,7 +107,7 @@ export const FieldSetHebergement = () => {
   // Listen to typeBati and set every adresse repartition to the typeBati (if typeBat is not MIXTE)
   useEffect(() => {
     if (typeBati !== Repartition.MIXTE) {
-      const currentAdresses: Adresse[] = getValues("adresses") || [];
+      const currentAdresses: FormAdresse[] = getValues("adresses") || [];
       const updatedAdresses = currentAdresses.map((adresse) => ({
         ...adresse,
         repartition: typeBati as Repartition,
@@ -121,7 +121,7 @@ export const FieldSetHebergement = () => {
   // Listen to typeBati and keep only one adresse if typeBati is COLLECTIF
   useEffect(() => {
     if (typeBati === Repartition.COLLECTIF) {
-      const currentAdresses: Adresse[] = getValues("adresses") || [];
+      const currentAdresses: FormAdresse[] = getValues("adresses") || [];
       const updatedAdresses = currentAdresses.slice(0, 1);
       setValue("adresses", updatedAdresses, {
         shouldValidate: false,
@@ -159,7 +159,7 @@ export const FieldSetHebergement = () => {
           </div>
         )}
 
-        {((getValues("adresses") || []) as Adresse[]).map((_, index) => (
+        {((getValues("adresses") || []) as FormAdresse[]).map((_, index) => (
           <AdresseComponent
             key={index}
             index={index}

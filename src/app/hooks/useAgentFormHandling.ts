@@ -1,136 +1,156 @@
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { useEffect, useState } from "react";
 
-import { FormAdresse } from "@/schemas/base/adresse.schema";
-import { FinalisationQualiteFormValues } from "@/schemas/finalisation/finalisationQualite.schema";
+import { StructureUpdateApiType } from "@/schemas/api/structure.schema";
+import { FetchState } from "@/types/fetch-state.type";
+import { StepStatus } from "@/types/form.type";
 
-import { useStructureContext } from "../(authenticated)/structures/[id]/context/StructureClientContext";
-import { CategoryDisplayRulesType } from "../utils/categoryToDisplay.util";
+import { useStructureContext } from "../(authenticated)/structures/[id]/_context/StructureClientContext";
+import { useFetchState } from "../context/FetchStateContext";
+import {
+  FINALISATION_FORM_LABEL,
+  FINALISATION_FORM_VERSION,
+} from "../utils/getFinalisationFormStatus.util";
 import { useStructures } from "./useStructures";
-
-export type FormSubmitData = {
-  dnaCode?: string;
-  [key: string]: unknown;
-};
 
 export const useAgentFormHandling = ({
   nextRoute,
-  categoriesDisplayRules,
-}: {
-  nextRoute?: string;
-  categoriesDisplayRules?: CategoryDisplayRulesType;
-}) => {
+  currentStep,
+}: Props = {}) => {
   const router = useRouter();
 
   const { structure, setStructure } = useStructureContext();
 
-  const { updateAndRefreshStructure, transformFormAdressesToApiAdresses } =
-    useStructures();
+  const { updateAndRefreshStructure } = useStructures();
 
-  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const { setFetchState } = useFetchState();
+
   const [backendError, setBackendError] = useState<string | undefined>(
     undefined
   );
 
-  const handleSubmit = async (data: FormSubmitData) => {
-    setState("loading");
+  const updateStructure = async (
+    data: StructureUpdateApiType
+  ): Promise<void> => {
+    setFetchState("structure-save", FetchState.LOADING);
+
     try {
-      const adresses = transformFormAdressesToApiAdresses(
-        data.adresses as FormAdresse[]
-      );
-      const updatedStructure = await updateAndRefreshStructure(
+      const result = await updateAndRefreshStructure(
         structure.id,
-        { ...data, adresses },
+        data,
         setStructure
       );
-      if (updatedStructure === "OK") {
-        if (nextRoute) {
-          router.push(nextRoute);
-        }
-      } else {
-        console.error(updatedStructure);
-        setState("error");
-        setBackendError(updatedStructure?.toString());
-        throw new Error(updatedStructure?.toString());
+
+      if (result !== "OK") {
+        throw new Error(result?.toString());
       }
+
+      setFetchState("structure-save", FetchState.IDLE);
     } catch (error) {
-      setState("error");
-      setBackendError(error instanceof Error ? error.message : String(error));
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      console.error(errorMessage);
+      setFetchState("structure-save", FetchState.ERROR);
+      setBackendError(errorMessage);
       throw error;
     }
   };
 
-  const handleQualiteFormSubmit = async (
-    data: FinalisationQualiteFormValues,
-    methods: UseFormReturn<FinalisationQualiteFormValues>
-  ) => {
-    if (!categoriesDisplayRules) {
-      return;
-    }
-    const setError = methods.setError;
-    const fileUploads = data.fileUploads;
-    const requiredCategories = Object.keys(categoriesDisplayRules).filter(
-      (category) =>
-        !categoriesDisplayRules[category as keyof typeof categoriesDisplayRules]
-          .isOptional
-    );
+  const handleAutoSave = async (data: StructureUpdateApiType) => {
+    await updateStructure(data);
+  };
 
-    let firstErrorIndex: number | null = null;
-
-    const missingRequiredUploads = fileUploads?.flatMap((fileUpload, index) => {
-      if (requiredCategories.includes(fileUpload.category) && !fileUpload.key) {
-        return { fileUpload, index };
+  const handleValidation = async () => {
+    const forms = structure.forms?.map((form) => {
+      if (
+        form.formDefinition.name === FINALISATION_FORM_LABEL &&
+        form.formDefinition.version === FINALISATION_FORM_VERSION
+      ) {
+        return {
+          ...form,
+          formSteps: form.formSteps.map((formStep) => {
+            if (formStep.stepDefinition.label === currentStep) {
+              return {
+                ...formStep,
+                status: StepStatus.VALIDE,
+              };
+            } else {
+              return formStep;
+            }
+          }),
+        };
+      } else {
+        return form;
       }
-      return [];
     });
 
-    if (missingRequiredUploads?.length) {
-      firstErrorIndex = missingRequiredUploads[0].index;
+    await updateStructure({
+      dnaCode: structure.dnaCode,
+      forms,
+    });
 
-      missingRequiredUploads.forEach(({ index }) => {
-        setError(`fileUploads.${index}.key` as const, {
-          type: "custom",
-          message: "Veuillez sélectionner au moins un document.",
-        });
-      });
-    }
-
-    if (firstErrorIndex !== null) {
-      setTimeout(() => {
-        const errorField = document.querySelector(
-          `[name="fileUploads.${firstErrorIndex}.key"]`
-        );
-        if (errorField instanceof HTMLElement) {
-          errorField.focus();
-          errorField.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-      }, 100);
-    } else {
-      const filteredFileUploads = fileUploads?.filter((fileUpload) => {
-        return fileUpload.key !== undefined;
-      });
-      const controles = data.controles?.map((controle) => {
-        return {
-          id: controle.id || undefined,
-          date: controle.date,
-          type: controle.type,
-          fileUploadKey: controle.fileUploads?.[0].key,
-        };
-      });
-
-      await handleSubmit({
-        fileUploads: filteredFileUploads,
-        controles,
-        dnaCode: structure.dnaCode,
-      });
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
+
+  const handleFinalisation = async () => {
+    const forms = structure.forms?.map((form) => {
+      if (
+        form.formDefinition.name === FINALISATION_FORM_LABEL &&
+        form.formDefinition.version === FINALISATION_FORM_VERSION
+      ) {
+        return {
+          ...form,
+          status: true,
+        };
+      } else {
+        return form;
+      }
+    });
+
+    await updateStructure({
+      dnaCode: structure.dnaCode,
+      forms,
+    });
+  };
+
+  const handleSubmit = async (data: StructureUpdateApiType) => {
+    await updateStructure(data);
+    if (nextRoute) {
+      router.push(nextRoute);
+    }
+  };
+
+  const [isStructureReadyToFinalise, setIsStructureReadyToFinalise] =
+    useState(false);
+
+  useEffect(() => {
+    const finalisationForm = structure.forms?.find(
+      (form) =>
+        form.formDefinition.name === FINALISATION_FORM_LABEL &&
+        form.formDefinition.version === FINALISATION_FORM_VERSION
+    );
+
+    const isFinalisationFormCompleted =
+      finalisationForm?.formSteps?.every(
+        (step) => step.status === StepStatus.VALIDE
+      ) || false;
+
+    setIsStructureReadyToFinalise(isFinalisationFormCompleted);
+  }, [structure]);
 
   return {
     handleSubmit,
-    handleQualiteFormSubmit,
-    state,
+    handleAutoSave,
+    handleValidation,
+    handleFinalisation,
     backendError,
+    isStructureReadyToFinalise,
   };
+};
+
+export type Props = {
+  nextRoute?: string;
+  currentStep?: string;
 };

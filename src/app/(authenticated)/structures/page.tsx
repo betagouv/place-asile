@@ -1,18 +1,19 @@
 "use client";
 
+import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
 import dynamic from "next/dynamic";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 
 import Loader from "@/app/components/ui/Loader";
-import { Structure } from "@/types/structure.type";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { SegmentedControl } from "../../components/common/SegmentedControl";
 import { useStructures } from "../../hooks/useStructures";
-import { SearchBar } from "./SearchBar";
-import { StructuresTable } from "./StructuresTable";
+import { SearchBar } from "./_components/SearchBar";
+import { StructuresTable } from "./_components/StructuresTable";
 
 export default function Structures(): ReactElement {
-  const [structures, setStructures] = useState<Structure[]>([]);
+  const [structures, setStructures] = useState<StructureApiType[]>([]);
   const [loadingState, setLoadingState] = useState<
     "idle" | "loading" | "loaded" | "error"
   >("idle");
@@ -33,7 +34,7 @@ export default function Structures(): ReactElement {
 
   const StructuresMap = useMemo(
     () =>
-      dynamic(() => import("./StructuresMap"), {
+      dynamic(() => import("./_components/StructuresMap"), {
         loading: () => (
           <p className="h-full w-full flex items-center justify-center">
             Chargement de la carte en cours...
@@ -48,6 +49,7 @@ export default function Structures(): ReactElement {
 
   return (
     <div className="h-screen w-full flex flex-col">
+      <StartDsfrOnHydration />
       <div className="flex fr-p-2w border-b border-b-border-default-grey min-h-[4.35rem] items-center">
         <SegmentedControl
           name="Visualisation"
@@ -67,7 +69,8 @@ export default function Structures(): ReactElement {
           setFilteredStructures={setFilteredStructures}
         />
         <p className="pl-3 text-mention-grey mb-0">
-          {filteredStructures.length} entrée(s)
+          {filteredStructures.length} entrée
+          {filteredStructures.length > 1 ? "s" : ""}
         </p>
       </div>
       {selectedVisualization === "tableau" && (

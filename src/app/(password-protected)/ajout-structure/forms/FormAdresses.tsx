@@ -9,10 +9,10 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { ajoutAdressesSchema } from "@/schemas/ajout/ajoutAdresses.schema";
+import { ajoutAdressesSchema } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 import { Repartition } from "@/types/adresse.type";
 
-import AdressesList from "../[dnaCode]/02-adresses/AdressesList";
+import { AdressesList } from "../[dnaCode]/02-adresses/AdressesList";
 
 export default function FormAdresses() {
   const params = useParams();

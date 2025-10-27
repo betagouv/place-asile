@@ -18,8 +18,8 @@ import AddressWithValidation from "@/app/components/forms/AddressWithValidation"
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
-import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
-import { FormAdresse } from "@/schemas/base/adresse.schema";
+import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
+import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 
 interface AdressesListProps {
@@ -30,7 +30,7 @@ interface AdressesListProps {
   setError: UseFormSetError<AjoutAdressesFormValues>;
 }
 
-const AdressesList = ({
+export const AdressesList = ({
   watch,
   control,
   setValue,
@@ -328,5 +328,3 @@ const AdressesList = ({
     </div>
   );
 };
-
-export default AdressesList;

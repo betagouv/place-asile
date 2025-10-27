@@ -1,25 +1,30 @@
 "use client";
 
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { calendrierSchema } from "@/schemas/base/calendrier.schema";
+import { calendrierSchema } from "@/schemas/forms/base/calendrier.schema";
+import { FetchState } from "@/types/fetch-state.type";
 
 import { ModificationTitle } from "../components/ModificationTitle";
 
 export default function ModificationCalendrier() {
   const { structure } = useStructureContext();
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling({
+  const { handleSubmit, backendError } = useAgentFormHandling({
     nextRoute: `/structures/${structure.id}`,
   });
 
   const defaultValues = getDefaultValues({ structure });
+
+  const { getFetchState } = useFetchState();
+  const saveState = getFetchState("structure-save");
 
   return (
     <>
@@ -42,7 +47,7 @@ export default function ModificationCalendrier() {
       >
         <FieldSetCalendrier />
       </FormWrapper>
-      {state === "error" && (
+      {saveState === FetchState.ERROR && (
         <SubmitError
           structureDnaCode={structure.dnaCode}
           backendError={backendError}

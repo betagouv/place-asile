@@ -1,13 +1,11 @@
-import { LatLngTuple } from "leaflet";
-
-import { Adresse } from "@/types/adresse.type";
+import { AdresseApiType } from "@/schemas/api/adresse.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
+import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 import {
   PublicType,
-  Structure,
   StructureState,
   StructureType,
 } from "@/types/structure.type";
-import { StructureTypologie } from "@/types/structure-typologie.type";
 
 export const createStructure = ({
   adresseAdministrative,
@@ -15,52 +13,52 @@ export const createStructure = ({
   type,
   finessCode,
   publicType,
-  state,
   cpom,
   structureTypologies,
-}: CreateStructuresArgs): Structure => {
+}: CreateStructuresArgs): StructureApiType => {
   return {
     id: 1,
     dnaCode: "C0001",
     operateur: { structureDnaCode: "C0001", id: 1, name: "Adoma" },
-    filiale: null,
+    filiale: undefined,
     type: type ?? StructureType.CADA,
     placesACreer: 3,
     placesAFermer: 2,
-    echeancePlacesACreer: new Date("01/02/2026"),
-    echeancePlacesAFermer: new Date("01/02/2027"),
+    echeancePlacesACreer: new Date("01/02/2026").toISOString(),
+    echeancePlacesAFermer: new Date("01/02/2027").toISOString(),
     adresseAdministrative:
       adresseAdministrative ?? "1, avenue de la République",
     codePostalAdministratif: "75011",
     communeAdministrative: "Paris",
     departementAdministratif: "75",
-    coordinates: [48.8670239, 2.3612011] as LatLngTuple,
-    latitude: 0,
-    longitude: 0,
+    latitude: "48.8670239",
+    longitude: "2.3612011",
     nom: "Les Mimosas",
-    debutConvention: new Date("01/02/2024"),
-    finConvention: new Date("01/02/2027"),
+    debutConvention: new Date("01/02/2024").toISOString(),
+    finConvention: new Date("01/02/2027").toISOString(),
     cpom: cpom ?? true,
-    creationDate: new Date("01/02/2007"),
+    creationDate: new Date("01/02/2007").toISOString(),
     finessCode: finessCode ?? "123456789",
     lgbt: true,
     fvvTeh: false,
     public: publicType ?? ("TOUT_PUBLIC" as PublicType),
-    debutPeriodeAutorisation: new Date("01/02/2022"),
-    finPeriodeAutorisation: new Date("01/02/2025"),
-    debutCpom: new Date("01/02/2026"),
-    finCpom: new Date("01/02/2028"),
+    debutPeriodeAutorisation: new Date("01/02/2022").toISOString(),
+    finPeriodeAutorisation: new Date("01/02/2025").toISOString(),
+    debutCpom: new Date("01/02/2026").toISOString(),
+    finCpom: new Date("01/02/2028").toISOString(),
     adresses: adresses ?? [],
     notes: "Note 1",
-    state: state ?? StructureState.A_FINALISER,
-    structureTypologies: structureTypologies ?? []
+    structureTypologies: structureTypologies ?? [],
+    forms: [],
+    contacts: [],
+    fileUploads: [],
   };
 };
 
 type CreateStructuresArgs = {
   adresseAdministrative?: string;
-  structureTypologies?: StructureTypologie[]
-  adresses?: Adresse[];
+  structureTypologies?: StructureTypologieApiType[];
+  adresses?: AdresseApiType[];
   type?: StructureType;
   finessCode?: string;
   publicType?: PublicType;

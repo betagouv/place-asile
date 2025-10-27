@@ -1,4 +1,4 @@
-import { Structure } from "@/types/structure.type";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { transformTestDataToApiFormat } from "./api-data-transformer";
 import { TestStructureData } from "./test-data";
@@ -66,7 +66,9 @@ export async function getStructureId(dnaCode: string): Promise<number> {
   }
 
   const structures = await response.json();
-  const structure = structures.find((s: Structure) => s.dnaCode === dnaCode);
+  const structure = structures.find(
+    (s: StructureApiType) => s.dnaCode === dnaCode
+  );
 
   if (!structure) {
     throw new Error(`Structure with dnaCode ${dnaCode} not found`);

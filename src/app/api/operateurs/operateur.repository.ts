@@ -1,9 +1,8 @@
 import { Operateur, Prisma } from "@prisma/client";
 
 import { normalizeAccents } from "@/app/utils/string.util";
-
-import prisma from "../../../../lib/prisma";
-import { CreateOperateurs } from "./operateur.types";
+import prisma from "@/lib/prisma";
+import { OperateurApiType } from "@/schemas/api/operateur.schema";
 
 export const findBySearchTerm = async (
   searchTerm: string | null
@@ -19,7 +18,7 @@ export const findBySearchTerm = async (
 };
 
 export const createOne = async (
-  operateurs: CreateOperateurs
+  operateurs: OperateurApiType[]
 ): Promise<Prisma.BatchPayload> => {
   const newOperateurs = await prisma.operateur.createMany({
     data: operateurs,

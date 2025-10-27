@@ -17,7 +17,7 @@ import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import {
   AjoutIdentificationFormValues,
   ajoutIdentificationSchema,
-} from "@/schemas/ajout/ajoutIdentification.schema";
+} from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { PublicType, StructureType } from "@/types/structure.type";
 
 export default function FormIdentification() {

@@ -1,15 +1,17 @@
 "use client";
 
-import { useStructureContext } from "@/app/(authenticated)/structures/[id]/context/StructureClientContext";
+import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { FieldSetOuvertureFermeture } from "@/app/components/forms/fieldsets/structure/FieldSetOuvertureFermeture";
 import { FieldSetTypePlaces } from "@/app/components/forms/fieldsets/structure/FieldSetTypePlaces";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
 import { SubmitError } from "@/app/components/SubmitError";
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { typePlacesSchema } from "@/schemas/base/typePlaces.schema";
+import { typePlacesSchema } from "@/schemas/forms/base/typePlaces.schema";
+import { FetchState } from "@/types/fetch-state.type";
 import { FormKind } from "@/types/global";
 
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -17,11 +19,14 @@ import { ModificationTitle } from "../components/ModificationTitle";
 export default function ModificationTypePlaces() {
   const { structure } = useStructureContext();
 
-  const { handleSubmit, state, backendError } = useAgentFormHandling({
+  const { handleSubmit, backendError } = useAgentFormHandling({
     nextRoute: `/structures/${structure.id}`,
   });
 
   const defaultValues = getDefaultValues({ structure });
+
+  const { getFetchState } = useFetchState();
+  const saveState = getFetchState("structure-save");
 
   return (
     <>
@@ -45,7 +50,7 @@ export default function ModificationTypePlaces() {
         <FieldSetOuvertureFermeture formKind={FormKind.MODIFICATION} />
         <FieldSetTypePlaces />
       </FormWrapper>
-      {state === "error" && (
+      {saveState === FetchState.ERROR && (
         <SubmitError
           structureDnaCode={structure.dnaCode}
           backendError={backendError}

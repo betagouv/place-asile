@@ -2,7 +2,7 @@ import { useParams } from "next/navigation";
 
 import { CustomTag } from "@/app/components/ui/CustomTag";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
+import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 
 export const Adresses = () => {
   const params = useParams();

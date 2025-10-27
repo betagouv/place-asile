@@ -13,7 +13,7 @@ export const Block = ({
           <span className={`text-title-blue-france fr-mr-1w ${iconClass}`} />
           <h3 className="text-title-blue-france fr-h5">{title}</h3>
         </div>
-        {onEdit && false && (
+        {onEdit && (
           <button className="fr-btn fr-btn--secondary" onClick={onEdit}>
             <span className="fr-icon-edit-line fr-icon--sm pr-2" />
             Modifier

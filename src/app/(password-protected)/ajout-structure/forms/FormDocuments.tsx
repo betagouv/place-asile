@@ -7,13 +7,13 @@ import { Controller } from "react-hook-form";
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getDocumentIndexes } from "@/app/utils/getFinanceDocument.util";
+import { getDocumentIndexes } from "@/app/utils/buildFileUploadsDefaultValues.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import {
-  DocumentsSchemaFlexible,
-  DocumentsSchemaStrict,
-} from "@/schemas/ajout/ajoutDocuments.schema";
-import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
+  DocumentsFinanciersFlexibleSchema,
+  DocumentsFinanciersStrictSchema,
+} from "@/schemas/forms/base/documentsFinanciers.schema";
 
 import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
 import {
@@ -47,7 +47,10 @@ export default function FormDocuments() {
   );
 
   const selectedSchema = useMemo(
-    () => (less5Years ? DocumentsSchemaFlexible : DocumentsSchemaStrict),
+    () =>
+      less5Years
+        ? DocumentsFinanciersFlexibleSchema
+        : DocumentsFinanciersStrictSchema,
     [less5Years]
   );
 

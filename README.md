@@ -72,37 +72,7 @@ yarn lint:css
 
 ## 🗃️ Base de données
 
-Ce projet utilise [`Prisma`](https://www.prisma.io/docs) pour interagir avec la base de données PostgreSQL. Pour lancer la création de la base de données, remplissez d'abord la variable `DATABASE_URL` dans `.env` avec les identifiants de base de données. Puis, lancez la commande suivante pour construire la base de données :
-
-```bash
-yarn prisma:migrate
-```
-
-En cas de modification du schéma de données (dans `schema.prisma`), lancez la commande suivante et donnez un nom de migration en `camelCase` :
-
-```bash
-yarn prisma:migrate --create-only
-```
-
-Pour remplir la base avec des données de test, lancez :
-
-```bash
-yarn prisma:seed
-```
-
-En cas de besoin, la base de données peut être vidée avec :
-
-```bash
-yarn prisma:reset
-```
-
-Enfin, vous pouvez vérifier le contenu de la base de données en exécutant :
-
-```bash
-yarn prisma:studio
-```
-
-👉 Pour aller plus loin : [ce readme](docs/prisma_snippets.md)
+Tout le processus de création et migration de la base de données est décrit dans [ce document](docs/database.md)
 
 ## 🏗️ Architecture
 
@@ -142,9 +112,14 @@ npx patch-package @codegouvfr/react-dsfr
 
 ## 🔓 Gestion des pages protégées par mot de passe
 
-Pour le moment seule la route `/ajout-structure` est protégée par mot de passe.
+Pour le moment seule la route `/ajout-structure` est protégée par mot de passe. Les pages de dashboard sont protégées par un accès ProConnect.
 
 Pour définir le mot de passe il suffit d'ajouter la variable `PAGE_PASSWORD` dans le fichier `.env`.
+
+En mode développement, il est possible aussi de bypasser ces accès privés grace à la variable d'environnement `DEV_AUTH_BYPASS=1`
+Les pages sont ensuite accessibles via : 
+- http://localhost:3000/ajout-structure/123abc pour créer une structure (ici `123abc`)
+- http://localhost:3000/structures pour accéder au tableau de bord
 
 ## 🚀 Mise en production
 
@@ -158,3 +133,37 @@ git push --force-with-lease
 ### 🧑‍🔧 Ajout des opérateurs
 
 Pour ajouter des opérateurs sur un environnement (dev ou prod), faites un `POST` sur `/api/operateurs` avec un tableau des opérateurs. Un JSON à jour est sur le Notion de l'équipe.
+
+### 🏃 Exécution de scripts "one off"
+
+Les scripts "one off" sont des scripts d'administration qui s'exécutent une seule fois pour des tâches spécifiques.
+
+#### Pourquoi utiliser des scripts one off ?
+
+Plusieurs raisons peuvent venir le justifier : 
+- **Migration de données** : Ajouter de nouvelles colonnes, transformer des données existantes
+- **Nettoyage** : Supprimer des données obsolètes, corriger des incohérences
+- **Backfill** : Remplir des tables nouvellement créées avec des données historiques
+- **Maintenance** : Scripts de réparation ponctuels
+
+Plus globalement, cela vient du fait que prisma vient **d'abord** réaliser l'ensemble des migrations et **ensuite** peupler la base en seed, ce qui interdit autrement une reproductibiltié entre bases de dev et de prod.
+
+#### Comment exécuter un script one off
+
+1. **Créer le script** dans `prisma/one-off-scripts/` avec le format `YYYYMMDD-description.ts`
+   ```bash
+   # Exemple : scripts/one-off-scripts/20251020-migrate-forms-prod.ts
+   ```
+
+2. **Exécuter le script** :
+   ```bash
+   yarn one-off 20251020-migrate-forms-prod # préfixer de scalingo si exécution en prod
+   ```
+
+3. **Le script sera exécuté** avec les variables d'environnement chargées automatiquement
+
+#### Bonnes pratiques
+
+- **Nommage** : `YYYYMMDD-description.ts` pour l'ordre chronologique et avoir un suivi des scripts réalisés.
+- **Idempotence** : Le script doit pouvoir s'exécuter plusieurs fois sans effet de bord.
+- **Backup** : Sur la base de prod, penser à réaliser avant exécution du script un backup manuel des données.
