@@ -15,9 +15,11 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
-import { ControlesFormValues } from "@/schemas/forms/base/controles.schema";
-import { EvaluationsFormValues } from "@/schemas/forms/base/evaluation.schema";
-import { finalisationQualiteSchama } from "@/schemas/forms/finalisation/finalisationQualite.schema";
+import {
+  FinalisationQualiteAutoSaveFormValues,
+  finalisationQualiteAutoSaveSchema,
+  finalisationQualiteSchema,
+} from "@/schemas/forms/finalisation/finalisationQualite.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 
@@ -45,9 +47,7 @@ export default function ModificationControleForm() {
     structure,
   });
 
-  const onAutoSave = async (
-    data: ControlesFormValues & EvaluationsFormValues
-  ) => {
+  const onAutoSave = async (data: FinalisationQualiteAutoSaveFormValues) => {
     const controles = data.controles?.map((controle) => {
       return {
         id: controle.id || undefined,
@@ -81,7 +81,7 @@ export default function ModificationControleForm() {
     <div>
       <Tabs currentStep={currentStep} />
       <FormWrapper
-        schema={finalisationQualiteSchama}
+        schema={finalisationQualiteSchema}
         onSubmit={handleValidation}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}
@@ -89,7 +89,10 @@ export default function ModificationControleForm() {
         defaultValues={defaultValues}
         className="rounded-t-none"
       >
-        <AutoSave schema={finalisationQualiteSchama} onSave={onAutoSave} />
+        <AutoSave
+          schema={finalisationQualiteAutoSaveSchema}
+          onSave={onAutoSave}
+        />
         <InformationBar
           variant={
             currentFormStepStatus === StepStatus.VALIDE ? "success" : "complete"

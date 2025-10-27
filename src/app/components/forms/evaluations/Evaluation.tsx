@@ -47,7 +47,7 @@ export const Evaluation = ({
           ? `Evaluation du ${formatDate(currentEvaluation?.date)}`
           : "Nouvelle évaluation"}
       </h3>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-start">
         <div className="w-full">
           <div className="flex pb-6">
             <InputWithValidation
