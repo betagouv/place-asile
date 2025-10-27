@@ -15,9 +15,12 @@ import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { ControleApiType } from "@/schemas/api/controle.schema";
+import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
-  FinalisationQualiteFormValues,
-  finalisationQualiteSchama,
+  FinalisationQualiteAutoSaveFormValues,
+  finalisationQualiteAutoSaveSchema,
+  finalisationQualiteSchema,
 } from "@/schemas/forms/finalisation/finalisationQualite.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
@@ -47,25 +50,30 @@ export default function ModificationControleForm() {
     structure,
   });
 
-  const onAutoSave = async (data: FinalisationQualiteFormValues) => {
-    const controles = data.controles?.map((controle) => {
-      return {
-        id: controle.id || undefined,
-        date: controle.date,
-        type: controle.type,
-        fileUploadKey: controle.fileUploads?.[0].key,
-      };
-    });
+  const onAutoSave = async (data: FinalisationQualiteAutoSaveFormValues) => {
+    const controles: ControleApiType[] | undefined = data.controles?.map(
+      (controle) => {
+        return {
+          id: controle.id || undefined,
+          date: controle.date,
+          type: controle.type,
+          fileUploadKey: controle.fileUploads?.[0].key,
+        };
+      }
+    );
 
-    const evaluations = data.evaluations?.map((evaluation) => {
-      return {
-        ...evaluation,
-        id: evaluation.id || undefined,
-        fileUploads: evaluation.fileUploads?.filter(
-          (fileUpload) => fileUpload.key !== undefined
-        ),
-      };
-    });
+    const evaluations: EvaluationApiType[] | undefined = data.evaluations?.map(
+      (evaluation) => {
+        return {
+          ...evaluation,
+          id: evaluation.id || undefined,
+          fileUploads: evaluation.fileUploads?.filter(
+            (fileUpload) =>
+              fileUpload?.key !== undefined && fileUpload?.id !== undefined
+          ) as { id: number; key: string }[] | undefined,
+        };
+      }
+    );
 
     await handleAutoSave({
       ...data,
@@ -82,7 +90,7 @@ export default function ModificationControleForm() {
     <div>
       <Tabs currentStep={currentStep} />
       <FormWrapper
-        schema={finalisationQualiteSchama}
+        schema={finalisationQualiteSchema}
         onSubmit={handleValidation}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}
@@ -90,7 +98,10 @@ export default function ModificationControleForm() {
         defaultValues={defaultValues}
         className="rounded-t-none"
       >
-        <AutoSave schema={finalisationQualiteSchama} onSave={onAutoSave} />
+        <AutoSave
+          schema={finalisationQualiteAutoSaveSchema}
+          onSave={onAutoSave}
+        />
         <InformationBar
           variant={
             currentFormStepStatus === StepStatus.VALIDE ? "success" : "complete"

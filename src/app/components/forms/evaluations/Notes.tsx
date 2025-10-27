@@ -13,7 +13,7 @@ export const Notes = ({ index, field }: Props): ReactElement => {
       <div>
         <h4 className="font-normal mb-0 text-base">Notes</h4>
         <div className="flex">
-          <div className="flex pr-6 items-end">
+          <div className="flex pr-6 items-start">
             <InputWithValidation
               name={`evaluations.${index}.notePersonne`}
               min={0}
@@ -26,7 +26,7 @@ export const Notes = ({ index, field }: Props): ReactElement => {
             />
             <span className="pl-2 pb-2">/4</span>
           </div>
-          <div className="flex pr-6 items-end">
+          <div className="flex pr-6 items-start">
             <InputWithValidation
               name={`evaluations.${index}.notePro`}
               min={0}
@@ -39,7 +39,7 @@ export const Notes = ({ index, field }: Props): ReactElement => {
             />
             <span className="pl-2 pb-2">/4</span>
           </div>
-          <div className="flex pr-6 items-end">
+          <div className="flex pr-6 items-start">
             <InputWithValidation
               name={`evaluations.${index}.noteStructure`}
               min={0}
@@ -52,7 +52,7 @@ export const Notes = ({ index, field }: Props): ReactElement => {
             />
             <span className="pl-2 pb-2">/4</span>
           </div>
-          <div className="flex items-end">
+          <div className="flex items-start">
             <InputWithValidation
               name={`evaluations.${index}.note`}
               min={0}
