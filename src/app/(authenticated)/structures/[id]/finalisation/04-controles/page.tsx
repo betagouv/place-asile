@@ -15,10 +15,10 @@ import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { ControlesFormValues } from "@/schemas/forms/base/controles.schema";
-import { EvaluationsFormValues } from "@/schemas/forms/base/evaluation.schema";
-import { PlacesEvolutionFormValues } from "@/schemas/forms/base/typePlaces.schema";
-import { finalisationQualiteSchama } from "@/schemas/forms/finalisation/finalisationQualite.schema";
+import {
+  FinalisationQualiteFormValues,
+  finalisationQualiteSchama,
+} from "@/schemas/forms/finalisation/finalisationQualite.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 import { FormKind } from "@/types/global";
@@ -47,11 +47,7 @@ export default function ModificationControleForm() {
     structure,
   });
 
-  const onAutoSave = async (
-    data: ControlesFormValues &
-      EvaluationsFormValues &
-      PlacesEvolutionFormValues
-  ) => {
+  const onAutoSave = async (data: FinalisationQualiteFormValues) => {
     const controles = data.controles?.map((controle) => {
       return {
         id: controle.id || undefined,
@@ -72,10 +68,7 @@ export default function ModificationControleForm() {
     });
 
     await handleAutoSave({
-      placesACreer: data.placesACreer,
-      placesAFermer: data.placesAFermer,
-      echeancePlacesACreer: data.echeancePlacesACreer,
-      echeancePlacesAFermer: data.echeancePlacesAFermer,
+      ...data,
       controles,
       evaluations,
       dnaCode: structure.dnaCode,
