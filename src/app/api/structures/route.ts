@@ -69,7 +69,7 @@ export async function DELETE(request: NextRequest) {
     console.error(error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : String(error) },
-      { status: 400 }
+      { status: 500 }
     );
   }
 }

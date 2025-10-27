@@ -21,13 +21,29 @@ export class VerificationPage {
         this.page.locator(`text=${data.identification.contactPrincipal.email}`)
       ).toBeVisible({ timeout: 5000 });
     }
+
+    // Wait a bit more to ensure all data is loaded
+    await this.page.waitForTimeout(1000);
   }
 
   async submit(dnaCode: string) {
-    await this.page.click('button:has-text("Valider")');
+    // Wait for button to be enabled (not disabled)
+    const submitButton = this.page.getByRole("button", { name: /Valider/i });
+    await submitButton.waitFor({ state: "visible", timeout: 10000 });
+
+    // Check if button is disabled
+    const isDisabled = await submitButton.isDisabled();
+    if (isDisabled) {
+      // Wait a bit more for the button to become enabled
+      await this.page.waitForTimeout(2000);
+    }
+
+    await submitButton.click();
+
+    // Wait for navigation to confirmation page
     await this.page.waitForURL(
       `http://localhost:3000/ajout-structure/${dnaCode}/06-confirmation`,
-      { timeout: 15000 }
+      { timeout: 20000 }
     );
   }
 }

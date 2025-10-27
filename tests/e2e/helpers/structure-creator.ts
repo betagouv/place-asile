@@ -38,18 +38,29 @@ export async function deleteStructureViaApi(
   dnaCode: string,
   silent = false
 ): Promise<void> {
-  const response = await fetch(
-    `http://localhost:3000/api/structures?dnaCode=${dnaCode}`,
-    {
-      method: "DELETE",
-    }
-  );
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/structures?dnaCode=${dnaCode}`,
+      {
+        method: "DELETE",
+      }
+    );
 
-  if (!response.ok) {
+    if (!response.ok) {
+      if (!silent) {
+        const errorText = await response.text();
+        console.warn(
+          `Failed to delete structure ${dnaCode}: ${response.status} ${errorText}`
+        );
+      }
+    } else if (!silent) {
+      console.log(`Successfully deleted structure ${dnaCode}`);
+    }
+  } catch (error) {
+    // Network errors during cleanup are not critical
     if (!silent) {
       console.warn(
-        `Failed to delete structure ${dnaCode}:`,
-        await response.text()
+        `Failed to delete structure ${dnaCode}: ${error instanceof Error ? error.message : String(error)}`
       );
     }
   }
