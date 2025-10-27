@@ -5,12 +5,16 @@ import {
   evaluationsAutoSaveSchema,
   evaluationsSchema,
 } from "../base/evaluation.schema";
+import { placesEvolutionSchema } from "../base/typePlaces.schema";
 
-export const finalisationQualiteSchema = controlesSchema.and(evaluationsSchema);
+export const finalisationQualiteSchema = controlesSchema
+  .and(evaluationsSchema)
+  .and(placesEvolutionSchema);
 
 export const finalisationQualiteAutoSaveSchema = controlesSchema.and(
   evaluationsAutoSaveSchema
-);
+)
+.and(placesEvolutionSchema);
 
 export type FinalisationQualiteFormValues = z.infer<
   typeof finalisationQualiteSchema
