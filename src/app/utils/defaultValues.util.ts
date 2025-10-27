@@ -6,6 +6,7 @@ import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
 import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
 import { budgetsSchemaTypeFormValues } from "@/schemas/forms/base/finance.schema";
+import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 import { Repartition } from "@/types/adresse.type";
 import { PublicType } from "@/types/structure.type";
 
@@ -13,6 +14,7 @@ import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { getBudgetsDefaultValues } from "./budget.util";
 import { buildFileUploadsDefaultValues } from "./buildFileUploadsDefaultValues.util";
 import { getCategoriesToDisplay } from "./categoryToDisplay.util";
+import { getEvaluationsDefaultValues } from "./evaluations.util";
 import {
   createEmptyDefaultValues,
   filterFileUploads,
@@ -41,6 +43,7 @@ export const getDefaultValues = ({
   const defaultValuesFromDb = getDefaultValuesFromDb(filteredFileUploads);
 
   const controles = getControlesDefaultValues(structure.controles);
+  const evaluations = getEvaluationsDefaultValues(structure.evaluations);
 
   return {
     ...structure,
@@ -96,6 +99,7 @@ export const getDefaultValues = ({
       ...createEmptyDefaultValues(categoriesToDisplay, filteredFileUploads),
     ] as FileUploadFormValues[],
     controles,
+    evaluations,
   };
 };
 
@@ -126,6 +130,7 @@ type StructureDefaultValues = Omit<
   | "echeancePlacesAFermer"
   | "fileUploads"
   | "controles"
+  | "evaluations"
   | "budgets"
 > & {
   creationDate: string;
@@ -154,5 +159,6 @@ type StructureDefaultValues = Omit<
   echeancePlacesAFermer?: string;
   fileUploads: FileUploadFormValues[];
   controles: ControleFormValues[];
+  evaluations: EvaluationFormValues[];
   budgets: budgetsSchemaTypeFormValues;
 };

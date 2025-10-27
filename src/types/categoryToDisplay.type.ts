@@ -1,7 +1,7 @@
-import { AgentFileUploadCategory } from "./file-upload.type";
+import { AgentFileUploadCategoryType } from "./file-upload.type";
 
 export type CategoryDisplayRulesType = Record<
-  (typeof AgentFileUploadCategory)[number],
+  AgentFileUploadCategoryType[number],
   {
     categoryShortName: string;
     title: string;
@@ -17,6 +17,7 @@ export type CategoryDisplayRulesType = Record<
 
 export enum AdditionalFieldsType {
   INSPECTION_CONTROLE,
+  EVALUATION,
   DATE_START_END,
   NAME,
 }

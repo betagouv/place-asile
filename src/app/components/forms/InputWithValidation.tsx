@@ -22,6 +22,7 @@ export default function InputWithValidation<
   control,
   type,
   min,
+  max,
   label,
   hintText,
   disabled,
@@ -30,6 +31,7 @@ export default function InputWithValidation<
   state,
   stateRelatedMessage,
   variant,
+  onChange,
 }: InputWithValidationProps<TFieldValues>) {
   const finalControl = control;
 
@@ -95,12 +97,21 @@ export default function InputWithValidation<
     return <></>;
   }
 
+  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (type === "date") {
+      handleDateChange(event);
+    } else {
+      field.onChange(event);
+    }
+    onChange?.(event);
+  };
+
   return variant === "simple" ? (
     <InputSimple
       nativeInputProps={{
         id,
         type,
-        onChange: type === "date" ? handleDateChange : field.onChange,
+        onChange: onInputChange,
         value:
           type === "date"
             ? getHtmlDateValue()
@@ -108,6 +119,7 @@ export default function InputWithValidation<
               ? field.value
               : "",
         min,
+        max,
         onBlur: field.onBlur,
         disabled: disabled,
         step: "any",
@@ -127,10 +139,11 @@ export default function InputWithValidation<
       nativeInputProps={{
         ...field,
         type,
-        onChange: type === "date" ? handleDateChange : field.onChange,
+        onChange: onInputChange,
         value: type === "date" ? getHtmlDateValue() : (field.value ?? ""),
         onBlur: field.onBlur,
         min,
+        max,
         id,
       }}
       label={label}
@@ -150,6 +163,7 @@ type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     id?: string;
     type: string;
     min?: number;
+    max?: number;
     label: string;
     control?: Control<TFieldValues>;
     hintText?: string;
@@ -159,4 +173,5 @@ type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     state?: "default" | "error" | "success";
     stateRelatedMessage?: string;
     variant?: "simple";
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   };

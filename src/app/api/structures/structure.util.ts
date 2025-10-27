@@ -48,7 +48,10 @@ export const convertToStructureType = (
   return typesStructures[structureType.trim()];
 };
 
-export const convertToControleType = (controleType: string): ControleType => {
+export const convertToControleType = (
+  controleType: string | undefined
+): ControleType => {
+  if (!controleType) return ControleType.INOPINE;
   const typesControles: Record<string, ControleType> = {
     Inopiné: ControleType.INOPINE,
     Programmé: ControleType.PROGRAMME,

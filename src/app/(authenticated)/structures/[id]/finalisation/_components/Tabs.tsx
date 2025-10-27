@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import { Tab } from "./Tab";
 
-export const steps: Step[] = [
+const steps: Step[] = [
   {
     title: (
       <>

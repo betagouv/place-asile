@@ -77,14 +77,15 @@ model Controle {
 }
 
 model Evaluation {
-  id               Int       @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  id               Int          @id @default(autoincrement())
+  structure        Structure    @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode String
-  date             DateTime
-  notePersonne     Int
-  notePro          Int
-  noteStructure    Int
-  note             Int
+  date             DateTime?
+  notePersonne     Int?
+  notePro          Int?
+  noteStructure    Int?
+  note             Int?
+  fileUploads      FileUpload[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -203,6 +204,8 @@ model FileUpload {
   endDate            DateTime?
   controle           Controle?           @relation(fields: [controleId], references: [id], onDelete: Cascade)
   controleId         Int?
+  evaluation         Evaluation?         @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
+  evaluationId       Int?
   categoryName       String?
   parentFileUpload   FileUpload?         @relation("FileUploadToFileUpload", fields: [parentFileUploadId], references: [id], onDelete: SetNull)
   parentFileUploadId Int?
@@ -399,6 +402,7 @@ enum FileUploadCategory {
   ARRETE_TARIFICATION
   CPOM
   INSPECTION_CONTROLE
+  EVALUATION
   AUTRE
 
   @@schema("public")

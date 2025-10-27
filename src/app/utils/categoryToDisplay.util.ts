@@ -79,6 +79,16 @@ export const getCategoriesDisplayRules = (
     documentLabel: "Rapport",
     addFileButtonLabel: "Ajouter une inspection-contrôle",
   },
+  EVALUATION: {
+    categoryShortName: "",
+    title: "Evaluations",
+    canAddFile: true,
+    isOptional: true,
+    canAddAvenant: false,
+    additionalFieldsType: AdditionalFieldsType.EVALUATION,
+    documentLabel: "Rapport",
+    addFileButtonLabel: "Ajouter une évaluation",
+  },
   AUTRE: {
     categoryShortName: "autre",
     title: "Autres documents",
