@@ -3,7 +3,7 @@ import { PrismaClient, StructureState } from "@prisma/client";
 
 import { StructureType } from "@/types/structure.type";
 
-import { migrateFormsAndSteps } from "./one-off-scripts/20251020-migrate-forms-and-steps";
+import { createFakeFormDefinition, createFakeFormStepDefinition } from "./seeders/form.seed";
 import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
@@ -15,6 +15,25 @@ const prisma = new PrismaClient();
 export async function seed(): Promise<void> {
   console.log("🗑️ Suppression des données existantes...");
   await wipeTables(prisma);
+
+  // Créer d'abord les FormDefinitions et FormStepDefinitions
+  console.log("📋 Création des FormDefinitions...");
+  const formDefinition = await prisma.formDefinition.create({
+    data: createFakeFormDefinition(),
+  });
+
+  const formStepDefinitions = await prisma.formStepDefinition.createMany({
+    data: Array.from({ length: 6 }, () =>
+      createFakeFormStepDefinition(formDefinition.id)
+    ),
+  });
+
+  const stepDefinitionIds = await prisma.formStepDefinition.findMany({
+    where: { formDefinitionId: formDefinition.id },
+    select: { id: true }
+  });
+
+  console.log(`✅ ${formStepDefinitions.count} FormStepDefinitions créées`);
 
   const operateursToInsert = Array.from({ length: 5 }, (_, index) =>
     createFakeOperateur(index)
@@ -31,6 +50,8 @@ export async function seed(): Promise<void> {
           StructureType.CPH,
         ]),
         state: faker.helpers.enumValue(StructureState),
+        formDefinitionId: formDefinition.id,
+        stepDefinitionIds: stepDefinitionIds.map(stepDefinition => stepDefinition.id),
       });
       console.log(`🏠 Ajout de la structure ${fakeStructure.dnaCode}...`);
       return fakeStructure;
@@ -56,7 +77,6 @@ export async function seed(): Promise<void> {
   }
 
   console.log("🚀 Exécution du script one-off : migrate-forms-and-steps");
-  await migrateFormsAndSteps();
 }
 
 seed();
