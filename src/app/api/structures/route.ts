@@ -5,7 +5,12 @@ import {
   structureUpdateApiSchema,
 } from "@/schemas/api/structure.schema";
 
-import { createOne, findAll, updateOne } from "./structure.repository";
+import {
+  createOne,
+  deleteOne,
+  findAll,
+  updateOne,
+} from "./structure.repository";
 
 export async function GET() {
   const structures = await findAll();
@@ -20,7 +25,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json("Structure créée avec succès", { status: 201 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json(error, { status: 400 });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 400 }
+    );
   }
 }
 
@@ -34,6 +42,34 @@ export async function PUT(request: NextRequest) {
     });
   } catch (error) {
     console.error(error);
-    return NextResponse.json(error, { status: 400 });
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 400 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const dnaCode = searchParams.get("dnaCode");
+
+    if (!dnaCode) {
+      return NextResponse.json(
+        { error: "Le code DNA est requis" },
+        { status: 400 }
+      );
+    }
+
+    await deleteOne(dnaCode);
+    return NextResponse.json("Structure supprimée avec succès", {
+      status: 200,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : String(error) },
+      { status: 400 }
+    );
   }
 }

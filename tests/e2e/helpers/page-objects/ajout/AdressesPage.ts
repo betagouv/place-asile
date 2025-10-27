@@ -22,17 +22,40 @@ export class AdressesPage {
       adresses.adresseAdministrative.searchTerm
     );
 
-    // Wait for autocomplete suggestions
-    await this.page.waitForSelector('[role="option"]', {
-      state: "visible",
-      timeout: 5000,
-    });
+    // Wait for autocomplete suggestions with multiple retries
+    let autocompleteWorked = false;
+    const maxRetries = 3;
 
-    // Click first suggestion
-    await this.page.click('[role="option"]:first-child');
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        await this.page.waitForSelector('[role="option"]', {
+          state: "visible",
+          timeout: 15000, // Increased timeout to 15 seconds
+        });
+        // Click first suggestion
+        await this.page.click('[role="option"]:first-child');
+        autocompleteWorked = true;
+        break;
+      } catch (error) {
+        console.warn(
+          `Address autocomplete attempt ${attempt} failed:`,
+          error instanceof Error ? error.message : String(error)
+        );
+        if (attempt < maxRetries && !this.page.isClosed()) {
+          // Wait longer between retries to avoid rate limiting
+          await this.page.waitForTimeout(3000 * attempt);
+        }
+      }
+    }
+
+    if (!autocompleteWorked) {
+      throw new Error(
+        `Failed to autocomplete address after ${maxRetries} attempts. Address API may be down or rate limiting.`
+      );
+    }
 
     // Wait for address to be populated
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(1000);
 
     // Type de bâti - select dropdown
     await this.page.selectOption(
@@ -61,8 +84,8 @@ export class AdressesPage {
       // Handle multiple addresses (not same address)
       for (const [i, adresse] of adresses.adresses.entries()) {
         if (i > 0) {
-          // Click "Add address" button for additional addresses
-          await this.page.click('button:has-text("Ajouter une adresse")');
+          // Click "Add hébergement" button for additional addresses
+          await this.page.click('button:has-text("Ajouter un hébergement")');
           await this.page.waitForTimeout(300);
         }
 

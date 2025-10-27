@@ -10,7 +10,7 @@ import { TestStructureData } from "./test-data";
 export async function createStructureViaApi(
   testData: TestStructureData
 ): Promise<string> {
-  const apiData = transformTestDataToApiFormat(testData);
+  const apiData = await transformTestDataToApiFormat(testData);
 
   const response = await fetch("http://localhost:3000/api/structures", {
     method: "POST",
@@ -34,7 +34,10 @@ export async function createStructureViaApi(
 /**
  * Deletes a structure via the API endpoint (for cleanup)
  */
-export async function deleteStructureViaApi(dnaCode: string): Promise<void> {
+export async function deleteStructureViaApi(
+  dnaCode: string,
+  silent = false
+): Promise<void> {
   const response = await fetch(
     `http://localhost:3000/api/structures?dnaCode=${dnaCode}`,
     {
@@ -43,10 +46,12 @@ export async function deleteStructureViaApi(dnaCode: string): Promise<void> {
   );
 
   if (!response.ok) {
-    console.warn(
-      `Failed to delete structure ${dnaCode}:`,
-      await response.text()
-    );
+    if (!silent) {
+      console.warn(
+        `Failed to delete structure ${dnaCode}:`,
+        await response.text()
+      );
+    }
   }
 }
 

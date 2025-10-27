@@ -28,10 +28,8 @@ export class IdentificationPage {
     await this.page.click("#suggestion-0");
 
     // Date de création
-    await this.page.fill(
-      'input[name="creationDate"]',
-      identification.creationDate
-    );
+    const simpleDate = identification.creationDate.split("T")[0]; // Convert ISO to YYYY-MM-DD
+    await this.page.fill('input[name="creationDate"]', simpleDate);
 
     // Code FINESS (if required for autorisée structures)
     if (identification.finessCode) {
@@ -61,37 +59,38 @@ export class IdentificationPage {
       await this.page.waitForTimeout(300);
 
       if (identification.debutCpom) {
-        await this.page.fill(
-          'input[name="debutCpom"]',
-          identification.debutCpom
-        );
+        const debutCpomDate = identification.debutCpom.split("T")[0]; // Convert ISO to YYYY-MM-DD
+        await this.page.fill('input[name="debutCpom"]', debutCpomDate);
       }
       if (identification.finCpom) {
-        await this.page.fill('input[name="finCpom"]', identification.finCpom);
+        const finCpomDate = identification.finCpom.split("T")[0]; // Convert ISO to YYYY-MM-DD
+        await this.page.fill('input[name="finCpom"]', finCpomDate);
       }
     }
 
     // Contact Principal
-    await this.page.fill(
-      'input[name="contactPrincipal.prenom"]',
-      identification.contactPrincipal.prenom
-    );
-    await this.page.fill(
-      'input[name="contactPrincipal.nom"]',
-      identification.contactPrincipal.nom
-    );
-    await this.page.fill(
-      'input[name="contactPrincipal.role"]',
-      identification.contactPrincipal.role
-    );
-    await this.page.fill(
-      'input[name="contactPrincipal.email"]',
-      identification.contactPrincipal.email
-    );
-    await this.page.fill(
-      'input[name="contactPrincipal.telephone"]',
-      identification.contactPrincipal.telephone
-    );
+    if (identification.contactPrincipal) {
+      await this.page.fill(
+        'input[name="contactPrincipal.prenom"]',
+        identification.contactPrincipal.prenom
+      );
+      await this.page.fill(
+        'input[name="contactPrincipal.nom"]',
+        identification.contactPrincipal.nom
+      );
+      await this.page.fill(
+        'input[name="contactPrincipal.role"]',
+        identification.contactPrincipal.role
+      );
+      await this.page.fill(
+        'input[name="contactPrincipal.email"]',
+        identification.contactPrincipal.email
+      );
+      await this.page.fill(
+        'input[name="contactPrincipal.telephone"]',
+        identification.contactPrincipal.telephone
+      );
+    }
 
     // Contact Secondaire (if provided)
     if (identification.contactSecondaire) {
@@ -119,30 +118,33 @@ export class IdentificationPage {
 
     // Période d'autorisation (for autorisée structures)
     if (identification.debutPeriodeAutorisation) {
+      const debutPeriodeDate =
+        identification.debutPeriodeAutorisation.split("T")[0]; // Convert ISO to YYYY-MM-DD
       await this.page.fill(
         'input[name="debutPeriodeAutorisation"]',
-        identification.debutPeriodeAutorisation
+        debutPeriodeDate
       );
     }
     if (identification.finPeriodeAutorisation) {
+      const finPeriodeDate =
+        identification.finPeriodeAutorisation.split("T")[0]; // Convert ISO to YYYY-MM-DD
       await this.page.fill(
         'input[name="finPeriodeAutorisation"]',
-        identification.finPeriodeAutorisation
+        finPeriodeDate
       );
     }
 
     // Convention (for subventionnée structures)
     if (identification.debutConvention) {
+      const debutConventionDate = identification.debutConvention.split("T")[0]; // Convert ISO to YYYY-MM-DD
       await this.page.fill(
         'input[name="debutConvention"]',
-        identification.debutConvention
+        debutConventionDate
       );
     }
     if (identification.finConvention) {
-      await this.page.fill(
-        'input[name="finConvention"]',
-        identification.finConvention
-      );
+      const finConventionDate = identification.finConvention.split("T")[0]; // Convert ISO to YYYY-MM-DD
+      await this.page.fill('input[name="finConvention"]', finConventionDate);
     }
   }
 

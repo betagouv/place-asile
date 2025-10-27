@@ -3,15 +3,28 @@ import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 
 export const getCoordinates = async (address: string): Promise<Coordinates> => {
-  const result = await fetch(
-    `https://api-adresse.data.gouv.fr/search/?q=${address}&autocomplete=0&limit=1`
-  );
-  const data = await result.json();
-  const coordinates = data?.features?.[0]?.geometry?.coordinates;
-  return {
-    longitude: coordinates?.[0],
-    latitude: coordinates?.[1],
-  };
+  try {
+    const result = await fetch(
+      `https://api-adresse.data.gouv.fr/search/?q=${address}&autocomplete=0&limit=1`
+    );
+
+    if (!result.ok) {
+      throw new Error(`HTTP ${result.status}: ${result.statusText}`);
+    }
+
+    const data = await result.json();
+    const coordinates = data?.features?.[0]?.geometry?.coordinates;
+    return {
+      longitude: coordinates?.[0],
+      latitude: coordinates?.[1],
+    };
+  } catch (error) {
+    console.warn(`Failed to get coordinates for address: ${address}`, error);
+    return {
+      longitude: undefined,
+      latitude: undefined,
+    };
+  }
 };
 
 export const transformFormAdressesToApiAdresses = (

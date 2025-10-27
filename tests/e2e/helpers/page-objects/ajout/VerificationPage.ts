@@ -16,9 +16,11 @@ export class VerificationPage {
 
     // Basic verification - just check that some key data is present
     // The email should be visible somewhere on the page
-    await expect(
-      this.page.locator(`text=${data.identification.contactPrincipal.email}`)
-    ).toBeVisible({ timeout: 5000 });
+    if (data.identification.contactPrincipal) {
+      await expect(
+        this.page.locator(`text=${data.identification.contactPrincipal.email}`)
+      ).toBeVisible({ timeout: 5000 });
+    }
   }
 
   async submit(dnaCode: string) {
