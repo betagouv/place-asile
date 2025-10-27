@@ -3,8 +3,8 @@
 import { ReactElement } from "react";
 
 import { getRepartition } from "@/app/utils/structure.util";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
-import { Structure } from "../../../../types/structure.type";
 import { Map } from "../../../components/map/Map";
 import { StructureMarker } from "./StructureMarker";
 
@@ -15,7 +15,10 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
         <StructureMarker
           id={structure.id}
           dnaCode={structure.dnaCode}
-          coordinates={structure.coordinates}
+          coordinates={[
+            Number(structure.latitude || 0),
+            Number(structure.longitude || 0),
+          ]}
           operateur={structure.operateur?.name}
           filiale={structure.filiale}
           type={structure.type}
@@ -36,7 +39,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
 };
 
 type Props = {
-  structures: Structure[];
+  structures: StructureApiType[];
 };
 
 export default StructuresMap;

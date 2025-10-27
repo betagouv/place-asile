@@ -4,8 +4,8 @@ import { ReactElement, useMemo } from "react";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { getDocumentIndexes } from "@/app/utils/buildFileUploadsDefaultValues.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/base/documentsFinanciers.schema";
+import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentsFinanciers.schema";
 
 import { FileItem } from "../../../components/FileItem";
 import { Year } from "../../../components/Year";

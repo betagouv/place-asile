@@ -3,9 +3,11 @@ import { Table } from "@codegouvfr/react-dsfr/Table";
 import { ReactElement } from "react";
 
 import styles from "@/app/components/common/Accordion.module.css";
-import { Adresse } from "@/types/adresse.type";
-import { AdresseTypologie } from "@/types/adresse-typologie.type";
-import { StructureTypologie } from "@/types/structure-typologie.type";
+import {
+  AdresseApiType,
+  AdresseTypologieApiType,
+} from "@/schemas/api/adresse.schema";
+import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 
 export const TypePlaceHistory = ({
   adresses,
@@ -24,7 +26,9 @@ export const TypePlaceHistory = ({
   };
 
   const getYearsFromTypologie = (
-    typologies: (AdresseTypologie | undefined)[] | StructureTypologie[]
+    typologies:
+      | (AdresseTypologieApiType | undefined)[]
+      | StructureTypologieApiType[]
   ) => {
     return typologies.map((typologie) =>
       typologie?.date ? new Date(typologie.date).getFullYear() : undefined
@@ -134,8 +138,8 @@ export const TypePlaceHistory = ({
 };
 
 type Props = {
-  adresses: Adresse[];
-  structureTypologies: StructureTypologie[];
+  adresses: AdresseApiType[];
+  structureTypologies: StructureTypologieApiType[];
 };
 
 type AggregatedTypePlaces = Record<

@@ -4,7 +4,7 @@ import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { NumberDisplay } from "@/app/components/common/NumberDisplay";
 import { isNullOrUndefined } from "@/app/utils/common.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { Budget } from "@/types/budget.type";
+import { BudgetApiType } from "@/schemas/api/budget.schema";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { AmountBadge } from "./AmountBadge";
@@ -39,8 +39,8 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
   ];
 
   const computeResultatNet = (
-    totalCharges: number | null,
-    totalProduits: number | null
+    totalCharges: number | null | undefined,
+    totalProduits: number | null | undefined
   ): number => {
     if (!totalCharges || !totalProduits) {
       return 0;
@@ -48,7 +48,7 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
     return totalCharges - totalProduits;
   };
 
-  const isBudgetEmpty = (budget: Budget): boolean => {
+  const isBudgetEmpty = (budget: BudgetApiType): boolean => {
     return (
       isNullOrUndefined(budget.dotationAccordee) &&
       isNullOrUndefined(budget.dotationAccordee) &&

@@ -21,7 +21,7 @@ import {
   basicSchema,
   subventionneeAvecCpomSchema,
   subventionneeSchema,
-} from "@/schemas/base/finance.schema";
+} from "@/schemas/forms/base/finance.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -47,13 +47,8 @@ export default function ModificationFinanceForm() {
     nextRoute: `/structures/${structure.id}`,
   });
 
-  const onSubmit = (data: anyFinanceFormValues) => {
-    data.budgets.forEach((budget) => {
-      if (budget.id === "") {
-        delete budget.id;
-      }
-    });
-    handleSubmit({ ...data, dnaCode: structure.dnaCode });
+  const onSubmit = async (data: anyFinanceFormValues) => {
+    await handleSubmit({ ...data, dnaCode: structure.dnaCode });
   };
 
   const { getFetchState } = useFetchState();

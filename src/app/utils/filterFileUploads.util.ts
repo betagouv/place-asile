@@ -1,7 +1,7 @@
 import { UseFormReturn } from "react-hook-form";
 
-import { FileUploadFormValues } from "@/schemas/base/documents.schema";
-import { FileUploadsFormValues } from "@/schemas/base/documents.schema";
+import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
+import { FileUploadsFormValues } from "@/schemas/forms/base/documents.schema";
 import { CategoryDisplayRulesType } from "@/types/categoryToDisplay.type";
 
 export const filterFileUploads = async (
@@ -52,7 +52,7 @@ export const filterFileUploads = async (
       }
     }, 100);
 
-    return null;
+    return undefined;
   }
 
   return fileUploads;

@@ -1,3 +1,4 @@
+import { StructureApiType } from "@/schemas/api/structure.schema";
 import {
   AdditionalFieldsType,
   CategoryDisplayRulesType,
@@ -6,12 +7,11 @@ import {
   AgentFileUploadCategory,
   AgentFileUploadCategoryType,
 } from "@/types/file-upload.type";
-import { StructureWithLatLng } from "@/types/structure.type";
 
 import { isStructureSubventionnee } from "./structure.util";
 
 export const getCategoriesToDisplay = (
-  structure: StructureWithLatLng
+  structure: StructureApiType
 ): AgentFileUploadCategoryType[number][] =>
   AgentFileUploadCategory.filter((category) => {
     if (category === "CPOM" && !structure.cpom) {
@@ -27,7 +27,7 @@ export const getCategoriesToDisplay = (
   });
 
 export const getCategoriesDisplayRules = (
-  structure: StructureWithLatLng
+  structure: StructureApiType
 ): CategoryDisplayRulesType => ({
   ARRETE_AUTORISATION: {
     categoryShortName: "arrêté",

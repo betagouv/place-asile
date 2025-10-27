@@ -1,23 +1,5 @@
 import z from "zod";
 
-export type FileUpload = {
-  id: number;
-  structureDnaCode?: string;
-  key: string;
-  mimeType: string;
-  fileSize: number;
-  originalName: string;
-  date?: Date;
-  category?: z.infer<typeof zFileUploadCategory>;
-  startDate?: Date;
-  endDate?: Date;
-  categoryName?: string | null;
-  parentFileUploadId?: number | null;
-  childrenFileUploads?: FileUpload[];
-  createdAt?: Date;
-  updatedAt?: Date;
-};
-
 export const AgentFileUploadCategory = [
   "ARRETE_AUTORISATION",
   "CPOM",

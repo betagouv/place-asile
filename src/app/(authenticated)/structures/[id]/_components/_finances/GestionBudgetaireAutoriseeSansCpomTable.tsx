@@ -26,8 +26,8 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
   ];
 
   const computeResultatNetProposeParOperateur = (
-    totalProduitsProposesParOperateur: number | null,
-    totalChargesProposeesParOperateur: number | null
+    totalProduitsProposesParOperateur: number | null | undefined,
+    totalChargesProposeesParOperateur: number | null | undefined
   ): number => {
     if (
       !totalProduitsProposesParOperateur ||
@@ -41,8 +41,8 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
   };
 
   const computeResultatNetRetenuParAutoriteTarifaire = (
-    totalProduits: number | null,
-    totalChargesRetenues: number | null
+    totalProduits: number | null | undefined,
+    totalChargesRetenues: number | null | undefined
   ): number => {
     if (!totalProduits || !totalChargesRetenues) {
       return 0;

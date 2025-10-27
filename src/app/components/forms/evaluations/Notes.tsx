@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 
-import { EvaluationFormValues } from "@/schemas/base/evaluation.schema";
+import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 
 import InputWithValidation from "../InputWithValidation";
 

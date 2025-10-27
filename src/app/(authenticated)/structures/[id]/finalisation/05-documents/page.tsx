@@ -20,7 +20,7 @@ import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormSt
 import {
   FileUploadsAutoSaveFormValues,
   fileUploadsAutoSaveSchema,
-} from "@/schemas/base/documents.schema";
+} from "@/schemas/forms/base/documents.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 

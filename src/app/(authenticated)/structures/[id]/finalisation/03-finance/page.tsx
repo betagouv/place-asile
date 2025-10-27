@@ -27,7 +27,7 @@ import {
   basicSchema,
   subventionneeAvecCpomSchema,
   subventionneeSchema,
-} from "@/schemas/base/finance.schema";
+} from "@/schemas/forms/base/finance.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 
@@ -60,11 +60,7 @@ export default function FinalisationFinance(): ReactElement {
     useAgentFormHandling({ currentStep });
 
   const onAutoSave = async (data: basicAutoSaveFormValues) => {
-    const budgets = data.budgets?.map((budget) => {
-      const { id, ...rest } = budget;
-      return id === "" ? rest : budget;
-    });
-    await handleAutoSave({ ...data, budgets, dnaCode: structure.dnaCode });
+    await handleAutoSave({ ...data, dnaCode: structure.dnaCode });
   };
 
   const { getFetchState } = useFetchState();

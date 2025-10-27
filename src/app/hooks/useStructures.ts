@@ -4,17 +4,17 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
 import { transformAjoutFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { formatDateToIsoString } from "@/app/utils/date.util";
-import { AjoutAdressesFormValues } from "@/schemas/ajout/ajoutAdresses.schema";
-import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
-import { AjoutTypePlacesFormValues } from "@/schemas/ajout/ajoutTypePlaces.schema";
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/base/documentsFinanciers.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
+import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
+import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
+import { AjoutTypePlacesFormValues } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentsFinanciers.schema";
 import { DeepPartial } from "@/types/global";
-import { Structure } from "@/types/structure.type";
 
 dayjs.extend(customParseFormat);
 
 export const useStructures = (): UseStructureResult => {
-  const getStructures = async (): Promise<Structure[]> => {
+  const getStructures = async (): Promise<StructureApiType[]> => {
     const result = await fetch("/api/structures");
     const structures = await result.json();
     return structures;
@@ -60,7 +60,7 @@ export const useStructures = (): UseStructureResult => {
   const updateAndRefreshStructure = async (
     structureId: number,
     structure: unknown,
-    setStructure: (structure: Structure) => void
+    setStructure: (structure: StructureApiType) => void
   ): Promise<string> => {
     const result = await updateStructure(structure);
     if (result === "OK") {
@@ -80,19 +80,19 @@ export const useStructures = (): UseStructureResult => {
 };
 
 type UseStructureResult = {
-  getStructures: () => Promise<Structure[]>;
+  getStructures: () => Promise<StructureApiType[]>;
   addStructure: (values: AjoutFormValues) => Promise<string>;
   updateStructure: (values: unknown) => Promise<string>;
   updateAndRefreshStructure: (
     structureId: number,
     values: unknown,
-    setStructure: (structure: Structure) => void
+    setStructure: (structure: StructureApiType) => void
   ) => Promise<string>;
 };
 
 const transformAjoutFormStructureToApiStructure = (
   values: AjoutFormValues
-): DeepPartial<Structure> => {
+): DeepPartial<StructureApiType> => {
   return {
     dnaCode: values.dnaCode,
     operateur: values.operateur,
@@ -127,13 +127,13 @@ const transformAjoutFormStructureToApiStructure = (
       values.contactPrincipal,
       values.contactSecondaire
     ),
-    typologies: values.typologies?.map((typologie) => ({
+    structureTypologies: values.typologies?.map((typologie) => ({
       ...typologie,
       placesAutorisees: Number(typologie.placesAutorisees),
       pmr: Number(typologie.pmr),
       lgbt: Number(typologie.lgbt),
       fvvTeh: Number(typologie.fvvTeh),
-      date: typologie.date,
+      date: formatDateToIsoString(typologie.date) as string,
     })),
     fileUploads: values.fileUploads?.filter((fileUpload) => fileUpload.key),
   };

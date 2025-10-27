@@ -2,8 +2,8 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import { ReactElement, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-import { formatDateString } from "@/app/utils/date.util";
-import { EvaluationFormValues } from "@/schemas/base/evaluation.schema";
+import { formatDate } from "@/app/utils/date.util";
+import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 
 import InputWithValidation from "../InputWithValidation";
 import UploadWithValidation from "../UploadWithValidation";
@@ -44,7 +44,7 @@ export const Evaluation = ({
     <div>
       <h3 className="text-xl font-bold mb-4 text-title-blue-france">
         {currentEvaluation?.date
-          ? `Evaluation du ${formatDateString(currentEvaluation?.date)}`
+          ? `Evaluation du ${formatDate(currentEvaluation?.date)}`
           : "Nouvelle évaluation"}
       </h3>
       <div className="flex justify-between items-center">

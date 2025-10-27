@@ -3,19 +3,19 @@ import z from "zod";
 import {
   adresseAdministrativeAutoSaveSchema,
   adresseAdministrativeSchema,
-} from "@/schemas/base/adresseAdministrative.schema";
+} from "@/schemas/forms/base/adresseAdministrative.schema";
 import {
   calendrierAutoSaveSchema,
   calendrierSchema,
-} from "@/schemas/base/calendrier.schema";
+} from "@/schemas/forms/base/calendrier.schema";
 import {
   identificationSchemaWithContacts,
   identificationSchemaWithContactsAutoSaveSchema,
-} from "@/schemas/base/identification.schema";
+} from "@/schemas/forms/base/identification.schema";
 import {
   typePlacesAutoSaveSchema,
   typePlacesSchema,
-} from "@/schemas/base/typePlaces.schema";
+} from "@/schemas/forms/base/typePlaces.schema";
 
 export const finalisationIdentificationSchema = identificationSchemaWithContacts
   .and(calendrierSchema)

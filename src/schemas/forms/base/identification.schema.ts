@@ -1,17 +1,18 @@
 import z from "zod";
 
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { contactSchema } from "@/schemas/base/contact.schema";
+import { frenchDateToISO } from "@/app/utils/zodCustomFields";
+import { contactSchema } from "@/schemas/forms/base/contact.schema";
 import { PublicType } from "@/types/structure.type";
 
 import { structureBaseSchema } from "./structure.base.schema";
 
 const baseIdentificationSchema = structureBaseSchema.extend({
   operateur: z.object({
-    id: z.number(),
+    id: z.number().optional(),
     name: z.string(),
   }),
-  creationDate: z.string().min(1),
+  creationDate: frenchDateToISO(),
   finessCode: z.string().optional().or(z.literal("")),
   public: z.nativeEnum(PublicType),
   filiale: z.string().optional(),

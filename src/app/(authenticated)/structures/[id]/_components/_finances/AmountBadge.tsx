@@ -14,5 +14,5 @@ export const AmountBadge = ({ amount }: Props): ReactElement => {
 };
 
 type Props = {
-  amount: number | null;
+  amount: number | null | undefined;
 };

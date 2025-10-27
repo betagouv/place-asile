@@ -1,7 +1,7 @@
 import z from "zod";
 
-import { calendrierSchema } from "@/schemas/base/calendrier.schema";
-import { identificationSchema } from "@/schemas/base/identification.schema";
+import { calendrierSchema } from "@/schemas/forms/base/calendrier.schema";
+import { identificationSchema } from "@/schemas/forms/base/identification.schema";
 
 import { contactSchema } from "../base/contact.schema";
 

@@ -18,14 +18,14 @@ export const ControleTable = (): ReactElement => {
 
   const getControles = () => {
     return structure?.controles?.map((controle) => [
-      new Date(controle.date).toLocaleDateString("fr-FR"),
+      new Date(controle.date ?? "").toLocaleDateString("fr-FR"),
       ControleType[controle.type as unknown as keyof typeof ControleType],
       // TODO : en faire un vrai lien cliquable avec l'attribut download
       <Button
         key={controle.id}
         iconId="fr-icon-eye-line"
         priority="tertiary no outline"
-        onClick={() => openLink(controle.fileUploads[0].key)}
+        onClick={() => openLink(controle.fileUploads?.[0]?.key ?? "")}
       >
         Voir
       </Button>,

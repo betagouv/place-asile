@@ -1,11 +1,11 @@
+import { StructureApiType } from "@/schemas/api/structure.schema";
 import { Repartition } from "@/types/adresse.type";
-import { Structure } from "@/types/structure.type";
 
-export const getCollectiveAddress = (structure: Structure | null) => {
+export const getCollectiveAddress = (structure: StructureApiType | null) => {
   const collectiveAddress =
     structure?.adresses &&
     structure.adresses.length === 1 &&
-    structure.adresses[0].repartition.toUpperCase() ===
+    structure.adresses[0].repartition?.toUpperCase() ===
       Repartition.COLLECTIF.toUpperCase()
       ? structure.adresses[0]
       : null;

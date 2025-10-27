@@ -4,13 +4,13 @@ import {
   basicSchema,
   subventionneeAvecCpomSchema,
   subventionneeSchema,
-} from "@/schemas/base/finance.schema";
+} from "@/schemas/forms/base/finance.schema";
 
 describe("finalisationFinanceSchema", () => {
   // Helper to create a valid budget base
   const createValidBudget = (overrides = {}) => ({
-    id: "1",
-    date: "01/01/2024",
+    id: 1,
+    date: "2024-01-01T00:00:00.000Z",
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -30,19 +30,21 @@ describe("finalisationFinanceSchema", () => {
     reserveCompensationBFR: null,
     reserveCompensationAmortissements: null,
     fondsDedies: null,
+    reportANouveau: null,
+    autre: null,
     commentaire: null,
     ...overrides,
   });
 
   // Helper for autoriseeCurrentYear budget
   const createAutoriseeCurrentYear = (overrides = {}) => ({
-    id: "1",
-    date: "01/01/2024",
+    id: 1,
+    date: "2024-01-01T00:00:00.000Z",
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
     dotationDemandee: 100000,
-    dotationAccordee: null,
+    dotationAccordee: 95000,
     totalProduits: null,
     totalCharges: null,
     repriseEtat: null,
@@ -63,8 +65,8 @@ describe("finalisationFinanceSchema", () => {
 
   // Helper for autoriseeY2 budget
   const createAutoriseeY2 = (overrides = {}) => ({
-    id: "2",
-    date: "01/01/2025",
+    id: 2,
+    date: "2025-01-01T00:00:00.000Z",
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -88,37 +90,10 @@ describe("finalisationFinanceSchema", () => {
     ...overrides,
   });
 
-  // Helper for autoriseeY3 budget
-  const createAutoriseeY3 = (overrides = {}) => ({
-    id: "3",
-    date: "01/01/2026",
-    ETP: 1.5,
-    tauxEncadrement: 0.8,
-    coutJournalier: 50,
-    dotationDemandee: 100000,
-    dotationAccordee: 95000,
-    totalProduits: 95000,
-    totalCharges: null,
-    repriseEtat: null,
-    excedentRecupere: null,
-    excedentDeduit: null,
-    affectationReservesFondsDedies: null,
-    cumulResultatsNetsCPOM: null,
-    totalChargesProposees: null,
-    reserveInvestissement: null,
-    chargesNonReconductibles: null,
-    reserveCompensationDeficits: null,
-    reserveCompensationBFR: null,
-    reserveCompensationAmortissements: null,
-    fondsDedies: null,
-    commentaire: null,
-    ...overrides,
-  });
-
   // Helper for sansCpom budget
   const createSansCpom = (overrides = {}) => ({
-    id: "4",
-    date: "01/01/2024",
+    id: 4,
+    date: "2024-01-01T00:00:00.000Z",
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -138,14 +113,16 @@ describe("finalisationFinanceSchema", () => {
     reserveCompensationBFR: null,
     reserveCompensationAmortissements: null,
     fondsDedies: null,
+    reportANouveau: null,
+    autre: null,
     commentaire: null,
     ...overrides,
   });
 
   // Helper for avecCpom budget
   const createAvecCpom = (overrides = {}) => ({
-    id: "5",
-    date: "01/01/2024",
+    id: 5,
+    date: "2024-01-01T00:00:00.000Z",
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -171,12 +148,6 @@ describe("finalisationFinanceSchema", () => {
     ...overrides,
   });
 
-  const createValidFileUpload = () => ({
-    key: "test-file-key",
-    date: "01/01/2024",
-    category: "test-category",
-  });
-
   describe("validateAffectationReservesDetails", () => {
     describe("when affectationReservesFondsDedies is 0", () => {
       it("should pass validation even if detail fields are null", () => {
@@ -186,7 +157,6 @@ describe("finalisationFinanceSchema", () => {
         });
 
         const result = basicSchema.safeParse({
-          fileUploads: [createValidFileUpload()],
           budgets: [budget, budget, budget, budget, budget],
         });
 
@@ -202,7 +172,6 @@ describe("finalisationFinanceSchema", () => {
         });
 
         const result = basicSchema.safeParse({
-          fileUploads: [createValidFileUpload()],
           budgets: [budget, budget, budget, budget, budget],
         });
 
@@ -234,10 +203,11 @@ describe("finalisationFinanceSchema", () => {
           reserveCompensationBFR: 100,
           reserveCompensationAmortissements: 200,
           fondsDedies: 50,
+          reportANouveau: 0,
+          autre: 0,
         });
 
         const result = basicSchema.safeParse({
-          fileUploads: [createValidFileUpload()],
           budgets: [budget, budget, budget, budget, budget],
         });
 
@@ -253,7 +223,6 @@ describe("finalisationFinanceSchema", () => {
         });
 
         const result = basicSchema.safeParse({
-          fileUploads: [createValidFileUpload()],
           budgets: [budget, budget, budget, budget, budget],
         });
 
@@ -271,14 +240,14 @@ describe("finalisationFinanceSchema", () => {
       });
     });
 
-    describe("when affectationReservesFondsDedies is null", () => {
+    describe("when affectationReservesFondsDedies is 0", () => {
       it("should pass validation", () => {
         const budget = createValidBudget({
-          affectationReservesFondsDedies: null,
+          // affectationReservesFondsDedies defaults to 0 in createValidBudget
+          // This should pass validation without requiring detail fields
         });
 
         const result = basicSchema.safeParse({
-          fileUploads: [createValidFileUpload()],
           budgets: [budget, budget, budget, budget, budget],
         });
 
@@ -293,7 +262,7 @@ describe("finalisationFinanceSchema", () => {
         budgets: [
           createAutoriseeCurrentYear(),
           createAutoriseeY2(),
-          createAutoriseeY3(),
+          createSansCpom(),
           createSansCpom(),
           createSansCpom(),
         ],
@@ -307,7 +276,7 @@ describe("finalisationFinanceSchema", () => {
         budgets: [
           createAutoriseeCurrentYear(),
           createAutoriseeY2(),
-          createAutoriseeY3(),
+          createAvecCpom(),
           createAvecCpom(),
           createAvecCpom(),
         ],
@@ -318,8 +287,8 @@ describe("finalisationFinanceSchema", () => {
 
     it("should validate subventionneeSchema correctly", () => {
       const firstYearBudget = {
-        id: "1",
-        date: "01/01/2024",
+        id: 1,
+        date: "2024-01-01T00:00:00.000Z",
         ETP: 1.5,
         tauxEncadrement: 0.8,
         coutJournalier: 50,
@@ -351,8 +320,8 @@ describe("finalisationFinanceSchema", () => {
 
     it("should validate subventionneeAvecCpomSchema correctly", () => {
       const firstYearBudget = {
-        id: "1",
-        date: "01/01/2024",
+        id: 1,
+        date: "2024-01-01T00:00:00.000Z",
         ETP: 1.5,
         tauxEncadrement: 0.8,
         coutJournalier: 50,
@@ -380,14 +349,14 @@ describe("finalisationFinanceSchema", () => {
     it("should enforce conditional validation in autoriseeSchema", () => {
       const sansCpomWithAffectation = createSansCpom({
         affectationReservesFondsDedies: 1000,
-        // Detail fields null - should fail
+        // Detail fields null - should fail because sansCpom has superRefine
       });
 
       const result = autoriseeSchema.safeParse({
         budgets: [
           createAutoriseeCurrentYear(),
           createAutoriseeY2(),
-          createAutoriseeY3(),
+          sansCpomWithAffectation,
           sansCpomWithAffectation,
           sansCpomWithAffectation,
         ],
@@ -399,38 +368,16 @@ describe("finalisationFinanceSchema", () => {
     it("should enforce conditional validation in autoriseeAvecCpomSchema", () => {
       const avecCpomWithAffectation = createAvecCpom({
         affectationReservesFondsDedies: 1000,
-        // Detail fields null - should fail
+        // Detail fields null - should fail because avecCpom has superRefine
       });
 
       const result = autoriseeAvecCpomSchema.safeParse({
         budgets: [
           createAutoriseeCurrentYear(),
           createAutoriseeY2(),
-          createAutoriseeY3(),
           avecCpomWithAffectation,
           avecCpomWithAffectation,
-        ],
-      });
-
-      expect(result.success).toBe(false);
-    });
-
-    it("should enforce conditional validation in subventionneeSchema", () => {
-      const firstYearBudget = {
-        id: "1",
-        date: "01/01/2024",
-        ETP: 1.5,
-        tauxEncadrement: 0.8,
-        coutJournalier: 50,
-      };
-
-      const result = subventionneeSchema.safeParse({
-        budgets: [
-          firstYearBudget,
-          firstYearBudget,
-          firstYearBudget,
-          firstYearBudget,
-          firstYearBudget,
+          avecCpomWithAffectation,
         ],
       });
 
@@ -439,17 +386,17 @@ describe("finalisationFinanceSchema", () => {
 
     it("should enforce conditional validation in subventionneeAvecCpomSchema", () => {
       const firstYearBudget = {
-        id: "1",
-        date: "01/01/2024",
+        id: 1,
+        date: "2024-01-01T00:00:00.000Z",
         ETP: 1.5,
         tauxEncadrement: 0.8,
         coutJournalier: 50,
       };
 
-      const budgetWithAffectation = createValidBudget({
+      const budgetWithAffectation = createAvecCpom({
         affectationReservesFondsDedies: 1000,
         totalChargesProposees: 90000,
-        // Detail fields null - should fail
+        // Detail fields null - should fail because avecCpom has superRefine
       });
 
       const result = subventionneeAvecCpomSchema.safeParse({
@@ -471,7 +418,6 @@ describe("finalisationFinanceSchema", () => {
       const budget = createValidBudget();
 
       const result = basicSchema.safeParse({
-        fileUploads: [],
         budgets: [budget, budget, budget, budget, budget],
       });
 

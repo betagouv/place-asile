@@ -10,7 +10,7 @@ import {
   getPlacesByCommunes,
   getRepartition,
 } from "@/app/utils/structure.util";
-import { Structure } from "@/types/structure.type";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { RepartitionBadge } from "./RepartitionBadge";
 
@@ -62,7 +62,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
   );
 };
 
-const getCommuneLabel = (structure: Structure) => {
+const getCommuneLabel = (structure: StructureApiType) => {
   const placesByCommune = getPlacesByCommunes(structure.adresses || []);
   const mainCommune = Object.keys(placesByCommune)[0];
   const communesWithoutMainCommune = Object.keys(placesByCommune).filter(
@@ -83,7 +83,7 @@ const getCommuneLabel = (structure: Structure) => {
 };
 
 type Props = {
-  structure: Structure;
+  structure: StructureApiType;
   index: number;
-  handleOpenModal: (structure: Structure) => void;
+  handleOpenModal: (structure: StructureApiType) => void;
 };

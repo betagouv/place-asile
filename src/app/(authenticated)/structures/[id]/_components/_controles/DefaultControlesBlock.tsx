@@ -57,7 +57,7 @@ export const DefaultControlesBlock = (): ReactElement => {
         </ControleAccordion> */}
         <ControleAccordion
           title="Inspections-contrôles"
-          lastVisit={controles[0]?.date}
+          lastVisit={controles[0].date}
         >
           <ControleTable />
         </ControleAccordion>
