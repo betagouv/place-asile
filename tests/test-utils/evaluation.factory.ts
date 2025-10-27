@@ -12,6 +12,7 @@ export const createEvaluation = ({
     notePersonne: 4,
     notePro: 4,
     noteStructure: 4,
+    fileUploads: [],
   };
 };
 

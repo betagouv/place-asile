@@ -2,7 +2,9 @@
 
 import Notice from "@codegouvfr/react-dsfr/Notice";
 
+import { AutoSave } from "@/app/components/forms/AutoSave";
 import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
+import { Evaluations } from "@/app/components/forms/evaluations/Evaluations";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
@@ -13,7 +15,9 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
-import { controlesSchema } from "@/schemas/base/controles.schema";
+import { ControlesFormValues } from "@/schemas/base/controles.schema";
+import { EvaluationsFormValues } from "@/schemas/base/evaluation.schema";
+import { finalisationQualiteSchama } from "@/schemas/finalisation/finalisationQualite.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 
@@ -32,29 +36,43 @@ export default function ModificationControleForm() {
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
-  const { handleValidation, backendError } = useAgentFormHandling({
-    currentStep,
-  });
+  const { handleValidation, handleAutoSave, backendError } =
+    useAgentFormHandling({
+      currentStep,
+    });
 
   const defaultValues = getDefaultValues({
     structure,
   });
 
-  // const onSubmit = async (data: ControlesFormValues) => {
-  //   const controles = data.controles?.map((controle) => {
-  //     return {
-  //       id: controle.id || undefined,
-  //       date: controle.date,
-  //       type: controle.type,
-  //       fileUploadKey: controle.fileUploads?.[0].key,
-  //     };
-  //   });
+  const onAutoSave = async (
+    data: ControlesFormValues & EvaluationsFormValues
+  ) => {
+    const controles = data.controles?.map((controle) => {
+      return {
+        id: controle.id || undefined,
+        date: controle.date,
+        type: controle.type,
+        fileUploadKey: controle.fileUploads?.[0].key,
+      };
+    });
 
-  //   // await handleSubmit({
-  //   //   controles,
-  //   //   dnaCode: structure.dnaCode,
-  //   // });
-  // };
+    const evaluations = data.evaluations?.map((evaluation) => {
+      return {
+        ...evaluation,
+        id: evaluation.id || undefined,
+        fileUploads: evaluation.fileUploads?.filter(
+          (fileUpload) => fileUpload.key !== undefined
+        ),
+      };
+    });
+
+    await handleAutoSave({
+      controles,
+      evaluations,
+      dnaCode: structure.dnaCode,
+    });
+  };
 
   const { getFetchState } = useFetchState();
   const saveState = getFetchState("structure-save");
@@ -63,7 +81,7 @@ export default function ModificationControleForm() {
     <div>
       <Tabs currentStep={currentStep} />
       <FormWrapper
-        schema={controlesSchema}
+        schema={finalisationQualiteSchama}
         onSubmit={handleValidation}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}
@@ -71,6 +89,7 @@ export default function ModificationControleForm() {
         defaultValues={defaultValues}
         className="rounded-t-none"
       >
+        <AutoSave schema={finalisationQualiteSchama} onSave={onAutoSave} />
         <InformationBar
           variant={
             currentFormStepStatus === StepStatus.VALIDE ? "success" : "complete"
@@ -87,6 +106,7 @@ export default function ModificationControleForm() {
           title=""
           description="Les Évaluations et les Évènements Indésirables Graves sont renseignés à partir du DNA. Il y a une erreur ? Contactez-nous."
         />
+        <Evaluations />
         <UploadsByCategory
           category={"INSPECTION_CONTROLE"}
           categoryShortName={

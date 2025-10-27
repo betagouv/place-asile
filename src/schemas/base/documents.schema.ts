@@ -53,4 +53,6 @@ export type FileUploadFormValues = z.infer<typeof fileUploadSchema>;
 
 export type FileUploadsFormValues = z.infer<typeof fileUploadsSchema>;
 
-export type FileUploadsAutoSaveFormValues = z.infer<typeof fileUploadsAutoSaveSchema>;
+export type FileUploadsAutoSaveFormValues = z.infer<
+  typeof fileUploadsAutoSaveSchema
+>;

@@ -137,6 +137,17 @@ export type UpdateControle = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type UpdateEvaluation = {
+  id?: number;
+  date: Date;
+  notePersonne?: number | null;
+  notePro?: number | null;
+  noteStructure?: number | null;
+  note?: number | null;
+  fileUploads?: { key: string }[];
+};
+
 export type UpdateFileUpload = {
   key: string;
   category: string;
@@ -188,6 +199,7 @@ export type UpdateStructure = {
   echeancePlacesAFermer?: Date;
   notes?: string | null;
   controles?: UpdateControle[];
+  evaluations?: UpdateEvaluation[];
   adresses?: UpdateAdresse[];
   contacts?: UpdateContact[];
   typologies?: UpdateStructureTypologie[];
