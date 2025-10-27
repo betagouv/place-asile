@@ -273,7 +273,15 @@ export const subventionneeSchema = z.object({
   ]),
 });
 
-export type budgetSchemaTypeFormValues = z.infer<typeof budgetSchema>;
+type budgetSchemaTypeFormValues = z.infer<typeof budgetSchema>;
+export type budgetsSchemaTypeFormValues = [
+  budgetSchemaTypeFormValues,
+  budgetSchemaTypeFormValues,
+  budgetSchemaTypeFormValues,
+  budgetSchemaTypeFormValues,
+  budgetSchemaTypeFormValues,
+];
+
 export type basicSchemaTypeFormValues = z.infer<typeof basicSchema>;
 export type autoriseeSchemaTypeFormValues = z.infer<typeof autoriseeSchema>;
 export type autoriseeAvecCpomSchemaTypeFormValues = z.infer<
