@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { FormApiType } from "@/schemas/api/form.schema";
+import { StepStatus } from "@/types/form.type";
 
 import { convertToStepStatus } from "./form.util";
 
@@ -86,4 +87,48 @@ const createCompleteFormWithSteps = async (
       );
     }
   });
+};
+
+export const initializeDefaultForms = async (
+  structureCodeDna: string
+): Promise<void> => {
+  await prisma.$transaction(async (tx) => {
+    const formDefinition = await tx.formDefinition.findUnique({
+      where: { slug: "finalisation-v1" },
+      include: { stepsDefinition: true },
+    });
+
+    if (!formDefinition) {
+      throw new Error("FormDefinition with slug finalisation-v1 not found");
+    }
+
+    const formEntity = await tx.form.create({
+      data: {
+        formDefinitionId: formDefinition.id,
+        structureCodeDna: structureCodeDna,
+        status: false
+      },
+    });
+
+    for (const stepDefinition of formDefinition.stepsDefinition) {
+      let status: StepStatus = StepStatus.NON_COMMENCE;
+
+      // Les deux premières étapes sont marquées "À vérifier"
+      if (
+        stepDefinition.slug === "01-identification" ||
+        stepDefinition.slug === "02-documents-financiers"
+      ) {
+        status = StepStatus.A_VERIFIER;
+      }
+
+      await tx.formStep.create({
+        data: {
+          formId: formEntity.id,
+          stepDefinitionId: stepDefinition.id,
+          status: status,
+        },
+      });
+    }
+  }
+  )
 };

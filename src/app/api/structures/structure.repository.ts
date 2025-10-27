@@ -14,7 +14,7 @@ import {
 } from "@/schemas/api/structure.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 
-import { createOrUpdateForms } from "../forms/form.repository";
+import { createOrUpdateForms, initializeDefaultForms } from "../forms/form.repository";
 import {
   convertToControleType,
   convertToPublicType,
@@ -230,6 +230,9 @@ export const createOne = async (
       },
     });
   }
+
+  // Initialiser les forms par défaut pour la nouvelle structure
+  await initializeDefaultForms(structure.dnaCode);
 
   const updatedStructure = await findOne(newStructure.id);
   if (!updatedStructure) {
@@ -618,8 +621,8 @@ export const updateOne = async (
         operateur: {
           connect: operateur
             ? {
-                id: operateur?.id,
-              }
+              id: operateur?.id,
+            }
             : undefined,
         },
       },
