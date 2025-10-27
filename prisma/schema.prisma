@@ -10,11 +10,11 @@ datasource db {
 }
 
 model Departement {
-  id              Int    @id @default(autoincrement())
-  numero          String @unique
-  name            String
-  region          String
-  structuresOfii  StructureOfii[]
+  id             Int             @id @default(autoincrement())
+  numero         String          @unique
+  name           String
+  region         String
+  structuresOfii StructureOfii[]
 
   @@schema("public")
 }
@@ -73,17 +73,35 @@ model Structure {
 }
 
 model StructureOfii {
-  id                            Int                   @id @default(autoincrement())
-  dnaCode                       String                @unique
-  type                          StructureType
-  nom                           String?
-  operateur                     Operateur?            @relation(fields: [operateurId], references: [id])
-  operateurId                   Int?
-  departement                   Departement?          @relation(fields: [departementNumero], references: [numero])
-  departementNumero             String?
+  id                Int           @id @default(autoincrement())
+  dnaCode           String        @unique
+  type              StructureType
+  nom               String?
+  operateur         Operateur?    @relation(fields: [operateurId], references: [id])
+  operateurId       Int?
+  departement       Departement?  @relation(fields: [departementNumero], references: [numero])
+  departementNumero String?
 
   @@schema("public")
+}
 
+model CodeDna {
+  id                       Int         @id @default(autoincrement())
+  dnaCode                  String      @unique
+  creationDate             DateTime
+  adresseAdministrative    String
+  codePostalAdministratif  String
+  communeAdministrative    String
+  departementAdministratif String
+  latitude                 Decimal
+  longitude                Decimal
+  contacts                 Contact[]
+  type                     CodeDnaType @default(SECONDAIRE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
 }
 
 model Controle {
@@ -176,9 +194,10 @@ model Contact {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  CodeDna   CodeDna? @relation(fields: [codeDnaId], references: [id])
+  codeDnaId Int?
 
   @@unique([structureDnaCode, type])
-
   @@schema("public")
 }
 
@@ -273,9 +292,8 @@ model Budget {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  
-  @@unique([structureDnaCode, date])
 
+  @@unique([structureDnaCode, date])
   @@schema("public")
 }
 
@@ -359,7 +377,7 @@ model Referential {
 }
 
 model Operateur {
-  id                Int         @id @default(autoincrement())
+  id                Int             @id @default(autoincrement())
   name              String
   structures        Structure[]
   structuresOfii    StructureOfii[]
@@ -411,6 +429,13 @@ enum ContactType {
   PRINCIPAL
   SECONDAIRE
   AUTRE
+
+  @@schema("public")
+}
+
+enum CodeDnaType {
+  PRINCIPAL
+  SECONDAIRE
 
   @@schema("public")
 }
