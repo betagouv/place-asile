@@ -11,10 +11,9 @@ export const finalisationQualiteSchema = controlesSchema
   .and(evaluationsSchema)
   .and(placesEvolutionSchema);
 
-export const finalisationQualiteAutoSaveSchema = controlesSchema.and(
-  evaluationsAutoSaveSchema
-)
-.and(placesEvolutionSchema);
+export const finalisationQualiteAutoSaveSchema = controlesSchema
+  .and(evaluationsAutoSaveSchema)
+  .and(placesEvolutionSchema);
 
 export type FinalisationQualiteFormValues = z.infer<
   typeof finalisationQualiteSchema
