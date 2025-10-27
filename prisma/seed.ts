@@ -4,7 +4,6 @@ import { PrismaClient, StructureState } from "@prisma/client";
 import { StructureType } from "@/types/structure.type";
 
 import { createFakeFormDefinition, createFakeFormStepDefinition } from "./seeders/form.seed";
-// import { migrateFormsAndSteps } from "../scripts/one-off-scripts/20251020-migrate-forms-and-steps";
 import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
@@ -52,7 +51,7 @@ export async function seed(): Promise<void> {
         ]),
         state: faker.helpers.enumValue(StructureState),
         formDefinitionId: formDefinition.id,
-        stepDefinitionIds: stepDefinitionIds.map(s => s.id),
+        stepDefinitionIds: stepDefinitionIds.map(stepDefinition => stepDefinition.id),
       });
       console.log(`🏠 Ajout de la structure ${fakeStructure.dnaCode}...`);
       return fakeStructure;
@@ -78,7 +77,6 @@ export async function seed(): Promise<void> {
   }
 
   console.log("🚀 Exécution du script one-off : migrate-forms-and-steps");
-  // await migrateFormsAndSteps();
 }
 
 seed();
