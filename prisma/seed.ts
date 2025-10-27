@@ -3,13 +3,13 @@ import { PrismaClient, StructureState } from "@prisma/client";
 
 import { StructureType } from "@/types/structure.type";
 
+import { createDepartements } from "./seeders/departements-seed";
 import { createFakeFormDefinition, createFakeFormStepDefinition } from "./seeders/form.seed";
 import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
 import { createFakeStuctureWithRelations } from "./seeders/structure.seed";
 import { wipeTables } from "./utils/wipe";
-import { createDepartements } from "./seeders/departements-seed";
 
 const prisma = new PrismaClient();
 

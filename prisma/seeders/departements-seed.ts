@@ -1,5 +1,4 @@
-import { Departement, PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { Departement } from "@prisma/client";
 
 const DEPARTEMENTS = [
     {
