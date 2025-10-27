@@ -6,13 +6,13 @@ import { ReactElement, useState } from "react";
 import { MultiLineChart } from "@/app/components/common/MultiLineChart";
 import { computeAverage } from "@/app/utils/common.util";
 import { formatForCharts, getMonthsBetween } from "@/app/utils/date.util";
-import { Activite } from "@/types/activite.type";
+import { ActiviteApiType } from "@/schemas/api/activite.schema";
 
 import { ActivitesDurations } from "./ActivitesDurations";
 import { ActivitesTypes } from "./ActivitesTypes";
 
 const typesActivite: Partial<
-  Record<keyof Activite, { label: string; seuil: number | null }>
+  Record<keyof ActiviteApiType, { label: string; seuil: number | null }>
 > = {
   presencesInduesBPI: { label: "Présences indues BPI", seuil: 3 },
   presencesInduesDeboutees: { label: "Présences indues déboutées", seuil: 4 },
@@ -32,12 +32,12 @@ export const ActivitesHistorique = ({
     getMonthsBetween(debutConvention, finConvention)
   );
   const [typeActivite, setTypeActivite] =
-    useState<keyof Activite>("presencesInduesBPI");
+    useState<keyof ActiviteApiType>("presencesInduesBPI");
 
   const getCurrentActivite = (
-    activites: Activite[],
+    activites: ActiviteApiType[],
     date: dayjs.Dayjs
-  ): Activite | undefined => {
+  ): ActiviteApiType | undefined => {
     return activites.find((activite) => {
       const isSameMonth =
         new Date(activite.date)?.getMonth() === date.get("month");
@@ -58,11 +58,10 @@ export const ActivitesHistorique = ({
   };
 
   const getSeuilRecommande = (): number[] => {
-    const currentActivites: (Activite | undefined)[] = selectedMonths.map(
-      (selectedMonth) => {
+    const currentActivites: (ActiviteApiType | undefined)[] =
+      selectedMonths.map((selectedMonth) => {
         return getCurrentActivite(activites, selectedMonth);
-      }
-    );
+      });
     return currentActivites.map((activite) => {
       const seuilRecommande = typesActivite[typeActivite]?.seuil || 0;
       return (seuilRecommande * (activite?.nbPlaces || 0)) / 100;
@@ -118,7 +117,7 @@ export const ActivitesHistorique = ({
 };
 
 type Props = {
-  activites: Activite[];
-  debutConvention: Date | null;
-  finConvention: Date | null;
+  activites: ActiviteApiType[];
+  debutConvention?: string | null;
+  finConvention?: string | null;
 };

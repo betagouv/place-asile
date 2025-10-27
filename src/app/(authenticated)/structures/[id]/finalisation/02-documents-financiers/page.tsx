@@ -14,7 +14,7 @@ import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormSt
 import {
   DocumentsFinanciersFlexibleFormValues,
   DocumentsFinanciersFlexibleSchema,
-} from "@/schemas/base/documentsFinanciers.schema";
+} from "@/schemas/forms/base/documentsFinanciers.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 

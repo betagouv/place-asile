@@ -9,7 +9,6 @@ import {
   getCurrentPlacesLogementsSociaux,
   getCurrentPlacesQpv,
 } from "@/app/utils/structure.util";
-import { StructureState } from "@/types/structure.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { TypePlaceCharts } from "./TypePlaceCharts";
@@ -27,22 +26,15 @@ export const DefaultTypePlaceBlock = (): ReactElement => {
     echeancePlacesAFermer,
     structureTypologies,
     adresses,
-    state,
   } = structure;
 
   return (
     <Block
       title="Type de places"
       iconClass="fr-icon-map-pin-2-line"
-      onEdit={
-        state === StructureState.FINALISE
-          ? () => {
-              router.push(
-                `/structures/${structure.id}/modification/03-type-places`
-              );
-            }
-          : undefined
-      }
+      onEdit={() => {
+        router.push(`/structures/${structure.id}/modification/03-type-places`);
+      }}
     >
       <div className="flex">
         <div className="pr-4">

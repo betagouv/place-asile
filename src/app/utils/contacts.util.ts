@@ -1,23 +1,24 @@
-import { Contact, ContactType } from "@/types/contact.type";
+import { ContactApiType } from "@/schemas/api/contact.schema";
+import { ContactType } from "@/types/contact.type";
 
 export const transformAgentFormContactsToApiContacts = (
-  contacts: (Partial<Contact> | undefined)[] = []
-): Partial<Contact>[] => {
+  contacts: (Partial<ContactApiType> | undefined)[] = []
+): Partial<ContactApiType>[] => {
   if (contacts.length === 0) {
     return [];
   }
   return contacts
-    .filter((contact): contact is Contact => contact !== undefined)
-    .filter((contact: Contact) =>
+    .filter((contact): contact is ContactApiType => contact !== undefined)
+    .filter((contact: ContactApiType) =>
       Object.values(contact).every((field) => field !== undefined)
     );
 };
 
 export const transformAjoutFormContactsToApiContacts = (
-  contactPrincipal: Partial<Contact> | undefined,
-  contactSecondaire: Partial<Contact> | undefined
-): Partial<Contact>[] => {
-  const contacts: Partial<Contact>[] = [];
+  contactPrincipal: Partial<ContactApiType> | undefined,
+  contactSecondaire: Partial<ContactApiType> | undefined
+): Partial<ContactApiType>[] => {
+  const contacts: Partial<ContactApiType>[] = [];
 
   if (contactPrincipal) {
     contacts.push({ ...contactPrincipal, type: ContactType.PRINCIPAL });

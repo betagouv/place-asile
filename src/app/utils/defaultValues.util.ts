@@ -1,23 +1,19 @@
 import { getRepartition } from "@/app/utils/structure.util";
-import { FormAdresse } from "@/schemas/base/adresse.schema";
-import { ControleFormValues } from "@/schemas/base/controles.schema";
-import { FileUploadFormValues } from "@/schemas/base/documents.schema";
-import { EvaluationFormValues } from "@/schemas/base/evaluation.schema";
+import { ContactApiType } from "@/schemas/api/contact.schema";
+import { StructureApiType } from "@/schemas/api/structure.schema";
+import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
+import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
+import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
+import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
+import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
+import { budgetsSchemaTypeFormValues } from "@/schemas/forms/base/finance.schema";
 import { Repartition } from "@/types/adresse.type";
-import { Budget } from "@/types/budget.type";
-import { Contact } from "@/types/contact.type";
-import { PublicType, StructureWithLatLng } from "@/types/structure.type";
-import { StructureTypologie } from "@/types/structure-typologie.type";
+import { PublicType } from "@/types/structure.type";
 
 import { transformApiAdressesToFormAdresses } from "./adresse.util";
+import { getBudgetsDefaultValues } from "./budget.util";
 import { buildFileUploadsDefaultValues } from "./buildFileUploadsDefaultValues.util";
 import { getCategoriesToDisplay } from "./categoryToDisplay.util";
-import {
-  formatDate,
-  formatDateString,
-  getDateStringToYear,
-  getYearRange,
-} from "./date.util";
 import { getEvaluationsDefaultValues } from "./evaluations.util";
 import {
   createEmptyDefaultValues,
@@ -30,31 +26,12 @@ import { isStructureAutorisee } from "./structure.util";
 export const getDefaultValues = ({
   structure,
 }: {
-  structure: StructureWithLatLng;
+  structure: StructureApiType;
 }): Partial<StructureDefaultValues> => {
   const isAutorisee = isStructureAutorisee(structure.type);
   const repartition = getRepartition(structure);
 
-  const { years } = getYearRange();
-  const budgetsFilteredByYears =
-    structure?.budgets?.filter((budget) =>
-      years.includes(Number(getDateStringToYear(budget.date.toString())))
-    ) || [];
-  const budgets = Array(5)
-    .fill({})
-    .map((_, index) => ({
-      date: formatDateString(years[index].toString()),
-    }))
-    .map((emptyBudget, index) => {
-      if (index < budgetsFilteredByYears.length) {
-        const budget = budgetsFilteredByYears[index];
-        return {
-          ...budget,
-          date: formatDateString(budget.date),
-        };
-      }
-      return emptyBudget;
-    }) as [Budget, Budget, Budget, Budget, Budget];
+  const budgets = getBudgetsDefaultValues(structure?.budgets || []);
 
   const categoriesToDisplay = getCategoriesToDisplay(structure);
 
@@ -72,17 +49,17 @@ export const getDefaultValues = ({
     ...structure,
     nom: structure.nom ?? "",
     operateur: structure.operateur ?? undefined,
-    creationDate: formatDateString(structure.creationDate),
+    creationDate: structure.creationDate ?? "",
     debutPeriodeAutorisation: isAutorisee
-      ? formatDateString(structure.debutPeriodeAutorisation)
+      ? (structure.debutPeriodeAutorisation ?? undefined)
       : undefined,
     finPeriodeAutorisation: isAutorisee
-      ? formatDateString(structure.finPeriodeAutorisation)
+      ? (structure.finPeriodeAutorisation ?? undefined)
       : undefined,
-    debutConvention: formatDateString(structure.debutConvention),
-    finConvention: formatDateString(structure.finConvention),
-    debutCpom: formatDateString(structure.debutCpom),
-    finCpom: formatDateString(structure.finCpom),
+    debutConvention: structure.debutConvention ?? undefined,
+    finConvention: structure.finConvention ?? undefined,
+    debutCpom: structure.debutCpom ?? undefined,
+    finCpom: structure.finCpom ?? undefined,
     finessCode: structure.finessCode || undefined,
     public: structure.public
       ? PublicType[structure.public as string as keyof typeof PublicType]
@@ -113,12 +90,8 @@ export const getDefaultValues = ({
     })),
     placesACreer: structure.placesACreer ?? undefined,
     placesAFermer: structure.placesAFermer ?? undefined,
-    echeancePlacesACreer: structure.echeancePlacesACreer
-      ? formatDate(structure.echeancePlacesACreer)
-      : undefined,
-    echeancePlacesAFermer: structure.echeancePlacesAFermer
-      ? formatDate(structure.echeancePlacesAFermer)
-      : undefined,
+    echeancePlacesACreer: structure.echeancePlacesACreer ?? undefined,
+    echeancePlacesAFermer: structure.echeancePlacesAFermer ?? undefined,
     budgets,
     fileUploads: [
       ...buildFileUploadsDefaultValues({ structure, isAutorisee }),
@@ -131,7 +104,7 @@ export const getDefaultValues = ({
 };
 
 type StructureDefaultValues = Omit<
-  StructureWithLatLng,
+  StructureApiType,
   | "creationDate"
   | "nom"
   | "debutPeriodeAutorisation"
@@ -171,7 +144,7 @@ type StructureDefaultValues = Omit<
   finessCode?: string;
   public?: PublicType;
   filiale?: string;
-  contacts: Contact[];
+  contacts: ContactApiType[];
   adresseAdministrativeComplete: string;
   adresseAdministrative: string;
   codePostalAdministratif: string;
@@ -179,7 +152,7 @@ type StructureDefaultValues = Omit<
   departementAdministratif: string;
   typeBati: Repartition;
   adresses: FormAdresse[];
-  typologies?: StructureTypologie[];
+  typologies?: StructureTypologieApiType[];
   placesACreer?: number;
   placesAFermer?: number;
   echeancePlacesACreer?: string;
@@ -187,5 +160,5 @@ type StructureDefaultValues = Omit<
   fileUploads: FileUploadFormValues[];
   controles: ControleFormValues[];
   evaluations: EvaluationFormValues[];
-  budgets: [Budget, Budget, Budget, Budget, Budget];
+  budgets: budgetsSchemaTypeFormValues;
 };

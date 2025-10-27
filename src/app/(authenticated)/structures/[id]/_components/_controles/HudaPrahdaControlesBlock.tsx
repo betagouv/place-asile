@@ -32,12 +32,12 @@ export const HudaPrahdaControlesBlock = (): ReactElement => {
         />
       </div>
       <div className="pt-3">
-        <ControleAccordion title="Évaluations" lastVisit={evaluations[0]?.date}>
+        <ControleAccordion title="Évaluations" lastVisit={evaluations[0].date}>
           <EvaluationTable evaluations={evaluations} />
         </ControleAccordion>
         <ControleAccordion
           title="Événements indésirables graves"
-          lastVisit={evenementsIndesirablesGraves[0]?.evenementDate}
+          lastVisit={evenementsIndesirablesGraves[0].evenementDate}
         >
           <>
             <EIGTable />

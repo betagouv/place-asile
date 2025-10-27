@@ -8,7 +8,8 @@ import {
   getOperateurLabel,
   getPlacesByCommunes,
 } from "@/app/utils/structure.util";
-import { Adresse, Repartition } from "@/types/adresse.type";
+import { AdresseApiType } from "@/schemas/api/adresse.schema";
+import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
 
 import { singleMarkerIcon } from "../../../components/map/SingleMarker";
@@ -102,15 +103,15 @@ type Props = {
   dnaCode: string;
   coordinates: LatLngTuple;
   operateur: string | null | undefined;
-  filiale: string | null;
+  filiale?: string;
   type: StructureType;
   placesAutorisees: number | undefined;
   repartition: Repartition;
-  nom: string | null;
+  nom?: string;
   commune: string;
   codePostal: string;
   departement: string;
-  adresses: Adresse[];
-  debutConvention: Date | null;
-  finConvention: Date | null;
+  adresses: AdresseApiType[];
+  debutConvention?: string | null;
+  finConvention?: string | null;
 };

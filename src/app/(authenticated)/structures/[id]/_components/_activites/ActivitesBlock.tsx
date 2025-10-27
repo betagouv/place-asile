@@ -53,8 +53,8 @@ export const ActivitesBlock = (): ReactElement => {
       </div>
       <ActivitesHistorique
         activites={activites || []}
-        debutConvention={debutConvention || null}
-        finConvention={finConvention || null}
+        debutConvention={debutConvention}
+        finConvention={finConvention}
       />
     </Block>
   );

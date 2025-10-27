@@ -10,12 +10,12 @@ export const EIGTable = (): ReactElement => {
   const getEvenementsIndesirablesGraves = () => {
     return evenementsIndesirablesGraves?.map((evenementIndesirableGrave) => [
       evenementIndesirableGrave.numeroDossier,
-      new Date(evenementIndesirableGrave.evenementDate).toLocaleDateString(
-        "fr-FR"
-      ),
-      new Date(evenementIndesirableGrave.declarationDate).toLocaleDateString(
-        "fr-FR"
-      ),
+      new Date(
+        evenementIndesirableGrave.evenementDate ?? ""
+      ).toLocaleDateString("fr-FR"),
+      new Date(
+        evenementIndesirableGrave.declarationDate ?? ""
+      ).toLocaleDateString("fr-FR"),
       evenementIndesirableGrave.type,
     ]);
   };

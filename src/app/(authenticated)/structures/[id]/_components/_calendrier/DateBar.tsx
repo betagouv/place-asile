@@ -8,16 +8,16 @@ import { Badge } from "@/app/components/common/Badge";
 export const DateBar = ({ datePair }: Props): ReactElement => {
   /**
    * Calculates the percentage of time elapsed between startDate and endDate as of today.
-   * @param {Date} startDate - The start date of the period.
-   * @param {Date} endDate - The end date of the period.
+   * @param {string} startDate - The start date of the period.
+   * @param {string} endDate - The end date of the period.
    * @returns {number} - The percentage of time elapsed (0 to 100).
    */
   const getElapsedPercentage = ({
     startDate,
     endDate,
   }: {
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
   }): number => {
     const now = dayjs();
     const start = dayjs(startDate);
@@ -77,7 +77,7 @@ type Props = {
 };
 
 export type DatePair = {
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   label: string;
 };

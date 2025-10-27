@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { operateursApiSchema } from "@/schemas/api/operateur.schema";
+
 import { createOne, findBySearchTerm } from "./operateur.repository";
-import { operateurCreationSchema } from "./operateur.schema";
 
 export async function GET(request: NextRequest) {
   const search = request.nextUrl.searchParams.get("search");
@@ -12,7 +13,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const result = operateurCreationSchema.parse(body);
+    const result = operateursApiSchema.parse(body);
     await createOne(result);
     return NextResponse.json("Opérateurs créés avec succès", { status: 201 });
   } catch (error) {

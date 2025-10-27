@@ -19,6 +19,7 @@ import { FormProvider } from "@/app/context/FormContext";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { cn } from "@/app/utils/classname.util";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import { DeepPartial } from "@/types/global";
 
 // Define enum for footer buttons
 export enum FooterButtonType {
@@ -38,7 +39,7 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   onError?: (errors: FieldErrors<z.infer<TSchema>>) => void;
   mode?: "onChange" | "onBlur" | "onSubmit" | "onTouched" | "all";
   className?: string;
-  defaultValues?: Partial<z.infer<TSchema>>;
+  defaultValues?: DeepPartial<z.infer<TSchema>>;
   onFormChange?: (values: z.infer<TSchema>) => void;
   submitButtonText?: string;
   nextRoute?: string;
@@ -56,7 +57,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   onError,
   mode = "onBlur",
   className,
-  defaultValues = {},
+  defaultValues = {} as DeepPartial<z.infer<TSchema>>,
   onFormChange,
   submitButtonText = "Continuer",
   nextRoute,

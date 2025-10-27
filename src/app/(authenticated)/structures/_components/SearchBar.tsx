@@ -1,6 +1,6 @@
 import { ChangeEvent, ReactElement } from "react";
 
-import { Structure } from "@/types/structure.type";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 export const SearchBar = ({
   structures,
@@ -11,8 +11,8 @@ export const SearchBar = ({
     if (searchTerm.length > 0) {
       const filteredStructures = structures.filter((structure) => {
         const communes =
-          structure.adresses?.flatMap((adresse) =>
-            adresse.commune.toLowerCase()
+          structure.adresses?.flatMap(
+            (adresse) => adresse.commune?.toLowerCase() ?? []
           ) || [];
         const matchesDnaCode = structure.dnaCode
           .toLowerCase()
@@ -40,6 +40,6 @@ export const SearchBar = ({
 };
 
 type Props = {
-  structures: Structure[];
-  setFilteredStructures: (filteredStructures: Structure[]) => void;
+  structures: StructureApiType[];
+  setFilteredStructures: (filteredStructures: StructureApiType[]) => void;
 };

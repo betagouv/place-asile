@@ -1,15 +1,22 @@
 import dayjs from "dayjs";
 
-import { Adresse, Repartition } from "@/types/adresse.type";
-import { AdresseTypologie } from "@/types/adresse-typologie.type";
-import { Controle } from "@/types/controle.type";
-import { Evaluation } from "@/types/evaluation.type";
-import { Structure, StructureType } from "@/types/structure.type";
+import {
+  AdresseApiType,
+  AdresseTypologieApiType,
+} from "@/schemas/api/adresse.schema";
+import { ControleApiType } from "@/schemas/api/controle.schema";
+import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
+import {
+  StructureApiType,
+  StructureUpdateApiType,
+} from "@/schemas/api/structure.schema";
+import { Repartition } from "@/types/adresse.type";
+import { StructureType } from "@/types/structure.type";
 
 import { sortKeysByValue } from "./common.util";
 
 export const getPlacesByCommunes = (
-  adresses: Adresse[]
+  adresses: AdresseApiType[]
 ): Record<string, number> => {
   const placesByCommune: Record<string, number> = {};
   for (const adresse of adresses) {
@@ -18,10 +25,10 @@ export const getPlacesByCommunes = (
     );
 
     if (!existingCommune) {
-      placesByCommune[adresse.commune] =
+      placesByCommune[adresse.commune ?? ""] =
         adresse.adresseTypologies?.[0]?.placesAutorisees || 0;
     } else {
-      placesByCommune[adresse.commune] +=
+      placesByCommune[adresse.commune ?? ""] +=
         adresse.adresseTypologies?.[0]?.placesAutorisees || 0;
     }
   }
@@ -29,17 +36,20 @@ export const getPlacesByCommunes = (
   return sortKeysByValue(placesByCommune);
 };
 
-export const getRepartition = (structure: Structure): Repartition => {
+export const getRepartition = (
+  structure: StructureUpdateApiType | StructureApiType
+): Repartition => {
   const repartitions = structure.adresses?.map(
     (adresse) => adresse.repartition
   );
+
   const isDiffus = repartitions?.some(
     (repartition) =>
-      repartition.toUpperCase() === Repartition.DIFFUS.toUpperCase()
+      repartition?.toUpperCase() === Repartition.DIFFUS.toUpperCase()
   );
   const isCollectif = repartitions?.some(
     (repartition) =>
-      repartition.toUpperCase() === Repartition.COLLECTIF.toUpperCase()
+      repartition?.toUpperCase() === Repartition.COLLECTIF.toUpperCase()
   );
   if (isDiffus && isCollectif) {
     return Repartition.MIXTE;
@@ -51,8 +61,8 @@ export const getRepartition = (structure: Structure): Repartition => {
 };
 
 const getCurrentPlacesByProperty = (
-  structure: Structure,
-  accessor: keyof AdresseTypologie
+  structure: StructureApiType,
+  accessor: keyof AdresseTypologieApiType
 ) => {
   const mostRecentYearTypologies = structure.adresses?.map(
     (adresse) => adresse.adresseTypologies?.[0]
@@ -65,19 +75,19 @@ const getCurrentPlacesByProperty = (
   return placesByAccessor || 0;
 };
 
-export const getCurrentPlacesQpv = (structure: Structure): number => {
+export const getCurrentPlacesQpv = (structure: StructureApiType): number => {
   return getCurrentPlacesByProperty(structure, "qpv");
 };
 
 export const getCurrentPlacesLogementsSociaux = (
-  structure: Structure
+  structure: StructureApiType
 ): number => {
   return getCurrentPlacesByProperty(structure, "logementSocial");
 };
 
 export const getLastVisitInMonths = (
-  evaluations: Evaluation[],
-  controles: Controle[]
+  evaluations: EvaluationApiType[],
+  controles: ControleApiType[]
 ): number => {
   let mostRecentVisit = null;
   if (evaluations.length === 0 && controles.length === 0) {
@@ -105,7 +115,7 @@ export const isStructureSubventionnee = (type: string | undefined): boolean => {
 };
 
 export const getOperateurLabel = (
-  filiale: string | null,
+  filiale: string | null | undefined,
   operateur: string | null | undefined
 ): string | null | undefined => {
   return filiale ? `${filiale} (${operateur})` : operateur;

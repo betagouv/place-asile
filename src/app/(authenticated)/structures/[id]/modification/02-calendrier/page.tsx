@@ -9,7 +9,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { calendrierSchema } from "@/schemas/base/calendrier.schema";
+import { calendrierSchema } from "@/schemas/forms/base/calendrier.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { ModificationTitle } from "../components/ModificationTitle";

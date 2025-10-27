@@ -9,11 +9,11 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { getDocumentIndexes } from "@/app/utils/buildFileUploadsDefaultValues.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { AjoutIdentificationFormValues } from "@/schemas/ajout/ajoutIdentification.schema";
+import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import {
   DocumentsFinanciersFlexibleSchema,
   DocumentsFinanciersStrictSchema,
-} from "@/schemas/base/documentsFinanciers.schema";
+} from "@/schemas/forms/base/documentsFinanciers.schema";
 
 import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
 import {

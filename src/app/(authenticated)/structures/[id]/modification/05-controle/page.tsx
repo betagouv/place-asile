@@ -10,10 +10,11 @@ import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { ControleApiType } from "@/schemas/api/controle.schema";
 import {
   ControlesFormValues,
   controlesSchema,
-} from "@/schemas/base/controles.schema";
+} from "@/schemas/forms/base/controles.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
@@ -33,14 +34,19 @@ export default function ModificationControleForm() {
   });
 
   const onSubmit = async (data: ControlesFormValues) => {
-    const controles = data.controles?.map((controle) => {
-      return {
-        id: controle.id || undefined,
-        date: controle.date,
-        type: controle.type,
-        fileUploadKey: controle.fileUploads?.[0].key,
-      };
-    });
+    const controles: ControleApiType[] | undefined = data.controles
+      ?.filter(
+        (controle) =>
+          controle.date && controle.type && controle.fileUploads?.[0]?.key
+      )
+      .map((controle) => {
+        return {
+          id: controle.id || undefined,
+          date: controle.date!,
+          type: controle.type!,
+          fileUploadKey: controle.fileUploads?.[0].key,
+        };
+      });
 
     await handleSubmit({
       controles,

@@ -1,6 +1,6 @@
-import { StructureTypologie } from "@/types/structure-typologie.type";
+import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 
-export const createStructureTypologie = (): StructureTypologie => {
+export const createStructureTypologie = (): StructureTypologieApiType => {
   return {
     id: 1,
     date: new Date("01/01/2023").toISOString(),

@@ -21,6 +21,6 @@ export const ControleAccordion = ({
 
 type Props = {
   title: string;
-  lastVisit: Date;
+  lastVisit?: string;
   children: ReactElement;
 };

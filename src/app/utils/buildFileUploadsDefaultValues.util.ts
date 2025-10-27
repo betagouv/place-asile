@@ -6,7 +6,7 @@ import {
   convertObjectToArray,
   reverseObjectKeyValues,
 } from "@/app/utils/common.util";
-import { Structure } from "@/types/structure.type";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { StructureDocument } from "../(password-protected)/ajout-structure/[dnaCode]/04-documents/documents";
 import { getYearDate, getYearRange } from "./date.util";
@@ -15,7 +15,7 @@ export const buildFileUploadsDefaultValues = ({
   structure,
   isAutorisee,
 }: {
-  structure: Structure;
+  structure: StructureApiType;
   isAutorisee: boolean;
 }) => {
   const { years } = getYearRange();

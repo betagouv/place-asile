@@ -14,12 +14,12 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
+import { transformAgentFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { FormAdresse } from "@/schemas/base/adresse.schema";
 import {
   ModificationDescriptionFormValues,
   modificationDescriptionSchema,
-} from "@/schemas/modification/modificationDescription.schema";
+} from "@/schemas/forms/modification/modificationDescription.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { FormKind } from "@/types/global";
 
@@ -40,9 +40,8 @@ export default function ModificationDescription() {
   const onSubmit = (data: ModificationDescriptionFormValues) => {
     handleSubmit({
       ...data,
-      adresses: transformFormAdressesToApiAdresses(
-        data.adresses as FormAdresse[]
-      ),
+      adresses: transformFormAdressesToApiAdresses(data.adresses),
+      contacts: transformAgentFormContactsToApiContacts(data.contacts),
     });
   };
   return (

@@ -2,13 +2,13 @@
 
 import { createContext, ReactNode, useContext, useState } from "react";
 
-import { StructureWithLatLng } from "@/types/structure.type";
+import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { StructureContextType } from "./StructureContext";
 
 type StructureContextInternalType = {
-  structure: StructureWithLatLng | null;
-  setStructure: (s: StructureWithLatLng | null) => void;
+  structure: StructureApiType | null;
+  setStructure: (s: StructureApiType | null) => void;
 };
 
 const StructureContextInternal = createContext<StructureContextInternalType>({
@@ -21,7 +21,7 @@ export function StructureClientProvider({
   structure: initialStructure,
 }: {
   children: ReactNode;
-  structure: StructureWithLatLng | null;
+  structure: StructureApiType | null;
 }) {
   const [structure, setStructure] = useState(initialStructure);
 
@@ -33,7 +33,7 @@ export function StructureClientProvider({
 }
 
 export function useStructureContext(): StructureContextType & {
-  setStructure: (s: StructureWithLatLng | null) => void;
+  setStructure: (s: StructureApiType | null) => void;
 } {
   const context = useContext(StructureContextInternal);
 

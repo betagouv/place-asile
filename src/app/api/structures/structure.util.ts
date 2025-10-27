@@ -5,23 +5,21 @@ import {
   Repartition,
   StructureType,
 } from "@prisma/client";
-import z from "zod";
-
-import { parseFrDate } from "@/app/utils/date.util";
 
 import {
-  CreateAdresse,
-  CreateAdresseTypologie,
-  UpdateAdresse,
-} from "./structure.types";
+  AdresseApiType,
+  AdresseTypologieApiType,
+} from "@/schemas/api/adresse.schema";
 
-export const convertToRepartition = (repartition: string): Repartition => {
+export const convertToRepartition = (
+  repartition: string | undefined
+): Repartition => {
   const repartitions: Record<string, Repartition> = {
     Diffus: Repartition.DIFFUS,
     Collectif: Repartition.COLLECTIF,
     Mixte: Repartition.MIXTE,
   };
-  return repartitions[repartition.trim()];
+  return repartitions[repartition?.trim() ?? ""];
 };
 
 export const convertToPublicType = (
@@ -50,7 +48,10 @@ export const convertToStructureType = (
   return typesStructures[structureType.trim()];
 };
 
-export const convertToControleType = (controleType: string): ControleType => {
+export const convertToControleType = (
+  controleType: string | undefined
+): ControleType => {
+  if (!controleType) return ControleType.INOPINE;
   const typesControles: Record<string, ControleType> = {
     Inopiné: ControleType.INOPINE,
     Programmé: ControleType.PROGRAMME,
@@ -60,29 +61,26 @@ export const convertToControleType = (controleType: string): ControleType => {
 
 export const handleAdresses = (
   dnaCode: string,
-  adresses: CreateAdresse[] | UpdateAdresse[]
+  adresses: AdresseApiType[]
 ): AdresseInput[] => {
-  return adresses.map((adresse) => ({
-    adresse: adresse.adresse,
-    codePostal: adresse.codePostal,
-    commune: adresse.commune,
-    repartition: convertToRepartition(adresse.repartition),
-    structureDnaCode: dnaCode,
-    adresseTypologies: adresse.adresseTypologies,
-  } as AdresseInput));
+  return adresses.map(
+    (adresse) =>
+      ({
+        adresse: adresse.adresse,
+        codePostal: adresse.codePostal,
+        commune: adresse.commune,
+        repartition: convertToRepartition(adresse.repartition),
+        structureDnaCode: dnaCode,
+        adresseTypologies: adresse.adresseTypologies,
+      }) as AdresseInput
+  );
 };
 
 export type AdresseWithTypologies = Adresse & {
-  adresseTypologies: CreateAdresseTypologie[];
+  adresseTypologies: AdresseTypologieApiType[];
 };
 
 type AdresseInput = Omit<AdresseWithTypologies, "id"> & {
   createdAt?: Date;
   updatedAt?: Date;
 };
-
-export const frDateField = () =>
-  z.preprocess(parseFrDate, z.coerce.date().optional());
-
-export const mandatoryFrDateField = () =>
-  z.preprocess(parseFrDate, z.coerce.date());

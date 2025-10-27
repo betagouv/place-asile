@@ -1,7 +1,7 @@
 import { Tag } from "@codegouvfr/react-dsfr/Tag";
 import { ReactElement } from "react";
 
-import { Activite } from "@/types/activite.type";
+import { ActiviteApiType } from "@/schemas/api/activite.schema";
 
 export const ActivitesTypes = ({
   typeActivite,
@@ -59,6 +59,6 @@ export const ActivitesTypes = ({
 };
 
 type Props = {
-  typeActivite: keyof Activite;
-  setTypeActivite: (typeActivite: keyof Activite) => void;
+  typeActivite: keyof ActiviteApiType;
+  setTypeActivite: (typeActivite: keyof ActiviteApiType) => void;
 };

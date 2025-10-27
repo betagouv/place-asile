@@ -1,13 +1,12 @@
-import { Evaluation } from "@/types/evaluation.type";
+import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 
-export const getEvaluationsDefaultValues = (evaluations: Evaluation[] = []) => {
+export const getEvaluationsDefaultValues = (
+  evaluations: EvaluationApiType[] = []
+) => {
   return evaluations.map((evaluation) => {
     return {
       ...evaluation,
-      date:
-        evaluation.date && evaluation.date instanceof Date
-          ? evaluation.date.toISOString()
-          : evaluation.date || undefined,
+      date: evaluation.date,
     };
   });
 };

@@ -4,7 +4,8 @@ import z from "zod";
 
 import { useFileUpload } from "@/app/hooks/useFileUpload";
 import { getCategoryLabel } from "@/app/utils/file-upload.util";
-import { FileUpload, zFileUploadCategory } from "@/types/file-upload.type";
+import { FileUploadApiType } from "@/schemas/api/fileUpload.schema";
+import { zFileUploadCategory } from "@/types/file-upload.type";
 
 export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
   const { getDownloadLink } = useFileUpload();
@@ -43,13 +44,13 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
         </div>
       </button>
       <div>
-        {getFileType(fileUpload.originalName)} -{" "}
-        {prettyBytes(fileUpload.fileSize)}
+        {getFileType(fileUpload.originalName || "")} -{" "}
+        {prettyBytes(fileUpload.fileSize || 0)}
       </div>
     </div>
   );
 };
 
 type Props = {
-  fileUpload: FileUpload;
+  fileUpload: FileUploadApiType;
 };

@@ -4,8 +4,8 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
-import { ControleFormValues } from "@/schemas/base/controles.schema";
-import { FileUploadFormValues } from "@/schemas/base/documents.schema";
+import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
+import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
 import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
 import { zAgentFileUploadCategory } from "@/types/file-upload.type";
 
