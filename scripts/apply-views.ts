@@ -1,8 +1,7 @@
 import { execSync } from "child_process";
+import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-
-import dotenv from "dotenv";
 dotenv.config();
 
 const scriptsPath = path.join(__dirname, "views");
