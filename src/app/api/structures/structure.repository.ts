@@ -258,7 +258,7 @@ const createOrUpdateContacts = async (
   await Promise.all(
     (contacts || []).map((contact) => {
       return prisma.contact.upsert({
-        where: { id: contact.id },
+        where: { id: contact.id || 0 },
         update: {
           prenom: contact.prenom ?? "",
           nom: contact.nom ?? "",
@@ -379,7 +379,7 @@ const createOrUpdateAdresses = async (
       for (const typologie of adresse.adresseTypologies || []) {
         // Update existing typologie
         await prisma.adresseTypologie.upsert({
-          where: { id: typologie.id },
+          where: { id: typologie.id || 0 },
           update: typologie,
           create: {
             adresseId: adresse.id,
@@ -514,30 +514,25 @@ const createOrUpdateControles = async (
 
   await Promise.all(
     (controles || []).map((controle) => {
-      if (controle.id) {
-        return prisma.controle.update({
-          where: { id: controle.id },
-          data: {
-            type: convertToControleType(controle.type),
-            date: controle.date,
-            fileUploads: {
-              // TODO : refactor to use array of fileUploads instead of fileUploadKey
-              connect: { key: controle.fileUploadKey },
-            },
+      return prisma.controle.upsert({
+        where: { id: controle.id || 0 },
+        update: {
+          type: convertToControleType(controle.type),
+          date: controle.date,
+          fileUploads: {
+            // TODO : refactor to use array of fileUploads instead of fileUploadKey
+            connect: { key: controle.fileUploadKey },
           },
-        });
-      } else {
-        return prisma.controle.create({
-          data: {
-            structureDnaCode,
-            type: convertToControleType(controle.type),
-            date: controle.date,
-            fileUploads: {
-              connect: { key: controle.fileUploadKey },
-            },
+        },
+        create: {
+          structureDnaCode,
+          type: convertToControleType(controle.type),
+          date: controle.date!,
+          fileUploads: {
+            connect: { key: controle.fileUploadKey },
           },
-        });
-      }
+        },
+      });
     })
   );
 };
@@ -555,7 +550,7 @@ const createOrUpdateEvaluations = async (
   await Promise.all(
     (evaluations || []).map((evaluation) => {
       return prisma.evaluation.upsert({
-        where: { id: evaluation.id },
+        where: { id: evaluation.id || 0 },
         update: {
           date: evaluation.date,
           notePersonne: evaluation.notePersonne,
