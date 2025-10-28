@@ -14,13 +14,13 @@ import {
 } from "@/schemas/forms/base/identification.schema";
 import {
   typePlacesAutoSaveSchema,
-  typologieItemWithIdSchema,
+  typePlacesSchema,
 } from "@/schemas/forms/base/typePlaces.schema";
 
 export const finalisationIdentificationSchema = identificationSchemaWithContacts
   .and(calendrierSchema)
   .and(adresseAdministrativeSchema)
-  .and(typologieItemWithIdSchema);
+  .and(typePlacesSchema);
 
 export const finalisationIdentificationAutoSaveSchema =
   identificationSchemaWithContactsAutoSaveSchema
