@@ -514,25 +514,30 @@ const createOrUpdateControles = async (
 
   await Promise.all(
     (controles || []).map((controle) => {
-      return prisma.controle.upsert({
-        where: { id: controle.id },
-        update: {
-          type: convertToControleType(controle.type),
-          date: controle.date,
-          fileUploads: {
-            // TODO : refactor to use array of fileUploads instead of fileUploadKey
-            connect: { key: controle.fileUploadKey },
+      if (controle.id) {
+        return prisma.controle.update({
+          where: { id: controle.id },
+          data: {
+            type: convertToControleType(controle.type),
+            date: controle.date,
+            fileUploads: {
+              // TODO : refactor to use array of fileUploads instead of fileUploadKey
+              connect: { key: controle.fileUploadKey },
+            },
           },
-        },
-        create: {
-          structureDnaCode,
-          type: convertToControleType(controle.type),
-          date: controle.date!,
-          fileUploads: {
-            connect: { key: controle.fileUploadKey },
+        });
+      } else {
+        return prisma.controle.create({
+          data: {
+            structureDnaCode,
+            type: convertToControleType(controle.type),
+            date: controle.date,
+            fileUploads: {
+              connect: { key: controle.fileUploadKey },
+            },
           },
-        },
-      });
+        });
+      }
     })
   );
 };

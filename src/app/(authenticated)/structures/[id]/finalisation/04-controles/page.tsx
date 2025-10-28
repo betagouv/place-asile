@@ -54,7 +54,7 @@ export default function ModificationControleForm() {
     const controles: ControleApiType[] | undefined = data.controles?.map(
       (controle) => {
         return {
-          id: controle.id || undefined,
+          id: controle.id ?? undefined,
           date: controle.date,
           type: controle.type,
           fileUploadKey: controle.fileUploads?.[0].key,
