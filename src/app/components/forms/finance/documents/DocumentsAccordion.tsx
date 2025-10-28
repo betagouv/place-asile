@@ -6,7 +6,7 @@ import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_cont
 import { UploadItem } from "@/app/(password-protected)/ajout-structure/components/UploadItem";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
-import { getDocumentIndexes } from "@/app/utils/buildDocumentsFinanciersDefaultValues.util";
+import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import { getYearRange } from "@/app/utils/date.util";
 import { getYearDate } from "@/app/utils/date.util";
 import {

@@ -13,7 +13,7 @@ import { DocumentFinancierCategoryType } from "@/types/file-upload.type";
 import { StructureDocument } from "../(password-protected)/ajout-structure/[dnaCode]/04-documents/documents";
 import { getYearDate, getYearRange } from "./date.util";
 
-export const buildDocumentsFinanciersDefaultValues = ({
+export const getDocumentsFinanciersDefaultValues = ({
   structure,
   isAutorisee,
 }: {

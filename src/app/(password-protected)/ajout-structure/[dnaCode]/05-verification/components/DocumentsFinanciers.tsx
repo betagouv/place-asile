@@ -2,7 +2,7 @@ import { useParams } from "next/navigation";
 import { ReactElement, useMemo } from "react";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getDocumentIndexes } from "@/app/utils/buildDocumentsFinanciersDefaultValues.util";
+import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";

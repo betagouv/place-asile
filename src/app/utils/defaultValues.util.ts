@@ -14,8 +14,8 @@ import { PublicType } from "@/types/structure.type";
 import { getActesAdministratifsDefaultValues } from "./acteAdministratif.util";
 import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { getBudgetsDefaultValues } from "./budget.util";
-import { buildDocumentsFinanciersDefaultValues } from "./buildDocumentsFinanciersDefaultValues.util";
 import { getControlesDefaultValues } from "./controle.util";
+import { getDocumentsFinanciersDefaultValues } from "./documentFinancier.util";
 import { getEvaluationsDefaultValues } from "./evaluations.util";
 import { isStructureAutorisee } from "./structure.util";
 
@@ -30,6 +30,10 @@ export const getDefaultValues = ({
   const budgets = getBudgetsDefaultValues(structure?.budgets || []);
 
   const actesAdministratifs = getActesAdministratifsDefaultValues(structure);
+  const documentsFinanciers = getDocumentsFinanciersDefaultValues({
+    structure,
+    isAutorisee,
+  });
 
   const controles = getControlesDefaultValues(structure.controles);
   const evaluations = getEvaluationsDefaultValues(structure.evaluations);
@@ -82,9 +86,7 @@ export const getDefaultValues = ({
     echeancePlacesACreer: structure.echeancePlacesACreer ?? undefined,
     echeancePlacesAFermer: structure.echeancePlacesAFermer ?? undefined,
     budgets,
-    documentsFinanciers: [
-      ...buildDocumentsFinanciersDefaultValues({ structure, isAutorisee }),
-    ],
+    documentsFinanciers,
     actesAdministratifs,
     controles,
     evaluations,
