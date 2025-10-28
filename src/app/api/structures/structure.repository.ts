@@ -1,4 +1,9 @@
-import { ContactType, FileUploadCategory, Prisma, Structure } from "@prisma/client";
+import {
+  ContactType,
+  FileUploadCategory,
+  Prisma,
+  Structure,
+} from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
 import prisma from "@/lib/prisma";
@@ -14,7 +19,10 @@ import {
 } from "@/schemas/api/structure.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 
-import { createOrUpdateForms, initializeDefaultForms } from "../forms/form.repository";
+import {
+  createOrUpdateForms,
+  initializeDefaultForms,
+} from "../forms/form.repository";
 import {
   convertToControleType,
   convertToPublicType,
@@ -370,18 +378,17 @@ const createOrUpdateAdresses = async (
       // Update or create typologies
       for (const typologie of adresse.adresseTypologies || []) {
         // Update existing typologie
-        await prisma.adresseTypologie.upsert
-          ({
-            where: { id: typologie.id },
-            update: typologie,
-            create: {
-              adresseId: adresse.id,
-              placesAutorisees: typologie.placesAutorisees,
-              date: typologie.date,
-              qpv: typologie.qpv,
-              logementSocial: typologie.logementSocial,
-            },
-          });
+        await prisma.adresseTypologie.upsert({
+          where: { id: typologie.id },
+          update: typologie,
+          create: {
+            adresseId: adresse.id,
+            placesAutorisees: typologie.placesAutorisees,
+            date: typologie.date,
+            qpv: typologie.qpv,
+            logementSocial: typologie.logementSocial,
+          },
+        });
       }
     }
   }
@@ -605,8 +612,8 @@ export const updateOne = async (
         operateur: {
           connect: operateur
             ? {
-              id: operateur?.id,
-            }
+                id: operateur?.id,
+              }
             : undefined,
         },
       },
@@ -627,4 +634,18 @@ export const updateOne = async (
   }
 
   return updatedStructure;
+};
+
+export const deleteOne = async (dnaCode: string): Promise<void> => {
+  try {
+    await prisma.structure.delete({
+      where: {
+        dnaCode,
+      },
+    });
+  } catch (error) {
+    throw new Error(
+      `Impossible de supprimer la structure avec le code DNA ${dnaCode}: ${error}`
+    );
+  }
 };

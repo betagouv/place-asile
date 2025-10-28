@@ -4,7 +4,7 @@ export class AuthenticationPage {
   constructor(private page: Page) {}
 
   async authenticate(dnaCode: string) {
-    await this.page.goto(`http://localhost:3000/ajout-structure/${dnaCode}`, {
+    await this.page.goto(`${process.env.NEXT_URL}/ajout-structure/${dnaCode}`, {
       waitUntil: "domcontentloaded",
     });
 
@@ -23,7 +23,7 @@ export class AuthenticationPage {
 
       // Wait for the page to load after authentication
       await this.page.waitForURL(
-        `http://localhost:3000/ajout-structure/${dnaCode}`,
+        `${process.env.NEXT_URL}/ajout-structure/${dnaCode}`,
         { timeout: 15000 }
       );
     } else {

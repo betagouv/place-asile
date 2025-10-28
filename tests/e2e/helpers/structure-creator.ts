@@ -10,9 +10,9 @@ import { TestStructureData } from "./test-data";
 export async function createStructureViaApi(
   testData: TestStructureData
 ): Promise<string> {
-  const apiData = transformTestDataToApiFormat(testData);
+  const apiData = await transformTestDataToApiFormat(testData);
 
-  const response = await fetch("http://localhost:3000/api/structures", {
+  const response = await fetch(`${process.env.NEXT_URL}/api/structures`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -34,19 +34,35 @@ export async function createStructureViaApi(
 /**
  * Deletes a structure via the API endpoint (for cleanup)
  */
-export async function deleteStructureViaApi(dnaCode: string): Promise<void> {
-  const response = await fetch(
-    `http://localhost:3000/api/structures?dnaCode=${dnaCode}`,
-    {
-      method: "DELETE",
-    }
-  );
-
-  if (!response.ok) {
-    console.warn(
-      `Failed to delete structure ${dnaCode}:`,
-      await response.text()
+export async function deleteStructureViaApi(
+  dnaCode: string,
+  silent = false
+): Promise<void> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_URL}/api/structures?dnaCode=${dnaCode}`,
+      {
+        method: "DELETE",
+      }
     );
+
+    if (!response.ok) {
+      if (!silent) {
+        const errorText = await response.text();
+        console.warn(
+          `Failed to delete structure ${dnaCode}: ${response.status} ${errorText}`
+        );
+      }
+    } else if (!silent) {
+      console.log(`Successfully deleted structure ${dnaCode}`);
+    }
+  } catch (error) {
+    // Network errors during cleanup are not critical
+    if (!silent) {
+      console.warn(
+        `Failed to delete structure ${dnaCode}: ${error instanceof Error ? error.message : String(error)}`
+      );
+    }
   }
 }
 
@@ -54,7 +70,7 @@ export async function deleteStructureViaApi(dnaCode: string): Promise<void> {
  * Gets a structure's ID from its DNA code
  */
 export async function getStructureId(dnaCode: string): Promise<number> {
-  const response = await fetch("http://localhost:3000/api/structures");
+  const response = await fetch(`${process.env.NEXT_URL}/api/structures`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch structures");

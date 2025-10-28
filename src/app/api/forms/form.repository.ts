@@ -106,7 +106,7 @@ export const initializeDefaultForms = async (
       data: {
         formDefinitionId: formDefinition.id,
         structureCodeDna: structureCodeDna,
-        status: false
+        status: false,
       },
     });
 
@@ -129,6 +129,5 @@ export const initializeDefaultForms = async (
         },
       });
     }
-  }
-  )
+  });
 };

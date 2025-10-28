@@ -3,7 +3,6 @@ import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
 
-import ofii from "../../../../../../public/ofii.webp";
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { ActivitesHistorique } from "./ActivitesHistorique";
 import { ActivitesMotifsIndisponibilite } from "./ActivitesMotifsIndisponibilite";
@@ -25,7 +24,7 @@ export const ActivitesBlock = (): ReactElement => {
         </span>
         <div style={{ position: "relative", width: 40 }}>
           <Image
-            src={ofii}
+            src={"/ofii.webp"}
             alt="Logo de l'OFII"
             fill
             sizes="(min-width: 40px)"
