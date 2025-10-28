@@ -47,7 +47,8 @@ export default function FinalisationIdentification(): ReactElement {
   const onAutoSave = async (
     data: FinalisationIdentificationAutoSaveFormValues
   ) => {
-    await handleAutoSave({ ...data, dnaCode: structure.dnaCode });
+    const contacts = transformAgentFormContactsToApiContacts(data.contacts);
+    await handleAutoSave({ ...data, contacts, dnaCode: structure.dnaCode });
   };
 
   const { getFetchState } = useFetchState();

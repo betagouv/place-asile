@@ -10,7 +10,9 @@ export const controleSchema = z.object({
   id: zSafeDecimalsNullish(),
   date: frenchDateToISO(),
   type: z.nativeEnum(ControleType),
-  fileUploads: z.array(z.object({ key: z.string().optional() })),
+  fileUploads: z
+    .array(z.object({ key: z.string(), id: zSafeDecimalsNullish() }).optional())
+    .optional(),
 });
 
 export const controlesSchema = z.object({
