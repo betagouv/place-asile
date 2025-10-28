@@ -12,16 +12,13 @@ export async function createStructureViaApi(
 ): Promise<string> {
   const apiData = await transformTestDataToApiFormat(testData);
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/structures`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(apiData),
-    }
-  );
+  const response = await fetch(`${process.env.NEXT_URL}/api/structures`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(apiData),
+  });
 
   if (!response.ok) {
     const error = await response.json();
@@ -43,7 +40,7 @@ export async function deleteStructureViaApi(
 ): Promise<void> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/structures?dnaCode=${dnaCode}`,
+      `${process.env.NEXT_URL}/api/structures?dnaCode=${dnaCode}`,
       {
         method: "DELETE",
       }
@@ -73,9 +70,7 @@ export async function deleteStructureViaApi(
  * Gets a structure's ID from its DNA code
  */
 export async function getStructureId(dnaCode: string): Promise<number> {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/structures`
-  );
+  const response = await fetch(`${process.env.NEXT_URL}/api/structures`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch structures");

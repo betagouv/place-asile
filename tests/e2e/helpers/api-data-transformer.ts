@@ -3,9 +3,7 @@ import { TestStructureData } from "./test-data";
 // Helper function to get a valid operateur ID
 async function getValidOperateurId(): Promise<number> {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/structures`
-    );
+    const response = await fetch(`${process.env.NEXT_URL}/api/structures`);
     if (response.ok) {
       const structures = await response.json();
       if (structures.length > 0 && structures[0].operateur) {

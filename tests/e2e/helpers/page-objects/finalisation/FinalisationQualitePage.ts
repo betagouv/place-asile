@@ -13,7 +13,7 @@ export class FinalisationQualitePage {
     // Quality page - skip file upload validation for tests
     // Navigate directly to the next step
     await this.page.goto(
-      `http://${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/06-notes`
+      `${process.env.NEXT_URL}/structures/${structureId}/finalisation/06-notes`
     );
     await this.page.waitForTimeout(1000);
   }

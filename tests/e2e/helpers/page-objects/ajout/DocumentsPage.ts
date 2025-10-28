@@ -24,7 +24,7 @@ export class DocumentsPage {
   async submit(dnaCode: string) {
     await this.page.click('button[type="submit"]');
     await this.page.waitForURL(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/ajout-structure/${dnaCode}/05-verification`,
+      `${process.env.NEXT_URL}/ajout-structure/${dnaCode}/05-verification`,
       { timeout: 10000 }
     );
   }

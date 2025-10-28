@@ -44,7 +44,7 @@ export class FinalisationTypePlacesPage {
   async submit(structureId: number) {
     await this.page.click('button[type="submit"]');
     await this.page.waitForURL(
-      `http://${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/05-qualite`,
+      `${process.env.NEXT_URL}/structures/${structureId}/finalisation/05-qualite`,
       { timeout: 10000 }
     );
   }

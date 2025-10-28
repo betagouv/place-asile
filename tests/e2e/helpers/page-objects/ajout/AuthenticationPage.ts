@@ -4,12 +4,9 @@ export class AuthenticationPage {
   constructor(private page: Page) {}
 
   async authenticate(dnaCode: string) {
-    await this.page.goto(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/ajout-structure/${dnaCode}`,
-      {
-        waitUntil: "domcontentloaded",
-      }
-    );
+    await this.page.goto(`${process.env.NEXT_URL}/ajout-structure/${dnaCode}`, {
+      waitUntil: "domcontentloaded",
+    });
 
     // Check if auth is bypassed (DEV_AUTH_BYPASS=1)
     const passwordInput = await this.page
@@ -26,7 +23,7 @@ export class AuthenticationPage {
 
       // Wait for the page to load after authentication
       await this.page.waitForURL(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/ajout-structure/${dnaCode}`,
+        `${process.env.NEXT_URL}/ajout-structure/${dnaCode}`,
         { timeout: 15000 }
       );
     } else {

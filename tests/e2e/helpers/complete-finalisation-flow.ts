@@ -20,7 +20,7 @@ export async function completeFinalisationFlow(
   const structureId = await getStructureId(testData.dnaCode);
 
   await page.goto(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/01-identification`
+    `${process.env.NEXT_URL}/structures/${structureId}/finalisation/01-identification`
   );
 
   const identificationPage = new FinalisationIdentificationPage(page);
@@ -28,32 +28,32 @@ export async function completeFinalisationFlow(
   await identificationPage.submit();
 
   await page.goto(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/02-documents-financiers`
+    `${process.env.NEXT_URL}/structures/${structureId}/finalisation/02-documents-financiers`
   );
 
   await page.goto(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/03-finance`
+    `${process.env.NEXT_URL}/structures/${structureId}/finalisation/03-finance`
   );
   await page.waitForTimeout(1000);
 
   const controlesTab = page.locator('a[href*="04-controles"]');
   await controlesTab.click();
   await page.waitForURL(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/04-controles`,
+    `${process.env.NEXT_URL}/structures/${structureId}/finalisation/04-controles`,
     { timeout: 10000 }
   );
 
   const documentsTab = page.locator('a[href*="05-documents"]');
   await documentsTab.click();
   await page.waitForURL(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/05-documents`,
+    `${process.env.NEXT_URL}/structures/${structureId}/finalisation/05-documents`,
     { timeout: 10000 }
   );
 
   const notesTab = page.locator('a[href*="06-notes"]');
   await notesTab.click();
   await page.waitForURL(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/06-notes`,
+    `${process.env.NEXT_URL}/structures/${structureId}/finalisation/06-notes`,
     { timeout: 10000 }
   );
 
@@ -63,7 +63,7 @@ export async function completeFinalisationFlow(
   await notesPage.submit();
 
   await page.waitForURL(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/06-notes`,
+    `${process.env.NEXT_URL}/structures/${structureId}/finalisation/06-notes`,
     { timeout: 10000 }
   );
 }

@@ -125,7 +125,7 @@ export class AdressesPage {
   async submit(dnaCode: string) {
     await this.page.click('button[type="submit"]');
     await this.page.waitForURL(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/ajout-structure/${dnaCode}/03-type-places`
+      `${process.env.NEXT_URL}/ajout-structure/${dnaCode}/03-type-places`
     );
   }
 
