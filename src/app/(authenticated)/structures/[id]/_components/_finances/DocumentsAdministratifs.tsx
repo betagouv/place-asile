@@ -4,8 +4,8 @@ import { ReactElement } from "react";
 import { DownloadItem } from "@/app/components/common/DownloadItem";
 import { BudgetApiType } from "@/schemas/api/budget.schema";
 import {
-  OperateurFileUploadCategory,
-  OperateurFileUploadCategoryType,
+  DocumentFinancierCategory,
+  DocumentFinancierCategoryType,
 } from "@/types/file-upload.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
@@ -14,15 +14,17 @@ export const DocumentsAdministratifs = (): ReactElement => {
   const { structure } = useStructureContext();
 
   const getFileUploadsToDisplay = (budget: BudgetApiType) => {
-    return (structure.fileUploads || [])?.filter((fileUpload) => {
-      const isSameYear =
-        new Date(fileUpload.date!).getFullYear() ===
-        new Date(budget.date).getFullYear();
-      const isOperateurCategory = OperateurFileUploadCategory.includes(
-        fileUpload.category as OperateurFileUploadCategoryType[number]
-      );
-      return isSameYear && isOperateurCategory;
-    });
+    return (structure.documentsFinanciers || [])?.filter(
+      (documentFinancier) => {
+        const isSameYear =
+          new Date(documentFinancier.date!).getFullYear() ===
+          new Date(budget.date).getFullYear();
+        const isOperateurCategory = DocumentFinancierCategory.includes(
+          documentFinancier.category as DocumentFinancierCategoryType[number]
+        );
+        return isSameYear && isOperateurCategory;
+      }
+    );
   };
 
   return (

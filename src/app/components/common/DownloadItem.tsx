@@ -4,7 +4,7 @@ import z from "zod";
 
 import { useFileUpload } from "@/app/hooks/useFileUpload";
 import { getCategoryLabel } from "@/app/utils/file-upload.util";
-import { FileUploadApiType } from "@/schemas/api/fileUpload.schema";
+import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
 import { zFileUploadCategory } from "@/types/file-upload.type";
 
 export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
@@ -52,5 +52,5 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
 };
 
 type Props = {
-  fileUpload: FileUploadApiType;
+  fileUpload: ActeAdministratifApiType;
 };

@@ -1,7 +1,7 @@
-import { AgentFileUploadCategoryType } from "./file-upload.type";
+import { ActeAdministratifCategoryType } from "./file-upload.type";
 
 export type CategoryDisplayRulesType = Record<
-  AgentFileUploadCategoryType[number],
+  ActeAdministratifCategoryType[number],
   {
     categoryShortName: string;
     title: string;

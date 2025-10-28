@@ -7,7 +7,7 @@ import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
 
-import { FileUploadField } from "./UploadsByCategory";
+import { ActeAdministratifField } from "./UploadsByCategory";
 
 export const UploadsByCategoryFile = ({
   field,
@@ -21,23 +21,24 @@ export const UploadsByCategoryFile = ({
   const { control, register, watch } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "fileUploads",
+    name: "actesAdministratifs",
   });
 
-  register(`fileUploads.${index}.id`);
-  register(`fileUploads.${index}.parentFileUploadId`);
+  register(`actesAdministratifs.${index}.id`);
+  register(`actesAdministratifs.${index}.parentFileUploadId`);
 
-  const watchFieldName = `fileUploads.${index}.id`;
+  const watchFieldName = `actesAdministratifs.${index}.id`;
   const mainFileId = watch(watchFieldName);
 
   let avenants = fields.filter(
     (field) =>
-      (field as unknown as FileUploadField).parentFileUploadId === mainFileId
+      (field as unknown as ActeAdministratifField).parentFileUploadId ===
+      mainFileId
   );
 
   const getAvenantIndex = (uuid: string) => {
     const index = fields.findIndex(
-      (f) => (f as unknown as FileUploadField).uuid === uuid
+      (f) => (f as unknown as ActeAdministratifField).uuid === uuid
     );
     return index;
   };
@@ -46,7 +47,8 @@ export const UploadsByCategoryFile = ({
     remove(index);
     avenants = fields.filter(
       (field) =>
-        (field as unknown as FileUploadField).parentFileUploadId === mainFileId
+        (field as unknown as ActeAdministratifField).parentFileUploadId ===
+        mainFileId
     );
   };
 
@@ -72,7 +74,7 @@ export const UploadsByCategoryFile = ({
         {additionalFieldsType === AdditionalFieldsType.DATE_START_END && (
           <div className="flex gap-6 items-start h-full">
             <InputWithValidation
-              name={`fileUploads.${index}.startDate`}
+              name={`actesAdministratifs.${index}.startDate`}
               defaultValue={field.startDate}
               control={control}
               label={`Début ${categoryShortName}`}
@@ -81,7 +83,7 @@ export const UploadsByCategoryFile = ({
             />
 
             <InputWithValidation
-              name={`fileUploads.${index}.endDate`}
+              name={`actesAdministratifs.${index}.endDate`}
               control={control}
               label={`Fin ${categoryShortName}`}
               className="w-full mb-0"
@@ -92,7 +94,7 @@ export const UploadsByCategoryFile = ({
         {additionalFieldsType === AdditionalFieldsType.NAME && (
           <div className="flex gap-6 items-start h-full">
             <InputWithValidation
-              name={`fileUploads.${index}.categoryName`}
+              name={`actesAdministratifs.${index}.categoryName`}
               control={control}
               label="Nom du document"
               className="w-full mb-0"
@@ -105,12 +107,12 @@ export const UploadsByCategoryFile = ({
         <div className="flex flex-col">
           <label className="mb-2">{documentLabel}</label>
           <UploadWithValidation
-            name={`fileUploads.${index}.key`}
+            name={`actesAdministratifs.${index}.key`}
             control={control}
           />
           <input
             type="hidden"
-            {...register(`fileUploads.${index}.category`)}
+            {...register(`actesAdministratifs.${index}.category`)}
             defaultValue={field.category}
           />
         </div>
@@ -128,13 +130,13 @@ export const UploadsByCategoryFile = ({
       {canAddAvenant && (
         <div className="flex flex-col mt-4 ml-8 pl-8 border-l-2 border-default-grey">
           {avenants?.map((avenant) => {
-            const typedAvenant = avenant as unknown as FileUploadField;
+            const typedAvenant = avenant as unknown as ActeAdministratifField;
             const avenantIndex = getAvenantIndex(typedAvenant.uuid);
             return (
               <span key={`${typedAvenant.uuid}`}>
                 <div className="flex gap-6 items-start h-full">
                   <InputWithValidation
-                    name={`fileUploads.${avenantIndex}.date`}
+                    name={`actesAdministratifs.${avenantIndex}.date`}
                     control={control}
                     label="Date avenant"
                     className="w-full mb-0"
@@ -143,12 +145,14 @@ export const UploadsByCategoryFile = ({
                   <div className="flex flex-col w-full">
                     <label className="mb-2">{documentLabel}</label>
                     <UploadWithValidation
-                      name={`fileUploads.${avenantIndex}.key`}
+                      name={`actesAdministratifs.${avenantIndex}.key`}
                       control={control}
                     />
                     <input
                       type="hidden"
-                      {...register(`fileUploads.${avenantIndex}.category`)}
+                      {...register(
+                        `actesAdministratifs.${avenantIndex}.category`
+                      )}
                       defaultValue={typedAvenant.category}
                     />
                   </div>
@@ -180,7 +184,7 @@ export const UploadsByCategoryFile = ({
 };
 
 type UploadsByCategoryFileProps = {
-  field: FileUploadField;
+  field: ActeAdministratifField;
   index: number;
   additionalFieldsType: AdditionalFieldsType;
   documentLabel: string;

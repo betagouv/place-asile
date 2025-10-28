@@ -4,6 +4,7 @@ import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
 import { DownloadItem } from "@/app/components/common/DownloadItem";
+import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
@@ -16,37 +17,41 @@ export const ActesAdministratifsBlock = (): ReactElement => {
     {
       label: "Arrêtés d'autorisation",
       // TODO : utiliser l'enum plutôt qu'une string hardcodée
-      fileUploadCategory: "ARRETE_AUTORISATION",
+      category: "ARRETE_AUTORISATION",
       isDisplayed: true,
     },
     {
       label: "CPOM",
-      fileUploadCategory: "CPOM",
+      category: "CPOM",
       isDisplayed: structure.cpom,
     },
     {
       label: "Conventions",
-      fileUploadCategory: "CONVENTION",
+      category: "CONVENTION",
       isDisplayed: true,
     },
     {
       label: "Arrêtés de tarification",
-      fileUploadCategory: "ARRETE_TARIFICATION",
+      category: "ARRETE_TARIFICATION",
       isDisplayed: true,
     },
     {
       label: "Autres documents",
-      fileUploadCategory: "AUTRE",
+      category: "AUTRE",
       isDisplayed: true,
     },
   ];
 
   const getFileUploadsToDisplay = (categorie: {
-    fileUploadCategory: string;
-  }) => {
-    return (structure.fileUploads || [])?.filter(
-      (fileUpload) => fileUpload.category === categorie.fileUploadCategory
-    );
+    category: string;
+  }): ActeAdministratifApiType[] => {
+    return (structure.actesAdministratifs || [])
+      ?.filter(
+        (acteAdministratif) => acteAdministratif.category === categorie.category
+      )
+      .filter(
+        (acteAdministratif) => acteAdministratif.key
+      ) as ActeAdministratifApiType[];
   };
 
   const displayedCategories = categories
@@ -65,7 +70,7 @@ export const ActesAdministratifsBlock = (): ReactElement => {
         <>Aucun document importé</>
       ) : (
         displayedCategories.map((categorie) => (
-          <Accordion label={categorie.label} key={categorie.fileUploadCategory}>
+          <Accordion label={categorie.label} key={categorie.category}>
             <div className="columns-3">
               {getFileUploadsToDisplay(categorie).map((fileUpload) => (
                 <div key={fileUpload.key} className="pb-5">

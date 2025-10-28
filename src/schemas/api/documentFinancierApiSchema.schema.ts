@@ -4,9 +4,9 @@ import {
   frenchDateToISO,
   optionalFrenchDateToISO,
 } from "@/app/utils/zodCustomFields";
-import { zFileUploadCategory } from "@/types/file-upload.type";
+import { zDocumentFinancierCategory } from "@/types/file-upload.type";
 
-export const fileUploadApiSchema = z.object({
+export const documentFinancierApiSchema = z.object({
   id: z.number().optional(),
   structureDnaCode: z.string().optional(),
   key: z.string().min(1, "La clé d'upload du fichier est requise"),
@@ -14,7 +14,7 @@ export const fileUploadApiSchema = z.object({
   fileSize: z.number().optional(),
   originalName: z.string().optional(),
   date: frenchDateToISO(),
-  category: zFileUploadCategory,
+  category: zDocumentFinancierCategory,
   startDate: optionalFrenchDateToISO(),
   endDate: optionalFrenchDateToISO(),
   categoryName: z.string().nullish(),
@@ -22,4 +22,6 @@ export const fileUploadApiSchema = z.object({
   controleId: z.number().nullish(),
 });
 
-export type FileUploadApiType = z.infer<typeof fileUploadApiSchema>;
+export type DocumentFinancierApiType = z.infer<
+  typeof documentFinancierApiSchema
+>;

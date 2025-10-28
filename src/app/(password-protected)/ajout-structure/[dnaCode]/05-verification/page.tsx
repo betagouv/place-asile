@@ -11,7 +11,7 @@ import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { AjoutTypePlacesFormValues } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentsFinanciers.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
 import { Adresses } from "./components/Adresses";
 import { DocumentsFinanciers } from "./components/DocumentsFinanciers";

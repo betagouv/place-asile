@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { ControleType } from "@/types/controle.type";
 
-import { fileUploadApiSchema } from "./fileUpload.schema";
+import { acteAdministratifApiSchema } from "./acteAdministratif.schema";
 
 export const controleApiSchema = z.object({
   id: z.number().optional(),
@@ -10,7 +10,7 @@ export const controleApiSchema = z.object({
   date: z.string().datetime().optional(),
   type: z.nativeEnum(ControleType).optional(),
   fileUploadKey: z.string().optional(),
-  fileUploads: z.array(fileUploadApiSchema).optional(),
+  fileUploads: z.array(acteAdministratifApiSchema).optional(),
 });
 
 export type ControleApiType = z.infer<typeof controleApiSchema>;

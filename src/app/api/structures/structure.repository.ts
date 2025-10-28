@@ -1,20 +1,28 @@
-import { ContactType, FileUploadCategory, Prisma, Structure } from "@prisma/client";
+import {
+  ContactType,
+  FileUploadCategory,
+  Prisma,
+  Structure,
+} from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
 import prisma from "@/lib/prisma";
+import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { BudgetApiType } from "@/schemas/api/budget.schema";
 import { ContactApiType } from "@/schemas/api/contact.schema";
 import { ControleApiType } from "@/schemas/api/controle.schema";
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
-import { FileUploadApiType } from "@/schemas/api/fileUpload.schema";
 import {
   StructureCreationApiType,
   StructureUpdateApiType,
 } from "@/schemas/api/structure.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 
-import { createOrUpdateForms, initializeDefaultForms } from "../forms/form.repository";
+import {
+  createOrUpdateForms,
+  initializeDefaultForms,
+} from "../forms/form.repository";
 import {
   convertToControleType,
   convertToPublicType,
@@ -220,12 +228,12 @@ export const createOne = async (
     });
   }
 
-  for (const fileUpload of structure.fileUploads) {
+  for (const documentFinancier of structure.documentsFinanciers) {
     await prisma.fileUpload.update({
-      where: { key: fileUpload.key },
+      where: { key: documentFinancier.key },
       data: {
-        date: fileUpload.date,
-        category: (fileUpload.category as FileUploadCategory) || null,
+        date: documentFinancier.date,
+        category: (documentFinancier.category as FileUploadCategory) || null,
         structureDnaCode: structure.dnaCode,
       },
     });
@@ -370,18 +378,17 @@ const createOrUpdateAdresses = async (
       // Update or create typologies
       for (const typologie of adresse.adresseTypologies || []) {
         // Update existing typologie
-        await prisma.adresseTypologie.upsert
-          ({
-            where: { id: typologie.id },
-            update: typologie,
-            create: {
-              adresseId: adresse.id,
-              placesAutorisees: typologie.placesAutorisees,
-              date: typologie.date,
-              qpv: typologie.qpv,
-              logementSocial: typologie.logementSocial,
-            },
-          });
+        await prisma.adresseTypologie.upsert({
+          where: { id: typologie.id },
+          update: typologie,
+          create: {
+            adresseId: adresse.id,
+            placesAutorisees: typologie.placesAutorisees,
+            date: typologie.date,
+            qpv: typologie.qpv,
+            logementSocial: typologie.logementSocial,
+          },
+        });
       }
     }
   }
@@ -445,7 +452,7 @@ const deleteEvaluations = async (
 };
 
 const deleteFileUploads = async (
-  fileUploadsToKeep: Partial<FileUploadApiType>[],
+  fileUploadsToKeep: Partial<ActeAdministratifApiType>[],
   structureDnaCode: string
 ): Promise<void> => {
   const allFileUploads = await prisma.fileUpload.findMany({
@@ -467,7 +474,7 @@ const deleteFileUploads = async (
 };
 
 const updateFileUploads = async (
-  fileUploads: Partial<FileUploadApiType>[] | undefined,
+  fileUploads: Partial<ActeAdministratifApiType>[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   if (!fileUploads || fileUploads.length === 0) {
@@ -582,7 +589,8 @@ export const updateOne = async (
       budgets,
       structureTypologies,
       adresses,
-      fileUploads,
+      actesAdministratifs,
+      documentsFinanciers,
       controles,
       evaluations,
       operateur,
@@ -605,8 +613,8 @@ export const updateOne = async (
         operateur: {
           connect: operateur
             ? {
-              id: operateur?.id,
-            }
+                id: operateur?.id,
+              }
             : undefined,
         },
       },
@@ -616,7 +624,8 @@ export const updateOne = async (
     await createOrUpdateBudgets(budgets, structure.dnaCode);
     await updateStructureTypologies(structureTypologies);
     await createOrUpdateAdresses(adresses, structure.dnaCode);
-    await updateFileUploads(fileUploads, structure.dnaCode);
+    await updateFileUploads(actesAdministratifs, structure.dnaCode);
+    await updateFileUploads(documentsFinanciers, structure.dnaCode);
     await createOrUpdateControles(controles, structure.dnaCode);
     await createOrUpdateForms(forms, structure.dnaCode);
     await createOrUpdateEvaluations(evaluations, structure.dnaCode);
@@ -627,4 +636,18 @@ export const updateOne = async (
   }
 
   return updatedStructure;
+};
+
+export const deleteOne = async (dnaCode: string): Promise<void> => {
+  try {
+    await prisma.structure.delete({
+      where: {
+        dnaCode,
+      },
+    });
+  } catch (error) {
+    throw new Error(
+      `Impossible de supprimer la structure avec le code DNA ${dnaCode}: ${error}`
+    );
+  }
 };

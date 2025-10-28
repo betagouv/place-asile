@@ -2,25 +2,21 @@ import { getRepartition } from "@/app/utils/structure.util";
 import { ContactApiType } from "@/schemas/api/contact.schema";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
+import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
-import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
+import { DocumentFinancierFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 import { budgetsSchemaTypeFormValues } from "@/schemas/forms/base/finance.schema";
 import { Repartition } from "@/types/adresse.type";
 import { PublicType } from "@/types/structure.type";
 
+import { getActesAdministratifsDefaultValues } from "./acteAdministratif";
 import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { getBudgetsDefaultValues } from "./budget.util";
-import { buildFileUploadsDefaultValues } from "./buildFileUploadsDefaultValues.util";
-import { getCategoriesToDisplay } from "./categoryToDisplay.util";
+import { buildDocumentsFinanciersDefaultValues } from "./buildDocumentsFinanciersDefaultValues.util";
+import { getControlesDefaultValues } from "./controle.util";
 import { getEvaluationsDefaultValues } from "./evaluations.util";
-import {
-  createEmptyDefaultValues,
-  filterFileUploads,
-  getControlesDefaultValues,
-  getDefaultValuesFromDb,
-} from "./files.util";
 import { isStructureAutorisee } from "./structure.util";
 
 export const getDefaultValues = ({
@@ -33,14 +29,7 @@ export const getDefaultValues = ({
 
   const budgets = getBudgetsDefaultValues(structure?.budgets || []);
 
-  const categoriesToDisplay = getCategoriesToDisplay(structure);
-
-  const filteredFileUploads = filterFileUploads({
-    structure,
-    categoriesToDisplay,
-  });
-
-  const defaultValuesFromDb = getDefaultValuesFromDb(filteredFileUploads);
+  const actesAdministratifs = getActesAdministratifsDefaultValues(structure);
 
   const controles = getControlesDefaultValues(structure.controles);
   const evaluations = getEvaluationsDefaultValues(structure.evaluations);
@@ -93,11 +82,10 @@ export const getDefaultValues = ({
     echeancePlacesACreer: structure.echeancePlacesACreer ?? undefined,
     echeancePlacesAFermer: structure.echeancePlacesAFermer ?? undefined,
     budgets,
-    fileUploads: [
-      ...buildFileUploadsDefaultValues({ structure, isAutorisee }),
-      ...defaultValuesFromDb,
-      ...createEmptyDefaultValues(categoriesToDisplay, filteredFileUploads),
-    ] as FileUploadFormValues[],
+    documentsFinanciers: [
+      ...buildDocumentsFinanciersDefaultValues({ structure, isAutorisee }),
+    ],
+    actesAdministratifs,
     controles,
     evaluations,
   };
@@ -128,7 +116,8 @@ type StructureDefaultValues = Omit<
   | "placesAFermer"
   | "echeancePlacesACreer"
   | "echeancePlacesAFermer"
-  | "fileUploads"
+  | "actesAdministratifs"
+  | "documentsFinanciers"
   | "controles"
   | "evaluations"
   | "budgets"
@@ -157,7 +146,8 @@ type StructureDefaultValues = Omit<
   placesAFermer?: number;
   echeancePlacesACreer?: string;
   echeancePlacesAFermer?: string;
-  fileUploads: FileUploadFormValues[];
+  documentsFinanciers: DocumentFinancierFlexibleFormValues[];
+  actesAdministratifs: ActeAdministratifFormValues[];
   controles: ControleFormValues[];
   evaluations: EvaluationFormValues[];
   budgets: budgetsSchemaTypeFormValues;

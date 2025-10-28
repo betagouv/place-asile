@@ -4,15 +4,15 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
+import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif";
 import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
-import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
 import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
-import { zAgentFileUploadCategory } from "@/types/file-upload.type";
+import { zActeAdministratifCategory } from "@/types/file-upload.type";
 
 import { ControleItem } from "./ControleItem";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
 
-export type FileUploadField = FileUploadFormValues & {
+export type ActeAdministratifField = ActeAdministratifFormValues & {
   id: string;
   uuid: string;
 };
@@ -37,7 +37,7 @@ export default function UploadsByCategory({
   const { control, watch } = useFormContext();
   const { append, remove } = useFieldArray({
     control,
-    name: "fileUploads",
+    name: "actesAdministratifs",
   });
 
   const { append: appendControle, remove: removeControle } = useFieldArray({
@@ -45,20 +45,22 @@ export default function UploadsByCategory({
     name: "controles",
   });
 
-  const fileUploads = watch("fileUploads") || [];
+  const actesAdministratifs = watch("actesAdministratifs") || [];
 
   const controles = watch("controles") || [];
 
-  let filteredFields: FileUploadField[] = [];
+  let filteredFields: ActeAdministratifField[] = [];
 
   const refreshFields = () => {
-    filteredFields = fileUploads.filter((field: FileUploadField) => {
-      return (
-        field.category &&
-        (field.category as string) === category &&
-        !field.parentFileUploadId
-      );
-    });
+    filteredFields = actesAdministratifs.filter(
+      (field: ActeAdministratifField) => {
+        return (
+          field.category &&
+          (field.category as string) === category &&
+          !field.parentFileUploadId
+        );
+      }
+    );
   };
 
   refreshFields();
@@ -95,12 +97,12 @@ export default function UploadsByCategory({
 
   const handleDeleteField = (index: number) => {
     remove(index);
-    const avenants = fileUploads.filter(
-      (field: FileUploadField) =>
-        field.parentFileUploadId === fileUploads[index].id
+    const avenants = actesAdministratifs.filter(
+      (field: ActeAdministratifField) =>
+        field.parentFileUploadId === actesAdministratifs[index].id
     );
 
-    avenants.map((avenant: FileUploadField) => {
+    avenants.map((avenant: ActeAdministratifField) => {
       const index = getItemIndex(avenant.uuid);
       remove(index);
     });
@@ -113,8 +115,8 @@ export default function UploadsByCategory({
   };
 
   const getItemIndex = (uuid: string) => {
-    const index = fileUploads.findIndex(
-      (f: FileUploadField) => f.uuid === uuid
+    const index = actesAdministratifs.findIndex(
+      (f: ActeAdministratifField) => f.uuid === uuid
     );
     return index;
   };
@@ -193,7 +195,7 @@ export default function UploadsByCategory({
 }
 
 type UploadsByCategoryProps = {
-  category: z.infer<typeof zAgentFileUploadCategory>;
+  category: z.infer<typeof zActeAdministratifCategory>;
   categoryShortName: string;
   title: string;
   notice?: string | React.ReactElement;
