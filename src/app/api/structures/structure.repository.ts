@@ -281,25 +281,42 @@ const createOrUpdateContacts = async (
   );
 };
 
+const deleteBudgets = async (
+  budgetsToKeep: Partial<BudgetApiType>[],
+  structureDnaCode: string
+): Promise<void> => {
+  const allBudgets = await prisma.budget.findMany({
+    where: { structureDnaCode: structureDnaCode },
+  });
+
+  const budgetsToDelete = allBudgets.filter(
+    (budget) =>
+      !budgetsToKeep.some((budgetToKeep) => budgetToKeep.id === budget.id)
+  );
+
+  await Promise.all(
+    budgetsToDelete.map((budget) =>
+      prisma.budget.delete({ where: { id: budget.id } })
+    )
+  );
+};
+
 const createOrUpdateBudgets = async (
   budgets: BudgetApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
+  await deleteBudgets(budgets || [], structureDnaCode);
+
   await Promise.all(
     (budgets || []).map((budget) => {
-      if (budget.id) {
-        return prisma.budget.update({
-          where: { id: budget.id },
-          data: budget,
-        });
-      } else {
-        return prisma.budget.create({
-          data: {
-            structureDnaCode,
-            ...budget,
-          },
-        });
-      }
+      return prisma.budget.upsert({
+        where: { id: budget.id || 0 },
+        update: budget,
+        create: {
+          structureDnaCode,
+          ...budget,
+        },
+      });
     })
   );
 };
