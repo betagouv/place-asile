@@ -48,11 +48,7 @@ export default function ModificationFinanceForm() {
   });
 
   const onSubmit = async (data: anyFinanceFormValues) => {
-    const budgets = data.budgets?.map((budget) => {
-      const { id, ...rest } = budget;
-      return id === "" ? rest : budget;
-    });
-    await handleSubmit({ ...data, budgets, dnaCode: structure.dnaCode });
+    await handleSubmit({ ...data, dnaCode: structure.dnaCode });
   };
 
   const { getFetchState } = useFetchState();

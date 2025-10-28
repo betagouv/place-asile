@@ -8,8 +8,9 @@ export const evaluationApiSchema = z.object({
   notePro: z.number().optional(),
   noteStructure: z.number().optional(),
   note: z.number().optional(),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
+  fileUploads: z
+    .array(z.object({ key: z.string(), id: z.number().optional() }))
+    .optional(),
 });
 
 export type EvaluationApiType = z.infer<typeof evaluationApiSchema>;

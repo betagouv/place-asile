@@ -6,6 +6,7 @@ import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { BudgetApiType } from "@/schemas/api/budget.schema";
 import { ContactApiType } from "@/schemas/api/contact.schema";
 import { ControleApiType } from "@/schemas/api/controle.schema";
+import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import { FileUploadApiType } from "@/schemas/api/fileUpload.schema";
 import {
   StructureCreationApiType,
@@ -71,6 +72,9 @@ export const findOne = async (id: number): Promise<Structure> => {
         },
       },
       evaluations: {
+        include: {
+          fileUploads: true,
+        },
         orderBy: {
           date: "desc",
         },
@@ -145,6 +149,7 @@ export const findByDnaCode = async (
           formDefinition: true,
         },
       },
+      fileUploads: true,
     },
   });
 };
@@ -435,6 +440,26 @@ const deleteControles = async (
   );
 };
 
+const deleteEvaluations = async (
+  evaluationsToKeep: EvaluationApiType[],
+  structureDnaCode: string
+): Promise<void> => {
+  const allEvaluations = await prisma.evaluation.findMany({
+    where: { structureDnaCode: structureDnaCode },
+  });
+  const evaluationsToDelete = allEvaluations.filter(
+    (evaluation) =>
+      !evaluationsToKeep.some(
+        (evaluationToKeep) => evaluationToKeep.id === evaluation.id
+      )
+  );
+  await Promise.all(
+    evaluationsToDelete.map((evaluation) =>
+      prisma.evaluation.delete({ where: { id: evaluation.id } })
+    )
+  );
+};
+
 const deleteFileUploads = async (
   fileUploadsToKeep: Partial<FileUploadApiType>[],
   structureDnaCode: string
@@ -504,6 +529,7 @@ const createOrUpdateControles = async (
           type: convertToControleType(controle.type),
           date: controle.date,
           fileUploads: {
+            // TODO : refactor to use array of fileUploads instead of fileUploadKey
             connect: { key: controle.fileUploadKey },
           },
         },
@@ -516,6 +542,50 @@ const createOrUpdateControles = async (
           },
         },
       });
+    })
+  );
+};
+
+const createOrUpdateEvaluations = async (
+  evaluations: EvaluationApiType[] | undefined,
+  structureDnaCode: string
+): Promise<void> => {
+  if (!evaluations || evaluations.length === 0) {
+    return;
+  }
+
+  deleteEvaluations(evaluations, structureDnaCode);
+  await Promise.all(
+    (evaluations || []).map((evaluation) => {
+      if (evaluation.id) {
+        return prisma.evaluation.update({
+          where: { id: evaluation.id },
+          data: {
+            date: evaluation.date,
+            notePersonne: evaluation.notePersonne,
+            notePro: evaluation.notePro,
+            noteStructure: evaluation.noteStructure,
+            note: evaluation.note,
+            fileUploads: {
+              connect: evaluation.fileUploads,
+            },
+          },
+        });
+      } else {
+        return prisma.evaluation.create({
+          data: {
+            structureDnaCode,
+            date: evaluation.date,
+            notePersonne: evaluation.notePersonne,
+            notePro: evaluation.notePro,
+            noteStructure: evaluation.noteStructure,
+            note: evaluation.note,
+            fileUploads: {
+              connect: evaluation.fileUploads,
+            },
+          },
+        });
+      }
     })
   );
 };
@@ -534,10 +604,9 @@ export const updateOne = async (
       adresses,
       fileUploads,
       controles,
+      evaluations,
       operateur,
       forms,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      evaluations,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       evenementsIndesirablesGraves,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars,
@@ -570,6 +639,7 @@ export const updateOne = async (
     await updateFileUploads(fileUploads, structure.dnaCode);
     await createOrUpdateControles(controles, structure.dnaCode);
     await createOrUpdateForms(forms, structure.dnaCode);
+    await createOrUpdateEvaluations(evaluations, structure.dnaCode);
   } catch (error) {
     throw new Error(
       `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}: ${error}`

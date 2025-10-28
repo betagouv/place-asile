@@ -6,6 +6,7 @@ export const AgentFileUploadCategory = [
   "CONVENTION",
   "ARRETE_TARIFICATION",
   "INSPECTION_CONTROLE",
+  "EVALUATION",
   "AUTRE",
 ] as const;
 

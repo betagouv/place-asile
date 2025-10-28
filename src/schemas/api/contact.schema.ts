@@ -11,8 +11,6 @@ export const contactApiSchema = z.object({
   email: z.string().email().min(1, "L'email du contact est requis"),
   role: z.string().min(1, "Le rôle du contact est requis"),
   type: z.nativeEnum(ContactType).optional(),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
 
 export type ContactApiType = z.infer<typeof contactApiSchema>;

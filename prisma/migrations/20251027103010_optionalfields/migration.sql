@@ -1,0 +1,12 @@
+-- AlterTable
+ALTER TABLE "public"."Adresse" ALTER COLUMN "adresse" DROP NOT NULL,
+ALTER COLUMN "codePostal" DROP NOT NULL,
+ALTER COLUMN "commune" DROP NOT NULL,
+ALTER COLUMN "repartition" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "public"."Contact" ALTER COLUMN "prenom" DROP NOT NULL,
+ALTER COLUMN "nom" DROP NOT NULL,
+ALTER COLUMN "telephone" DROP NOT NULL,
+ALTER COLUMN "email" DROP NOT NULL,
+ALTER COLUMN "role" DROP NOT NULL;

@@ -1,8 +1,10 @@
 import z from "zod";
 
-import { frenchDateToISO } from "@/app/utils/zodCustomFields";
+import {
+  frenchDateToISO,
+  zSafeDecimalsNullish,
+} from "@/app/utils/zodCustomFields";
 import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
-import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 
 /**
  * Checks that if the `affectationReservesFondsDedies` field is greater than 0 (or not null),
@@ -36,6 +38,8 @@ const validateAffectationReservesDetails = (
         field: "reserveCompensationAmortissements",
         value: data.reserveCompensationAmortissements,
       },
+      { field: "reportANouveau", value: data.reportANouveau },
+      { field: "autre", value: data.autre },
     ];
 
     if (cpom) {
@@ -65,38 +69,38 @@ const validateAffectationReservesDetailsSansCpom = (
 };
 
 const budgetBaseSchema = z.object({
-  // Date
-  // TODO : vérifier que c'est plutôt un number
-  id: z.union([z.string().nullish(), zSafeNumber().nullish()]),
+  id: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.number().optional()
+  ),
   date: frenchDateToISO(),
 
-  // Gestion budgetaire
   ETP: zSafeDecimals(),
   tauxEncadrement: zSafeDecimals(),
   coutJournalier: zSafeDecimals(),
 
-  dotationDemandee: zSafeDecimals().nullable(),
-  dotationAccordee: zSafeDecimals().nullable(),
-  totalProduits: zSafeDecimals().nullable(),
-  totalCharges: zSafeDecimals().nullable(),
-  repriseEtat: zSafeDecimals().nullable(),
-  excedentRecupere: zSafeDecimals().nullish(),
-  excedentDeduit: zSafeDecimals().nullish(),
-  affectationReservesFondsDedies: zSafeDecimals().nullable(),
+  dotationDemandee: zSafeDecimals(),
+  dotationAccordee: zSafeDecimals(),
+  totalProduits: zSafeDecimals(),
+  totalCharges: zSafeDecimals(),
+  repriseEtat: zSafeDecimals(),
+  excedentRecupere: zSafeDecimalsNullish(),
+  excedentDeduit: zSafeDecimalsNullish(),
+  affectationReservesFondsDedies: zSafeDecimals(),
 
   // Champs variables
-  cumulResultatsNetsCPOM: zSafeDecimals().nullable(),
-  totalChargesProposees: zSafeDecimals().nullable(),
+  cumulResultatsNetsCPOM: zSafeDecimals(),
+  totalChargesProposees: zSafeDecimals(),
 
   // Détail affectation
-  reserveInvestissement: zSafeDecimals().nullish(),
-  chargesNonReconductibles: zSafeDecimals().nullish(),
-  reserveCompensationDeficits: zSafeDecimals().nullish(),
-  reserveCompensationBFR: zSafeDecimals().nullish(),
-  reserveCompensationAmortissements: zSafeDecimals().nullish(),
-  fondsDedies: zSafeDecimals().nullish(),
-  reportANouveau: zSafeDecimals().nullish(),
-  autre: zSafeDecimals().nullish(),
+  reserveInvestissement: zSafeDecimalsNullish(),
+  chargesNonReconductibles: zSafeDecimalsNullish(),
+  reserveCompensationDeficits: zSafeDecimalsNullish(),
+  reserveCompensationBFR: zSafeDecimalsNullish(),
+  reserveCompensationAmortissements: zSafeDecimalsNullish(),
+  fondsDedies: zSafeDecimalsNullish(),
+  reportANouveau: zSafeDecimalsNullish(),
+  autre: zSafeDecimalsNullish(),
 
   commentaire: z.string().nullish(),
 });
@@ -107,15 +111,27 @@ const budgetSchema = budgetBaseSchema.superRefine(
 
 const budgetAutoSaveSchema = budgetBaseSchema
   .extend({
-    ETP: zSafeNumber()
-      .nullable()
-      .transform((val) => (val === null ? undefined : val)),
-    tauxEncadrement: zSafeDecimals()
-      .nullable()
-      .transform((val) => (val === null ? undefined : val)),
-    coutJournalier: zSafeDecimals()
-      .nullable()
-      .transform((val) => (val === null ? undefined : val)),
+    ETP: zSafeDecimalsNullish(),
+    tauxEncadrement: zSafeDecimalsNullish(),
+    coutJournalier: zSafeDecimalsNullish(),
+    dotationDemandee: zSafeDecimalsNullish(),
+    dotationAccordee: zSafeDecimalsNullish(),
+    totalProduits: zSafeDecimalsNullish(),
+    totalCharges: zSafeDecimalsNullish(),
+    repriseEtat: zSafeDecimalsNullish(),
+    excedentRecupere: zSafeDecimalsNullish(),
+    excedentDeduit: zSafeDecimalsNullish(),
+    affectationReservesFondsDedies: zSafeDecimalsNullish(),
+    cumulResultatsNetsCPOM: zSafeDecimalsNullish(),
+    totalChargesProposees: zSafeDecimalsNullish(),
+    reserveInvestissement: zSafeDecimalsNullish(),
+    chargesNonReconductibles: zSafeDecimalsNullish(),
+    reserveCompensationDeficits: zSafeDecimalsNullish(),
+    reserveCompensationBFR: zSafeDecimalsNullish(),
+    reserveCompensationAmortissements: zSafeDecimalsNullish(),
+    fondsDedies: zSafeDecimalsNullish(),
+    reportANouveau: zSafeDecimalsNullish(),
+    autre: zSafeDecimalsNullish(),
   })
   .partial()
   .extend({
@@ -149,44 +165,44 @@ export const basicAutoSaveSchema = z
 //
 const sansCpom = budgetBaseSchema
   .extend({
-    cumulResultatsNetsCPOM: zSafeDecimals().nullish(),
+    cumulResultatsNetsCPOM: zSafeDecimalsNullish(),
   })
   .superRefine(validateAffectationReservesDetailsSansCpom);
 
 const avecCpom = budgetBaseSchema
   .extend({
-    totalChargesProposees: zSafeDecimals().nullish(),
+    totalChargesProposees: zSafeDecimalsNullish(),
   })
   .superRefine(validateAffectationReservesDetails);
 
 const autoriseeCurrentYear = budgetBaseSchema.extend({
-  totalProduits: zSafeDecimals().nullish(),
-  totalCharges: zSafeDecimals().nullish(),
-  cumulResultatsNetsCPOM: zSafeDecimals().nullish(),
-  repriseEtat: zSafeDecimals().nullish(),
-  totalChargesProposees: zSafeDecimals().nullish(),
-  affectationReservesFondsDedies: zSafeDecimals().nullish(),
-  fondsDedies: zSafeDecimals().nullish(),
-  reserveCompensationAmortissements: zSafeDecimals().nullish(),
-  reserveCompensationBFR: zSafeDecimals().nullish(),
-  reserveCompensationDeficits: zSafeDecimals().nullish(),
-  reserveInvestissement: zSafeDecimals().nullish(),
-  chargesNonReconductibles: zSafeDecimals().nullish(),
+  totalProduits: zSafeDecimalsNullish(),
+  totalCharges: zSafeDecimalsNullish(),
+  cumulResultatsNetsCPOM: zSafeDecimalsNullish(),
+  repriseEtat: zSafeDecimalsNullish(),
+  totalChargesProposees: zSafeDecimalsNullish(),
+  affectationReservesFondsDedies: zSafeDecimalsNullish(),
+  fondsDedies: zSafeDecimalsNullish(),
+  reserveCompensationAmortissements: zSafeDecimalsNullish(),
+  reserveCompensationBFR: zSafeDecimalsNullish(),
+  reserveCompensationDeficits: zSafeDecimalsNullish(),
+  reserveInvestissement: zSafeDecimalsNullish(),
+  chargesNonReconductibles: zSafeDecimalsNullish(),
 });
 
 const autoriseeY2 = budgetBaseSchema.extend({
-  totalProduits: zSafeDecimals().nullish(),
-  totalCharges: zSafeDecimals().nullish(),
-  cumulResultatsNetsCPOM: zSafeDecimals().nullish(),
-  repriseEtat: zSafeDecimals().nullish(),
-  totalChargesProposees: zSafeDecimals().nullish(),
-  affectationReservesFondsDedies: zSafeDecimals().nullish(),
-  fondsDedies: zSafeDecimals().nullish(),
-  reserveCompensationAmortissements: zSafeDecimals().nullish(),
-  reserveCompensationBFR: zSafeDecimals().nullish(),
-  reserveCompensationDeficits: zSafeDecimals().nullish(),
-  reserveInvestissement: zSafeDecimals().nullish(),
-  chargesNonReconductibles: zSafeDecimals().nullish(),
+  totalProduits: zSafeDecimalsNullish(),
+  totalCharges: zSafeDecimalsNullish(),
+  cumulResultatsNetsCPOM: zSafeDecimalsNullish(),
+  repriseEtat: zSafeDecimalsNullish(),
+  totalChargesProposees: zSafeDecimalsNullish(),
+  affectationReservesFondsDedies: zSafeDecimalsNullish(),
+  fondsDedies: zSafeDecimalsNullish(),
+  reserveCompensationAmortissements: zSafeDecimalsNullish(),
+  reserveCompensationBFR: zSafeDecimalsNullish(),
+  reserveCompensationDeficits: zSafeDecimalsNullish(),
+  reserveInvestissement: zSafeDecimalsNullish(),
+  chargesNonReconductibles: zSafeDecimalsNullish(),
 });
 
 export const autoriseeSchema = z.object({
@@ -214,7 +230,10 @@ export const autoriseeAvecCpomSchema = z.object({
 //
 
 const subventionneeFirstYears = z.object({
-  id: z.union([z.string().nullish(), zSafeNumber().nullish()]),
+  id: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.number().optional()
+  ),
   date: frenchDateToISO(),
   ETP: zSafeDecimals(),
   tauxEncadrement: zSafeDecimals(),
@@ -232,14 +251,14 @@ export const subventionneeAvecCpomSchema = z.object({
 });
 
 const subventionneeSansCpom = budgetBaseSchema.extend({
-  cumulResultatsNetsCPOM: zSafeDecimals().nullish(),
-  affectationReservesFondsDedies: zSafeDecimals().nullish(),
-  chargesNonReconductibles: zSafeDecimals().nullish(),
-  reserveCompensationAmortissements: zSafeDecimals().nullish(),
-  reserveCompensationBFR: zSafeDecimals().nullish(),
-  reserveCompensationDeficits: zSafeDecimals().nullish(),
-  reserveInvestissement: zSafeDecimals().nullish(),
-  totalChargesProposees: zSafeDecimals().nullish(),
+  cumulResultatsNetsCPOM: zSafeDecimalsNullish(),
+  affectationReservesFondsDedies: zSafeDecimalsNullish(),
+  chargesNonReconductibles: zSafeDecimalsNullish(),
+  reserveCompensationAmortissements: zSafeDecimalsNullish(),
+  reserveCompensationBFR: zSafeDecimalsNullish(),
+  reserveCompensationDeficits: zSafeDecimalsNullish(),
+  reserveInvestissement: zSafeDecimalsNullish(),
+  totalChargesProposees: zSafeDecimalsNullish(),
 });
 
 export const subventionneeSchema = z.object({
@@ -251,6 +270,15 @@ export const subventionneeSchema = z.object({
     subventionneeSansCpom,
   ]),
 });
+
+type budgetSchemaTypeFormValues = z.infer<typeof budgetSchema>;
+export type budgetsSchemaTypeFormValues = [
+  budgetSchemaTypeFormValues,
+  budgetSchemaTypeFormValues,
+  budgetSchemaTypeFormValues,
+  budgetSchemaTypeFormValues,
+  budgetSchemaTypeFormValues,
+];
 
 export type basicSchemaTypeFormValues = z.infer<typeof basicSchema>;
 export type autoriseeSchemaTypeFormValues = z.infer<typeof autoriseeSchema>;

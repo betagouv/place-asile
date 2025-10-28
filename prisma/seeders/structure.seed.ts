@@ -3,6 +3,8 @@ import {
   Budget,
   Contact,
   FileUpload,
+  Form,
+  FormStep,
   Prisma,
   PublicType,
   Structure,
@@ -18,20 +20,15 @@ import { createFakeBudget } from "./budget.seed";
 import { createFakeContact } from "./contact.seed";
 import { ControleWithFileUploads, createFakeControle } from "./controle.seed";
 import { createFakeFileUpload } from "./file-upload.seed";
+import { createFakeFormWithSteps } from "./form.seed";
 import { generateDatePair } from "./seed-util";
 import { createFakeStructureTypologie } from "./structure-typologie.seed";
 
 let counter = 1;
 
-const generateDnaCode = ({
-  cpom,
-  type,
-  state,
-}: FakeStructureOptions): string => {
+const generateDnaCode = ({ cpom, type }: FakeStructureOptions): string => {
   const cpomLabel = cpom ? "CPOM" : "SANS_CPOM";
-  const stateLabel =
-    state === StructureState.FINALISE ? "FINALISE" : "A_FINALISER";
-  return `${type}-${cpomLabel}-${stateLabel}-${counter++}`;
+  return `${type}-${cpomLabel}-${counter++}`;
 };
 
 const createFakeStructure = ({
@@ -61,7 +58,9 @@ const createFakeStructure = ({
     adresseAdministrative: faker.location.streetAddress(),
     communeAdministrative: faker.location.city(),
     codePostalAdministratif: faker.location.zipCode(),
-    departementAdministratif: String(faker.number.int({ min: 1, max: 95 })).padStart(2, '0'),
+    departementAdministratif: String(
+      faker.number.int({ min: 1, max: 95 })
+    ).padStart(2, "0"),
     latitude: Prisma.Decimal(
       faker.location.latitude({ min: 43.550851, max: 49.131627 })
     ),
@@ -102,13 +101,21 @@ type StructureWithRelations = Structure & {
     FileUpload,
     "id" | "structureDnaCode" | "controleId" | "parentFileUploadId"
   >[];
+  forms: (Omit<Form, "id" | "structureDnaCode"> & {
+    formSteps: Omit<FormStep, "id" | "formId">[];
+  })[];
 };
 
 export const createFakeStuctureWithRelations = ({
   cpom,
   type,
   state,
-}: FakeStructureOptions): Omit<StructureWithRelations, "id"> => {
+  formDefinitionId,
+  stepDefinitionIds,
+}: FakeStructureOptions & {
+  formDefinitionId: number;
+  stepDefinitionIds: number[];
+}): Omit<StructureWithRelations, "id"> => {
   const fakeStructure = createFakeStructure({ cpom, type, state });
   const placesAutorisees = faker.number.int({ min: 1, max: 100 });
 
@@ -128,6 +135,9 @@ export const createFakeStuctureWithRelations = ({
         structureType: type,
       })
     ),
+    forms: [
+      createFakeFormWithSteps(formDefinitionId, stepDefinitionIds),
+    ],
   } as StructureWithRelations;
 
   if (state === StructureState.FINALISE) {

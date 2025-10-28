@@ -18,8 +18,6 @@ const formStepApiSchema = z.object({
   id: z.number(),
   status: z.nativeEnum(StepStatus),
   stepDefinition: stepDefinitionApiSchema,
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
 
 export const formApiSchema = z.object({
@@ -27,8 +25,6 @@ export const formApiSchema = z.object({
   status: z.boolean(),
   formDefinition: formDefinitionApiSchema,
   formSteps: z.array(formStepApiSchema),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
 
 export type FormApiType = z.infer<typeof formApiSchema>;
