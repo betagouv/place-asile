@@ -12,6 +12,7 @@ import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { BudgetApiType } from "@/schemas/api/budget.schema";
 import { ContactApiType } from "@/schemas/api/contact.schema";
 import { ControleApiType } from "@/schemas/api/controle.schema";
+import { DocumentFinancierApiType } from "@/schemas/api/documentFinancier.schema";
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
   StructureCreationApiType,
@@ -452,7 +453,9 @@ const deleteEvaluations = async (
 };
 
 const deleteFileUploads = async (
-  fileUploadsToKeep: Partial<ActeAdministratifApiType>[],
+  fileUploadsToKeep: Partial<
+    ActeAdministratifApiType | DocumentFinancierApiType
+  >[],
   structureDnaCode: string
 ): Promise<void> => {
   const allFileUploads = await prisma.fileUpload.findMany({
@@ -474,7 +477,9 @@ const deleteFileUploads = async (
 };
 
 const updateFileUploads = async (
-  fileUploads: Partial<ActeAdministratifApiType>[] | undefined,
+  fileUploads:
+    | Partial<ActeAdministratifApiType | DocumentFinancierApiType>[]
+    | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   if (!fileUploads || fileUploads.length === 0) {

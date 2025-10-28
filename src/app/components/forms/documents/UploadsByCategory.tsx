@@ -2,12 +2,11 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { z } from "zod";
 
 import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif.schema";
 import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
 import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
-import { zActeAdministratifCategory } from "@/types/file-upload.type";
+import { ActeAdministratifCategoryType } from "@/types/file-upload.type";
 
 import { ControleItem } from "./ControleItem";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
@@ -195,7 +194,7 @@ export default function UploadsByCategory({
 }
 
 type UploadsByCategoryProps = {
-  category: z.infer<typeof zActeAdministratifCategory>;
+  category: ActeAdministratifCategoryType[number];
   categoryShortName: string;
   title: string;
   notice?: string | React.ReactElement;

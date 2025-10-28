@@ -1,11 +1,10 @@
 import { ReactElement } from "react";
 import { Control, UseFormRegister } from "react-hook-form";
-import z from "zod";
 
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearDate } from "@/app/utils/date.util";
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
-import { zFileUploadCategory } from "@/types/file-upload.type";
+import { FileUploadCategoryType } from "@/types/file-upload.type";
 
 import { UploadItem } from "../../components/UploadItem";
 
@@ -51,5 +50,5 @@ type Props = {
   register: UseFormRegister<DocumentsFinanciersFlexibleFormValues>;
   categoryLabel: string;
   categorySubLabel?: string;
-  categoryValue: z.infer<typeof zFileUploadCategory>;
+  categoryValue: FileUploadCategoryType[number];
 };

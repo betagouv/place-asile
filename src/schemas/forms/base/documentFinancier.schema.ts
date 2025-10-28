@@ -3,14 +3,14 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { z } from "zod";
 
 import { optionalFrenchDateToISO } from "@/app/utils/zodCustomFields";
-import { zDocumentFinancierCategory } from "@/types/file-upload.type";
+import { DocumentFinancierCategory } from "@/types/file-upload.type";
 
 dayjs.extend(customParseFormat);
 
 const DocumentFinancierFlexibleSchema = z.object({
   key: z.string().optional(),
   date: optionalFrenchDateToISO(),
-  category: zDocumentFinancierCategory.optional(),
+  category: z.enum(DocumentFinancierCategory).optional(),
 });
 
 export const DocumentsFinanciersFlexibleSchema = z.object({
@@ -21,8 +21,8 @@ export const DocumentsFinanciersFlexibleSchema = z.object({
 const DocumentFinancierConditionalSchema =
   DocumentFinancierFlexibleSchema.superRefine((data, ctx) => {
     if (
-      data.category !== zDocumentFinancierCategory.enum.BUDGET_RECTIFICATIF &&
-      data.category !== zDocumentFinancierCategory.enum.RAPPORT_BUDGETAIRE
+      data.category !== "BUDGET_RECTIFICATIF" &&
+      data.category !== "RAPPORT_BUDGETAIRE"
     ) {
       if (!data.key) {
         ctx.addIssue({

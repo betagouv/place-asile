@@ -1,6 +1,4 @@
-import z from "zod";
-
-import { zFileUploadCategory } from "@/types/file-upload.type";
+import { FileUploadCategoryType } from "@/types/file-upload.type";
 
 export const structureAutoriseesDocuments: StructureDocument[] = [
   {
@@ -67,6 +65,6 @@ export const structureSubventionneesDocuments: StructureDocument[] = [
 export type StructureDocument = {
   label: string;
   subLabel?: string;
-  value: z.infer<typeof zFileUploadCategory>;
+  value: FileUploadCategoryType[number];
   yearIndex: number;
 };

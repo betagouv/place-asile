@@ -1,5 +1,3 @@
-import z from "zod";
-
 export const ActeAdministratifCategory = [
   "ARRETE_AUTORISATION",
   "CPOM",
@@ -23,28 +21,13 @@ export const DocumentFinancierCategory = [
   "RAPPORT_ACTIVITE_OPERATEUR",
 ] as const;
 
-export type ActeAdministratifCategoryType = typeof ActeAdministratifCategory;
-export type DocumentFinancierCategoryType = typeof DocumentFinancierCategory;
-
-export const zActeAdministratifCategory = z.enum(
-  Object.values(
-    ActeAdministratifCategory
-  ) as unknown as ActeAdministratifCategoryType
-);
-
-export const zDocumentFinancierCategory = z.enum(
-  Object.values(
-    DocumentFinancierCategory
-  ) as unknown as DocumentFinancierCategoryType
-);
-
 export const FileUploadCategory = [
   ...ActeAdministratifCategory,
   ...DocumentFinancierCategory,
 ] as const;
 
-export type FileUploadCategoryType = typeof FileUploadCategory;
+export type ActeAdministratifCategoryType = typeof ActeAdministratifCategory;
 
-export const zFileUploadCategory = z.enum(
-  Object.values(FileUploadCategory) as unknown as FileUploadCategoryType
-);
+export type DocumentFinancierCategoryType = typeof DocumentFinancierCategory;
+
+export type FileUploadCategoryType = typeof FileUploadCategory;
