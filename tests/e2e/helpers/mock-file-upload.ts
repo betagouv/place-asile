@@ -60,9 +60,7 @@ export function generateMockFileUploads(
   years.forEach((year) => {
     // Add required documents
     requiredDocuments.forEach((doc) => {
-      const mimeType = differentFormats
-        ? getRandomMimeType()
-        : "application/pdf";
+      const mimeType = differentFormats ? getMimeType(0) : "application/pdf";
       const fileSize = Math.floor(Math.random() * maxFileSize) + 1024; // Random size between 1KB and maxFileSize
 
       uploads.push(
@@ -76,11 +74,11 @@ export function generateMockFileUploads(
 
     // Add optional documents if requested
     if (includeOptional) {
-      optionalDocuments.forEach((doc) => {
+      optionalDocuments.forEach((doc, index) => {
         // 50% chance to include optional document
-        if (Math.random() > 0.5) {
+        if (index % 2 === 0) {
           const mimeType = differentFormats
-            ? getRandomMimeType()
+            ? getMimeType(Math.floor(index / 2))
             : "application/pdf";
           const fileSize = Math.floor(Math.random() * maxFileSize) + 1024;
 
@@ -169,9 +167,9 @@ function getOptionalDocuments(structureType: string) {
 }
 
 /**
- * Get random MIME type for testing different file formats
+ * Get MIME type for testing different file formats
  */
-function getRandomMimeType(): string {
+function getMimeType(index: number): string {
   const mimeTypes = [
     "application/pdf",
     "application/vnd.ms-excel",
@@ -179,7 +177,7 @@ function getRandomMimeType(): string {
     "text/csv",
     "application/vnd.oasis.opendocument.spreadsheet",
   ];
-  return mimeTypes[Math.floor(Math.random() * mimeTypes.length)];
+  return mimeTypes[index < mimeTypes.length ? index : mimeTypes.length - 1];
 }
 
 /**
@@ -220,6 +218,6 @@ export function generateInvalidFormatMockFileUpload(
   return generateMockFileUpload(category, year, {
     fileName: `invalid-${category.toLowerCase()}-${year}.txt`,
     fileSize: 1024,
-    mimeType: "text/plain", // Invalid format
+    mimeType: "text/plain", // Not allowed format
   });
 }

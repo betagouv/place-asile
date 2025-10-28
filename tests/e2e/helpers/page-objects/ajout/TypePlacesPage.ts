@@ -32,7 +32,7 @@ export class TypePlacesPage {
   async submit(dnaCode: string) {
     await this.page.click('button[type="submit"]');
     await this.page.waitForURL(
-      `http://localhost:3000/ajout-structure/${dnaCode}/04-documents`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/ajout-structure/${dnaCode}/04-documents`
     );
   }
 }

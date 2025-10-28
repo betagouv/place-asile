@@ -18,40 +18,32 @@ export async function completeAjoutFlow(
   page: Page,
   data: TestStructureData
 ): Promise<void> {
-  // Étape 0: Authentification
   const authPage = new AuthenticationPage(page);
   await authPage.authenticate(data.dnaCode);
 
-  // Étape 0.5: Page de présentation
   const presentationPage = new PresentationPage(page);
   await presentationPage.navigateToFirstStep(data.dnaCode);
 
-  // Étape 1: Identification
   const identificationPage = new IdentificationPage(page);
   await identificationPage.fillForm(data);
   await identificationPage.submit(data.dnaCode);
 
-  // Étape 2: Adresses
   const adressesPage = new AdressesPage(page);
   await adressesPage.fillForm(data);
   await adressesPage.submit(data.dnaCode);
 
-  // Étape 3: Type de places
   const typePlacesPage = new TypePlacesPage(page);
   await typePlacesPage.fillForm(data);
   await typePlacesPage.submit(data.dnaCode);
 
-  // Étape 4: Documents
   const documentsPage = new DocumentsPage(page);
   await documentsPage.fillForm(data);
   await documentsPage.submit(data.dnaCode);
 
-  // Étape 5: Vérification
   const verificationPage = new VerificationPage(page);
   await verificationPage.verifyData(data);
   await verificationPage.submit(data.dnaCode);
 
-  // Étape 6: Confirmation
   const confirmationPage = new ConfirmationPage(page);
   await confirmationPage.verifySuccess();
 }

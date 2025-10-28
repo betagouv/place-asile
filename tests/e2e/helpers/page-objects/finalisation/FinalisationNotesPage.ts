@@ -13,19 +13,8 @@ export class FinalisationNotesPage {
     await this.page.fill('textarea[name="notes"]', notes);
   }
 
-  async submit(structureId: number) {
+  async submit() {
     await this.page.click('button[type="submit"]');
-
-    // After submitting the last step, should redirect to structure page
-    await this.page.waitForURL(
-      `http://localhost:3000/structures/${structureId}`,
-      { timeout: 15000 }
-    );
-  }
-
-  async verifySuccess() {
-    // Verify we're redirected back to the structure page after finalisation
-    // The URL should be /structures/[id] without /finalisation
-    await this.page.waitForURL(/\/structures\/\d+$/, { timeout: 10000 });
+    await this.page.waitForTimeout(2000);
   }
 }

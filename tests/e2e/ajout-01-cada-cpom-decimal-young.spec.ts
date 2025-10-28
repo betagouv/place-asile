@@ -6,12 +6,10 @@ import { mockAddressApi } from "./helpers/mock-address-api";
 import { deleteStructureViaApi } from "./helpers/structure-creator";
 import { cadaCpomDecimalYoung } from "./helpers/test-data";
 
-// Mock the address API to avoid rate limiting
 test.beforeEach(async ({ page }) => {
   await mockAddressApi(page);
 });
 
-// Increase timeout for full form flow
 test.setTimeout(30000);
 
 test("1. CADA with CPOM, decimal budgets, young structure", async ({
@@ -23,10 +21,8 @@ test("1. CADA with CPOM, decimal budgets, young structure", async ({
   };
 
   try {
-    // Complete the entire ajout flow through the UI
     await completeAjoutFlow(page, data);
   } finally {
-    // Cleanup: Delete the created structure
     try {
       await deleteStructureViaApi(data.dnaCode);
     } catch (error) {

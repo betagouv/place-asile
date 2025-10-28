@@ -242,7 +242,7 @@ export class StructureDetailPage {
       }
     }
 
-    // ===== FINANCES SECTION VERIFICATION (if budgets exist) =====
+    // ===== FINANCES SECTION VERIFICATION (if budgets exists) =====
 
     // Check if finances section is present (it's conditional based on budgets)
     const financesSection = this.page.locator("#finances");

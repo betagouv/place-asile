@@ -42,7 +42,7 @@ export class VerificationPage {
 
     // Wait for navigation to confirmation page
     await this.page.waitForURL(
-      `http://localhost:3000/ajout-structure/${dnaCode}/06-confirmation`,
+      `http://${process.env.NEXT_PUBLIC_BASE_URL}/ajout-structure/${dnaCode}/06-confirmation`,
       { timeout: 20000 }
     );
   }

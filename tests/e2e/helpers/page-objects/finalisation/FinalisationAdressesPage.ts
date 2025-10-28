@@ -12,7 +12,7 @@ export class FinalisationAdressesPage {
   async submit(structureId: number) {
     await this.page.click('button[type="submit"]');
     await this.page.waitForURL(
-      `http://localhost:3000/structures/${structureId}/finalisation/03-finance`,
+      `http://${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/03-finance`,
       { timeout: 10000 }
     );
   }

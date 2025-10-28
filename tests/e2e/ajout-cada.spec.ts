@@ -10,12 +10,10 @@ import {
 } from "./helpers/structure-creator";
 import { cadaSansCpom } from "./helpers/test-data";
 
-// Mock the address API to avoid rate limiting
 test.beforeEach(async ({ page }) => {
   await mockAddressApi(page);
 });
 
-// Increase timeout for full form flow
 test.setTimeout(30000);
 
 test("CADA sans CPOM - Flux complet de création", async ({ page }) => {
@@ -25,16 +23,13 @@ test("CADA sans CPOM - Flux complet de création", async ({ page }) => {
   };
 
   try {
-    // Complete the entire ajout flow through the UI
     await completeAjoutFlow(page, data);
 
-    // Navigate to structure detail page and verify data
     const structureId = await getStructureId(data.dnaCode);
     const structureDetailPage = new StructureDetailPage(page);
     await structureDetailPage.navigateToStructure(structureId);
     await structureDetailPage.verifyStructureData(data);
   } finally {
-    // Cleanup: Delete the created structure
     try {
       await deleteStructureViaApi(data.dnaCode);
     } catch (error) {

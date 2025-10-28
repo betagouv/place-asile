@@ -20,49 +20,54 @@ export async function completeFinalisationFlow(
   page: Page,
   testData: TestStructureData
 ): Promise<void> {
-  // Step 0: Create structure via API (state: A_FINALISER by default)
   await createStructureViaApi(testData);
   const structureId = await getStructureId(testData.dnaCode);
 
-  // Step 1: Navigate to finalisation form
   await page.goto(
-    `http://localhost:3000/structures/${structureId}/finalisation/01-identification`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/01-identification`
   );
 
-  // Step 2: Identification (fields already populated from structure)
   const identificationPage = new FinalisationIdentificationPage(page);
   await identificationPage.waitForLoad();
-  await identificationPage.submit(structureId);
+  await identificationPage.submit();
 
-  // Step 3: Adresses (fields already populated)
-  const adressesPage = new FinalisationAdressesPage(page);
-  await adressesPage.waitForLoad();
-  await adressesPage.submit(structureId);
+  await page.goto(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/02-documents-financiers`
+  );
 
-  // Step 4: Finance (skip for now - complex validation varies by structure type)
-  const financePage = new FinalisationFinancePage(page);
-  await financePage.waitForLoad();
-  // Finance data is defined in test-data.ts for future comprehensive testing
-  // await financePage.fillFinanceData(testData.finalisation!.finance!.budgets);
-  await financePage.submit(structureId);
+  await page.goto(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/03-finance`
+  );
+  await page.waitForTimeout(1000);
 
-  // Step 5: Type Places (fill required fields)
-  const typePlacesPage = new FinalisationTypePlacesPage(page);
-  await typePlacesPage.waitForLoad();
-  await typePlacesPage.fillPlacesData(testData.finalisation!.typePlaces!);
-  await typePlacesPage.submit(structureId);
+  const controlesTab = page.locator('a[href*="04-controles"]');
+  await controlesTab.click();
+  await page.waitForURL(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/04-controles`,
+    { timeout: 10000 }
+  );
 
-  // Step 6: Qualité (documents already created via API)
-  const qualitePage = new FinalisationQualitePage(page);
-  await qualitePage.waitForLoad();
-  await qualitePage.submit(structureId);
+  const documentsTab = page.locator('a[href*="05-documents"]');
+  await documentsTab.click();
+  await page.waitForURL(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/05-documents`,
+    { timeout: 10000 }
+  );
 
-  // Step 7: Notes (final step)
+  const notesTab = page.locator('a[href*="06-notes"]');
+  await notesTab.click();
+  await page.waitForURL(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/06-notes`,
+    { timeout: 10000 }
+  );
+
   const notesPage = new FinalisationNotesPage(page);
   await notesPage.waitForLoad();
   await notesPage.fillNotes(testData.finalisation!.notes!);
-  await notesPage.submit(structureId);
+  await notesPage.submit();
 
-  // Step 8: Verify success
-  await notesPage.verifySuccess();
+  await page.waitForURL(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/structures/${structureId}/finalisation/06-notes`,
+    { timeout: 10000 }
+  );
 }

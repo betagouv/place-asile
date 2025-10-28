@@ -3,7 +3,9 @@ import { TestStructureData } from "./test-data";
 // Helper function to get a valid operateur ID
 async function getValidOperateurId(): Promise<number> {
   try {
-    const response = await fetch("http://localhost:3000/api/structures");
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/structures`
+    );
     if (response.ok) {
       const structures = await response.json();
       if (structures.length > 0 && structures[0].operateur) {
@@ -175,7 +177,7 @@ export async function transformTestDataToApiFormat(
     }),
     adresses: transformedAdresses,
     contacts,
-    typologies: transformedTypologies,
+    structureTypologies: transformedTypologies,
     fileUploads: [], // Skip file uploads for comprehensive tests to avoid database key issues
   };
 

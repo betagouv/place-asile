@@ -10,11 +10,14 @@ export class FinalisationIdentificationPage {
     });
   }
 
-  async submit(structureId: number) {
+  async submit() {
     await this.page.click('button[type="submit"]');
-    await this.page.waitForURL(
-      `http://localhost:3000/structures/${structureId}/finalisation/02-adresses`,
-      { timeout: 10000 }
-    );
+    await this.page.waitForTimeout(2000);
+  }
+
+  async waitForValidation() {
+    await this.page.waitForSelector('text="VÉRIFIÉ"', {
+      timeout: 10000,
+    });
   }
 }

@@ -28,9 +28,7 @@ export class FinalisationFinancePage {
     await this.page.waitForTimeout(1000);
 
     // Fill required fields for each provided budget (typically 5 years)
-    for (let i = 0; i < budgets.length; i++) {
-      const budget = budgets[i];
-
+    for (const [i, budget] of budgets.entries()) {
       // Basic indicators (required for all years)
       await this.page.fill(
         `input[name="budgets.${i}.ETP"]`,
@@ -97,12 +95,8 @@ export class FinalisationFinancePage {
     await this.page.waitForTimeout(500);
   }
 
-  async submit(structureId: number) {
-    // Finance page has complex validation that varies by structure type
-    // Skip by navigating directly to next step for test simplicity
-    await this.page.goto(
-      `http://localhost:3000/structures/${structureId}/finalisation/04-type-places`
-    );
-    await this.page.waitForTimeout(1000);
+  async submit() {
+    await this.page.click('button[type="submit"]');
+    await this.page.waitForTimeout(2000);
   }
 }
