@@ -20,6 +20,7 @@ import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormSt
 import {
   ActesAdministratifsAutoSaveFormValues,
   actesAdministratifsAutoSaveSchema,
+  actesAdministratifsSchema,
 } from "@/schemas/forms/base/acteAdministratif.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
@@ -38,7 +39,8 @@ export default function FinalisationQualite() {
   );
 
   const categoriesToDisplay = getCategoriesToDisplay(structure).filter(
-    (category) => category !== "INSPECTION_CONTROLE"
+    (category) =>
+      category !== "INSPECTION_CONTROLE" && category !== "EVALUATION"
   );
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
@@ -51,6 +53,7 @@ export default function FinalisationQualite() {
   });
 
   const onAutoSave = async (data: ActesAdministratifsAutoSaveFormValues) => {
+    console.log("data", data);
     const actesAdministratifs = data.actesAdministratifs?.filter(
       (acteAdministratif) => acteAdministratif.key
     );
@@ -68,7 +71,7 @@ export default function FinalisationQualite() {
     <div>
       <Tabs currentStep={currentStep} />
       <FormWrapper
-        schema={actesAdministratifsAutoSaveSchema}
+        schema={actesAdministratifsSchema}
         onSubmit={handleValidation}
         submitButtonText="Je valide la saisie de cette page"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
