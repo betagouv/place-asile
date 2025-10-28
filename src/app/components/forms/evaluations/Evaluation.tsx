@@ -47,7 +47,7 @@ export const Evaluation = ({
           ? `Evaluation du ${formatDate(currentEvaluation?.date)}`
           : "Nouvelle évaluation"}
       </h3>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-start">
         <div className="w-full">
           <div className="flex pb-6">
             <InputWithValidation
@@ -80,8 +80,8 @@ export const Evaluation = ({
             {type === "new" && <Notes index={index} field={field} />}
           </div>
           {type === "new" && (
-            <div className="flex">
-              <div className="flex flex-col grow pr-8">
+            <div className="grid grid-cols-2 gap-8">
+              <div className="flex flex-col">
                 <p className="mb-2">Rapport</p>
                 <UploadWithValidation
                   name={`evaluations.${index}.fileUploads.0.key`}
@@ -93,7 +93,7 @@ export const Evaluation = ({
                   defaultValue="EVALUATION"
                 />
               </div>
-              <div className="flex flex-col grow">
+              <div className="flex flex-col">
                 <p className="mb-2">Plan d’action (optionnel)</p>
                 <UploadWithValidation
                   name={`evaluations.${index}.fileUploads.1.key`}

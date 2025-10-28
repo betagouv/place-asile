@@ -26,9 +26,9 @@ class MockFormData implements FormData {
 
 const mockFormDataInstance = new MockFormData();
 
-global.FormData = vi.fn(
-  () => mockFormDataInstance
-) as unknown as typeof FormData;
+global.FormData = vi.fn(function () {
+  return mockFormDataInstance;
+}) as unknown as typeof FormData;
 
 describe("useFileUpload", () => {
   beforeEach(() => {

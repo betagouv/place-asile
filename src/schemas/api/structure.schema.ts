@@ -56,6 +56,10 @@ export const structureCreationApiSchema = z.object({
   finCpom: z.string().datetime().nullish(),
   adresses: z.array(adresseApiSchema),
   structureTypologies: z.array(structureTypologieApiSchema),
+<<<<<<< HEAD
+=======
+  forms: z.array(formApiSchema).optional(),
+>>>>>>> origin/dev
 
   contacts: z.array(contactApiSchema),
   fileUploads: z.array(fileUploadApiSchema),
@@ -66,6 +70,10 @@ const partialStructureCreationApiSchema = structureCreationApiSchema
   .extend({
     dnaCode: z.string().min(1, "Le code DNA est requis"),
     adresses: z.array(adresseApiSchema.partial()).optional(),
+<<<<<<< HEAD
+=======
+    forms: z.array(formApiSchema.partial()).optional(),
+>>>>>>> origin/dev
     contacts: z.array(contactApiSchema.partial()).optional(),
     fileUploads: z.array(fileUploadApiSchema.partial()).optional(),
     structureTypologies: z

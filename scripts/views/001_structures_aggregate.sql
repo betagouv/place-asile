@@ -1,7 +1,6 @@
 -- Objective: aggregate indicators per structure
 CREATE OR REPLACE VIEW:"SCHEMA"."structures_aggregates" AS
-WITH
-  -- Last typology by structure
+WITH -- Last typology by structure
   structure_typologie_dernier_millesime AS (
     SELECT DISTINCT
       ON (st."structureDnaCode") st."structureDnaCode",
@@ -60,6 +59,10 @@ WITH
   )
 SELECT
   s."dnaCode" AS "dnaCode",
+  s.latitude AS "latitude",
+  s.longitude AS "longitude",
+  s.public AS "public",
+  s.type AS "type",
   sdm."placesAutorisees" AS "places_autorisees_structure",
   sdm."pmr" AS "pmr_structure",
   sdm."lgbt" AS "lgbt_structure",
@@ -71,8 +74,7 @@ SELECT
   aa."nb_adresses" AS "nb_adresses",
   sdm."date" AS "date_structure",
   adm."nbPlaces" AS "nb_places_activite",
-  s."createdAt" AS "created_at",
-  s."updatedAt" AS "updated_at",
+  d."region" AS "region",
   -- Differences and percentages
   COALESCE(sdm."placesAutorisees", 0) - COALESCE(aa."places_autorisees_adresse", 0) AS "diff_places_adresse",
   COALESCE(
@@ -87,9 +89,12 @@ SELECT
       COALESCE(adm."nbPlaces", 0) - COALESCE(sdm."placesAutorisees", 0)
     ) / NULLIF(COALESCE(adm."nbPlaces", 0)::float, 0) * 100,
     0
-  ) AS "pct_diff_places_activite"
+  ) AS "pct_diff_places_activite",
+  s."createdAt" AS "created_at",
+  s."updatedAt" AS "updated_at"
 FROM
   public."Structure" s
   LEFT JOIN structure_typologie_dernier_millesime sdm ON sdm."structureDnaCode" = s."dnaCode"
   LEFT JOIN adresses_agregees aa ON aa."structureDnaCode" = s."dnaCode"
-  LEFT JOIN activite_dernier_millesime adm ON adm."structureDnaCode" = s."dnaCode";
+  LEFT JOIN activite_dernier_millesime adm ON adm."structureDnaCode" = s."dnaCode"
+  LEFT JOIN public."Departement" d ON d."numero" = s."departementAdministratif";
