@@ -165,97 +165,90 @@ export const findByDnaCode = async (
 export const createOne = async (
   structure: StructureCreationApiType
 ): Promise<Structure> => {
-  try {
-    const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
-    const coordinates = await getCoordinates(fullAdress);
-    const newStructure = await prisma.structure.create({
+  const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
+  const coordinates = await getCoordinates(fullAdress);
+  const newStructure = await prisma.structure.create({
+    data: {
+      dnaCode: structure.dnaCode,
+      oldOperateur: "Ancien opérateur : à supprimer",
+      operateur: {
+        connect: {
+          id: structure.operateur.id,
+        },
+      },
+      filiale: structure.filiale,
+      latitude: Prisma.Decimal(coordinates.latitude || 0),
+      longitude: Prisma.Decimal(coordinates.longitude || 0),
+      type: convertToStructureType(structure.type),
+      oldNbPlaces: -1,
+      adresseAdministrative: structure.adresseAdministrative,
+      codePostalAdministratif: structure.codePostalAdministratif,
+      communeAdministrative: structure.communeAdministrative,
+      departementAdministratif: structure.departementAdministratif,
+      nom: structure.nom,
+      debutConvention: structure.debutConvention,
+      finConvention: structure.finConvention,
+      cpom: structure.cpom,
+      creationDate: structure.creationDate,
+      finessCode: structure.finessCode,
+      lgbt: structure.lgbt,
+      fvvTeh: structure.fvvTeh,
+      public: convertToPublicType(structure.public),
+      debutPeriodeAutorisation: structure.debutPeriodeAutorisation,
+      finPeriodeAutorisation: structure.finPeriodeAutorisation,
+      debutCpom: structure.debutCpom,
+      finCpom: structure.finCpom,
+      contacts: {
+        createMany: {
+          data: structure.contacts,
+        },
+      },
+      structureTypologies: {
+        createMany: {
+          data: structure.structureTypologies,
+        },
+      },
+    },
+  });
+
+  const adresses = handleAdresses(structure.dnaCode, structure.adresses);
+
+  for (const adresse of adresses) {
+    await prisma.adresse.create({
       data: {
-        dnaCode: structure.dnaCode,
-        oldOperateur: "Ancien opérateur : à supprimer",
-        operateur: {
-          connect: {
-            id: structure.operateur.id,
-          },
-        },
-        filiale: structure.filiale,
-        latitude: Prisma.Decimal(coordinates.latitude || 0),
-        longitude: Prisma.Decimal(coordinates.longitude || 0),
-        type: convertToStructureType(structure.type),
-        oldNbPlaces: -1,
-        adresseAdministrative: structure.adresseAdministrative,
-        codePostalAdministratif: structure.codePostalAdministratif,
-        communeAdministrative: structure.communeAdministrative,
-        departementAdministratif: structure.departementAdministratif,
-        nom: structure.nom,
-        debutConvention: structure.debutConvention,
-        finConvention: structure.finConvention,
-        cpom: structure.cpom,
-        creationDate: structure.creationDate,
-        finessCode: structure.finessCode,
-        lgbt: structure.lgbt,
-        fvvTeh: structure.fvvTeh,
-        public: convertToPublicType(structure.public),
-        debutPeriodeAutorisation: structure.debutPeriodeAutorisation,
-        finPeriodeAutorisation: structure.finPeriodeAutorisation,
-        debutCpom: structure.debutCpom,
-        finCpom: structure.finCpom,
-        contacts: {
-          createMany: {
-            data: structure.contacts,
-          },
-        },
-        structureTypologies: {
-          createMany: {
-            data: structure.structureTypologies,
-          },
+        adresse: adresse.adresse,
+        codePostal: adresse.codePostal,
+        commune: adresse.commune,
+        repartition: adresse.repartition,
+        structureDnaCode: adresse.structureDnaCode,
+        adresseTypologies: {
+          create: adresse.adresseTypologies,
         },
       },
     });
+  }
 
-    const adresses = handleAdresses(structure.dnaCode, structure.adresses);
+  for (const fileUpload of structure.fileUploads) {
+    await prisma.fileUpload.update({
+      where: { key: fileUpload.key },
+      data: {
+        date: fileUpload.date,
+        category: (fileUpload.category as FileUploadCategory) || null,
+        structureDnaCode: structure.dnaCode,
+      },
+    });
+  }
 
-    for (const adresse of adresses) {
-      await prisma.adresse.create({
-        data: {
-          adresse: adresse.adresse,
-          codePostal: adresse.codePostal,
-          commune: adresse.commune,
-          repartition: adresse.repartition,
-          structureDnaCode: adresse.structureDnaCode,
-          adresseTypologies: {
-            create: adresse.adresseTypologies,
-          },
-        },
-      });
-    }
+  // Initialiser les forms par défaut pour la nouvelle structure
+  await initializeDefaultForms(structure.dnaCode);
 
-    for (const fileUpload of structure.fileUploads) {
-      await prisma.fileUpload.update({
-        where: { key: fileUpload.key },
-        data: {
-          date: fileUpload.date,
-          category: (fileUpload.category as FileUploadCategory) || null,
-          structureDnaCode: structure.dnaCode,
-        },
-      });
-    }
-
-    // Initialiser les forms par défaut pour la nouvelle structure
-    await initializeDefaultForms(structure.dnaCode);
-
-    const updatedStructure = await findOne(newStructure.id);
-    if (!updatedStructure) {
-      throw new Error(
-        `Impossible de trouver la structure avec le code DNA ${newStructure.dnaCode}`
-      );
-    }
-    return updatedStructure;
-  } catch (error) {
-    console.error("Error in createOne:", error);
+  const updatedStructure = await findOne(newStructure.id);
+  if (!updatedStructure) {
     throw new Error(
-      `Impossible de créer la structure avec le code DNA ${structure.dnaCode}: ${error instanceof Error ? error.message : String(error)}`
+      `Impossible de trouver la structure avec le code DNA ${newStructure.dnaCode}`
     );
   }
+  return updatedStructure;
 };
 
 const createOrUpdateContacts = async (

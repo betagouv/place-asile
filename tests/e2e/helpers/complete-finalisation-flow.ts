@@ -1,11 +1,7 @@
 import { Page } from "@playwright/test";
 
-import { FinalisationAdressesPage } from "./page-objects/finalisation/FinalisationAdressesPage";
-import { FinalisationFinancePage } from "./page-objects/finalisation/FinalisationFinancePage";
 import { FinalisationIdentificationPage } from "./page-objects/finalisation/FinalisationIdentificationPage";
 import { FinalisationNotesPage } from "./page-objects/finalisation/FinalisationNotesPage";
-import { FinalisationQualitePage } from "./page-objects/finalisation/FinalisationQualitePage";
-import { FinalisationTypePlacesPage } from "./page-objects/finalisation/FinalisationTypePlacesPage";
 import { createStructureViaApi, getStructureId } from "./structure-creator";
 import { TestStructureData } from "./test-data";
 

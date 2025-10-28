@@ -1,14 +1,6 @@
 import z from "zod";
 
 import { controlesSchema } from "../base/controles.schema";
-<<<<<<< HEAD
-import { evaluationsSchema } from "../base/evaluation.schema";
-
-export const finalisationQualiteSchama = controlesSchema.and(evaluationsSchema);
-
-export type FinalisationQualiteFormValues = z.infer<
-  typeof finalisationQualiteSchama
-=======
 import {
   evaluationsAutoSaveSchema,
   evaluationsSchema,
@@ -29,5 +21,4 @@ export type FinalisationQualiteFormValues = z.infer<
 
 export type FinalisationQualiteAutoSaveFormValues = z.infer<
   typeof finalisationQualiteAutoSaveSchema
->>>>>>> origin/dev
 >;

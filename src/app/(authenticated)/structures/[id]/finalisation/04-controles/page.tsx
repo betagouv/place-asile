@@ -15,13 +15,13 @@ import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { ControleApiType } from "@/schemas/forms/api/controle.schema";
-import { EvaluationApiType } from "@/schemas/forms/api/evaluation.schema";
+import { ControleApiType } from "@/schemas/api/controle.schema";
+import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
   FinalisationQualiteAutoSaveFormValues,
   finalisationQualiteAutoSaveSchema,
   finalisationQualiteSchema,
-} from "@/schemas/forms/forms/finalisation/finalisationQualite.schema";
+} from "@/schemas/forms/finalisation/finalisationQualite.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 import { FormKind } from "@/types/global";

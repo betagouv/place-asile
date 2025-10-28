@@ -7,7 +7,7 @@ export default defineConfig({
   testDir: "./tests/e2e",
   workers: 1, // Run tests sequentially to avoid race conditions
   use: {
-    baseURL: "http://localhost:6000",
+    baseURL: "http://localhost:3001",
     headless: true,
     viewport: { width: 1280, height: 800 },
     ignoreHTTPSErrors: true,
