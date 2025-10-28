@@ -13,7 +13,7 @@ import { useStructureContext } from "../../_context/StructureClientContext";
 export const DocumentsAdministratifs = (): ReactElement => {
   const { structure } = useStructureContext();
 
-  const getFileUploadsToDisplay = (budget: BudgetApiType) => {
+  const getDocumentsFinanciersToDisplay = (budget: BudgetApiType) => {
     return (structure.documentsFinanciers || [])?.filter(
       (documentFinancier) => {
         const isSameYear =
@@ -32,14 +32,16 @@ export const DocumentsAdministratifs = (): ReactElement => {
       {structure.budgets?.map((budget) => (
         <Accordion label={new Date(budget.date).getFullYear()} key={budget.id}>
           <div className="columns-3">
-            {getFileUploadsToDisplay(budget)?.length === 0 ? (
+            {getDocumentsFinanciersToDisplay(budget)?.length === 0 ? (
               <span>Aucun document importé</span>
             ) : (
-              getFileUploadsToDisplay(budget).map((fileUpload) => (
-                <div key={fileUpload.key} className="pb-5">
-                  <DownloadItem fileUpload={fileUpload} />
-                </div>
-              ))
+              getDocumentsFinanciersToDisplay(budget).map(
+                (documentFinancier) => (
+                  <div key={documentFinancier.key} className="pb-5">
+                    <DownloadItem fileUpload={documentFinancier} />
+                  </div>
+                )
+              )
             )}
           </div>
         </Accordion>

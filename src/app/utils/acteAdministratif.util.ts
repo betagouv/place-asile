@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
 import { StructureApiType } from "@/schemas/api/structure.schema";
-import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif";
+import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif.schema";
 import { ActeAdministratifCategoryType } from "@/types/file-upload.type";
 
 import { getCategoriesToDisplay } from "./categoryToDisplay.util";
@@ -54,7 +54,7 @@ const getDefaultValuesFromDb = (
       uuid: uuidv4(),
       key: acteAdministratif.key,
       category: acteAdministratif.category,
-      date: acteAdministratif.date,
+      date: acteAdministratif.date || undefined,
       startDate: acteAdministratif.startDate || "",
       endDate: acteAdministratif.endDate || "",
       categoryName: acteAdministratif.categoryName || "Document",

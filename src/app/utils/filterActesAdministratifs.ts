@@ -3,7 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import {
   ActeAdministratifFormValues,
   ActesAdministratifsFormValues,
-} from "@/schemas/forms/base/acteAdministratif";
+} from "@/schemas/forms/base/acteAdministratif.schema";
 import { CategoryDisplayRulesType } from "@/types/categoryToDisplay.type";
 
 export const filterActesAdministratifs = async (

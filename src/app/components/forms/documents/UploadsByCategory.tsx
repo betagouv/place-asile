@@ -4,7 +4,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
-import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif";
+import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif.schema";
 import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
 import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
 import { zActeAdministratifCategory } from "@/types/file-upload.type";

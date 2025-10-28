@@ -18,7 +18,7 @@ import { filterActesAdministratifs } from "@/app/utils/filterActesAdministratifs
 import {
   ActesAdministratifsFormValues,
   actesAdministratifsSchema,
-} from "@/schemas/forms/base/acteAdministratif";
+} from "@/schemas/forms/base/acteAdministratif.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";

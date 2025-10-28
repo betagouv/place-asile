@@ -25,7 +25,7 @@ export const typologieItemBaseSchema = z.object({
   date: frenchDateToISO(),
 });
 
-const typologieItemWithIdSchema = typologieItemBaseSchema.extend({
+export const typologieItemWithIdSchema = typologieItemBaseSchema.extend({
   id: z.number().optional(),
 });
 

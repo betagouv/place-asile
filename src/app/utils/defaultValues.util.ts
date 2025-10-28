@@ -2,7 +2,7 @@ import { getRepartition } from "@/app/utils/structure.util";
 import { ContactApiType } from "@/schemas/api/contact.schema";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
-import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif";
+import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif.schema";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
 import { DocumentFinancierFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
@@ -11,7 +11,7 @@ import { budgetsSchemaTypeFormValues } from "@/schemas/forms/base/finance.schema
 import { Repartition } from "@/types/adresse.type";
 import { PublicType } from "@/types/structure.type";
 
-import { getActesAdministratifsDefaultValues } from "./acteAdministratif";
+import { getActesAdministratifsDefaultValues } from "./acteAdministratif.util";
 import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { getBudgetsDefaultValues } from "./budget.util";
 import { buildDocumentsFinanciersDefaultValues } from "./buildDocumentsFinanciersDefaultValues.util";

@@ -20,7 +20,7 @@ import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormSt
 import {
   ActesAdministratifsAutoSaveFormValues,
   actesAdministratifsAutoSaveSchema,
-} from "@/schemas/forms/base/acteAdministratif";
+} from "@/schemas/forms/base/acteAdministratif.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 
@@ -52,7 +52,7 @@ export default function FinalisationQualite() {
 
   const onAutoSave = async (data: ActesAdministratifsAutoSaveFormValues) => {
     const actesAdministratifs = data.actesAdministratifs?.filter(
-      (fileUpload) => fileUpload.key
+      (acteAdministratif) => acteAdministratif.key
     );
 
     await handleAutoSave({

@@ -55,20 +55,24 @@ export const Documents = ({ className }: { className?: string }) => {
                     subTitle={document.subLabel}
                   >
                     <UploadWithValidation
-                      name={`fileUploads.${currentDocIndex}.key`}
-                      id={`fileUploads.${currentDocIndex}.key`}
+                      name={`documentsFinanciers.${currentDocIndex}.key`}
+                      id={`documentsFinanciers.${currentDocIndex}.key`}
                       control={control}
                       className="[*]:!justify-start p-4 min-h-0"
                     />
                     <input
                       type="hidden"
                       aria-hidden="true"
-                      {...register(`fileUploads.${currentDocIndex}.category`)}
+                      {...register(
+                        `documentsFinanciers.${currentDocIndex}.category`
+                      )}
                     />
                     <input
                       type="hidden"
                       aria-hidden="true"
-                      {...register(`fileUploads.${currentDocIndex}.date`)}
+                      {...register(
+                        `documentsFinanciers.${currentDocIndex}.date`
+                      )}
                     />
                   </UploadItem>
                 );
