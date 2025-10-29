@@ -4,8 +4,7 @@ import { findOne } from "../structure.repository";
 import {
   addPresencesIndues,
   divideFileUploads,
-  StructureWithActivites,
-  StructureWithFileUploads,
+  StructureWithFileUploadsAndActivites,
 } from "../structure.service";
 
 export async function GET(request: NextRequest) {
@@ -21,10 +20,10 @@ export async function GET(request: NextRequest) {
     }
 
     const structureWithPresencesIndues = addPresencesIndues(
-      structure as StructureWithActivites
+      structure as StructureWithFileUploadsAndActivites
     );
     const structureWithDividedFileUploads = divideFileUploads(
-      structureWithPresencesIndues as unknown as StructureWithFileUploads
+      structureWithPresencesIndues
     );
     return NextResponse.json(structureWithDividedFileUploads);
   } catch (error) {

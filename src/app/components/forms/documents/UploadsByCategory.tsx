@@ -115,7 +115,8 @@ export default function UploadsByCategory({
 
   const getItemIndex = (uuid: string) => {
     const index = actesAdministratifs.findIndex(
-      (f: ActeAdministratifField) => f.uuid === uuid
+      (acteAdministratif: ActeAdministratifField) =>
+        acteAdministratif.uuid === uuid
     );
     return index;
   };
