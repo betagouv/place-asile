@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { ReactElement } from "react";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
