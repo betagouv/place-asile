@@ -8,7 +8,7 @@ import { adresseApiSchema } from "./adresse.schema";
 import { budgetApiSchema } from "./budget.schema";
 import { contactApiSchema } from "./contact.schema";
 import { controleApiSchema } from "./controle.schema";
-import { documentFinancierApiSchema } from "./documentFinancierApiSchema.schema";
+import { documentFinancierApiSchema } from "./documentFinancier.schema";
 import { evaluationApiSchema } from "./evaluation.schema";
 import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grave.schema";
 import { formApiSchema } from "./form.schema";

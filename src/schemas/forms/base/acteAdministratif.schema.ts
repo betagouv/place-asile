@@ -4,21 +4,18 @@ import {
   frenchDateToISO,
   optionalFrenchDateToISO,
 } from "@/app/utils/zodCustomFields";
-import {
-  zActeAdministratifCategory,
-  zFileUploadCategory,
-} from "@/types/file-upload.type";
+import { ActeAdministratifCategory } from "@/types/file-upload.type";
 
 const avenantSchema = z.object({
   key: z.string().optional(),
   date: optionalFrenchDateToISO(),
-  category: zActeAdministratifCategory,
+  category: z.enum(ActeAdministratifCategory),
 });
 
 export const acteAdministratifSchema = z.object({
   key: z.string(),
   date: optionalFrenchDateToISO(),
-  category: zFileUploadCategory,
+  category: z.enum(ActeAdministratifCategory),
   startDate: frenchDateToISO(),
   endDate: frenchDateToISO(),
   avenants: z.array(avenantSchema).optional(),
@@ -30,7 +27,7 @@ export const acteAdministratifSchema = z.object({
 export const acteAdministratifAutoSaveSchema = z.object({
   key: z.string().optional(),
   date: optionalFrenchDateToISO(),
-  category: zFileUploadCategory,
+  category: z.enum(ActeAdministratifCategory),
   startDate: optionalFrenchDateToISO(),
   endDate: optionalFrenchDateToISO(),
   avenants: z.array(avenantSchema).optional(),
