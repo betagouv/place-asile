@@ -17,3 +17,21 @@ export const getControlesDefaultValues = (
     };
   });
 };
+
+export const transformFormControlesToApiControles = (
+  controles?: ControleFormValues[]
+): ControleApiType[] | undefined => {
+  return controles
+    ?.filter(
+      (controle) =>
+        controle.date && controle.type && controle.fileUploads?.[0]?.key
+    )
+    .map((controle) => {
+      return {
+        id: controle.id || undefined,
+        date: controle.date!,
+        type: controle.type!,
+        fileUploadKey: controle.fileUploads?.[0]?.key,
+      };
+    });
+};

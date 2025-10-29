@@ -16,7 +16,7 @@ import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { getBudgetsDefaultValues } from "./budget.util";
 import { getControlesDefaultValues } from "./controle.util";
 import { getDocumentsFinanciersDefaultValues } from "./documentFinancier.util";
-import { getEvaluationsDefaultValues } from "./evaluations.util";
+import { getEvaluationsDefaultValues } from "./evaluation.util";
 import { isStructureAutorisee } from "./structure.util";
 
 export const getDefaultValues = ({

@@ -12,11 +12,11 @@ import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
+import { transformFormControlesToApiControles } from "@/app/utils/controle.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { transformFormEvaluationsToApiEvaluations } from "@/app/utils/evaluation.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { ControleApiType } from "@/schemas/api/controle.schema";
-import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
   FinalisationQualiteAutoSaveFormValues,
   finalisationQualiteAutoSaveSchema,
@@ -51,28 +51,10 @@ export default function ModificationControleForm() {
   });
 
   const onAutoSave = async (data: FinalisationQualiteAutoSaveFormValues) => {
-    const controles: ControleApiType[] | undefined = data.controles?.map(
-      (controle) => {
-        return {
-          id: controle.id ?? undefined,
-          date: controle.date,
-          type: controle.type,
-          fileUploadKey: controle.fileUploads?.[0]?.key,
-        };
-      }
-    );
+    const controles = transformFormControlesToApiControles(data.controles);
 
-    const evaluations: EvaluationApiType[] | undefined = data.evaluations?.map(
-      (evaluation) => {
-        return {
-          ...evaluation,
-          id: evaluation.id || undefined,
-          fileUploads: evaluation.fileUploads?.filter(
-            (fileUpload) =>
-              fileUpload?.key !== undefined && fileUpload?.id !== undefined
-          ) as { id: number; key: string }[] | undefined,
-        };
-      }
+    const evaluations = transformFormEvaluationsToApiEvaluations(
+      data.evaluations
     );
 
     await handleAutoSave({

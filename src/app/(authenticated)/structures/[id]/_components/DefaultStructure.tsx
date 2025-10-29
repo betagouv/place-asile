@@ -30,11 +30,9 @@ export const DefaultStructure = (): ReactElement => {
           <FinancesBlock />
         </Section>
       )}
-      {structure?.controles && structure.controles?.length > 0 && (
-        <Section id="controle">
-          <DefaultControlesBlock />
-        </Section>
-      )}
+      <Section id="controle">
+        <DefaultControlesBlock />
+      </Section>
       {/* <Section id="activites">
         <ActivitesBlock />
       </Section> */}
