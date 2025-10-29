@@ -44,7 +44,7 @@ export default function ModificationControleForm() {
           id: controle.id || undefined,
           date: controle.date!,
           type: controle.type!,
-          fileUploadKey: controle.fileUploads?.[0].key,
+          fileUploadKey: controle.fileUploads?.[0]?.key,
         };
       });
 

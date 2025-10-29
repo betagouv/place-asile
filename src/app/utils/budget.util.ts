@@ -8,19 +8,18 @@ export const getBudgetsDefaultValues = (
 ): budgetsSchemaTypeFormValues => {
   const { years } = getYearRange();
 
-  const budgetsFilteredByYears =
-    structureBudgets.filter((budget) =>
-      years.includes(new Date(budget.date).getFullYear())
-    ) || [];
-
   const budgets = Array(5)
     .fill({})
     .map((_, index) => ({
       date: new Date(years[index], 0, 1, 13).toISOString(),
     }))
-    .map((emptyBudget, index) => {
-      if (index < budgetsFilteredByYears.length) {
-        const budget = budgetsFilteredByYears[index];
+    .map((emptyBudget) => {
+      const budget = structureBudgets.find(
+        (budget) =>
+          new Date(budget.date).getFullYear() ===
+          new Date(emptyBudget.date).getFullYear()
+      );
+      if (budget) {
         return {
           ...budget,
           date: budget.date,

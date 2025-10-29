@@ -256,6 +256,8 @@ model Budget {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  
+  @@unique([structureDnaCode, date])
 
   @@schema("public")
 }
