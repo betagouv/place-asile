@@ -84,8 +84,10 @@ const budgetBaseSchema = z.object({
   totalProduits: zSafeDecimals(),
   totalCharges: zSafeDecimals(),
   repriseEtat: zSafeDecimals(),
-  excedentRecupere: zSafeDecimalsNullish(),
-  excedentDeduit: zSafeDecimalsNullish(),
+  excedentRecupere: zSafeDecimals(),
+  excedentDeduit: zSafeDecimals(),
+  fondsDedies: zSafeDecimals(),
+
   affectationReservesFondsDedies: zSafeDecimals(),
 
   // Champs variables
@@ -98,7 +100,6 @@ const budgetBaseSchema = z.object({
   reserveCompensationDeficits: zSafeDecimalsNullish(),
   reserveCompensationBFR: zSafeDecimalsNullish(),
   reserveCompensationAmortissements: zSafeDecimalsNullish(),
-  fondsDedies: zSafeDecimalsNullish(),
   reportANouveau: zSafeDecimalsNullish(),
   autre: zSafeDecimalsNullish(),
 
@@ -166,12 +167,18 @@ export const basicAutoSaveSchema = z
 const sansCpom = budgetBaseSchema
   .extend({
     cumulResultatsNetsCPOM: zSafeDecimalsNullish(),
+    excedentRecupere: zSafeDecimalsNullish(),
+    excedentDeduit: zSafeDecimalsNullish(),
+    fondsDedies: zSafeDecimalsNullish(),
   })
   .superRefine(validateAffectationReservesDetailsSansCpom);
 
 const avecCpom = budgetBaseSchema
   .extend({
     totalChargesProposees: zSafeDecimalsNullish(),
+    excedentRecupere: zSafeDecimalsNullish(),
+    excedentDeduit: zSafeDecimalsNullish(),
+    fondsDedies: zSafeDecimalsNullish(),
   })
   .superRefine(validateAffectationReservesDetails);
 
@@ -188,6 +195,8 @@ const autoriseeCurrentYear = budgetBaseSchema.extend({
   reserveCompensationDeficits: zSafeDecimalsNullish(),
   reserveInvestissement: zSafeDecimalsNullish(),
   chargesNonReconductibles: zSafeDecimalsNullish(),
+  excedentRecupere: zSafeDecimalsNullish(),
+  excedentDeduit: zSafeDecimalsNullish(),
 });
 
 const autoriseeY2 = budgetBaseSchema.extend({
@@ -203,6 +212,8 @@ const autoriseeY2 = budgetBaseSchema.extend({
   reserveCompensationDeficits: zSafeDecimalsNullish(),
   reserveInvestissement: zSafeDecimalsNullish(),
   chargesNonReconductibles: zSafeDecimalsNullish(),
+  excedentRecupere: zSafeDecimalsNullish(),
+  excedentDeduit: zSafeDecimalsNullish(),
 });
 
 export const autoriseeSchema = z.object({
