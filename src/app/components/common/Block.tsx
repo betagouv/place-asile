@@ -14,7 +14,7 @@ export const Block = ({
           <h3 className="text-title-blue-france fr-h5">{title}</h3>
         </div>
         {onEdit && (
-          <button className="fr-btn fr-btn--secondary" onClick={onEdit}>
+          <button className="fr-btn fr-btn--tertiary" onClick={onEdit}>
             <span className="fr-icon-edit-line fr-icon--sm pr-2" />
             Modifier
           </button>
