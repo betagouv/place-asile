@@ -5,15 +5,13 @@ import {
   DocumentFinancierCategory,
 } from "@/types/file-upload.type";
 
-export type StructureWithActivites = Prisma.StructureGetPayload<{
-  include: { activites: true };
+export type StructureWithFileUploadsAndActivites = Prisma.StructureGetPayload<{
+  include: { fileUploads: true; activites: true };
 }>;
 
-export type StructureWithFileUploads = Prisma.StructureGetPayload<{
-  include: { fileUploads: true };
-}>;
-
-export const addPresencesIndues = (structure: StructureWithActivites) => {
+export const addPresencesIndues = (
+  structure: StructureWithFileUploadsAndActivites
+) => {
   const activitesWithPresencesIndues = structure.activites.map((activite) => {
     const presencesIndues =
       (activite?.presencesInduesBPI || 0) +
@@ -30,7 +28,9 @@ export const addPresencesIndues = (structure: StructureWithActivites) => {
   };
 };
 
-export const divideFileUploads = (structure: StructureWithFileUploads) => {
+export const divideFileUploads = (
+  structure: StructureWithFileUploadsAndActivites
+) => {
   return {
     ...structure,
     actesAdministratifs: structure.fileUploads.filter((fileUpload) =>
