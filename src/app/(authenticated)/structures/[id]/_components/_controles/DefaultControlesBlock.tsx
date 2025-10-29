@@ -9,8 +9,8 @@ import { getLastVisitInMonths } from "@/app/utils/structure.util";
 import { useStructureContext } from "../../_context/StructureClientContext";
 // import { DemarchesSimplifieesInfo } from "./DemarchesSimplifiesInfo";
 import { ControleAccordion } from "./ControleAccordion";
-// import { EvaluationTable } from "./EvaluationTable";
 import { ControleTable } from "./ControleTable";
+import { EvaluationTable } from "./EvaluationTable";
 
 export const DefaultControlesBlock = (): ReactElement => {
   const { structure } = useStructureContext();
@@ -52,12 +52,12 @@ export const DefaultControlesBlock = (): ReactElement => {
         /> */}
       </div>
       <div className="pt-3">
-        {/* <ControleAccordion title="Évaluations" lastVisit={evaluations[0]?.date}>
+        <ControleAccordion title="Évaluations" lastVisit={evaluations[0]?.date}>
           <EvaluationTable evaluations={evaluations} />
-        </ControleAccordion> */}
+        </ControleAccordion>
         <ControleAccordion
           title="Inspections-contrôles"
-          lastVisit={controles[0].date}
+          lastVisit={controles?.[0]?.date}
         >
           <ControleTable />
         </ControleAccordion>

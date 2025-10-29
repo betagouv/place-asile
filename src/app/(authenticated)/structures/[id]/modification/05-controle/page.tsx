@@ -2,6 +2,7 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
 
 import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
+import { Evaluations } from "@/app/components/forms/evaluations/Evaluations";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
@@ -10,11 +11,13 @@ import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { ControleApiType } from "@/schemas/api/controle.schema";
+import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
-  ControlesFormValues,
-  controlesSchema,
-} from "@/schemas/forms/base/controles.schema";
+  ModificationQualiteFormValues,
+  modificationQualiteSchema,
+} from "@/schemas/forms/modification/modificationQualite.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
@@ -33,7 +36,7 @@ export default function ModificationControleForm() {
     structure,
   });
 
-  const onSubmit = async (data: ControlesFormValues) => {
+  const onSubmit = async (data: ModificationQualiteFormValues) => {
     const controles: ControleApiType[] | undefined = data.controles
       ?.filter(
         (controle) =>
@@ -48,8 +51,21 @@ export default function ModificationControleForm() {
         };
       });
 
+    const evaluations: EvaluationApiType[] | undefined = data.evaluations?.map(
+      (evaluation) => {
+        return {
+          ...evaluation,
+          id: evaluation.id || undefined,
+          fileUploads: evaluation.fileUploads?.filter(
+            (fileUpload) =>
+              fileUpload?.key !== undefined && fileUpload?.id !== undefined
+          ) as { id: number; key: string }[] | undefined,
+        };
+      }
+    );
     await handleSubmit({
       controles,
+      evaluations,
       dnaCode: structure.dnaCode,
     });
   };
@@ -64,7 +80,7 @@ export default function ModificationControleForm() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={controlesSchema}
+        schema={modificationQualiteSchema}
         onSubmit={onSubmit}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}
@@ -77,6 +93,12 @@ export default function ModificationControleForm() {
           title=""
           description="Les Évaluations et les Évènements Indésirables Graves sont renseignés à partir du DNA. Il y a une erreur ? Contactez-nous."
         />
+        {isStructureAutorisee(structure.type) && (
+          <>
+            <Evaluations />
+            <hr />
+          </>
+        )}
         <UploadsByCategory
           category={"INSPECTION_CONTROLE"}
           categoryShortName={
