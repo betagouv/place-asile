@@ -51,7 +51,7 @@ export const createStructure = ({
     structureTypologies: structureTypologies ?? [],
     forms: [],
     contacts: [],
-    fileUploads: [],
+    documentsFinanciers: [],
   };
 };
 

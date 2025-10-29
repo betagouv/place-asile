@@ -5,8 +5,8 @@ import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_cont
 import { UploadItem } from "@/app/(password-protected)/ajout-structure/components/UploadItem";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
-import { getDocumentIndexes } from "@/app/utils/buildFileUploadsDefaultValues.util";
 import { getYearRange } from "@/app/utils/date.util";
+import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -55,20 +55,24 @@ export const Documents = ({ className }: { className?: string }) => {
                     subTitle={document.subLabel}
                   >
                     <UploadWithValidation
-                      name={`fileUploads.${currentDocIndex}.key`}
-                      id={`fileUploads.${currentDocIndex}.key`}
+                      name={`documentsFinanciers.${currentDocIndex}.key`}
+                      id={`documentsFinanciers.${currentDocIndex}.key`}
                       control={control}
                       className="[*]:!justify-start p-4 min-h-0"
                     />
                     <input
                       type="hidden"
                       aria-hidden="true"
-                      {...register(`fileUploads.${currentDocIndex}.category`)}
+                      {...register(
+                        `documentsFinanciers.${currentDocIndex}.category`
+                      )}
                     />
                     <input
                       type="hidden"
                       aria-hidden="true"
-                      {...register(`fileUploads.${currentDocIndex}.date`)}
+                      {...register(
+                        `documentsFinanciers.${currentDocIndex}.date`
+                      )}
                     />
                   </UploadItem>
                 );

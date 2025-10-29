@@ -7,11 +7,9 @@ export const transformAgentFormContactsToApiContacts = (
   if (contacts.length === 0) {
     return [];
   }
-  return contacts
-    .filter((contact): contact is ContactApiType => contact !== undefined)
-    .filter((contact: ContactApiType) =>
-      Object.values(contact).every((field) => field !== undefined)
-    );
+  return contacts.filter(
+    (contact): contact is ContactApiType => contact !== undefined
+  );
 };
 
 export const transformAjoutFormContactsToApiContacts = (

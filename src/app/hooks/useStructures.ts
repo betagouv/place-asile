@@ -8,7 +8,7 @@ import { StructureApiType } from "@/schemas/api/structure.schema";
 import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { AjoutTypePlacesFormValues } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentsFinanciers.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 import { DeepPartial } from "@/types/global";
 
 dayjs.extend(customParseFormat);
@@ -135,7 +135,7 @@ const transformAjoutFormStructureToApiStructure = (
       fvvTeh: Number(typologie.fvvTeh),
       date: formatDateToIsoString(typologie.date) as string,
     })),
-    fileUploads: values.fileUploads?.filter((fileUpload) => fileUpload.key),
+    documentsFinanciers: values.documentsFinanciers?.filter((documentFinancier) => documentFinancier.key),
   };
 };
 

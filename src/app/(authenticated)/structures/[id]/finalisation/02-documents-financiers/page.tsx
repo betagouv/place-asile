@@ -14,7 +14,7 @@ import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormSt
 import {
   DocumentsFinanciersFlexibleFormValues,
   DocumentsFinanciersFlexibleSchema,
-} from "@/schemas/forms/base/documentsFinanciers.schema";
+} from "@/schemas/forms/base/documentFinancier.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 
@@ -36,9 +36,15 @@ export default function FinalisationDocumentsFinanciers() {
     useAgentFormHandling({ currentStep });
 
   const onAutoSave = async (data: DocumentsFinanciersFlexibleFormValues) => {
-    const fileUploads = data.fileUploads.filter((fileUpload) => fileUpload.key);
+    const documentsFinanciers = data.documentsFinanciers.filter(
+      (documentFinancier) => documentFinancier.key
+    );
 
-    await handleAutoSave({ ...data, fileUploads, dnaCode: structure.dnaCode });
+    await handleAutoSave({
+      ...data,
+      documentsFinanciers,
+      dnaCode: structure.dnaCode,
+    });
   };
 
   const { getFetchState } = useFetchState();

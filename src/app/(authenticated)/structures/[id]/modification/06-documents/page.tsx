@@ -14,11 +14,11 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { filterFileUploads } from "@/app/utils/filterFileUploads.util";
+import { filterActesAdministratifs } from "@/app/utils/filterActesAdministratifs";
 import {
-  FileUploadsFormValues,
-  fileUploadsSchema,
-} from "@/schemas/forms/base/documents.schema";
+  ActesAdministratifsFormValues,
+  actesAdministratifsSchema,
+} from "@/schemas/forms/base/acteAdministratif.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
@@ -42,17 +42,17 @@ export default function ModificationQualiteForm() {
   });
 
   const onSubmit = async (
-    data: FileUploadsFormValues,
-    methods: UseFormReturn<FileUploadsFormValues>
+    data: ActesAdministratifsFormValues,
+    methods: UseFormReturn<ActesAdministratifsFormValues>
   ) => {
-    const fileUploads = await filterFileUploads(
-      data.fileUploads,
+    const actesAdministratifs = await filterActesAdministratifs(
+      data.actesAdministratifs,
       methods,
       categoriesDisplayRules
     );
 
     await handleSubmit({
-      fileUploads,
+      actesAdministratifs,
       dnaCode: structure.dnaCode,
     });
   };
@@ -67,7 +67,7 @@ export default function ModificationQualiteForm() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={fileUploadsSchema}
+        schema={actesAdministratifsSchema}
         onSubmit={onSubmit}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}

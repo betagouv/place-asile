@@ -2,10 +2,10 @@ import { useParams } from "next/navigation";
 import { ReactElement, useMemo } from "react";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getDocumentIndexes } from "@/app/utils/buildFileUploadsDefaultValues.util";
+import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentsFinanciers.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
 import { FileItem } from "../../../components/FileItem";
 import { Year } from "../../../components/Year";
@@ -57,7 +57,8 @@ export const DocumentsFinanciers = (): ReactElement => {
                   key={`${document.value}-${year}`}
                   title={document.label}
                   fileKey={
-                    localStorageValues?.fileUploads?.[currentDocIndex]?.key
+                    localStorageValues?.documentsFinanciers?.[currentDocIndex]
+                      ?.key
                   }
                 />
               );

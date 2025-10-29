@@ -1,14 +1,18 @@
 import z from "zod";
 
-import { optionalFrenchDateToISO } from "@/app/utils/zodCustomFields";
-import { zSafeNumber } from "@/app/utils/zodSafeNumber";
+import {
+  frenchDateToISO,
+  zSafeDecimalsNullish,
+} from "@/app/utils/zodCustomFields";
 import { ControleType } from "@/types/controle.type";
 
 export const controleSchema = z.object({
-  id: zSafeNumber().nullish(),
-  date: optionalFrenchDateToISO(),
-  type: z.nativeEnum(ControleType).optional(),
-  fileUploads: z.array(z.object({ key: z.string().optional() })).optional(),
+  id: zSafeDecimalsNullish(),
+  date: frenchDateToISO(),
+  type: z.nativeEnum(ControleType),
+  fileUploads: z
+    .array(z.object({ key: z.string(), id: zSafeDecimalsNullish() }).optional())
+    .optional(),
 });
 
 export const controlesSchema = z.object({

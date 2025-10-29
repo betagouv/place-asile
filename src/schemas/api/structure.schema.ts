@@ -2,14 +2,15 @@ import { z } from "zod";
 
 import { PublicType, StructureType } from "@/types/structure.type";
 
+import { acteAdministratifApiSchema } from "./acteAdministratif.schema";
 import { activiteApiSchema } from "./activite.schema";
 import { adresseApiSchema } from "./adresse.schema";
 import { budgetApiSchema } from "./budget.schema";
 import { contactApiSchema } from "./contact.schema";
 import { controleApiSchema } from "./controle.schema";
+import { documentFinancierApiSchema } from "./documentFinancier.schema";
 import { evaluationApiSchema } from "./evaluation.schema";
 import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grave.schema";
-import { fileUploadApiSchema } from "./fileUpload.schema";
 import { formApiSchema } from "./form.schema";
 import { operateurApiSchema } from "./operateur.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
@@ -59,7 +60,7 @@ export const structureCreationApiSchema = z.object({
   forms: z.array(formApiSchema).optional(),
 
   contacts: z.array(contactApiSchema),
-  fileUploads: z.array(fileUploadApiSchema),
+  documentsFinanciers: z.array(documentFinancierApiSchema),
 });
 
 const partialStructureCreationApiSchema = structureCreationApiSchema
@@ -69,7 +70,9 @@ const partialStructureCreationApiSchema = structureCreationApiSchema
     adresses: z.array(adresseApiSchema.partial()).optional(),
     forms: z.array(formApiSchema.partial()).optional(),
     contacts: z.array(contactApiSchema.partial()).optional(),
-    fileUploads: z.array(fileUploadApiSchema.partial()).optional(),
+    documentsFinanciers: z
+      .array(documentFinancierApiSchema.partial())
+      .optional(),
     structureTypologies: z
       .array(structureTypologieApiSchema.partial())
       .optional(),
@@ -90,6 +93,7 @@ const remainingStructureUpdateApiSchema = z.object({
   activites: z.array(activiteApiSchema).optional(),
   budgets: z.array(budgetApiSchema).optional(),
   forms: z.array(formApiSchema).optional(),
+  actesAdministratifs: z.array(acteAdministratifApiSchema.partial()).optional(),
 });
 
 export const structureUpdateApiSchema = partialStructureCreationApiSchema.and(

@@ -1,6 +1,4 @@
-import z from "zod";
-
-export const AgentFileUploadCategory = [
+export const ActeAdministratifCategory = [
   "ARRETE_AUTORISATION",
   "CPOM",
   "CONVENTION",
@@ -10,7 +8,7 @@ export const AgentFileUploadCategory = [
   "AUTRE",
 ] as const;
 
-export const OperateurFileUploadCategory = [
+export const DocumentFinancierCategory = [
   "BUDGET_PREVISIONNEL_DEMANDE",
   "RAPPORT_BUDGETAIRE",
   "BUDGET_PREVISIONNEL_RETENU",
@@ -23,29 +21,13 @@ export const OperateurFileUploadCategory = [
   "RAPPORT_ACTIVITE_OPERATEUR",
 ] as const;
 
-export type AgentFileUploadCategoryType = typeof AgentFileUploadCategory;
-export type OperateurFileUploadCategoryType =
-  typeof OperateurFileUploadCategory;
-
-export const zAgentFileUploadCategory = z.enum(
-  Object.values(
-    AgentFileUploadCategory
-  ) as unknown as AgentFileUploadCategoryType
-);
-
-export const zOperateurFileUploadCategory = z.enum(
-  Object.values(
-    OperateurFileUploadCategory
-  ) as unknown as OperateurFileUploadCategoryType
-);
-
 export const FileUploadCategory = [
-  ...AgentFileUploadCategory,
-  ...OperateurFileUploadCategory,
+  ...ActeAdministratifCategory,
+  ...DocumentFinancierCategory,
 ] as const;
 
-export type FileUploadCategoryType = typeof FileUploadCategory;
+export type ActeAdministratifCategoryType = typeof ActeAdministratifCategory;
 
-export const zFileUploadCategory = z.enum(
-  Object.values(FileUploadCategory) as unknown as FileUploadCategoryType
-);
+export type DocumentFinancierCategoryType = typeof DocumentFinancierCategory;
+
+export type FileUploadCategoryType = typeof FileUploadCategory;

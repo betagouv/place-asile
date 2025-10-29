@@ -4,16 +4,20 @@ import {
   CategoryDisplayRulesType,
 } from "@/types/categoryToDisplay.type";
 import {
-  AgentFileUploadCategory,
-  AgentFileUploadCategoryType,
+  ActeAdministratifCategory,
+  ActeAdministratifCategoryType,
 } from "@/types/file-upload.type";
 
 import { isStructureSubventionnee } from "./structure.util";
 
 export const getCategoriesToDisplay = (
   structure: StructureApiType
-): AgentFileUploadCategoryType[number][] =>
-  AgentFileUploadCategory.filter((category) => {
+): ActeAdministratifCategoryType[number][] =>
+  ActeAdministratifCategory.filter((category) => {
+    if (category === "EVALUATION" || category === "INSPECTION_CONTROLE") {
+      return false;
+    }
+
     if (category === "CPOM" && !structure.cpom) {
       return false;
     }

@@ -1,11 +1,10 @@
 import { ReactElement } from "react";
 import { Control, UseFormRegister } from "react-hook-form";
-import z from "zod";
 
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { getYearDate } from "@/app/utils/date.util";
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentsFinanciers.schema";
-import { zFileUploadCategory } from "@/types/file-upload.type";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
+import { FileUploadCategoryType } from "@/types/file-upload.type";
 
 import { UploadItem } from "../../components/UploadItem";
 
@@ -24,21 +23,21 @@ export const DocumentItem = ({
       subTitle={categorySubLabel}
     >
       <UploadWithValidation
-        name={`fileUploads.${index}.key`}
-        id={`fileUploads.${index}.key`}
+        name={`documentsFinanciers.${index}.key`}
+        id={`documentsFinanciers.${index}.key`}
         control={control}
       />
       <input
         type="hidden"
         aria-hidden="true"
         defaultValue={categoryValue}
-        {...register(`fileUploads.${index}.category`)}
+        {...register(`documentsFinanciers.${index}.category`)}
       />
       <input
         type="hidden"
         aria-hidden="true"
         defaultValue={getYearDate(year)}
-        {...register(`fileUploads.${index}.date`)}
+        {...register(`documentsFinanciers.${index}.date`)}
       />
     </UploadItem>
   );
@@ -51,5 +50,5 @@ type Props = {
   register: UseFormRegister<DocumentsFinanciersFlexibleFormValues>;
   categoryLabel: string;
   categorySubLabel?: string;
-  categoryValue: z.infer<typeof zFileUploadCategory>;
+  categoryValue: FileUploadCategoryType[number];
 };

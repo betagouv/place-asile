@@ -1,15 +1,17 @@
 import { UseFormReturn } from "react-hook-form";
 
-import { FileUploadFormValues } from "@/schemas/forms/base/documents.schema";
-import { FileUploadsFormValues } from "@/schemas/forms/base/documents.schema";
+import {
+  ActeAdministratifFormValues,
+  ActesAdministratifsFormValues,
+} from "@/schemas/forms/base/acteAdministratif.schema";
 import { CategoryDisplayRulesType } from "@/types/categoryToDisplay.type";
 
-export const filterFileUploads = async (
-  fileUploads: FileUploadFormValues[] | undefined,
-  methods: UseFormReturn<FileUploadsFormValues>,
+export const filterActesAdministratifs = async (
+  actesAdministratifs: ActeAdministratifFormValues[] | undefined,
+  methods: UseFormReturn<ActesAdministratifsFormValues>,
   categoriesDisplayRules: CategoryDisplayRulesType
 ) => {
-  if (!categoriesDisplayRules || !fileUploads) {
+  if (!categoriesDisplayRules || !actesAdministratifs) {
     return;
   }
 
@@ -23,18 +25,20 @@ export const filterFileUploads = async (
 
   let firstErrorIndex: number | null = null;
 
-  const missingRequiredUploads = fileUploads?.flatMap((fileUpload, index) => {
-    if (requiredCategories.includes(fileUpload.category) && !fileUpload.key) {
-      return { fileUpload, index };
+  const missingRequiredUploads = actesAdministratifs?.flatMap(
+    (fileUpload, index) => {
+      if (requiredCategories.includes(fileUpload.category) && !fileUpload.key) {
+        return { fileUpload, index };
+      }
+      return [];
     }
-    return [];
-  });
+  );
 
   if (missingRequiredUploads?.length) {
     firstErrorIndex = missingRequiredUploads[0].index;
 
     missingRequiredUploads.forEach(({ index }) => {
-      setError(`fileUploads.${index}.key` as const, {
+      setError(`actesAdministratifs.${index}.key` as const, {
         type: "custom",
         message: "Veuillez sélectionner au moins un document.",
       });
@@ -44,7 +48,7 @@ export const filterFileUploads = async (
   if (firstErrorIndex !== null) {
     setTimeout(() => {
       const errorField = document.querySelector(
-        `[name="fileUploads.${firstErrorIndex}.key"]`
+        `[name="actesAdministratifs.${firstErrorIndex}.key"]`
       );
       if (errorField instanceof HTMLElement) {
         errorField.focus();
@@ -55,5 +59,5 @@ export const filterFileUploads = async (
     return undefined;
   }
 
-  return fileUploads;
+  return actesAdministratifs;
 };

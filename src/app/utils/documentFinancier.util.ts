@@ -7,17 +7,19 @@ import {
   reverseObjectKeyValues,
 } from "@/app/utils/common.util";
 import { StructureApiType } from "@/schemas/api/structure.schema";
+import { DocumentFinancierFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
+import { DocumentFinancierCategoryType } from "@/types/file-upload.type";
 
 import { StructureDocument } from "../(password-protected)/ajout-structure/[dnaCode]/04-documents/documents";
 import { getYearDate, getYearRange } from "./date.util";
 
-export const buildFileUploadsDefaultValues = ({
+export const getDocumentsFinanciersDefaultValues = ({
   structure,
   isAutorisee,
 }: {
   structure: StructureApiType;
   isAutorisee: boolean;
-}) => {
+}): DocumentFinancierFlexibleFormValues[] => {
   const { years } = getYearRange();
 
   const documentsToDisplay = isAutorisee
@@ -31,26 +33,28 @@ export const buildFileUploadsDefaultValues = ({
 
   const indexWithValues = reverseObjectKeyValues(documentIndexes);
   const documents = convertObjectToArray(indexWithValues);
-  const fileUploads = documents.map((document) => {
-    const [fileUploadCategory, year] = document.toString().split("-");
-    const fileUpload = structure.fileUploads?.find((fileUpload) => {
-      return (
-        fileUpload.category === fileUploadCategory &&
-        new Date(fileUpload.date || "").getFullYear() === Number(year)
-      );
-    });
+  const documentsFinanciers = documents.map((document) => {
+    const [category, year] = document.toString().split("-");
+    const documentFinancier = structure.documentsFinanciers?.find(
+      (documentFinancier) => {
+        return (
+          documentFinancier.category === category &&
+          new Date(documentFinancier.date || "").getFullYear() === Number(year)
+        );
+      }
+    );
 
-    if (fileUpload && fileUpload.category) {
-      return fileUpload;
+    if (documentFinancier && documentFinancier.category) {
+      return documentFinancier;
     }
 
     return {
-      key: fileUpload?.key ?? undefined,
-      category: fileUploadCategory,
+      key: documentFinancier?.key ?? undefined,
+      category: category as DocumentFinancierCategoryType[number],
       date: getYearDate(year),
     };
   });
-  return fileUploads;
+  return documentsFinanciers;
 };
 
 export const getDocumentIndexes = (

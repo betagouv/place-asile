@@ -1,11 +1,11 @@
 import prettyBytes from "pretty-bytes";
 import { ReactElement } from "react";
-import z from "zod";
 
 import { useFileUpload } from "@/app/hooks/useFileUpload";
 import { getCategoryLabel } from "@/app/utils/file-upload.util";
-import { FileUploadApiType } from "@/schemas/api/fileUpload.schema";
-import { zFileUploadCategory } from "@/types/file-upload.type";
+import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
+import { DocumentFinancierApiType } from "@/schemas/api/documentFinancier.schema";
+import { FileUploadCategoryType } from "@/types/file-upload.type";
 
 export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
   const { getDownloadLink } = useFileUpload();
@@ -21,14 +21,18 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
   };
 
   const getFileLabel = (): string => {
-    if (fileUpload.categoryName) {
-      return fileUpload.categoryName;
+    if ("categoryName" in fileUpload && fileUpload.categoryName) {
+      return fileUpload?.categoryName;
     } else {
       const categoryLabel = getCategoryLabel(
-        fileUpload.category as unknown as z.infer<typeof zFileUploadCategory>
+        fileUpload.category as unknown as FileUploadCategoryType[number]
       );
-      const startYear = new Date(fileUpload.startDate || "").getFullYear();
-      const endYear = new Date(fileUpload.endDate || "").getFullYear();
+      const startYear = new Date(
+        "startDate" in fileUpload ? fileUpload.startDate || "" : ""
+      ).getFullYear();
+      const endYear = new Date(
+        "endDate" in fileUpload ? fileUpload.endDate || "" : ""
+      ).getFullYear();
       if (isNaN(startYear) || isNaN(endYear)) {
         return categoryLabel;
       }
@@ -52,5 +56,5 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
 };
 
 type Props = {
-  fileUpload: FileUploadApiType;
+  fileUpload: ActeAdministratifApiType | DocumentFinancierApiType;
 };

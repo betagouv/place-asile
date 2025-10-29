@@ -8,25 +8,24 @@ import { zSafeNumber } from "@/app/utils/zodSafeNumber";
 
 import { structureBaseSchema } from "./structure.base.schema";
 
-const numericField = (fieldName: string) =>
-  z.union([
-    z
-      .string()
-      .min(1, { message: `${fieldName} requis` })
-      .transform(Number),
-    z.number().min(0, { message: `${fieldName} requis` }),
-  ]);
-
 export const typologieItemBaseSchema = z.object({
-  placesAutorisees: numericField("Nombre de places"),
-  pmr: numericField("Nombre de places PMR"),
-  lgbt: numericField("Nombre de places LGBT"),
-  fvvTeh: numericField("Nombre de places FVV/TEH"),
+  placesAutorisees: zSafeNumber(),
+  pmr: zSafeNumber(),
+  lgbt: zSafeNumber(),
+  fvvTeh: zSafeNumber(),
   date: frenchDateToISO(),
 });
 
 const typologieItemWithIdSchema = typologieItemBaseSchema.extend({
   id: z.number().optional(),
+});
+
+export const typePlacesWithoutEvolutionSchema = z.object({
+  structureTypologies: z.array(typologieItemWithIdSchema),
+});
+
+export const typePlacesWithEvolutionAutoSaveSchema = z.object({
+  structureTypologies: z.array(typologieItemWithIdSchema.partial()),
 });
 
 export const placesEvolutionSchema = z.object({
@@ -35,6 +34,8 @@ export const placesEvolutionSchema = z.object({
   echeancePlacesACreer: optionalFrenchDateToISO(),
   echeancePlacesAFermer: optionalFrenchDateToISO(),
 });
+
+export const placesEvolutionAutoSaveSchema = placesEvolutionSchema.partial();
 
 const baseTypePlacesSchema = structureBaseSchema
   .extend({
@@ -61,8 +62,3 @@ export const typePlacesSchema = baseTypePlacesSchema
       path: ["echeancePlacesAFermer"],
     }
   );
-
-export const typePlacesAutoSaveSchema = baseTypePlacesSchema.partial();
-
-export type TypePlacesFormValues = z.infer<typeof typePlacesSchema>;
-export type PlacesEvolutionFormValues = z.infer<typeof placesEvolutionSchema>;

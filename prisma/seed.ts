@@ -4,7 +4,10 @@ import { PrismaClient, StructureState } from "@prisma/client";
 import { StructureType } from "@/types/structure.type";
 
 import { createDepartements } from "./seeders/departements-seed";
-import { createFakeFormDefinition, createFakeFormStepDefinition } from "./seeders/form.seed";
+import {
+  createFakeFormDefinition,
+  createFakeFormStepDefinition,
+} from "./seeders/form.seed";
 import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
@@ -24,14 +27,12 @@ export async function seed(): Promise<void> {
   });
 
   const formStepDefinitions = await prisma.formStepDefinition.createMany({
-    data: Array.from({ length: 6 }, () =>
-      createFakeFormStepDefinition(formDefinition.id)
-    ),
+    data: createFakeFormStepDefinition(formDefinition.id),
   });
 
   const stepDefinitionIds = await prisma.formStepDefinition.findMany({
     where: { formDefinitionId: formDefinition.id },
-    select: { id: true }
+    select: { id: true },
   });
 
   console.log(`✅ ${formStepDefinitions.count} FormStepDefinitions créées`);
@@ -59,7 +60,9 @@ export async function seed(): Promise<void> {
         ]),
         state: faker.helpers.enumValue(StructureState),
         formDefinitionId: formDefinition.id,
-        stepDefinitionIds: stepDefinitionIds.map(stepDefinition => stepDefinition.id),
+        stepDefinitionIds: stepDefinitionIds.map(
+          (stepDefinition) => stepDefinition.id
+        ),
       });
       console.log(`🏠 Ajout de la structure ${fakeStructure.dnaCode}...`);
       return fakeStructure;

@@ -18,9 +18,10 @@ import {
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
 import {
-  FileUploadsAutoSaveFormValues,
-  fileUploadsAutoSaveSchema,
-} from "@/schemas/forms/base/documents.schema";
+  ActesAdministratifsAutoSaveFormValues,
+  actesAdministratifsAutoSaveSchema,
+  actesAdministratifsSchema,
+} from "@/schemas/forms/base/acteAdministratif.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
 
@@ -38,7 +39,8 @@ export default function FinalisationQualite() {
   );
 
   const categoriesToDisplay = getCategoriesToDisplay(structure).filter(
-    (category) => category !== "INSPECTION_CONTROLE"
+    (category) =>
+      category !== "INSPECTION_CONTROLE" && category !== "EVALUATION"
   );
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
@@ -50,13 +52,13 @@ export default function FinalisationQualite() {
     structure,
   });
 
-  const onAutoSave = async (data: FileUploadsAutoSaveFormValues) => {
-    const fileUploads = data.fileUploads?.filter(
-      (fileUpload) => fileUpload.key
+  const onAutoSave = async (data: ActesAdministratifsAutoSaveFormValues) => {
+    const actesAdministratifs = data.actesAdministratifs?.filter(
+      (acteAdministratif) => acteAdministratif.key
     );
 
     await handleAutoSave({
-      fileUploads: fileUploads,
+      actesAdministratifs,
       dnaCode: structure.dnaCode,
     });
   };
@@ -68,14 +70,17 @@ export default function FinalisationQualite() {
     <div>
       <Tabs currentStep={currentStep} />
       <FormWrapper
-        schema={fileUploadsAutoSaveSchema}
+        schema={actesAdministratifsSchema}
         onSubmit={handleValidation}
         submitButtonText="Je valide la saisie de cette page"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
         className="rounded-t-none"
       >
-        <AutoSave schema={fileUploadsAutoSaveSchema} onSave={onAutoSave} />
+        <AutoSave
+          schema={actesAdministratifsAutoSaveSchema}
+          onSave={onAutoSave}
+        />
         <InformationBar
           variant={
             currentFormStepStatus === StepStatus.VALIDE ? "success" : "complete"

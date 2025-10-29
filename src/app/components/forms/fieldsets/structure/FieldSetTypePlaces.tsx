@@ -20,7 +20,7 @@ export const FieldSetTypePlaces = ({
   const hasErrors = Object.values(formState.errors).length > 0;
 
   useEffect(() => {
-    if (formState.errors.typologies) {
+    if (formState.errors.structureTypologies) {
       fieldsetRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [formState]);
@@ -60,16 +60,16 @@ export const FieldSetTypePlaces = ({
           >
             <td className="align-middle py-4">{year}</td>
             <InputWithValidation
-              name={`typologies.${index}.id`}
-              id={`typologies.${index}.id`}
+              name={`structureTypologies.${index}.id`}
+              id={`structureTypologies.${index}.id`}
               control={control}
               type="hidden"
               label="id"
             />
             <td className="!py-4">
               <InputWithValidation
-                name={`typologies.${index}.placesAutorisees`}
-                id={`typologies.${index}.placesAutorisees`}
+                name={`structureTypologies.${index}.placesAutorisees`}
+                id={`structureTypologies.${index}.placesAutorisees`}
                 control={control}
                 type="number"
                 min={0}
@@ -80,8 +80,8 @@ export const FieldSetTypePlaces = ({
             </td>
             <td className="!py-1">
               <InputWithValidation
-                name={`typologies.${index}.pmr`}
-                id={`typologies.${index}.pmr`}
+                name={`structureTypologies.${index}.pmr`}
+                id={`structureTypologies.${index}.pmr`}
                 control={control}
                 type="number"
                 min={0}
@@ -92,8 +92,8 @@ export const FieldSetTypePlaces = ({
             </td>
             <td className="!py-1">
               <InputWithValidation
-                name={`typologies.${index}.lgbt`}
-                id={`typologies.${index}.lgbt`}
+                name={`structureTypologies.${index}.lgbt`}
+                id={`structureTypologies.${index}.lgbt`}
                 control={control}
                 type="number"
                 min={0}
@@ -105,8 +105,8 @@ export const FieldSetTypePlaces = ({
 
             <td className="!py-1">
               <InputWithValidation
-                name={`typologies.${index}.fvvTeh`}
-                id={`typologies.${index}.fvvTeh`}
+                name={`structureTypologies.${index}.fvvTeh`}
+                id={`structureTypologies.${index}.fvvTeh`}
                 control={control}
                 type="number"
                 min={0}
@@ -118,7 +118,7 @@ export const FieldSetTypePlaces = ({
                 aria-hidden="true"
                 defaultValue={getYearDate(String(year))}
                 type="hidden"
-                {...register(`typologies.${index}.date`)}
+                {...register(`structureTypologies.${index}.date`)}
               />
             </td>
           </tr>
