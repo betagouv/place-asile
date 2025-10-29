@@ -287,19 +287,19 @@ const createOrUpdateBudgets = async (
 ): Promise<void> => {
   await Promise.all(
     (budgets || []).map((budget) => {
-      if (budget.id) {
-        return prisma.budget.update({
-          where: { id: budget.id },
-          data: budget,
-        });
-      } else {
-        return prisma.budget.create({
-          data: {
-            structureDnaCode,
-            ...budget,
+      return prisma.budget.upsert({
+        where: {
+          structureDnaCode_date: {
+            structureDnaCode: structureDnaCode,
+            date: budget.date,
           },
-        });
-      }
+        },
+        update: budget,
+        create: {
+          structureDnaCode,
+          ...budget,
+        },
+      });
     })
   );
 };
