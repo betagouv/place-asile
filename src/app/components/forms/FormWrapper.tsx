@@ -216,6 +216,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                   >
                     contactez-nous par mail
                   </a>
+                  ou par téléphone (07 86 38 96 85 ou au 06 88 44 20 93)
                 </p>
               </div>
             </>

@@ -35,7 +35,10 @@ describe("Menu", () => {
     const aide = screen.getByRole("link", {
       name: "Aide",
     });
-    expect(aide).toHaveAttribute("href", "mailto:placedasile@beta.gouv.fr");
+    expect(aide).toHaveAttribute(
+      "href",
+      "mailto:contact@placedasile.beta.gouv.fr"
+    );
     expect(aide).toHaveAttribute("target", "_blank");
     expect(aide).toHaveAttribute("rel", "noopener external");
     const confidentialite = screen.getByRole("link", {

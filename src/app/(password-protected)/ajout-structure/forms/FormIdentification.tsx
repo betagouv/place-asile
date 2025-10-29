@@ -138,7 +138,7 @@ export default function FormIdentification() {
                       rel="noopener noreferrer"
                       className="underline"
                     >
-                      placedasile@beta.gouv.fr
+                      {PLACE_ASILE_CONTACT_EMAIL}
                     </a>
                   }
                   .
