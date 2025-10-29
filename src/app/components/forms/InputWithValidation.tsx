@@ -32,12 +32,14 @@ export default function InputWithValidation<
   stateRelatedMessage,
   variant,
   onChange,
+  defaultValue,
 }: InputWithValidationProps<TFieldValues>) {
   const finalControl = control;
 
   const { field, fieldState } = useController({
     name,
     control: finalControl,
+    defaultValue,
   });
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +96,7 @@ export default function InputWithValidation<
 
   // TODO : refacto pour gérer ce cas plus proprement
   if (type === "hidden") {
-    return <></>;
+    return <input {...field} id={id} type="hidden" value={field.value ?? ""} />;
   }
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -174,4 +176,5 @@ type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     stateRelatedMessage?: string;
     variant?: "simple";
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    defaultValue?: string;
   };

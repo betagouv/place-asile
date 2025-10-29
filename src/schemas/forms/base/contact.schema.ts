@@ -1,15 +1,6 @@
 import z from "zod";
 
-const baseContactSchema = z.object({
-  id: z.number().optional(),
-  prenom: z.string(),
-  nom: z.string(),
-  role: z.string(),
-  email: z.string().email("Veuillez saisir une adresse email valide"),
-  telephone: z
-    .string()
-    .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères"),
-});
+import { ContactType } from "@/types/contact.type";
 
 export const requiredContactSchema = z.object({
   id: z.number().optional(),
@@ -24,10 +15,19 @@ export const requiredContactSchema = z.object({
     .string()
     .nonempty("Le téléphone est requis")
     .min(10, "Le numéro de téléphone doit contenir au moins 10 caractères"),
+  type: z.nativeEnum(ContactType),
 });
 
-const optionalContactSchema = baseContactSchema
-  .partial()
+export const optionalContactSchema = z
+  .object({
+    id: z.number().optional(),
+    prenom: z.string().optional(),
+    nom: z.string().optional(),
+    role: z.string().optional(),
+    email: z.string().optional(),
+    telephone: z.string().optional(),
+    type: z.nativeEnum(ContactType).optional(),
+  })
   .superRefine((data, ctx) => {
     if (!data) {
       return;

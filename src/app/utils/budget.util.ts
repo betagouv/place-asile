@@ -1,5 +1,5 @@
 import { BudgetApiType } from "@/schemas/api/budget.schema";
-import { budgetsSchemaTypeFormValues } from "@/schemas/forms/base/finance.schema";
+import { budgetsSchemaTypeFormValues } from "@/schemas/forms/base/budget.schema";
 
 import { getYearRange } from "./date.util";
 

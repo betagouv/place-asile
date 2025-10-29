@@ -259,7 +259,12 @@ const createOrUpdateContacts = async (
   await Promise.all(
     (contacts || []).map((contact) => {
       return prisma.contact.upsert({
-        where: { id: contact.id || 0 },
+        where: {
+          structureDnaCode_type: {
+            structureDnaCode: structureDnaCode,
+            type: contact.type ?? ContactType.AUTRE,
+          },
+        },
         update: {
           prenom: contact.prenom ?? "",
           nom: contact.nom ?? "",

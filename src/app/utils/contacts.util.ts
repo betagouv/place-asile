@@ -1,5 +1,4 @@
 import { ContactApiType } from "@/schemas/api/contact.schema";
-import { ContactType } from "@/types/contact.type";
 
 export const transformAgentFormContactsToApiContacts = (
   contacts: (Partial<ContactApiType> | undefined)[] = []
@@ -7,9 +6,16 @@ export const transformAgentFormContactsToApiContacts = (
   if (contacts.length === 0) {
     return [];
   }
-  return contacts.filter(
-    (contact): contact is ContactApiType => contact !== undefined
-  );
+  return contacts
+    .filter((contact): contact is ContactApiType => contact !== undefined)
+    .filter(
+      (contact) =>
+        contact.prenom ||
+        contact.nom ||
+        contact.email ||
+        contact.telephone ||
+        contact.role
+    );
 };
 
 export const transformAjoutFormContactsToApiContacts = (
@@ -19,7 +25,7 @@ export const transformAjoutFormContactsToApiContacts = (
   const contacts: Partial<ContactApiType>[] = [];
 
   if (contactPrincipal) {
-    contacts.push({ ...contactPrincipal, type: ContactType.PRINCIPAL });
+    contacts.push(contactPrincipal);
   }
 
   if (
@@ -35,7 +41,7 @@ export const transformAjoutFormContactsToApiContacts = (
     contactSecondaire.role &&
     contactSecondaire.role.trim() !== ""
   ) {
-    contacts.push({ ...contactSecondaire, type: ContactType.SECONDAIRE });
+    contacts.push(contactSecondaire);
   }
 
   return contacts;

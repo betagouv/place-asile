@@ -18,6 +18,7 @@ import {
   AjoutIdentificationFormValues,
   ajoutIdentificationSchema,
 } from "@/schemas/forms/ajout/ajoutIdentification.schema";
+import { ContactType } from "@/types/contact.type";
 import { PublicType, StructureType } from "@/types/structure.type";
 
 export default function FormIdentification() {
@@ -103,6 +104,7 @@ export default function FormIdentification() {
   if (!isClient) {
     return null;
   }
+
   return (
     <FormWrapper
       schema={ajoutIdentificationSchema}
@@ -117,7 +119,6 @@ export default function FormIdentification() {
     >
       {({ register, control, watch, setValue }) => {
         const cpom = watch("cpom");
-
         return (
           <>
             <Notice
@@ -300,6 +301,14 @@ export default function FormIdentification() {
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <InputWithValidation
+                  name="contactPrincipal.type"
+                  id="contactPrincipal.type"
+                  control={control}
+                  type="hidden"
+                  label="type"
+                  defaultValue={ContactType.PRINCIPAL}
+                />
+                <InputWithValidation
                   name="contactPrincipal.prenom"
                   id="contactPrincipal.prenom"
                   control={control}
@@ -344,6 +353,14 @@ export default function FormIdentification() {
                 Contact secondaire
               </legend>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <InputWithValidation
+                  name="contactSecondaire.type"
+                  id="contactSecondaire.type"
+                  control={control}
+                  type="hidden"
+                  label="type"
+                  defaultValue={ContactType.SECONDAIRE}
+                />
                 <InputWithValidation
                   name="contactSecondaire.prenom"
                   id="contactSecondaire.prenom"
