@@ -4,7 +4,7 @@ import {
   basicSchema,
   subventionneeAvecCpomSchema,
   subventionneeSchema,
-} from "@/schemas/forms/base/finance.schema";
+} from "@/schemas/forms/base/budget.schema";
 
 describe("finalisationFinanceSchema", () => {
   // Helper to create a valid budget base
