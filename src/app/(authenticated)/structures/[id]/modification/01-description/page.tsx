@@ -16,6 +16,7 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
 import { transformAgentFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import {
   ModificationDescriptionFormValues,
   modificationDescriptionSchema,
@@ -66,7 +67,7 @@ export default function ModificationDescription() {
         <Notice
           severity="warning"
           title=""
-          description="Certaines données (date de création, code DNA, type de structure, opérateur) ne sont pas modifiables. Il y a une erreur ? Contactez-nous : contact@placedasile.beta.gouv.fr"
+          description={`Certaines données (date de création, code DNA, type de structure, opérateur) ne sont pas modifiables. Il y a une erreur ? Contactez-nous : ${PLACE_ASILE_CONTACT_EMAIL}`}
         />
         <FieldSetDescription
           dnaCode={structure.dnaCode}
