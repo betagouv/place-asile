@@ -14,6 +14,10 @@ export const getCategoriesToDisplay = (
   structure: StructureApiType
 ): ActeAdministratifCategoryType[number][] =>
   ActeAdministratifCategory.filter((category) => {
+    if (category === "EVALUATION" || category === "INSPECTION_CONTROLE") {
+      return false;
+    }
+
     if (category === "CPOM" && !structure.cpom) {
       return false;
     }
