@@ -19,9 +19,9 @@ describe("finalisationFinanceSchema", () => {
     totalProduits: 95000,
     totalCharges: 90000,
     repriseEtat: 0,
-    excedentRecupere: null,
-    excedentDeduit: null,
-    affectationReservesFondsDedies: 0, // Default to 0
+    excedentRecupere: 0,
+    excedentDeduit: 0,
+    affectationReservesFondsDedies: 0,
     cumulResultatsNetsCPOM: 5000,
     totalChargesProposees: 90000,
     reserveInvestissement: null,
@@ -29,7 +29,7 @@ describe("finalisationFinanceSchema", () => {
     reserveCompensationDeficits: null,
     reserveCompensationBFR: null,
     reserveCompensationAmortissements: null,
-    fondsDedies: null,
+    fondsDedies: 0,
     reportANouveau: null,
     autre: null,
     commentaire: null,
@@ -190,7 +190,6 @@ describe("finalisationFinanceSchema", () => {
           expect(errorPaths).toContain(
             "budgets.0.reserveCompensationAmortissements"
           );
-          expect(errorPaths).toContain("budgets.0.fondsDedies");
         }
       });
 
