@@ -1,6 +1,8 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useFormContext } from "react-hook-form";
 
+import { ContactType } from "@/types/contact.type";
+
 import InputWithValidation from "../../InputWithValidation";
 
 export const FieldSetContacts = () => {
@@ -24,6 +26,14 @@ export const FieldSetContacts = () => {
           Contact principal
         </legend>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <InputWithValidation
+            name="contacts.0.type"
+            id="contacts.0.type"
+            control={control}
+            type="hidden"
+            label="type"
+            defaultValue={ContactType.PRINCIPAL}
+          />
           <InputWithValidation
             name="contacts.0.prenom"
             id="contacts.0.prenom"
@@ -76,6 +86,14 @@ export const FieldSetContacts = () => {
           Contact secondaire
         </legend>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <InputWithValidation
+            name="contacts.1.type"
+            id="contacts.1.type"
+            control={control}
+            type="hidden"
+            label="type"
+            defaultValue={ContactType.SECONDAIRE}
+          />
           <InputWithValidation
             name="contacts.1.prenom"
             id="contacts.1.prenom"
