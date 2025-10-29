@@ -71,7 +71,7 @@ export default function ModificationControleForm() {
         <Notice
           severity="info"
           title=""
-          description="Les Évaluations et les Évènements Indésirables Graves sont renseignés à partir du DNA. Il y a une erreur ? Contactez-nous."
+          description="Actuellement, seuls les EIG renseignés sur Démarches Simplifiées sont affichés, l’ancienneté de cet historique dépend donc de la date à laquelle votre région a été articulée avec l’outil. Les EIG sont récupérés automatiquement. Il y a une erreur ? Contactez-nous : contact@placedasile.beta.gouv.fr"
         />
         {isStructureAutorisee(structure.type) && (
           <>

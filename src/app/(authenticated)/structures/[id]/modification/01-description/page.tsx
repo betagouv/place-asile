@@ -66,7 +66,7 @@ export default function ModificationDescription() {
         <Notice
           severity="warning"
           title=""
-          description="Certaines données (date de création, code DNA, type de structure, opérateur) ne sont pas modifiables. Il y a une erreur ? Contactez-nous."
+          description="Certaines données (date de création, code DNA, type de structure, opérateur) ne sont pas modifiables. Il y a une erreur ? Contactez-nous : contact@placedasile.beta.gouv.fr"
         />
         <FieldSetDescription
           dnaCode={structure.dnaCode}
