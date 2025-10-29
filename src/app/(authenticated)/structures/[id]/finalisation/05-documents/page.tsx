@@ -53,7 +53,6 @@ export default function FinalisationQualite() {
   });
 
   const onAutoSave = async (data: ActesAdministratifsAutoSaveFormValues) => {
-    console.log("data", data);
     const actesAdministratifs = data.actesAdministratifs?.filter(
       (acteAdministratif) => acteAdministratif.key
     );
