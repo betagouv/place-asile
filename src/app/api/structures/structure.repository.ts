@@ -258,7 +258,7 @@ const createOrUpdateContacts = async (
   await Promise.all(
     (contacts || []).map((contact) => {
       return prisma.contact.upsert({
-        where: { id: contact.id },
+        where: { id: contact.id || 0 },
         update: {
           prenom: contact.prenom ?? "",
           nom: contact.nom ?? "",
@@ -287,19 +287,19 @@ const createOrUpdateBudgets = async (
 ): Promise<void> => {
   await Promise.all(
     (budgets || []).map((budget) => {
-      if (budget.id) {
-        return prisma.budget.update({
-          where: { id: budget.id },
-          data: budget,
-        });
-      } else {
-        return prisma.budget.create({
-          data: {
-            structureDnaCode,
-            ...budget,
+      return prisma.budget.upsert({
+        where: {
+          structureDnaCode_date: {
+            structureDnaCode: structureDnaCode,
+            date: budget.date,
           },
-        });
-      }
+        },
+        update: budget,
+        create: {
+          structureDnaCode,
+          ...budget,
+        },
+      });
     })
   );
 };
@@ -379,7 +379,7 @@ const createOrUpdateAdresses = async (
       for (const typologie of adresse.adresseTypologies || []) {
         // Update existing typologie
         await prisma.adresseTypologie.upsert({
-          where: { id: typologie.id },
+          where: { id: typologie.id || 0 },
           update: typologie,
           create: {
             adresseId: adresse.id,
@@ -515,7 +515,7 @@ const createOrUpdateControles = async (
   await Promise.all(
     (controles || []).map((controle) => {
       return prisma.controle.upsert({
-        where: { id: controle.id },
+        where: { id: controle.id || 0 },
         update: {
           type: convertToControleType(controle.type),
           date: controle.date,
@@ -550,7 +550,7 @@ const createOrUpdateEvaluations = async (
   await Promise.all(
     (evaluations || []).map((evaluation) => {
       return prisma.evaluation.upsert({
-        where: { id: evaluation.id },
+        where: { id: evaluation.id || 0 },
         update: {
           date: evaluation.date,
           notePersonne: evaluation.notePersonne,

@@ -35,6 +35,8 @@ export const placesEvolutionSchema = z.object({
   echeancePlacesAFermer: optionalFrenchDateToISO(),
 });
 
+export const placesEvolutionAutoSaveSchema = placesEvolutionSchema.partial();
+
 const baseTypePlacesSchema = structureBaseSchema
   .extend({
     typologies: z.array(typologieItemWithIdSchema),
