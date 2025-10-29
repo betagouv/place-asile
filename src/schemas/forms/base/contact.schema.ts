@@ -54,7 +54,7 @@ export const optionalContactSchema = z
     const filledFields = fields.filter(
       (field) => field.value !== undefined && field.value !== ""
     );
-    console.log("filledFields", filledFields);
+
     if (filledFields.length === 0) {
       return;
     }
