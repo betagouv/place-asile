@@ -2,7 +2,9 @@ import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useFormContext } from "react-hook-form";
 
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { StructureType } from "@/types/structure.type";
 
+import { ContractualisationHuda } from "../../ContractualisationHuda";
 import InputWithValidation from "../../InputWithValidation";
 
 export const FieldSetCalendrier = () => {
@@ -39,7 +41,7 @@ export const FieldSetCalendrier = () => {
           </div>
         </fieldset>
       )}
-
+      {type === StructureType.HUDA && <ContractualisationHuda />}
       <fieldset className="flex flex-col gap-6">
         <legend className="text-lg font-bold mb-2 text-title-blue-france">
           Convention en cours
