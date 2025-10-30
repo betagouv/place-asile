@@ -41,7 +41,9 @@ export const getFinalisationForm = (
   );
 };
 
-export const getFinalisationFormStatus = (structure: StructureApiType) => {
+export const getFinalisationFormStatus = (
+  structure: StructureApiType
+): boolean => {
   const finalisationForm = getFinalisationForm(structure);
 
   if (!finalisationForm) {
