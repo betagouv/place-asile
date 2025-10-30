@@ -61,7 +61,7 @@ export const Evaluation = ({
             />
             <input type="hidden" {...register(`evaluations.${index}.id`)} />
             {type !== "empty" && (
-              <div className="mx-8 border-r-1 border-default-grey" />
+              <div className="mx-8 border-r border-default-grey" />
             )}
             {type === "old" && (
               <div className="flex flex-col grow">

@@ -4,7 +4,7 @@ import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 export const getEvaluationsDefaultValues = (
   evaluations: EvaluationApiType[] = []
 ): EvaluationFormValues[] | undefined => {
-  return evaluations.map((evaluation) => {
+  const defaultValuesFromDb = evaluations.map((evaluation) => {
     return {
       ...evaluation,
       date: evaluation.date ?? "",
@@ -14,6 +14,19 @@ export const getEvaluationsDefaultValues = (
       note: evaluation.note ?? 0,
     };
   });
+
+  if (defaultValuesFromDb.length === 0) {
+    const emptyEvaluation = {
+      date: "",
+      notePersonne: null,
+      notePro: null,
+      noteStructure: null,
+      note: null,
+      fileUploads: [],
+    };
+    return [...defaultValuesFromDb, emptyEvaluation];
+  }
+  return defaultValuesFromDb;
 };
 
 export const transformFormEvaluationsToApiEvaluations = (

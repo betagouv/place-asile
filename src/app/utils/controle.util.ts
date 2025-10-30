@@ -5,7 +5,7 @@ import { ControleType } from "@/types/controle.type";
 export const getControlesDefaultValues = (
   controles: ControleApiType[] = []
 ): ControleFormValues[] | undefined => {
-  return controles.map((controle) => {
+  const defaultValuesFromDb = controles.map((controle) => {
     return {
       id: controle.id ?? null,
       date: controle.date ?? "",
@@ -16,6 +16,18 @@ export const getControlesDefaultValues = (
       })),
     };
   });
+
+  if (defaultValuesFromDb.length === 0) {
+    const emptyControle: ControleFormValues = {
+      id: null,
+      date: "",
+      type: "" as unknown as ControleType,
+      fileUploads: [],
+    };
+    return [...defaultValuesFromDb, emptyControle];
+  }
+
+  return defaultValuesFromDb;
 };
 
 export const transformFormControlesToApiControles = (

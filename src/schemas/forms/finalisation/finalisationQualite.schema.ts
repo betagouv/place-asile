@@ -14,6 +14,10 @@ export const finalisationQualiteSchema = controlesSchema
   .and(evaluationsSchema)
   .and(placesEvolutionSchema);
 
+export const noEvaluationFinalisationQualiteSchema = controlesSchema.and(
+  placesEvolutionAutoSaveSchema
+);
+
 export const finalisationQualiteAutoSaveSchema = controlesSchema
   .and(evaluationsAutoSaveSchema)
   .and(placesEvolutionAutoSaveSchema);

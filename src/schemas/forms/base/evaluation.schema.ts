@@ -74,6 +74,3 @@ export type EvaluationsFormValues = z.infer<typeof evaluationsSchema>;
 export type EvaluationAutoSaveFormValues = z.infer<
   typeof evaluationAutoSaveSchema
 >;
-export type EvaluationsAutoSaveFormValues = z.infer<
-  typeof evaluationsAutoSaveSchema
->;
