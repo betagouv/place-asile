@@ -13,8 +13,13 @@ export const AutoSaveErrorToast = () => {
   }
 
   return (
-    <div className="flex gap-4 items-center w-lg fixed bottom-11 left-1/2 -translate-x-1/2 border border-action-high-error px-6 py-3 rounded-lg bg-contrast-error">
-      <i className="fr-icon-error-fill text-default-error" />
+    <div
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      className="flex gap-4 items-center w-lg fixed bottom-11 left-1/2 -translate-x-1/2 border border-action-high-error px-6 py-3 rounded-lg bg-contrast-error "
+    >
+      <i className="fr-icon-error-fill text-default-error" aria-hidden="true" />
       <span>
         Votre avancée n’a pas pu être sauvegardée, vérifiez votre connexion. Si
         cela persiste,{" "}
@@ -24,7 +29,7 @@ export const AutoSaveErrorToast = () => {
           rel="noopener noreferrer"
           className="underline"
         >
-          prévenez-nous
+          prévenez-nous.
         </a>
       </span>
     </div>
