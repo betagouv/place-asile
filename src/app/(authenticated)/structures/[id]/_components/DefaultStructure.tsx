@@ -1,6 +1,5 @@
 import { ReactElement } from "react";
 
-import { useStructureContext } from "../_context/StructureClientContext";
 import { ActesAdministratifsBlock } from "./_actes-administratifs/ActesAdministratifsBlock";
 // import { ActivitesBlock } from "./(activites)/ActivitesBlock";
 import { CalendrierBlock } from "./_calendrier/CalendrierBlock";
@@ -12,8 +11,6 @@ import { DefaultTypePlaceBlock } from "./_type-places/DefaultTypePlaceBlock";
 import { Section } from "./Section";
 
 export const DefaultStructure = (): ReactElement => {
-  const { structure } = useStructureContext();
-
   return (
     <>
       <Section id="description">
@@ -25,11 +22,9 @@ export const DefaultStructure = (): ReactElement => {
       <Section id="places">
         <DefaultTypePlaceBlock />
       </Section>
-      {structure.budgets && structure.budgets?.length > 0 && (
-        <Section id="finances">
-          <FinancesBlock />
-        </Section>
-      )}
+      <Section id="finances">
+        <FinancesBlock />
+      </Section>
       <Section id="controle">
         <DefaultControlesBlock />
       </Section>
