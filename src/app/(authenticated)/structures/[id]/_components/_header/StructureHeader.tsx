@@ -7,7 +7,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { ReactElement } from "react";
 import { useEffect, useRef } from "react";
 
-import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getFinalisationFormStatus } from "@/app/utils/finalisationForm.util";
 import { getOperateurLabel } from "@/app/utils/structure.util";
@@ -75,9 +74,6 @@ export function StructureHeader(): ReactElement | null {
     departementAdministratif,
   } = structure || {};
 
-  const { getFetchState } = useFetchState();
-  const saveState = getFetchState("structure-save");
-
   return structure ? (
     <>
       <div className="sticky top-0 z-2 bg-lifted-grey" ref={structureHeaderRef}>
@@ -108,10 +104,7 @@ export function StructureHeader(): ReactElement | null {
           <div className="grow" />
           {isFinalisationPath && (
             <div className="flex items-center gap-3">
-              <AutoSaveStatus
-                onStatusClick={() => autoSaveModal.open()}
-                saveState={saveState}
-              />
+              <AutoSaveStatus onStatusClick={() => autoSaveModal.open()} />
 
               <Button
                 disabled={!isStructureReadyToFinalise}
