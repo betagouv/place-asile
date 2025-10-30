@@ -75,6 +75,7 @@ export default function FinalisationQualite() {
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
         className="rounded-t-none"
+        showAutoSaveMention
       >
         <AutoSave
           schema={actesAdministratifsAutoSaveSchema}

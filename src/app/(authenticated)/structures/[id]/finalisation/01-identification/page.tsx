@@ -65,6 +65,7 @@ export default function FinalisationIdentification(): ReactElement {
         onSubmit={handleValidation}
         mode="onBlur"
         className="rounded-t-none"
+        showAutoSaveMention
       >
         <AutoSave
           schema={finalisationIdentificationAutoSaveSchema}

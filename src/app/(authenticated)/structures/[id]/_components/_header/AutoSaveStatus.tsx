@@ -1,11 +1,18 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import Image from "next/image";
 
+import { useFetchState } from "@/app/context/FetchStateContext";
 import { FetchState } from "@/types/fetch-state.type";
 
-export const AutoSaveStatus = ({ onStatusClick, saveState }: Props) => {
+export const AutoSaveStatus = ({ onStatusClick }: Props) => {
+  const { getFetchState } = useFetchState();
+  const saveState = getFetchState("structure-save");
+
   return (
-    <Button onClick={onStatusClick} className="fr-btn--tertiary-no-outline">
+    <Button
+      onClick={saveState === FetchState.ERROR ? undefined : onStatusClick}
+      className="fr-btn--tertiary-no-outline"
+    >
       {saveState === FetchState.LOADING && (
         <span className="fr-icon-refresh-line text-mention-grey" />
       )}
@@ -30,5 +37,4 @@ export const AutoSaveStatus = ({ onStatusClick, saveState }: Props) => {
 
 type Props = {
   onStatusClick: () => void;
-  saveState: FetchState;
 };

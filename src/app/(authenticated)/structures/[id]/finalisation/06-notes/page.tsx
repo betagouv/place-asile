@@ -56,6 +56,7 @@ export default function FinalisationNotes() {
         submitButtonText="Je valide la saisie de cette page"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         className="rounded-t-none"
+        showAutoSaveMention
       >
         <AutoSave schema={notesAutoSaveSchema} onSave={onAutoSave} />
         <InformationBar

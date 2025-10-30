@@ -60,6 +60,7 @@ export default function FinalisationDocumentsFinanciers() {
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         onSubmit={handleValidation}
         className="rounded-t-none"
+        showAutoSaveMention
       >
         <AutoSave
           schema={DocumentsFinanciersFlexibleSchema}

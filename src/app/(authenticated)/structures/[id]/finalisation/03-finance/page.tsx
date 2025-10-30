@@ -76,6 +76,7 @@ export default function FinalisationFinance(): ReactElement {
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         onSubmit={handleValidation}
         className="rounded-t-none"
+        showAutoSaveMention
       >
         <AutoSave schema={basicAutoSaveSchema} onSave={onAutoSave} />
 
