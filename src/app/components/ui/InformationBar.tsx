@@ -10,8 +10,8 @@ export const InformationBar = ({ variant, title, description }: Props) => {
     <div
       className={cn(
         "flex gap-4 pt-2",
-        variant === "verify" &&
-          "text-label-yellow-tournesol border-b-2 border-plain-yellow-tournesol",
+        variant === "verify" && "border-b-2",
+        variant === "verify" && "text-[#7D6A20] border-[#7D6A20]",
         variant === "complete" &&
           "text-default-warning border-b-2 border-plain-warning",
         variant === "success" &&
