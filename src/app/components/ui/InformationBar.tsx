@@ -9,13 +9,10 @@ export const InformationBar = ({ variant, title, description }: Props) => {
   return (
     <div
       className={cn(
-        "flex gap-4 pt-2",
-        variant === "verify" && "border-b-2",
+        "flex gap-4 pt-2 border-b-2",
         variant === "verify" && "text-[#7D6A20] border-[#7D6A20]",
-        variant === "complete" &&
-          "text-default-warning border-b-2 border-plain-warning",
-        variant === "success" &&
-          "text-default-success border-b-2 border-plain-success"
+        variant === "complete" && "text-default-warning border-plain-warning",
+        variant === "success" && "text-default-success  border-plain-success"
       )}
     >
       <span className={cn("mt-1", iconClassName)}></span>
