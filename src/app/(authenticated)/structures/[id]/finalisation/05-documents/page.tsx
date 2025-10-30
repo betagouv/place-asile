@@ -1,7 +1,6 @@
 "use client";
 
 import { AutoSave } from "@/app/components/forms/AutoSave";
-import { Disclaimer } from "@/app/components/forms/documents/Disclaimer";
 import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import FormWrapper, {
   FooterButtonType,
@@ -92,8 +91,6 @@ export default function FinalisationQualite() {
           }
           description="Veuillez importer l’ensemble des actes administratifs historiques afférents à la structure, que les dates d’effets soient actuelles ou révolues."
         />
-
-        <Disclaimer />
 
         <MaxSizeNotice />
 

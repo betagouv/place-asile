@@ -19,6 +19,7 @@ import {
 } from "@/schemas/forms/base/notes.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
+import { FormKind } from "@/types/global";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { Tabs } from "../_components/Tabs";
@@ -69,7 +70,7 @@ export default function FinalisationNotes() {
           description="Veuillez utiliser cet espace pour centraliser et annoter les informations nécessaires au pilotage de la structure : élément contextuel, prochaine échéance, document à produire, point d'attention, élément relationnel avec la structure..."
         />
 
-        <NoteDisclaimer />
+        <NoteDisclaimer formKind={FormKind.FINALISATION} />
 
         <FieldSetNotes />
         {saveState === FetchState.ERROR && (

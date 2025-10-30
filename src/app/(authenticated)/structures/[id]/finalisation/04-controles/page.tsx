@@ -93,7 +93,11 @@ export default function ModificationControleForm() {
               ? "Complété"
               : "À compléter"
           }
-          description="Veuillez renseigner les informations et documents concernant l’ensemble des évaluations et inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
+          description={
+            isStructureAutorisee(structure.type)
+              ? "Veuillez renseigner les informations et documents concernant l’ensemble des évaluations et inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
+              : "Veuillez renseigner les informations et documents concernant l’ensemble des inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
+          }
         />
         {isStructureAutorisee(structure.type) && (
           <>
