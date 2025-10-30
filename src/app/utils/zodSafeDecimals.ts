@@ -6,7 +6,7 @@ const preprocessToDecimals = (val: unknown): number | undefined => {
   }
 
   if (typeof val === "string") {
-    const normalizedValue = val.replace(",", ".");
+    const normalizedValue = val.replace(",", ".").replace(" ", "");
     const parsed = Number(normalizedValue);
 
     if (!isNaN(parsed)) {

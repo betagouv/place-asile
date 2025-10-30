@@ -41,7 +41,7 @@ export const zSafeDecimalsNullish = () =>
       return null;
     }
     if (typeof val === "string") {
-      const normalizedValue = val.replace(",", ".");
+      const normalizedValue = val.replace(",", ".").replace(" ", "");
       const parsed = Number(normalizedValue);
       return isNaN(parsed) ? null : parsed;
     }

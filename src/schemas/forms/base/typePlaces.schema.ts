@@ -4,15 +4,15 @@ import {
   frenchDateToISO,
   optionalFrenchDateToISO,
 } from "@/app/utils/zodCustomFields";
-import { zSafeNumber } from "@/app/utils/zodSafeNumber";
+import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
 
 import { structureBaseSchema } from "./structure.base.schema";
 
 export const typologieItemBaseSchema = z.object({
-  placesAutorisees: zSafeNumber(),
-  pmr: zSafeNumber(),
-  lgbt: zSafeNumber(),
-  fvvTeh: zSafeNumber(),
+  placesAutorisees: zSafeDecimals(),
+  pmr: zSafeDecimals(),
+  lgbt: zSafeDecimals(),
+  fvvTeh: zSafeDecimals(),
   date: frenchDateToISO(),
 });
 
@@ -29,8 +29,8 @@ export const typePlacesWithEvolutionAutoSaveSchema = z.object({
 });
 
 export const placesEvolutionSchema = z.object({
-  placesACreer: zSafeNumber(),
-  placesAFermer: zSafeNumber(),
+  placesACreer: zSafeDecimals(),
+  placesAFermer: zSafeDecimals(),
   echeancePlacesACreer: optionalFrenchDateToISO(),
   echeancePlacesAFermer: optionalFrenchDateToISO(),
 });
