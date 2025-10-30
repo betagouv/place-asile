@@ -51,7 +51,7 @@ export const Tab = ({ title, route, current, type }: Props) => {
           iconId="fr-icon-eye-line"
           small
         >
-          À COMPLÈTER
+          À COMPLÉTER
         </Tag>
       )}
     </Link>
