@@ -29,7 +29,7 @@ export const FieldSetTypePlaces = ({
 
   return (
     <fieldset className="flex flex-col" ref={fieldsetRef}>
-      <legend className="text-lg font-bold mb-8 text-title-blue-france">
+      <legend className="text-xl font-bold mb-8 text-title-blue-france">
         {formKind === FormKind.FINALISATION
           ? "Types de place"
           : "Détails et historique"}
