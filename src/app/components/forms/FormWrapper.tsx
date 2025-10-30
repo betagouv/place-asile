@@ -28,27 +28,6 @@ export enum FooterButtonType {
   SUBMIT = "submit",
 }
 
-type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
-  schema: TSchema;
-  localStorageKey?: string;
-  children: ReactNode | ((form: UseFormReturn<z.infer<TSchema>>) => ReactNode);
-  onSubmit?: (
-    data: z.infer<TSchema>,
-    methods: UseFormReturn<z.infer<TSchema>>
-  ) => void | Promise<void>;
-  onError?: (errors: FieldErrors<z.infer<TSchema>>) => void;
-  mode?: "onChange" | "onBlur" | "onSubmit" | "onTouched" | "all";
-  className?: string;
-  defaultValues?: DeepPartial<z.infer<TSchema>>;
-  onFormChange?: (values: z.infer<TSchema>) => void;
-  submitButtonText?: string;
-  nextRoute?: string;
-  resetRoute?: string;
-  showSubmitButton?: boolean;
-  previousStep?: string;
-  availableFooterButtons?: Array<FooterButtonType>;
-};
-
 export default function FormWrapper<TSchema extends z.ZodTypeAny>({
   schema,
   localStorageKey = "",
@@ -69,6 +48,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     FooterButtonType.SAVE,
     FooterButtonType.SUBMIT,
   ],
+  showAutoSaveMention,
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
   const {
@@ -179,7 +159,13 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                 />
               )}
               <div>
-                <div className="flex justify-end gap-4 mt-6">
+                <div className="flex justify-end items-center gap-4 mt-6">
+                  {showAutoSaveMention && (
+                    <div className="flex items-center gap-1 text-mention-grey text-xs">
+                      <span className="fr-icon-save-line fr-icon--xs" />
+                      Votre progression est enregistrée automatiquement
+                    </div>
+                  )}
                   {availableFooterButtons.includes(FooterButtonType.CANCEL) && (
                     <Button
                       onClick={(e) => {
@@ -226,3 +212,25 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     </HookFormProvider>
   );
 }
+
+type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
+  schema: TSchema;
+  localStorageKey?: string;
+  children: ReactNode | ((form: UseFormReturn<z.infer<TSchema>>) => ReactNode);
+  onSubmit?: (
+    data: z.infer<TSchema>,
+    methods: UseFormReturn<z.infer<TSchema>>
+  ) => void | Promise<void>;
+  onError?: (errors: FieldErrors<z.infer<TSchema>>) => void;
+  mode?: "onChange" | "onBlur" | "onSubmit" | "onTouched" | "all";
+  className?: string;
+  defaultValues?: DeepPartial<z.infer<TSchema>>;
+  onFormChange?: (values: z.infer<TSchema>) => void;
+  submitButtonText?: string;
+  nextRoute?: string;
+  resetRoute?: string;
+  showSubmitButton?: boolean;
+  previousStep?: string;
+  availableFooterButtons?: Array<FooterButtonType>;
+  showAutoSaveMention?: boolean;
+};

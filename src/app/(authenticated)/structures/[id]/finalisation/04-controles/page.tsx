@@ -79,6 +79,7 @@ export default function ModificationControleForm() {
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
         className="rounded-t-none"
+        showAutoSaveMention
       >
         <AutoSave
           schema={finalisationQualiteAutoSaveSchema}
