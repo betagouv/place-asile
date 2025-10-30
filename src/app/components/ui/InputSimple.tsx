@@ -20,13 +20,13 @@ function InputSimple({
   const input =
     nativeInputProps?.type === "number" ? (
       <NumericFormat
-        name={name}
         {...nativeInputProps}
+        name={name}
         value={nativeInputProps?.value as string | number | undefined}
         defaultValue={
           nativeInputProps?.defaultValue as string | number | undefined
         }
-        type={"text"}
+        type="text"
         thousandSeparator=" "
         decimalSeparator=","
         className={inputClassName}
