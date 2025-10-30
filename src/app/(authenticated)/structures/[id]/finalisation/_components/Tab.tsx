@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import { cn } from "@/app/utils/classname.util";
-import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/finalisationForm.util";
 import { StepStatus } from "@/types/form.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
@@ -51,7 +51,7 @@ export const Tab = ({ title, route, current, type }: Props) => {
           iconId="fr-icon-eye-line"
           small
         >
-          A COMPLÈTER
+          À COMPLÉTER
         </Tag>
       )}
     </Link>

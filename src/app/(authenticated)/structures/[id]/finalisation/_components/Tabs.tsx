@@ -1,77 +1,55 @@
 import { ReactNode } from "react";
 
+import { FINALISATION_STEPS } from "@/app/utils/finalisationForm.util";
+
 import { Tab } from "./Tab";
 
-const steps: Step[] = [
-  {
-    title: (
-      <>
-        Identification
-        <br />
-        de la structure
-      </>
-    ),
-    route: "01-identification",
-    type: "verification",
-  },
-  {
-    title: (
-      <>
-        Documents
-        <br />
-        financiers
-      </>
-    ),
-    route: "02-documents-financiers",
-    type: "verification",
-  },
-  {
-    title: (
-      <>
-        Analyse
-        <br />
-        Financière
-      </>
-    ),
-    route: "03-finance",
-    type: "completion",
-  },
-  {
-    title: (
-      <>
-        Contrôle qualité
-        <br />
-        et objectifs
-      </>
-    ),
-    route: "04-controles",
-    type: "completion",
-  },
-  {
-    title: (
-      <>
-        Actes
-        <br />
-        administratifs
-      </>
-    ),
-    route: "05-documents",
-    type: "completion",
-  },
-  {
-    title: <>Notes</>,
-    route: "06-notes",
-    type: "completion",
-  },
-];
+export const steps: Record<string, ReactNode> = {
+  "01-identification": (
+    <>
+      Identification
+      <br />
+      de la structure
+    </>
+  ),
+  "02-documents-financiers": (
+    <>
+      Documents
+      <br />
+      financiers
+    </>
+  ),
+  "03-finance": (
+    <>
+      Analyse
+      <br />
+      Financière
+    </>
+  ),
+  "04-controles": (
+    <>
+      Contrôle qualité
+      <br />
+      et objectifs
+    </>
+  ),
+  "05-documents": (
+    <>
+      Actes
+      <br />
+      administratifs
+    </>
+  ),
+  "06-notes": <>Notes</>,
+};
 
 export const Tabs = ({ currentStep }: Props) => {
   return (
     <div className="grid grid-cols-6 gap-1 mb-[-1px]">
-      {steps.map((step) => (
+      {FINALISATION_STEPS.map((step) => (
         <Tab
           key={step.route}
-          title={step.title}
+          title={steps[step.route]}
           type={step.type}
           route={step.route}
           current={step.route === currentStep}
@@ -83,10 +61,4 @@ export const Tabs = ({ currentStep }: Props) => {
 
 type Props = {
   currentStep: string;
-};
-
-type Step = {
-  title: ReactNode;
-  route: string;
-  type: "verification" | "completion";
 };

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { formatDate } from "@/app/utils/date.util";
-import { getFinalisationFormStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { getFinalisationFormStatus } from "@/app/utils/finalisationForm.util";
 import {
   getOperateurLabel,
   getPlacesByCommunes,

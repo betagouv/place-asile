@@ -14,7 +14,7 @@ import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/finalisationForm.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -76,6 +76,7 @@ export default function FinalisationFinance(): ReactElement {
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         onSubmit={handleValidation}
         className="rounded-t-none"
+        showAutoSaveMention
       >
         <AutoSave schema={basicAutoSaveSchema} onSave={onAutoSave} />
 

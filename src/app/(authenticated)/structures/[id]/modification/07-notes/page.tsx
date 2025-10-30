@@ -12,6 +12,7 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { notesSchema } from "@/schemas/forms/base/notes.schema";
 import { FetchState } from "@/types/fetch-state.type";
+import { FormKind } from "@/types/global";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -50,7 +51,7 @@ export default function ModificationNotesForm(): ReactElement {
         ]}
         className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
       >
-        <NoteDisclaimer />
+        <NoteDisclaimer formKind={FormKind.MODIFICATION} />
         <FieldSetNotes />
         {saveState === FetchState.ERROR && (
           <SubmitError

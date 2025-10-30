@@ -9,7 +9,7 @@ import { useEffect, useRef } from "react";
 
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
-import { getFinalisationFormStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { getFinalisationFormStatus } from "@/app/utils/finalisationForm.util";
 import { getOperateurLabel } from "@/app/utils/structure.util";
 
 import { useStructureContext } from "../../_context/StructureClientContext";

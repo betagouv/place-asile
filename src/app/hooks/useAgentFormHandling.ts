@@ -10,7 +10,9 @@ import { useFetchState } from "../context/FetchStateContext";
 import {
   FINALISATION_FORM_LABEL,
   FINALISATION_FORM_VERSION,
-} from "../utils/getFinalisationFormStatus.util";
+  getFinalisationForm,
+  getFinalisationFormNextStepToValidate,
+} from "../utils/finalisationForm.util";
 import { useStructures } from "./useStructures";
 
 export const useAgentFormHandling = ({
@@ -89,8 +91,17 @@ export const useAgentFormHandling = ({
       forms,
     });
 
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    const nextStepToValidate = getFinalisationFormNextStepToValidate(
+      structure,
+      currentStep
+    );
+
+    if (nextStepToValidate) {
+      router.push(nextStepToValidate.stepDefinition.slug);
+    } else {
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   };
 
@@ -126,11 +137,7 @@ export const useAgentFormHandling = ({
     useState(false);
 
   useEffect(() => {
-    const finalisationForm = structure.forms?.find(
-      (form) =>
-        form.formDefinition.name === FINALISATION_FORM_LABEL &&
-        form.formDefinition.version === FINALISATION_FORM_VERSION
-    );
+    const finalisationForm = getFinalisationForm(structure);
 
     const isFinalisationFormCompleted =
       finalisationForm?.formSteps?.every(

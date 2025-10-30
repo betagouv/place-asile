@@ -28,7 +28,7 @@ export const IndicateursGeneraux = () => {
 
   return (
     <fieldset className="flex flex-col gap-6">
-      <legend className="text-lg font-bold mb-8 text-title-blue-france">
+      <legend className="text-xl font-bold mb-8 text-title-blue-france">
         Indicateurs généraux
       </legend>
       <Notice

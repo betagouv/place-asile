@@ -15,7 +15,7 @@ import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { transformFormControlesToApiControles } from "@/app/utils/controle.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { transformFormEvaluationsToApiEvaluations } from "@/app/utils/evaluation.util";
-import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/finalisationForm.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
   FinalisationQualiteAutoSaveFormValues,
@@ -79,6 +79,7 @@ export default function ModificationControleForm() {
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
         className="rounded-t-none"
+        showAutoSaveMention
       >
         <AutoSave
           schema={finalisationQualiteAutoSaveSchema}
@@ -93,7 +94,11 @@ export default function ModificationControleForm() {
               ? "Complété"
               : "À compléter"
           }
-          description="Veuillez renseigner les informations et documents concernant l’ensemble des évaluations et inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
+          description={
+            isStructureAutorisee(structure.type)
+              ? "Veuillez renseigner les informations et documents concernant l’ensemble des évaluations et inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
+              : "Veuillez renseigner les informations et documents concernant l’ensemble des inspections-contrôles auxquelles la structure a été soumise, et remplir les autres champs obligatoires ci-dessous."
+          }
         />
         {isStructureAutorisee(structure.type) && (
           <>

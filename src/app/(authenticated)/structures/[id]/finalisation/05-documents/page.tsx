@@ -1,7 +1,6 @@
 "use client";
 
 import { AutoSave } from "@/app/components/forms/AutoSave";
-import { Disclaimer } from "@/app/components/forms/documents/Disclaimer";
 import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import FormWrapper, {
   FooterButtonType,
@@ -16,7 +15,7 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/finalisationForm.util";
 import {
   ActesAdministratifsAutoSaveFormValues,
   actesAdministratifsAutoSaveSchema,
@@ -76,6 +75,7 @@ export default function FinalisationQualite() {
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
         className="rounded-t-none"
+        showAutoSaveMention
       >
         <AutoSave
           schema={actesAdministratifsAutoSaveSchema}
@@ -92,8 +92,6 @@ export default function FinalisationQualite() {
           }
           description="Veuillez importer l’ensemble des actes administratifs historiques afférents à la structure, que les dates d’effets soient actuelles ou révolues."
         />
-
-        <Disclaimer />
 
         <MaxSizeNotice />
 
