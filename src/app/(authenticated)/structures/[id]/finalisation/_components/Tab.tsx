@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import { cn } from "@/app/utils/classname.util";
-import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/finalisationForm.util";
 import { StepStatus } from "@/types/form.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";

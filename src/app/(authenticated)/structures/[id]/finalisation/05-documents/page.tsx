@@ -16,7 +16,7 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { getFinalisationFormStepStatus } from "@/app/utils/getFinalisationFormStatus.util";
+import { getFinalisationFormStepStatus } from "@/app/utils/finalisationForm.util";
 import {
   ActesAdministratifsAutoSaveFormValues,
   actesAdministratifsAutoSaveSchema,
