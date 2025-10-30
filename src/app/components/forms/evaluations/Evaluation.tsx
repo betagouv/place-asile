@@ -40,12 +40,15 @@ export const Evaluation = ({
     setEvaluationType(currentEvaluation.date);
   }, [currentEvaluation]);
 
+  const isNewEvaluation = () =>
+    isNaN(new Date(currentEvaluation?.date).getTime());
+
   return (
     <div>
       <h3 className="text-xl font-bold mb-4 text-title-blue-france">
-        {currentEvaluation?.date
-          ? `Evaluation du ${formatDate(currentEvaluation?.date)}`
-          : "Nouvelle évaluation"}
+        {isNewEvaluation()
+          ? "Nouvelle évaluation"
+          : `Evaluation du ${formatDate(currentEvaluation?.date)}`}
       </h3>
       <div className="flex justify-between items-start">
         <div className="w-full">

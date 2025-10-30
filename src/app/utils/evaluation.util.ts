@@ -32,14 +32,18 @@ export const getEvaluationsDefaultValues = (
 export const transformFormEvaluationsToApiEvaluations = (
   evaluations?: EvaluationFormValues[]
 ): EvaluationApiType[] | undefined => {
-  return evaluations?.map((evaluation) => {
-    return {
-      ...evaluation,
-      id: evaluation.id || undefined,
-      fileUploads: evaluation.fileUploads?.filter(
-        (fileUpload) =>
-          fileUpload?.key !== undefined && fileUpload?.id !== undefined
-      ) as { id: number; key: string }[] | undefined,
-    };
-  });
+  return evaluations
+    ?.filter(
+      (evaluation) => evaluation.date && evaluation.fileUploads?.[0]?.key
+    )
+    .map((evaluation) => {
+      return {
+        ...evaluation,
+        id: evaluation.id || undefined,
+        fileUploads: evaluation.fileUploads?.filter(
+          (fileUpload) =>
+            fileUpload?.key !== undefined && fileUpload?.id !== undefined
+        ) as { id: number; key: string }[] | undefined,
+      };
+    });
 };
