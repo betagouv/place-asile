@@ -20,54 +20,65 @@ model Departement {
 }
 
 model Structure {
-  id                           Int                         @id @default(autoincrement())
-  dnaCode                      String                      @unique
-  oldOperateur                 String
-  filiale                      String?
-  type                         StructureType
-  oldNbPlaces                  Int
-  placesACreer                 Int?
-  placesAFermer                Int?
-  echeancePlacesACreer         DateTime?
-  echeancePlacesAFermer        DateTime?
-  adresseAdministrative        String
-  codePostalAdministratif      String
-  communeAdministrative        String
-  departementAdministratif     String
-  latitude                     Decimal
-  longitude                    Decimal
-  nom                          String?
-  debutConvention              DateTime?
-  finConvention                DateTime?
-  cpom                         Boolean
-  creationDate                 DateTime
-  finessCode                   String?
-  lgbt                         Boolean
-  fvvTeh                       Boolean
-  public                       PublicType
-  debutPeriodeAutorisation     DateTime?
-  finPeriodeAutorisation       DateTime?
-  debutCpom                    DateTime?
-  finCpom                      DateTime?
-  notes                        String?
-  state                        StructureState              @default(A_FINALISER)
-  controles                    Controle[]
-  evaluations                  Evaluation[]
-  evenementsIndesirablesGraves EvenementIndesirableGrave[]
-  adresses                     Adresse[]
-  contacts                     Contact[]
-  structureTypologies          StructureTypologie[]
-  activites                    Activite[]
-  fileUploads                  FileUpload[]
-  budgets                      Budget[]
-  operateur                    Operateur?                  @relation(fields: [operateurId], references: [id])
-  operateurId                  Int?
-  forms                        Form[]
-  campaigns                    Campaign[]
-  referential                  Referential?                @relation("StructureToReferential")
+  id                       Int            @id @default(autoincrement())
+  dnaCode                  String         @unique
+  slug                     String         @unique
+  oldOperateur             String
+  filiale                  String?
+  type                     StructureType
+  oldNbPlaces              Int
+  placesACreer             Int?
+  placesAFermer            Int?
+  echeancePlacesACreer     DateTime?
+  echeancePlacesAFermer    DateTime?
+  adresseAdministrative    String
+  codePostalAdministratif  String
+  communeAdministrative    String
+  departementAdministratif String
+  latitude                 Decimal
+  longitude                Decimal
+  nom                      String?
+  debutConvention          DateTime?
+  finConvention            DateTime?
+  cpom                     Boolean
+  creationDate             DateTime
+  finessCode               String?
+  lgbt                     Boolean
+  fvvTeh                   Boolean
+  public                   PublicType
+  debutPeriodeAutorisation DateTime?
+  finPeriodeAutorisation   DateTime?
+  debutCpom                DateTime?
+  finCpom                  DateTime?
+  notes                    String?
+  state                    StructureState @default(A_FINALISER)
+  contacts                 Contact[]      @relation("OldStructureRelation")
+  activites                Activite[]
+  operateur                Operateur?     @relation(fields: [operateurId], references: [id])
+  operateurId              Int?
+  referential              Referential?   @relation("StructureToReferential")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  codesDna                        CodeDna[]                   @relation("StructureToCodeDna")
+  controlesOld                    Controle[]                  @relation("OldStructureRelation")
+  controles                       Controle[]                  @relation("NewStructureRelation")
+  evaluationsOld                  Evaluation[]                @relation("OldStructureRelation")
+  evaluations                     Evaluation[]                @relation("NewStructureRelation")
+  evenementsIndesirablesGravesOld EvenementIndesirableGrave[] @relation("OldStructureRelation")
+  evenementsIndesirablesGraves    EvenementIndesirableGrave[] @relation("NewStructureRelation")
+  structureTypologiesOld          StructureTypologie[]        @relation("OldStructureRelation")
+  structureTypologies             StructureTypologie[]        @relation("NewStructureRelation")
+  adressesOld                     Adresse[]                   @relation("OldStructureRelation")
+  adresses                        Adresse[]                   @relation("NewStructureRelation")
+  budgetsOld                      Budget[]                    @relation("OldStructureRelation")
+  budgets                         Budget[]                    @relation("NewStructureRelation")
+  fileUploadsOld                  FileUpload[]                @relation("OldStructureRelation")
+  fileUploads                     FileUpload[]                @relation("NewStructureRelation")
+  formsOld                        Form[]                      @relation("OldStructureRelation")
+  forms                           Form[]                      @relation("NewStructureRelation")
+  campaigns                       Campaign[]
 
   @@schema("public")
 }
@@ -86,8 +97,9 @@ model StructureOfii {
 }
 
 model CodeDna {
-  id                       Int         @id @default(autoincrement())
-  dnaCode                  String      @unique
+  id                       Int       @id @default(autoincrement())
+  code                     String    @unique
+  structureId              Int?
   creationDate             DateTime
   adresseAdministrative    String
   codePostalAdministratif  String
@@ -96,7 +108,11 @@ model CodeDna {
   latitude                 Decimal
   longitude                Decimal
   contacts                 Contact[]
-  type                     CodeDnaType @default(SECONDAIRE)
+  adresses                 Adresse[]
+
+  type CodeDnaType @default(SECONDAIRE)
+
+  structure Structure? @relation("StructureToCodeDna", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -106,8 +122,8 @@ model CodeDna {
 
 model Controle {
   id               Int          @id @default(autoincrement())
-  structure        Structure    @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode String
+  structure        Structure?   @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structureDnaCode String?
   date             DateTime
   type             ControleType
   fileUploads      FileUpload[]
@@ -115,12 +131,15 @@ model Controle {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  structureNew Structure? @relation("NewStructureRelation", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  structureId  Int?
+
   @@schema("public")
 }
 
 model Evaluation {
   id               Int          @id @default(autoincrement())
-  structure        Structure    @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structure        Structure?   @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode String
   date             DateTime?
   notePersonne     Int?
@@ -132,12 +151,15 @@ model Evaluation {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  structureNew Structure? @relation("NewStructureRelation", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  structureId  Int?
+
   @@schema("public")
 }
 
 model EvenementIndesirableGrave {
-  id               Int       @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  id               Int        @id @default(autoincrement())
+  structure        Structure? @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode String
   numeroDossier    String
   evenementDate    DateTime
@@ -147,13 +169,16 @@ model EvenementIndesirableGrave {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  structureNew Structure? @relation("NewStructureRelation", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  structureId  Int?
+
   @@schema("public")
 }
 
 model Adresse {
   id                Int                @id @default(autoincrement())
-  structure         Structure          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode  String
+  structure         Structure?         @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   adresse           String?
   codePostal        String?
   commune           String?
@@ -162,6 +187,11 @@ model Adresse {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  structureNew Structure? @relation("NewStructureRelation", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  structureId  Int?
+  CodeDna      CodeDna?   @relation(fields: [codeDnaId], references: [id])
+  codeDnaId    Int?
 
   @@schema("public")
 }
@@ -183,7 +213,7 @@ model AdresseTypologie {
 
 model Contact {
   id               Int         @id @default(autoincrement())
-  structure        Structure   @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structure        Structure   @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode String
   prenom           String?
   nom              String?
@@ -194,6 +224,7 @@ model Contact {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
   CodeDna   CodeDna? @relation(fields: [codeDnaId], references: [id])
   codeDnaId Int?
 
@@ -202,14 +233,17 @@ model Contact {
 }
 
 model StructureTypologie {
-  id               Int       @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  id               Int        @id @default(autoincrement())
   structureDnaCode String
+  structure        Structure? @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   date             DateTime
   placesAutorisees Int?
   pmr              Int
   lgbt             Int
   fvvTeh           Int
+
+  structureNew Structure? @relation("NewStructureRelation", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  structureId  Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -237,7 +271,7 @@ model Activite {
 
 model FileUpload {
   id                 Int                 @id @default(autoincrement())
-  structure          Structure?          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structure          Structure?          @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode   String?
   key                String              @unique
   mimeType           String
@@ -259,12 +293,15 @@ model FileUpload {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  structureNew Structure? @relation("NewStructureRelation", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  structureId  Int?
+
   @@schema("public")
 }
 
 model Budget {
   id                                Int        @id @default(autoincrement())
-  structure                         Structure? @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structure                         Structure? @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode                  String
   date                              DateTime
   ETP                               Float?
@@ -292,6 +329,9 @@ model Budget {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  structureNew Structure? @relation("NewStructureRelation", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  structureId  Int?
 
   @@unique([structureDnaCode, date])
   @@schema("public")
@@ -329,12 +369,15 @@ model Form {
   formDefinitionId Int
   status           Boolean @default(false) // Lié au bouton "Finaliser"
 
-  structure      Structure      @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structure      Structure      @relation("OldStructureRelation", fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   formDefinition FormDefinition @relation(fields: [formDefinitionId], references: [id])
   formSteps      FormStep[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  structureNew Structure? @relation("NewStructureRelation", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  structureId  Int?
 
   @@unique([structureCodeDna, formDefinitionId])
   @@schema("public")
@@ -363,7 +406,8 @@ model Campaign {
   name             String
   launched         Boolean @default(false)
 
-  structure Structure @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structure   Structure? @relation(fields: [structureId], references: [id])
+  structureId Int?
 
   @@schema("public")
 }

@@ -14,9 +14,10 @@ import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grav
 import { formApiSchema } from "./form.schema";
 import { operateurApiSchema } from "./operateur.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
+import { codeDnaApiSchema } from "./codeDna.schema";
 
 export const structureCreationApiSchema = z.object({
-  dnaCode: z.string().min(1, "Le code DNA est requis"),
+  codesDna: z.array(codeDnaApiSchema),
   filiale: z.string().optional(),
   operateur: operateurApiSchema,
   type: z.nativeEnum(StructureType),
@@ -66,7 +67,7 @@ export const structureCreationApiSchema = z.object({
 const partialStructureCreationApiSchema = structureCreationApiSchema
   .partial()
   .extend({
-    dnaCode: z.string().min(1, "Le code DNA est requis"),
+    dnaCode: z.array(codeDnaApiSchema.partial()),
     adresses: z.array(adresseApiSchema.partial()).optional(),
     forms: z.array(formApiSchema.partial()).optional(),
     contacts: z.array(contactApiSchema.partial()).optional(),
