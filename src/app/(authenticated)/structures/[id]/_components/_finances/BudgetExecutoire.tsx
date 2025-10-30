@@ -5,9 +5,11 @@ import { formatCurrency, formatNumber } from "@/app/utils/number.util";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
-export const BudgetExecutoire = (): ReactElement => {
+export const BudgetExecutoire = ({ year }: Props): ReactElement => {
   const { structure } = useStructureContext();
-  const budget = structure?.budgets?.[structure?.budgets?.length - 1];
+  const budget = structure?.budgets?.find(
+    (budget) => new Date(budget.date).getFullYear() === year
+  );
 
   return (
     <div className="flex">
@@ -37,4 +39,8 @@ export const BudgetExecutoire = (): ReactElement => {
       </div>
     </div>
   );
+};
+
+type Props = {
+  year: number;
 };

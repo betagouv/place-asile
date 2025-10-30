@@ -38,6 +38,11 @@ export const FinancesBlock = (): ReactElement => {
     }
     return <GestionBudgetaireAvecCpomTable />;
   };
+
+  const budgetExecutoireYear = isAutorisee
+    ? new Date().getFullYear() - 1
+    : new Date().getFullYear() - 2;
+
   return (
     <Block
       title="Finances"
@@ -48,9 +53,9 @@ export const FinancesBlock = (): ReactElement => {
     >
       <div className="pb-2">
         <h4 className="text-title-blue-france pb-2 fr-h6">
-          Budget exécutoire pour {new Date().getFullYear() - 1}
+          Budget exécutoire pour {budgetExecutoireYear}
         </h4>
-        <BudgetExecutoire />
+        <BudgetExecutoire year={budgetExecutoireYear} />
       </div>
       <div className="pb-5">
         <HistoriqueBudgets />
