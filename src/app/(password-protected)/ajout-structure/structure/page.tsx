@@ -2,18 +2,17 @@
 
 import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import { ReactElement } from "react";
-import z from "zod";
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
-import { StructureType } from "@/types/structure.type";
+import { ajoutStructureSchema } from "@/schemas/forms/ajout/ajoutStructure.schema";
 
 import { StructureSearch } from "./_components/StructureSearch";
 import { ValidationButton } from "./_components/ValidationButton";
 
 export default function AjoutStructurePage(): ReactElement {
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto mt-8">
       <h2 className="flex items-center gap-3 text-xl font-bold mb-8 text-title-blue-france justify-center">
         <span className="fr-icon-search-line fr-icon--md" />
         Quelle structure voulez-vous ajouter ?
@@ -43,30 +42,7 @@ export default function AjoutStructurePage(): ReactElement {
       />
       <div>
         <FormWrapper
-          schema={z.object({
-            departement: z.object({
-              numero: z.string(),
-              name: z.string(),
-            }),
-            operateur: z.object({
-              id: z.number().optional(),
-              name: z.string(),
-            }),
-            type: z.preprocess(
-              (val) => (val === "" ? undefined : val),
-              z.nativeEnum(StructureType)
-            ),
-            structureOfii: z.object({
-              dnaCode: z.string(),
-              nom: z.string(),
-              type: z.nativeEnum(StructureType),
-              operateur: z.object({
-                id: z.number().optional(),
-                name: z.string(),
-              }),
-              departement: z.string(),
-            }),
-          })}
+          schema={ajoutStructureSchema}
           availableFooterButtons={[]}
           className="bg-transparent border-none p-0"
           showContactInfos={false}

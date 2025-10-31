@@ -4,8 +4,8 @@ import { useFormContext } from "react-hook-form";
 import { DepartementAutocomplete } from "@/app/components/forms/DepartementAutocomplete";
 import { OperateurAutocomplete } from "@/app/components/forms/OperateurAutocomplete";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
+import { StructureOfiiFormType } from "@/schemas/forms/ajout/ajoutStructure.schema";
 import { StructureType } from "@/types/structure.type";
-import { StructureOfiiType } from "@/types/structureOfii.type";
 
 import { StructureOfiiList } from "./StructureOfiiList";
 
@@ -13,7 +13,7 @@ async function getStructuresOfii(
   operateurId: string,
   departementNumero: string,
   type: string
-): Promise<StructureOfiiType[]> {
+): Promise<StructureOfiiFormType[]> {
   try {
     // Use NEXT_URL instead of NEXT_PUBLIC_BASE_URL
     const baseUrl = process.env.NEXT_URL || "";
@@ -44,7 +44,7 @@ export const StructureSearch = (): ReactElement => {
   const type = watch("type");
 
   const [structuresOfii, setStructuresOfii] = useState<
-    StructureOfiiType[] | undefined
+    StructureOfiiFormType[] | undefined
   >(undefined);
 
   useEffect(() => {

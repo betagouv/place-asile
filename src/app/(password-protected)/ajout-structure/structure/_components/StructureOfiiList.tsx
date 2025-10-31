@@ -1,7 +1,7 @@
 import { Control, FieldValues, useController } from "react-hook-form";
 
 import { cn } from "@/app/utils/classname.util";
-import { StructureOfiiType } from "@/types/structureOfii.type";
+import { StructureOfiiFormType } from "@/schemas/forms/ajout/ajoutStructure.schema";
 
 export const StructureOfiiList = ({ structuresOfii, control }: Props) => {
   const { field } = useController({
@@ -75,6 +75,6 @@ export const StructureOfiiList = ({ structuresOfii, control }: Props) => {
 };
 
 type Props = {
-  structuresOfii: StructureOfiiType[] | undefined;
+  structuresOfii: StructureOfiiFormType[] | undefined;
   control: Control<FieldValues>;
 };
