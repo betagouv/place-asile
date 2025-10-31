@@ -50,11 +50,11 @@ export const StructuresTable = ({
         <Table
           headings={headings}
           ariaLabelledBy={ariaLabelledBy}
-          className="[&_tr]:!bg-transparent"
+          className="[&_tr]:bg-transparent!"
         >
           {currentData.map((structure, index) => (
             <StructureItem
-              key={index + structure.id}
+              key={`structure-${index}`}
               structure={structure}
               index={index}
               handleOpenModal={handleOpenModal}

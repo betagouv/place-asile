@@ -51,15 +51,19 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
     return totalProduits - totalCharges;
   };
 
-  // TODO : provide aria labeled by
   return (
-    <div className="w-full bg-lifted-grey border-1 border-default-grey rounded-lg">
+    <div
+      className="w-full bg-lifted-grey border border-default-grey rounded-lg"
+      aria-labelledby="gestionBudgetaireTitle"
+    >
       <table className="w-full">
-        <thead>
+        <colgroup>
           <col />
-          <colgroup span={2}></colgroup>
-          <colgroup span={1}></colgroup>
-          <colgroup span={3}></colgroup>
+        </colgroup>
+        <colgroup span={2}></colgroup>
+        <colgroup span={1}></colgroup>
+        <colgroup span={3}></colgroup>
+        <thead>
           <tr className="bg-alt-grey">
             <td rowSpan={1}></td>
             {primaryHeadings.map((primaryHeading) => (
@@ -73,7 +77,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
               </th>
             ))}
           </tr>
-          <tr className="border-t-1 border-default-grey">
+          <tr className="border-t border-default-grey">
             {secondaryHeadings.map((secondaryHeading) => (
               <th
                 scope="col"
@@ -87,7 +91,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
         </thead>
         <tbody>
           {budgets?.map((budget) => (
-            <tr key={budget.id} className="border-t-1 border-default-grey">
+            <tr key={budget.id} className="border-t border-default-grey">
               <td className="py-2 px-4 text-center text-sm">
                 {new Date(budget.date).getFullYear()}
               </td>
