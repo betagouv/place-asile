@@ -10,10 +10,7 @@ if [ -z "$SCRIPT_NAME" ]; then
 fi
 
 echo "🚀 Installation des dépendances"
-yarn install --production=false
-
-echo "⚙️ Génération Prisma..."
-npx prisma generate
+yarn install
 
 echo "🏃 Exécution du script ${SCRIPT_NAME}.ts"
 npx tsx scripts/one-off-scripts/${SCRIPT_NAME}.ts
