@@ -89,12 +89,6 @@ export const getYearRange = ({
   return { years };
 };
 
-/**
- * Calculates the percentage of time elapsed between startDate and endDate as of today.
- * @param {string} startDate - The start date of the period.
- * @param {string} endDate - The end date of the period.
- * @returns {number} - The percentage of time elapsed (0 to 100).
- */
 export const getElapsedPercentage = ({
   startDate,
   endDate,

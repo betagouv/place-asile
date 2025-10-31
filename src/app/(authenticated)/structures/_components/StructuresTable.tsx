@@ -54,7 +54,7 @@ export const StructuresTable = ({
         >
           {currentData.map((structure, index) => (
             <StructureItem
-              key={`structure-${index}`}
+              key={structure.id}
               structure={structure}
               index={index}
               handleOpenModal={handleOpenModal}
