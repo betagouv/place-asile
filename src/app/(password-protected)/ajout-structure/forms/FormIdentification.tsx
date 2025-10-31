@@ -13,7 +13,6 @@ import { OperateurAutocomplete } from "@/app/components/forms/OperateurAutocompl
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import {
   AjoutIdentificationFormValues,
   ajoutIdentificationSchema,
@@ -121,30 +120,6 @@ export default function FormIdentification() {
         const cpom = watch("cpom");
         return (
           <>
-            <Notice
-              severity="warning"
-              title=""
-              className="rounded [&_p]:flex  [&_p]:items-center"
-              description={
-                <span className="text-default-grey">
-                  Si votre structure regroupe plusieurs codes DNA mais est une
-                  seule entité juridique et/ou financière, veuillez ne pas
-                  remplir ce formulaire et nous contacter directement par email
-                  via{" "}
-                  {
-                    <a
-                      href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline"
-                    >
-                      {PLACE_ASILE_CONTACT_EMAIL}
-                    </a>
-                  }
-                  .
-                </span>
-              }
-            />
             <fieldset className="flex flex-col gap-6">
               <legend className="text-xl font-bold mb-10 text-title-blue-france">
                 Description
