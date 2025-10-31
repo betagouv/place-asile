@@ -1,9 +1,3 @@
-/**
- * We need to use a component (rather than a hook directly) because
- * useAutoSave relies on being called within the context provided by FormWrapper.
- * By rendering this component as a child of FormWrapper,
- * we ensure that the hook can access the form context.
- */
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
@@ -23,7 +17,6 @@ export const AutoSave = <TSchema extends z.ZodTypeAny>({
 
   const debouncedSave = useDebounceCallback(async () => {
     const allValues = getValues();
-
     const result = schema.safeParse(allValues);
 
     if (result.success) {
