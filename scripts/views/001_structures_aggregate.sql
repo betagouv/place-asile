@@ -109,6 +109,7 @@ WITH -- Last typology by structure
   )
 SELECT
   s."dnaCode" AS "dnaCode",
+  o."name" AS "operateur",
   s.latitude AS "latitude",
   s.longitude AS "longitude",
   s.public AS "public",
@@ -125,12 +126,16 @@ SELECT
   sdm."date" AS "date_structure",
   pa.nb_places_activite AS "nb_places_activite",
   d."region" AS "region",
-  COALESCE(ba."indicateurs_budgetaires", 5) AS "indicateurs_budgetaires",
   pa.diff_places_adresse AS "diff_places_adresse",
   pa.pct_diff_places_adresse AS "pct_diff_places_adresse",
   pa.diff_places_activite AS "diff_places_activite",
   pa.pct_diff_places_activite AS "pct_diff_places_activite",
   COALESCE(pai."indicateurs_places_agregees", 5) AS "indicateurs_places_agregees",
+  ba."taux_encadrement_max" AS "taux_encadrement_max",
+  ba."taux_encadrement_min" AS "taux_encadrement_min",
+  ba."cout_journalier_max" AS "cout_journalier_max",
+  ba."cout_journalier_min" AS "cout_journalier_min",
+  COALESCE(ba."indicateurs_budgetaires", 5) AS "indicateurs_budgetaires",
   COALESCE(pai."indicateurs_places_agregees", 5) + COALESCE(ba."indicateurs_budgetaires", 5) AS "indicateurs_structure",
   s."createdAt" AS "created_at",
   s."updatedAt" AS "updated_at"
@@ -141,4 +146,5 @@ FROM
   LEFT JOIN adresses_agregees aa ON aa."structureDnaCode" = s."dnaCode"
   LEFT JOIN places_agregees_indicateurs pai ON pai."dnaCode" = s."dnaCode"
   LEFT JOIN budgets_agreges ba ON ba."structureDnaCode" = s."dnaCode"
-  LEFT JOIN public."Departement" d ON d."numero" = s."departementAdministratif";
+  LEFT JOIN public."Departement" d ON d."numero" = s."departementAdministratif"
+  LEFT JOIN public."Operateur" o ON o."id" = s."operateurId";
