@@ -3,6 +3,8 @@
 import { useParams, useSearchParams } from "next/navigation";
 
 import { Logo } from "@/app/components/Logo";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 
 export default function RootLayout({
   children,
@@ -12,6 +14,11 @@ export default function RootLayout({
   const params = useParams();
   const searchParams = useSearchParams();
   const dnaCode = params.dnaCode || searchParams.get("dnaCode");
+
+  const { currentValue } = useLocalStorage(
+    `ajout-structure-${dnaCode}-adresses`,
+    {} as Partial<AjoutAdressesFormValues>
+  );
 
   return (
     <>
@@ -26,9 +33,14 @@ export default function RootLayout({
           </div>
           <Logo />
           <div className="inline-block min-h-[1em] w-0.5 self-stretch bg-alt-raised-grey" />
-          <p className="flex flex-col uppercase font-bold gap-1 text-action-high-blue-france m-0">
-            <span className="text-xs leading-none">Ajouter une structure</span>
-            <span className="text-xl leading-none">{dnaCode}</span>
+          <p className="flex flex-col uppercase gap-1 text-action-high-blue-france m-0">
+            <span className="text-xs leading-none font-bold">
+              Ajouter une structure
+            </span>
+            <span className="text-xl leading-none">
+              {currentValue?.nom ? <strong>{currentValue.nom}</strong> : ""} -{" "}
+              {dnaCode}
+            </span>
           </p>
         </div>
       </header>

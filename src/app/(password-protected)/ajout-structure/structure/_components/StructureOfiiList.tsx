@@ -9,20 +9,17 @@ export const StructureOfiiList = ({ structuresOfii, control }: Props) => {
     control,
   });
 
-  if (!structuresOfii) {
-    return null;
-  }
-  if (structuresOfii.length === 0) {
-    return <div>Aucune structure trouvée</div>;
-  }
-
   return (
     <div>
       <h3 className="text-base font-bold mb-4 text-title-blue-france">
-        Sélectionnez votre structure
+        {!structuresOfii
+          ? ""
+          : structuresOfii.length === 0
+            ? "Aucune structure trouvée"
+            : "Sélectionnez votre structure"}
       </h3>
-      <div className="flex flex-col gap-2 max-h-80 overflow-y-auto">
-        {structuresOfii.map((structureOfii) => (
+      <div className="flex flex-col gap-2 h-80 overflow-y-auto">
+        {structuresOfii?.map((structureOfii) => (
           <div key={structureOfii.dnaCode}>
             <input
               type="radio"

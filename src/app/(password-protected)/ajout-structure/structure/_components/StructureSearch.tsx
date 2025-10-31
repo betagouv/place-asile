@@ -63,7 +63,7 @@ export const StructureSearch = (): ReactElement => {
   }, [operateurId, departementNumero, type]);
 
   return (
-    <div className="bg-white p-6 rounded-lg">
+    <div className="bg-white p-6 rounded-lg mb-2">
       <div className="grid grid-cols-3 gap-6 mb-2">
         <SelectWithValidation
           name="type"
