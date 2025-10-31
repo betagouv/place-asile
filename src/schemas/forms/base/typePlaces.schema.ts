@@ -39,7 +39,7 @@ export const placesEvolutionAutoSaveSchema = placesEvolutionSchema.partial();
 
 const baseTypePlacesSchema = structureBaseSchema
   .extend({
-    typologies: z.array(typologieItemWithIdSchema),
+    structureTypologies: z.array(typologieItemWithIdSchema),
   })
   .merge(placesEvolutionSchema);
 
