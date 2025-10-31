@@ -49,7 +49,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     FooterButtonType.SUBMIT,
   ],
   showAutoSaveMention,
-  centerButtons,
+  showContactInfos = true,
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
   const {
@@ -160,12 +160,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                 />
               )}
               <div>
-                <div
-                  className={cn(
-                    "flex items-center gap-4 mt-6",
-                    centerButtons ? "justify-center" : "justify-end"
-                  )}
-                >
+                <div className="flex items-center gap-4 mt-6 justify-end">
                   {showAutoSaveMention && (
                     <div className="flex items-center gap-1 text-mention-grey text-xs">
                       <span className="fr-icon-save-line fr-icon--xs" />
@@ -198,23 +193,20 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                     <Button type="submit">{submitButtonText}</Button>
                   )}
                 </div>
-                <p
-                  className={cn(
-                    "cta_message text-mention-grey text-sm mt-2",
-                    centerButtons ? "text-center" : "text-right"
-                  )}
-                >
-                  Si vous ne parvenez pas à remplir certains champs,{" "}
-                  <a
-                    href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                  >
-                    contactez-nous par mail
-                  </a>
-                  ou par téléphone (07 86 38 96 85 ou au 06 88 44 20 93)
-                </p>
+                {showContactInfos && (
+                  <p className="cta_message text-mention-grey text-sm mt-2 text-right">
+                    Si vous ne parvenez pas à remplir certains champs,{" "}
+                    <a
+                      href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline"
+                    >
+                      contactez-nous par mail
+                    </a>
+                    ou par téléphone (07 86 38 96 85 ou au 06 88 44 20 93)
+                  </p>
+                )}
               </div>
             </>
           )}
@@ -244,5 +236,5 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   previousStep?: string;
   availableFooterButtons?: Array<FooterButtonType>;
   showAutoSaveMention?: boolean;
-  centerButtons?: boolean;
+  showContactInfos?: boolean;
 };

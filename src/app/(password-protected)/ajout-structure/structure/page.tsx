@@ -4,17 +4,16 @@ import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import { ReactElement } from "react";
 import z from "zod";
 
-import FormWrapper, {
-  FooterButtonType,
-} from "@/app/components/forms/FormWrapper";
+import FormWrapper from "@/app/components/forms/FormWrapper";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import { StructureType } from "@/types/structure.type";
 
 import { StructureSearch } from "./_components/StructureSearch";
+import { ValidationButton } from "./_components/ValidationButton";
 
 export default function AjoutStructurePage(): ReactElement {
   return (
-    <div className="max-w-4xl mx-auto mt">
+    <div className="max-w-4xl mx-auto">
       <h2 className="flex items-center gap-3 text-xl font-bold mb-8 text-title-blue-france justify-center">
         <span className="fr-icon-search-line fr-icon--md" />
         Quelle structure voulez-vous ajouter ?
@@ -61,16 +60,19 @@ export default function AjoutStructurePage(): ReactElement {
               dnaCode: z.string(),
               nom: z.string(),
               type: z.nativeEnum(StructureType),
-              operateur: z.string(),
+              operateur: z.object({
+                id: z.number().optional(),
+                name: z.string(),
+              }),
               departement: z.string(),
             }),
           })}
-          availableFooterButtons={[FooterButtonType.SUBMIT]}
-          submitButtonText="J’ai trouvé ma structure"
-          centerButtons
+          availableFooterButtons={[]}
           className="bg-transparent border-none p-0"
+          showContactInfos={false}
         >
           <StructureSearch />
+          <ValidationButton />
         </FormWrapper>
       </div>
     </div>

@@ -59,7 +59,8 @@ export const StructureOfiiList = ({ structuresOfii, control }: Props) => {
                 </strong>
                 <div className="text-sm ">
                   {structureOfii.dnaCode} - {structureOfii.type},{" "}
-                  {structureOfii.operateur}, {structureOfii.departement}
+                  {structureOfii.operateur.name},{" "}
+                  {structureOfii.departement.name}
                 </div>
               </div>
               {field.value?.dnaCode === structureOfii.dnaCode && (

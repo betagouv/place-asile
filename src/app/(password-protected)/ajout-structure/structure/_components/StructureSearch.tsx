@@ -9,6 +9,32 @@ import { StructureOfiiType } from "@/types/structureOfii.type";
 
 import { StructureOfiiList } from "./StructureOfiiList";
 
+async function getStructuresOfii(
+  operateurId: string,
+  departementNumero: string,
+  type: string
+): Promise<StructureOfiiType[]> {
+  try {
+    // Use NEXT_URL instead of NEXT_PUBLIC_BASE_URL
+    const baseUrl = process.env.NEXT_URL || "";
+    const result = await fetch(
+      `${baseUrl}/api/structures-ofii?operateur=${operateurId}&departement=${departementNumero}&type=${type}`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    if (!result.ok) {
+      throw new Error(`Failed to fetch structure: ${result.status}`);
+    }
+
+    return await result.json();
+  } catch (error) {
+    console.error("Error fetching structure:", error);
+    return [];
+  }
+}
+
 export const StructureSearch = (): ReactElement => {
   const parentFormContext = useFormContext();
   const { control, watch } = parentFormContext;
@@ -16,24 +42,24 @@ export const StructureSearch = (): ReactElement => {
   const operateurId = watch("operateur.id");
   const departementNumero = watch("departement.numero");
   const type = watch("type");
-  const structureOfii = watch("structureOfii");
-  console.log(structureOfii);
+
   const [structuresOfii, setStructuresOfii] = useState<
     StructureOfiiType[] | undefined
   >(undefined);
 
   useEffect(() => {
     const fetchStructuresOfii = async () => {
-      const structuresOfiiResponse = await fetch(
-        `/api/structures-ofii?operateur=${operateurId}&departement=${departementNumero}&type=${type}`
+      const structuresOfii = await getStructuresOfii(
+        operateurId,
+        departementNumero,
+        type
       );
-      const structuresOfii = await structuresOfiiResponse.json();
       setStructuresOfii(structuresOfii);
     };
 
-    //if (operateurId && departementNumero && type) {
-    fetchStructuresOfii();
-    //}
+    if (operateurId && departementNumero && type) {
+      fetchStructuresOfii();
+    }
   }, [operateurId, departementNumero, type]);
 
   return (

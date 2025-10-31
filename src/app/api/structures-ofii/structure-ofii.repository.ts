@@ -1,4 +1,6 @@
-import { StructureType } from "@prisma/client";
+import { StructureOfii, StructureType } from "@prisma/client";
+
+import prisma from "@/lib/prisma";
 
 export const findBySearchTerm = async (
   operateurId: string | null,
@@ -8,50 +10,21 @@ export const findBySearchTerm = async (
   if (!operateurId || !departementNumero || !type) {
     return [];
   }
-  return [
-    {
-      dnaCode: "C0001",
-      type: "HUDA",
-      nom: "Structure 1",
-      operateur: "Opérateur 1",
-      departement: "Doubs",
-    },
-    {
-      dnaCode: "C0002",
-      type: "HUDA",
-      nom: "Structure 2",
-      operateur: "Opérateur 1",
-      departement: "Doubs",
-    },
-    {
-      dnaCode: "C0003",
-      type: "HUDA",
-      nom: "Structure 3",
-      operateur: "Opérateur 2",
-      departement: "Doubs",
-    },
-    {
-      dnaCode: "C0004",
-      type: "HUDA",
-      nom: "Structure 4",
-      operateur: "Opérateur 2",
-      departement: "Doubs",
-    },
-    {
-      dnaCode: "C0005",
-      type: "HUDA",
-      nom: "Structure 5",
-      operateur: "Opérateur 2",
-      departement: "Doubs",
-    },
-  ];
-};
+  console.log(operateurId, departementNumero, type);
 
-// Temporaire en attendant que la table StructureOfii soit créée
-type StructureOfii = {
-  dnaCode: string;
-  type: StructureType;
-  nom: string;
-  operateur: string;
-  departement: string;
+  const structuresOfii = await prisma.structureOfii.findMany({
+    where: {
+      operateurId: Number(operateurId),
+      departement: {
+        numero: departementNumero,
+      },
+      type: type as StructureType,
+    },
+    include: {
+      operateur: true,
+      departement: true,
+    },
+  });
+
+  return structuresOfii;
 };

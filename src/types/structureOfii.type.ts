@@ -4,6 +4,13 @@ export type StructureOfiiType = {
   dnaCode: string;
   type: StructureType;
   nom: string;
-  operateur: string;
-  departement: string;
+  operateur: {
+    id: number;
+    name: string;
+  };
+  departement: {
+    id: number;
+    numero: string;
+    name: string;
+  };
 };
