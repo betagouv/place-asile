@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { controlesSchema } from "../base/controles.schema";
+import { controlesSchema } from "../base/controle.schema";
 import {
   evaluationsAutoSaveSchema,
   evaluationsSchema,

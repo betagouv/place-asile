@@ -4,7 +4,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
 import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif.schema";
-import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
+import { ControleFormValues } from "@/schemas/forms/base/controle.schema";
 import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
 import { ActeAdministratifCategoryType } from "@/types/file-upload.type";
 
@@ -85,7 +85,7 @@ export default function UploadsByCategory({
 
     const newField = {
       date: "",
-      type: "",
+      type: undefined,
       uuid: uuidv4(),
     };
 

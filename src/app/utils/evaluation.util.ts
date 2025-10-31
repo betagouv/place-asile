@@ -6,7 +6,7 @@ export const getEvaluationsDefaultValues = (
 ): EvaluationFormValues[] | undefined => {
   const defaultValuesFromDb = evaluations.map((evaluation) => {
     return {
-      ...evaluation,
+      id: evaluation.id ?? undefined,
       date: evaluation.date ?? "",
       notePersonne: evaluation.notePersonne ?? 0,
       notePro: evaluation.notePro ?? 0,
@@ -24,7 +24,7 @@ export const getEvaluationsDefaultValues = (
       note: null,
       fileUploads: [],
     };
-    return [...defaultValuesFromDb, emptyEvaluation];
+    return [emptyEvaluation];
   }
   return defaultValuesFromDb;
 };

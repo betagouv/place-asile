@@ -5,7 +5,7 @@ import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.sch
 import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif.schema";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { budgetsSchemaTypeFormValues } from "@/schemas/forms/base/budget.schema";
-import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
+import { ControleFormValues } from "@/schemas/forms/base/controle.schema";
 import { DocumentFinancierFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 import { Repartition } from "@/types/adresse.type";

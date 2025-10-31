@@ -1,5 +1,5 @@
 import { ControleApiType } from "@/schemas/api/controle.schema";
-import { ControleFormValues } from "@/schemas/forms/base/controles.schema";
+import { ControleFormValues } from "@/schemas/forms/base/controle.schema";
 import { ControleType } from "@/types/controle.type";
 
 export const getControlesDefaultValues = (
@@ -7,24 +7,23 @@ export const getControlesDefaultValues = (
 ): ControleFormValues[] | undefined => {
   const defaultValuesFromDb = controles.map((controle) => {
     return {
-      id: controle.id ?? null,
+      id: controle.id ?? undefined,
       date: controle.date ?? "",
       type: ControleType[controle.type as unknown as keyof typeof ControleType],
       fileUploads: controle.fileUploads?.map((fileUpload) => ({
         key: fileUpload.key,
-        id: fileUpload.id ?? null,
+        id: fileUpload.id ?? undefined,
       })),
     };
   });
 
   if (defaultValuesFromDb.length === 0) {
-    const emptyControle: ControleFormValues = {
-      id: null,
+    const emptyControle = {
       date: "",
-      type: "" as unknown as ControleType,
+      type: undefined,
       fileUploads: [],
     };
-    return [...defaultValuesFromDb, emptyControle];
+    return [emptyControle];
   }
 
   return defaultValuesFromDb;

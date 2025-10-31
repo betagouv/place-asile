@@ -1,7 +1,7 @@
 import z from "zod";
 
 import {
-  frenchDateToISO,
+  optionalFrenchDateToISO,
   zSafeDecimalsNullish,
 } from "@/app/utils/zodCustomFields";
 
@@ -14,7 +14,7 @@ const fileUploadSchema = z.object({
 
 const evaluationAutoSaveSchema = z.object({
   id: z.preprocess(idPreprocess, z.number().optional()),
-  date: frenchDateToISO(),
+  date: optionalFrenchDateToISO(),
   notePersonne: zSafeDecimalsNullish(),
   notePro: zSafeDecimalsNullish(),
   noteStructure: zSafeDecimalsNullish(),
@@ -70,7 +70,6 @@ export const evaluationsAutoSaveSchema = z.object({
 
 export type EvaluationFormValues = z.infer<typeof evaluationSchema>;
 export type EvaluationsFormValues = z.infer<typeof evaluationsSchema>;
-
 export type EvaluationAutoSaveFormValues = z.infer<
   typeof evaluationAutoSaveSchema
 >;
