@@ -23,13 +23,13 @@ export const FieldSetOuvertureFermeture = ({
           description="Le nombre de places “QPV” et “Logement social” se modifient dans le bloc “Description”."
         />
       )}
-      <legend className="text-xl font-bold mb-8 text-title-blue-france">
+      <h3 className="text-xl font-bold mb-8 text-title-blue-france">
         {formKind === FormKind.FINALISATION ? (
           <>Objectifs d’ouverture et fermeture en {currentYear}</>
         ) : (
           <>Ouvertures et fermetures en {currentYear}</>
         )}
-      </legend>
+      </h3>
       <p className="mb-2">
         En {currentYear}, sur le nombre total de places autorisées, combien
         restent à créer ? <i>(Indiquez “0” si non prévu)</i>
