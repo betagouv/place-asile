@@ -19,7 +19,7 @@ export async function migrateContactTypes() {
     }
 
     let updated = 0;
-    for (const [structureDnaCode, contacts] of byStructure.entries()) {
+    for (const contacts of byStructure.values()) {
         if (contacts[0]) {
             await prisma.contact.update({
                 where: { id: contacts[0].id },
