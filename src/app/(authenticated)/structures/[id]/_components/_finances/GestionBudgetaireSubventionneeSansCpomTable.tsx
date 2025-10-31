@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { ReactElement } from "react";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
@@ -27,7 +26,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
 
   const primaryHeadings = [
     { title: "BUDGET EXÉCUTOIRE DE LA STRUCTURE", colSpan: 2 },
-    { title: "COMPTE ADMINISTRATIF DE LA STRUCTURE", colSpan: 7 },
+    { title: "COMPTE ADMINISTRATIF DE LA STRUCTURE", colSpan: 6 },
   ];
 
   const secondaryHeadings = [
@@ -39,7 +38,6 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
     "EXCÉDENT RÉCUPÉRÉ TITRE DE RECETTE",
     "À RÉEMPLOYER DANS DOTATION À VENIR",
     "RESTANT FONDS DÉDIÉS",
-    "CUMUL FONDS DÉDIÉS",
     "COMMENTAIRE",
   ];
 
@@ -51,21 +49,6 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
       return 0;
     }
     return totalProduits - totalCharges;
-  };
-
-  const computeCumulFondsDedies = (date: string) => {
-    const dateObject = new Date(date);
-    let currentYearFondsDedies = 0;
-    let previousYearFondsDedies = 0;
-    budgets?.forEach((budget) => {
-      if (dayjs(budget.date).isSame(dayjs(dateObject))) {
-        currentYearFondsDedies = budget.fondsDedies ?? 0;
-      }
-      if (dayjs(budget.date).isSame(dayjs(dateObject).subtract(1, "year"))) {
-        previousYearFondsDedies = budget.fondsDedies ?? 0;
-      }
-    });
-    return currentYearFondsDedies + previousYearFondsDedies;
   };
 
   // TODO : provide aria labeled by
@@ -185,16 +168,7 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
                   <EmptyCell />
                 )}
               </td>
-              <td className="py-2 px-4 text-center test-sm">
-                {!isNullOrUndefined(budget.fondsDedies) ? (
-                  <NumberDisplay
-                    value={computeCumulFondsDedies(budget.date)}
-                    type="currency"
-                  />
-                ) : (
-                  <EmptyCell />
-                )}
-              </td>
+
               <td className="py-2 px-4 text-center test-sm">
                 {budget.commentaire ?? <EmptyCell />}
               </td>
