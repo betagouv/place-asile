@@ -49,6 +49,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     FooterButtonType.SUBMIT,
   ],
   showAutoSaveMention,
+  centerButtons,
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
   const {
@@ -159,7 +160,12 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                 />
               )}
               <div>
-                <div className="flex justify-end items-center gap-4 mt-6">
+                <div
+                  className={cn(
+                    "flex items-center gap-4 mt-6",
+                    centerButtons ? "justify-center" : "justify-end"
+                  )}
+                >
                   {showAutoSaveMention && (
                     <div className="flex items-center gap-1 text-mention-grey text-xs">
                       <span className="fr-icon-save-line fr-icon--xs" />
@@ -192,7 +198,12 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                     <Button type="submit">{submitButtonText}</Button>
                   )}
                 </div>
-                <p className="cta_message text-mention-grey text-sm text-right mt-2">
+                <p
+                  className={cn(
+                    "cta_message text-mention-grey text-sm mt-2",
+                    centerButtons ? "text-center" : "text-right"
+                  )}
+                >
                   Si vous ne parvenez pas à remplir certains champs,{" "}
                   <a
                     href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
@@ -233,4 +244,5 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   previousStep?: string;
   availableFooterButtons?: Array<FooterButtonType>;
   showAutoSaveMention?: boolean;
+  centerButtons?: boolean;
 };
