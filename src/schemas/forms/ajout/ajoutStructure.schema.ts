@@ -14,7 +14,7 @@ const operateurSchema = z.object({
 
 const structureOfiiSchema = z.object({
   dnaCode: z.string(),
-  nom: z.string(),
+  nom: z.string().optional(),
   type: z.nativeEnum(StructureType),
   operateur: operateurSchema,
   departement: departementSchema,

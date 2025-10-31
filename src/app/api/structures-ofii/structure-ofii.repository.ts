@@ -10,7 +10,6 @@ export const findBySearchTerm = async (
   if (!operateurId || !departementNumero || !type) {
     return [];
   }
-  console.log(operateurId, departementNumero, type);
 
   const structuresOfii = await prisma.structureOfii.findMany({
     where: {

@@ -15,7 +15,6 @@ async function getStructuresOfii(
   type: string
 ): Promise<StructureOfiiFormType[]> {
   try {
-    // Use NEXT_URL instead of NEXT_PUBLIC_BASE_URL
     const baseUrl = process.env.NEXT_URL || "";
     const result = await fetch(
       `${baseUrl}/api/structures-ofii?operateur=${operateurId}&departement=${departementNumero}&type=${type}`,
@@ -25,12 +24,12 @@ async function getStructuresOfii(
     );
 
     if (!result.ok) {
-      throw new Error(`Failed to fetch structure: ${result.status}`);
+      throw new Error(`Failed to fetch structures ofii: ${result.status}`);
     }
 
     return await result.json();
   } catch (error) {
-    console.error("Error fetching structure:", error);
+    console.error("Error fetching structures ofii:", error);
     return [];
   }
 }
