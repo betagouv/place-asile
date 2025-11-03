@@ -79,8 +79,8 @@ model StructureOfii {
   nom                           String?
   operateur                     Operateur?            @relation(fields: [operateurId], references: [id])
   operateurId                   Int?
-  departement                   Departement?          @relation(fields: [departementId], references: [id])
-  departementId                 Int?
+  departement                   Departement?          @relation(fields: [departementNumero], references: [numero])
+  departementNumero             String?
 
   @@schema("public")
 

@@ -90,7 +90,7 @@ export async function seed(): Promise<void> {
           StructureType.CPH,
         ]),
         operateurId: operateur.id,
-        departementId: faker.helpers.arrayElement(departements).id,
+        departementNumero: faker.helpers.arrayElement(departements).numero,
       });
       console.log(
         `🏠 Ajout de la structure ofii ${fakeStructureOfii.dnaCode}...`

@@ -8,31 +8,31 @@ let counter = 1;
 const generateDnaCode = ({
   type,
   operateurId,
-  departementId,
+  departementNumero,
 }: FakeStructureOfiiOptions): string => {
-  return `${type}-${operateurId}-${departementId}-${counter++}`;
+  return `${type}-${operateurId}-${departementNumero}-${counter++}`;
 };
 
 export const createFakeStructureOfii = ({
   type,
   operateurId,
-  departementId,
+  departementNumero,
 }: FakeStructureOfiiOptions): Omit<StructureOfii, "id"> => {
   return {
     dnaCode: generateDnaCode({
       type,
       operateurId,
-      departementId,
+      departementNumero,
     }),
     type,
     nom: faker.lorem.words(2),
     operateurId,
-    departementId,
+    departementNumero,
   };
 };
 
 export type FakeStructureOfiiOptions = {
   type: StructureType;
   operateurId: number;
-  departementId: number;
+  departementNumero: string;
 };
