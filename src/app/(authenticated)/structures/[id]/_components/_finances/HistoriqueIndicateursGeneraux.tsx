@@ -8,7 +8,7 @@ import { isStructureAutorisee } from "@/app/utils/structure.util";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
-export const HistoriqueBudgets = (): ReactElement => {
+export const HistoriqueIndicateursGeneraux = (): ReactElement => {
   const { structure } = useStructureContext();
 
   const getBudgets = () => {
@@ -16,10 +16,18 @@ export const HistoriqueBudgets = (): ReactElement => {
       return [];
     }
     return structure.budgets.map((budget) => [
-      new Date(budget.date).getFullYear(),
-      formatNumber(budget.ETP),
-      formatNumber(budget.tauxEncadrement),
-      formatCurrency(budget.coutJournalier),
+      <span className="inline-block text-center w-full" key={budget.id}>
+        {new Date(budget.date).getFullYear()}
+      </span>,
+      <span className="inline-block text-center w-full" key={budget.id}>
+        {formatNumber(budget.ETP)}
+      </span>,
+      <span className="inline-block text-center w-full" key={budget.id}>
+        {formatNumber(budget.tauxEncadrement)}
+      </span>,
+      <span className="inline-block w-20 text-center" key={budget.id}>
+        {formatCurrency(budget.coutJournalier)}
+      </span>,
     ]);
   };
 
@@ -34,7 +42,7 @@ export const HistoriqueBudgets = (): ReactElement => {
     >
       <Table
         bordered={true}
-        className="m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center text-mention-grey [&>table>thead]:text-mention-grey [&>table>tbody>tr>td:first-child]:w-20 [&>table>thead>tr>th]:text-center"
+        className="full-width-table"
         caption=""
         data={getBudgets()}
         headers={["ANNÉE", "ETP", "TAUX D'ENCADREMENT", "COÛT JOURNALIER"]}
