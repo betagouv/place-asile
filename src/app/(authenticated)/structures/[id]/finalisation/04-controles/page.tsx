@@ -1,7 +1,7 @@
 "use client";
 
 import { AutoSave } from "@/app/components/forms/AutoSave";
-import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
+import { Controles } from "@/app/components/forms/documents/Controles";
 import { Evaluations } from "@/app/components/forms/evaluations/Evaluations";
 import { FieldSetOuvertureFermeture } from "@/app/components/forms/fieldsets/structure/FieldSetOuvertureFermeture";
 import FormWrapper, {
@@ -11,7 +11,6 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { InformationBar } from "@/app/components/ui/InformationBar";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
-import { getCategoriesDisplayRules } from "@/app/utils/categoryToDisplay.util";
 import { transformFormControlesToApiControles } from "@/app/utils/controle.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { transformFormEvaluationsToApiEvaluations } from "@/app/utils/evaluation.util";
@@ -38,8 +37,6 @@ export default function ModificationControleForm() {
     currentStep,
     structure
   );
-
-  const categoriesDisplayRules = getCategoriesDisplayRules(structure);
 
   const { handleValidation, handleAutoSave, backendError } =
     useAgentFormHandling({
@@ -106,29 +103,7 @@ export default function ModificationControleForm() {
             <hr />
           </>
         )}
-
-        <UploadsByCategory
-          category={"INSPECTION_CONTROLE"}
-          categoryShortName={
-            categoriesDisplayRules["INSPECTION_CONTROLE"].categoryShortName
-          }
-          title={categoriesDisplayRules["INSPECTION_CONTROLE"].title}
-          canAddFile={categoriesDisplayRules["INSPECTION_CONTROLE"].canAddFile}
-          canAddAvenant={
-            categoriesDisplayRules["INSPECTION_CONTROLE"].canAddAvenant
-          }
-          isOptional={false}
-          additionalFieldsType={
-            categoriesDisplayRules["INSPECTION_CONTROLE"].additionalFieldsType
-          }
-          documentLabel={
-            categoriesDisplayRules["INSPECTION_CONTROLE"].documentLabel
-          }
-          addFileButtonLabel={
-            categoriesDisplayRules["INSPECTION_CONTROLE"].addFileButtonLabel
-          }
-          notice={categoriesDisplayRules["INSPECTION_CONTROLE"].notice}
-        />
+        <Controles />
         <hr />
         <FieldSetOuvertureFermeture formKind={FormKind.FINALISATION} />
         {saveState === FetchState.ERROR && (

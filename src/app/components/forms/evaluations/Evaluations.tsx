@@ -38,7 +38,7 @@ export const Evaluations = (): ReactElement => {
   return (
     <fieldset className="flex flex-col gap-6 w-full">
       <legend className="text-xl font-bold mb-8 text-title-blue-france">
-        Evaluations
+        Évaluations
       </legend>
       <Controller
         control={control}
