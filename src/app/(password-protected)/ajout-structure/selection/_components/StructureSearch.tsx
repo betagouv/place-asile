@@ -1,38 +1,13 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { DepartementAutocomplete } from "@/app/components/forms/DepartementAutocomplete";
 import { OperateurAutocomplete } from "@/app/components/forms/OperateurAutocomplete";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import { StructureOfiiFormType } from "@/schemas/forms/ajout/ajoutStructure.schema";
+import { useStructuresOfiiSearch } from "@/app/hooks/useStructuresOfiiSearch";
 import { StructureType } from "@/types/structure.type";
 
 import { StructureOfiiList } from "./StructureOfiiList";
-
-async function getStructuresOfii(
-  operateurId: string,
-  departementNumero: string,
-  type: string
-): Promise<StructureOfiiFormType[]> {
-  try {
-    const baseUrl = process.env.NEXT_URL || "";
-    const result = await fetch(
-      `${baseUrl}/api/structures-ofii?operateur=${operateurId}&departement=${departementNumero}&type=${type}`,
-      {
-        cache: "no-store",
-      }
-    );
-
-    if (!result.ok) {
-      throw new Error(`Failed to fetch structures ofii: ${result.status}`);
-    }
-
-    return await result.json();
-  } catch (error) {
-    console.error("Error fetching structures ofii:", error);
-    return [];
-  }
-}
 
 export const StructureSearch = (): ReactElement => {
   const parentFormContext = useFormContext();
@@ -42,24 +17,11 @@ export const StructureSearch = (): ReactElement => {
   const departementNumero = watch("departement.numero");
   const type = watch("type");
 
-  const [structuresOfii, setStructuresOfii] = useState<
-    StructureOfiiFormType[] | undefined
-  >(undefined);
-
-  useEffect(() => {
-    const fetchStructuresOfii = async () => {
-      const structuresOfii = await getStructuresOfii(
-        operateurId,
-        departementNumero,
-        type
-      );
-      setStructuresOfii(structuresOfii);
-    };
-
-    if (operateurId && departementNumero && type) {
-      fetchStructuresOfii();
-    }
-  }, [operateurId, departementNumero, type]);
+  const { structuresOfii } = useStructuresOfiiSearch({
+    operateurId,
+    departementNumero,
+    type,
+  });
 
   return (
     <div className="bg-white p-6 rounded-lg mb-2">
