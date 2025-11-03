@@ -5,7 +5,7 @@ CREATE TABLE "public"."StructureOfii" (
     "type" "public"."StructureType" NOT NULL,
     "nom" TEXT,
     "operateurId" INTEGER,
-    "departementId" INTEGER,
+    "departementNumero" TEXT,
 
     CONSTRAINT "StructureOfii_pkey" PRIMARY KEY ("id")
 );
@@ -17,4 +17,4 @@ CREATE UNIQUE INDEX "StructureOfii_dnaCode_key" ON "public"."StructureOfii"("dna
 ALTER TABLE "public"."StructureOfii" ADD CONSTRAINT "StructureOfii_operateurId_fkey" FOREIGN KEY ("operateurId") REFERENCES "public"."Operateur"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."StructureOfii" ADD CONSTRAINT "StructureOfii_departementId_fkey" FOREIGN KEY ("departementId") REFERENCES "public"."Departement"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "public"."StructureOfii" ADD CONSTRAINT "StructureOfii_departementNumero_fkey" FOREIGN KEY ("departementNumero") REFERENCES "public"."Departement"("numero") ON DELETE SET NULL ON UPDATE CASCADE;
