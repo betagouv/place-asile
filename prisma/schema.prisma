@@ -22,7 +22,6 @@ model Departement {
 model Structure {
   id                       Int            @id @default(autoincrement())
   dnaCode                  String         @unique
-  slug                     String         @unique
   oldOperateur             String
   filiale                  String?
   type                     StructureType
@@ -63,22 +62,22 @@ model Structure {
   updatedAt DateTime @default(now()) @updatedAt
 
   codesDna                        CodeDna[]                   @relation("StructureToCodeDna")
-  controlesOld                    Controle[]                  @relation("OldStructureRelation")
-  controles                       Controle[]                  @relation("NewStructureRelation")
-  evaluationsOld                  Evaluation[]                @relation("OldStructureRelation")
-  evaluations                     Evaluation[]                @relation("NewStructureRelation")
-  evenementsIndesirablesGravesOld EvenementIndesirableGrave[] @relation("OldStructureRelation")
-  evenementsIndesirablesGraves    EvenementIndesirableGrave[] @relation("NewStructureRelation")
-  structureTypologiesOld          StructureTypologie[]        @relation("OldStructureRelation")
-  structureTypologies             StructureTypologie[]        @relation("NewStructureRelation")
-  adressesOld                     Adresse[]                   @relation("OldStructureRelation")
-  adresses                        Adresse[]                   @relation("NewStructureRelation")
-  budgetsOld                      Budget[]                    @relation("OldStructureRelation")
-  budgets                         Budget[]                    @relation("NewStructureRelation")
-  fileUploadsOld                  FileUpload[]                @relation("OldStructureRelation")
-  fileUploads                     FileUpload[]                @relation("NewStructureRelation")
-  formsOld                        Form[]                      @relation("OldStructureRelation")
-  forms                           Form[]                      @relation("NewStructureRelation")
+  controles                       Controle[]                  @relation("OldStructureRelation")
+  controlesNew                    Controle[]                  @relation("NewStructureRelation")
+  evaluations                     Evaluation[]                @relation("OldStructureRelation")
+  evaluationsNew                  Evaluation[]                @relation("NewStructureRelation")
+  evenementsIndesirablesGraves    EvenementIndesirableGrave[] @relation("OldStructureRelation")
+  evenementsIndesirablesGravesNew EvenementIndesirableGrave[] @relation("NewStructureRelation")
+  structureTypologies             StructureTypologie[]        @relation("OldStructureRelation")
+  structureTypologiesNew          StructureTypologie[]        @relation("NewStructureRelation")
+  adresses                        Adresse[]                   @relation("OldStructureRelation")
+  adressesNew                     Adresse[]                   @relation("NewStructureRelation")
+  budgets                         Budget[]                    @relation("OldStructureRelation")
+  budgetsNew                      Budget[]                    @relation("NewStructureRelation")
+  fileUploads                     FileUpload[]                @relation("OldStructureRelation")
+  fileUploadsNew                  FileUpload[]                @relation("NewStructureRelation")
+  forms                           Form[]                      @relation("OldStructureRelation")
+  formsNew                        Form[]                      @relation("NewStructureRelation")
   campaigns                       Campaign[]
 
   @@schema("public")

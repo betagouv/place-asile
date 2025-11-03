@@ -73,10 +73,15 @@ export async function seed(): Promise<void> {
       ...operateurToInsert,
       structures: structuresToInsert,
     };
-    await prisma.operateur.create({
-      data: convertToPrismaObject(operateurWithStructures),
-    });
+    try {
+      await prisma.operateur.create({
+        data: convertToPrismaObject(operateurWithStructures),
+      });
+    } catch (error) {
+      console.error(`Erreur lors de la création des structures pour l'opérateur ${operateurToInsert.name}`, error);
+    }
   }
+
 
   const operateurs = await prisma.operateur.findMany();
   const departements = await prisma.departement.findMany();
