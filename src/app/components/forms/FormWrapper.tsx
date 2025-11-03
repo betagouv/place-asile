@@ -18,7 +18,10 @@ import { z } from "zod";
 import { FormProvider } from "@/app/context/FormContext";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { cn } from "@/app/utils/classname.util";
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import {
+  PLACE_ASILE_CONTACT_EMAIL,
+  PLACE_ASILE_PHONE_NUMBERS,
+} from "@/constants";
 import { DeepPartial } from "@/types/global";
 
 // Define enum for footer buttons
@@ -204,7 +207,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                     >
                       contactez-nous par mail
                     </a>
-                    ou par téléphone (07 86 38 96 85 ou au 06 88 44 20 93)
+                    ou par téléphone ({PLACE_ASILE_PHONE_NUMBERS})
                   </p>
                 )}
               </div>

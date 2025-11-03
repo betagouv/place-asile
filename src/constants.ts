@@ -31,6 +31,8 @@ export const MODELE_MIXTE_LINK = "/adresses-mixte.xlsx";
 
 export const PLACE_ASILE_CONTACT_EMAIL = "contact@placedasile.beta.gouv.fr";
 
+export const PLACE_ASILE_PHONE_NUMBERS = "07 86 38 96 85 ou au 06 88 44 20 93";
+
 export const DEPARTEMENTS: Departement[] = [
   {
     numero: "01",
