@@ -6,6 +6,7 @@ import { acteAdministratifApiSchema } from "./acteAdministratif.schema";
 import { activiteApiSchema } from "./activite.schema";
 import { adresseApiSchema } from "./adresse.schema";
 import { budgetApiSchema } from "./budget.schema";
+import { codeDnaApiSchema } from "./codeDna.schema";
 import { contactApiSchema } from "./contact.schema";
 import { controleApiSchema } from "./controle.schema";
 import { documentFinancierApiSchema } from "./documentFinancier.schema";
@@ -14,7 +15,6 @@ import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grav
 import { formApiSchema } from "./form.schema";
 import { operateurApiSchema } from "./operateur.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
-import { codeDnaApiSchema } from "./codeDna.schema";
 
 export const structureCreationApiSchema = z.object({
   codesDna: z.array(codeDnaApiSchema),

@@ -54,7 +54,7 @@ export const createFakeFormStepDefinition = (
 
 export const createFakeForm = (
   formDefinitionId: number
-): Omit<Form, "id" | "structureCodeDna"> => {
+): Omit<Form, "id" | "structureCodeDna" | "structureId"> => {
   return {
     formDefinitionId: formDefinitionId,
     status: faker.datatype.boolean(),
@@ -81,7 +81,7 @@ type FormWithSteps = Form & {
 export const createFakeFormWithSteps = (
   formDefinitionId: number,
   stepDefinitionIds: number[]
-): Omit<FormWithSteps, "id" | "structureCodeDna"> => {
+): Omit<FormWithSteps, "id" | "structureCodeDna" | "structureId"> => {
   const fakeForm = createFakeForm(formDefinitionId);
 
   return {
