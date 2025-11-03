@@ -48,7 +48,7 @@ export default function FinalisationIdentification(): ReactElement {
     data: FinalisationIdentificationAutoSaveFormValues
   ) => {
     const contacts = transformAgentFormContactsToApiContacts(data.contacts);
-    await handleAutoSave({ ...data, contacts, dnaCode: structure.dnaCode });
+    await handleAutoSave({ ...data, contacts, id: structure.id });
   };
 
   const { getFetchState } = useFetchState();
@@ -83,7 +83,7 @@ export default function FinalisationIdentification(): ReactElement {
           description="Veuillez vérifier les informations suivantes transmises par l’opérateur."
         />
 
-        <FieldSetDescription dnaCode={structure.dnaCode} />
+        <FieldSetDescription structureId={structure.id} />
         <hr />
 
         <FieldSetContacts />
@@ -99,7 +99,7 @@ export default function FinalisationIdentification(): ReactElement {
 
         {saveState === FetchState.ERROR && (
           <SubmitError
-            structureDnaCode={structure.dnaCode}
+            id={structure.id}
             backendError={backendError}
           />
         )}

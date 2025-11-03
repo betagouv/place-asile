@@ -18,6 +18,7 @@ export const adresseTypologieApiSchema = z.object({
 
 export const adresseApiSchema = z.object({
   id: z.number().optional(),
+  structureId: z.number().optional(),
   adresse: z.string().optional(),
   codePostal: z.string().optional(),
   commune: z.string().optional(),

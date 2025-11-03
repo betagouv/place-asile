@@ -10,6 +10,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { StructureUpdateApiType } from "@/schemas/api/structure.schema";
 import { typePlacesSchema } from "@/schemas/forms/base/typePlaces.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { FormKind } from "@/types/global";
@@ -37,7 +38,9 @@ export default function ModificationTypePlaces() {
       <FormWrapper
         schema={typePlacesSchema}
         defaultValues={defaultValues}
-        onSubmit={handleSubmit}
+        onSubmit={(data: Partial<StructureUpdateApiType>) =>
+          handleSubmit({ id: structure.id, ...data })
+        }
         mode="onChange"
         resetRoute={`/structures/${structure.id}`}
         submitButtonText="Valider"
@@ -51,10 +54,7 @@ export default function ModificationTypePlaces() {
         <FieldSetTypePlaces />
       </FormWrapper>
       {saveState === FetchState.ERROR && (
-        <SubmitError
-          structureDnaCode={structure.dnaCode}
-          backendError={backendError}
-        />
+        <SubmitError id={structure.id} backendError={backendError} />
       )}
     </>
   );

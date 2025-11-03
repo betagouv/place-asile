@@ -45,6 +45,7 @@ export default function FormIdentification() {
     }
     const dnaCode = params.dnaCode as string;
 
+    // TODO : attention à déprécier, certaines structures ont un dnaCode qui ne commence pas par C, H, K ou R ou ne correspond pas au type
     if (dnaCode.startsWith("C")) {
       return StructureType.CADA;
     }
@@ -137,7 +138,7 @@ export default function FormIdentification() {
               <input
                 type="hidden"
                 id="dnaCode"
-                {...register("dnaCode")}
+                // {...register("structureId")} // TODO : ceci est à reprendre avec la nouvelle version de création de structure
                 defaultValue={params.dnaCode}
               />
 

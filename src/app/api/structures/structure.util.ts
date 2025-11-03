@@ -60,7 +60,7 @@ export const convertToControleType = (
 };
 
 export const handleAdresses = (
-  dnaCode: string,
+  structureId: number,
   adresses: AdresseApiType[]
 ): AdresseInput[] => {
   return adresses.map(
@@ -70,7 +70,7 @@ export const handleAdresses = (
         codePostal: adresse.codePostal,
         commune: adresse.commune,
         repartition: convertToRepartition(adresse.repartition),
-        structureDnaCode: dnaCode,
+        structureId: structureId,
         adresseTypologies: adresse.adresseTypologies,
       }) as AdresseInput
   );

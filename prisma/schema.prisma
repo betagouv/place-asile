@@ -106,8 +106,7 @@ model CodeDna {
   departementAdministratif String
   latitude                 Decimal
   longitude                Decimal
-  contacts                 Contact[]
-  adresses                 Adresse[]
+  contacts                 Contact[] @relation("CodeDnaToContacts")
 
   type CodeDnaType @default(SECONDAIRE)
 
@@ -139,7 +138,7 @@ model Controle {
 model Evaluation {
   id               Int          @id @default(autoincrement())
   structure        Structure?   @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode String
+  structureDnaCode String?
   date             DateTime?
   notePersonne     Int?
   notePro          Int?
@@ -159,7 +158,7 @@ model Evaluation {
 model EvenementIndesirableGrave {
   id               Int        @id @default(autoincrement())
   structure        Structure? @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode String
+  structureDnaCode String?
   numeroDossier    String
   evenementDate    DateTime
   declarationDate  DateTime
@@ -176,7 +175,7 @@ model EvenementIndesirableGrave {
 
 model Adresse {
   id                Int                @id @default(autoincrement())
-  structureDnaCode  String
+  structureDnaCode  String?
   structure         Structure?         @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   adresse           String?
   codePostal        String?
@@ -189,8 +188,6 @@ model Adresse {
 
   structureNew Structure? @relation("NewStructureRelation", fields: [structureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   structureId  Int?
-  CodeDna      CodeDna?   @relation(fields: [codeDnaId], references: [id])
-  codeDnaId    Int?
 
   @@schema("public")
 }
@@ -212,8 +209,8 @@ model AdresseTypologie {
 
 model Contact {
   id               Int         @id @default(autoincrement())
-  structure        Structure   @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode String
+  structure        Structure?  @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structureDnaCode String?
   prenom           String?
   nom              String?
   telephone        String?
@@ -224,16 +221,17 @@ model Contact {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  CodeDna   CodeDna? @relation(fields: [codeDnaId], references: [id])
-  codeDnaId Int?
+  CodeDna     CodeDna? @relation("CodeDnaToContacts", fields: [codeDnaCode], references: [code])
+  codeDnaCode String?
 
   @@unique([structureDnaCode, type])
+  @@unique([codeDnaCode, type])
   @@schema("public")
 }
 
 model StructureTypologie {
   id               Int        @id @default(autoincrement())
-  structureDnaCode String
+  structureDnaCode String?
   structure        Structure? @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   date             DateTime
   placesAutorisees Int?
@@ -301,7 +299,7 @@ model FileUpload {
 model Budget {
   id                                Int        @id @default(autoincrement())
   structure                         Structure? @relation("OldStructureRelation", fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode                  String
+  structureDnaCode                  String?
   date                              DateTime
   ETP                               Float?
   tauxEncadrement                   Float?
@@ -333,6 +331,7 @@ model Budget {
   structureId  Int?
 
   @@unique([structureDnaCode, date])
+  @@unique([structureId, date])
   @@schema("public")
 }
 
@@ -364,11 +363,11 @@ model FormStepDefinition {
 
 model Form {
   id               Int     @id @default(autoincrement())
-  structureCodeDna String
+  structureCodeDna String?
   formDefinitionId Int
   status           Boolean @default(false) // Lié au bouton "Finaliser"
 
-  structure      Structure      @relation("OldStructureRelation", fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structure      Structure?     @relation("OldStructureRelation", fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   formDefinition FormDefinition @relation(fields: [formDefinitionId], references: [id])
   formSteps      FormStep[]
 
@@ -379,6 +378,7 @@ model Form {
   structureId  Int?
 
   @@unique([structureCodeDna, formDefinitionId])
+  @@unique([structureId, formDefinitionId])
   @@schema("public")
 }
 
@@ -401,7 +401,7 @@ model FormStep {
 
 model Campaign {
   id               Int     @id @default(autoincrement())
-  structureCodeDna String
+  structureCodeDna String?
   name             String
   launched         Boolean @default(false)
 

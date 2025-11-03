@@ -9,6 +9,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
+import { StructureUpdateApiType } from "@/schemas/api/structure.schema";
 import { calendrierSchema } from "@/schemas/forms/base/calendrier.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
@@ -35,7 +36,9 @@ export default function ModificationCalendrier() {
       <FormWrapper
         schema={calendrierSchema}
         defaultValues={defaultValues}
-        onSubmit={handleSubmit}
+        onSubmit={(data: Partial<StructureUpdateApiType>) =>
+          handleSubmit({ id: structure.id, ...data })
+        }
         mode="onChange"
         resetRoute={`/structures/${structure.id}`}
         submitButtonText="Valider"
@@ -49,7 +52,7 @@ export default function ModificationCalendrier() {
       </FormWrapper>
       {saveState === FetchState.ERROR && (
         <SubmitError
-          structureDnaCode={structure.dnaCode}
+          id={structure.id}
           backendError={backendError}
         />
       )}

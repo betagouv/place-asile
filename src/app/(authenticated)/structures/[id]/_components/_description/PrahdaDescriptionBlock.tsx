@@ -11,7 +11,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
   const { structure } = useStructureContext();
   const {
     creationDate,
-    dnaCode,
+    codesDna,
     operateur,
     filiale,
     public: publicType,
@@ -33,7 +33,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Code DNA (OFII)</strong>
-          {dnaCode}
+          {codesDna.map((codeDna) => codeDna.code).join(", ")}
         </div>
         <div className="flex-1">
           <strong className="pr-2">Opérateur</strong>

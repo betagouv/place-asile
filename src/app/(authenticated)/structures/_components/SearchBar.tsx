@@ -14,7 +14,7 @@ export const SearchBar = ({
           structure.adresses?.flatMap(
             (adresse) => adresse.commune?.toLowerCase() ?? []
           ) || [];
-        const matchesDnaCode = structure.dnaCode
+        const matchesDnaCode = structure.codesDna.map((codeDna) => codeDna.code).join(", ")
           .toLowerCase()
           .includes(searchTerm);
         const matchesCommune = communes.some((commune) =>

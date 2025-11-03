@@ -7,7 +7,7 @@ export const createControle = ({
 }: CreateControleArgs): ControleApiType => {
   return {
     id: id ?? 1,
-    structureDnaCode: "C0001",
+    structureId: 1,
     date: date ?? new Date("01/02/2022").toISOString(),
     type: ControleType.INOPINE,
     fileUploads: [

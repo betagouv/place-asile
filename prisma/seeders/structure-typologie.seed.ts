@@ -1,12 +1,12 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { StructureTypologie } from "@prisma/client";
+import { PrismaClient, StructureTypologie } from "@prisma/client";
 
 export const createFakeStructureTypologie = ({
   placesAutorisees,
   year,
 }: CreateFakeStructureTypologieOptions): Omit<
   StructureTypologie,
-  "id" | "structureDnaCode"
+  "id" | "structureId" | "structureDnaCode"
 > => {
   const lgbt = faker.number.int({ min: 0, max: placesAutorisees })
 
@@ -20,6 +20,25 @@ export const createFakeStructureTypologie = ({
     updatedAt: faker.date.past(),
   };
 };
+
+export async function insertStructureTypologies(
+  prisma: PrismaClient,
+  structureId: number,
+  structureTypologies: Omit<StructureTypologie, "id" | "structureId">[]
+): Promise<void> {
+  for (const t of structureTypologies || []) {
+    await prisma.structureTypologie.create({
+      data: {
+        structureId,
+        date: t.date,
+        placesAutorisees: t.placesAutorisees,
+        pmr: t.pmr,
+        lgbt: t.lgbt,
+        fvvTeh: t.fvvTeh,
+      },
+    });
+  }
+}
 
 type CreateFakeStructureTypologieOptions = {
   placesAutorisees: number;

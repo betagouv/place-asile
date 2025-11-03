@@ -3,11 +3,11 @@ import { ReactElement } from "react";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 
 export const SubmitError = ({
-  structureDnaCode,
+  id,
   backendError,
 }: Props): ReactElement => {
   const getErrorEmail = (error: string | undefined): string => {
-    const subject = `Problème avec le formulaire de Place d'asile (code DNA ${structureDnaCode})`;
+    const subject = `Problème avec le formulaire de Place d'asile (code structure ${id})`;
     const body = `Bonjour,%0D%0A%0D%0AAjoutez ici des informations supplémentaires...%0D%0A%0D%0ARapport d'erreur: ${error}`;
     return `mailto:${PLACE_ASILE_CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   };
@@ -29,6 +29,6 @@ export const SubmitError = ({
 };
 
 type Props = {
-  structureDnaCode: string;
+  id: number;
   backendError?: string;
 };

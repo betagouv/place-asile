@@ -94,7 +94,6 @@ const transformAjoutFormStructureToApiStructure = (
   values: AjoutFormValues
 ): DeepPartial<StructureApiType> => {
   return {
-    dnaCode: values.dnaCode,
     operateur: values.operateur,
     filiale: values.filiale,
     type: values.type,
@@ -121,7 +120,6 @@ const transformAjoutFormStructureToApiStructure = (
     finCpom: formatDateToIsoString(values.finCpom),
     adresses: transformFormAdressesToApiAdresses(
       values.adresses,
-      values.dnaCode
     ),
     contacts: transformAjoutFormContactsToApiContacts(
       values.contactPrincipal,
@@ -141,7 +139,7 @@ const transformAjoutFormStructureToApiStructure = (
 
 export type AjoutFormValues = Partial<
   AjoutIdentificationFormValues &
-    AjoutAdressesFormValues &
-    AjoutTypePlacesFormValues &
-    DocumentsFinanciersFlexibleFormValues
+  AjoutAdressesFormValues &
+  AjoutTypePlacesFormValues &
+  DocumentsFinanciersFlexibleFormValues
 >;
