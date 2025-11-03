@@ -6,7 +6,7 @@ import { getYearDate } from "@/app/utils/date.util";
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 import { FileUploadCategoryType } from "@/types/file-upload.type";
 
-import { UploadItem } from "../../components/UploadItem";
+import { UploadItem } from "../../_components/UploadItem";
 
 export const DocumentItem = ({
   year,
