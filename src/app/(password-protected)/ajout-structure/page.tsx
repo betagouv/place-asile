@@ -70,7 +70,7 @@ export default async function AjoutStructurePage(): Promise<ReactElement> {
       <Button
         size="large"
         linkProps={{
-          href: `/ajout-structure/structure`,
+          href: `/ajout-structure/selection`,
         }}
       >
         Je commence à remplir le formulaire
