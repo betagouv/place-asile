@@ -1,9 +1,12 @@
 import Button from "@codegouvfr/react-dsfr/Button";
+import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
 export const BackButton = (): ReactElement => {
+  const router = useRouter();
+
   const handleBack = () => {
-    window.location.reload();
+    router.push("/ajout-structure");
   };
   return (
     <Button
