@@ -6,6 +6,7 @@ import { acteAdministratifApiSchema } from "./acteAdministratif.schema";
 import { activiteApiSchema } from "./activite.schema";
 import { adresseApiSchema } from "./adresse.schema";
 import { budgetApiSchema } from "./budget.schema";
+import { codeDnaApiSchema } from "./codeDna.schema";
 import { contactApiSchema } from "./contact.schema";
 import { controleApiSchema } from "./controle.schema";
 import { documentFinancierApiSchema } from "./documentFinancier.schema";
@@ -16,7 +17,7 @@ import { operateurApiSchema } from "./operateur.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
 
 export const structureCreationApiSchema = z.object({
-  dnaCode: z.string().min(1, "Le code DNA est requis"),
+  codesDna: z.array(codeDnaApiSchema),
   filiale: z.string().optional(),
   operateur: operateurApiSchema,
   type: z.nativeEnum(StructureType),
@@ -66,17 +67,16 @@ export const structureCreationApiSchema = z.object({
 const partialStructureCreationApiSchema = structureCreationApiSchema
   .partial()
   .extend({
-    dnaCode: z.string().min(1, "Le code DNA est requis"),
+    codesDna: z.array(codeDnaApiSchema.partial()).optional(),
     adresses: z.array(adresseApiSchema.partial()).optional(),
     forms: z.array(formApiSchema.partial()).optional(),
     contacts: z.array(contactApiSchema.partial()).optional(),
-    documentsFinanciers: z
-      .array(documentFinancierApiSchema.partial())
-      .optional(),
+    documentsFinanciers: z.array(documentFinancierApiSchema.partial()).optional(),
     structureTypologies: z
       .array(structureTypologieApiSchema.partial())
       .optional(),
   });
+
 
 const remainingStructureUpdateApiSchema = z.object({
   id: z.number().optional(),
@@ -96,15 +96,14 @@ const remainingStructureUpdateApiSchema = z.object({
   actesAdministratifs: z.array(acteAdministratifApiSchema.partial()).optional(),
 });
 
-export const structureUpdateApiSchema = partialStructureCreationApiSchema.and(
-  remainingStructureUpdateApiSchema
-);
+export const structureUpdateApiSchema = partialStructureCreationApiSchema
+  .merge(remainingStructureUpdateApiSchema)
+  .extend({ id: z.number() });
 
-export const structureApiSchema = structureCreationApiSchema.and(
-  remainingStructureUpdateApiSchema.extend({
-    id: z.number(),
-  })
-);
+export const structureApiSchema = structureCreationApiSchema
+  .merge(remainingStructureUpdateApiSchema)
+  .extend({ id: z.number() });
+
 
 export type StructureCreationApiType = z.infer<
   typeof structureCreationApiSchema

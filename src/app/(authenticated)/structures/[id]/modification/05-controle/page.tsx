@@ -47,7 +47,7 @@ export default function ModificationControleForm() {
     await handleSubmit({
       controles,
       evaluations,
-      dnaCode: structure.dnaCode,
+      id: structure.id,
     });
   };
 
@@ -103,10 +103,7 @@ export default function ModificationControleForm() {
           notice={categoriesDisplayRules["INSPECTION_CONTROLE"].notice}
         />
         {saveState === FetchState.ERROR && (
-          <SubmitError
-            structureDnaCode={structure.dnaCode}
-            backendError={backendError}
-          />
+          <SubmitError id={structure.id} backendError={backendError} />
         )}
       </FormWrapper>
     </>

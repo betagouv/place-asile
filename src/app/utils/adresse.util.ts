@@ -16,7 +16,7 @@ export const getCoordinates = async (address: string): Promise<Coordinates> => {
 
 export const transformFormAdressesToApiAdresses = (
   adresses: FormAdresse[] = [],
-  dnaCode?: string
+  structureId?: number
 ): AdresseApiType[] => {
   if (!adresses) {
     return [];
@@ -27,12 +27,11 @@ export const transformFormAdressesToApiAdresses = (
         adresse.adresse !== "" &&
         adresse.codePostal !== "" &&
         adresse.commune !== ""
-    )
-    .filter((adresse) => adresse.structureDnaCode || dnaCode)
+    ).filter((adresse) => adresse.structureId === structureId)
     .map((adresse) => {
       return {
         id: adresse.id,
-        structureDnaCode: adresse.structureDnaCode || (dnaCode as string),
+        structureId: structureId,
         adresse: adresse.adresse,
         codePostal: adresse.codePostal,
         commune: adresse.commune,
@@ -67,7 +66,7 @@ export const transformApiAdressesToFormAdresses = (
       commune: adresse.commune ?? "",
       repartition:
         Repartition[
-          adresse.repartition?.trim().toUpperCase() as keyof typeof Repartition
+        adresse.repartition?.trim().toUpperCase() as keyof typeof Repartition
         ],
       adresseComplete: [adresse.adresse, adresse.codePostal, adresse.commune]
         .filter(Boolean)

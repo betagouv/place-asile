@@ -1,5 +1,5 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { Budget } from "@prisma/client";
+import { Budget, PrismaClient } from "@prisma/client";
 
 import {
   isStructureAutorisee,
@@ -11,7 +11,7 @@ export const createFakeBudget = ({
   year,
   type,
   cpom,
-}: CreateFakeBudgetOptions): Omit<Budget, "id" | "structureDnaCode"> => {
+}: CreateFakeBudgetOptions): Omit<Budget, "id" | "structureId" | "structureDnaCode"> => {
   const isAutorisee = isStructureAutorisee(type);
   const isSubventionnee = isStructureSubventionnee(type);
   const currentYear = new Date().getFullYear();
@@ -66,6 +66,43 @@ export const createFakeBudget = ({
     updatedAt: faker.date.past(),
   };
 };
+
+export async function insertBudgets(
+  prisma: PrismaClient,
+  structure: { id: number },
+  budgets: Omit<Budget, "id" | "structureId">[]
+): Promise<void> {
+  for (const b of budgets || []) {
+    await prisma.budget.create({
+      data: {
+        structureId: structure.id,
+        date: b.date,
+        ETP: b.ETP,
+        tauxEncadrement: b.tauxEncadrement,
+        coutJournalier: b.coutJournalier,
+        dotationDemandee: b.dotationDemandee,
+        dotationAccordee: b.dotationAccordee,
+        totalProduits: b.totalProduits,
+        totalCharges: b.totalCharges,
+        totalChargesProposees: b.totalChargesProposees,
+        cumulResultatsNetsCPOM: b.cumulResultatsNetsCPOM,
+        repriseEtat: b.repriseEtat,
+        excedentRecupere: b.excedentRecupere,
+        excedentDeduit: b.excedentDeduit,
+        reserveInvestissement: b.reserveInvestissement,
+        chargesNonReconductibles: b.chargesNonReconductibles,
+        reserveCompensationDeficits: b.reserveCompensationDeficits,
+        reserveCompensationBFR: b.reserveCompensationBFR,
+        reserveCompensationAmortissements: b.reserveCompensationAmortissements,
+        fondsDedies: b.fondsDedies,
+        affectationReservesFondsDedies: b.affectationReservesFondsDedies,
+        reportANouveau: b.reportANouveau,
+        autre: b.autre,
+        commentaire: b.commentaire,
+      },
+    });
+  }
+}
 
 type CreateFakeBudgetOptions = {
   year: number;

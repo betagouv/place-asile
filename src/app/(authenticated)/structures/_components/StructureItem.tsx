@@ -23,7 +23,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
       data-row-key={index}
       className="border-t-1 border-default-grey"
     >
-      <td>{structure.dnaCode}</td>
+      <td>{structure.codesDna.map((codeDna) => codeDna.code).join(", ")}</td>
       <td>{structure.type}</td>
       <td>{getOperateurLabel(structure.filiale, structure.operateur?.name)}</td>
       <td>{structure.structureTypologies?.[0].placesAutorisees}</td>
@@ -32,7 +32,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
       </td>
       <td>{getCommuneLabel(structure)}</td>
       {structure.debutConvention && structure.finConvention ? (
-        <td>
+        <td aria-label={`${formatDate(structure.debutConvention)} - ${formatDate(structure.finConvention)}`}>
           {formatDate(structure.debutConvention)} -{" "}
           {formatDate(structure.finConvention)}
         </td>
@@ -43,18 +43,18 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
         {isStructureFinalisee ? (
           <Link
             className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
-            title={`Détails de la structure ${structure.dnaCode}`}
+            title={`Détails de la structure ${structure.codesDna.map((codeDna) => codeDna.code).join(", ")}`}
             href={`structures/${structure.id}`}
           >
-            Détails de la structure {structure.dnaCode}
+            Détails de la structure {structure.codesDna.map((codeDna) => codeDna.code).join(", ")}
           </Link>
         ) : (
           <Button
             onClick={() => handleOpenModal(structure)}
             className="fr-btn--tertiary-no-outline fr-icon-edit-line"
-            title={`Finaliser la création de la structure ${structure.dnaCode}`}
+            title={`Finaliser la création de la structure ${structure.codesDna.map((codeDna) => codeDna.code).join(", ")}`}
           >
-            Finaliser la création de la structure {structure.dnaCode}
+            Finaliser la création de la structure {structure.codesDna.map((codeDna) => codeDna.code).join(", ")}
           </Button>
         )}
       </td>

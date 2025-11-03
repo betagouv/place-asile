@@ -32,7 +32,7 @@ export const useAgentFormHandling = ({
   );
 
   const updateStructure = async (
-    data: StructureUpdateApiType
+    data: Partial<StructureUpdateApiType>
   ): Promise<void> => {
     setFetchState("structure-save", FetchState.LOADING);
 
@@ -58,7 +58,7 @@ export const useAgentFormHandling = ({
     }
   };
 
-  const handleAutoSave = async (data: StructureUpdateApiType) => {
+  const handleAutoSave = async (data: Partial<StructureUpdateApiType>) => {
     await updateStructure(data);
   };
 
@@ -87,7 +87,7 @@ export const useAgentFormHandling = ({
     });
 
     await updateStructure({
-      dnaCode: structure.dnaCode,
+      id: structure.id ?? 0,
       forms,
     });
 
@@ -121,7 +121,7 @@ export const useAgentFormHandling = ({
     });
 
     await updateStructure({
-      dnaCode: structure.dnaCode,
+      id: structure.id,
       forms,
     });
   };

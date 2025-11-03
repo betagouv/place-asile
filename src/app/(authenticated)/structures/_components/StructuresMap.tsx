@@ -14,7 +14,7 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
       {structures.map((structure) => (
         <StructureMarker
           id={structure.id}
-          dnaCode={structure.dnaCode}
+          dnaCode={structure.codesDna.map((codeDna) => codeDna.code).join(", ")}
           coordinates={[
             Number(structure.latitude || 0),
             Number(structure.longitude || 0),

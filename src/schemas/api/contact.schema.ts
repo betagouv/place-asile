@@ -4,7 +4,7 @@ import { ContactType } from "@/types/contact.type";
 
 export const contactApiSchema = z.object({
   id: z.number().optional(),
-  structureDnaCode: z.string().optional(),
+  codeDna: z.string().optional(),
   prenom: z.string().min(1, "Le prénom du contact est requis"),
   nom: z.string().min(1, "Le nom du contact est requis"),
   telephone: z.string().min(1, "Le numéro de téléphone du contact est requis"),

@@ -29,7 +29,7 @@ export const FieldSetHebergement = () => {
 
   const handleAddAddress = () => {
     const newAddress: FormAdresse = {
-      structureDnaCode: getValues("dnaCode"),
+      structureId: getValues("id"),
       adresseComplete: "",
       adresse: "",
       codePostal: "",

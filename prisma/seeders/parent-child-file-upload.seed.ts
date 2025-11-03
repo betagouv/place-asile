@@ -10,7 +10,7 @@ import {
 
 const prisma = new PrismaClient();
 
-export async function seedParentChildFileUploads(structureDnaCode: string) {
+export async function seedParentChildFileUploads(structureId: number) {
   const categories = Object.values(FileUploadCategory);
 
   const parentUploads = await Promise.all(
@@ -22,7 +22,7 @@ export async function seedParentChildFileUploads(structureDnaCode: string) {
             cpom: false,
             structureType: StructureType.CADA,
           }),
-          structureDnaCode,
+          structureId,
         },
       })
     )
@@ -40,7 +40,7 @@ export async function seedParentChildFileUploads(structureDnaCode: string) {
                 ...createFakeFileUploadWithParent({
                   parentFileUploadId: parent.id,
                 }),
-                structureDnaCode,
+                structureId,
                 category: parent.category,
               },
             })

@@ -14,7 +14,7 @@ import { OperateurAutocomplete } from "../../OperateurAutocomplete";
 import SelectWithValidation from "../../SelectWithValidation";
 
 export const FieldSetDescription = ({
-  dnaCode,
+  structureId,
   disableTypes = true,
   formKind = FormKind.FINALISATION,
 }: Props) => {
@@ -60,9 +60,9 @@ export const FieldSetDescription = ({
 
       <input
         type="hidden"
-        id="dnaCode"
-        {...register("dnaCode")}
-        defaultValue={dnaCode}
+        id="structureId"
+        {...register("structureId")}
+        defaultValue={structureId}
       />
       {formKind !== FormKind.MODIFICATION && (
         <>
@@ -204,7 +204,7 @@ export const FieldSetDescription = ({
 };
 
 type Props = {
-  dnaCode: string;
+  structureId: number;
   disableTypes?: boolean;
   formKind?: FormKind;
 };

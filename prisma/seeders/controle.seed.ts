@@ -11,13 +11,13 @@ import { createFakeFileUpload } from "./file-upload.seed";
 export type ControleWithFileUploads = Controle & {
   fileUploads: Omit<
     FileUpload,
-    "id" | "controleId" | "evaluationId" | "structureDnaCode"
+    "id" | "controleId" | "evaluationId" | "structureId" | "structureDnaCode"
   >[];
 };
 
 export const createFakeControle = (): Omit<
   ControleWithFileUploads,
-  "id" | "structureDnaCode"
+  "id" | "structureId" | "structureDnaCode"
 > => {
   return {
     date: faker.date.past(),
