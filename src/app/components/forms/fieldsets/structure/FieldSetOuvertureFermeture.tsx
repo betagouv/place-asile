@@ -38,6 +38,7 @@ export const FieldSetOuvertureFermeture = ({
         <InputWithValidation
           name="placesACreer"
           id="placesACreer"
+          min={0}
           control={control}
           type="number"
           label="Nombre de places à créer"
@@ -58,6 +59,7 @@ export const FieldSetOuvertureFermeture = ({
         <InputWithValidation
           name="placesAFermer"
           id="placesAFermer"
+          min={0}
           control={control}
           type="number"
           label="Nombre de places à fermer"
