@@ -2,7 +2,7 @@ import z from "zod";
 
 export const evaluationApiSchema = z.object({
   id: z.number().optional(),
-  structureDnaCode: z.string().optional(),
+  structureId: z.number().optional(),
   date: z.string().datetime().optional(),
   notePersonne: z.number().nullish(),
   notePro: z.number().nullish(),

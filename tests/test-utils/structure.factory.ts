@@ -1,6 +1,7 @@
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
+import { CodeDnaType } from "@/types/codeDna.type";
 import {
   PublicType,
   StructureState,
@@ -8,37 +9,39 @@ import {
 } from "@/types/structure.type";
 
 export const createStructure = ({
-  adresseAdministrative,
+  adresseAdministrative = "1, avenue de la République",
   adresses,
-  type,
+  type = StructureType.CADA,
   finessCode,
   publicType,
-  cpom,
+  cpom = false,
   structureTypologies,
 }: CreateStructuresArgs): StructureApiType => {
   return {
     id: 1,
-    dnaCode: "C0001",
-    operateur: { structureDnaCode: "C0001", id: 1, name: "Adoma" },
+    operateur: { structureId: 1, name: "Adoma" },
+    codesDna: [
+      {
+        code: "C0001",
+        type: CodeDnaType.PRINCIPAL,
+        adresseAdministrative: "1, avenue de la République",
+        codePostalAdministratif: "75011",
+        communeAdministrative: "Paris",
+        departementAdministratif: "75",
+        creationDate: new Date("01/02/2007").toISOString(),
+        latitude: 48.8670239.toString(),
+        longitude: 2.3612011.toString(),
+      },
+    ],
     filiale: undefined,
-    type: type ?? StructureType.CADA,
-    placesACreer: 3,
-    placesAFermer: 2,
-    echeancePlacesACreer: new Date("01/02/2026").toISOString(),
-    echeancePlacesAFermer: new Date("01/02/2027").toISOString(),
-    adresseAdministrative:
-      adresseAdministrative ?? "1, avenue de la République",
+    type,
+    adresseAdministrative,
     codePostalAdministratif: "75011",
     communeAdministrative: "Paris",
     departementAdministratif: "75",
-    latitude: "48.8670239",
-    longitude: "2.3612011",
-    nom: "Les Mimosas",
-    debutConvention: new Date("01/02/2024").toISOString(),
-    finConvention: new Date("01/02/2027").toISOString(),
-    cpom: cpom ?? true,
+    cpom,
     creationDate: new Date("01/02/2007").toISOString(),
-    finessCode: finessCode ?? "123456789",
+    finessCode,
     lgbt: true,
     fvvTeh: false,
     public: publicType ?? ("TOUT_PUBLIC" as PublicType),
@@ -46,6 +49,8 @@ export const createStructure = ({
     finPeriodeAutorisation: new Date("01/02/2025").toISOString(),
     debutCpom: new Date("01/02/2026").toISOString(),
     finCpom: new Date("01/02/2028").toISOString(),
+    debutConvention: new Date("2024-01-02").toISOString(),
+    finConvention: new Date("2027-01-02").toISOString(),
     adresses: adresses ?? [],
     notes: "Note 1",
     structureTypologies: structureTypologies ?? [],

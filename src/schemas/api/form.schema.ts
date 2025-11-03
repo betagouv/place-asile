@@ -22,6 +22,7 @@ const formStepApiSchema = z.object({
 
 export const formApiSchema = z.object({
   id: z.number(),
+  structureId: z.number().optional(),
   status: z.boolean(),
   formDefinition: formDefinitionApiSchema,
   formSteps: z.array(formStepApiSchema),

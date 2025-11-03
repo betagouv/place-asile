@@ -4,6 +4,7 @@ import {
   FormDefinition,
   FormStep,
   FormStepDefinition,
+  PrismaClient,
   StepStatus,
 } from "@prisma/client";
 
@@ -54,7 +55,7 @@ export const createFakeFormStepDefinition = (
 
 export const createFakeForm = (
   formDefinitionId: number
-): Omit<Form, "id" | "structureCodeDna" | "structureId"> => {
+): Omit<Form, "id" | "structureId" | "structureCodeDna"> => {
   return {
     formDefinitionId: formDefinitionId,
     status: faker.datatype.boolean(),
@@ -74,20 +75,46 @@ export const createFakeFormStep = (
   };
 };
 
-type FormWithSteps = Form & {
-  formSteps: Omit<FormStep, "id" | "formId">[];
-};
+// type FormWithSteps = Form & {
+//   formSteps: Omit<FormStep, "id" | "formId">[];
+// };
 
 export const createFakeFormWithSteps = (
   formDefinitionId: number,
   stepDefinitionIds: number[]
-): Omit<FormWithSteps, "id" | "structureCodeDna" | "structureId"> => {
-  const fakeForm = createFakeForm(formDefinitionId);
-
+) => {
   return {
-    ...fakeForm,
-    formSteps: stepDefinitionIds.map((stepDefinitionId) =>
-      createFakeFormStep(stepDefinitionId)
-    ),
+    formDefinitionId,
+    status: false,
+    formSteps: stepDefinitionIds.map((id) => ({
+      stepDefinitionId: id,
+      status: StepStatus.NON_COMMENCE,
+    })),
   };
 };
+
+export async function insertFormsWithSteps(
+  prisma: PrismaClient,
+  structure: { id: number; dnaCode: string },
+  forms: { formDefinitionId: number; status: boolean; formSteps: { stepDefinitionId: number; status: StepStatus }[] }[]
+): Promise<void> {
+  for (const form of forms || []) {
+    const createdForm = await prisma.form.create({
+      data: {
+        structureCodeDna: structure.dnaCode,
+        structureId: structure.id,
+        formDefinitionId: form.formDefinitionId,
+        status: form.status,
+      },
+    });
+    for (const fs of form.formSteps) {
+      await prisma.formStep.create({
+        data: {
+          formId: createdForm.id,
+          stepDefinitionId: fs.stepDefinitionId,
+          status: fs.status,
+        },
+      });
+    }
+  }
+}

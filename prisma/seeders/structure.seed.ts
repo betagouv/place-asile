@@ -1,24 +1,12 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import {
-  Budget,
-  Contact,
-  FileUpload,
-  Form,
-  FormStep,
-  Prisma,
-  PublicType,
-  Structure,
-  StructureState,
-  StructureTypologie,
-} from "@prisma/client";
+import { Adresse, Budget, CodeDna, Controle, FileUpload, Form, Prisma, PublicType, Structure, StructureState, StructureTypologie } from "@prisma/client";
 
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { StructureType } from "@/types/structure.type";
 
-import { AdresseWithTypologies, createFakeAdresses } from "./adresse.seed";
+import { createFakeAdresses } from "./adresse.seed";
 import { createFakeBudget } from "./budget.seed";
-import { createFakeContact } from "./contact.seed";
-import { ControleWithFileUploads, createFakeControle } from "./controle.seed";
+import { createFakeControle } from "./controle.seed";
 import { createFakeFileUpload } from "./file-upload.seed";
 import { createFakeFormWithSteps } from "./form.seed";
 import { generateDatePair } from "./seed-util";
@@ -93,18 +81,13 @@ const createFakeStructure = ({
 };
 
 type StructureWithRelations = Structure & {
-  contacts: Omit<Contact, "id" | "structureDnaCode">[];
-  adresses: Omit<AdresseWithTypologies, "id" | "structureDnaCode">[];
-  controles: Omit<ControleWithFileUploads, "id" | "structureDnaCode">[];
-  structureTypologies: Omit<StructureTypologie, "id" | "structureDnaCode">[];
-  budgets: Omit<Budget, "id" | "structureDnaCode">[];
-  fileUploads: Omit<
-    FileUpload,
-    "id" | "structureDnaCode" | "controleId" | "parentFileUploadId"
-  >[];
-  forms: (Omit<Form, "id" | "structureDnaCode"> & {
-    formSteps: Omit<FormStep, "id" | "formId">[];
-  })[];
+  codesDna: Partial<CodeDna>[];
+  adresses: Partial<Adresse>[];
+  controles: Partial<Controle>[];
+  structureTypologies: Partial<StructureTypologie>[];
+  budgets: Partial<Budget>[];
+  fileUploads: Partial<FileUpload>[];
+  forms: Partial<Form>[];
 };
 
 export const createFakeStuctureWithRelations = ({
@@ -116,20 +99,19 @@ export const createFakeStuctureWithRelations = ({
 }: FakeStructureOptions & {
   formDefinitionId: number;
   stepDefinitionIds: number[];
-}): Omit<StructureWithRelations, "id"> => {
+}): Omit<StructureWithRelations, "id" | "operateurId"> => {
   const fakeStructure = createFakeStructure({ cpom, type, state });
   const placesAutorisees = faker.number.int({ min: 1, max: 100 });
 
-  let structureWithRelations = {
+  let structureWithRelations: Omit<StructureWithRelations, "id" | "operateurId"> = {
     ...fakeStructure,
-    contacts: [createFakeContact("PRINCIPAL"), createFakeContact("SECONDAIRE")],
+    codesDna: [],
     adresses: createFakeAdresses({ placesAutorisees }),
     structureTypologies: [
       createFakeStructureTypologie({ year: 2025, placesAutorisees }),
       createFakeStructureTypologie({ year: 2024, placesAutorisees }),
       createFakeStructureTypologie({ year: 2023, placesAutorisees }),
     ],
-
     fileUploads: Array.from({ length: 5 }, () =>
       createFakeFileUpload({
         cpom,

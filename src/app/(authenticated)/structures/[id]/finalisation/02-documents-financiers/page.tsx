@@ -45,7 +45,7 @@ export default function FinalisationDocumentsFinanciers() {
     await handleAutoSave({
       ...data,
       documentsFinanciers,
-      dnaCode: structure.dnaCode,
+      id: structure.id,
     });
   };
 
@@ -84,7 +84,7 @@ export default function FinalisationDocumentsFinanciers() {
 
         {saveState === FetchState.ERROR && (
           <SubmitError
-            structureDnaCode={structure.dnaCode}
+            id={structure.id}
             backendError={backendError}
           />
         )}

@@ -1,5 +1,5 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { Adresse, AdresseTypologie, Repartition } from "@prisma/client";
+import { Adresse, AdresseTypologie, PrismaClient, Repartition } from "@prisma/client";
 
 import { createFakeAdresseTypologie } from "./adresse-typologie.seed";
 
@@ -11,7 +11,7 @@ export const createFakeAdresses = ({
   placesAutorisees,
 }: CreateFakeAdressesArgs): Omit<
   AdresseWithTypologies,
-  "id" | "structureDnaCode"
+  "id" | "structureId" | "structureDnaCode" | "codeDnaId"
 >[] => {
   const count = faker.number.int({ min: 1, max: 10 });
   const hasCollectif = faker.datatype.boolean();
@@ -28,12 +28,44 @@ export const createFakeAdresses = ({
   );
 };
 
+export async function insertAdresses(
+  prisma: PrismaClient,
+  structureId: number,
+  adresses: Omit<
+    AdresseWithTypologies,
+    "id" | "structureId"
+  >[]
+): Promise<void> {
+  for (const adresse of adresses || []) {
+    const createdAdresse = await prisma.adresse.create({
+      data: {
+        adresse: adresse.adresse,
+        codePostal: adresse.codePostal,
+        commune: adresse.commune,
+        repartition: adresse.repartition,
+        structureId,
+      },
+    });
+    for (const typ of adresse.adresseTypologies) {
+      await prisma.adresseTypologie.create({
+        data: {
+          adresseId: createdAdresse.id,
+          placesAutorisees: typ.placesAutorisees,
+          date: typ.date,
+          qpv: typ.qpv,
+          logementSocial: typ.logementSocial,
+        },
+      });
+    }
+  }
+}
+
 const createFakeAdresse = ({
   placesAutorisees,
   repartition,
 }: CreateFakeAdresseArgs): Omit<
   AdresseWithTypologies,
-  "id" | "structureDnaCode"
+  "id" | "structureId" | "structureDnaCode" | "codeDnaId"
 > => {
   return {
     adresse: faker.location.streetAddress(),

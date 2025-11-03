@@ -14,7 +14,7 @@ export const DescriptionBlock = (): ReactElement => {
   const router = useRouter();
   const {
     creationDate,
-    dnaCode,
+    codesDna,
     filiale,
     operateur,
     public: publicValue,
@@ -58,7 +58,7 @@ export const DescriptionBlock = (): ReactElement => {
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Code DNA (OFII)</strong>
-          {dnaCode}
+          {codesDna.map((codeDna) => codeDna.code).join(", ")}
         </div>
         {finessCode && (
           <div className="flex-1">

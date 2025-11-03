@@ -29,7 +29,10 @@ export async function migrateMultiDna() {
         });
     }
 
-    console.log("✅ Migration terminée");
+    console.log("✅ Codes DNA migrés");
+
+    // TODO: Mettre à jour les relations pour que les liens précédement sur dnaCode se fassent sur structureId
+
 }
 
 migrateMultiDna();

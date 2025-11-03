@@ -54,7 +54,7 @@ export default function ModificationQualiteForm() {
 
     await handleSubmit({
       actesAdministratifs,
-      dnaCode: structure.dnaCode,
+      id: structure.id,
     });
   };
 
@@ -105,7 +105,7 @@ export default function ModificationQualiteForm() {
         })}
         {saveState === FetchState.ERROR && (
           <SubmitError
-            structureDnaCode={structure.dnaCode}
+            id={structure.id}
             backendError={backendError}
           />
         )}
