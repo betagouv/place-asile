@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import {
   formatDate,
   formatForCharts,
+  getElapsedPercentage,
   getLastMonths,
   getMonthsBetween,
   getYearDate,
@@ -244,6 +245,98 @@ describe("date util", () => {
       expect((result as Date).getFullYear()).toBe(2024);
       expect((result as Date).getMonth()).toBe(1);
       expect((result as Date).getDate()).toBe(29);
+    });
+  });
+
+  describe("getElapsedPercentage", () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("should return 0 when now is before the start date", () => {
+      // GIVEN
+      const mockedNow = dayjs("2025-01-01T00:00:00Z");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedNow.toDate());
+
+      const startDate = "2025-02-01T00:00:00Z";
+      const endDate = "2025-03-01T00:00:00Z";
+
+      // WHEN
+      const result = getElapsedPercentage({ startDate, endDate });
+
+      // THEN
+      expect(result).toBe(0);
+    });
+
+    it("should return 100 when now is after the end date", () => {
+      // GIVEN
+      const mockedNow = dayjs("2025-04-01T00:00:00Z");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedNow.toDate());
+
+      const startDate = "2025-02-01T00:00:00Z";
+      const endDate = "2025-03-01T00:00:00Z";
+
+      // WHEN
+      const result = getElapsedPercentage({ startDate, endDate });
+
+      // THEN
+      expect(result).toBe(100);
+    });
+
+    it("should return an intermediate percentage when now is between start and end", () => {
+      // GIVEN
+      const mockedNow = dayjs("2025-02-15T12:00:00Z");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedNow.toDate());
+
+      const startDate = "2025-02-01T00:00:00Z";
+      const endDate = "2025-03-01T00:00:00Z";
+
+      // WHEN
+      const result = getElapsedPercentage({ startDate, endDate });
+
+      // THEN
+      const start = dayjs(startDate);
+      const end = dayjs(endDate);
+      const total = end.diff(start, "millisecond");
+      const elapsed = mockedNow.diff(start, "millisecond");
+      const expected = Math.min(100, Math.max(0, (elapsed / total) * 100));
+
+      expect(result).toBeCloseTo(expected, 3);
+    });
+
+    it("should return 0 when now equals the start date", () => {
+      // GIVEN
+      const mockedNow = dayjs("2025-02-01T00:00:00Z");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedNow.toDate());
+
+      const startDate = "2025-02-01T00:00:00Z";
+      const endDate = "2025-03-01T00:00:00Z";
+
+      // WHEN
+      const result = getElapsedPercentage({ startDate, endDate });
+
+      // THEN
+      expect(result).toBe(0);
+    });
+
+    it("should return 100 when now equals the end date", () => {
+      // GIVEN
+      const mockedNow = dayjs("2025-03-01T00:00:00Z");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedNow.toDate());
+
+      const startDate = "2025-02-01T00:00:00Z";
+      const endDate = "2025-03-01T00:00:00Z";
+
+      // WHEN
+      const result = getElapsedPercentage({ startDate, endDate });
+
+      // THEN
+      expect(result).toBe(100);
     });
   });
 });
