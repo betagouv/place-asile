@@ -47,7 +47,7 @@ export const Table = ({
       ref={tableContainerRef}
       className={cn(
         "w-full bg-lifted-grey overflow-hidden",
-        "rounded-lg border-1 border-default-grey",
+        "rounded-lg border border-default-grey",
         "[&_th]:uppercase [&_th_small]:block [&_th_tr]:text-mention-grey [&_th]:py-2 [&_th]:px-4 [&_th]:text-center [&_th]:text-xs",
         "[&_td]:py-2 [&_td]:px-4 [&_td]:text-center [&_td]:text-sm ",
         enableBorders &&
@@ -64,7 +64,7 @@ export const Table = ({
             stickLastColumn &&
               " [&_tr>*:last-child]:sticky [&_tr>*:last-child]:right-0 [&_tr>*:last-child]:bg-white [&_tr>*:last-child]:z-20",
             "[&_tr>*:last-child]:before:content-[''] [&_tr>*:last-child]:before:absolute [&_tr>*:last-child]:before:-left-[6em] [&_tr>*:last-child]:before:top-0 [&_tr>*:last-child]:before:bottom-0 [&_tr>*:last-child]:before:w-[6em]",
-            "[&_tr>*:last-child]:before:bg-gradient-to-l [&_tr>*:last-child]:before:from-white [&_tr>*:last-child]:before:to-transparent",
+            "[&_tr>*:last-child]:before:bg-linear-to-l [&_tr>*:last-child]:before:from-white [&_tr>*:last-child]:before:to-transparent",
             "[&_tr>*:last-child]:before:opacity-100 [&_tr>*:last-child]:before:transition-opacity [&_tr>*:last-child]:before:duration-30",
             stickLastColumn &&
               scrollReachedEnd &&

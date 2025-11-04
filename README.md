@@ -117,18 +117,14 @@ Pour le moment seule la route `/ajout-structure` est protégée par mot de passe
 Pour définir le mot de passe il suffit d'ajouter la variable `PAGE_PASSWORD` dans le fichier `.env`.
 
 En mode développement, il est possible aussi de bypasser ces accès privés grace à la variable d'environnement `DEV_AUTH_BYPASS=1`
-Les pages sont ensuite accessibles via : 
+Les pages sont ensuite accessibles via :
+
 - http://localhost:3000/ajout-structure/123abc pour créer une structure (ici `123abc`)
 - http://localhost:3000/structures pour accéder au tableau de bord
 
 ## 🚀 Mise en production
 
-Pour mettre l'applcation en production, placez vous sur la branche `main` et exécutez :
-
-```
-git pull --rebase origin dev
-git push --force-with-lease
-```
+Pour mettre l'applcation en production, faites une Pull Request d"une branche (par exemple `dev`) vers `main`. Nommez la PR de la manière suivante : "MEP : [ce qui est mis en production]".
 
 ### 🧑‍🔧 Ajout des opérateurs
 
@@ -140,7 +136,8 @@ Les scripts "one off" sont des scripts d'administration qui s'exécutent une seu
 
 #### Pourquoi utiliser des scripts one off ?
 
-Plusieurs raisons peuvent venir le justifier : 
+Plusieurs raisons peuvent venir le justifier :
+
 - **Migration de données** : Ajouter de nouvelles colonnes, transformer des données existantes
 - **Nettoyage** : Supprimer des données obsolètes, corriger des incohérences
 - **Backfill** : Remplir des tables nouvellement créées avec des données historiques
@@ -151,6 +148,7 @@ Plus globalement, cela vient du fait que prisma vient **d'abord** réaliser l'en
 #### Comment exécuter un script one off
 
 1. **Créer le script** dans `prisma/one-off-scripts/` avec le format `YYYYMMDD-description.ts`
+
    ```bash
    # Exemple : scripts/one-off-scripts/20251020-migrate-forms-prod.ts
    ```

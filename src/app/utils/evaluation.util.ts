@@ -2,7 +2,8 @@ import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 
 export const getEvaluationsDefaultValues = (
-  evaluations: EvaluationApiType[] = []
+  evaluations: EvaluationApiType[] = [],
+  isAutorisee: boolean
 ): EvaluationFormValues[] | undefined => {
   const defaultValuesFromDb = evaluations.map((evaluation) => {
     return {
@@ -15,7 +16,7 @@ export const getEvaluationsDefaultValues = (
     };
   });
 
-  if (defaultValuesFromDb.length === 0) {
+  if (defaultValuesFromDb.length === 0 && isAutorisee) {
     const emptyEvaluation = {
       date: "",
       notePersonne: null,

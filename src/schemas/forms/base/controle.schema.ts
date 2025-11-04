@@ -20,10 +20,19 @@ export const controleAutoSaveSchema = z.object({
 export const controleSchema = controleAutoSaveSchema.refine(
   (data) => {
     if (data.fileUploads) {
-      return (
-        data.fileUploads[0]?.key !== undefined &&
-        data.fileUploads[0]?.id !== undefined
-      );
+      if (
+        data.fileUploads[0]?.key === undefined &&
+        data.fileUploads[0]?.id === undefined
+      ) {
+        return true;
+      }
+      if (
+        data.fileUploads[0]?.key === undefined ||
+        data.fileUploads[0]?.id === undefined
+      ) {
+        return false;
+      }
+      return true;
     }
     return true;
   },
@@ -43,6 +52,3 @@ export const controlesAutoSaveSchema = z.object({
 
 export type ControleFormValues = z.infer<typeof controleSchema>;
 export type ControlesFormValues = z.infer<typeof controlesSchema>;
-export type EvaluationAutoSaveFormValues = z.infer<
-  typeof controleAutoSaveSchema
->;

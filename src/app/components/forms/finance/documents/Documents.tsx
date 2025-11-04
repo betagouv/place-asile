@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 // TODO: globalize this component
-import { UploadItem } from "@/app/(password-protected)/ajout-structure/components/UploadItem";
+import { UploadItem } from "@/app/(password-protected)/ajout-structure/_components/UploadItem";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
 import { cn } from "@/app/utils/classname.util";
