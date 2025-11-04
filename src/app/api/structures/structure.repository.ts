@@ -187,6 +187,7 @@ export const createOne = async (
       communeAdministrative: structure.communeAdministrative,
       departementAdministratif: structure.departementAdministratif,
       nom: structure.nom,
+      date303: structure.date303,
       debutConvention: structure.debutConvention,
       finConvention: structure.finConvention,
       cpom: structure.cpom,

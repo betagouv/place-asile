@@ -3,7 +3,6 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { z } from "zod";
 
 import {
-  frenchDateToISO,
   nullishFrenchDateToISO,
   optionalFrenchDateToISO,
 } from "@/app/utils/zodCustomFields";
@@ -18,14 +17,14 @@ const DocumentFinancierFlexibleSchema = z.object({
 });
 
 export const DocumentsFinanciersFlexibleSchema = z.object({
-  creationDate: nullishFrenchDateToISO(),
+  creationDate: optionalFrenchDateToISO(),
   date303: nullishFrenchDateToISO(),
   documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
 });
 
 export const DocumentsFinanciersStrictSchema = z
   .object({
-    creationDate: frenchDateToISO(),
+    creationDate: optionalFrenchDateToISO(),
     date303: nullishFrenchDateToISO(),
     documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
   })

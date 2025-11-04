@@ -18,7 +18,7 @@ export const Date303 = () => {
   };
 
   return (
-    <div>
+    <div className="mb-6">
       <Checkbox
         options={[
           {

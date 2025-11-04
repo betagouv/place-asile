@@ -1,19 +1,15 @@
 "use client";
-import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
-import { Controller } from "react-hook-form";
+import { useMemo } from "react";
 
+import { Date303 } from "@/app/components/forms/finance/documents/Date303";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
-import {
-  DocumentsFinanciersFlexibleSchema,
-  DocumentsFinanciersStrictSchema,
-} from "@/schemas/forms/base/documentFinancier.schema";
+import { DocumentsFinanciersStrictSchema } from "@/schemas/forms/base/documentFinancier.schema";
 
 import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
 import {
@@ -31,36 +27,14 @@ export default function FormDocuments() {
   const resetRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
   const nextRoute = `/ajout-structure/${params.dnaCode}/05-verification`;
 
-  const {
-    currentValue: localStorageValues,
-    updateLocalStorageValue: updateLocalStorageValues,
-  } = useLocalStorage(`ajout-structure-${params.dnaCode}-documents`, {
-    less5Years: false,
-  });
+  const { currentValue: localStorageValues } = useLocalStorage(
+    `ajout-structure-${params.dnaCode}-documents`,
+    {}
+  );
 
   const mergedDefaultValues = useMemo(() => {
-    return localStorageValues || { less5Years: false };
+    return localStorageValues || {};
   }, [localStorageValues]);
-
-  const [less5Years, setLess5Years] = useState(
-    mergedDefaultValues?.less5Years || false
-  );
-
-  const selectedSchema = useMemo(
-    () =>
-      less5Years
-        ? DocumentsFinanciersFlexibleSchema
-        : DocumentsFinanciersStrictSchema,
-    [less5Years]
-  );
-
-  const handle5YearsChange = (checked: boolean) => {
-    setLess5Years(checked);
-    updateLocalStorageValues({
-      ...localStorageValues,
-      less5Years: checked,
-    });
-  };
 
   const { currentValue } = useLocalStorage<
     Partial<AjoutIdentificationFormValues>
@@ -89,8 +63,7 @@ export default function FormDocuments() {
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (
     <FormWrapper
-      key={less5Years ? "schema-flexible" : "schema-strict"}
-      schema={selectedSchema}
+      schema={DocumentsFinanciersStrictSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
       nextRoute={nextRoute}
       resetRoute={resetRoute}
@@ -101,7 +74,12 @@ export default function FormDocuments() {
         isEditMode ? "Modifier et revenir à la vérification" : "Vérifier"
       }
     >
-      {({ control, register }) => {
+      {({ control, register, watch }) => {
+        const date303 = watch("date303");
+        const startYear = date303
+          ? Number(date303?.split("/")?.[2])
+          : Number(currentValue?.creationDate?.split("/")?.[2]);
+
         return (
           <>
             <Link
@@ -117,34 +95,11 @@ export default function FormDocuments() {
               cinq dernières années.
             </p>
 
-            <Controller
-              control={control}
-              name="less5Years"
-              defaultValue={less5Years}
-              render={({ field }) => (
-                <Checkbox
-                  className="mb-8"
-                  options={[
-                    {
-                      label:
-                        "Ma structure a moins de 5 ans d’existence sur le programme 303, je ne peux fournir que certaines années demandées.",
-                      nativeInputProps: {
-                        name: field.name,
-                        checked: field.value,
-                        onChange: (e) => {
-                          field.onChange(e.target.checked);
-                          handle5YearsChange(e.target.checked);
-                        },
-                      },
-                    },
-                  ]}
-                />
-              )}
-            />
+            <Date303 />
 
             {years.map((year) => {
               return (
-                <Year key={year} year={year}>
+                <Year key={year} year={year} startYear={startYear}>
                   <p className="text-disabled-grey mb-0 text-xs col-span-3">
                     Taille maximale par fichier : 10 Mo. Formats supportés :
                     pdf, xls, xlsx, csv et ods.
@@ -160,6 +115,7 @@ export default function FormDocuments() {
                     </a>
                     .
                   </p>
+
                   {documents.map((document) => {
                     const todayYear = new Date().getFullYear();
                     if (Number(year) <= todayYear - document.yearIndex) {
