@@ -12,6 +12,7 @@ import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
 import { createFakeStuctureWithRelations } from "./seeders/structure.seed";
+import { createFakeStructureOfii } from "./seeders/structure-ofii.seed";
 import { wipeTables } from "./utils/wipe";
 
 const prisma = new PrismaClient();
@@ -74,6 +75,31 @@ export async function seed(): Promise<void> {
     };
     await prisma.operateur.create({
       data: convertToPrismaObject(operateurWithStructures),
+    });
+  }
+
+  const operateurs = await prisma.operateur.findMany();
+  const departements = await prisma.departement.findMany();
+  for (const operateur of operateurs) {
+    const structuresOfiiToInsert = Array.from({ length: 500 }, () => {
+      const fakeStructureOfii = createFakeStructureOfii({
+        type: faker.helpers.arrayElement([
+          StructureType.CADA,
+          StructureType.HUDA,
+          StructureType.CAES,
+          StructureType.CPH,
+        ]),
+        operateurId: operateur.id,
+        departementNumero: faker.helpers.arrayElement(departements).numero,
+      });
+      console.log(
+        `🏠 Ajout de la structure ofii ${fakeStructureOfii.dnaCode}...`
+      );
+      return fakeStructureOfii;
+    });
+
+    await prisma.structureOfii.createMany({
+      data: structuresOfiiToInsert,
     });
   }
 
