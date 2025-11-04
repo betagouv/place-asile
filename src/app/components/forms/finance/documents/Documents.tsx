@@ -5,6 +5,7 @@ import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_cont
 import { UploadItem } from "@/app/(password-protected)/ajout-structure/components/UploadItem";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
+import { cn } from "@/app/utils/classname.util";
 import { getYearRange } from "@/app/utils/date.util";
 import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import {
@@ -23,14 +24,11 @@ export const Documents = ({ className }: { className?: string }) => {
   const isSubventionnee = isStructureSubventionnee(structure?.type);
   const isAutorisee = isStructureAutorisee(structure?.type);
 
-  let startYear: number = structure?.date303
+  const startYear = structure?.date303
     ? new Date(structure.date303).getFullYear()
     : new Date(structure.creationDate).getFullYear();
-  if (startYear < 2021) {
-    startYear = 2021;
-  }
 
-  const { years } = getYearRange({ startYear });
+  const { years } = getYearRange();
 
   const yearsToDisplay = isSubventionnee ? years.slice(2) : years;
 
@@ -44,7 +42,7 @@ export const Documents = ({ className }: { className?: string }) => {
     <div className={className}>
       <MaxSizeNotice />
       {yearsToDisplay.map((year) => (
-        <div key={year} className="mb-7">
+        <div key={year} className={cn("mb-7", year < startYear && "hidden")}>
           <h2 className="text-xl font-bold mb-4 text-title-blue-france">
             {year}
           </h2>

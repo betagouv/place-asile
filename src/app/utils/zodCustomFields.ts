@@ -35,6 +35,21 @@ export const optionalFrenchDateToISO = () =>
     })
     .pipe(z.string().datetime().optional());
 
+export const nullishFrenchDateToISO = () =>
+  z
+    .string()
+    .nullish()
+    .transform((val) => {
+      if (val === null) {
+        return null;
+      }
+      if (val === undefined || val === "") {
+        return undefined;
+      }
+      return transformFrenchDateToISO(val);
+    })
+    .pipe(z.string().datetime().nullish());
+
 export const zSafeDecimalsNullish = () =>
   z.preprocess((val: unknown): number | null => {
     if (val === "" || val === null || val === undefined) {

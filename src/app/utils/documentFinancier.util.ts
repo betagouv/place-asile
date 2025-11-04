@@ -20,13 +20,7 @@ export const getDocumentsFinanciersDefaultValues = ({
   structure: StructureApiType;
   isAutorisee: boolean;
 }): DocumentFinancierFlexibleFormValues[] => {
-  let startYear: number = structure?.date303
-    ? new Date(structure.date303).getFullYear()
-    : new Date(structure.creationDate).getFullYear();
-  if (startYear < 2021) {
-    startYear = 2021;
-  }
-  const { years } = getYearRange({ startYear });
+  const { years } = getYearRange();
 
   const documentsToDisplay = isAutorisee
     ? structureAutoriseesDocuments
