@@ -1,6 +1,7 @@
 "use client";
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { AutoSave } from "@/app/components/forms/AutoSave";
+import { Date303 } from "@/app/components/forms/finance/documents/Date303";
 import { Documents } from "@/app/components/forms/finance/documents/Documents";
 import FormWrapper, {
   FooterButtonType,
@@ -14,6 +15,7 @@ import { getFinalisationFormStepStatus } from "@/app/utils/finalisationForm.util
 import {
   DocumentsFinanciersFlexibleFormValues,
   DocumentsFinanciersFlexibleSchema,
+  DocumentsFinanciersStrictSchema,
 } from "@/schemas/forms/base/documentFinancier.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
@@ -54,7 +56,7 @@ export default function FinalisationDocumentsFinanciers() {
     <div>
       <Tabs currentStep={currentStep} />
       <FormWrapper
-        schema={DocumentsFinanciersFlexibleSchema}
+        schema={DocumentsFinanciersStrictSchema}
         defaultValues={defaultValues}
         submitButtonText="Je valide la saisie de cette page"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
@@ -77,7 +79,7 @@ export default function FinalisationDocumentsFinanciers() {
           }
           description="Veuillez vérifier les documents financiers fournis par l’opérateur concernant les cinq dernières années."
         />
-
+        <Date303 />
         <Documents className="mb-6" />
 
         {saveState === FetchState.ERROR && (

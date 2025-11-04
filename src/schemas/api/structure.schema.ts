@@ -43,6 +43,7 @@ export const structureCreationApiSchema = z.object({
   creationDate: z
     .string()
     .datetime({ message: "La date de création est requise" }),
+  date303: z.string().datetime().optional(),
   finessCode: z.string().optional(),
   lgbt: z.boolean({
     message: "L'accueil de LGBT dans la structure est requis",

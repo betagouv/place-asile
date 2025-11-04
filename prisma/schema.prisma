@@ -40,6 +40,7 @@ model Structure {
   finConvention                DateTime?
   cpom                         Boolean
   creationDate                 DateTime
+  date303                      DateTime?
   finessCode                   String?
   lgbt                         Boolean
   fvvTeh                       Boolean

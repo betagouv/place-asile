@@ -14,7 +14,7 @@ const DocumentFinancierFlexibleSchema = z.object({
 });
 
 export const DocumentsFinanciersFlexibleSchema = z.object({
-  less5Years: z.boolean().optional(),
+  date303: optionalFrenchDateToISO(),
   documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
 });
 
@@ -49,7 +49,7 @@ const DocumentFinancierConditionalSchema =
   });
 
 export const DocumentsFinanciersStrictSchema = z.object({
-  less5Years: z.boolean().optional(),
+  date303: optionalFrenchDateToISO(),
   documentsFinanciers: z.array(DocumentFinancierConditionalSchema),
 });
 
