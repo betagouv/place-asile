@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { controlesSchema } from "../base/controle.schema";
+import { controlesAutoSaveSchema } from "../base/controle.schema";
 import {
   evaluationsAutoSaveSchema,
   evaluationsSchema,
@@ -10,11 +10,11 @@ import {
   placesEvolutionSchema,
 } from "../base/typePlaces.schema";
 
-export const finalisationQualiteSchema = controlesSchema
+export const finalisationQualiteSchema = controlesAutoSaveSchema
   .and(evaluationsSchema)
   .and(placesEvolutionSchema);
 
-export const finalisationQualiteAutoSaveSchema = controlesSchema
+export const finalisationQualiteAutoSaveSchema = controlesAutoSaveSchema
   .and(evaluationsAutoSaveSchema)
   .and(placesEvolutionAutoSaveSchema);
 

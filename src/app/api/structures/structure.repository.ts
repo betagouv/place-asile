@@ -19,6 +19,10 @@ import {
   StructureUpdateApiType,
 } from "@/schemas/api/structure.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
+import {
+  ActeAdministratifCategory,
+  DocumentFinancierCategory,
+} from "@/types/file-upload.type";
 
 import {
   createOrUpdateForms,
@@ -461,18 +465,35 @@ const deleteFileUploads = async (
   fileUploadsToKeep: Partial<
     ActeAdministratifApiType | DocumentFinancierApiType
   >[],
-  structureDnaCode: string
+  structureDnaCode: string,
+  category: "acteAdministratif" | "documentFinancier"
 ): Promise<void> => {
   const allFileUploads = await prisma.fileUpload.findMany({
     where: { structureDnaCode: structureDnaCode },
   });
 
-  const fileUploadsToDelete = allFileUploads.filter(
-    (fileUpload) =>
-      !fileUploadsToKeep.some(
-        (fileUploadToKeep) => fileUploadToKeep.key === fileUpload.key
-      )
-  );
+  const fileUploadsToDelete = allFileUploads.filter((fileUpload) => {
+    if (!fileUpload.category) {
+      return false;
+    }
+
+    const isAllowedCategory =
+      category === "acteAdministratif"
+        ? ActeAdministratifCategory.includes(
+            fileUpload.category as (typeof ActeAdministratifCategory)[number]
+          )
+        : DocumentFinancierCategory.includes(
+            fileUpload.category as (typeof DocumentFinancierCategory)[number]
+          );
+
+    if (!isAllowedCategory) {
+      return false;
+    }
+
+    return !fileUploadsToKeep.some(
+      (fileUploadToKeep) => fileUploadToKeep.key === fileUpload.key
+    );
+  });
 
   await Promise.all(
     fileUploadsToDelete.map((fileUpload) =>
@@ -485,13 +506,14 @@ const updateFileUploads = async (
   fileUploads:
     | Partial<ActeAdministratifApiType | DocumentFinancierApiType>[]
     | undefined,
-  structureDnaCode: string
+  structureDnaCode: string,
+  category: "acteAdministratif" | "documentFinancier"
 ): Promise<void> => {
   if (!fileUploads || fileUploads.length === 0) {
     return;
   }
 
-  await deleteFileUploads(fileUploads, structureDnaCode);
+  await deleteFileUploads(fileUploads, structureDnaCode, category);
 
   await Promise.all(
     (fileUploads || []).map((fileUpload) =>
@@ -634,8 +656,16 @@ export const updateOne = async (
     await createOrUpdateBudgets(budgets, structure.dnaCode);
     await updateStructureTypologies(structureTypologies);
     await createOrUpdateAdresses(adresses, structure.dnaCode);
-    await updateFileUploads(actesAdministratifs, structure.dnaCode);
-    await updateFileUploads(documentsFinanciers, structure.dnaCode);
+    await updateFileUploads(
+      actesAdministratifs,
+      structure.dnaCode,
+      "acteAdministratif"
+    );
+    await updateFileUploads(
+      documentsFinanciers,
+      structure.dnaCode,
+      "documentFinancier"
+    );
     await createOrUpdateControles(controles, structure.dnaCode);
     await createOrUpdateForms(forms, structure.dnaCode);
     await createOrUpdateEvaluations(evaluations, structure.dnaCode);
