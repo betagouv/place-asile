@@ -36,7 +36,10 @@ export const getDefaultValues = ({
   });
 
   const controles = getControlesDefaultValues(structure.controles);
-  const evaluations = getEvaluationsDefaultValues(structure.evaluations);
+  const evaluations = getEvaluationsDefaultValues(
+    structure.evaluations,
+    isAutorisee
+  );
 
   return {
     ...structure,
