@@ -7,8 +7,8 @@ import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
-import { FileItem } from "../../../components/FileItem";
-import { Year } from "../../../components/Year";
+import { FileItem } from "../../../_components/FileItem";
+import { Year } from "../../../_components/Year";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,

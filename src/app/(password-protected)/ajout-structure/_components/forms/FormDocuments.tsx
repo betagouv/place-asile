@@ -15,12 +15,12 @@ import {
   DocumentsFinanciersStrictSchema,
 } from "@/schemas/forms/base/documentFinancier.schema";
 
-import { DocumentItem } from "../[dnaCode]/04-documents/DocumentItem";
+import { DocumentItem } from "../../[dnaCode]/04-documents/DocumentItem";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
-} from "../[dnaCode]/04-documents/documents";
-import { Year } from "../components/Year";
+} from "../../[dnaCode]/04-documents/documents";
+import { Year } from "../Year";
 
 export default function FormDocuments() {
   const params = useParams();

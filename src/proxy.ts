@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
 
-const proConnectMiddleware = withAuth(() => NextResponse.next(), {
+const proConnectProxy = withAuth(() => NextResponse.next(), {
   callbacks: {
     authorized: ({ token }) => {
       return token !== null;
@@ -25,8 +25,8 @@ const protectByPassword = (request: NextRequest): NextResponse | undefined => {
   return undefined;
 };
 
-export async function middleware(request: NextRequest) {
-  if (process.env.DEV_AUTH_BYPASS){
+export async function proxy(request: NextRequest) {
+  if (process.env.DEV_AUTH_BYPASS) {
     return NextResponse.next();
   }
   const protectedPaths = ["/structures", "/operateurs", "/statistiques"];
@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
 
   if (isProtected) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (proConnectMiddleware as any)(request);
+    return (proConnectProxy as any)(request);
   }
 
   const passwordResult = protectByPassword(request);
