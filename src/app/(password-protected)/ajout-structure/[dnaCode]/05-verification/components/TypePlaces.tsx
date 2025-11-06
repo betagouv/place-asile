@@ -22,19 +22,19 @@ export const TypePlaces = () => {
       {years.map((year, index) => (
         <tr
           key={year}
-          className="w-full [&_input]:max-w-[4rem] border-t border-default-grey "
+          className="w-full [&_input]:max-w-16 border-t border-default-grey "
         >
           <td className="align-middle py-4">{year}</td>
-          <td className="!py-4">
+          <td className="py-4!">
             {localStorageValues?.typologies?.[index]?.placesAutorisees}
           </td>
-          <td className="!py-1">
+          <td className="py-1!">
             {localStorageValues?.typologies?.[index]?.pmr}
           </td>
-          <td className="!py-1">
+          <td className="py-1!">
             {localStorageValues?.typologies?.[index]?.lgbt}
           </td>
-          <td className="!py-1">
+          <td className="py-1!">
             {localStorageValues?.typologies?.[index]?.fvvTeh}
           </td>
         </tr>

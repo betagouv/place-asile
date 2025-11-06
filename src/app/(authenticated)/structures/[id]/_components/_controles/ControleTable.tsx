@@ -35,7 +35,7 @@ export const ControleTable = (): ReactElement => {
   return (
     <Table
       bordered={true}
-      className="m-0"
+      className="full-width-table"
       caption=""
       data={getControles() || []}
       headers={["DATE", "TYPE", "RAPPORT"]}
