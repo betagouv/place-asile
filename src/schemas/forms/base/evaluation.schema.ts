@@ -46,7 +46,7 @@ export const evaluationSchema = evaluationAutoSaveSchema
   )
   .refine(
     (data) => {
-      if (data.fileUploads) {
+      if (data.fileUploads && data.fileUploads.length !== 0) {
         return (
           data.fileUploads[0]?.key !== undefined &&
           data.fileUploads[0]?.id !== undefined

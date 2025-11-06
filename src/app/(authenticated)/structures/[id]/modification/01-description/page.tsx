@@ -62,7 +62,7 @@ export default function ModificationDescription() {
           FooterButtonType.CANCEL,
           FooterButtonType.SUBMIT,
         ]}
-        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
+        className="border-2 border-solid border-(--text-title-blue-france)"
       >
         <Notice
           severity="warning"

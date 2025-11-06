@@ -3,7 +3,9 @@ import z from "zod";
 import { controlesSchema } from "../base/controle.schema";
 import { evaluationsSchema } from "../base/evaluation.schema";
 
-export const modificationQualiteSchema = controlesSchema.and(evaluationsSchema);
+export const modificationQualiteSchema = controlesSchema.and(
+  evaluationsSchema.optional()
+);
 
 export type ModificationQualiteFormValues = z.infer<
   typeof modificationQualiteSchema
