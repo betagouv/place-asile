@@ -37,7 +37,7 @@ export const controleSchema = controleAutoSaveSchema.refine(
     return true;
   },
   {
-    message: "Les fichier de l'inspection-contrôle doit être renseigné",
+    message: "Le fichier de l'inspection-contrôle doit être renseigné",
     path: ["fileUploads"],
   }
 );
