@@ -50,6 +50,10 @@ export const DetailAffectations = (): ReactElement => {
       ]);
   };
 
+  if (getBudgets().length === 0) {
+    return <></>;
+  }
+
   return (
     <Accordion
       label={

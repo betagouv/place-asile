@@ -12,14 +12,14 @@ export const GestionBudgetaireSubventionneeSansCpomTable = (): ReactElement => {
 
   const budgets = structure?.budgets?.filter((budget) => {
     return (
-      !isNullOrUndefined(budget.dotationDemandee) &&
-      !isNullOrUndefined(budget.dotationAccordee) &&
-      !isNullOrUndefined(budget.totalProduits) &&
-      !isNullOrUndefined(budget.totalCharges) &&
-      !isNullOrUndefined(budget.repriseEtat) &&
-      !isNullOrUndefined(budget.excedentRecupere) &&
-      !isNullOrUndefined(budget.excedentDeduit) &&
-      !isNullOrUndefined(budget.fondsDedies) &&
+      !isNullOrUndefined(budget.dotationDemandee) ||
+      !isNullOrUndefined(budget.dotationAccordee) ||
+      !isNullOrUndefined(budget.totalProduits) ||
+      !isNullOrUndefined(budget.totalCharges) ||
+      !isNullOrUndefined(budget.repriseEtat) ||
+      !isNullOrUndefined(budget.excedentRecupere) ||
+      !isNullOrUndefined(budget.excedentDeduit) ||
+      !isNullOrUndefined(budget.fondsDedies) ||
       !isNullOrUndefined(budget.commentaire)
     );
   });
