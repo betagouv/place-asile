@@ -13,6 +13,7 @@ export const getEvaluationsDefaultValues = (
       notePro: evaluation.notePro ?? 0,
       noteStructure: evaluation.noteStructure ?? 0,
       note: evaluation.note ?? 0,
+      fileUploads: evaluation.fileUploads || [],
     };
   });
 
