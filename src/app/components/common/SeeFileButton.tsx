@@ -1,4 +1,4 @@
-import Button from "@codegouvfr/react-dsfr/Button";
+import Link from "next/link";
 import { ReactElement } from "react";
 
 import { useFileUpload } from "@/app/hooks/useFileUpload";
@@ -12,13 +12,13 @@ export const SeeFileButton = ({ fileUploadKey }: Props): ReactElement => {
   };
 
   return (
-    <Button
-      iconId="fr-icon-eye-line"
-      priority="tertiary no outline"
+    <Link
+      className="fr-btn fr-btn--tertiary-no-outline fr-icon-eye-line fr-btn--icon-left"
+      href="#"
       onClick={() => openLink(fileUploadKey)}
     >
       Voir
-    </Button>
+    </Link>
   );
 };
 
