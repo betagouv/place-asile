@@ -1,3 +1,6 @@
+-- AlterEnum
+ALTER TYPE "public"."StructureType" ADD VALUE 'NH';
+
 -- CreateTable
 CREATE TABLE "public"."StructureOfii" (
     "id" SERIAL NOT NULL,
