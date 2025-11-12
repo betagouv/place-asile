@@ -38,9 +38,17 @@ export const Documents = ({ className }: { className?: string }) => {
 
   const documentIndexes = getDocumentIndexes(years.map(String), documents);
 
+  const noYear = years.filter((year) => Number(year) >= startYear).length === 0;
+
   return (
     <div className={className}>
       <MaxSizeNotice />
+      {noYear && (
+        <p className="text-disabled-grey mb-0 text-sm col-span-3">
+          La structure est trop récente et n’est pas en mesure de fournir de
+          documents. Vous pouvez valider cette étape.
+        </p>
+      )}
       {yearsToDisplay.map((year) => (
         <div key={year} className={cn("mb-7", year < startYear && "hidden")}>
           <h2 className="text-xl font-bold mb-4 text-title-blue-france">

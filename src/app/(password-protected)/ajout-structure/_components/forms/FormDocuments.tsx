@@ -80,6 +80,9 @@ export default function FormDocuments() {
           ? Number(date303?.split("/")?.[2])
           : Number(currentValue?.creationDate?.split("/")?.[2]);
 
+        const noYear =
+          years.filter((year) => Number(year) >= startYear).length === 0;
+
         return (
           <>
             <Link
@@ -89,13 +92,18 @@ export default function FormDocuments() {
               <i className="fr-icon-arrow-left-s-line before:w-4"></i>
               Etape précédente
             </Link>
-
             <p>
               Veuillez importer les documents financiers demandés concernant les
               cinq dernières années.
             </p>
-
             <Date303 />
+
+            {noYear && (
+              <p className="text-disabled-grey mb-0 text-sm">
+                La structure est trop récente et n’est pas en mesure de fournir
+                de documents. Vous pouvez valider cette étape.
+              </p>
+            )}
 
             {years.map((year) => {
               return (
