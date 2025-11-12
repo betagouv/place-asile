@@ -10,7 +10,7 @@ if [ -z "$SCRIPT_NAME" ]; then
 fi
 
 echo "🚀 Installation des dépendances"
-yarn install
+yarn install --production=false
 
 echo "🏃 Exécution du script ${SCRIPT_NAME}.ts"
 npx tsx scripts/one-off-scripts/${SCRIPT_NAME}.ts
