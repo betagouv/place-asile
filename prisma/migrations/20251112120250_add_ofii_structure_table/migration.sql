@@ -1,3 +1,6 @@
+-- AlterEnum
+ALTER TYPE "public"."StructureType" ADD VALUE 'NH';
+
 -- CreateTable
 CREATE TABLE "public"."StructureOfii" (
     "id" SERIAL NOT NULL,
@@ -6,6 +9,8 @@ CREATE TABLE "public"."StructureOfii" (
     "nom" TEXT,
     "operateurId" INTEGER,
     "departementNumero" TEXT,
+    "directionTerritoriale" TEXT,
+    "nomOfii" TEXT,
 
     CONSTRAINT "StructureOfii_pkey" PRIMARY KEY ("id")
 );
