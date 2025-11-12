@@ -112,8 +112,6 @@ export async function seed(): Promise<void> {
     );
     await seedParentChildFileUploads(structure.dnaCode);
   }
-
-  console.log("🚀 Exécution du script one-off : migrate-forms-and-steps");
 }
 
 seed();
