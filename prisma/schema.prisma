@@ -402,6 +402,7 @@ enum StructureType {
   CPH
   CAES
   PRAHDA
+  NH
 
   @@schema("public")
 }
