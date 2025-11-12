@@ -4,15 +4,17 @@ import { parse } from "csv-parse/sync";
 import { Client } from "minio";
 
 const prisma = new PrismaClient();
-const OFII_BUCKET_NAME = process.env.OFII_BUCKET_NAME!;
+const OFII_BUCKET_NAME = process.env.DOCS_BUCKET_NAME!;
 const OFII_CSV_FILENAME = process.env.OFII_CSV_FILENAME!;
 
-const minioClient = new Client({
-    endPoint: process.env.S3_URL!,
-    accessKey: process.env.S3_ACCESS!,
-    secretKey: process.env.S3_SECRET!,
-    useSSL: true,
-});
+const minioClient = new Client(
+    {
+        endPoint: process.env.S3_URL!,
+        accessKey: process.env.S3_ACCESS!,
+        secretKey: process.env.S3_SECRET!,
+        useSSL: true,
+    }
+);
 
 const checkBucket = async (bucketName: string) => {
     const exists = await minioClient.bucketExists(bucketName);
