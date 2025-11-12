@@ -2,6 +2,7 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 import { ReactElement } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 
 import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 
@@ -26,6 +27,7 @@ export const Evaluations = (): ReactElement => {
       notePro: null,
       noteStructure: null,
       note: null,
+      uuid: uuidv4(),
     };
 
     append(newField);
@@ -66,7 +68,7 @@ export const Evaluations = (): ReactElement => {
       {evaluations.map((field: EvaluationFormValues, index: number) => {
         return (
           <Evaluation
-            key={`evaluation-${index}`}
+            key={field.id || field.uuid}
             field={field}
             index={index}
             deleteEvaluation={() => deleteEvaluation(index)}

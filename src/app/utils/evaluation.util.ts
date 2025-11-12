@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 
@@ -25,6 +27,7 @@ export const getEvaluationsDefaultValues = (
       noteStructure: null,
       note: null,
       fileUploads: [],
+      uuid: uuidv4(),
     };
     return [emptyEvaluation];
   }
