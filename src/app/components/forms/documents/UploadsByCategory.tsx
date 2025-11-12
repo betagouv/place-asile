@@ -4,19 +4,12 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
 import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif.schema";
-import { ControleFormValues } from "@/schemas/forms/base/controle.schema";
 import { AdditionalFieldsType } from "@/types/categoryToDisplay.type";
 import { ActeAdministratifCategoryType } from "@/types/file-upload.type";
 
-import { ControleItem } from "./ControleItem";
 import { UploadsByCategoryFile } from "./UploadsByCategoryFile";
 
 export type ActeAdministratifField = ActeAdministratifFormValues & {
-  id: string;
-  uuid: string;
-};
-
-export type ControleField = ControleFormValues & {
   id: string;
   uuid: string;
 };
@@ -39,14 +32,7 @@ export default function UploadsByCategory({
     name: "actesAdministratifs",
   });
 
-  const { append: appendControle, remove: removeControle } = useFieldArray({
-    control,
-    name: "controles",
-  });
-
   const actesAdministratifs = watch("actesAdministratifs") || [];
-
-  const controles = watch("controles") || [];
 
   let filteredFields: ActeAdministratifField[] = [];
 
@@ -79,21 +65,6 @@ export default function UploadsByCategory({
     refreshFields();
   };
 
-  const handleAddNewControle = (e?: React.MouseEvent) => {
-    e?.preventDefault();
-    e?.stopPropagation();
-
-    const newField = {
-      date: "",
-      type: undefined,
-      uuid: uuidv4(),
-    };
-
-    appendControle(newField);
-
-    refreshFields();
-  };
-
   const handleDeleteField = (index: number) => {
     remove(index);
     const avenants = actesAdministratifs.filter(
@@ -107,10 +78,6 @@ export default function UploadsByCategory({
     });
 
     refreshFields();
-  };
-
-  const handleDeleteControle = (index: number) => {
-    removeControle(index);
   };
 
   const getItemIndex = (uuid: string) => {
@@ -134,8 +101,7 @@ export default function UploadsByCategory({
           description={<>{notice}</>}
         />
       )}
-      {additionalFieldsType !== AdditionalFieldsType.INSPECTION_CONTROLE &&
-        filteredFields &&
+      {filteredFields &&
         filteredFields.length > 0 &&
         filteredFields.map((field) => {
           const fieldIndex = getItemIndex(field.uuid);
@@ -148,8 +114,7 @@ export default function UploadsByCategory({
                 index={fieldIndex}
                 key={field.key || null}
                 additionalFieldsType={
-                  additionalFieldsType ||
-                  AdditionalFieldsType.INSPECTION_CONTROLE
+                  additionalFieldsType || AdditionalFieldsType.DATE_START_END
                 }
                 documentLabel={documentLabel}
                 handleDeleteField={handleDeleteField}
@@ -158,32 +123,9 @@ export default function UploadsByCategory({
             </div>
           );
         })}
-      {additionalFieldsType === AdditionalFieldsType.INSPECTION_CONTROLE &&
-        controles.map((field: ControleField, index: number) => {
-          return (
-            <div key={`controle-${field.id || field.uuid || index}`}>
-              <ControleItem
-                field={field}
-                index={index}
-                documentLabel={documentLabel}
-                handleDeleteField={() => handleDeleteControle(index)}
-              />
-            </div>
-          );
-        })}
-      {additionalFieldsType !== AdditionalFieldsType.INSPECTION_CONTROLE &&
-        canAddFile && (
-          <Button
-            onClick={handleAddNewField}
-            priority="tertiary no outline"
-            className="underline font-normal p-0"
-          >
-            + {addFileButtonLabel}
-          </Button>
-        )}
-      {additionalFieldsType === AdditionalFieldsType.INSPECTION_CONTROLE && (
+      {canAddFile && (
         <Button
-          onClick={handleAddNewControle}
+          onClick={handleAddNewField}
           priority="tertiary no outline"
           className="underline font-normal p-0"
         >

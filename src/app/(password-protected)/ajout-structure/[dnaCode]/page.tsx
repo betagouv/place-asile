@@ -1,3 +1,4 @@
+// THIS PAGE IS TEMPORARY. IT WILL BE DELETED SOON
 import Button from "@codegouvfr/react-dsfr/Button";
 import { ReactElement } from "react";
 

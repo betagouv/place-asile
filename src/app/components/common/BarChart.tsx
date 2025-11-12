@@ -39,7 +39,7 @@ export default function BarChart({ data, options }: Props) {
         {`
           .${chartClass} .ct-series-a .ct-bar { stroke: var(--yellow-moutarde-850-200) !important; }
           .${chartClass} .ct-series-b .ct-bar { stroke: var(--yellow-moutarde-main-679) !important; }
-          .${chartClass} .ct-series-c .ct-bar { stroke: var(--purple-glycine-850-200)  !important; }
+          .${chartClass} .ct-series-c .ct-bar { stroke: var(--purple-glycine-850-200) !important; }
           .${chartClass} .ct-series-d .ct-bar { stroke: var(--blue-cumulus-850-200) !important; }
           `}
       </style>

@@ -18,7 +18,10 @@ import { z } from "zod";
 import { FormProvider } from "@/app/context/FormContext";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { cn } from "@/app/utils/classname.util";
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import {
+  PLACE_ASILE_CONTACT_EMAIL,
+  PLACE_ASILE_PHONE_NUMBERS,
+} from "@/constants";
 import { DeepPartial } from "@/types/global";
 
 // Define enum for footer buttons
@@ -49,6 +52,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
     FooterButtonType.SUBMIT,
   ],
   showAutoSaveMention,
+  showContactInfos = true,
 }: FormWrapperProps<TSchema>) {
   const router = useRouter();
   const {
@@ -159,7 +163,7 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                 />
               )}
               <div>
-                <div className="flex justify-end items-center gap-4 mt-6">
+                <div className="flex items-center gap-4 mt-6 justify-end">
                   {showAutoSaveMention && (
                     <div className="flex items-center gap-1 text-mention-grey text-xs">
                       <span className="fr-icon-save-line fr-icon--xs" />
@@ -192,18 +196,20 @@ export default function FormWrapper<TSchema extends z.ZodTypeAny>({
                     <Button type="submit">{submitButtonText}</Button>
                   )}
                 </div>
-                <p className="cta_message text-mention-grey text-sm text-right mt-2">
-                  Si vous ne parvenez pas à remplir certains champs,{" "}
-                  <a
-                    href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                  >
-                    contactez-nous par mail
-                  </a>
-                  ou par téléphone (07 86 38 96 85 ou au 06 86 44 20 93)
-                </p>
+                {showContactInfos && (
+                  <p className="cta_message text-mention-grey text-sm mt-2 text-right">
+                    Si vous ne parvenez pas à remplir certains champs,{" "}
+                    <a
+                      href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline"
+                    >
+                      contactez-nous par mail
+                    </a>
+                    ou par téléphone ({PLACE_ASILE_PHONE_NUMBERS})
+                  </p>
+                )}
               </div>
             </>
           )}
@@ -233,4 +239,5 @@ type FormWrapperProps<TSchema extends z.ZodTypeAny> = {
   previousStep?: string;
   availableFooterButtons?: Array<FooterButtonType>;
   showAutoSaveMention?: boolean;
+  showContactInfos?: boolean;
 };

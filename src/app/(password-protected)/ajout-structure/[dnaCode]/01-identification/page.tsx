@@ -2,7 +2,7 @@
 
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
 
-import FormIdentification from "@/app/(password-protected)/ajout-structure/forms/FormIdentification";
+import FormIdentification from "@/app/(password-protected)/ajout-structure/_components/forms/FormIdentification";
 
 export default function StepInfo() {
   return (

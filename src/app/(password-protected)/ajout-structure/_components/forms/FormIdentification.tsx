@@ -4,6 +4,7 @@ import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 import autoAnimate from "@formkit/auto-animate";
+// import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -13,7 +14,6 @@ import { OperateurAutocomplete } from "@/app/components/forms/OperateurAutocompl
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import {
   AjoutIdentificationFormValues,
   ajoutIdentificationSchema,
@@ -26,6 +26,7 @@ export default function FormIdentification() {
   const searchParams = useSearchParams();
   const isEditMode = searchParams.get("mode") === "edit";
 
+  // const previousRoute = "/ajout-structure/selection";
   const resetRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
   const nextRoute = isEditMode
     ? `/ajout-structure/${params.dnaCode}/05-verification`
@@ -121,30 +122,13 @@ export default function FormIdentification() {
         const cpom = watch("cpom");
         return (
           <>
-            <Notice
-              severity="warning"
-              title=""
-              className="rounded [&_p]:flex  [&_p]:items-center"
-              description={
-                <span className="text-default-grey">
-                  Si votre structure regroupe plusieurs codes DNA mais est une
-                  seule entité juridique et/ou financière, veuillez ne pas
-                  remplir ce formulaire et nous contacter directement par email
-                  via{" "}
-                  {
-                    <a
-                      href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline"
-                    >
-                      {PLACE_ASILE_CONTACT_EMAIL}
-                    </a>
-                  }
-                  .
-                </span>
-              }
-            />
+            {/* <Link
+              href={previousRoute}
+              className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2 mb-8"
+            >
+              <i className="fr-icon-arrow-left-s-line before:w-4"></i>
+              Étape précédente
+            </Link> */}
             <fieldset className="flex flex-col gap-6">
               <legend className="text-xl font-bold mb-10 text-title-blue-france">
                 Description

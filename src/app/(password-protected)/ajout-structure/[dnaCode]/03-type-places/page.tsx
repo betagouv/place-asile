@@ -1,7 +1,7 @@
 "use client";
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
 
-import FormTypePlaces from "../../forms/FormTypePlaces";
+import FormTypePlaces from "../../_components/forms/FormTypePlaces";
 
 export default function StepTypePlaces() {
   return (

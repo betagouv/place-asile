@@ -20,6 +20,7 @@ const evaluationAutoSaveSchema = z.object({
   noteStructure: zSafeDecimalsNullish(),
   note: zSafeDecimalsNullish(),
   fileUploads: z.array(fileUploadSchema.optional()).optional(),
+  uuid: z.string().optional(), // Used to identify the evaluation when it is not saved in the database (and so do not have an id)
 });
 
 export const evaluationSchema = evaluationAutoSaveSchema
@@ -46,7 +47,7 @@ export const evaluationSchema = evaluationAutoSaveSchema
   )
   .refine(
     (data) => {
-      if (data.fileUploads) {
+      if (data.fileUploads && data.fileUploads.length !== 0) {
         return (
           data.fileUploads[0]?.key !== undefined &&
           data.fileUploads[0]?.id !== undefined

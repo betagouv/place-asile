@@ -88,3 +88,31 @@ export const getYearRange = ({
 
   return { years };
 };
+
+export const getElapsedPercentage = ({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}): number => {
+  const now = dayjs();
+  const start = dayjs(startDate);
+  const end = dayjs(endDate);
+
+  if (now.isBefore(start)) {
+    return 0;
+  }
+  if (now.isAfter(end)) {
+    return 100;
+  }
+
+  const total = end.diff(start, "millisecond");
+  const elapsed = now.diff(start, "millisecond");
+
+  if (total === 0) {
+    return 100;
+  }
+
+  return Math.min(100, Math.max(0, (elapsed / total) * 100));
+};

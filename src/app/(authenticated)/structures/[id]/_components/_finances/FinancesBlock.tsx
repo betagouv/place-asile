@@ -15,7 +15,7 @@ import { DotationChart } from "./DotationChart";
 import { GestionBudgetaireAutoriseeSansCpomTable } from "./GestionBudgetaireAutoriseeSansCpomTable";
 import { GestionBudgetaireAvecCpomTable } from "./GestionBudgetaireAvecCpomTable";
 import { GestionBudgetaireSubventionneeSansCpomTable } from "./GestionBudgetaireSubventionneeSansCpomTable";
-import { HistoriqueBudgets } from "./HistoriqueBudgets";
+import { HistoriqueIndicateursGeneraux } from "./HistoriqueIndicateursGeneraux";
 
 export const FinancesBlock = (): ReactElement => {
   const { structure } = useStructureContext();
@@ -58,7 +58,7 @@ export const FinancesBlock = (): ReactElement => {
         <BudgetExecutoire year={budgetExecutoireYear} />
       </div>
       <div className="pb-5">
-        <HistoriqueBudgets />
+        <HistoriqueIndicateursGeneraux />
       </div>
       <h4 className="text-title-blue-france pb-2 fr-h6">
         Dotation et équilibre économique
@@ -66,7 +66,9 @@ export const FinancesBlock = (): ReactElement => {
       <div className="pb-5">
         <DotationChart />
       </div>
-      <h4 className="text-title-blue-france fr-h6">Gestion budgétaire</h4>
+      <h4 className="text-title-blue-france fr-h6" id="gestionBudgetaireTitle">
+        Gestion budgétaire
+      </h4>
       <div className="pb-5">{getGestionBudgetaireComponent()}</div>
       {isDetailAffectationsDisplayed && (
         <div className="pb-5">
