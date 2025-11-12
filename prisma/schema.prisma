@@ -10,11 +10,11 @@ datasource db {
 }
 
 model Departement {
-  id             Int             @id @default(autoincrement())
-  numero         String          @unique
-  name           String
-  region         String
-  structuresOfii StructureOfii[]
+  id              Int    @id @default(autoincrement())
+  numero          String @unique
+  name            String
+  region          String
+  structuresOfii  StructureOfii[]
 
   @@schema("public")
 }
@@ -73,18 +73,17 @@ model Structure {
 }
 
 model StructureOfii {
-  id                    Int           @id @default(autoincrement())
-  dnaCode               String        @unique
-  type                  StructureType
-  nom                   String?
-  operateur             Operateur?    @relation(fields: [operateurId], references: [id])
-  operateurId           Int?
-  departement           Departement?  @relation(fields: [departementNumero], references: [numero])
-  departementNumero     String?
-  directionTerritoriale String?
-  nomOfii               String?
+  id                            Int                   @id @default(autoincrement())
+  dnaCode                       String                @unique
+  type                          StructureType
+  nom                           String?
+  operateur                     Operateur?            @relation(fields: [operateurId], references: [id])
+  operateurId                   Int?
+  departement                   Departement?          @relation(fields: [departementNumero], references: [numero])
+  departementNumero             String?
 
   @@schema("public")
+
 }
 
 model Controle {
@@ -179,6 +178,7 @@ model Contact {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([structureDnaCode, type])
+
   @@schema("public")
 }
 
@@ -273,8 +273,9 @@ model Budget {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-
+  
   @@unique([structureDnaCode, date])
+
   @@schema("public")
 }
 
@@ -358,8 +359,8 @@ model Referential {
 }
 
 model Operateur {
-  id                Int             @id @default(autoincrement())
-  name              String          @unique
+  id                Int         @id @default(autoincrement())
+  name              String
   structures        Structure[]
   structuresOfii    StructureOfii[]
   directionGenerale String?
@@ -402,7 +403,6 @@ enum StructureType {
   CPH
   CAES
   PRAHDA
-  NH
 
   @@schema("public")
 }

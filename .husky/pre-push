@@ -1,1 +1,4 @@
-yarn pre-push
+yarn lint
+yarn check:ts
+yarn test
+yarn sql:format:check
