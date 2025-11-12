@@ -4,7 +4,7 @@ import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";
 import autoAnimate from "@formkit/auto-animate";
-import Link from "next/link";
+// import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -26,7 +26,7 @@ export default function FormIdentification() {
   const searchParams = useSearchParams();
   const isEditMode = searchParams.get("mode") === "edit";
 
-  const previousRoute = "/ajout-structure/selection";
+  // const previousRoute = "/ajout-structure/selection";
   const resetRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
   const nextRoute = isEditMode
     ? `/ajout-structure/${params.dnaCode}/05-verification`
