@@ -61,9 +61,18 @@ export default function ModificationControleForm() {
       dnaCode: structure.dnaCode,
     });
   };
-
   const { getFetchState } = useFetchState();
   const saveState = getFetchState("structure-save");
+
+  // We check if one of the evaluations or controles has been updated (and now has an id).
+  // If so, we need to update the form key to force a re-render of the form.
+  // TODO: This is a hack to force a re-render of the form. We should find a better way to do this.
+  const formKey = [
+    ...(defaultValues.controles || []),
+    ...(defaultValues.evaluations || []),
+  ]
+    .map((item) => item.id)
+    .join("-");
 
   return (
     <div>
@@ -77,6 +86,7 @@ export default function ModificationControleForm() {
         defaultValues={defaultValues}
         className="rounded-t-none"
         showAutoSaveMention
+        key={formKey}
       >
         <AutoSave
           schema={finalisationQualiteAutoSaveSchema}
