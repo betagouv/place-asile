@@ -157,8 +157,11 @@ export const DetailAffectationTable = ({
         {yearsToDisplay.map((year, index) => {
           const fieldIndex = years.length - sliceYears + index;
 
-          const totalValue =
-            budgets?.[fieldIndex]?.affectationReservesFondsDedies || 0;
+          const totalValue = Number(
+            String(budgets?.[fieldIndex]?.affectationReservesFondsDedies)
+              .replace(" ", "")
+              .replace(",", ".") || 0
+          );
 
           const isEditable = totalValue > 0;
 
