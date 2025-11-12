@@ -9,6 +9,7 @@ import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { cn } from "@/app/utils/classname.util";
 import { getYearRange } from "@/app/utils/date.util";
+import { formatCurrency } from "@/app/utils/number.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -159,7 +160,7 @@ export const DetailAffectationTable = ({
 
           const totalValue = Number(
             String(budgets?.[fieldIndex]?.affectationReservesFondsDedies)
-              .replace(" ", "")
+              .replaceAll(" ", "")
               .replace(",", ".") || 0
           );
 
@@ -175,7 +176,9 @@ export const DetailAffectationTable = ({
                   value={`${year}-01-01T13:00:00.000Z`}
                 />
               </td>
-              <td className="whitespace-nowrap">{totalValue} €</td>
+              <td className="whitespace-nowrap">
+                {formatCurrency(totalValue)}
+              </td>
               <td className="w-34">
                 <div className="flex items-center gap-2">
                   <InputWithValidation
