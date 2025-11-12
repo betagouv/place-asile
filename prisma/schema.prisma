@@ -359,7 +359,7 @@ model Referential {
 
 model Operateur {
   id                Int             @id @default(autoincrement())
-  name              String
+  name              String          @unique
   structures        Structure[]
   structuresOfii    StructureOfii[]
   directionGenerale String?
