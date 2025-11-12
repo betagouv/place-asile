@@ -56,17 +56,19 @@ export const FieldSetTypePlaces = ({
         {years.map((year, index) => (
           <tr
             key={year}
-            className="w-full [&_input]:max-w-[4rem] border-t border-default-grey "
+            className="w-full [&_input]:max-w-16 border-t border-default-grey "
           >
+            <td className="hidden">
+              <InputWithValidation
+                name={`structureTypologies.${index}.id`}
+                id={`structureTypologies.${index}.id`}
+                control={control}
+                type="hidden"
+                label="id"
+              />
+            </td>
             <td className="align-middle py-4">{year}</td>
-            <InputWithValidation
-              name={`structureTypologies.${index}.id`}
-              id={`structureTypologies.${index}.id`}
-              control={control}
-              type="hidden"
-              label="id"
-            />
-            <td className="!py-4">
+            <td className="py-4!">
               <InputWithValidation
                 name={`structureTypologies.${index}.placesAutorisees`}
                 id={`structureTypologies.${index}.placesAutorisees`}
@@ -78,7 +80,7 @@ export const FieldSetTypePlaces = ({
                 variant="simple"
               />
             </td>
-            <td className="!py-1">
+            <td className="py-1!">
               <InputWithValidation
                 name={`structureTypologies.${index}.pmr`}
                 id={`structureTypologies.${index}.pmr`}
@@ -90,7 +92,7 @@ export const FieldSetTypePlaces = ({
                 variant="simple"
               />
             </td>
-            <td className="!py-1">
+            <td className="py-1!">
               <InputWithValidation
                 name={`structureTypologies.${index}.lgbt`}
                 id={`structureTypologies.${index}.lgbt`}
@@ -102,8 +104,7 @@ export const FieldSetTypePlaces = ({
                 variant="simple"
               />
             </td>
-
-            <td className="!py-1">
+            <td className="py-1!">
               <InputWithValidation
                 name={`structureTypologies.${index}.fvvTeh`}
                 id={`structureTypologies.${index}.fvvTeh`}

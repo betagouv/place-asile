@@ -80,9 +80,8 @@ export default function ModificationQualiteForm() {
 
         {categoriesToDisplay.map((category, index) => {
           return (
-            <>
+            <div key={category}>
               <UploadsByCategory
-                key={category}
                 category={category}
                 categoryShortName={
                   categoriesDisplayRules[category].categoryShortName
@@ -101,7 +100,7 @@ export default function ModificationQualiteForm() {
                 notice={categoriesDisplayRules[category].notice}
               />
               {index < categoriesToDisplay.length - 1 && <hr />}
-            </>
+            </div>
           );
         })}
         {saveState === FetchState.ERROR && (
