@@ -28,8 +28,6 @@ export const createFakeStructureOfii = ({
     nom: faker.lorem.words(2),
     operateurId,
     departementNumero,
-    directionTerritoriale: "DT " + faker.location.city(),
-    nomOfii: faker.lorem.words(2),
   };
 };
 
