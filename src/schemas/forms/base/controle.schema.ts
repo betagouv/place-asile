@@ -15,6 +15,7 @@ export const controleAutoSaveSchema = z.object({
   date: optionalFrenchDateToISO(),
   type: z.nativeEnum(ControleType).optional(),
   fileUploads: z.array(fileUploadSchema.optional()).optional(),
+  uuid: z.string().optional(),
 });
 
 export const controleSchema = controleAutoSaveSchema.refine(

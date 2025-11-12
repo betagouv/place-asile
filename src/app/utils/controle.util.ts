@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { ControleApiType } from "@/schemas/api/controle.schema";
 import { ControleFormValues } from "@/schemas/forms/base/controle.schema";
 import { ControleType } from "@/types/controle.type";
@@ -22,6 +24,7 @@ export const getControlesDefaultValues = (
       date: "",
       type: undefined,
       fileUploads: [],
+      uuid: uuidv4(),
     };
     return [emptyControle];
   }

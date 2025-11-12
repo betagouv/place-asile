@@ -41,7 +41,7 @@ export const Controles = (): ReactElement => {
       {controles.map((field: ControleFormValues, index: number) => {
         return (
           <Controle
-            key={field.id}
+            key={field.id || field.uuid}
             field={field}
             index={index}
             handleDeleteField={() => deleteControle(index)}
