@@ -1,30 +1,11 @@
 // Fill StructureOfii table with csv from s3 bucket
 import { PrismaClient, StructureType } from "@prisma/client";
 import { parse } from "csv-parse/sync";
-import { Client } from "minio";
+import { checkBucket, getObject } from "@/lib/minio";
 
 const prisma = new PrismaClient();
 const OFII_BUCKET_NAME = process.env.DOCS_BUCKET_NAME!;
 const OFII_CSV_FILENAME = process.env.OFII_CSV_FILENAME!;
-
-const minioClient = new Client(
-    {
-        endPoint: process.env.S3_URL!,
-        accessKey: process.env.S3_ACCESS!,
-        secretKey: process.env.S3_SECRET!,
-        useSSL: true,
-    }
-);
-
-const checkBucket = async (bucketName: string) => {
-    const exists = await minioClient.bucketExists(bucketName);
-    if (exists) {
-        console.log("Bucket " + bucketName + " exists.");
-    } else {
-        await minioClient.makeBucket(bucketName);
-        console.log("Bucket " + bucketName + " created.");
-    }
-};
 
 // open csv and load data into StructureOfii table
 const loadDataToOfiiTable = async () => {
@@ -33,7 +14,7 @@ const loadDataToOfiiTable = async () => {
         await checkBucket(OFII_BUCKET_NAME);
 
         console.log("Récupération du fichier CSV...");
-        const stream = await minioClient.getObject(OFII_BUCKET_NAME, OFII_CSV_FILENAME);
+        const stream = await getObject(OFII_BUCKET_NAME, OFII_CSV_FILENAME);
         const chunks: Buffer[] = [];
         for await (const chunk of stream) {
             chunks.push(chunk);
