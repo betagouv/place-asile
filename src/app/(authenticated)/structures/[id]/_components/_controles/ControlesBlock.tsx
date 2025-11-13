@@ -12,7 +12,7 @@ import { ControleAccordion } from "./ControleAccordion";
 import { ControleTable } from "./ControleTable";
 import { EvaluationTable } from "./EvaluationTable";
 
-export const DefaultControlesBlock = (): ReactElement => {
+export const ControlesBlock = (): ReactElement => {
   const { structure } = useStructureContext();
 
   const router = useRouter();
@@ -40,12 +40,14 @@ export const DefaultControlesBlock = (): ReactElement => {
             secondaryInformation="depuis la dernière visite"
           />
         </div>
-        {/* <div className="pr-4">
-          <InformationCard
-            primaryInformation={`${evaluations[0]?.note}/5`}
-            secondaryInformation="de moyenne à la dernière évaluation"
-          />
-        </div> */}
+        {evaluations[0]?.note !== undefined && (
+          <div className="pr-4">
+            <InformationCard
+              primaryInformation={`${evaluations[0]?.note}/5`}
+              secondaryInformation="de moyenne à la dernière évaluation"
+            />
+          </div>
+        )}
         {/* <InformationCard
           primaryInformation={evenementsIndesirablesGraves.length}
           secondaryInformation="événements indésirables graves"
@@ -55,12 +57,14 @@ export const DefaultControlesBlock = (): ReactElement => {
         <ControleAccordion title="Évaluations" lastVisit={evaluations[0]?.date}>
           <EvaluationTable evaluations={evaluations} />
         </ControleAccordion>
-        <ControleAccordion
-          title="Inspections-contrôles"
-          lastVisit={controles?.[0]?.date}
-        >
-          <ControleTable />
-        </ControleAccordion>
+        {controles.length > 0 && (
+          <ControleAccordion
+            title="Inspections-contrôles"
+            lastVisit={controles?.[0]?.date}
+          >
+            <ControleTable />
+          </ControleAccordion>
+        )}
         {/* <ControleAccordion
           title="Événements indésirables graves"
           lastVisit={evenementsIndesirablesGraves[0]?.evenementDate}
