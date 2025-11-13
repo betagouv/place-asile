@@ -58,12 +58,11 @@ export const createOrUpdateCpomTypologies = async (
                 }
 
                 // check if the structure was in the cpom at this date
-                const cpomStructureWithDates = cpomStructure as typeof cpomStructure & { dateDebut: Date | null; dateFin: Date | null };
-                const dateDebutStructure = cpomStructureWithDates.dateDebut
-                    ? new Date(cpomStructureWithDates.dateDebut)
+                const dateDebutStructure = cpomStructure.dateDebut
+                    ? new Date(cpomStructure.dateDebut)
                     : debutCpom;
-                const dateFinStructure = cpomStructureWithDates.dateFin
-                    ? new Date(cpomStructureWithDates.dateFin)
+                const dateFinStructure = cpomStructure.dateFin
+                    ? new Date(cpomStructure.dateFin)
                     : finCpom;
 
                 return typologieDate >= dateDebutStructure && typologieDate <= dateFinStructure;
