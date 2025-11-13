@@ -9,7 +9,7 @@ import { useStructureContext } from "../../_context/StructureClientContext";
 import { AdressesViewer } from "./AdressesViewer";
 import { ContactsViewer } from "./ContactsViewer";
 
-export const DefaultDescriptionBlock = (): ReactElement => {
+export const DescriptionBlock = (): ReactElement => {
   const { structure } = useStructureContext();
   const router = useRouter();
   const {
