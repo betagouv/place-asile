@@ -18,8 +18,11 @@ export const DepartementAutocomplete = (): ReactElement => {
   const departementSuggestions = async (
     searchTerm: string
   ): Promise<DepartementSuggestion[]> => {
-    return DEPARTEMENTS.filter((departement) =>
-      normalizeAccents(departement.name).includes(normalizeAccents(searchTerm))
+    return DEPARTEMENTS.filter(
+      (departement) =>
+        normalizeAccents(departement.name).includes(
+          normalizeAccents(searchTerm)
+        ) || departement.numero.includes(searchTerm)
     ).map((departement) => ({
       id: departement.numero,
       label: departement.name,
@@ -54,7 +57,7 @@ export const DepartementAutocomplete = (): ReactElement => {
     setShowSuggestions,
     handleInputChange,
     resetSuggestions,
-  } = useAutocomplete<DepartementSuggestion>(departementSuggestions);
+  } = useAutocomplete<DepartementSuggestion>(departementSuggestions, 0, 2);
 
   const handleSelectSuggestion = (
     suggestion: AutocompleteSuggestion | null

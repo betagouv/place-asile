@@ -12,13 +12,14 @@ export const StructureOfiiList = ({ structuresOfii, control }: Props) => {
   return (
     <div>
       <h3 className="text-base font-bold mb-4 text-title-blue-france">
-        {!structuresOfii
-          ? ""
-          : structuresOfii.length === 0
-            ? "Aucune structure trouvée"
-            : "Sélectionnez votre structure"}
+        {!structuresOfii ? "" : "Sélectionnez votre structure"}
       </h3>
       <div className="flex flex-col gap-2 h-80 overflow-y-auto">
+        {structuresOfii && structuresOfii?.length === 0 && (
+          <div className="text-sm text-default-grey">
+            Aucun résultat ne correspond à votre recherche.
+          </div>
+        )}
         {structuresOfii?.map((structureOfii) => (
           <div key={structureOfii.dnaCode}>
             <input
@@ -27,25 +28,30 @@ export const StructureOfiiList = ({ structuresOfii, control }: Props) => {
               name="structureOfii"
               value={structureOfii.dnaCode}
               checked={field.value?.dnaCode === structureOfii.dnaCode}
-              onChange={() =>
+              onChange={() => {
                 field.onChange({
                   dnaCode: structureOfii.dnaCode,
                   nom: structureOfii.nom,
                   type: structureOfii.type,
                   operateur: structureOfii.operateur,
                   departement: structureOfii.departement,
-                })
-              }
+                });
+              }}
+              onClick={() => {
+                if (structureOfii.dnaCode === field.value?.dnaCode) {
+                  field.onChange(undefined);
+                }
+              }}
               onBlur={field.onBlur}
               ref={field.ref}
               className="sr-only"
             />
             <label
               className={cn(
-                "p-4 rounded-sm border-2 flex gap-4 relative",
+                "p-4 rounded-sm border-2 flex gap-4 relative bg-default-grey-hover",
                 field.value?.dnaCode === structureOfii.dnaCode
                   ? "border-action-high-blue-france"
-                  : "border-default-grey"
+                  : "border-white"
               )}
               htmlFor={structureOfii.dnaCode}
             >
