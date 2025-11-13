@@ -11,6 +11,7 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({
     push: vi.fn(),
   }),
+  useSearchParams: () => new URLSearchParams("page=0"),
 }));
 
 describe("StructuresTable", () => {
@@ -41,6 +42,7 @@ describe("StructuresTable", () => {
     render(
       <StructuresTable
         structures={structures}
+        totalStructures={structures.length}
         ariaLabelledBy={ariaLabelledBy}
       />
     );

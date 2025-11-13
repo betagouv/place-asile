@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   const bati = request.nextUrl.searchParams.get("bati");
   const placeAutorisees = request.nextUrl.searchParams.get(
     "placeAutorisees"
-  ) as number | null;
+  ) as string | null;
   const departements = request.nextUrl.searchParams.get("departements");
   const structures = await findBySearch({
     search,

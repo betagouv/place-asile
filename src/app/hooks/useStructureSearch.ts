@@ -17,28 +17,24 @@ export const useStructureSearch = () => {
   const { setFetchState } = useFetchState();
 
   const searchParams = useSearchParams();
-  const page: number | null = searchParams.get("page") as number | null;
-  const search: string | null = searchParams.get("search") as string | null;
+  const page: string | null = searchParams.get("page");
+  const search: string | null = searchParams.get("search");
   const type: StructureType | null = searchParams.get(
     "type"
   ) as StructureType | null;
   const bati: Repartition | null = searchParams.get(
     "bati"
   ) as Repartition | null;
-  const placeAutorisees: number | null = searchParams.get("placeAutorisees") as
-    | number
-    | null;
-  const departements: string | null = searchParams.get("departements") as
-    | string
-    | null;
+  const placeAutorisees: string | null = searchParams.get("placeAutorisees");
+  const departements: string | null = searchParams.get("departements");
 
   const getStructures = useCallback(
     async (
-      page: number | null,
+      page: string | null,
       search: string | null,
       type: StructureType | null,
       bati: Repartition | null,
-      placeAutorisees: number | null,
+      placeAutorisees: string | null,
       departements: string | null
     ): Promise<{ structures: StructureApiType[]; totalStructures: number }> => {
       console.log("getStructures");

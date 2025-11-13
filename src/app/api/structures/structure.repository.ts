@@ -58,7 +58,7 @@ type SearchProps = {
   page: number | null;
   type: string | null;
   bati: string | null;
-  placeAutorisees: number | null;
+  placeAutorisees: string | null;
   departements: string | null;
 };
 export const findBySearch = async ({
@@ -71,7 +71,6 @@ export const findBySearch = async ({
 }: SearchProps): Promise<Structure[]> => {
   const where = getStructureSearchWhere({
     search,
-    page,
     type,
     bati,
     placeAutorisees,
@@ -109,7 +108,6 @@ export const findBySearch = async ({
 
 export const countBySearch = async ({
   search,
-  page,
   type,
   bati,
   placeAutorisees,
@@ -117,7 +115,6 @@ export const countBySearch = async ({
 }: SearchProps): Promise<number> => {
   const where = getStructureSearchWhere({
     search,
-    page,
     type,
     bati,
     placeAutorisees,

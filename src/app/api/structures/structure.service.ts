@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, StructureType } from "@prisma/client";
 
 import {
   ActeAdministratifCategory,
@@ -49,20 +49,34 @@ export const divideFileUploads = (
 
 export const getStructureSearchWhere = ({
   search,
-  page,
   type,
   bati,
   placeAutorisees,
   departements,
 }: {
   search: string | null;
-  page: number | null;
   type: string | null;
   bati: string | null;
-  placeAutorisees: number | null;
+  placeAutorisees: string | null;
   departements: string | null;
 }): Prisma.StructureWhereInput => {
   const where: Prisma.StructureWhereInput = {};
+  if (type) {
+    where.type = {
+      equals: type as StructureType,
+    };
+  }
+
+  if (departements) {
+    const departementList = departements.split(",").filter(Boolean);
+    if (departementList.length > 0) {
+      where.departementAdministratif = {
+        in: departementList,
+      };
+    }
+  }
+
+  console.log("placeAutorisees", placeAutorisees);
 
   if (search) {
     where.OR = [
@@ -122,5 +136,62 @@ export const getStructureSearchWhere = ({
       },
     ];
   }
+
+  if (bati) {
+    const batiValue = bati.toUpperCase();
+    if (batiValue === "MIXTE") {
+      where.AND = [
+        {
+          adresses: {
+            some: {
+              repartition: "DIFFUS",
+            },
+          },
+        },
+        {
+          adresses: {
+            some: {
+              repartition: "COLLECTIF",
+            },
+          },
+        },
+      ];
+    } else if (batiValue === "DIFFUS") {
+      where.AND = [
+        {
+          adresses: {
+            some: {
+              repartition: "DIFFUS",
+            },
+          },
+        },
+        {
+          adresses: {
+            none: {
+              repartition: "COLLECTIF",
+            },
+          },
+        },
+      ];
+    } else if (batiValue === "COLLECTIF") {
+      where.AND = [
+        {
+          adresses: {
+            some: {
+              repartition: "COLLECTIF",
+            },
+          },
+        },
+        {
+          adresses: {
+            none: {
+              repartition: "DIFFUS",
+            },
+          },
+        },
+      ];
+    }
+  }
+
   return where;
 };
