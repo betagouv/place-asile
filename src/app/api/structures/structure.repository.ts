@@ -11,6 +11,7 @@ import { createOrUpdateAdresses } from "../adresses/adresse.repository";
 import { createOrUpdateBudgets } from "../budgets/budget.repository";
 import { createOrUpdateContacts } from "../contacts/contact.repository";
 import { createOrUpdateControles } from "../controles/controle.repository";
+import { createOrUpdateCpomTypologies } from "../cpoms/cpom.repository";
 import { createOrUpdateEvaluations } from "../evaluations/evaluation.repository";
 import { updateFileUploads } from "../files/file.repository";
 import {
@@ -255,6 +256,7 @@ export const updateOne = async (
       id,
       contacts,
       budgets,
+      cpomTypologies,
       structureTypologies,
       adresses,
       actesAdministratifs,
@@ -281,8 +283,8 @@ export const updateOne = async (
         operateur: {
           connect: operateur
             ? {
-                id: operateur?.id,
-              }
+              id: operateur?.id,
+            }
             : undefined,
         },
       },
@@ -290,6 +292,7 @@ export const updateOne = async (
 
     await createOrUpdateContacts(contacts, structure.dnaCode);
     await createOrUpdateBudgets(budgets, structure.dnaCode);
+    await createOrUpdateCpomTypologies(cpomTypologies, structure.dnaCode);
     await updateStructureTypologies(structureTypologies);
     await createOrUpdateAdresses(adresses, structure.dnaCode);
     await updateFileUploads(
