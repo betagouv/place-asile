@@ -14,7 +14,7 @@ import { useStructureContext } from "../../_context/StructureClientContext";
 import { TypePlaceCharts } from "./TypePlaceCharts";
 import { TypePlaceHistory } from "./TypePlaceHistory";
 
-export const DefaultTypePlaceBlock = (): ReactElement => {
+export const TypePlaceBlock = (): ReactElement => {
   const { structure } = useStructureContext();
 
   const router = useRouter();
