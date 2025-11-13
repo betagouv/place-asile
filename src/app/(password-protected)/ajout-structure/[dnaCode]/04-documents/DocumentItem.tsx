@@ -44,7 +44,7 @@ export const DocumentItem = ({
 };
 
 type Props = {
-  year: string;
+  year: number;
   control: Control<DocumentsFinanciersFlexibleFormValues>;
   index: number;
   register: UseFormRegister<DocumentsFinanciersFlexibleFormValues>;

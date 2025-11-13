@@ -107,6 +107,7 @@ const transformAjoutFormStructureToApiStructure = (
     finConvention: formatDateToIsoString(values.finConvention),
     cpom: values.cpom,
     creationDate: formatDateToIsoString(values.creationDate, true) as string,
+    date303: values.date303 ? formatDateToIsoString(values.date303) : undefined,
     finessCode: values.finessCode,
     lgbt: values.lgbt,
     fvvTeh: values.fvvTeh,

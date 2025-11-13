@@ -68,6 +68,7 @@ const createFakeStructure = ({
       faker.location.longitude({ min: -0.851371, max: 5.843377 })
     ),
     nom: faker.lorem.words(2),
+    date303: null,
     debutConvention,
     finConvention,
     cpom,
@@ -135,9 +136,7 @@ export const createFakeStuctureWithRelations = ({
         structureType: type,
       })
     ),
-    forms: [
-      createFakeFormWithSteps(formDefinitionId, stepDefinitionIds),
-    ],
+    forms: [createFakeFormWithSteps(formDefinitionId, stepDefinitionIds)],
   } as StructureWithRelations;
 
   if (state === StructureState.FINALISE) {
