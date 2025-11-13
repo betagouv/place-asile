@@ -15,6 +15,7 @@ import { handleAdresses } from "../adresses/adresse.util";
 import { createOrUpdateBudgets } from "../budgets/budget.repository";
 import { createOrUpdateContacts } from "../contacts/contact.repository";
 import { createOrUpdateControles } from "../controles/controle.repository";
+import { createOrUpdateCpomTypologies } from "../cpoms/cpom.repository";
 import { createOrUpdateEvaluations } from "../evaluations/evaluation.repository";
 import {
   createDocumentsFinanciers,
@@ -238,6 +239,7 @@ export const updateOne = async (
       id,
       contacts,
       budgets,
+      cpomTypologies,
       structureTypologies,
       adresses,
       actesAdministratifs,
@@ -253,10 +255,27 @@ export const updateOne = async (
       ...structureProperties
     } = structure;
 
+<<<<<<< HEAD
     return await prisma.$transaction(async (tx) => {
       const updatedStructure = await tx.structure.update({
         where: {
           dnaCode: structure.dnaCode,
+=======
+    //TODO: use a Prisma transaction to avoid race conditions
+    updatedStructure = await prisma.structure.update({
+      where: {
+        dnaCode: structure.dnaCode,
+      },
+      data: {
+        ...structureProperties,
+        public: convertToPublicType(structure.public!),
+        operateur: {
+          connect: operateur
+            ? {
+              id: operateur?.id,
+            }
+            : undefined,
+>>>>>>> e86b3b0 (back logic for cpoms)
         },
         data: {
           ...structureProperties,
@@ -271,6 +290,7 @@ export const updateOne = async (
         },
       });
 
+<<<<<<< HEAD
       await createOrUpdateContacts(tx, contacts, structure.dnaCode);
       await createOrUpdateBudgets(tx, budgets, structure.dnaCode);
       await updateStructureTypologies(tx, structureTypologies);
@@ -293,6 +313,26 @@ export const updateOne = async (
 
       return updatedStructure;
     });
+=======
+    await createOrUpdateContacts(contacts, structure.dnaCode);
+    await createOrUpdateBudgets(budgets, structure.dnaCode);
+    await createOrUpdateCpomTypologies(cpomTypologies, structure.dnaCode);
+    await updateStructureTypologies(structureTypologies);
+    await createOrUpdateAdresses(adresses, structure.dnaCode);
+    await updateFileUploads(
+      actesAdministratifs,
+      structure.dnaCode,
+      "acteAdministratif"
+    );
+    await updateFileUploads(
+      documentsFinanciers,
+      structure.dnaCode,
+      "documentFinancier"
+    );
+    await createOrUpdateControles(controles, structure.dnaCode);
+    await createOrUpdateForms(forms, structure.dnaCode);
+    await createOrUpdateEvaluations(evaluations, structure.dnaCode);
+>>>>>>> e86b3b0 (back logic for cpoms)
   } catch (error) {
     throw new Error(
       `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}: ${error}`
