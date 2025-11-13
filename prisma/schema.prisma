@@ -67,8 +67,9 @@ model Structure {
   campaigns                    Campaign[]
   referential                  Referential?                @relation("StructureToReferential")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now()) @updatedAt
+  cpoms     CpomStructure[]
 
   @@schema("public")
 }
@@ -366,6 +367,55 @@ model Operateur {
   directionGenerale String?
   siret             String?
   siegeSocial       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
+}
+
+// m-n relationship since cpoms are usually associated to multiple structures and structures can have multiple cpoms (eg 2019->2024, 2025->2029)
+model Cpom {
+  id         Int             @id @default(autoincrement())
+  name       String?
+  structures CpomStructure[]
+  debutCpom  DateTime
+  finCpom    DateTime
+  typologies CpomTypologie[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@schema("public")
+}
+
+model CpomStructure {
+  id          Int       @id @default(autoincrement())
+  cpomId      Int
+  structureId Int
+  cpom        Cpom      @relation(fields: [cpomId], references: [id])
+  structure   Structure @relation(fields: [structureId], references: [id])
+
+  @@schema("public")
+}
+
+model CpomTypologie {
+  id                                           Int      @id @default(autoincrement())
+  cpomId                                       Int
+  cpom                                         Cpom     @relation(fields: [cpomId], references: [id])
+  date                                         DateTime
+  cumulResultatNet                             Float?
+  repriseEtat                                  Float?
+  affectationTotal                             Float?
+  affectationReserveInvestissement             Float?
+  affectationChargesNonReproductibles          Float?
+  affectationReserveCompensationDeficits       Float?
+  affectationReserveCouvertureBFR              Float?
+  affectationReserveCompensationAmortissements Float?
+  affectationFondsDedies                       Float?
+  affectationReportANouveau                    Float?
+  affectationAutre                             Float?
+  commentaire                                  String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
