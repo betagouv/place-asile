@@ -1,6 +1,7 @@
 import { FileUploadCategory, Prisma, Structure } from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
+import { DEFAULT_PAGE_SIZE } from "@/constants";
 import prisma from "@/lib/prisma";
 import {
   StructureCreationApiType,
@@ -18,6 +19,7 @@ import {
   initializeDefaultForms,
 } from "../forms/form.repository";
 import { updateStructureTypologies } from "../structure-typologies/structure-typologie.repository";
+import { getStructureSearchWhere } from "./structure.service";
 import {
   convertToPublicType,
   convertToStructureType,
@@ -51,6 +53,78 @@ export const findAll = async (): Promise<Structure[]> => {
   });
 };
 
+type SearchProps = {
+  search: string | null;
+  page: number | null;
+  type: string | null;
+  bati: string | null;
+  placeAutorisees: number | null;
+  departements: string | null;
+};
+export const findBySearch = async ({
+  search,
+  page,
+  type,
+  bati,
+  placeAutorisees,
+  departements,
+}: SearchProps): Promise<Structure[]> => {
+  const where = getStructureSearchWhere({
+    search,
+    page,
+    type,
+    bati,
+    placeAutorisees,
+    departements,
+  });
+
+  return prisma.structure.findMany({
+    where,
+    skip: page ? page * DEFAULT_PAGE_SIZE : 0,
+    take: DEFAULT_PAGE_SIZE,
+    include: {
+      adresses: {
+        include: {
+          adresseTypologies: {
+            orderBy: {
+              date: "desc",
+            },
+          },
+        },
+      },
+      operateur: true,
+      structureTypologies: {
+        orderBy: {
+          date: "desc",
+        },
+      },
+      forms: {
+        include: {
+          formDefinition: true,
+        },
+      },
+    },
+  });
+};
+
+export const countBySearch = async ({
+  search,
+  page,
+  type,
+  bati,
+  placeAutorisees,
+  departements,
+}: SearchProps): Promise<number> => {
+  const where = getStructureSearchWhere({
+    search,
+    page,
+    type,
+    bati,
+    placeAutorisees,
+    departements,
+  });
+  return prisma.structure.count({ where });
+};
 export const findOne = async (id: number): Promise<Structure> => {
   const structure = await prisma.structure.findFirstOrThrow({
     where: {

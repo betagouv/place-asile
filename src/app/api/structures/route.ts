@@ -5,11 +5,39 @@ import {
   structureUpdateApiSchema,
 } from "@/schemas/api/structure.schema";
 
-import { createOne, findAll, updateOne } from "./structure.repository";
+import {
+  countBySearch,
+  createOne,
+  findBySearch,
+  updateOne,
+} from "./structure.repository";
 
-export async function GET() {
-  const structures = await findAll();
-  return NextResponse.json(structures);
+export async function GET(request: NextRequest) {
+  const search = request.nextUrl.searchParams.get("search");
+  const page = request.nextUrl.searchParams.get("page") as number | null;
+  const type = request.nextUrl.searchParams.get("type");
+  const bati = request.nextUrl.searchParams.get("bati");
+  const placeAutorisees = request.nextUrl.searchParams.get(
+    "placeAutorisees"
+  ) as number | null;
+  const departements = request.nextUrl.searchParams.get("departements");
+  const structures = await findBySearch({
+    search,
+    page,
+    type,
+    bati,
+    placeAutorisees,
+    departements,
+  });
+  const totalStructures = await countBySearch({
+    search,
+    page,
+    type,
+    bati,
+    placeAutorisees,
+    departements,
+  });
+  return NextResponse.json({ structures, totalStructures });
 }
 
 export async function POST(request: NextRequest) {

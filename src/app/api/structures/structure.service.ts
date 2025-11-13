@@ -46,3 +46,81 @@ export const divideFileUploads = (
     fileUploads: undefined,
   };
 };
+
+export const getStructureSearchWhere = ({
+  search,
+  page,
+  type,
+  bati,
+  placeAutorisees,
+  departements,
+}: {
+  search: string | null;
+  page: number | null;
+  type: string | null;
+  bati: string | null;
+  placeAutorisees: number | null;
+  departements: string | null;
+}): Prisma.StructureWhereInput => {
+  const where: Prisma.StructureWhereInput = {};
+
+  if (search) {
+    where.OR = [
+      {
+        dnaCode: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        finessCode: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        nom: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        departementAdministratif: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        communeAdministrative: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        codePostalAdministratif: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        adresses: {
+          some: {
+            commune: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+      },
+      {
+        operateur: {
+          name: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      },
+    ];
+  }
+  return where;
+};
