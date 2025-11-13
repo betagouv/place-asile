@@ -6,8 +6,12 @@ import { useMemo } from "react";
 import { Date303 } from "@/app/components/forms/finance/documents/Date303";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { getYearRange } from "@/app/utils/date.util";
 import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
+import {
+  isStructureAutorisee,
+  isStructureSubventionnee,
+} from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { DocumentsFinanciersStrictSchema } from "@/schemas/forms/base/documentFinancier.schema";
 
@@ -41,24 +45,17 @@ export default function FormDocuments() {
   >(`ajout-structure-${params.dnaCode}-identification`, {});
 
   const isAutorisee = isStructureAutorisee(currentValue?.type);
+  const isSubventionnee = isStructureSubventionnee(currentValue?.type);
 
   const documents = isAutorisee
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
 
-  // TODO : à refacto avec un système d'années n-1, n-2, etc
-  const years = useMemo(
-    () =>
-      isAutorisee
-        ? ["2025", "2024", "2023", "2022", "2021"]
-        : (["2023", "2022", "2021"] as const),
-    [isAutorisee]
-  );
+  const { years } = getYearRange();
 
-  const documentIndexes = getDocumentIndexes(
-    years as unknown as string[],
-    documents
-  );
+  const yearsToDisplay = isSubventionnee ? years.slice(2) : years;
+
+  const documentIndexes = getDocumentIndexes(years.map(String), documents);
 
   // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (
@@ -81,7 +78,7 @@ export default function FormDocuments() {
           : Number(currentValue?.creationDate?.split("/")?.[2]);
 
         const noYear =
-          years.filter((year) => Number(year) >= startYear).length === 0;
+          yearsToDisplay.filter((year) => year >= startYear).length === 0;
 
         return (
           <>
@@ -105,7 +102,7 @@ export default function FormDocuments() {
               </p>
             )}
 
-            {years.map((year) => {
+            {yearsToDisplay.map((year) => {
               return (
                 <Year key={year} year={year} startYear={startYear}>
                   <p className="text-disabled-grey mb-0 text-xs col-span-3">

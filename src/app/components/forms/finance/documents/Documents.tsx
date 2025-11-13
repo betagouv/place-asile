@@ -38,8 +38,11 @@ export const Documents = ({ className }: { className?: string }) => {
 
   const documentIndexes = getDocumentIndexes(years.map(String), documents);
 
-  const noYear = years.filter((year) => Number(year) >= startYear).length === 0;
-
+  const noYear =
+    yearsToDisplay.filter((year) => Number(year) >= startYear).length === 0;
+  console.log("noYear", noYear);
+  console.log("startYear", startYear);
+  console.log("years", years);
   return (
     <div className={className}>
       <MaxSizeNotice />

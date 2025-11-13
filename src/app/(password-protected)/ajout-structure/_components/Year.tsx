@@ -11,7 +11,7 @@ export const Year = ({
     <fieldset
       className={cn(
         "flex flex-col gap-4 border-default-grey border-b pb-8 mb-6",
-        startYear && Number(year) < startYear && "hidden"
+        startYear && year < startYear && "hidden"
       )}
     >
       <h2 className="text-title-blue-france text-xl mb-0">{year}</h2>
@@ -21,6 +21,6 @@ export const Year = ({
 };
 
 type YearProps = PropsWithChildren & {
-  year: string;
+  year: number;
   startYear?: number;
 };
