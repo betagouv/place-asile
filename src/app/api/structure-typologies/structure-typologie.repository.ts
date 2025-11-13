@@ -3,10 +3,14 @@ import { PrismaTransaction } from "@/types/prisma.type";
 
 export const updateStructureTypologies = async (
   tx: PrismaTransaction,
-  typologies: Partial<StructureTypologieApiType>[] | undefined
+  structureTypologies: Partial<StructureTypologieApiType>[] | undefined
 ): Promise<void> => {
+  if (!structureTypologies || structureTypologies.length === 0) {
+    return;
+  }
+
   await Promise.all(
-    (typologies || []).map((typologie) => {
+    (structureTypologies || []).map((typologie) => {
       return tx.structureTypologie.update({
         where: { id: typologie.id },
         data: typologie,

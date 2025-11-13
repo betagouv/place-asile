@@ -6,6 +6,10 @@ export const createOrUpdateBudgets = async (
   budgets: BudgetApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
+  if (!budgets || budgets?.length === 0) {
+    return;
+  }
+
   await Promise.all(
     (budgets || []).map((budget) => {
       return tx.budget.upsert({

@@ -1,7 +1,7 @@
 import { ControleApiType } from "@/schemas/api/controle.schema";
 import { PrismaTransaction } from "@/types/prisma.type";
 
-import { convertToControleType } from "../structures/structure.util";
+import { convertToControleType } from "./controle.util";
 
 const deleteControles = async (
   tx: PrismaTransaction,

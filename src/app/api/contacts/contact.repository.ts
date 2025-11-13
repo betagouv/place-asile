@@ -8,6 +8,10 @@ export const createOrUpdateContacts = async (
   contacts: Partial<ContactApiType>[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
+  if (!contacts || contacts.length === 0) {
+    return;
+  }
+
   await Promise.all(
     (contacts || []).map((contact) => {
       return tx.contact.upsert({

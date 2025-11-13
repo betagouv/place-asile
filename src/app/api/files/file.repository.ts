@@ -130,3 +130,20 @@ export const updateFileUploads = async (
     )
   );
 };
+
+export const createDocumentsFinanciers = async (
+  tx: PrismaTransaction,
+  documentsFinanciers: DocumentFinancierApiType[],
+  structureDnaCode: string
+): Promise<void> => {
+  for (const documentFinancier of documentsFinanciers) {
+    await tx.fileUpload.update({
+      where: { key: documentFinancier.key },
+      data: {
+        date: documentFinancier.date,
+        category: (documentFinancier.category as FileUploadCategory) || null,
+        structureDnaCode,
+      },
+    });
+  }
+};
