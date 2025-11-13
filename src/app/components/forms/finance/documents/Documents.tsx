@@ -40,9 +40,7 @@ export const Documents = ({ className }: { className?: string }) => {
 
   const noYear =
     yearsToDisplay.filter((year) => Number(year) >= startYear).length === 0;
-  console.log("noYear", noYear);
-  console.log("startYear", startYear);
-  console.log("years", years);
+
   return (
     <div className={className}>
       <MaxSizeNotice />
