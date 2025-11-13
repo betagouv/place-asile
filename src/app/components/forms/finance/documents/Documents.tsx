@@ -5,6 +5,7 @@ import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_cont
 import { UploadItem } from "@/app/(password-protected)/ajout-structure/_components/UploadItem";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
+import { cn } from "@/app/utils/classname.util";
 import { getYearRange } from "@/app/utils/date.util";
 import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import {
@@ -23,6 +24,10 @@ export const Documents = ({ className }: { className?: string }) => {
   const isSubventionnee = isStructureSubventionnee(structure?.type);
   const isAutorisee = isStructureAutorisee(structure?.type);
 
+  const startYear = structure?.date303
+    ? new Date(structure.date303).getFullYear()
+    : new Date(structure.creationDate).getFullYear();
+
   const { years } = getYearRange();
 
   const yearsToDisplay = isSubventionnee ? years.slice(2) : years;
@@ -33,11 +38,20 @@ export const Documents = ({ className }: { className?: string }) => {
 
   const documentIndexes = getDocumentIndexes(years.map(String), documents);
 
+  const noYear =
+    yearsToDisplay.filter((year) => Number(year) >= startYear).length === 0;
+
   return (
     <div className={className}>
       <MaxSizeNotice />
+      {noYear && (
+        <p className="text-disabled-grey mb-0 text-sm col-span-3">
+          La structure est trop récente et n’est pas en mesure de fournir de
+          documents. Vous pouvez valider cette étape.
+        </p>
+      )}
       {yearsToDisplay.map((year) => (
-        <div key={year} className="mb-7">
+        <div key={year} className={cn("mb-7", year < startYear && "hidden")}>
           <h2 className="text-xl font-bold mb-4 text-title-blue-france">
             {year}
           </h2>

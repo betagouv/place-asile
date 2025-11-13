@@ -2,7 +2,10 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { z } from "zod";
 
-import { optionalFrenchDateToISO } from "@/app/utils/zodCustomFields";
+import {
+  nullishFrenchDateToISO,
+  optionalFrenchDateToISO,
+} from "@/app/utils/zodCustomFields";
 import { DocumentFinancierCategory } from "@/types/file-upload.type";
 
 dayjs.extend(customParseFormat);
@@ -14,44 +17,41 @@ const DocumentFinancierFlexibleSchema = z.object({
 });
 
 export const DocumentsFinanciersFlexibleSchema = z.object({
-  less5Years: z.boolean().optional(),
+  creationDate: optionalFrenchDateToISO(),
+  date303: nullishFrenchDateToISO(),
   documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
 });
 
-const DocumentFinancierConditionalSchema =
-  DocumentFinancierFlexibleSchema.superRefine((data, ctx) => {
-    if (
-      data.category !== "BUDGET_RECTIFICATIF" &&
-      data.category !== "RAPPORT_BUDGETAIRE"
-    ) {
-      if (!data.key) {
-        ctx.addIssue({
-          path: ["key"],
-          code: z.ZodIssueCode.custom,
-          message: "Ce champ est requis",
-        });
-      }
-      if (!data.date) {
-        ctx.addIssue({
-          path: ["date"],
-          code: z.ZodIssueCode.custom,
-          message: "Ce champ est requis",
-        });
-      }
-      if (!data.category) {
-        ctx.addIssue({
-          path: ["category"],
-          code: z.ZodIssueCode.custom,
-          message: "Ce champ est requis",
-        });
-      }
-    }
-  });
+export const DocumentsFinanciersStrictSchema = z
+  .object({
+    creationDate: optionalFrenchDateToISO(),
+    date303: nullishFrenchDateToISO(),
+    documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
+  })
+  .superRefine((data, ctx) => {
+    const referenceYear = Number(
+      (data.date303 ?? data.creationDate)?.substring(0, 4)
+    );
 
-export const DocumentsFinanciersStrictSchema = z.object({
-  less5Years: z.boolean().optional(),
-  documentsFinanciers: z.array(DocumentFinancierConditionalSchema),
-});
+    data.documentsFinanciers.forEach((document, index) => {
+      const documentYear = document.date?.substring(0, 4);
+
+      const documentIsAfterReferenceYear =
+        Number(documentYear) >= referenceYear;
+
+      const documentIsRequired =
+        document.category !== "BUDGET_RECTIFICATIF" &&
+        document.category !== "RAPPORT_BUDGETAIRE";
+
+      if (documentIsAfterReferenceYear && documentIsRequired && !document.key) {
+        ctx.addIssue({
+          path: ["documentsFinanciers", index, "key"],
+          code: z.ZodIssueCode.custom,
+          message: "Ce champ est requis",
+        });
+      }
+    });
+  });
 
 export type DocumentFinancierFlexibleFormValues = z.infer<
   typeof DocumentFinancierFlexibleSchema
