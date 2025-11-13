@@ -54,9 +54,14 @@ export const ControlesBlock = (): ReactElement => {
         /> */}
       </div>
       <div className="pt-3">
-        <ControleAccordion title="Évaluations" lastVisit={evaluations[0]?.date}>
-          <EvaluationTable evaluations={evaluations} />
-        </ControleAccordion>
+        {evaluations.length > 0 && (
+          <ControleAccordion
+            title="Évaluations"
+            lastVisit={evaluations[0]?.date}
+          >
+            <EvaluationTable evaluations={evaluations} />
+          </ControleAccordion>
+        )}
         {controles.length > 0 && (
           <ControleAccordion
             title="Inspections-contrôles"
