@@ -511,3 +511,16 @@ view OperateursAggregates {
 
   @@schema("reporting")
 }
+
+view StructuresFilling {
+  dnaCode             String?
+  finalisation_status String?
+  operateur           String?
+  type                String?
+  public              String?
+  region              String?
+  created_at          DateTime?
+  updated_at          DateTime?
+
+  @@schema("reporting")
+}
