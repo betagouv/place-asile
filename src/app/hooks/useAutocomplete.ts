@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useAutocomplete<T extends AutocompleteSuggestion>(
   fetchSuggestions: (query: string) => Promise<T[]>,
-  debounceMs: number = 300
+  debounceMs: number = 300,
+  searchTermLength: number = 3
 ) {
   const [suggestions, setSuggestions] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +18,7 @@ export function useAutocomplete<T extends AutocompleteSuggestion>(
         clearTimeout(debounceTimerRef.current);
       }
       debounceTimerRef.current = setTimeout(async () => {
-        if (!value || value.length < 3) {
+        if (!value || value.length < searchTermLength) {
           setSuggestions([]);
           return;
         }
@@ -36,7 +37,7 @@ export function useAutocomplete<T extends AutocompleteSuggestion>(
         }
       }, debounceMs);
     },
-    [fetchSuggestions, debounceMs]
+    [fetchSuggestions, debounceMs, searchTermLength]
   );
 
   const resetSuggestions = useCallback(() => {

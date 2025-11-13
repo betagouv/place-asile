@@ -127,7 +127,7 @@ export default function FormIdentification() {
               className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2 mb-8"
             >
               <i className="fr-icon-arrow-left-s-line before:w-4"></i>
-              Étape précédente
+              Revenir au choix de la structure
             </Link> */}
             <fieldset className="flex flex-col gap-6">
               <legend className="text-xl font-bold mb-10 text-title-blue-france">

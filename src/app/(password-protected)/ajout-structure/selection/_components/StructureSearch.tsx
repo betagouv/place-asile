@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { DepartementAutocomplete } from "@/app/components/forms/DepartementAutocomplete";
@@ -11,7 +11,7 @@ import { StructureOfiiList } from "./StructureOfiiList";
 
 export const StructureSearch = (): ReactElement => {
   const parentFormContext = useFormContext();
-  const { control, watch } = parentFormContext;
+  const { control, watch, setValue } = parentFormContext;
 
   const operateurId = watch("operateur.id");
   const departementNumero = watch("departement.numero");
@@ -22,6 +22,12 @@ export const StructureSearch = (): ReactElement => {
     departementNumero,
     type,
   });
+
+  useEffect(() => {
+    if (!operateurId || departementNumero || type) {
+      setValue("structureOfii", undefined);
+    }
+  }, [operateurId, departementNumero, type, setValue]);
 
   return (
     <div className="bg-white p-6 rounded-lg mb-2">
