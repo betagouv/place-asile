@@ -1,1 +1,1 @@
-postdeploy: yarn prisma:deploy && yarn prisma:apply-views
+postdeploy: yarn prisma:deploy && yarn apply-views
