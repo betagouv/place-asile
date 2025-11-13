@@ -24,9 +24,7 @@ export const StructureSearch = (): ReactElement => {
   });
 
   useEffect(() => {
-    if (!operateurId || departementNumero || type) {
-      setValue("structureOfii", undefined);
-    }
+    setValue("structureOfii", undefined);
   }, [operateurId, departementNumero, type, setValue]);
 
   return (
