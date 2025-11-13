@@ -25,7 +25,7 @@ export const ActivitesMotifsIndisponibilite = ({
     >
       <Table
         bordered={true}
-        className="m-0 [&>table]:w-[unset] [&>table>tbody>tr>td]:text-center text-mention-grey [&>table>thead]:text-mention-grey"
+        className="full-width-table"
         caption=""
         data={getTableData()}
         headers={["MOTIF", "PLACES CONCERNÉES"]}

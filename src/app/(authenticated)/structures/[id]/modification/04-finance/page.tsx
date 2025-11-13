@@ -70,7 +70,7 @@ export default function ModificationFinanceForm() {
           FooterButtonType.SUBMIT,
         ]}
         onSubmit={onSubmit}
-        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
+        className="border-2 border-solid border-(--text-title-blue-france)"
       >
         <DocumentsAccordion className="mb-6" />
         <IndicateursGeneraux />

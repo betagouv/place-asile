@@ -529,6 +529,7 @@ const updateFileUploads = async (
           structureDnaCode,
           parentFileUploadId: fileUpload.parentFileUploadId,
           controleId: fileUpload.controleId,
+          evaluationId: fileUpload.evaluationId,
         },
       })
     )

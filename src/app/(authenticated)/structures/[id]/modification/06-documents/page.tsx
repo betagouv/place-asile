@@ -28,7 +28,8 @@ export default function ModificationQualiteForm() {
   const { structure } = useStructureContext();
 
   const categoriesToDisplay = getCategoriesToDisplay(structure).filter(
-    (category) => category !== "INSPECTION_CONTROLE"
+    (category) =>
+      category !== "INSPECTION_CONTROLE" && category !== "EVALUATION"
   );
 
   const categoriesDisplayRules = getCategoriesDisplayRules(structure);
@@ -73,15 +74,14 @@ export default function ModificationQualiteForm() {
         resetRoute={`/structures/${structure.id}`}
         availableFooterButtons={[FooterButtonType.SUBMIT]}
         defaultValues={defaultValues}
-        className="border-[2px] border-solid border-[var(--text-title-blue-france)]"
+        className="border-2 border-solid border-(--text-title-blue-france)"
       >
         <MaxSizeNotice />
 
         {categoriesToDisplay.map((category, index) => {
           return (
-            <>
+            <div key={category}>
               <UploadsByCategory
-                key={category}
                 category={category}
                 categoryShortName={
                   categoriesDisplayRules[category].categoryShortName
@@ -100,7 +100,7 @@ export default function ModificationQualiteForm() {
                 notice={categoriesDisplayRules[category].notice}
               />
               {index < categoriesToDisplay.length - 1 && <hr />}
-            </>
+            </div>
           );
         })}
         {saveState === FetchState.ERROR && (

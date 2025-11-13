@@ -45,7 +45,7 @@ Le projet est basé sur :
 
 ## 🗃️ Schéma de base de données (au 31/07/25)
 
-![Base de données au 31/07/2025](db.png)
+![Base de données au 06/11/2025](db.svg)
 
 L'entité centrale est `Structure` : elle contient toutes les informations de base d'une structure, et les autres tables s'y réfèrent.
 
@@ -57,4 +57,3 @@ Il y a deux modes d'authentification dans l'application :
 
 - par mot de passe pour les opérateurs : elle ne permet d'accéder qu'à un formulaire et aucune donnée de l'application
 - avec [ProConnect](https://www.proconnect.gouv.fr/), solution d'authentification de l'Etat pour limiter la consultation du contenu de l'application aux agents de l'Etat uniquement
-

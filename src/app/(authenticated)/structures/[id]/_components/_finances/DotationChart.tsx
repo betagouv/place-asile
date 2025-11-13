@@ -46,12 +46,11 @@ export const DotationChart = (): ReactElement => {
   const options = {
     seriesBarDistance: 10,
     axisY: {
-      offset: 50,
+      offset: 70,
       labelInterpolationFnc: (value: number) => value.toLocaleString(),
     },
   };
 
-  //TODO : remplacer les couleurs hardcodées par celles du DSFR
   return (
     <div className="grid grid-cols-3 gap-2">
       <div className="col-span-2">
@@ -64,11 +63,11 @@ export const DotationChart = (): ReactElement => {
             : "Fixation de la dotation (dans demande subventions)"}
         </h5>
         <div className="flex items-center">
-          <div className="h-3 w-3 bg-[#FCC63A]" />
+          <div className="h-3 w-3 bg-(--yellow-moutarde-850-200)" />
           <p className="pl-2 mb-0">Dotation demandée par l’opérateur</p>
         </div>
         <div className="flex items-center pb-5">
-          <div className="h-3 w-3 bg-[#C3992A]" />
+          <div className="h-3 w-3 bg-(--yellow-moutarde-main-679)" />
           <p className="pl-2 mb-0">Dotation totale accordée par l’État</p>
         </div>
         <h5 className="text-title-blue-france text-sm font-medium mb-1">
@@ -77,11 +76,11 @@ export const DotationChart = (): ReactElement => {
             : "Équilibre économique (dans compte-rendu financier)"}
         </h5>
         <div className="flex items-center">
-          <div className="h-3 w-3 bg-[#FBB8F6]" />
+          <div className="h-3 w-3 bg-(--purple-glycine-850-200)" />
           <p className="pl-2 mb-0">Total des produits (dont dotation État)</p>
         </div>
         <div className="flex items-center">
-          <div className="h-3 w-3 bg-[#B6CFFB]" />
+          <div className="h-3 w-3 bg-(--blue-cumulus-850-200)" />
           <p className="pl-2 mb-0">Total des charges retenues</p>
         </div>
       </div>

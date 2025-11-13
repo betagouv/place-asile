@@ -4,14 +4,12 @@ import { useFormContext } from "react-hook-form";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
+import { ControleFormValues } from "@/schemas/forms/base/controle.schema";
 import { ControleType } from "@/types/controle.type";
 
-import { ControleField } from "./UploadsByCategory";
-
-export const ControleItem = ({
+export const Controle = ({
   field,
   index,
-  documentLabel,
   handleDeleteField,
 }: UploadsByCategoryFileProps) => {
   const { control, register } = useFormContext();
@@ -45,7 +43,7 @@ export const ControleItem = ({
       </div>
 
       <div className="flex flex-col">
-        <label className="mb-2">{documentLabel}</label>
+        <label className="mb-2">Rapport</label>
         <UploadWithValidation
           name={`controles.${index}.fileUploads.0.key`}
           control={control}
@@ -71,8 +69,7 @@ export const ControleItem = ({
 };
 
 type UploadsByCategoryFileProps = {
-  field: ControleField;
+  field: ControleFormValues;
   index: number;
-  documentLabel: string;
   handleDeleteField: (index: number) => void;
 };

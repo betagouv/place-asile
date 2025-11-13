@@ -129,7 +129,7 @@ export const TypePlaceHistory = ({
           "LOG. SOCIAL",
         ]}
       />
-      <span className="italic block border-t-1 border-default-grey text-mention-grey py-2 px-4 text-xs">
+      <span className="italic block border-t border-default-grey text-mention-grey py-2 px-4 text-xs">
         Les places correspondent aux nombres de places au 1er janvier de chaque
         année
       </span>

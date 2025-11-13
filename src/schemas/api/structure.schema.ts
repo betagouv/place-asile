@@ -59,7 +59,6 @@ export const structureCreationApiSchema = z.object({
   adresses: z.array(adresseApiSchema),
   structureTypologies: z.array(structureTypologieApiSchema),
   forms: z.array(formApiSchema).optional(),
-
   contacts: z.array(contactApiSchema),
   documentsFinanciers: z.array(documentFinancierApiSchema),
 });
@@ -81,8 +80,8 @@ const partialStructureCreationApiSchema = structureCreationApiSchema
 
 const remainingStructureUpdateApiSchema = z.object({
   id: z.number().optional(),
-  placesACreer: z.number().int().nullish(),
-  placesAFermer: z.number().int().nullish(),
+  placesACreer: z.number().int().min(0).nullish(),
+  placesAFermer: z.number().int().min(0).nullish(),
   echeancePlacesACreer: z.string().datetime().nullish(),
   echeancePlacesAFermer: z.string().datetime().nullish(),
   notes: z.string().nullish(),

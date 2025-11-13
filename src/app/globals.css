@@ -48,3 +48,30 @@ hr {
     var(--border-default-grey)
   );
 }
+
+.full-width-table {
+  margin: 0;
+  color: var(--mention-grey, #6b7280);
+}
+
+.full-width-table > table {
+  width: unset;
+}
+
+.full-width-table > table > thead {
+  color: var(--mention-grey, #6b7280);
+}
+
+.full-width-table > table > tbody > tr > td {
+  padding: 0.75rem;
+}
+
+.full-width-table > table > thead > tr > th {
+  font-size: 0.75rem;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--grey-300, #D1D5DB);
+}
+
+.full-width-table > table > thead > tr > th:last-child {
+  width: 100%;
+}

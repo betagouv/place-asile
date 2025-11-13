@@ -130,10 +130,16 @@ const transformAjoutFormStructureToApiStructure = (
     ),
     structureTypologies: values.typologies?.map((typologie) => ({
       ...typologie,
-      placesAutorisees: Number(typologie.placesAutorisees),
-      pmr: Number(typologie.pmr),
-      lgbt: Number(typologie.lgbt),
-      fvvTeh: Number(typologie.fvvTeh),
+      placesAutorisees: Number(
+        String(typologie.placesAutorisees).replace(",", ".").replaceAll(" ", "")
+      ),
+      pmr: Number(String(typologie.pmr).replace(",", ".").replaceAll(" ", "")),
+      lgbt: Number(
+        String(typologie.lgbt).replace(",", ".").replaceAll(" ", "")
+      ),
+      fvvTeh: Number(
+        String(typologie.fvvTeh).replace(",", ".").replaceAll(" ", "")
+      ),
       date: formatDateToIsoString(typologie.date) as string,
     })),
     documentsFinanciers: values.documentsFinanciers?.filter(

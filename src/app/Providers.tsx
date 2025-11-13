@@ -2,26 +2,21 @@
 
 import "@/app/utils/zodErrorMap";
 
-import { init } from "@socialgouv/matomo-next";
 import { SessionProvider } from "next-auth/react";
-import { PropsWithChildren, ReactElement, useEffect } from "react";
+import { PropsWithChildren, ReactElement, Suspense } from "react";
 
+import { Tracking } from "./components/Tracking";
 import { FetchStateProvider } from "./context/FetchStateContext";
 
 export const Providers = ({ children }: PropsWithChildren): ReactElement => {
-  useEffect(() => {
-    if (process.env.NODE_ENV === "production") {
-      init({
-        url: process.env.NEXT_PUBLIC_MATOMO_URL!,
-        siteId: process.env.NEXT_PUBLIC_MATOMO_SITE_ID!,
-        disableCookies: true,
-      });
-    }
-  }, []);
-
   return (
     <SessionProvider>
-      <FetchStateProvider>{children}</FetchStateProvider>
+      <FetchStateProvider>
+        <Suspense fallback={null}>
+          <Tracking />
+        </Suspense>
+        {children}
+      </FetchStateProvider>
     </SessionProvider>
   );
 };

@@ -1,7 +1,10 @@
 import { ActeAdministratifCategoryType } from "./file-upload.type";
 
 export type CategoryDisplayRulesType = Record<
-  ActeAdministratifCategoryType[number],
+  Exclude<
+    ActeAdministratifCategoryType[number],
+    "INSPECTION_CONTROLE" | "EVALUATION"
+  >,
   {
     categoryShortName: string;
     title: string;
@@ -16,8 +19,6 @@ export type CategoryDisplayRulesType = Record<
 >;
 
 export enum AdditionalFieldsType {
-  INSPECTION_CONTROLE,
-  EVALUATION,
   DATE_START_END,
   NAME,
 }

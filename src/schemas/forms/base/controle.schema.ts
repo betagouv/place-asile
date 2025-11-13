@@ -15,6 +15,7 @@ export const controleAutoSaveSchema = z.object({
   date: optionalFrenchDateToISO(),
   type: z.nativeEnum(ControleType).optional(),
   fileUploads: z.array(fileUploadSchema.optional()).optional(),
+  uuid: z.string().optional(), // Used to identify the controle when it is not saved in the database (and so do not have an id)
 });
 
 export const controleSchema = controleAutoSaveSchema.refine(
@@ -37,7 +38,7 @@ export const controleSchema = controleAutoSaveSchema.refine(
     return true;
   },
   {
-    message: "Les fichier de l'inspection-contrôle doit être renseigné",
+    message: "Le fichier de l'inspection-contrôle doit être renseigné",
     path: ["fileUploads"],
   }
 );

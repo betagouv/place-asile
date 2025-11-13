@@ -62,7 +62,12 @@ export const Evaluation = ({
               type="date"
               onChange={handleType}
             />
-            <input type="hidden" {...register(`evaluations.${index}.id`)} />
+            <InputWithValidation
+              name={`evaluations.${index}.id`}
+              control={control}
+              label=""
+              type="hidden"
+            />
             {type !== "empty" && (
               <div className="mx-8 border-r border-default-grey" />
             )}
