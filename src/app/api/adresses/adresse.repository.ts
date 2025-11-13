@@ -1,20 +1,20 @@
-import prisma from "@/lib/prisma";
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
+import { PrismaTransaction } from "@/types/prisma.type";
 
 import { convertToRepartition } from "../structures/structure.util";
 
 const getEveryAdresseTypologiesOfAdresses = async (
+  tx: PrismaTransaction,
   adresses: Partial<AdresseApiType>[]
-): Promise<Awaited<ReturnType<typeof prisma.adresseTypologie.findMany>>> => {
+): Promise<Awaited<ReturnType<typeof tx.adresseTypologie.findMany>>> => {
   const existingAdresseIds = adresses
     .filter((adresse) => adresse.id)
     .map((adresse) => adresse.id as number);
 
-  let allTypologies: Awaited<
-    ReturnType<typeof prisma.adresseTypologie.findMany>
-  > = [];
+  let allTypologies: Awaited<ReturnType<typeof tx.adresseTypologie.findMany>> =
+    [];
   if (existingAdresseIds.length > 0) {
-    allTypologies = await prisma.adresseTypologie.findMany({
+    allTypologies = await tx.adresseTypologie.findMany({
       where: { adresseId: { in: existingAdresseIds } },
     });
   }
@@ -22,10 +22,11 @@ const getEveryAdresseTypologiesOfAdresses = async (
 };
 
 const deleteAdresses = async (
+  tx: PrismaTransaction,
   adressesToKeep: Partial<AdresseApiType>[],
   structureDnaCode: string
 ): Promise<void> => {
-  const everyAdressesOfStructure = await prisma.adresse.findMany({
+  const everyAdressesOfStructure = await tx.adresse.findMany({
     where: { structureDnaCode: structureDnaCode },
   });
   const adressesToDelete = everyAdressesOfStructure.filter(
@@ -33,12 +34,13 @@ const deleteAdresses = async (
   );
   await Promise.all(
     adressesToDelete.map((adresse) =>
-      prisma.adresse.delete({ where: { id: adresse.id } })
+      tx.adresse.delete({ where: { id: adresse.id } })
     )
   );
 };
 
 export const createOrUpdateAdresses = async (
+  tx: PrismaTransaction,
   adresses: Partial<AdresseApiType>[] = [],
   structureDnaCode: string
 ): Promise<void> => {
@@ -47,15 +49,15 @@ export const createOrUpdateAdresses = async (
   }
 
   // Delete adresses that are not in the provided array
-  await deleteAdresses(adresses, structureDnaCode);
+  await deleteAdresses(tx, adresses, structureDnaCode);
 
   // Fetch all typologies for existing addresses
-  const allTypologies = await getEveryAdresseTypologiesOfAdresses(adresses);
+  const allTypologies = await getEveryAdresseTypologiesOfAdresses(tx, adresses);
 
   for (const adresse of adresses) {
     if (adresse.id) {
       // Update existing address
-      await prisma.adresse.update({
+      await tx.adresse.update({
         where: { id: adresse.id },
         data: {
           adresse: adresse.adresse,
@@ -74,7 +76,7 @@ export const createOrUpdateAdresses = async (
           !adresse.adresseTypologies?.some((t) => t.id === existing.id)
       );
       if (typologiesToDelete.length > 0) {
-        await prisma.adresseTypologie.deleteMany({
+        await tx.adresseTypologie.deleteMany({
           where: { id: { in: typologiesToDelete.map((t) => t.id) } },
         });
       }
@@ -82,7 +84,7 @@ export const createOrUpdateAdresses = async (
       // Update or create typologies
       for (const typologie of adresse.adresseTypologies || []) {
         // Update existing typologie
-        await prisma.adresseTypologie.upsert({
+        await tx.adresseTypologie.upsert({
           where: { id: typologie.id || 0 },
           update: typologie,
           create: {

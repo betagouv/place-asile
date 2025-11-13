@@ -1,13 +1,14 @@
-import prisma from "@/lib/prisma";
 import { BudgetApiType } from "@/schemas/api/budget.schema";
+import { PrismaTransaction } from "@/types/prisma.type";
 
 export const createOrUpdateBudgets = async (
+  tx: PrismaTransaction,
   budgets: BudgetApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   await Promise.all(
     (budgets || []).map((budget) => {
-      return prisma.budget.upsert({
+      return tx.budget.upsert({
         where: {
           structureDnaCode_date: {
             structureDnaCode: structureDnaCode,

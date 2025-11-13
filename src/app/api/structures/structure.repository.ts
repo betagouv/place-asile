@@ -207,6 +207,7 @@ export const createOne = async (
 
   const adresses = handleAdresses(structure.dnaCode, structure.adresses);
 
+  // TODO : put this logic in adresse repository and add a transaction
   for (const adresse of adresses) {
     await prisma.adresse.create({
       data: {
@@ -248,7 +249,6 @@ export const createOne = async (
 export const updateOne = async (
   structure: StructureUpdateApiType
 ): Promise<Structure> => {
-  let updatedStructure = null;
   try {
     const {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -270,46 +270,49 @@ export const updateOne = async (
       ...structureProperties
     } = structure;
 
-    //TODO: use a Prisma transaction to avoid race conditions
-    updatedStructure = await prisma.structure.update({
-      where: {
-        dnaCode: structure.dnaCode,
-      },
-      data: {
-        ...structureProperties,
-        public: convertToPublicType(structure.public!),
-        operateur: {
-          connect: operateur
-            ? {
-                id: operateur?.id,
-              }
-            : undefined,
+    return await prisma.$transaction(async (tx) => {
+      const updatedStructure = await tx.structure.update({
+        where: {
+          dnaCode: structure.dnaCode,
         },
-      },
-    });
+        data: {
+          ...structureProperties,
+          public: convertToPublicType(structure.public!),
+          operateur: {
+            connect: operateur
+              ? {
+                  id: operateur?.id,
+                }
+              : undefined,
+          },
+        },
+      });
 
-    await createOrUpdateContacts(contacts, structure.dnaCode);
-    await createOrUpdateBudgets(budgets, structure.dnaCode);
-    await updateStructureTypologies(structureTypologies);
-    await createOrUpdateAdresses(adresses, structure.dnaCode);
-    await updateFileUploads(
-      actesAdministratifs,
-      structure.dnaCode,
-      "acteAdministratif"
-    );
-    await updateFileUploads(
-      documentsFinanciers,
-      structure.dnaCode,
-      "documentFinancier"
-    );
-    await createOrUpdateControles(controles, structure.dnaCode);
-    await createOrUpdateForms(forms, structure.dnaCode);
-    await createOrUpdateEvaluations(evaluations, structure.dnaCode);
+      await createOrUpdateContacts(tx, contacts, structure.dnaCode);
+      await createOrUpdateBudgets(tx, budgets, structure.dnaCode);
+      await updateStructureTypologies(tx, structureTypologies);
+      await createOrUpdateAdresses(tx, adresses, structure.dnaCode);
+      await updateFileUploads(
+        tx,
+        actesAdministratifs,
+        structure.dnaCode,
+        "acteAdministratif"
+      );
+      await updateFileUploads(
+        tx,
+        documentsFinanciers,
+        structure.dnaCode,
+        "documentFinancier"
+      );
+      await createOrUpdateControles(tx, controles, structure.dnaCode);
+      await createOrUpdateForms(tx, forms, structure.dnaCode);
+      await createOrUpdateEvaluations(tx, evaluations, structure.dnaCode);
+
+      return updatedStructure;
+    });
   } catch (error) {
     throw new Error(
       `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}: ${error}`
     );
   }
-
-  return updatedStructure;
 };

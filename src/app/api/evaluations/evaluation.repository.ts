@@ -1,11 +1,12 @@
-import prisma from "@/lib/prisma";
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
+import { PrismaTransaction } from "@/types/prisma.type";
 
 const deleteEvaluations = async (
+  tx: PrismaTransaction,
   evaluationsToKeep: EvaluationApiType[],
   structureDnaCode: string
 ): Promise<void> => {
-  const allEvaluations = await prisma.evaluation.findMany({
+  const allEvaluations = await tx.evaluation.findMany({
     where: { structureDnaCode: structureDnaCode },
   });
   const evaluationsToDelete = allEvaluations.filter(
@@ -16,12 +17,13 @@ const deleteEvaluations = async (
   );
   await Promise.all(
     evaluationsToDelete.map((evaluation) =>
-      prisma.evaluation.delete({ where: { id: evaluation.id } })
+      tx.evaluation.delete({ where: { id: evaluation.id } })
     )
   );
 };
 
 export const createOrUpdateEvaluations = async (
+  tx: PrismaTransaction,
   evaluations: EvaluationApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
@@ -29,11 +31,11 @@ export const createOrUpdateEvaluations = async (
     return;
   }
 
-  deleteEvaluations(evaluations, structureDnaCode);
+  deleteEvaluations(tx, evaluations, structureDnaCode);
 
   await Promise.all(
     (evaluations || []).map((evaluation) => {
-      return prisma.evaluation.upsert({
+      return tx.evaluation.upsert({
         where: { id: evaluation.id || 0 },
         update: {
           date: evaluation.date,

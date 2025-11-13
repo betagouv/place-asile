@@ -50,6 +50,7 @@ const eslintConfig = [
       "lib/**/*.{js,ts,jsx,tsx}",
       "prisma/**/*.{js,ts,jsx,tsx}",
       "scripts/**/*.{js,ts,jsx,tsx}",
+      "src/types/**/*.{js,ts,jsx,tsx}",
     ],
     rules: {
       "no-restricted-imports": "off",

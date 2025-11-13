@@ -7,6 +7,7 @@ import {
   ActeAdministratifCategory,
   DocumentFinancierCategory,
 } from "@/types/file-upload.type";
+import { PrismaTransaction } from "@/types/prisma.type";
 
 export const createOne = async ({
   key,
@@ -55,13 +56,14 @@ export const deleteOneByKey = async (
 };
 
 const deleteFileUploads = async (
+  tx: PrismaTransaction,
   fileUploadsToKeep: Partial<
     ActeAdministratifApiType | DocumentFinancierApiType
   >[],
   structureDnaCode: string,
   category: "acteAdministratif" | "documentFinancier"
 ): Promise<void> => {
-  const allFileUploads = await prisma.fileUpload.findMany({
+  const allFileUploads = await tx.fileUpload.findMany({
     where: { structureDnaCode: structureDnaCode },
   });
 
@@ -90,12 +92,13 @@ const deleteFileUploads = async (
 
   await Promise.all(
     fileUploadsToDelete.map((fileUpload) =>
-      prisma.fileUpload.delete({ where: { id: fileUpload.id } })
+      tx.fileUpload.delete({ where: { id: fileUpload.id } })
     )
   );
 };
 
 export const updateFileUploads = async (
+  tx: PrismaTransaction,
   fileUploads:
     | Partial<ActeAdministratifApiType | DocumentFinancierApiType>[]
     | undefined,
@@ -106,11 +109,11 @@ export const updateFileUploads = async (
     return;
   }
 
-  await deleteFileUploads(fileUploads, structureDnaCode, category);
+  await deleteFileUploads(tx, fileUploads, structureDnaCode, category);
 
   await Promise.all(
     (fileUploads || []).map((fileUpload) =>
-      prisma.fileUpload.update({
+      tx.fileUpload.update({
         where: { key: fileUpload.key },
         data: {
           date: fileUpload.date,
