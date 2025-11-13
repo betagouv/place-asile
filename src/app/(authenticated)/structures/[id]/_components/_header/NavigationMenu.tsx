@@ -18,7 +18,7 @@ export const NavigationMenu = (): ReactElement => {
     {
       label: "Contrôle qualité",
       section: "#controle",
-      isDisplayed: !!structure.controles && structure.controles?.length > 0,
+      isDisplayed: true,
     },
     { label: "Activites", section: "#activites", isDisplayed: false },
     {
