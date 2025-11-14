@@ -19,9 +19,7 @@ export const Pagination = ({ totalStructures }: Props): ReactElement | null => {
   );
 
   const totalPages = Math.ceil(totalStructures / DEFAULT_PAGE_SIZE);
-  console.log("totalPages", totalPages);
-  console.log("currentPage", currentPage);
-  console.log(currentPage + 1 < totalPages);
+
   return (
     <nav role="navigation" className="fr-pagination" aria-label="Pagination">
       <ul className="fr-pagination__list">

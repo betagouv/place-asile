@@ -6,7 +6,7 @@ import { ReactElement, useMemo, useState } from "react";
 
 import Loader from "@/app/components/ui/Loader";
 import { useFetchState } from "@/app/context/FetchStateContext";
-import { useStructureSearch } from "@/app/hooks/useStructureSearch";
+import { useStructuresSearch } from "@/app/hooks/useStructuresSearch";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { SegmentedControl } from "../../components/common/SegmentedControl";
@@ -16,7 +16,7 @@ import { StructuresTable } from "./_components/StructuresTable";
 export default function Structures(): ReactElement {
   const [selectedVisualization, setSelectedVisualization] = useState("tableau");
 
-  const { structures, totalStructures } = useStructureSearch();
+  const { structures, totalStructures } = useStructuresSearch({ map: false });
 
   const { getFetchState } = useFetchState();
   const fetchState = getFetchState("structure-search");
@@ -87,9 +87,7 @@ export default function Structures(): ReactElement {
             ))}
         </>
       )}
-      {selectedVisualization === "carte" && (
-        <StructuresMap structures={structures ?? []} />
-      )}
+      {selectedVisualization === "carte" && <StructuresMap />}
     </div>
   );
 }

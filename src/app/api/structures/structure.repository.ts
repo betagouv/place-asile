@@ -60,6 +60,7 @@ type SearchProps = {
   bati: string | null;
   placeAutorisees: string | null;
   departements: string | null;
+  map: boolean;
 };
 export const findBySearch = async ({
   search,
@@ -68,7 +69,8 @@ export const findBySearch = async ({
   bati,
   placeAutorisees,
   departements,
-}: SearchProps): Promise<Structure[]> => {
+  map,
+}: SearchProps): Promise<Partial<Structure>[]> => {
   const where = getStructureSearchWhere({
     search,
     type,
@@ -76,6 +78,17 @@ export const findBySearch = async ({
     placeAutorisees,
     departements,
   });
+
+  if (map) {
+    return prisma.structure.findMany({
+      where,
+      select: {
+        id: true,
+        latitude: true,
+        longitude: true,
+      },
+    });
+  }
 
   return prisma.structure.findMany({
     where,

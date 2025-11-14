@@ -8,7 +8,7 @@ import { StructureType } from "@/types/structure.type";
 
 import { useFetchState } from "../context/FetchStateContext";
 
-export const useStructureSearch = () => {
+export const useStructuresSearch = ({ map }: { map?: boolean }) => {
   const [structures, setStructures] = useState<StructureApiType[] | undefined>(
     undefined
   );
@@ -38,7 +38,7 @@ export const useStructureSearch = () => {
       departements: string | null
     ): Promise<{ structures: StructureApiType[]; totalStructures: number }> => {
       console.log("getStructures");
-      setFetchState("structure-search", FetchState.LOADING);
+      setFetchState(`structure-${map ? 'map' : 'search'}`, FetchState.LOADING);
       try {
         const baseUrl = process.env.NEXT_URL || "";
         const params = new URLSearchParams();
@@ -57,28 +57,31 @@ export const useStructureSearch = () => {
         if (placeAutorisees != null) {
           params.append("placeAutorisees", String(placeAutorisees));
         }
-        if (departements) {
+        if (departements && !map) {
           {
             params.append("departements", departements);
           }
+        }
+        if (map) {
+          params.append("map", "true");
         }
         const result = await fetch(
           `${baseUrl}/api/structures?${params.toString()}`
         );
 
         if (!result.ok) {
-          setFetchState("structure-search", FetchState.ERROR);
+          setFetchState(`structure-${map ? 'map' : 'search'}`, FetchState.ERROR);
           throw new Error(`Failed to fetch structures ofii: ${result.status}`);
         }
-        setFetchState("structure-search", FetchState.IDLE);
+        setFetchState(`structure-${map ? 'map' : 'search'}`, FetchState.IDLE);
         return await result.json();
       } catch (error) {
         console.error("Error fetching structures ofii:", error);
-        setFetchState("structure-search", FetchState.ERROR);
+        setFetchState(`structure-${map ? 'map' : 'search'}`, FetchState.ERROR);
         return { structures: [], totalStructures: 0 };
       }
     },
-    [setFetchState]
+    [setFetchState, map]
   );
 
   useEffect(() => {

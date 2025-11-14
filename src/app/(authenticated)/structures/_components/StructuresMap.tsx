@@ -2,16 +2,18 @@
 
 import { ReactElement } from "react";
 
+import { useStructuresSearch } from "@/app/hooks/useStructuresSearch";
 import { getRepartition } from "@/app/utils/structure.util";
-import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { Map } from "../../../components/map/Map";
 import { StructureMarker } from "./StructureMarker";
 
-const StructuresMap = ({ structures }: Props): ReactElement => {
+const StructuresMap = (): ReactElement => {
+  const { structures } = useStructuresSearch({ map: true });
+
   return (
     <Map>
-      {structures.map((structure) => (
+      {structures?.map((structure) => (
         <StructureMarker
           id={structure.id}
           dnaCode={structure.dnaCode}
@@ -19,27 +21,11 @@ const StructuresMap = ({ structures }: Props): ReactElement => {
             Number(structure.latitude || 0),
             Number(structure.longitude || 0),
           ]}
-          operateur={structure.operateur?.name}
-          filiale={structure.filiale}
-          type={structure.type}
-          placesAutorisees={structure.structureTypologies?.[0].placesAutorisees}
-          repartition={getRepartition(structure)}
-          nom={structure.nom}
-          commune={structure.communeAdministrative}
-          codePostal={structure.codePostalAdministratif}
-          departement={structure.departementAdministratif}
-          adresses={structure.adresses || []}
-          debutConvention={structure.debutConvention}
-          finConvention={structure.finConvention}
           key={structure.id}
         />
       ))}
     </Map>
   );
-};
-
-type Props = {
-  structures: StructureApiType[];
 };
 
 export default StructuresMap;
