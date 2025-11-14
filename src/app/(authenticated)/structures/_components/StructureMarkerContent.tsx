@@ -24,7 +24,6 @@ export const StructureMarkerContent = ({ id }: { id: number }) => {
     communeAdministrative,
     departementAdministratif,
     codePostalAdministratif,
-    debutConvention,
     finConvention,
     adresses,
   } = structure;
