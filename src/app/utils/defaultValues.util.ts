@@ -88,6 +88,7 @@ export const getDefaultValues = ({
     placesAFermer: structure.placesAFermer ?? undefined,
     echeancePlacesACreer: structure.echeancePlacesACreer ?? undefined,
     echeancePlacesAFermer: structure.echeancePlacesAFermer ?? undefined,
+    date303: structure.date303 ?? undefined,
     budgets,
     documentsFinanciers,
     actesAdministratifs,
