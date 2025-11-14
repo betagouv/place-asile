@@ -1,9 +1,6 @@
-import { Adresse, Repartition } from "@prisma/client";
+import { Adresse, AdresseTypologie, Repartition } from "@prisma/client";
 
-import {
-  AdresseApiType,
-  AdresseTypologieApiType,
-} from "@/schemas/api/adresse.schema";
+import { AdresseApiType } from "@/schemas/api/adresse.schema";
 
 export const convertToRepartition = (
   repartition: string | undefined
@@ -29,12 +26,12 @@ export const handleAdresses = (
         repartition: convertToRepartition(adresse.repartition),
         structureDnaCode: dnaCode,
         adresseTypologies: adresse.adresseTypologies,
-      }) as AdresseInput
+      }) as unknown as AdresseInput
   );
 };
 
 export type AdresseWithTypologies = Adresse & {
-  adresseTypologies: AdresseTypologieApiType[];
+  adresseTypologies: AdresseTypologie[];
 };
 
 export type AdresseInput = Omit<AdresseWithTypologies, "id"> & {
