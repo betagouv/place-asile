@@ -8,7 +8,8 @@ import { StructureType } from "@/types/structure.type";
 import { FiltersPanel } from "./FiltersPanel";
 
 export const Filters = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
   const [isActive, setIsActive] = useState(false);
 
   const searchParams = useSearchParams();
