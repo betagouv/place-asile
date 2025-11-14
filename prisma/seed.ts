@@ -4,7 +4,11 @@ import { fakerFR as faker } from "@faker-js/faker";
 
 import { StructureType } from "@/types/structure.type";
 
+<<<<<<< HEAD
 import { createPrismaClient } from "./client";
+=======
+import { createFakeCpoms } from "./seeders/cpom.seed";
+>>>>>>> 7beba50 (seed cpoms)
 import { createDepartements } from "./seeders/departements-seed";
 import {
   createFakeFormDefinition,
@@ -53,7 +57,7 @@ export async function seed(): Promise<void> {
   );
 
   for (const operateurToInsert of operateursToInsert) {
-    const structuresToInsert = Array.from({ length: 5 }, () => {
+    const structuresToInsert = Array.from({ length: faker.number.int({ min: 50, max: 100 }) }, () => {
       const fakeStructure = createFakeStuctureWithRelations({
         cpom: faker.datatype.boolean(),
         type: faker.helpers.arrayElement([
@@ -66,7 +70,6 @@ export async function seed(): Promise<void> {
         formDefinitionId: formDefinition.id,
         stepDefinitions,
       });
-      console.log(`🏠 Ajout de la structure ${fakeStructure.dnaCode}...`);
       return fakeStructure;
     });
 
@@ -74,6 +77,9 @@ export async function seed(): Promise<void> {
       ...operateurToInsert,
       structures: structuresToInsert,
     };
+
+    console.log(`🏠 Ajout de ${structuresToInsert.length} structures pour ${operateurToInsert.name}`);
+
     await prisma.operateur.create({
       data: convertToPrismaObject(operateurWithStructures),
     });
@@ -82,7 +88,7 @@ export async function seed(): Promise<void> {
   const operateurs = await prisma.operateur.findMany();
   const departements = await prisma.departement.findMany();
   for (const operateur of operateurs) {
-    const structuresOfiiToInsert = Array.from({ length: 500 }, () => {
+    const structuresOfiiToInsert = Array.from({ length: faker.number.int({ min: 100, max: 300 }) }, () => {
       const fakeStructureOfii = createFakeStructureOfii({
         type: faker.helpers.arrayElement([
           StructureType.CADA,
@@ -93,26 +99,32 @@ export async function seed(): Promise<void> {
         operateurId: operateur.id,
         departementNumero: faker.helpers.arrayElement(departements).numero,
       });
-      console.log(
-        `🏠 Ajout de la structure ofii ${fakeStructureOfii.dnaCode}...`
-      );
       return fakeStructureOfii;
     });
+
+    console.log(`🏠 Ajout de ${structuresOfiiToInsert.length} structures ofii pour ${operateur.name}`);
 
     await prisma.structureOfii.createMany({
       data: structuresOfiiToInsert,
     });
   }
 
-  console.log("📄 Création des relations parent-enfant pour les fichiers...");
-  const structures = await prisma.structure.findMany({ take: 15 });
+  const structures = await prisma.structure.findMany({ take: faker.number.int({ min: 30, max: 50 }) });
+  console.log(`📎 Ajout des fichiers parent-enfant pour ${structures.length} structures`);
 
   for (const structure of structures) {
+<<<<<<< HEAD
     console.log(
       `📎 Ajout des fichiers parent-enfant pour ${structure.dnaCode}...`
     );
     await seedParentChildFileUploads(prisma, structure.dnaCode);
+=======
+    await seedParentChildFileUploads(structure.dnaCode);
+>>>>>>> 7beba50 (seed cpoms)
   }
+
+  console.log("📋 Création des CPOM...");
+  await createFakeCpoms();
 }
 
 seed();
