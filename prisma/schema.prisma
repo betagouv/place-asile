@@ -234,7 +234,7 @@ model FileUpload {
   evaluation         Evaluation?         @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
   evaluationId       Int?
   categoryName       String?
-  parentFileUpload   FileUpload?         @relation("FileUploadToFileUpload", fields: [parentFileUploadId], references: [id], onDelete: SetNull)
+  parentFileUpload   FileUpload?         @relation("FileUploadToFileUpload", fields: [parentFileUploadId], references: [id], onDelete: Cascade) 
   parentFileUploadId Int?
   childFileUploads   FileUpload[]        @relation("FileUploadToFileUpload")
 

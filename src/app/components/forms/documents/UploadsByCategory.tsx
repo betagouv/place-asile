@@ -32,7 +32,8 @@ export default function UploadsByCategory({
     name: "actesAdministratifs",
   });
 
-  const actesAdministratifs = watch("actesAdministratifs") || [];
+  const actesAdministratifs: ActeAdministratifField[] =
+    watch("actesAdministratifs") || [];
 
   let filteredFields: ActeAdministratifField[] = [];
 
@@ -66,14 +67,18 @@ export default function UploadsByCategory({
   };
 
   const handleDeleteField = (index: number) => {
-    remove(index);
-    const avenants = actesAdministratifs.filter(
-      (field: ActeAdministratifField) =>
-        field.parentFileUploadId === actesAdministratifs[index].id
-    );
+    const parent = actesAdministratifs[index];
 
-    avenants.map((avenant: ActeAdministratifField) => {
-      const index = getItemIndex(avenant.uuid);
+    const avenantIndices = actesAdministratifs
+      .map((field, index) => ({ field, index }))
+      .filter(({ field }) => field.parentFileUploadId === parent?.id)
+      .map(({ index }) => index);
+
+    const indicesToRemove = [...avenantIndices, index];
+
+    indicesToRemove.sort((a, b) => b - a);
+
+    indicesToRemove.forEach((index) => {
       remove(index);
     });
 
