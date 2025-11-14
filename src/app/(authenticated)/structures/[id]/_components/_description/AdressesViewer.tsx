@@ -2,7 +2,7 @@
 
 import { ReactElement, useState } from "react";
 
-import { CustomTag } from "@/app/components/ui/CustomTag";
+import { Badge } from "@/app/components/common/Badge";
 import { getRepartition } from "@/app/utils/structure.util";
 import { Repartition } from "@/types/adresse.type";
 
@@ -23,12 +23,12 @@ export const AdressesViewer = (): ReactElement => {
         ({ adresseTypologies }) => adresseTypologies?.[0]?.qpv
       ) && (
         <span className="pr-2">
-          <CustomTag>QPV</CustomTag>
+          <Badge type="purple">QPV</Badge>
         </span>
       )}
       {adresses?.some(
         ({ adresseTypologies }) => adresseTypologies?.[0]?.logementSocial
-      ) && <CustomTag>Logement social</CustomTag>}
+      ) && <Badge type="purple">Logement social</Badge>}
       <button
         className={`fr-btn fr-btn--sm fr-btn--icon-left fr-btn--tertiary-no-outline ${
           showAdresses ? "fr-icon-eye-off-line" : "fr-icon-eye-line"
@@ -57,11 +57,11 @@ export const AdressesViewer = (): ReactElement => {
               </span>
               {adresse.adresseTypologies?.[0]?.qpv !== 0 && (
                 <span className="pr-1">
-                  <CustomTag>QPV</CustomTag>
+                  <Badge type="purple">QPV</Badge>
                 </span>
               )}
               {adresse.adresseTypologies?.[0]?.logementSocial !== 0 && (
-                <CustomTag>Logement social</CustomTag>
+                <Badge type="purple">Logement social</Badge>
               )}
             </div>
           ))}
