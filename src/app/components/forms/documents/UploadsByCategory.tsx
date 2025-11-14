@@ -69,17 +69,18 @@ export default function UploadsByCategory({
   const handleDeleteField = (index: number) => {
     const parent = actesAdministratifs[index];
 
-    const avenantUuids = actesAdministratifs
-      .filter((field) => field.parentFileUploadId === parent?.id)
-      .map((field) => field.uuid);
+    const avenantIndices = actesAdministratifs
+      .map((field, index) => ({ field, index }))
+      .filter(({ field }) => field.parentFileUploadId === parent?.id)
+      .map(({ index }) => index);
 
-    avenantUuids.forEach((uuid) => {
-      const avenantIndex = getItemIndex(uuid);
-      remove(avenantIndex);
+    const indicesToRemove = [...avenantIndices, index];
+
+    indicesToRemove.sort((a, b) => b - a);
+
+    indicesToRemove.forEach((index) => {
+      remove(index);
     });
-
-    const parentIndex = getItemIndex(parent.uuid);
-    remove(parentIndex);
 
     refreshFields();
   };
