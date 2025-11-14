@@ -8,6 +8,7 @@ import {
   getPlacesByCommunes,
   getRepartition,
 } from "@/app/utils/structure.util";
+import { DEPARTEMENTS } from "@/constants";
 
 import { RepartitionBadge } from "./RepartitionBadge";
 export const StructureMarkerContent = ({ id }: { id: number }) => {
@@ -30,7 +31,9 @@ export const StructureMarkerContent = ({ id }: { id: number }) => {
 
   const placesAutorisees = getCurrentPlacesAutorisees(structure);
   const repartition = getRepartition(structure);
-
+  const departementLabel = DEPARTEMENTS.find(
+    (departement) => departement.numero === departementAdministratif
+  )?.name;
   const getCommunesLabel = (): ReactElement => {
     const placesByCommunes = getPlacesByCommunes(adresses);
     return (
@@ -52,13 +55,12 @@ export const StructureMarkerContent = ({ id }: { id: number }) => {
     <div>
       <div className="text-xl text-title-blue-france m-0 flex gap-x-4 flex-wrap">
         <strong className="">
-          {type} - {getOperateurLabel(filiale, operateur?.name)}
+          {type}, {getOperateurLabel(filiale, operateur?.name)}
         </strong>
         <span>{placesAutorisees}&nbsp;places</span>
       </div>
       <div className="text-base text-title-blue-france">
-        {nom ? `${nom}, ` : ""}
-        {communeAdministrative}, {departementAdministratif} (
+        {communeAdministrative}, {departementLabel} (
         {codePostalAdministratif.substring(0, 2)})
       </div>
       {finConvention && (
