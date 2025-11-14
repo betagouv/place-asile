@@ -1,15 +1,20 @@
 import { ContactType } from "@prisma/client";
 
-import prisma from "@/lib/prisma";
 import { ContactApiType } from "@/schemas/api/contact.schema";
+import { PrismaTransaction } from "@/types/prisma.type";
 
 export const createOrUpdateContacts = async (
+  tx: PrismaTransaction,
   contacts: Partial<ContactApiType>[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
+  if (!contacts || contacts.length === 0) {
+    return;
+  }
+
   await Promise.all(
     (contacts || []).map((contact) => {
-      return prisma.contact.upsert({
+      return tx.contact.upsert({
         where: {
           structureDnaCode_type: {
             structureDnaCode: structureDnaCode,

@@ -1,13 +1,14 @@
-import prisma from "@/lib/prisma";
 import { ControleApiType } from "@/schemas/api/controle.schema";
+import { PrismaTransaction } from "@/types/prisma.type";
 
-import { convertToControleType } from "../structures/structure.util";
+import { convertToControleType } from "./controle.util";
 
 const deleteControles = async (
+  tx: PrismaTransaction,
   controlesToKeep: ControleApiType[],
   structureDnaCode: string
 ): Promise<void> => {
-  const allControles = await prisma.controle.findMany({
+  const allControles = await tx.controle.findMany({
     where: { structureDnaCode: structureDnaCode },
   });
   const controlesToDelete = allControles.filter(
@@ -18,12 +19,13 @@ const deleteControles = async (
   );
   await Promise.all(
     controlesToDelete.map((controle) =>
-      prisma.controle.delete({ where: { id: controle.id } })
+      tx.controle.delete({ where: { id: controle.id } })
     )
   );
 };
 
 export const createOrUpdateControles = async (
+  tx: PrismaTransaction,
   controles: ControleApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
@@ -31,11 +33,11 @@ export const createOrUpdateControles = async (
     return;
   }
 
-  deleteControles(controles, structureDnaCode);
+  deleteControles(tx, controles, structureDnaCode);
 
   await Promise.all(
     (controles || []).map((controle) => {
-      return prisma.controle.upsert({
+      return tx.controle.upsert({
         where: { id: controle.id || 0 },
         update: {
           type: convertToControleType(controle.type),

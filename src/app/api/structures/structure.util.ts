@@ -1,26 +1,4 @@
-import {
-  Adresse,
-  ControleType,
-  PublicType,
-  Repartition,
-  StructureType,
-} from "@prisma/client";
-
-import {
-  AdresseApiType,
-  AdresseTypologieApiType,
-} from "@/schemas/api/adresse.schema";
-
-export const convertToRepartition = (
-  repartition: string | undefined
-): Repartition => {
-  const repartitions: Record<string, Repartition> = {
-    Diffus: Repartition.DIFFUS,
-    Collectif: Repartition.COLLECTIF,
-    Mixte: Repartition.MIXTE,
-  };
-  return repartitions[repartition?.trim() ?? ""];
-};
+import { PublicType, StructureType } from "@prisma/client";
 
 export const convertToPublicType = (
   typePublic: string | null | undefined
@@ -46,41 +24,4 @@ export const convertToStructureType = (
     PRAHDA: StructureType.PRAHDA,
   };
   return typesStructures[structureType.trim()];
-};
-
-export const convertToControleType = (
-  controleType: string | undefined
-): ControleType => {
-  if (!controleType) return ControleType.INOPINE;
-  const typesControles: Record<string, ControleType> = {
-    Inopiné: ControleType.INOPINE,
-    Programmé: ControleType.PROGRAMME,
-  };
-  return typesControles[controleType.trim()];
-};
-
-export const handleAdresses = (
-  dnaCode: string,
-  adresses: AdresseApiType[]
-): AdresseInput[] => {
-  return adresses.map(
-    (adresse) =>
-      ({
-        adresse: adresse.adresse,
-        codePostal: adresse.codePostal,
-        commune: adresse.commune,
-        repartition: convertToRepartition(adresse.repartition),
-        structureDnaCode: dnaCode,
-        adresseTypologies: adresse.adresseTypologies,
-      }) as AdresseInput
-  );
-};
-
-export type AdresseWithTypologies = Adresse & {
-  adresseTypologies: AdresseTypologieApiType[];
-};
-
-type AdresseInput = Omit<AdresseWithTypologies, "id"> & {
-  createdAt?: Date;
-  updatedAt?: Date;
 };
