@@ -8,14 +8,14 @@ import { singleMarkerIcon } from "../../../components/map/SingleMarker";
 import { StructureMarkerContent } from "./StructureMarkerContent";
 
 export const StructureMarker = ({ id, coordinates }: Props): ReactElement => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const popupRef = useRef<L.Popup | null>(null);
   const map = useMap();
 
   useEffect(() => {
     const handlePopupOpen = (e: L.PopupEvent) => {
       if (e.popup === popupRef.current) {
-        setOpen(true);
+        setIsOpen(true);
       }
     };
 
@@ -32,7 +32,7 @@ export const StructureMarker = ({ id, coordinates }: Props): ReactElement => {
         className="[&>div]:rounded-none! [&>div>div]:m-6!"
         closeButton={false}
       >
-        {open && <StructureMarkerContent id={id} />}
+        {isOpen && <StructureMarkerContent id={id} />}
         <div className="w-xl!" />
       </Popup>
     </Marker>

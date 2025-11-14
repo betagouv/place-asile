@@ -4,13 +4,17 @@ import { useState } from "react";
 import { FiltersPanel } from "./FiltersPanel";
 
 export const Filters = () => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="relative">
-      <Button priority="tertiary" size="small" onClick={() => setOpen(!open)}>
+      <Button
+        priority="tertiary"
+        size="small"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <span className="fr-icon-filter-line fr-icon--sm"></span> Filtres
       </Button>
-      {open && <FiltersPanel />}
+      {isOpen && <FiltersPanel />}
     </div>
   );
 };
