@@ -21,21 +21,21 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
     <tr
       id={`table-row-key-${index}`}
       data-row-key={index}
-      className="border-t-1 border-default-grey"
+      className={`border-t border-default-grey ${isStructureFinalisee ? "bg-transparent" : "bg-alt-blue-france"}`}
     >
-      <td>{structure.dnaCode}</td>
-      <td>{structure.type}</td>
-      <td>{getOperateurLabel(structure.filiale, structure.operateur?.name)}</td>
-      <td>{structure.structureTypologies?.[0].placesAutorisees}</td>
-      <td>
+      <td className="text-left!">{structure.dnaCode}</td>
+      <td className="text-left!">{structure.type}</td>
+      <td className="text-left!">
+        {getOperateurLabel(structure.filiale, structure.operateur?.name)}
+      </td>
+      <td>{structure.departementAdministratif}</td>
+      <td className="text-left!">
         <RepartitionBadge repartition={getRepartition(structure)} />
       </td>
-      <td>{getCommuneLabel(structure)}</td>
-      {structure.debutConvention && structure.finConvention ? (
-        <td>
-          {formatDate(structure.debutConvention)} -{" "}
-          {formatDate(structure.finConvention)}
-        </td>
+      <td className="text-left!">{getCommuneLabel(structure)}</td>
+      <td>{structure.structureTypologies?.[0].placesAutorisees}</td>
+      {structure.finConvention ? (
+        <td className="text-left!">{formatDate(structure.finConvention)}</td>
       ) : (
         <EmptyCell />
       )}
@@ -74,7 +74,7 @@ const getCommuneLabel = (structure: StructureApiType) => {
       {mainCommune && communesWithoutMainCommune.length > 0 && (
         <span className="underline text-mention-grey inline-flex ms-1">
           <Tooltip title={communesWithoutMainCommune.join(", ")}>
-            {communesWithoutMainCommune.length} autres
+            + {communesWithoutMainCommune.length}
           </Tooltip>
         </span>
       )}

@@ -4,8 +4,7 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ReactElement } from "react";
-import { useEffect, useRef } from "react";
+import { ReactElement, useEffect, useRef } from "react";
 
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getFinalisationFormStatus } from "@/app/utils/finalisationForm.util";
@@ -25,7 +24,7 @@ const finalisationSuccessModal = createModal({
   isOpenedByDefault: false,
 });
 
-export function StructureHeader(): ReactElement | null {
+export const StructureHeader = (): ReactElement | null => {
   const { structure } = useStructureContext();
 
   const isStructureFinalisee = getFinalisationFormStatus(structure);
@@ -156,4 +155,4 @@ export function StructureHeader(): ReactElement | null {
       </finalisationSuccessModal.Component>
     </>
   ) : null;
-}
+};

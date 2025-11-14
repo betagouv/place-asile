@@ -8,6 +8,7 @@ import {
 } from "@/types/structure.type";
 
 export const createStructure = ({
+  id,
   adresseAdministrative,
   adresses,
   type,
@@ -17,9 +18,9 @@ export const createStructure = ({
   structureTypologies,
 }: CreateStructuresArgs): StructureApiType => {
   return {
-    id: 1,
-    dnaCode: "C0001",
-    operateur: { structureDnaCode: "C0001", id: 1, name: "Adoma" },
+    id,
+    dnaCode: `C000${id}`,
+    operateur: { structureDnaCode: `C000${id}`, id: 1, name: "Adoma" },
     filiale: undefined,
     type: type ?? StructureType.CADA,
     placesACreer: 3,
@@ -56,6 +57,7 @@ export const createStructure = ({
 };
 
 type CreateStructuresArgs = {
+  id: number;
   adresseAdministrative?: string;
   structureTypologies?: StructureTypologieApiType[];
   adresses?: AdresseApiType[];
