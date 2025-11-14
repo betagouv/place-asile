@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 import { FetchState } from "@/types/fetch-state.type";
 
@@ -16,9 +16,9 @@ export function FetchStateProvider({
     new Map()
   );
 
-  const setFetchState = (key: string, state: FetchState) => {
+  const setFetchState = useCallback((key: string, state: FetchState) => {
     setFetchStates((prev) => new Map(prev).set(key, state));
-  };
+  }, []);
 
   const getFetchState = (key: string) => {
     return fetchStates.get(key) || FetchState.IDLE;

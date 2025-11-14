@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, StructureType } from "@prisma/client";
 
 import {
   ActeAdministratifCategory,
@@ -45,4 +45,153 @@ export const divideFileUploads = (
     ),
     fileUploads: undefined,
   };
+};
+
+export const getStructureSearchWhere = ({
+  search,
+  type,
+  bati,
+  placeAutorisees,
+  departements,
+}: {
+  search: string | null;
+  type: string | null;
+  bati: string | null;
+  placeAutorisees: string | null;
+  departements: string | null;
+}): Prisma.StructureWhereInput => {
+  const where: Prisma.StructureWhereInput = {};
+  if (type) {
+    where.type = {
+      equals: type as StructureType,
+    };
+  }
+
+  if (departements) {
+    const departementList = departements.split(",").filter(Boolean);
+    if (departementList.length > 0) {
+      where.departementAdministratif = {
+        in: departementList,
+      };
+    }
+  }
+
+  console.log("placeAutorisees", placeAutorisees);
+
+  if (search) {
+    where.OR = [
+      {
+        dnaCode: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        finessCode: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        nom: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        departementAdministratif: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        communeAdministrative: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        codePostalAdministratif: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        adresses: {
+          some: {
+            commune: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+      },
+      {
+        operateur: {
+          name: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      },
+    ];
+  }
+
+  if (bati) {
+    const batiValue = bati.toUpperCase();
+    if (batiValue === "MIXTE") {
+      where.AND = [
+        {
+          adresses: {
+            some: {
+              repartition: "DIFFUS",
+            },
+          },
+        },
+        {
+          adresses: {
+            some: {
+              repartition: "COLLECTIF",
+            },
+          },
+        },
+      ];
+    } else if (batiValue === "DIFFUS") {
+      where.AND = [
+        {
+          adresses: {
+            some: {
+              repartition: "DIFFUS",
+            },
+          },
+        },
+        {
+          adresses: {
+            none: {
+              repartition: "COLLECTIF",
+            },
+          },
+        },
+      ];
+    } else if (batiValue === "COLLECTIF") {
+      where.AND = [
+        {
+          adresses: {
+            some: {
+              repartition: "COLLECTIF",
+            },
+          },
+        },
+        {
+          adresses: {
+            none: {
+              repartition: "DIFFUS",
+            },
+          },
+        },
+      ];
+    }
+  }
+
+  return where;
 };
