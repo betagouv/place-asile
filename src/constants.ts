@@ -6,7 +6,7 @@ import { Departement } from "./types/departement.type";
 export const FRANCE_CENTER: LatLngTuple = [46.6055983, 1.8750922];
 export const DEFAULT_MAP_ZOOM = 6;
 
-export const DEFAULT_PAGE_SIZE = 10;
+export const DEFAULT_PAGE_SIZE = 40;
 
 // Cookie expiration times
 export const ONE_WEEK_IN_SECONDS = 60 * 60 * 24 * 7;
