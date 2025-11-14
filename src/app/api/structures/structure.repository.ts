@@ -60,7 +60,7 @@ type SearchProps = {
   bati: string | null;
   placeAutorisees: string | null;
   departements: string | null;
-  map: boolean;
+  map?: boolean;
 };
 export const findBySearch = async ({
   search,

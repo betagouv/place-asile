@@ -3,7 +3,6 @@
 import { ReactElement } from "react";
 
 import { useStructuresSearch } from "@/app/hooks/useStructuresSearch";
-import { getRepartition } from "@/app/utils/structure.util";
 
 import { Map } from "../../../components/map/Map";
 import { StructureMarker } from "./StructureMarker";

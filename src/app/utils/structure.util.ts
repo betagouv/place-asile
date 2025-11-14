@@ -75,6 +75,12 @@ const getCurrentPlacesByProperty = (
   return placesByAccessor || 0;
 };
 
+export const getCurrentPlacesAutorisees = (
+  structure: StructureApiType
+): number => {
+  return getCurrentPlacesByProperty(structure, "placesAutorisees");
+};
+
 export const getCurrentPlacesQpv = (structure: StructureApiType): number => {
   return getCurrentPlacesByProperty(structure, "qpv");
 };

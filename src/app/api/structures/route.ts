@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
     "placeAutorisees"
   ) as string | null;
   const departements = request.nextUrl.searchParams.get("departements");
+  const map = request.nextUrl.searchParams.get("map") === "true";
   const structures = await findBySearch({
     search,
     page,
@@ -28,6 +29,7 @@ export async function GET(request: NextRequest) {
     bati,
     placeAutorisees,
     departements,
+    map,
   });
   const totalStructures = await countBySearch({
     search,
