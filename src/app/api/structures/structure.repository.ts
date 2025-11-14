@@ -75,7 +75,6 @@ export const findBySearch = async ({
     search,
     type,
     bati,
-    placesAutorisees,
     departements,
   });
 
@@ -138,7 +137,6 @@ export const countBySearch = async ({
     search,
     type,
     bati,
-    placesAutorisees,
     departements,
   });
   const structureIdsFilteredByPlacesAutorisees =
