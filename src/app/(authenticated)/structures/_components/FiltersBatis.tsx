@@ -14,11 +14,11 @@ export const FiltersBatis = () => {
     const value = event.target.value;
     if (noBatiSelected) {
       const everyTypes = ["COLLECTIF", "DIFFUS", "MIXTE"];
-      setBati(everyTypes.filter((t) => t !== value));
+      setBati(everyTypes.filter((type) => type !== value));
       return;
     }
     if (bati.includes(value)) {
-      setBati(bati.filter((t) => t !== value));
+      setBati(bati.filter((type) => type !== value));
     } else {
       if (bati.length >= 2) {
         setBati([]);
@@ -30,8 +30,6 @@ export const FiltersBatis = () => {
 
   const prevBati = useRef(bati);
   useEffect(() => {
-    console.log("bati", bati);
-    console.log("prevBati", prevBati.current);
     if (prevBati.current !== bati) {
       const params = new URLSearchParams(Array.from(searchParams.entries()));
       params.set("bati", bati.join(","));

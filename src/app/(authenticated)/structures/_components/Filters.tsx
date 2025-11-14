@@ -44,7 +44,7 @@ export const Filters = () => {
         </span>{" "}
         Filtres
       </Button>
-      {isOpen && <FiltersPanel />}
+      {isOpen && <FiltersPanel setIsOpen={setIsOpen} />}
     </div>
   );
 };

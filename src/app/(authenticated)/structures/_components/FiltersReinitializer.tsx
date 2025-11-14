@@ -1,11 +1,10 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
 
 export const FiltersReinitializer = ({
-  setKey,
+  setIsOpen,
 }: {
-  setKey: (key: string) => void;
+  setIsOpen: (isOpen: boolean) => void;
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -17,9 +16,9 @@ export const FiltersReinitializer = ({
     params.delete("bati");
     params.delete("places");
     params.delete("departements");
-    console.log("params", params.toString());
+
     router.replace(`?${params.toString()}`);
-    setKey(uuidv4());
+    setIsOpen(false);
   };
 
   return (
