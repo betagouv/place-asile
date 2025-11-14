@@ -13,12 +13,7 @@ export const createControle = ({
     fileUploads: [
       {
         id: 1,
-        date: new Date("01/02/2022").toISOString(),
-        fileSize: 42,
         key: "uuid-1234.pdf",
-        category: "INSPECTION_CONTROLE",
-        mimeType: "application/pdf",
-        originalName: "1234.pdf",
       },
     ],
   };
