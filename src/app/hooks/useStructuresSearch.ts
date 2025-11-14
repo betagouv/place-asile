@@ -25,7 +25,7 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
   const bati: Repartition | null = searchParams.get(
     "bati"
   ) as Repartition | null;
-  const placeAutorisees: string | null = searchParams.get("placeAutorisees");
+  const places: string | null = searchParams.get("places");
   const departements: string | null = searchParams.get("departements");
 
   const getStructures = useCallback(
@@ -34,11 +34,11 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
       search: string | null,
       type: StructureType | null,
       bati: Repartition | null,
-      placeAutorisees: string | null,
+      places: string | null,
       departements: string | null
     ): Promise<{ structures: StructureApiType[]; totalStructures: number }> => {
       console.log("getStructures");
-      setFetchState(`structure-${map ? 'map' : 'search'}`, FetchState.LOADING);
+      setFetchState(`structure-${map ? "map" : "search"}`, FetchState.LOADING);
       try {
         const baseUrl = process.env.NEXT_URL || "";
         const params = new URLSearchParams();
@@ -54,8 +54,8 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
         if (bati) {
           params.append("bati", bati);
         }
-        if (placeAutorisees != null) {
-          params.append("placeAutorisees", String(placeAutorisees));
+        if (places != null) {
+          params.append("places", String(places));
         }
         if (departements && !map) {
           {
@@ -70,14 +70,17 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
         );
 
         if (!result.ok) {
-          setFetchState(`structure-${map ? 'map' : 'search'}`, FetchState.ERROR);
+          setFetchState(
+            `structure-${map ? "map" : "search"}`,
+            FetchState.ERROR
+          );
           throw new Error(`Failed to fetch structures ofii: ${result.status}`);
         }
-        setFetchState(`structure-${map ? 'map' : 'search'}`, FetchState.IDLE);
+        setFetchState(`structure-${map ? "map" : "search"}`, FetchState.IDLE);
         return await result.json();
       } catch (error) {
         console.error("Error fetching structures ofii:", error);
-        setFetchState(`structure-${map ? 'map' : 'search'}`, FetchState.ERROR);
+        setFetchState(`structure-${map ? "map" : "search"}`, FetchState.ERROR);
         return { structures: [], totalStructures: 0 };
       }
     },
@@ -91,7 +94,7 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
         search,
         type,
         bati,
-        placeAutorisees,
+        places,
         departements
       );
       setStructures(structures);
@@ -99,7 +102,7 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
     };
 
     fetchStructures();
-  }, [page, search, type, bati, placeAutorisees, departements, getStructures]);
+  }, [page, search, type, bati, places, departements, getStructures]);
 
   return {
     structures,

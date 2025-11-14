@@ -51,13 +51,13 @@ export const getStructureSearchWhere = ({
   search,
   type,
   bati,
-  placeAutorisees,
+  placesAutorisees,
   departements,
 }: {
   search: string | null;
   type: string | null;
   bati: string | null;
-  placeAutorisees: string | null;
+  placesAutorisees: string | null;
   departements: string | null;
 }): Prisma.StructureWhereInput => {
   const where: Prisma.StructureWhereInput = {};
@@ -79,7 +79,7 @@ export const getStructureSearchWhere = ({
     }
   }
 
-  console.log("placeAutorisees", placeAutorisees);
+  console.log("placesAutorisees", placesAutorisees);
 
   if (search) {
     where.OR = [

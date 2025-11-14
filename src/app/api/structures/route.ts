@@ -17,9 +17,9 @@ export async function GET(request: NextRequest) {
   const page = request.nextUrl.searchParams.get("page") as number | null;
   const type = request.nextUrl.searchParams.get("type");
   const bati = request.nextUrl.searchParams.get("bati");
-  const placeAutorisees = request.nextUrl.searchParams.get(
-    "placeAutorisees"
-  ) as string | null;
+  const placesAutorisees = request.nextUrl.searchParams.get("places") as
+    | string
+    | null;
   const departements = request.nextUrl.searchParams.get("departements");
   const map = request.nextUrl.searchParams.get("map") === "true";
   const structures = await findBySearch({
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     page,
     type,
     bati,
-    placeAutorisees,
+    placesAutorisees,
     departements,
     map,
   });
@@ -36,9 +36,10 @@ export async function GET(request: NextRequest) {
     page,
     type,
     bati,
-    placeAutorisees,
+    placesAutorisees,
     departements,
   });
+
   return NextResponse.json({ structures, totalStructures });
 }
 

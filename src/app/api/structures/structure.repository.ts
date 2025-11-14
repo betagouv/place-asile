@@ -58,7 +58,7 @@ type SearchProps = {
   page: number | null;
   type: string | null;
   bati: string | null;
-  placeAutorisees: string | null;
+  placesAutorisees: string | null;
   departements: string | null;
   map?: boolean;
 };
@@ -67,7 +67,7 @@ export const findBySearch = async ({
   page,
   type,
   bati,
-  placeAutorisees,
+  placesAutorisees,
   departements,
   map,
 }: SearchProps): Promise<Partial<Structure>[]> => {
@@ -75,9 +75,17 @@ export const findBySearch = async ({
     search,
     type,
     bati,
-    placeAutorisees,
+    placesAutorisees,
     departements,
   });
+
+  const structureIdsFilteredByPlacesAutorisees =
+    await getStructureIdsByPlacesAutorisees(placesAutorisees);
+  if (structureIdsFilteredByPlacesAutorisees) {
+    where.id = {
+      in: structureIdsFilteredByPlacesAutorisees,
+    };
+  }
 
   if (map) {
     return prisma.structure.findMany({
@@ -123,18 +131,101 @@ export const countBySearch = async ({
   search,
   type,
   bati,
-  placeAutorisees,
+  placesAutorisees,
   departements,
 }: SearchProps): Promise<number> => {
   const where = getStructureSearchWhere({
     search,
     type,
     bati,
-    placeAutorisees,
+    placesAutorisees,
     departements,
   });
+  const structureIdsFilteredByPlacesAutorisees =
+    await getStructureIdsByPlacesAutorisees(placesAutorisees);
+  if (structureIdsFilteredByPlacesAutorisees) {
+    where.id = {
+      in: structureIdsFilteredByPlacesAutorisees,
+    };
+  }
   return prisma.structure.count({ where });
 };
+
+export const getMaxPlacesAutorisees = async (): Promise<number> => {
+  const structures = await prisma.structure.findMany({
+    include: {
+      adresses: {
+        include: {
+          adresseTypologies: {},
+        },
+      },
+    },
+  });
+  return structures.reduce((max, structure) => {
+    return Math.max(
+      max,
+      structure.adresses.reduce((max, adresse) => {
+        return max + adresse.adresseTypologies[0].placesAutorisees;
+      }, 0)
+    );
+  }, 0);
+};
+
+const getStructureIdsByPlacesAutorisees = async (
+  placesAutorisees: string | null
+): Promise<number[] | null> => {
+  if (!placesAutorisees) {
+    return null;
+  }
+
+  const [minStr, maxStr] = placesAutorisees.split(",");
+  const min = minStr ? parseInt(minStr, 10) : null;
+  const max = maxStr ? parseInt(maxStr, 10) : null;
+
+  if (min === null && max === null) {
+    return null;
+  }
+
+  const result = await prisma.$queryRaw<Array<{ id: number }>>`
+    SELECT s.id
+    FROM "Structure" s
+    LEFT JOIN "Adresse" a ON a."structureDnaCode" = s."dnaCode"
+    LEFT JOIN LATERAL (
+      SELECT aty."placesAutorisees"
+      FROM "AdresseTypologie" aty
+      WHERE aty."adresseId" = a.id
+      ORDER BY aty."date" DESC
+      LIMIT 1
+    ) latest_typology ON true
+    GROUP BY s.id
+    HAVING 
+      COALESCE(SUM(latest_typology."placesAutorisees"), 0) >= COALESCE(${min}, 0)
+      AND COALESCE(SUM(latest_typology."placesAutorisees"), 0) <= COALESCE(${max}, 999999)
+  `;
+
+  return result.map((r) => r.id);
+};
+
+export const getMinPlacesAutorisees = async (): Promise<number> => {
+  const structures = await prisma.structure.findMany({
+    include: {
+      adresses: {
+        include: {
+          adresseTypologies: {},
+        },
+      },
+    },
+  });
+  return structures.reduce((min, structure) => {
+    return Math.min(
+      min,
+      structure.adresses.reduce((min, adresse) => {
+        return Math.min(min, adresse.adresseTypologies[0].placesAutorisees);
+      }, Infinity)
+    );
+  }, Infinity);
+};
+
 export const findOne = async (id: number): Promise<Structure> => {
   const structure = await prisma.structure.findFirstOrThrow({
     where: {

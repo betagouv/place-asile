@@ -54,7 +54,7 @@ export default function Structures(): ReactElement {
         <div className="grow" />
         <SearchBar />
         <Filters />
-        <p className="pl-3 text-mention-grey mb-0">
+        <p className="pl-3 text-mention-grey mb-0 min-w-28 text-right">
           {totalStructures} entrée
           {totalStructures > 1 ? "s" : ""}
         </p>

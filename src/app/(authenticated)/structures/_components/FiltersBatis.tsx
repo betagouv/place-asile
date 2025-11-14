@@ -20,12 +20,18 @@ export const FiltersBatis = () => {
     if (bati.includes(value)) {
       setBati(bati.filter((t) => t !== value));
     } else {
-      setBati([...bati, value]);
+      if (bati.length >= 2) {
+        setBati([]);
+      } else {
+        setBati([...bati, value]);
+      }
     }
   };
 
   const prevBati = useRef(bati);
   useEffect(() => {
+    console.log("bati", bati);
+    console.log("prevBati", prevBati.current);
     if (prevBati.current !== bati) {
       const params = new URLSearchParams(Array.from(searchParams.entries()));
       params.set("bati", bati.join(","));

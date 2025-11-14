@@ -20,7 +20,11 @@ export const FiltersTypes = () => {
     if (type.includes(value)) {
       setType(type.filter((t) => t !== value));
     } else {
-      setType([...type, value]);
+      if (type.length >= 4) {
+        setType([]);
+      } else {
+        setType([...type, value]);
+      }
     }
   };
 

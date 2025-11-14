@@ -1,39 +1,52 @@
+import { Range } from "@codegouvfr/react-dsfr/Range";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useDebounceCallback } from "@/app/hooks/useDebounceCallback";
+import { useMaxPlacesAutorisees } from "@/app/hooks/useMaxPlacesAutorisees";
+
+const DEBOUNCE_TIME = 300;
 
 export const FiltersPlacesAutorisees = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const { maxPlacesAutorisees, minPlacesAutorisees } = useMaxPlacesAutorisees();
+
   const [placesAutorisees, setPlacesAutorisees] = useState(
-    searchParams.get("placesAutorisees")?.split(",") || []
+    searchParams.get("places")?.split(",").map(Number) || []
   );
 
   const noPlacesAutoriseesSelected = placesAutorisees.length === 0;
 
-  const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    if (noPlacesAutoriseesSelected) {
-      const everyTypes = ["COLLECTIF", "DIFFUS", "MIXTE"];
-      setPlacesAutorisees(everyTypes.filter((t) => t !== value));
+  const handlePlacesAutoriseesChange = (index: number, value: number) => {
+    if (noPlacesAutoriseesSelected || placesAutorisees.length === 1) {
+      const baseplacesAutorisees = [minPlacesAutorisees, maxPlacesAutorisees];
+      baseplacesAutorisees[index] = value;
+      setPlacesAutorisees(baseplacesAutorisees);
       return;
     }
-    if (placesAutorisees.includes(value)) {
-      setPlacesAutorisees(placesAutorisees.filter((t) => t !== value));
-    } else {
-      setPlacesAutorisees([...placesAutorisees, value]);
+    const newPlacesAutorisees = [...placesAutorisees];
+    newPlacesAutorisees[index] = value;
+    if (
+      newPlacesAutorisees[0] === minPlacesAutorisees &&
+      newPlacesAutorisees[1] === maxPlacesAutorisees
+    ) {
+      setPlacesAutorisees([]);
+      return;
     }
+    setPlacesAutorisees(newPlacesAutorisees);
   };
 
-  const prevPlacesAutorisees = useRef(placesAutorisees);
+  const handlePlacesAutoriseesUpdate = useDebounceCallback((): void => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    params.set("places", placesAutorisees.join(","));
+    router.replace(`?${params.toString()}`);
+  }, DEBOUNCE_TIME);
+
   useEffect(() => {
-    if (prevPlacesAutorisees.current !== placesAutorisees) {
-      const params = new URLSearchParams(Array.from(searchParams.entries()));
-      params.set("placesAutorisees", placesAutorisees.join(","));
-      router.replace(`?${params.toString()}`);
-      prevPlacesAutorisees.current = placesAutorisees;
-    }
-  }, [placesAutorisees, searchParams, router]);
+    handlePlacesAutoriseesUpdate();
+  }, [placesAutorisees, handlePlacesAutoriseesUpdate]);
 
   return (
     <div className="px-4 pt-3 pb-4">
@@ -41,7 +54,24 @@ export const FiltersPlacesAutorisees = () => {
         <legend className="text-title-blue-france text-sm font-medium mb-4">
           Places autorisées
         </legend>
-        <div className="grid grid-cols-3 gap-x-3 gap-y-2">Slider</div>
+        <Range
+          double
+          label=""
+          max={maxPlacesAutorisees}
+          min={minPlacesAutorisees}
+          nativeInputProps={[
+            {
+              value: placesAutorisees[0] ?? minPlacesAutorisees,
+              onChange: (e) =>
+                handlePlacesAutoriseesChange(0, Number(e.target.value)),
+            },
+            {
+              value: placesAutorisees[1] ?? maxPlacesAutorisees,
+              onChange: (e) =>
+                handlePlacesAutoriseesChange(1, Number(e.target.value)),
+            },
+          ]}
+        />
       </fieldset>
     </div>
   );
