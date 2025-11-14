@@ -43,8 +43,7 @@ export const createOrUpdateControles = async (
           type: convertToControleType(controle.type),
           date: controle.date,
           fileUploads: {
-            // TODO : refactor to use array of fileUploads instead of fileUploadKey
-            connect: { key: controle.fileUploadKey },
+            connect: controle.fileUploads,
           },
         },
         create: {
@@ -52,7 +51,7 @@ export const createOrUpdateControles = async (
           type: convertToControleType(controle.type),
           date: controle.date!,
           fileUploads: {
-            connect: { key: controle.fileUploadKey },
+            connect: controle.fileUploads,
           },
         },
       });
