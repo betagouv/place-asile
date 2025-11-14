@@ -10,6 +10,7 @@ import { useStructuresSearch } from "@/app/hooks/useStructuresSearch";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { SegmentedControl } from "../../components/common/SegmentedControl";
+import { Filters } from "./_components/Filters";
 import { SearchBar } from "./_components/SearchBar";
 import { StructuresTable } from "./_components/StructuresTable";
 
@@ -52,6 +53,7 @@ export default function Structures(): ReactElement {
         </SegmentedControl>
         <div className="grow" />
         <SearchBar />
+        <Filters />
         <p className="pl-3 text-mention-grey mb-0">
           {totalStructures} entrée
           {totalStructures > 1 ? "s" : ""}
