@@ -7,8 +7,8 @@ import {
   FormStep,
   Prisma,
   PublicType,
+  StepStatus,
   Structure,
-  StructureState,
   StructureTypologie,
 } from "@prisma/client";
 
@@ -26,7 +26,10 @@ import { createFakeStructureTypologie } from "./structure-typologie.seed";
 
 let counter = 1;
 
-const generateDnaCode = ({ cpom, type }: FakeStructureOptions): string => {
+const generateDnaCode = ({
+  cpom,
+  type,
+}: Pick<FakeStructureOptions, "cpom" | "type">): string => {
   const cpomLabel = cpom ? "CPOM" : "SANS_CPOM";
   return `${type}-${cpomLabel}-${counter++}`;
 };
@@ -34,7 +37,6 @@ const generateDnaCode = ({ cpom, type }: FakeStructureOptions): string => {
 const createFakeStructure = ({
   cpom,
   type,
-  state,
 }: FakeStructureOptions): Omit<Structure, "id" | "operateurId"> => {
   const [debutConvention, finConvention] = generateDatePair();
   const [debutPeriodeAutorisation, finPeriodeAutorisation] = generateDatePair();
@@ -46,15 +48,10 @@ const createFakeStructure = ({
     dnaCode: generateDnaCode({
       cpom,
       type,
-      state,
     }),
-    // TODO : remove, deprecated
-    oldOperateur: "Ancien opérateur : à supprimer",
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
     type,
-    // TODO : remove, deprecated
-    oldNbPlaces: -1,
     adresseAdministrative: faker.location.streetAddress(),
     communeAdministrative: faker.location.city(),
     codePostalAdministratif: faker.location.zipCode(),
@@ -86,7 +83,6 @@ const createFakeStructure = ({
     echeancePlacesACreer: faker.date.future(),
     echeancePlacesAFermer: faker.date.future(),
     notes: faker.lorem.lines(2),
-    state,
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
   };
@@ -110,15 +106,23 @@ type StructureWithRelations = Structure & {
 export const createFakeStuctureWithRelations = ({
   cpom,
   type,
-  state,
+  isFinalised,
   formDefinitionId,
   stepDefinitionIds,
 }: FakeStructureOptions & {
   formDefinitionId: number;
   stepDefinitionIds: number[];
 }): Omit<StructureWithRelations, "id"> => {
-  const fakeStructure = createFakeStructure({ cpom, type, state });
+  const fakeStructure = createFakeStructure({ cpom, type, isFinalised });
   const placesAutorisees = faker.number.int({ min: 1, max: 100 });
+
+  const forms = [createFakeFormWithSteps(formDefinitionId, stepDefinitionIds)];
+  const [finalisationForm] = forms;
+  finalisationForm.status = isFinalised;
+  finalisationForm.formSteps = finalisationForm.formSteps.map((step) => ({
+    ...step,
+    status: isFinalised ? StepStatus.FINALISE : step.status,
+  }));
 
   let structureWithRelations = {
     ...fakeStructure,
@@ -136,10 +140,10 @@ export const createFakeStuctureWithRelations = ({
         structureType: type,
       })
     ),
-    forms: [createFakeFormWithSteps(formDefinitionId, stepDefinitionIds)],
+    forms,
   } as StructureWithRelations;
 
-  if (state === StructureState.FINALISE) {
+  if (isFinalised) {
     structureWithRelations = {
       ...structureWithRelations,
       budgets: [
@@ -163,5 +167,5 @@ export const createFakeStuctureWithRelations = ({
 export type FakeStructureOptions = {
   cpom: boolean;
   type: StructureType;
-  state: StructureState;
+  isFinalised: boolean;
 };
