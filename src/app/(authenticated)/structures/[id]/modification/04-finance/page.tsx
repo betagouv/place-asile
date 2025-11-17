@@ -48,7 +48,7 @@ export default function ModificationFinanceForm() {
   });
 
   const onSubmit = async (data: anyFinanceFormValues) => {
-    await handleSubmit({ ...data, dnaCode: structure.dnaCode });
+    await handleSubmit({ ...data, id: structure.id });
   };
 
   const { getFetchState } = useFetchState();
@@ -79,7 +79,7 @@ export default function ModificationFinanceForm() {
         <BudgetTables />
         {saveState === FetchState.ERROR && (
           <SubmitError
-            structureDnaCode={structure.dnaCode}
+            id={structure.id}
             backendError={backendError}
           />
         )}

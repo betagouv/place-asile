@@ -16,7 +16,7 @@ export const getCoordinates = async (address: string): Promise<Coordinates> => {
 
 export const transformFormAdressesToApiAdresses = (
   adresses: FormAdresse[] = [],
-  dnaCode?: string
+  structureId?: number
 ): AdresseApiType[] => {
   if (!adresses) {
     return [];
@@ -28,28 +28,25 @@ export const transformFormAdressesToApiAdresses = (
         adresse.codePostal !== "" &&
         adresse.commune !== ""
     )
-    .filter((adresse) => adresse.structureDnaCode || dnaCode)
-    .map((adresse) => {
-      return {
-        id: adresse.id,
-        structureDnaCode: adresse.structureDnaCode || (dnaCode as string),
-        adresse: adresse.adresse,
-        codePostal: adresse.codePostal,
-        commune: adresse.commune,
-        repartition: adresse.repartition,
-        adresseTypologies:
-          adresse.adresseTypologies?.map((adresseTypologie) => ({
-            ...adresseTypologie,
-            placesAutorisees: Number(adresseTypologie.placesAutorisees),
-            logementSocial: adresseTypologie.logementSocial
-              ? Number(adresseTypologie.placesAutorisees)
-              : 0,
-            qpv: adresseTypologie.qpv
-              ? Number(adresseTypologie.placesAutorisees)
-              : 0,
-          })) || [],
-      };
-    });
+    .map((adresse) => ({
+      id: adresse.id,
+      structureId: adresse.structureId ?? structureId,
+      adresse: adresse.adresse,
+      codePostal: adresse.codePostal,
+      commune: adresse.commune,
+      repartition: adresse.repartition,
+      adresseTypologies:
+        adresse.adresseTypologies?.map((adresseTypologie) => ({
+          ...adresseTypologie,
+          placesAutorisees: Number(adresseTypologie.placesAutorisees),
+          logementSocial: adresseTypologie.logementSocial
+            ? Number(adresseTypologie.placesAutorisees)
+            : 0,
+          qpv: adresseTypologie.qpv
+            ? Number(adresseTypologie.placesAutorisees)
+            : 0,
+        })) || [],
+    }));
 };
 
 export const transformApiAdressesToFormAdresses = (
@@ -67,7 +64,7 @@ export const transformApiAdressesToFormAdresses = (
       commune: adresse.commune ?? "",
       repartition:
         Repartition[
-          adresse.repartition?.trim().toUpperCase() as keyof typeof Repartition
+        adresse.repartition?.trim().toUpperCase() as keyof typeof Repartition
         ],
       adresseComplete: [adresse.adresse, adresse.codePostal, adresse.commune]
         .filter(Boolean)

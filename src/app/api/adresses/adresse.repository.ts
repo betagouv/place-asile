@@ -26,10 +26,10 @@ const getEveryAdresseTypologiesOfAdresses = async (
 const deleteAdresses = async (
   tx: PrismaTransaction,
   adressesToKeep: Partial<AdresseApiType>[],
-  structureDnaCode: string
+  structureId: number
 ): Promise<void> => {
   const everyAdressesOfStructure = await tx.adresse.findMany({
-    where: { structureDnaCode: structureDnaCode },
+    where: { structureId },
   });
   const adressesToDelete = everyAdressesOfStructure.filter(
     (adresse) => !adressesToKeep.some((a) => a.id === adresse.id)
@@ -44,14 +44,14 @@ const deleteAdresses = async (
 export const createOrUpdateAdresses = async (
   tx: PrismaTransaction,
   adresses: Partial<AdresseApiType>[] = [],
-  structureDnaCode: string
+  structureId: number
 ): Promise<void> => {
   if (!adresses || adresses.length === 0) {
     return;
   }
 
   // Delete adresses that are not in the provided array
-  await deleteAdresses(tx, adresses, structureDnaCode);
+  await deleteAdresses(tx, adresses, structureId);
 
   // Fetch all typologies for existing addresses
   const allTypologies = await getEveryAdresseTypologiesOfAdresses(tx, adresses);
@@ -105,7 +105,7 @@ export const createOrUpdateAdresses = async (
 export const createAdresses = async (
   tx: PrismaTransaction,
   adresses: AdresseInput[],
-  structureDnaCode: string
+  structureId: number
 ): Promise<void> => {
   for (const adresse of adresses) {
     await tx.adresse.create({
@@ -114,7 +114,7 @@ export const createAdresses = async (
         codePostal: adresse.codePostal,
         commune: adresse.commune,
         repartition: adresse.repartition as Repartition | null | undefined,
-        structureDnaCode,
+        structureId,
         adresseTypologies: {
           create: adresse.adresseTypologies,
         },

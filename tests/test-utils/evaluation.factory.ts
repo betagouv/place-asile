@@ -5,8 +5,7 @@ export const createEvaluation = ({
   date,
 }: CreateEvaluationArgs): EvaluationApiType => {
   return {
-    id: id ?? 1,
-    structureDnaCode: "C0001",
+    id: id ?? 1,    structureId: 1,
     date: date ?? new Date("01/02/2022").toISOString(),
     note: 4,
     notePersonne: 4,

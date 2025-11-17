@@ -62,7 +62,7 @@ export async function getStructureId(dnaCode: string): Promise<number> {
 
   const structures = await response.json();
   const structure = structures.find(
-    (s: StructureApiType) => s.dnaCode === dnaCode
+    (s: StructureApiType) => s.codesDna.some((codeDna) => codeDna.code === dnaCode)
   );
 
   if (!structure) {

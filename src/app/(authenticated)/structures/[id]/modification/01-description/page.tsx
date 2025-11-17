@@ -40,6 +40,7 @@ export default function ModificationDescription() {
 
   const onSubmit = (data: ModificationDescriptionFormValues) => {
     handleSubmit({
+      id: structure.id,
       ...data,
       adresses: transformFormAdressesToApiAdresses(data.adresses),
       contacts: transformAgentFormContactsToApiContacts(data.contacts),
@@ -70,7 +71,7 @@ export default function ModificationDescription() {
           description={`Certaines données (date de création, code DNA, type de structure, opérateur) ne sont pas modifiables. Il y a une erreur ? Contactez-nous : ${PLACE_ASILE_CONTACT_EMAIL}`}
         />
         <FieldSetDescription
-          dnaCode={structure.dnaCode}
+          structureId={structure.id}
           formKind={FormKind.MODIFICATION}
         />
         <hr />
@@ -88,10 +89,7 @@ export default function ModificationDescription() {
         <FieldSetHebergement />
       </FormWrapper>
       {saveState === FetchState.ERROR && (
-        <SubmitError
-          structureDnaCode={structure.dnaCode}
-          backendError={backendError}
-        />
+        <SubmitError id={structure.id} backendError={backendError} />
       )}
     </>
   );

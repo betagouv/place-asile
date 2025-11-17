@@ -1,5 +1,5 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { FileUpload, FileUploadCategory } from "@prisma/client";
+import { FileUpload, FileUploadCategory, PrismaClient } from "@prisma/client";
 
 import {
   isStructureAutorisee,
@@ -15,7 +15,7 @@ export const createFakeFileUpload = ({
   structureType,
 }: CreateFakeFileUploadOptions): Omit<
   FileUpload,
-  "id" | "structureDnaCode" | "controleId" | "evaluationId"
+  "id" | "structureId" | "structureDnaCode" | "controleId" | "evaluationId"
 > => {
   return buildFakeFileUpload({
     category,
@@ -24,11 +24,34 @@ export const createFakeFileUpload = ({
   });
 };
 
+export async function insertFileUploads(
+  prisma: PrismaClient,
+  structure: { id: number },
+  files: Omit<FileUpload, "id" | "structureId" | "structureDnaCode" | "controleId" | "evaluationId">[]
+): Promise<void> {
+  for (const f of files || []) {
+    await prisma.fileUpload.create({
+      data: {
+        structureId: structure.id,
+        key: f.key,
+        mimeType: f.mimeType,
+        fileSize: f.fileSize,
+        originalName: f.originalName,
+        date: f.date,
+        category: f.category,
+        startDate: f.startDate,
+        endDate: f.endDate,
+        categoryName: f.categoryName,
+      },
+    });
+  }
+}
+
 export const createFakeFileUploadWithParent = ({
   parentFileUploadId,
 }: CreateFakeFileUploadWithParentOptions): Omit<
   FileUpload,
-  "id" | "structureDnaCode" | "controleId" | "evaluationId"
+  "id" | "structureId" | "structureDnaCode" | "controleId" | "evaluationId"
 > => {
   return buildFakeFileUpload({
     parentFileUploadId,
@@ -75,7 +98,7 @@ const buildFakeFileUpload = ({
   parentFileUploadId,
 }: BuildFakeFileUploadOptions): Omit<
   FileUpload,
-  "id" | "structureDnaCode" | "controleId" | "evaluationId"
+  "id" | "structureId" | "structureDnaCode" | "controleId" | "evaluationId"
 > => {
   const fakeCategories = getFakeFileUploadCategories(cpom, structureType);
   const [startDate, endDate] = generateDatePair();
