@@ -1,9 +1,8 @@
-import prisma from "@/lib/prisma";
-import {
-    CpomTypologieApiType,
-} from "@/schemas/api/cpom.schema";
+import { CpomTypologieApiType } from "@/schemas/api/cpom.schema";
+import { PrismaTransaction } from "@/types/prisma.type";
 
 export const createOrUpdateCpomTypologies = async (
+    tx: PrismaTransaction,
     typologies: CpomTypologieApiType[] | undefined,
     structureDnaCode: string
 ): Promise<void> => {
@@ -11,7 +10,7 @@ export const createOrUpdateCpomTypologies = async (
         return;
     }
 
-    const structure = await prisma.structure.findUnique({
+    const structure = await tx.structure.findUnique({
         where: { dnaCode: structureDnaCode },
         select: { id: true },
     });
@@ -23,7 +22,7 @@ export const createOrUpdateCpomTypologies = async (
     }
 
     // get cpoms associated to the structure
-    const cpomStructures = await prisma.cpomStructure.findMany({
+    const cpomStructures = await tx.cpomStructure.findMany({
         where: { structureId: structure.id },
         include: {
             cpom: {
@@ -97,7 +96,7 @@ export const createOrUpdateCpomTypologies = async (
                 commentaire: typologie.commentaire,
             };
 
-            return prisma.cpomTypologie.upsert({
+            return tx.cpomTypologie.upsert({
                 where: {
                     cpomId_date: {
                         cpomId: cpomId,
