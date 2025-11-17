@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PrismaClient, StepStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();

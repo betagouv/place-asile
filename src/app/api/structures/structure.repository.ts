@@ -167,7 +167,6 @@ export const createOne = async (
     const baseStructure = await tx.structure.create({
       data: {
         dnaCode: structure.dnaCode,
-        oldOperateur: "Ancien opérateur : à supprimer",
         operateur: {
           connect: {
             id: structure.operateur.id,
@@ -177,7 +176,6 @@ export const createOne = async (
         latitude: Prisma.Decimal(coordinates.latitude || 0),
         longitude: Prisma.Decimal(coordinates.longitude || 0),
         type: convertToStructureType(structure.type),
-        oldNbPlaces: -1,
         adresseAdministrative: structure.adresseAdministrative,
         codePostalAdministratif: structure.codePostalAdministratif,
         communeAdministrative: structure.communeAdministrative,
@@ -266,8 +264,8 @@ export const updateOne = async (
           operateur: {
             connect: operateur
               ? {
-                  id: operateur?.id,
-                }
+                id: operateur?.id,
+              }
               : undefined,
           },
         },
