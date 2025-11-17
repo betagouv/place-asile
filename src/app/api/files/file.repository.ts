@@ -60,26 +60,26 @@ const deleteFileUploads = async (
   fileUploadsToKeep: Partial<
     ActeAdministratifApiType | DocumentFinancierApiType
   >[],
-  structureDnaCode: string,
-  category: "acteAdministratif" | "documentFinancier"
+  structureId: number,
+  category?: "acteAdministratif" | "documentFinancier"
 ): Promise<void> => {
   const allFileUploads = await tx.fileUpload.findMany({
-    where: { structureDnaCode: structureDnaCode },
+    where: { structureId },
   });
 
   const fileUploadsToDelete = allFileUploads.filter((fileUpload) => {
-    if (!fileUpload.category) {
+    if (!fileUpload.category || !category) {
       return false;
     }
 
     const isAllowedCategory =
       category === "acteAdministratif"
         ? ActeAdministratifCategory.includes(
-            fileUpload.category as (typeof ActeAdministratifCategory)[number]
-          )
+          fileUpload.category as (typeof ActeAdministratifCategory)[number]
+        )
         : DocumentFinancierCategory.includes(
-            fileUpload.category as (typeof DocumentFinancierCategory)[number]
-          );
+          fileUpload.category as (typeof DocumentFinancierCategory)[number]
+        );
 
     if (!isAllowedCategory) {
       return false;
@@ -102,17 +102,17 @@ export const updateFileUploads = async (
   fileUploads:
     | Partial<ActeAdministratifApiType | DocumentFinancierApiType>[]
     | undefined,
-  structureDnaCode: string,
-  category: "acteAdministratif" | "documentFinancier"
+  structureId: number,
+  category?: "acteAdministratif" | "documentFinancier"
 ): Promise<void> => {
   if (!fileUploads || fileUploads.length === 0) {
     return;
   }
 
-  await deleteFileUploads(tx, fileUploads, structureDnaCode, category);
+  await deleteFileUploads(tx, fileUploads, structureId, category);
 
   await Promise.all(
-    (fileUploads || []).map((fileUpload) =>
+    fileUploads.map((fileUpload) =>
       tx.fileUpload.update({
         where: { key: fileUpload.key },
         data: {
@@ -121,7 +121,7 @@ export const updateFileUploads = async (
           startDate: fileUpload.startDate,
           endDate: fileUpload.endDate,
           categoryName: fileUpload.categoryName,
-          structureDnaCode,
+          structureId,
           parentFileUploadId: fileUpload.parentFileUploadId,
           controleId: fileUpload.controleId,
           evaluationId: fileUpload.evaluationId,
@@ -134,7 +134,7 @@ export const updateFileUploads = async (
 export const createDocumentsFinanciers = async (
   tx: PrismaTransaction,
   documentsFinanciers: DocumentFinancierApiType[],
-  structureDnaCode: string
+  structureId: number
 ): Promise<void> => {
   for (const documentFinancier of documentsFinanciers) {
     await tx.fileUpload.update({
@@ -142,7 +142,7 @@ export const createDocumentsFinanciers = async (
       data: {
         date: documentFinancier.date,
         category: (documentFinancier.category as FileUploadCategory) || null,
-        structureDnaCode,
+        structureId,
       },
     });
   }

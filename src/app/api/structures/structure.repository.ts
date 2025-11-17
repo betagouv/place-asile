@@ -1,22 +1,13 @@
-import {
-  FileUploadCategory,
-  Prisma,
-  Structure,
-} from "@prisma/client";
+import { Prisma, Structure } from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
 import prisma from "@/lib/prisma";
-import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
-import { AdresseApiType } from "@/schemas/api/adresse.schema";
-import { BudgetApiType } from "@/schemas/api/budget.schema";
 import { CodeDnaApiType } from "@/schemas/api/codeDna.schema";
-import { ControleApiType } from "@/schemas/api/controle.schema";
-import { DocumentFinancierApiType } from "@/schemas/api/documentFinancier.schema";
-import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
   StructureCreationApiType,
   StructureUpdateApiType,
 } from "@/schemas/api/structure.schema";
+import { PrismaTransaction } from "@/types/prisma.type";
 
 import {
   createAdresses,
@@ -220,11 +211,6 @@ export const createOne = async (
         finPeriodeAutorisation: structure.finPeriodeAutorisation,
         debutCpom: structure.debutCpom,
         finCpom: structure.finCpom,
-        contacts: {
-          createMany: {
-            data: structure.contacts,
-          },
-        },
         structureTypologies: {
           createMany: {
             data: structure.structureTypologies,
@@ -233,15 +219,17 @@ export const createOne = async (
       },
     });
 
-    const adresses = handleAdresses(newStructure.id, structure.adresses);
+    const adresses = handleAdresses(baseStructure.id, structure.adresses);
 
-    await createAdresses(tx, adresses, structure.dnaCode);
+    await createOrUpdateCodesDna(tx, structure.codesDna, baseStructure.id);
+    await createOrUpdateContacts(tx, structure.contacts, baseStructure.id);
+    await createAdresses(tx, adresses, baseStructure.id);
     await createDocumentsFinanciers(
       tx,
       structure.documentsFinanciers,
-      structure.dnaCode
+      baseStructure.id
     );
-    await initializeDefaultForms(tx, structure.dnaCode);
+    await initializeDefaultForms(tx, baseStructure.id);
 
     return baseStructure;
   });
@@ -320,40 +308,18 @@ export const createOne = async (
 //   );
 // };
 
-const createOrUpdateBudgets = async (
-  budgets: BudgetApiType[] | undefined,
-  structureId: number
-): Promise<void> => {
-  await Promise.all(
-    (budgets || []).map((budget) => {
-      return prisma.budget.upsert({
-        where: {
-          structureId_date: {
-            structureId: structureId,
-            date: budget.date,
-          },
-        },
-        update: budget,
-        create: {
-          structureId: structureId,
-          ...budget,
-        },
-      });
-    })
-  );
-};
-
 const createOrUpdateCodesDna = async (
+  tx: PrismaTransaction,
   codesDna: Partial<CodeDnaApiType>[] | undefined,
   structureId: number
 ): Promise<void> => {
-
-  if (!codesDna) {
+  if (!codesDna || codesDna.length === 0) {
     return;
   }
+
   await Promise.all(
     codesDna.map((codeDna) =>
-      prisma.codeDna.upsert({
+      tx.codeDna.upsert({
         where: { code: codeDna.code },
         update: {
           type: codeDna.type,
@@ -379,283 +345,6 @@ const createOrUpdateCodesDna = async (
         },
       })
     )
-  );
-};
-
-const updateStructureTypologies = async (
-  typologies: Partial<StructureTypologieApiType>[] | undefined
-): Promise<void> => {
-  await Promise.all(
-    (typologies || []).map((typologie) => {
-      return prisma.structureTypologie.update({
-        where: { id: typologie.id },
-        data: typologie,
-      });
-    })
-  );
-};
-
-const getEveryAdresseTypologiesOfAdresses = async (
-  adresses: Partial<AdresseApiType>[]
-): Promise<Awaited<ReturnType<typeof prisma.adresseTypologie.findMany>>> => {
-  const existingAdresseIds = adresses
-    .filter((adresse) => adresse.id)
-    .map((adresse) => adresse.id as number);
-
-  let allTypologies: Awaited<
-    ReturnType<typeof prisma.adresseTypologie.findMany>
-  > = [];
-  if (existingAdresseIds.length > 0) {
-    allTypologies = await prisma.adresseTypologie.findMany({
-      where: { adresseId: { in: existingAdresseIds } },
-    });
-  }
-  return allTypologies;
-};
-const createOrUpdateAdresses = async (
-  adresses: Partial<AdresseApiType>[] = [],
-  structureId: number
-): Promise<void> => {
-  if (!adresses || adresses.length === 0) {
-    return;
-  }
-
-  // Delete adresses that are not in the provided array
-  await deleteAdresses(adresses, structureId);
-
-  // Fetch all typologies for existing addresses
-  const allTypologies = await getEveryAdresseTypologiesOfAdresses(adresses);
-
-  for (const adresse of adresses) {
-    if (adresse.id) {
-      // Update existing address
-      await prisma.adresse.update({
-        where: { id: adresse.id },
-        data: {
-          adresse: adresse.adresse,
-          codePostal: adresse.codePostal,
-          commune: adresse.commune,
-          repartition: convertToRepartition(adresse.repartition),
-        },
-      });
-
-      // Delete typologies not in the array
-      const existingTypologies = allTypologies.filter(
-        (typologie) => typologie.adresseId === adresse.id
-      );
-      const typologiesToDelete = existingTypologies.filter(
-        (existing) =>
-          !adresse.adresseTypologies?.some((t) => t.id === existing.id)
-      );
-      if (typologiesToDelete.length > 0) {
-        await prisma.adresseTypologie.deleteMany({
-          where: { id: { in: typologiesToDelete.map((t) => t.id) } },
-        });
-      }
-
-      // Update or create typologies
-      for (const typologie of adresse.adresseTypologies || []) {
-        // Update existing typologie
-        await prisma.adresseTypologie.upsert({
-          where: { id: typologie.id || 0 },
-          update: typologie,
-          create: {
-            adresseId: adresse.id,
-            placesAutorisees: typologie.placesAutorisees,
-            date: typologie.date,
-            qpv: typologie.qpv,
-            logementSocial: typologie.logementSocial,
-          },
-        });
-      }
-    }
-  }
-};
-
-const deleteAdresses = async (
-  adressesToKeep: Partial<AdresseApiType>[],
-  structureId: number
-): Promise<void> => {
-  const everyAdressesOfStructure = await prisma.adresse.findMany({
-    where: { structureId: structureId },
-  });
-  const adressesToDelete = everyAdressesOfStructure.filter(
-    (adresse) => !adressesToKeep.some((a) => a.id === adresse.id)
-  );
-  await Promise.all(
-    adressesToDelete.map((adresse) =>
-      prisma.adresse.delete({ where: { id: adresse.id } })
-    )
-  );
-};
-
-const deleteControles = async (
-  controlesToKeep: ControleApiType[],
-  structureId: number
-): Promise<void> => {
-  const allControles = await prisma.controle.findMany({
-    where: { structureId: structureId },
-  });
-  const controlesToDelete = allControles.filter(
-    (controle) =>
-      !controlesToKeep.some(
-        (controleToKeep) => controleToKeep.id === controle.id
-      )
-  );
-  await Promise.all(
-    controlesToDelete.map((controle) =>
-      prisma.controle.delete({ where: { id: controle.id } })
-    )
-  );
-};
-
-const deleteEvaluations = async (
-  evaluationsToKeep: EvaluationApiType[],
-  structureId: number
-): Promise<void> => {
-  const allEvaluations = await prisma.evaluation.findMany({
-    where: { structureId: structureId },
-  });
-  const evaluationsToDelete = allEvaluations.filter(
-    (evaluation) =>
-      !evaluationsToKeep.some(
-        (evaluationToKeep) => evaluationToKeep.id === evaluation.id
-      )
-  );
-  await Promise.all(
-    evaluationsToDelete.map((evaluation) =>
-      prisma.evaluation.delete({ where: { id: evaluation.id } })
-    )
-  );
-};
-
-const deleteFileUploads = async (
-  fileUploadsToKeep: Partial<
-    ActeAdministratifApiType | DocumentFinancierApiType
-  >[],
-  structureId: number
-): Promise<void> => {
-  const allFileUploads = await prisma.fileUpload.findMany({
-    where: { structureId: structureId },
-  });
-
-  const fileUploadsToDelete = allFileUploads.filter(
-    (fileUpload) =>
-      !fileUploadsToKeep.some(
-        (fileUploadToKeep) => fileUploadToKeep.key === fileUpload.key
-      )
-  );
-
-  await Promise.all(
-    fileUploadsToDelete.map((fileUpload) =>
-      prisma.fileUpload.delete({ where: { id: fileUpload.id } })
-    )
-  );
-};
-
-const updateFileUploads = async (
-  fileUploads:
-    | Partial<ActeAdministratifApiType | DocumentFinancierApiType>[]
-    | undefined,
-  structureId: number
-): Promise<void> => {
-  if (!fileUploads || fileUploads.length === 0) {
-    return;
-  }
-
-  await deleteFileUploads(fileUploads, structureId);
-
-  await Promise.all(
-    (fileUploads || []).map((fileUpload) =>
-      prisma.fileUpload.update({
-        where: { key: fileUpload.key },
-        data: {
-          date: fileUpload.date,
-          category: (fileUpload.category as FileUploadCategory) || null,
-          startDate: fileUpload.startDate,
-          endDate: fileUpload.endDate,
-          categoryName: fileUpload.categoryName,
-          structureId: structureId,
-          parentFileUploadId: fileUpload.parentFileUploadId,
-          controleId: fileUpload.controleId,
-        },
-      })
-    )
-  );
-};
-
-const createOrUpdateControles = async (
-  controles: ControleApiType[] | undefined,
-  structureId: number
-): Promise<void> => {
-  if (!controles || controles.length === 0) {
-    return;
-  }
-
-  deleteControles(controles, structureId);
-
-  await Promise.all(
-    (controles || []).map((controle) => {
-      return prisma.controle.upsert({
-        where: { id: controle.id || 0 },
-        update: {
-          type: convertToControleType(controle.type),
-          date: controle.date,
-          fileUploads: {
-            // TODO : refactor to use array of fileUploads instead of fileUploadKey
-            connect: { key: controle.fileUploadKey },
-          },
-        },
-        create: {
-          structureId: structureId,
-          type: convertToControleType(controle.type),
-          date: controle.date!,
-          fileUploads: {
-            connect: { key: controle.fileUploadKey },
-          },
-        },
-      });
-    })
-  );
-};
-
-const createOrUpdateEvaluations = async (
-  evaluations: EvaluationApiType[] | undefined,
-  structureId: number
-): Promise<void> => {
-  if (!evaluations || evaluations.length === 0) {
-    return;
-  }
-
-  deleteEvaluations(evaluations, structureId);
-
-  await Promise.all(
-    (evaluations || []).map((evaluation) => {
-      return prisma.evaluation.upsert({
-        where: { id: evaluation.id || 0 },
-        update: {
-          date: evaluation.date,
-          notePersonne: evaluation.notePersonne,
-          notePro: evaluation.notePro,
-          noteStructure: evaluation.noteStructure,
-          note: evaluation.note,
-          fileUploads: {
-            connect: evaluation.fileUploads,
-          },
-        },
-        create: {
-          structureId: structureId,
-          date: evaluation.date ?? "",
-          notePersonne: evaluation.notePersonne,
-          notePro: evaluation.notePro,
-          noteStructure: evaluation.noteStructure,
-          note: evaluation.note,
-          fileUploads: {
-            connect: evaluation.fileUploads,
-          },
-        },
-      });
-    })
   );
 };
 
@@ -704,25 +393,26 @@ export const updateOne = async (
         },
       });
 
-      await createOrUpdateContacts(tx, contacts, structure.dnaCode);
-      await createOrUpdateBudgets(tx, budgets, structure.dnaCode);
+      await createOrUpdateCodesDna(tx, codesDna, updatedStructure.id);
+      await createOrUpdateContacts(tx, contacts, updatedStructure.id);
+      await createOrUpdateBudgets(tx, budgets, updatedStructure.id);
       await updateStructureTypologies(tx, structureTypologies);
-      await createOrUpdateAdresses(tx, adresses, structure.dnaCode);
+      await createOrUpdateAdresses(tx, adresses, updatedStructure.id);
       await updateFileUploads(
         tx,
         actesAdministratifs,
-        structure.dnaCode,
+        updatedStructure.id,
         "acteAdministratif"
       );
       await updateFileUploads(
         tx,
         documentsFinanciers,
-        structure.dnaCode,
+        updatedStructure.id,
         "documentFinancier"
       );
-      await createOrUpdateControles(tx, controles, structure.dnaCode);
-      await createOrUpdateForms(tx, forms, structure.dnaCode);
-      await createOrUpdateEvaluations(tx, evaluations, structure.dnaCode);
+      await createOrUpdateControles(tx, controles, updatedStructure.id);
+      await createOrUpdateForms(tx, forms, updatedStructure.id);
+      await createOrUpdateEvaluations(tx, evaluations, updatedStructure.id);
 
       return updatedStructure;
     });

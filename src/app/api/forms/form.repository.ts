@@ -12,15 +12,13 @@ export const createOrUpdateForms = async (
   if (!forms || forms.length === 0) return;
 
   await Promise.all(
-    forms.map(async (form) => {
-      await createCompleteFormWithSteps(structureId, form);
-    })
+    forms.map((form) => createCompleteFormWithSteps(tx, structureId, form))
   );
 };
 
 const createCompleteFormWithSteps = async (
   tx: PrismaTransaction,
-  structureCodeDna: string,
+  structureId: number,
   form: FormApiType
 ): Promise<void> => {
   // 1. Récupérer la FormDefinition par slug
@@ -36,19 +34,22 @@ const createCompleteFormWithSteps = async (
   }
 
   // 2. Créer ou mettre à jour le Form
-  const formEntity = await tx.form.upsert({
-    where: {
-      structureId_formDefinitionId: {
-        structureId: structureId,
-        formDefinitionId: formDefinition.id,
-      },
+  const where = {
+    structureId_formDefinitionId: {
+      structureId,
+      formDefinitionId: formDefinition.id,
     },
+  };
+
+  const formEntity = await tx.form.upsert({
+    where,
     update: {
       status: form.status,
+      structureId,
     },
     create: {
       formDefinitionId: formDefinition.id,
-      structureId: structureId,
+      structureId,
       status: form.status,
     },
   });
@@ -91,7 +92,7 @@ const createCompleteFormWithSteps = async (
 
 export const initializeDefaultForms = async (
   tx: PrismaTransaction,
-  structureCodeDna: string
+  structureId: number
 ): Promise<void> => {
   const formDefinition = await tx.formDefinition.findUnique({
     where: { slug: "finalisation-v1" },
@@ -105,8 +106,8 @@ export const initializeDefaultForms = async (
   const formEntity = await tx.form.create({
     data: {
       formDefinitionId: formDefinition.id,
-      structureId: structureId,
-      status: false
+      structureId,
+      status: false,
     },
   });
 

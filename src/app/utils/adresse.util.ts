@@ -27,28 +27,26 @@ export const transformFormAdressesToApiAdresses = (
         adresse.adresse !== "" &&
         adresse.codePostal !== "" &&
         adresse.commune !== ""
-    ).filter((adresse) => adresse.structureId === structureId)
-    .map((adresse) => {
-      return {
-        id: adresse.id,
-        structureId: structureId,
-        adresse: adresse.adresse,
-        codePostal: adresse.codePostal,
-        commune: adresse.commune,
-        repartition: adresse.repartition,
-        adresseTypologies:
-          adresse.adresseTypologies?.map((adresseTypologie) => ({
-            ...adresseTypologie,
-            placesAutorisees: Number(adresseTypologie.placesAutorisees),
-            logementSocial: adresseTypologie.logementSocial
-              ? Number(adresseTypologie.placesAutorisees)
-              : 0,
-            qpv: adresseTypologie.qpv
-              ? Number(adresseTypologie.placesAutorisees)
-              : 0,
-          })) || [],
-      };
-    });
+    )
+    .map((adresse) => ({
+      id: adresse.id,
+      structureId: adresse.structureId ?? structureId,
+      adresse: adresse.adresse,
+      codePostal: adresse.codePostal,
+      commune: adresse.commune,
+      repartition: adresse.repartition,
+      adresseTypologies:
+        adresse.adresseTypologies?.map((adresseTypologie) => ({
+          ...adresseTypologie,
+          placesAutorisees: Number(adresseTypologie.placesAutorisees),
+          logementSocial: adresseTypologie.logementSocial
+            ? Number(adresseTypologie.placesAutorisees)
+            : 0,
+          qpv: adresseTypologie.qpv
+            ? Number(adresseTypologie.placesAutorisees)
+            : 0,
+        })) || [],
+    }));
 };
 
 export const transformApiAdressesToFormAdresses = (

@@ -103,7 +103,10 @@ export const createFakeStuctureWithRelations = ({
   const fakeStructure = createFakeStructure({ cpom, type, state });
   const placesAutorisees = faker.number.int({ min: 1, max: 100 });
 
-  let structureWithRelations: Omit<StructureWithRelations, "id" | "operateurId"> = {
+  let structureWithRelations: Omit<
+    StructureWithRelations,
+    "id" | "operateurId"
+  > = {
     ...fakeStructure,
     codesDna: [],
     adresses: createFakeAdresses({ placesAutorisees }),
@@ -112,6 +115,8 @@ export const createFakeStuctureWithRelations = ({
       createFakeStructureTypologie({ year: 2024, placesAutorisees }),
       createFakeStructureTypologie({ year: 2023, placesAutorisees }),
     ],
+    budgets: [],
+    controles: [],
     fileUploads: Array.from({ length: 5 }, () =>
       createFakeFileUpload({
         cpom,
@@ -119,7 +124,7 @@ export const createFakeStuctureWithRelations = ({
       })
     ),
     forms: [createFakeFormWithSteps(formDefinitionId, stepDefinitionIds)],
-  } as StructureWithRelations;
+  };
 
   if (state === StructureState.FINALISE) {
     structureWithRelations = {
