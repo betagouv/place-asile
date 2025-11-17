@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { ReactElement } from "react";
-import { Header } from "@/app/components/common/Header";
+
 import { Footer } from "@/app/components/common/Footer";
+import { Header } from "@/app/components/common/Header";
 
 export const metadata: Metadata = {
   title: "Page non trouvée",
