@@ -7,7 +7,6 @@ import {
   FormStep,
   Prisma,
   PublicType,
-  StepStatus,
   Structure,
   StructureTypologie,
 } from "@prisma/client";
@@ -108,21 +107,21 @@ export const createFakeStuctureWithRelations = ({
   type,
   isFinalised,
   formDefinitionId,
-  stepDefinitionIds,
+  stepDefinitions,
 }: FakeStructureOptions & {
   formDefinitionId: number;
-  stepDefinitionIds: number[];
+  stepDefinitions: { id: number; slug: string }[];
 }): Omit<StructureWithRelations, "id"> => {
   const fakeStructure = createFakeStructure({ cpom, type, isFinalised });
   const placesAutorisees = faker.number.int({ min: 1, max: 100 });
 
-  const forms = [createFakeFormWithSteps(formDefinitionId, stepDefinitionIds)];
+  const forms = [
+    createFakeFormWithSteps(formDefinitionId, stepDefinitions, {
+      isFinalised,
+    }),
+  ];
   const [finalisationForm] = forms;
   finalisationForm.status = isFinalised;
-  finalisationForm.formSteps = finalisationForm.formSteps.map((step) => ({
-    ...step,
-    status: isFinalised ? StepStatus.FINALISE : step.status,
-  }));
 
   let structureWithRelations = {
     ...fakeStructure,

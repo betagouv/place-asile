@@ -64,11 +64,12 @@ export const createFakeForm = (
 };
 
 export const createFakeFormStep = (
-  stepDefinitionId: number
+  stepDefinitionId: number,
+  statusOverride?: StepStatus
 ): Omit<FormStep, "id" | "formId"> => {
   return {
     stepDefinitionId: stepDefinitionId,
-    status: faker.helpers.enumValue(StepStatus),
+    status: statusOverride ?? faker.helpers.enumValue(StepStatus),
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
   };
@@ -80,14 +81,26 @@ type FormWithSteps = Form & {
 
 export const createFakeFormWithSteps = (
   formDefinitionId: number,
-  stepDefinitionIds: number[]
+  stepDefinitions: { id: number; slug: string }[],
+  options?: { isFinalised?: boolean }
 ): Omit<FormWithSteps, "id" | "structureCodeDna"> => {
   const fakeForm = createFakeForm(formDefinitionId);
+  const isFinalised = options?.isFinalised ?? false;
+  const verificationSlugs = [
+    "01-identification",
+    "02-documents-financiers",
+  ];
 
   return {
     ...fakeForm,
-    formSteps: stepDefinitionIds.map((stepDefinitionId) =>
-      createFakeFormStep(stepDefinitionId)
-    ),
+    formSteps: stepDefinitions.map(({ id, slug }) => {
+      const isVerification = verificationSlugs.includes(slug);
+      const targetStatus = isFinalised
+        ? StepStatus.VALIDE
+        : isVerification
+          ? StepStatus.A_VERIFIER
+          : StepStatus.NON_COMMENCE;
+      return createFakeFormStep(id, targetStatus);
+    }),
   };
 };
