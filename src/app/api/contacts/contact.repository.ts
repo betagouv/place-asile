@@ -3,6 +3,8 @@ import { ContactType } from "@prisma/client";
 import { ContactApiType } from "@/schemas/api/contact.schema";
 import { PrismaTransaction } from "@/types/prisma.type";
 
+// TODO : check logic behind that since contacts are linked to codeDna not structureId. Thus, the call should be moved out of Structures repository.
+
 const resolveContactCode = (
   contact: Partial<ContactApiType>,
   availableCodes: { code: string; type: string }[]
