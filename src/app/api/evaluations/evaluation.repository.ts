@@ -31,7 +31,7 @@ export const createOrUpdateEvaluations = async (
     return;
   }
 
-  deleteEvaluations(tx, evaluations, structureDnaCode);
+  await deleteEvaluations(tx, evaluations, structureDnaCode);
 
   await Promise.all(
     (evaluations || []).map((evaluation) => {
