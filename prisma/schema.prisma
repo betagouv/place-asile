@@ -22,10 +22,10 @@ model Departement {
 model Structure {
   id                           Int                         @id @default(autoincrement())
   dnaCode                      String                      @unique
-  oldOperateur                 String
+  // oldOperateur                 String
   filiale                      String?
   type                         StructureType
-  oldNbPlaces                  Int
+  // oldNbPlaces                  Int
   placesACreer                 Int?
   placesAFermer                Int?
   echeancePlacesACreer         DateTime?
@@ -51,7 +51,7 @@ model Structure {
   debutCpom                    DateTime?
   finCpom                      DateTime?
   notes                        String?
-  state                        StructureState              @default(A_FINALISER)
+  // state                        StructureState              @default(A_FINALISER)
   controles                    Controle[]
   evaluations                  Evaluation[]
   evenementsIndesirablesGraves EvenementIndesirableGrave[]
@@ -234,7 +234,7 @@ model FileUpload {
   evaluation         Evaluation?         @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
   evaluationId       Int?
   categoryName       String?
-  parentFileUpload   FileUpload?         @relation("FileUploadToFileUpload", fields: [parentFileUploadId], references: [id], onDelete: Cascade) 
+  parentFileUpload   FileUpload?         @relation("FileUploadToFileUpload", fields: [parentFileUploadId], references: [id], onDelete: Cascade)
   parentFileUploadId Int?
   childFileUploads   FileUpload[]        @relation("FileUploadToFileUpload")
 
@@ -438,12 +438,12 @@ enum FileUploadCategory {
   @@schema("public")
 }
 
-enum StructureState {
-  A_FINALISER
-  FINALISE
+// enum StructureState {
+//   A_FINALISER
+//   FINALISE
 
-  @@schema("public")
-}
+//   @@schema("public")
+// }
 
 enum StepStatus {
   NON_COMMENCE
