@@ -29,23 +29,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
-export async function HEAD(request: NextRequest) {
-  const code = request.nextUrl.pathname.split("/").pop();
-
-  if (!code) {
-    return new NextResponse(null, { status: 400 });
-  }
-
-  try {
-    const structure = await findByDnaCode(code);
-    if (structure) {
-      return new NextResponse(null, { status: 204 });
-    } else {
-      return new NextResponse(null, { status: 404 });
-    }
-  } catch (error) {
-    console.error("Error checking structure by DNA code:", error);
-    return new NextResponse(null, { status: 500 });
-  }
-}
