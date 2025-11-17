@@ -33,7 +33,7 @@ export const createOrUpdateControles = async (
     return;
   }
 
-  deleteControles(tx, controles, structureDnaCode);
+  await deleteControles(tx, controles, structureDnaCode);
 
   await Promise.all(
     (controles || []).map((controle) => {
