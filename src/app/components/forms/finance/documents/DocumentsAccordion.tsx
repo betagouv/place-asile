@@ -37,7 +37,8 @@ export const DocumentsAccordion = ({ className }: { className?: string }) => {
 
   const errors = formState.errors;
   const hasErrors =
-    Array.isArray(errors.fileUploads) && errors.fileUploads.length > 0;
+    Array.isArray(errors.documentsFinanciers) &&
+    errors.documentsFinanciers.length > 0;
 
   const forceExpanded = hasErrors;
 
@@ -69,8 +70,8 @@ export const DocumentsAccordion = ({ className }: { className?: string }) => {
                     subTitle={document.subLabel}
                   >
                     <UploadWithValidation
-                      name={`fileUploads.${currentDocIndex}.key`}
-                      id={`fileUploads.${currentDocIndex}.key`}
+                      name={`documentsFinanciers.${currentDocIndex}.key`}
+                      id={`documentsFinanciers.${currentDocIndex}.key`}
                       control={control}
                       className="[*]:!justify-start p-0 min-h-0 mt-2"
                     />
@@ -78,13 +79,17 @@ export const DocumentsAccordion = ({ className }: { className?: string }) => {
                       type="hidden"
                       aria-hidden="true"
                       defaultValue={document.value}
-                      {...register(`fileUploads.${currentDocIndex}.category`)}
+                      {...register(
+                        `documentsFinanciers.${currentDocIndex}.category`
+                      )}
                     />
                     <input
                       type="hidden"
                       aria-hidden="true"
                       defaultValue={getYearDate(year.toString())}
-                      {...register(`fileUploads.${currentDocIndex}.date`)}
+                      {...register(
+                        `documentsFinanciers.${currentDocIndex}.date`
+                      )}
                     />
                   </UploadItem>
                 );

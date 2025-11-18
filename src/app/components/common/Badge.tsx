@@ -16,6 +16,7 @@ export const Badge = ({
       error: "fr-badge--error",
       warning: "fr-badge--warning",
       new: "fr-badge--new",
+      purple: "fr-badge--purple-glycine",
     };
     return types[type];
   };
@@ -36,4 +37,10 @@ type Props = PropsWithChildren<{
   className?: string;
 }>;
 
-export type BadgeType = "success" | "info" | "error" | "warning" | "new";
+export type BadgeType =
+  | "success"
+  | "info"
+  | "error"
+  | "warning"
+  | "new"
+  | "purple";

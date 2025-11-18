@@ -36,9 +36,9 @@ export default function Structures(): ReactElement {
   );
 
   return (
-    <div className="h-screen w-full flex flex-col">
+    <div className="h-full w-full flex flex-col">
       <StartDsfrOnHydration />
-      <div className="flex gap-4 fr-p-2w border-b border-b-border-default-grey min-h-[4.35rem] items-center">
+      <div className="flex gap-4 fr-p-2w border-b border-b-border-default-grey min-h-[4.35rem] items-center sticky top-0 z-2 bg-lifted-grey">
         <SegmentedControl
           name="Visualisation"
           options={options}

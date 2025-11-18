@@ -12,7 +12,7 @@ export const RepartitionBadge = ({
     const typesByRepartition: Record<Repartition, BadgeType> = {
       [Repartition.DIFFUS]: "new",
       [Repartition.COLLECTIF]: "info",
-      [Repartition.MIXTE]: "warning",
+      [Repartition.MIXTE]: "purple",
     };
     return typesByRepartition[repartition];
   };
