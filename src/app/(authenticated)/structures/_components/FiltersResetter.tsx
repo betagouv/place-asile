@@ -1,7 +1,7 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export const FiltersReinitializer = ({
+export const FiltersResetter = ({
   setIsOpen,
 }: {
   setIsOpen: (isOpen: boolean) => void;

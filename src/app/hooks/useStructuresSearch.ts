@@ -37,7 +37,6 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
       places: string | null,
       departements: string | null
     ): Promise<{ structures: StructureApiType[]; totalStructures: number }> => {
-      console.log("getStructures");
       setFetchState(`structure-${map ? "map" : "search"}`, FetchState.LOADING);
       try {
         const baseUrl = process.env.NEXT_URL || "";
@@ -58,9 +57,7 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
           params.append("places", String(places));
         }
         if (departements && !map) {
-          {
-            params.append("departements", departements);
-          }
+          params.append("departements", departements);
         }
         if (map) {
           params.append("map", "true");

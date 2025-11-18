@@ -212,7 +212,7 @@ export const getMinPlacesAutorisees = async (): Promise<number> => {
     include: {
       adresses: {
         include: {
-          adresseTypologies: {},
+          adresseTypologies: true,
         },
       },
     },
@@ -437,8 +437,8 @@ export const updateOne = async (
           operateur: {
             connect: operateur
               ? {
-                id: operateur?.id,
-              }
+                  id: operateur?.id,
+                }
               : undefined,
           },
         },

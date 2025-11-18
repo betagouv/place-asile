@@ -2,6 +2,8 @@ import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { StructureType } from "@/types/structure.type";
+
 export const FiltersTypes = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -13,7 +15,13 @@ export const FiltersTypes = () => {
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (noTypeSelected) {
-      const everyTypes = ["CADA", "CPH", "HUDA", "CAES", "PRAHDA"];
+      const everyTypes: StructureType[] = [
+        StructureType.CADA,
+        StructureType.CPH,
+        StructureType.HUDA,
+        StructureType.CAES,
+        StructureType.PRAHDA,
+      ];
       setType(everyTypes.filter((t) => t !== value));
       return;
     }

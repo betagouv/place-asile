@@ -21,9 +21,9 @@ export const FiltersPlacesAutorisees = () => {
 
   const handlePlacesAutoriseesChange = (index: number, value: number) => {
     if (noPlacesAutoriseesSelected || placesAutorisees.length === 1) {
-      const baseplacesAutorisees = [minPlacesAutorisees, maxPlacesAutorisees];
-      baseplacesAutorisees[index] = value;
-      setPlacesAutorisees(baseplacesAutorisees);
+      const basePlacesAutorisees = [minPlacesAutorisees, maxPlacesAutorisees];
+      basePlacesAutorisees[index] = value;
+      setPlacesAutorisees(basePlacesAutorisees);
       return;
     }
     const newPlacesAutorisees = [...placesAutorisees];

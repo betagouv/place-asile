@@ -1,6 +1,6 @@
 import { FiltersBatis } from "./FiltersBatis";
 import { FiltersPlacesAutorisees } from "./FiltersPlacesAutorisees";
-import { FiltersReinitializer } from "./FiltersReinitializer";
+import { FiltersResetter } from "./FiltersResetter";
 import { FiltersTypes } from "./FiltersTypes";
 
 export const FiltersPanel = ({
@@ -16,7 +16,7 @@ export const FiltersPanel = ({
       <hr className="p-1!" />
       <FiltersPlacesAutorisees />
       <hr className="p-1!" />
-      <FiltersReinitializer setIsOpen={setIsOpen} />
+      <FiltersResetter setIsOpen={setIsOpen} />
     </div>
   );
 };

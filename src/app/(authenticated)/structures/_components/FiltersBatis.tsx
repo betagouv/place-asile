@@ -2,6 +2,8 @@ import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { Repartition } from "@/types/adresse.type";
+
 export const FiltersBatis = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -13,7 +15,11 @@ export const FiltersBatis = () => {
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (noBatiSelected) {
-      const everyTypes = ["COLLECTIF", "DIFFUS", "MIXTE"];
+      const everyTypes: Repartition[] = [
+        Repartition.COLLECTIF,
+        Repartition.DIFFUS,
+        Repartition.MIXTE,
+      ];
       setBati(everyTypes.filter((type) => type !== value));
       return;
     }
