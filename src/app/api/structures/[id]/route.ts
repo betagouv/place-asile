@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { requireProConnectAuth } from "@/lib/api-auth";
+
 import { findOne } from "../structure.repository";
 import {
   addPresencesIndues,
@@ -8,6 +10,11 @@ import {
 } from "../structure.service";
 
 export async function GET(request: NextRequest) {
+  const authResult = await requireProConnectAuth();
+  if (authResult.status === 401) {
+    return authResult;
+  }
+
   try {
     const id = request.nextUrl.pathname.split("/").pop();
     const structure = await findOne(Number(id));
@@ -27,7 +34,7 @@ export async function GET(request: NextRequest) {
     );
     return NextResponse.json(structureWithDividedFileUploads);
   } catch (error) {
-    console.error("Error in GET /api/structures/[id]:", error);
+    console.error("Error in GET /api/structures/[id]", error);
     return NextResponse.json(
       {
         error: "Internal server error",
@@ -35,15 +42,5 @@ export async function GET(request: NextRequest) {
       },
       { status: 500 }
     );
-  }
-}
-
-export async function HEAD(request: NextRequest) {
-  const id = request.nextUrl.pathname.split("/").pop();
-  const structure = await findOne(Number(id));
-  if (structure) {
-    return new NextResponse(null, { status: 204 });
-  } else {
-    return new NextResponse(null, { status: 404 });
   }
 }

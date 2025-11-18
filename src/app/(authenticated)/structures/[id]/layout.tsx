@@ -1,4 +1,5 @@
 import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 import { StructureApiType } from "@/schemas/api/structure.schema";
@@ -13,15 +14,18 @@ async function getStructure(id: string): Promise<StructureApiType> {
     const baseUrl = process.env.NEXT_URL || "";
     const result = await fetch(`${baseUrl}/api/structures/${id}`, {
       cache: "no-store",
+      headers: await headers(),
     });
 
     if (!result.ok) {
-      throw new Error(`Failed to fetch structure: ${result.status}`);
+      throw new Error(
+        `Impossible de récupérer la structure : ${result.status}`
+      );
     }
 
     return await result.json();
   } catch (error) {
-    console.error("Error fetching structure:", error);
+    console.error(error);
     notFound();
   }
 }

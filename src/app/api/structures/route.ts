@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { requireProConnectAuth } from "@/lib/api-auth";
 import {
   structureCreationApiSchema,
   structureUpdateApiSchema,
@@ -8,6 +9,10 @@ import {
 import { createOne, findAll, updateOne } from "./structure.repository";
 
 export async function GET() {
+  const authResult = await requireProConnectAuth();
+  if (authResult.status === 401) {
+    return authResult;
+  }
   const structures = await findAll();
   return NextResponse.json(structures);
 }
@@ -25,6 +30,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const authResult = await requireProConnectAuth();
+  if (authResult.status === 401) {
+    return authResult;
+  }
+
   try {
     const body = await request.json();
     const result = structureUpdateApiSchema.parse(body);
