@@ -6,7 +6,7 @@ import { deleteFile, getDownloadLink } from "../file.service";
 export async function GET(request: NextRequest) {
   const encodedKey = request.nextUrl.pathname.split("/").pop();
   const getLink = request.nextUrl.searchParams.get("getLink");
-  const decodedKey = decodeURIComponent(encodedKey || "")
+  const decodedKey = decodeURIComponent(encodedKey || "");
 
   if (getLink) {
     try {
@@ -40,22 +40,6 @@ export async function GET(request: NextRequest) {
     );
   }
   return NextResponse.json(file);
-}
-
-export async function HEAD(request: NextRequest) {
-  const encodedKey = request.nextUrl.pathname.split("/").pop();
-  if (!encodedKey) {
-    return new NextResponse(null, { status: 400 });
-  }
-
-  const key = decodeURIComponent(encodedKey);
-
-  const file = await findOneByKey(key);
-  if (file) {
-    return new NextResponse(null, { status: 204 });
-  } else {
-    return new NextResponse(null, { status: 404 });
-  }
 }
 
 export async function DELETE(request: NextRequest) {
