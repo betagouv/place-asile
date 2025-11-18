@@ -104,10 +104,10 @@ model Evaluation {
   structure        Structure    @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode String
   date             DateTime?
-  notePersonne     Int?
-  notePro          Int?
-  noteStructure    Int?
-  note             Int?
+  notePersonne     Float?
+  notePro          Float?
+  noteStructure    Float?
+  note             Float?
   fileUploads      FileUpload[]
 
   createdAt DateTime @default(now())
