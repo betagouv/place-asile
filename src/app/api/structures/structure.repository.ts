@@ -152,26 +152,6 @@ export const countBySearch = async ({
   return prisma.structure.count({ where });
 };
 
-export const getMaxPlacesAutorisees = async (): Promise<number> => {
-  const structures = await prisma.structure.findMany({
-    include: {
-      adresses: {
-        include: {
-          adresseTypologies: {},
-        },
-      },
-    },
-  });
-  return structures.reduce((max, structure) => {
-    return Math.max(
-      max,
-      structure.adresses.reduce((max, adresse) => {
-        return max + adresse.adresseTypologies[0].placesAutorisees;
-      }, 0)
-    );
-  }, 0);
-};
-
 const getStructureIdsByPlacesAutorisees = async (
   placesAutorisees: string | null
 ): Promise<number[] | null> => {
@@ -187,44 +167,80 @@ const getStructureIdsByPlacesAutorisees = async (
     return null;
   }
 
-  const result = await prisma.$queryRaw<Array<{ id: number }>>`
-    SELECT s.id
-    FROM "Structure" s
-    LEFT JOIN "Adresse" a ON a."structureDnaCode" = s."dnaCode"
-    LEFT JOIN LATERAL (
-      SELECT aty."placesAutorisees"
-      FROM "AdresseTypologie" aty
-      WHERE aty."adresseId" = a.id
-      ORDER BY aty."date" DESC
-      LIMIT 1
-    ) latest_typology ON true
-    GROUP BY s.id
-    HAVING 
-      COALESCE(SUM(latest_typology."placesAutorisees"), 0) >= COALESCE(${min}, 0)
-      AND COALESCE(SUM(latest_typology."placesAutorisees"), 0) <= COALESCE(${max}, 999999)
-  `;
+  const allTypologies = await prisma.structureTypologie.findMany({
+    orderBy: { date: "desc" },
+    select: {
+      structureDnaCode: true,
+      placesAutorisees: true,
+    },
+  });
 
-  return result.map((r) => r.id);
+  const seenStructures = new Set<string>();
+
+  const matchingDnaCodes = allTypologies
+    .filter((typology) => {
+      if (
+        seenStructures.has(typology.structureDnaCode) ||
+        typology.placesAutorisees === null
+      ) {
+        return false;
+      }
+      seenStructures.add(typology.structureDnaCode);
+
+      const places = typology.placesAutorisees;
+      return (min === null || places >= min) && (max === null || places <= max);
+    })
+    .map((typology) => typology.structureDnaCode);
+
+  if (matchingDnaCodes.length === 0) {
+    return [];
+  }
+
+  const structures = await prisma.structure.findMany({
+    where: { dnaCode: { in: matchingDnaCodes } },
+    select: { id: true },
+  });
+
+  return structures.map((structure) => structure.id);
+};
+
+const getLatestPlacesAutoriseesPerStructure = async (): Promise<number[]> => {
+  const allTypologies = await prisma.structureTypologie.findMany({
+    orderBy: {
+      date: "desc",
+    },
+    select: {
+      structureDnaCode: true,
+      placesAutorisees: true,
+    },
+  });
+
+  const seenStructures = new Set<string>();
+
+  return allTypologies
+    .filter((typology) => {
+      if (
+        seenStructures.has(typology.structureDnaCode) ||
+        typology.placesAutorisees === null
+      ) {
+        return false;
+      }
+      seenStructures.add(typology.structureDnaCode);
+      return true;
+    })
+    .map((typology) => typology.placesAutorisees as number);
+};
+
+export const getMaxPlacesAutorisees = async (): Promise<number> => {
+  const latestPlacesAutoriseesOfEveryStructure =
+    await getLatestPlacesAutoriseesPerStructure();
+  return Math.max(...latestPlacesAutoriseesOfEveryStructure);
 };
 
 export const getMinPlacesAutorisees = async (): Promise<number> => {
-  const structures = await prisma.structure.findMany({
-    include: {
-      adresses: {
-        include: {
-          adresseTypologies: true,
-        },
-      },
-    },
-  });
-  return structures.reduce((min, structure) => {
-    return Math.min(
-      min,
-      structure.adresses.reduce((min, adresse) => {
-        return Math.min(min, adresse.adresseTypologies[0].placesAutorisees);
-      }, Infinity)
-    );
-  }, Infinity);
+  const latestPlacesAutoriseesOfEveryStructure =
+    await getLatestPlacesAutoriseesPerStructure();
+  return Math.min(...latestPlacesAutoriseesOfEveryStructure);
 };
 
 export const findOne = async (id: number): Promise<Structure> => {
