@@ -21,7 +21,11 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
   };
 
   const getFileLabel = (): string => {
-    if ("categoryName" in fileUpload && fileUpload.categoryName) {
+    if (
+      "categoryName" in fileUpload &&
+      fileUpload.categoryName &&
+      fileUpload.categoryName !== "Document"
+    ) {
       return fileUpload?.categoryName;
     } else {
       const categoryLabel = getCategoryLabel(
