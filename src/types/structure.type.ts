@@ -12,7 +12,3 @@ export enum StructureType {
   PRAHDA = "PRAHDA",
 }
 
-export enum StructureState {
-  A_FINALISER = "A_FINALISER",
-  FINALISE = "FINALISE",
-}

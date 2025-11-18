@@ -1,5 +1,5 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { PrismaClient, StructureState } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 import { StructureType } from "@/types/structure.type";
 
@@ -31,9 +31,10 @@ export async function seed(): Promise<void> {
     data: createFakeFormStepDefinition(formDefinition.id),
   });
 
-  const stepDefinitionIds = await prisma.formStepDefinition.findMany({
+  const stepDefinitions = await prisma.formStepDefinition.findMany({
     where: { formDefinitionId: formDefinition.id },
-    select: { id: true },
+    orderBy: { slug: "asc" },
+    select: { id: true, slug: true },
   });
 
   console.log(`✅ ${formStepDefinitions.count} FormStepDefinitions créées`);
@@ -59,11 +60,9 @@ export async function seed(): Promise<void> {
           StructureType.CAES,
           StructureType.CPH,
         ]),
-        state: faker.helpers.enumValue(StructureState),
+        isFinalised: faker.datatype.boolean(),
         formDefinitionId: formDefinition.id,
-        stepDefinitionIds: stepDefinitionIds.map(
-          (stepDefinition) => stepDefinition.id
-        ),
+        stepDefinitions,
       });
       console.log(`🏠 Ajout de la structure ${fakeStructure.dnaCode}...`);
       return fakeStructure;

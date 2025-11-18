@@ -1,11 +1,7 @@
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
-import {
-  PublicType,
-  StructureState,
-  StructureType,
-} from "@/types/structure.type";
+import { PublicType, StructureType } from "@/types/structure.type";
 
 export const createStructure = ({
   adresseAdministrative,
@@ -62,6 +58,5 @@ type CreateStructuresArgs = {
   type?: StructureType;
   finessCode?: string;
   publicType?: PublicType;
-  state?: StructureState;
   cpom?: boolean;
 };

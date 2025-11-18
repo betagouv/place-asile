@@ -124,7 +124,12 @@ Les pages sont ensuite accessibles via :
 
 ## 🚀 Mise en production
 
-Pour mettre l'applcation en production, faites une Pull Request d"une branche (par exemple `dev`) vers `main`. Nommez la PR de la manière suivante : "MEP : [ce qui est mis en production]".
+Pour mettre l'applcation en production, placez vous sur la branche `main` et exécutez :
+
+```
+git pull --rebase origin dev
+git push --force-with-lease
+```
 
 ### 🧑‍🔧 Ajout des opérateurs
 
