@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { requireProConnectAuth } from "@/lib/api-auth";
-
 import { findOne } from "../structure.repository";
 import {
   addPresencesIndues,
@@ -10,11 +8,6 @@ import {
 } from "../structure.service";
 
 export async function GET(request: NextRequest) {
-  const authResult = await requireProConnectAuth();
-  if (authResult.status === 401) {
-    return authResult;
-  }
-
   try {
     const id = request.nextUrl.pathname.split("/").pop();
     const structure = await findOne(Number(id));
