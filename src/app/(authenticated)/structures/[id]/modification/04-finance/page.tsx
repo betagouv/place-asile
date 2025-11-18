@@ -15,13 +15,13 @@ import {
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import {
-  anyFinanceFormValues,
-  autoriseeAvecCpomSchema,
-  autoriseeSchema,
-  basicSchema,
-  subventionneeAvecCpomSchema,
-  subventionneeSchema,
-} from "@/schemas/forms/base/budget.schema";
+  anyModificationFinanceFormValues,
+  ModificationFinanceAutoriseeAvecCpomSchema,
+  ModificationFinanceAutoriseeSchema,
+  ModificationFinanceBasicSchema,
+  ModificationFinanceSubventionneeAvecCpomSchema,
+  ModificationFinanceSubventionneeSchema,
+} from "@/schemas/forms/modification/modificationFinance.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
 import { ModificationTitle } from "../components/ModificationTitle";
@@ -36,9 +36,15 @@ export default function ModificationFinanceForm() {
   let schema;
 
   if (isAutorisee) {
-    schema = hasCpom ? autoriseeAvecCpomSchema : autoriseeSchema;
+    schema = hasCpom
+      ? ModificationFinanceAutoriseeAvecCpomSchema
+      : ModificationFinanceAutoriseeSchema;
   } else if (isSubventionnee) {
-    schema = hasCpom ? subventionneeAvecCpomSchema : subventionneeSchema;
+    schema = hasCpom
+      ? ModificationFinanceSubventionneeAvecCpomSchema
+      : ModificationFinanceSubventionneeSchema;
+  } else {
+    schema = ModificationFinanceBasicSchema;
   }
 
   const defaultValues = getDefaultValues({ structure });
@@ -47,8 +53,15 @@ export default function ModificationFinanceForm() {
     nextRoute: `/structures/${structure.id}`,
   });
 
-  const onSubmit = async (data: anyFinanceFormValues) => {
-    await handleSubmit({ ...data, dnaCode: structure.dnaCode });
+  const onSubmit = async (data: anyModificationFinanceFormValues) => {
+    const documentsFinanciers = data.documentsFinanciers.filter(
+      (documentFinancier) => documentFinancier.key
+    );
+    await handleSubmit({
+      ...data,
+      documentsFinanciers,
+      dnaCode: structure.dnaCode,
+    });
   };
 
   const { getFetchState } = useFetchState();
@@ -61,8 +74,10 @@ export default function ModificationFinanceForm() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={schema || basicSchema}
-        defaultValues={defaultValues as unknown as anyFinanceFormValues}
+        schema={schema || ModificationFinanceBasicSchema}
+        defaultValues={
+          defaultValues as unknown as anyModificationFinanceFormValues
+        }
         resetRoute={`/structures/${structure.id}`}
         submitButtonText="Valider"
         availableFooterButtons={[
