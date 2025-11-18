@@ -45,7 +45,10 @@ export const transformFormControlesToApiControles = (
         id: controle.id || undefined,
         date: controle.date!,
         type: controle.type!,
-        fileUploadKey: controle.fileUploads?.[0]?.key,
+        fileUploads: controle.fileUploads?.filter(
+          (fileUpload) =>
+            fileUpload?.key !== undefined && fileUpload?.id !== undefined
+        ) as { id: number; key: string }[] | undefined,
       };
     });
 };
