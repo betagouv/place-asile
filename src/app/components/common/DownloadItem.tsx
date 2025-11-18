@@ -8,6 +8,9 @@ import { DocumentFinancierApiType } from "@/schemas/api/documentFinancier.schema
 import { FileUploadCategoryType } from "@/types/file-upload.type";
 
 export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
+  if (fileUpload.category !== "AUTRE") {
+    console.log("fileUpload", fileUpload);
+  }
   const { getDownloadLink } = useFileUpload();
 
   const getFileType = (filename: string): string => {
@@ -21,7 +24,11 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
   };
 
   const getFileLabel = (): string => {
-    if ("categoryName" in fileUpload && fileUpload.categoryName) {
+    if (
+      "categoryName" in fileUpload &&
+      fileUpload.categoryName &&
+      fileUpload.categoryName !== "Document"
+    ) {
       return fileUpload?.categoryName;
     } else {
       const categoryLabel = getCategoryLabel(
@@ -39,6 +46,8 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
       return `${categoryLabel} ${startYear} - ${endYear}`;
     }
   };
+
+  console.log("getFileLabel", getFileLabel());
 
   return (
     <div className="inline">

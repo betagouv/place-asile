@@ -58,7 +58,7 @@ const getDefaultValuesFromDb = (
       date: acteAdministratif.date || undefined,
       startDate: acteAdministratif.startDate || "",
       endDate: acteAdministratif.endDate || "",
-      categoryName: acteAdministratif.categoryName || "Document",
+      categoryName: acteAdministratif.categoryName,
       parentFileUploadId:
         Number(acteAdministratif.parentFileUploadId) || undefined,
     };
