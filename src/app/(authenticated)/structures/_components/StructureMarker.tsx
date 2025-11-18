@@ -4,6 +4,7 @@ import { ReactElement } from "react";
 import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 
+import { formatDate } from "@/app/utils/date.util";
 import {
   getOperateurLabel,
   getPlacesByCommunes,
@@ -55,12 +56,9 @@ export const StructureMarker = ({
         className="[&>div]:rounded-none! [&>div>div]:m-6!"
         closeButton={false}
       >
-        <div className="text-sm m-0 text-mention-grey">
-          <strong>Code DNA</strong> {dnaCode}
-        </div>
         <div className="text-xl text-title-blue-france m-0">
           <strong className="fr-pr-2w">
-            {type} - {getOperateurLabel(filiale, operateur)}
+            {type}, {getOperateurLabel(filiale, operateur)}
           </strong>
           {placesAutorisees} places
         </div>
@@ -69,17 +67,15 @@ export const StructureMarker = ({
           {commune}, {departement} ({codePostal.substring(0, 2)})
         </div>
         {debutConvention && finConvention && (
-          <div className="text-sm mt-1 mb-0">
-            <strong>Convention en cours : </strong>
-            <span>
-              {new Date(debutConvention).toLocaleDateString("fr-FR")} -{" "}
-              {new Date(finConvention).toLocaleDateString("fr-FR")}
-            </span>
+          <div className="text-sm mt-3 mb-1">
+            <strong>Fin convention</strong> {formatDate(finConvention)}
           </div>
         )}
+        <div className="text-sm m-0">
+          <strong>Code DNA</strong> {dnaCode}
+        </div>
         <div className="text-sm mt-1 mb-0">
-          <strong>Bâti </strong>
-          <span className="pr-1">
+          <span className="pr-1 [&_p]:my-1!">
             <RepartitionBadge repartition={repartition} />
           </span>
           <span>{getCommunesLabel()}</span>

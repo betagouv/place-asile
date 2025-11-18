@@ -64,7 +64,7 @@ describe("structure util", () => {
   describe("getRepartition", () => {
     it("should return Collectif when given no adresses", () => {
       // GIVEN
-      const structure = createStructure({ adresses: [] });
+      const structure = createStructure({ id: 1, adresses: [] });
 
       // WHEN
       const repartition = getRepartition(structure);
@@ -78,7 +78,7 @@ describe("structure util", () => {
         createAdresse({ repartition: Repartition.COLLECTIF }),
         createAdresse({ repartition: Repartition.COLLECTIF }),
       ];
-      const structure = createStructure({ adresses });
+      const structure = createStructure({ id: 2, adresses });
 
       // WHEN
       const repartition = getRepartition(structure);
@@ -92,7 +92,7 @@ describe("structure util", () => {
         createAdresse({ repartition: Repartition.DIFFUS }),
         createAdresse({ repartition: Repartition.DIFFUS }),
       ];
-      const structure = createStructure({ adresses });
+      const structure = createStructure({ id: 3, adresses });
 
       // WHEN
       const repartition = getRepartition(structure);
@@ -105,7 +105,7 @@ describe("structure util", () => {
         createAdresse({ repartition: Repartition.COLLECTIF }),
         createAdresse({ repartition: Repartition.DIFFUS }),
       ];
-      const structure = createStructure({ adresses });
+      const structure = createStructure({ id: 4, adresses });
 
       // WHEN
       const repartition = getRepartition(structure);

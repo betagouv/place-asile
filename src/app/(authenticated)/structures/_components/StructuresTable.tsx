@@ -29,11 +29,12 @@ export const StructuresTable = ({
     "DNA",
     "Type",
     "Opérateur",
-    "Places aut.",
+    "Dépt.",
     "Bâti",
     "Communes",
-    "Convention en cours",
-    "Détails",
+    "Places aut.",
+    "Fin convention",
+    "",
   ];
 
   const [selectedStructure, setSelectedStructure] =
@@ -50,7 +51,7 @@ export const StructuresTable = ({
         <Table
           headings={headings}
           ariaLabelledBy={ariaLabelledBy}
-          className="[&_tr]:bg-transparent!"
+          className="[&_thead_tr]:bg-transparent! [&_thead_tr_th]:text-left [&_thead_tr_th]:h-12"
         >
           {currentData.map((structure, index) => (
             <StructureItem

@@ -1,6 +1,6 @@
 import { useParams } from "next/navigation";
 
-import { CustomTag } from "@/app/components/ui/CustomTag";
+import { Badge } from "@/app/components/common/Badge";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 
@@ -57,10 +57,10 @@ export const Adresses = () => {
               <span>– {hebergement?.repartition}</span>
             )}
             {hebergement?.adresseTypologies?.[0]?.qpv && (
-              <CustomTag>QPV</CustomTag>
+              <Badge type="purple">QPV</Badge>
             )}
             {hebergement?.adresseTypologies?.[0]?.logementSocial && (
-              <CustomTag>Logement social</CustomTag>
+              <Badge type="purple">Logement social</Badge>
             )}
           </p>
         );

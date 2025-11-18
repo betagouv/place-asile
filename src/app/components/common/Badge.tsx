@@ -11,6 +11,7 @@ export const Badge = ({ children, type, icon }: Props): ReactElement => {
       error: "fr-badge--error",
       warning: "fr-badge--warning",
       new: "fr-badge--new",
+      purple: "fr-badge--purple-glycine",
     };
     return types[type];
   };
@@ -30,4 +31,10 @@ type Props = PropsWithChildren<{
   type?: BadgeType;
 }>;
 
-export type BadgeType = "success" | "info" | "error" | "warning" | "new";
+export type BadgeType =
+  | "success"
+  | "info"
+  | "error"
+  | "warning"
+  | "new"
+  | "purple";
