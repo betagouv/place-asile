@@ -77,6 +77,7 @@ export const Filters = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openPanel]);
+
   return (
     <>
       <div className="relative">
