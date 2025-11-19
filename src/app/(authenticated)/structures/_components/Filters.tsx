@@ -95,7 +95,10 @@ export const Filters = () => {
           Filtres
         </Button>
         {openPanel === "filters" && (
-          <FiltersPanel closePanel={() => handleTogglePanel(undefined)} />
+          <FiltersPanel
+            closePanel={() => handleTogglePanel(undefined)}
+            isActive={isFiltersActive}
+          />
         )}
       </div>{" "}
       <div className="relative">
@@ -115,6 +118,7 @@ export const Filters = () => {
         {openPanel === "localisation" && (
           <LocationFiltersPanel
             closePanel={() => handleTogglePanel(undefined)}
+            isActive={isLocationActive}
           />
         )}
       </div>
