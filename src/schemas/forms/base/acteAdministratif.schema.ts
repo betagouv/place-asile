@@ -70,6 +70,10 @@ const acteAdministratifSubventionneesSchema = acteAdministratifSchema.refine(
       return !!data.key && !!data.startDate && !!data.endDate;
     }
     return true;
+  },
+  {
+    message: "Ces documents sont obligatoires.",
+    path: ["key"],
   }
 );
 
