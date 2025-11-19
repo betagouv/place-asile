@@ -21,7 +21,8 @@ export const Filters = () => {
     }
   };
 
-  const [isActive, setIsActive] = useState(false);
+  const [isFiltersActive, setIsFiltersActive] = useState(false);
+  const [isLocationActive, setIsLocationActive] = useState(false);
 
   const searchParams = useSearchParams();
   const type: StructureType | null = searchParams.get(
@@ -34,9 +35,9 @@ export const Filters = () => {
 
   useEffect(() => {
     if (type || bati || places) {
-      setIsActive(true);
+      setIsFiltersActive(true);
     } else {
-      setIsActive(false);
+      setIsFiltersActive(false);
     }
   }, [type, bati, places]);
 
@@ -44,9 +45,9 @@ export const Filters = () => {
 
   useEffect(() => {
     if (departements) {
-      setIsActive(true);
+      setIsLocationActive(true);
     } else {
-      setIsActive(false);
+      setIsLocationActive(false);
     }
   }, [departements]);
 
@@ -87,7 +88,7 @@ export const Filters = () => {
           className="flex gap-1"
         >
           <span className="fr-icon-filter-line fr-icon--sm relative">
-            {isActive && (
+            {isFiltersActive && (
               <span className="absolute block rounded-full w-1.5 h-1.5 bg-border-action-high-warning top-0 right-0" />
             )}
           </span>{" "}
@@ -105,7 +106,7 @@ export const Filters = () => {
           className="flex gap-1"
         >
           <span className="fr-icon-focus-3-line fr-icon--sm relative">
-            {isActive && (
+            {isLocationActive && (
               <span className="absolute block rounded-full w-1.5 h-1.5 bg-border-action-high-warning top-0 right-0" />
             )}
           </span>{" "}
