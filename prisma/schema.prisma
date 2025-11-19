@@ -81,6 +81,11 @@ model StructureOfii {
   departementNumero     String?
   directionTerritoriale String?
   nomOfii               String?
+  activeSince           DateTime?
+  inactiveSince         DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@schema("public")
 }

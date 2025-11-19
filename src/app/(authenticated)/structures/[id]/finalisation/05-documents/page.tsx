@@ -16,10 +16,12 @@ import {
 } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/finalisationForm.util";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
+  actesAdministratifsAutoriseesSchema,
   ActesAdministratifsAutoSaveFormValues,
   actesAdministratifsAutoSaveSchema,
-  actesAdministratifsSchema,
+  actesAdministratifsSubventionneesSchema,
 } from "@/schemas/forms/base/acteAdministratif.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { StepStatus } from "@/types/form.type";
@@ -36,6 +38,14 @@ export default function FinalisationQualite() {
     currentStep,
     structure
   );
+
+  const isAutorisee = isStructureAutorisee(structure.type);
+  let schema;
+  if (isAutorisee) {
+    schema = actesAdministratifsAutoriseesSchema;
+  } else {
+    schema = actesAdministratifsSubventionneesSchema;
+  }
 
   const categoriesToDisplay = getCategoriesToDisplay(structure).filter(
     (category) =>
@@ -69,7 +79,7 @@ export default function FinalisationQualite() {
     <div>
       <Tabs currentStep={currentStep} />
       <FormWrapper
-        schema={actesAdministratifsSchema}
+        schema={schema}
         onSubmit={handleValidation}
         submitButtonText="Je valide la saisie de cette page"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
