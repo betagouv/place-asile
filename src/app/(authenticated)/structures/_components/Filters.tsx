@@ -11,7 +11,7 @@ import { LocationFiltersPanel } from "./LocationFiltersPanel";
 export const Filters = () => {
   const [openPanel, setOpenPanel] = useState<
     "filters" | "localisation" | undefined
-  >("localisation");
+  >(undefined);
 
   const handleTogglePanel = (panel: "filters" | "localisation" | undefined) => {
     if (openPanel === panel) {
