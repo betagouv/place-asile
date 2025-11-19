@@ -105,15 +105,7 @@ export const findBySearch = async ({
     skip: page ? page * DEFAULT_PAGE_SIZE : 0,
     take: DEFAULT_PAGE_SIZE,
     include: {
-      adresses: {
-        include: {
-          adresseTypologies: {
-            orderBy: {
-              date: "desc",
-            },
-          },
-        },
-      },
+      adresses: true,
       operateur: true,
       structureTypologies: {
         orderBy: {

@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useDebounceCallback } from "@/app/hooks/useDebounceCallback";
-import { useMaxPlacesAutorisees } from "@/app/hooks/useMaxPlacesAutorisees";
+import { useStructureStats } from "@/app/hooks/useStructureStats";
 
 const DEBOUNCE_TIME = 300;
 
@@ -11,7 +11,7 @@ export const FiltersPlacesAutorisees = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { maxPlacesAutorisees, minPlacesAutorisees } = useMaxPlacesAutorisees();
+  const { maxPlacesAutorisees, minPlacesAutorisees } = useStructureStats();
 
   const [placesAutorisees, setPlacesAutorisees] = useState(
     searchParams.get("places")?.split(",").map(Number) || []
