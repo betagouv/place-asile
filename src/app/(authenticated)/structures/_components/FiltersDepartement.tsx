@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { DEPARTEMENTS } from "@/constants";
 
-import { FiltersRegions } from "./FiltersRegions";
+import { FiltersRegion } from "./FiltersRegion";
 
 export const FiltersDepartement = () => {
   const router = useRouter();
@@ -36,7 +36,7 @@ export const FiltersDepartement = () => {
     <div>
       <div className={fr.cx("fr-accordions-group")}>
         {regions.map((region) => (
-          <FiltersRegions
+          <FiltersRegion
             region={region}
             key={region}
             departements={departements}
@@ -52,13 +52,12 @@ export const FiltersDepartement = () => {
                     key={departement.numero}
                     options={[
                       {
-                        label: departement.name,
+                        label: `${departement.name} - ${departement.numero}`,
                         nativeInputProps: {
                           name: "structure-departement",
                           value: departement.numero,
-                          onChange: (e) => {
-                            console.log(e.target.value);
-                          },
+                          checked: departements.includes(departement.numero),
+                          onChange: handleDepartementToggle,
                         },
                       },
                     ]}
@@ -69,7 +68,7 @@ export const FiltersDepartement = () => {
                   />
                 ))}
             </>
-          </FiltersRegions>
+          </FiltersRegion>
         ))}
       </div>
     </div>

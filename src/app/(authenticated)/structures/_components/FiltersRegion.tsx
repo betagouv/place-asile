@@ -5,60 +5,18 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from "react";
 import { cn } from "@/app/utils/classname.util";
 import { DEPARTEMENTS } from "@/constants";
 
-export const FiltersRegions = ({
+export const FiltersRegion = ({
   region,
   departements,
   setDepartements,
   children,
 }: Props) => {
-  const checkboxWrapperRef = useRef<HTMLDivElement>(null);
-
-  // We need to stop the propagation of the native event
-  // to avoid opening the accordion when clicking on the checkbox
-  useEffect(() => {
-    const wrapper = checkboxWrapperRef.current;
-    if (!wrapper) return;
-
-    const handleClick = (e: MouseEvent) => {
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-    };
-
-    const handleMouseDown = (e: MouseEvent) => {
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-    };
-
-    wrapper.addEventListener("click", handleClick, true);
-    wrapper.addEventListener("mousedown", handleMouseDown, true);
-
-    return () => {
-      wrapper.removeEventListener("click", handleClick, true);
-      wrapper.removeEventListener("mousedown", handleMouseDown, true);
-    };
-  }, []);
-
-  const handleRegionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
-    const region = event.target.value;
-    setDepartements((prevDepartements) => {
-      const newDepartements = [
-        ...prevDepartements,
-        ...DEPARTEMENTS.filter(
-          (departement) => departement.region === region
-        ).map((departement) => departement.numero),
-      ];
-      return [...new Set(newDepartements)];
-    });
-  };
-
   const checkedStatus = useMemo(() => {
     const numOfDepartementsInRegion = DEPARTEMENTS.filter(
       (departement) => departement.region === region
     ).length;
-
     const numOfDepartementsChecked = departements.filter((departement) =>
-      DEPARTEMENTS.some((d) => d.numero === departement)
+      DEPARTEMENTS.some((d) => d.numero === departement && d.region === region)
     ).length;
 
     if (numOfDepartementsChecked === numOfDepartementsInRegion) {
@@ -69,6 +27,52 @@ export const FiltersRegions = ({
     }
     return "unchecked";
   }, [departements, region]);
+
+  const checkboxWrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const wrapper = checkboxWrapperRef.current;
+    if (!wrapper) return;
+
+    const handleClick = (e: MouseEvent) => {
+      // We need to stop the propagation of the native event
+      // to avoid opening the accordion when clicking on the checkbox
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      const target = e.target as HTMLElement;
+      if (target.tagName !== "LABEL") {
+        return;
+      }
+
+      if (checkedStatus === "checked") {
+        setDepartements((prevDepartements) =>
+          prevDepartements.filter(
+            (departement) =>
+              !DEPARTEMENTS.some(
+                (d) => d.numero === departement && d.region === region
+              )
+          )
+        );
+      } else {
+        setDepartements((prevDepartements) => {
+          const newDepartements = [
+            ...prevDepartements,
+            ...DEPARTEMENTS.filter(
+              (departement) => departement.region === region
+            ).map((departement) => departement.numero),
+          ];
+          return [...new Set(newDepartements)];
+        });
+      }
+    };
+
+    wrapper.addEventListener("click", handleClick, true);
+
+    return () => {
+      wrapper.removeEventListener("click", handleClick, true);
+    };
+  }, [checkedStatus, setDepartements, region]);
 
   return (
     <Accordion
@@ -86,11 +90,10 @@ export const FiltersRegions = ({
                 nativeInputProps: {
                   name: "structure-region",
                   value: region,
-                  onChange: (e) => {
-                    console.log(e.target.value);
-                    handleRegionChange(e);
-                  },
                   checked: checkedStatus === "checked",
+                  onChange: (e) => {
+                    console.log(e.target.value); // It is never fired because of the stopPropagation
+                  },
                 },
               },
             ]}
