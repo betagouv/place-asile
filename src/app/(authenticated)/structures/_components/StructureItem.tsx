@@ -34,11 +34,13 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
       </td>
       <td className="text-left!">{getCommuneLabel(structure)}</td>
       <td>{structure.structureTypologies?.[0].placesAutorisees}</td>
-      {structure.finConvention ? (
-        <td className="text-left!">{formatDate(structure.finConvention)}</td>
-      ) : (
-        <EmptyCell />
-      )}
+      <td className="text-left!">
+        {structure.finConvention ? (
+          formatDate(structure.finConvention)
+        ) : (
+          <EmptyCell />
+        )}
+      </td>
       <td>
         {isStructureFinalisee ? (
           <Link
