@@ -18,6 +18,7 @@ export const createFakeStructureOfii = ({
   operateurId,
   departementNumero,
 }: FakeStructureOfiiOptions): Omit<StructureOfii, "id"> => {
+  const createdAt = faker.date.past();
   return {
     dnaCode: generateDnaCode({
       type,
@@ -30,6 +31,17 @@ export const createFakeStructureOfii = ({
     departementNumero,
     directionTerritoriale: "DT " + faker.location.city(),
     nomOfii: faker.lorem.words(2),
+    createdAt,
+    updatedAt: createdAt,
+    activeSince: createdAt,
+    inactiveSince: faker.helpers.maybe(
+      () =>
+        faker.date.between({
+          from: createdAt,
+          to: new Date(),
+        }),
+      { probability: 0.1 }
+    ) ?? null,
   };
 };
 
@@ -37,4 +49,5 @@ export type FakeStructureOfiiOptions = {
   type: StructureType;
   operateurId: number;
   departementNumero: string;
+
 };

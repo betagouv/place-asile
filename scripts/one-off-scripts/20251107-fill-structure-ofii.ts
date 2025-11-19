@@ -4,17 +4,32 @@ import { parse } from "csv-parse/sync";
 import { checkBucket, getObject } from "@/lib/minio";
 
 const prisma = new PrismaClient();
-const OFII_BUCKET_NAME = process.env.DOCS_BUCKET_NAME!;
-const OFII_CSV_FILENAME = process.env.OFII_CSV_FILENAME!;
+const bucketName = process.env.DOCS_BUCKET_NAME!;
+const args = process.argv.slice(2);
+const csvFilename = args[0];
+
+if (!csvFilename) {
+    throw new Error("Merci de fournir le nom du fichier CSV en argument du script.");
+}
+
+type OfiiCsvRow = {
+    dnaCode: string;
+    nom: string;
+    type: string;
+    operateur_nom?: string;
+    departement: string;
+    direction_territoriale?: string;
+    nom_ofii?: string;
+};
 
 // open csv and load data into StructureOfii table
 const loadDataToOfiiTable = async () => {
     try {
         console.log("Vérification du bucket...");
-        await checkBucket(OFII_BUCKET_NAME);
+        await checkBucket(bucketName);
 
         console.log("Récupération du fichier CSV...");
-        const stream = await getObject(OFII_BUCKET_NAME, OFII_CSV_FILENAME);
+        const stream = await getObject(bucketName, csvFilename);
         const chunks: Buffer[] = [];
         for await (const chunk of stream) {
             chunks.push(chunk);
@@ -22,7 +37,7 @@ const loadDataToOfiiTable = async () => {
         const csvContent = Buffer.concat(chunks).toString('utf-8');
 
         console.log("Parsing du CSV...");
-        const records = parse(csvContent, {
+        const records = parse<OfiiCsvRow>(csvContent, {
             columns: true,
             skip_empty_lines: true,
             trim: true,
@@ -44,7 +59,7 @@ const loadDataToOfiiTable = async () => {
         // create missing opérateurs
         const operateursInCsv = [...new Set(
             records
-                .map((r: any) => r.operateur_nom)
+                .map((r: OfiiCsvRow) => r.operateur_nom)
                 .filter((nom): nom is string => !!nom)
         )];
 
@@ -69,10 +84,12 @@ const loadDataToOfiiTable = async () => {
 
         // Validation des données
         console.log("Validation des données...");
-        const validRecords = [];
-        const errors = [];
 
-        for (const row of records as any[]) {
+
+        const validRecords: OfiiCsvRow[] = [];
+        const errors: { dnaCode: string; issues: string[] }[] = [];
+
+        for (const row of records as OfiiCsvRow[]) {
             const issues = [];
 
             if (!row.departement || !departementSet.has(row.departement)) {
@@ -102,25 +119,66 @@ const loadDataToOfiiTable = async () => {
         }
 
         console.log(`✓ ${validRecords.length} lignes valides sur ${records.length}`);
+        console.log("Mise à jour des données ofii...");
+        let createdCount = 0;
+        let updatedCount = 0;
 
-        console.log("Suppression des données existantes...");
-        await prisma.structureOfii.deleteMany();
+        const existingStructures = await prisma.structureOfii.findMany({ select: { dnaCode: true } });
+        const existingDnaCodes = new Set(existingStructures.map(({ dnaCode }) => dnaCode));
 
-        console.log("Insertion dans la base de données...");
-        const result = await prisma.structureOfii.createMany({
-            data: validRecords.map((row: any) => ({
-                dnaCode: row.dnaCode,
-                nom: row.nom,
-                type: row.type as StructureType,
-                operateurId: row.operateur_nom ? operateurMap.get(row.operateur_nom) : null,
-                departementNumero: row.departement,
-                directionTerritoriale: row.direction_territoriale,
-                nomOfii: row.nom_ofii,
-            })),
-            skipDuplicates: true,
+        await prisma.$transaction(async (tx) => {
+            for (const row of validRecords) {
+                const exists = existingDnaCodes.has(row.dnaCode);
+                await tx.structureOfii.upsert({
+                    where: { dnaCode: row.dnaCode },
+                    update: {
+                        nom: row.nom,
+                        type: row.type as StructureType,
+                        operateurId: row.operateur_nom ? operateurMap.get(row.operateur_nom) ?? null : null,
+                        departementNumero: row.departement,
+                        directionTerritoriale: row.direction_territoriale,
+                        nomOfii: row.nom_ofii,
+                        inactiveSince: null,
+                    },
+                    create: {
+                        dnaCode: row.dnaCode,
+                        nom: row.nom,
+                        type: row.type as StructureType,
+                        operateurId: row.operateur_nom ? operateurMap.get(row.operateur_nom) ?? null : null,
+                        departementNumero: row.departement,
+                        directionTerritoriale: row.direction_territoriale,
+                        nomOfii: row.nom_ofii,
+                        activeSince: new Date(),
+                        inactiveSince: null,
+                    },
+                });
+
+                if (exists) {
+                    updatedCount += 1;
+                } else {
+                    createdCount += 1;
+                }
+            }
+
+            const csvDnaCodes = new Set(validRecords.map((row) => row.dnaCode));
+            const dnaCodesToDeactivate: string[] = [];
+            existingDnaCodes.forEach((dnaCode) => { if (!csvDnaCodes.has(dnaCode)) { dnaCodesToDeactivate.push(dnaCode); } });
+
+            if (dnaCodesToDeactivate.length > 0) {
+                const now = new Date();
+                const deactivated = await tx.structureOfii.updateMany({
+                    where: { dnaCode: { in: dnaCodesToDeactivate } },
+                    data: { inactiveSince: now },
+                });
+                console.log(`⚠️ ${deactivated.count} structures marquées comme inactives (absentes du CSV).`);
+            } else {
+                console.log("Aucune structure à désactiver.");
+            }
         });
 
-        console.log(`✅ ${result.count} structures insérées avec succès`);
+        console.log(
+            `✅ ${createdCount} structures créées, ${updatedCount} structures mises à jour`
+        );
 
     } catch (error) {
         console.error("❌ Erreur lors du chargement des données:", error);
