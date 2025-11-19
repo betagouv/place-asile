@@ -15,9 +15,11 @@ import {
 } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { filterActesAdministratifs } from "@/app/utils/filterActesAdministratifs";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
+  actesAdministratifsAutoriseesSchema,
   ActesAdministratifsFormValues,
-  actesAdministratifsSchema,
+  actesAdministratifsSubventionneesSchema,
 } from "@/schemas/forms/base/acteAdministratif.schema";
 import { FetchState } from "@/types/fetch-state.type";
 
@@ -26,6 +28,14 @@ import { ModificationTitle } from "../components/ModificationTitle";
 
 export default function ModificationQualiteForm() {
   const { structure } = useStructureContext();
+
+  const isAutorisee = isStructureAutorisee(structure.type);
+  let schema;
+  if (isAutorisee) {
+    schema = actesAdministratifsAutoriseesSchema;
+  } else {
+    schema = actesAdministratifsSubventionneesSchema;
+  }
 
   const categoriesToDisplay = getCategoriesToDisplay(structure).filter(
     (category) =>
@@ -68,7 +78,7 @@ export default function ModificationQualiteForm() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={actesAdministratifsSchema}
+        schema={schema}
         onSubmit={onSubmit}
         submitButtonText="Valider"
         resetRoute={`/structures/${structure.id}`}
