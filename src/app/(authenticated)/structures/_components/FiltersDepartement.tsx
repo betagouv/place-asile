@@ -22,6 +22,17 @@ export const FiltersDepartement = () => {
     ].sort((a, b) => a.localeCompare(b));
   }, []);
 
+  const handleDepartementToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (departements.includes(value)) {
+      setDepartements(
+        departements.filter((departement) => departement !== value)
+      );
+    } else {
+      setDepartements([...departements, value]);
+    }
+  };
+
   const prevDepartements = useRef(departements);
   useEffect(() => {
     if (prevDepartements.current !== departements) {
@@ -33,7 +44,7 @@ export const FiltersDepartement = () => {
   }, [departements, searchParams, router]);
 
   return (
-    <div>
+    <div className="max-h-[648px] overflow-y-scroll">
       <div className={fr.cx("fr-accordions-group")}>
         {regions.map((region) => (
           <FiltersRegion
