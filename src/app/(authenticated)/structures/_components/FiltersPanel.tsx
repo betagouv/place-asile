@@ -3,7 +3,7 @@ import { FiltersPlacesAutorisees } from "./FiltersPlacesAutorisees";
 import { FiltersResetter } from "./FiltersResetter";
 import { FiltersTypes } from "./FiltersTypes";
 
-export const FiltersPanel = ({ closePanel }: { closePanel: () => void }) => {
+export const FiltersPanel = ({ closePanel, isActive }: Props) => {
   return (
     <div
       id="filters-panel"
@@ -15,7 +15,12 @@ export const FiltersPanel = ({ closePanel }: { closePanel: () => void }) => {
       <hr className="p-1!" />
       <FiltersPlacesAutorisees />
       <hr className="p-1!" />
-      <FiltersResetter closePanel={closePanel} />
+      <FiltersResetter closePanel={closePanel} isActive={isActive} />
     </div>
   );
+};
+
+type Props = {
+  closePanel: () => void;
+  isActive: boolean;
 };

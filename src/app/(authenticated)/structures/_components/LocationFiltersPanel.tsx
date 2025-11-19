@@ -1,11 +1,7 @@
 import { FiltersDepartement } from "./FiltersDepartement";
 import { FiltersResetter } from "./FiltersResetter";
 
-export const LocationFiltersPanel = ({
-  closePanel,
-}: {
-  closePanel: () => void;
-}) => {
+export const LocationFiltersPanel = ({ closePanel, isActive }: Props) => {
   return (
     <div
       id="location-panel"
@@ -17,7 +13,13 @@ export const LocationFiltersPanel = ({
         closePanel={closePanel}
         label="Réinitialiser (toute la France)"
         filters={["departements"]}
+        isActive={isActive}
       />
     </div>
   );
+};
+
+type Props = {
+  closePanel: () => void;
+  isActive: boolean;
 };

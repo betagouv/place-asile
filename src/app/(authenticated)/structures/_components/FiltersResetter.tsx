@@ -5,11 +5,8 @@ export const FiltersResetter = ({
   closePanel,
   label = "Réinitialiser les filtres",
   filters = ["search", "type", "bati", "places"],
-}: {
-  closePanel: () => void;
-  label?: string;
-  filters?: string[];
-}) => {
+  isActive,
+}: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -25,6 +22,7 @@ export const FiltersResetter = ({
 
   return (
     <Button
+      disabled={!isActive}
       priority="tertiary no outline"
       className="w-full -mt-2 flex justify-center"
       onClick={handleReinitialisation}
@@ -32,4 +30,11 @@ export const FiltersResetter = ({
       {label}
     </Button>
   );
+};
+
+type Props = {
+  closePanel: () => void;
+  label?: string;
+  filters?: string[];
+  isActive: boolean;
 };
