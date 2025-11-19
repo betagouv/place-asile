@@ -51,7 +51,6 @@ export const Filters = () => {
     }
   }, [departements]);
 
-  // Listener to close opened panel when clicking outside
   useEffect(() => {
     if (!openPanel) return;
 
