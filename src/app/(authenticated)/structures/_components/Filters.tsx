@@ -50,6 +50,33 @@ export const Filters = () => {
     }
   }, [departements]);
 
+  // Listener to close opened panel when clicking outside
+  useEffect(() => {
+    if (!openPanel) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const filtersPanel = document.getElementById("filters-panel");
+      const locationPanel = document.getElementById("location-panel");
+      let clickedInsidePanel = false;
+
+      if (
+        (filtersPanel && filtersPanel.contains(event.target as Node)) ||
+        (locationPanel && locationPanel.contains(event.target as Node))
+      ) {
+        clickedInsidePanel = true;
+      }
+
+      if (!clickedInsidePanel) {
+        setOpenPanel(undefined);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openPanel]);
   return (
     <>
       <div className="relative">

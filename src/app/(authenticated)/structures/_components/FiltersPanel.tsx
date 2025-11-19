@@ -5,7 +5,10 @@ import { FiltersTypes } from "./FiltersTypes";
 
 export const FiltersPanel = ({ closePanel }: { closePanel: () => void }) => {
   return (
-    <div className="absolute top-full -right-2 mt-1 w-96 bg-white rounded-md shadow-md">
+    <div
+      id="filters-panel"
+      className="absolute top-full -right-2 mt-1 w-96 bg-white rounded-md shadow-md"
+    >
       <FiltersTypes />
       <hr className="p-1!" />
       <FiltersBatis />
