@@ -2,23 +2,25 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export const FiltersResetter = ({
-  setIsOpen,
+  closePanel,
+  label = "Réinitialiser les filtres",
+  filters = ["search", "type", "bati", "places"],
 }: {
-  setIsOpen: (isOpen: boolean) => void;
+  closePanel: () => void;
+  label?: string;
+  filters?: string[];
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const handleReinitialisation = () => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
-    params.delete("search");
-    params.delete("type");
-    params.delete("bati");
-    params.delete("places");
-    params.delete("departements");
+    filters.forEach((filter) => {
+      params.delete(filter);
+    });
 
     router.replace(`?${params.toString()}`);
-    setIsOpen(false);
+    closePanel();
   };
 
   return (
@@ -27,7 +29,7 @@ export const FiltersResetter = ({
       className="w-full -mt-2 flex justify-center"
       onClick={handleReinitialisation}
     >
-      Réinitialiser les filtres
+      {label}
     </Button>
   );
 };
