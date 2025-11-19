@@ -3,6 +3,7 @@
 set -e
 
 SCRIPT_NAME=$1
+shift || true # retire le nom du script des arguments
 
 if [ -z "$SCRIPT_NAME" ]; then
   echo "❌ Erreur : merci de fournir le nom du script. Exemple : yarn one-off 20251020-migrate-forms-and-steps"
@@ -13,4 +14,4 @@ echo "🚀 Installation des dépendances"
 yarn install --production=false
 
 echo "🏃 Exécution du script ${SCRIPT_NAME}.ts"
-npx tsx scripts/one-off-scripts/${SCRIPT_NAME}.ts
+npx tsx scripts/one-off-scripts/${SCRIPT_NAME}.ts "$@"

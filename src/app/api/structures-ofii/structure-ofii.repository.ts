@@ -25,5 +25,6 @@ export const findBySearchTerm = async (
     },
   });
 
-  return structuresOfii;
+  return structuresOfii.filter((structureOfii) => structureOfii.inactiveSince === null);
+
 };
