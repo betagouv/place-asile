@@ -49,8 +49,8 @@ export const divideFileUploads = (
 };
 
 export const getStructureOrderBy = (
-  column: Column = "departementAdministratif",
-  direction: "asc" | "desc" = "asc"
+  column: Column,
+  direction: "asc" | "desc"
 ): Prisma.StructureOrderByWithRelationInput => {
   if (["dnaCode", "type", "finConvention"].includes(column)) {
     return { [column as Column]: direction };
