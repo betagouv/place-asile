@@ -1,7 +1,8 @@
 import Button from "@codegouvfr/react-dsfr/Button";
-import { Column } from "@/types/column.type";
 import { ReactElement } from "react";
+
 import { cn } from "@/app/utils/classname.util";
+import { Column } from "@/types/column.type";
 
 export const OrderButton = ({
   column,
