@@ -519,3 +519,17 @@ view StructuresFilling {
 
   @@schema("reporting")
 }
+
+view StructuresOrder {
+  id                       Int
+  dnaCode                  String
+  type                     StructureType
+  operateur                String
+  departementAdministratif String
+  region                   String
+  placesAutorisees         Int
+  finConvention            DateTime
+  repartition              String
+
+  @@schema("reporting")
+}
