@@ -14,12 +14,6 @@ import { DeepPartial } from "@/types/global";
 dayjs.extend(customParseFormat);
 
 export const useStructures = (): UseStructureResult => {
-  const getStructures = async (): Promise<StructureApiType[]> => {
-    const result = await fetch("/api/structures");
-    const structures = await result.json();
-    return structures;
-  };
-
   const addStructure = async (values: AjoutFormValues): Promise<string> => {
     const structure = transformAjoutFormStructureToApiStructure(values);
     try {
@@ -72,7 +66,6 @@ export const useStructures = (): UseStructureResult => {
   };
 
   return {
-    getStructures,
     addStructure,
     updateStructure,
     updateAndRefreshStructure,
@@ -80,7 +73,6 @@ export const useStructures = (): UseStructureResult => {
 };
 
 type UseStructureResult = {
-  getStructures: () => Promise<StructureApiType[]>;
   addStructure: (values: AjoutFormValues) => Promise<string>;
   updateStructure: (values: unknown) => Promise<string>;
   updateAndRefreshStructure: (

@@ -6,15 +6,46 @@ import {
   structureUpdateApiSchema,
 } from "@/schemas/api/structure.schema";
 
-import { createOne, findAll, updateOne } from "./structure.repository";
+import {
+  countBySearch,
+  createOne,
+  findBySearch,
+  updateOne,
+} from "./structure.repository";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const authResult = await requireProConnectAuth();
   if (authResult.status === 401) {
     return authResult;
   }
-  const structures = await findAll();
-  return NextResponse.json(structures);
+  const search = request.nextUrl.searchParams.get("search");
+  const page = request.nextUrl.searchParams.get("page") as number | null;
+  const type = request.nextUrl.searchParams.get("type");
+  const bati = request.nextUrl.searchParams.get("bati");
+  const placesAutorisees = request.nextUrl.searchParams.get("places") as
+    | string
+    | null;
+  const departements = request.nextUrl.searchParams.get("departements");
+  const map = request.nextUrl.searchParams.get("map") === "true";
+  const structures = await findBySearch({
+    search,
+    page,
+    type,
+    bati,
+    placesAutorisees,
+    departements,
+    map,
+  });
+  const totalStructures = await countBySearch({
+    search,
+    page,
+    type,
+    bati,
+    placesAutorisees,
+    departements,
+  });
+
+  return NextResponse.json({ structures, totalStructures });
 }
 
 export async function POST(request: NextRequest) {

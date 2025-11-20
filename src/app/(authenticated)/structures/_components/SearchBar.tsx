@@ -1,30 +1,37 @@
-import { ChangeEvent, ReactElement } from "react";
+"use client";
 
-import { StructureApiType } from "@/schemas/api/structure.schema";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ReactElement, useEffect, useState } from "react";
 
-export const SearchBar = ({
-  structures,
-  setFilteredStructures,
-}: Props): ReactElement => {
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value.toLowerCase();
+import { useDebounceCallback } from "@/app/hooks/useDebounceCallback";
+
+const DEBOUNCE_TIME = 300;
+
+export const SearchBar = (): ReactElement => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || ""
+  );
+
+  const handleSearchUpdate = useDebounceCallback((): void => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+
+    params.delete("page");
+
     if (searchTerm.length > 0) {
-      const filteredStructures = structures.filter((structure) => {
-        const communes =
-          structure.adresses?.flatMap(
-            (adresse) => adresse.commune?.toLowerCase() ?? []
-          ) || [];
-        const matchesDnaCode = structure.dnaCode
-          .toLowerCase()
-          .includes(searchTerm);
-        const matchesCommune = communes.some((commune) =>
-          commune.includes(searchTerm)
-        );
-        return matchesDnaCode || matchesCommune;
-      });
-      setFilteredStructures(filteredStructures);
+      params.set("search", searchTerm);
+    } else {
+      params.delete("search");
     }
-  };
+
+    router.replace(`?${params.toString()}`);
+  }, DEBOUNCE_TIME);
+
+  useEffect(() => {
+    handleSearchUpdate();
+  }, [searchTerm, handleSearchUpdate]);
 
   return (
     <div className="border border-disabled-grey h-8 flex items-center">
@@ -33,13 +40,9 @@ export const SearchBar = ({
         type="text"
         placeholder="DNA ou commune"
         id="search"
-        onChange={onChange}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
     </div>
   );
-};
-
-type Props = {
-  structures: StructureApiType[];
-  setFilteredStructures: (filteredStructures: StructureApiType[]) => void;
 };

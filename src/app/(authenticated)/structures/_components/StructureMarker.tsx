@@ -1,94 +1,39 @@
 import { LatLngTuple } from "leaflet";
-import Link from "next/link";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
+import { useMap } from "react-leaflet/hooks";
 import { Marker } from "react-leaflet/Marker";
 import { Popup } from "react-leaflet/Popup";
 
-import { formatDate } from "@/app/utils/date.util";
-import {
-  getOperateurLabel,
-  getPlacesByCommunes,
-} from "@/app/utils/structure.util";
-import { AdresseApiType } from "@/schemas/api/adresse.schema";
-import { Repartition } from "@/types/adresse.type";
-import { StructureType } from "@/types/structure.type";
-
 import { singleMarkerIcon } from "../../../components/map/SingleMarker";
-import { RepartitionBadge } from "./RepartitionBadge";
+import { StructureMarkerContent } from "./StructureMarkerContent";
 
-export const StructureMarker = ({
-  id,
-  dnaCode,
-  coordinates,
-  operateur,
-  filiale,
-  type,
-  placesAutorisees,
-  repartition,
-  nom,
-  commune,
-  codePostal,
-  departement,
-  adresses,
-  debutConvention,
-  finConvention,
-}: Props): ReactElement => {
-  const getCommunesLabel = (): ReactElement => {
-    const placesByCommunes = getPlacesByCommunes(adresses);
-    return (
-      <>
-        {Object.entries(placesByCommunes).map(
-          (placeByCommune, index, communes) => (
-            <span key={placeByCommune[0]}>
-              {placeByCommune[0]}{" "}
-              <span className="italic">({placeByCommune[1]} places)</span>
-              {index < communes.length - 1 ? ", " : ""}
-            </span>
-          )
-        )}
-      </>
-    );
-  };
+export const StructureMarker = ({ id, coordinates }: Props): ReactElement => {
+  const [isOpen, setIsOpen] = useState(false);
+  const popupRef = useRef<L.Popup | null>(null);
+  const map = useMap();
+
+  useEffect(() => {
+    const handlePopupOpen = (e: L.PopupEvent) => {
+      if (e.popup === popupRef.current) {
+        setIsOpen(true);
+      }
+    };
+
+    map.on("popupopen", handlePopupOpen);
+    return () => {
+      map.off("popupopen", handlePopupOpen);
+    };
+  }, [map]);
 
   return (
     <Marker position={coordinates} icon={singleMarkerIcon}>
       <Popup
+        ref={popupRef}
         className="[&>div]:rounded-none! [&>div>div]:m-6!"
         closeButton={false}
       >
-        <div className="text-xl text-title-blue-france m-0">
-          <strong className="fr-pr-2w">
-            {type}, {getOperateurLabel(filiale, operateur)}
-          </strong>
-          {placesAutorisees} places
-        </div>
-        <div className="text-title-blue-france">
-          {nom ? `${nom}, ` : ""}
-          {commune}, {departement} ({codePostal.substring(0, 2)})
-        </div>
-        {debutConvention && finConvention && (
-          <div className="text-sm mt-3 mb-1">
-            <strong>Fin convention</strong> {formatDate(finConvention)}
-          </div>
-        )}
-        <div className="text-sm m-0">
-          <strong>Code DNA</strong> {dnaCode}
-        </div>
-        <div className="text-sm mt-1 mb-0">
-          <span className="pr-1 [&_p]:my-1!">
-            <RepartitionBadge repartition={repartition} />
-          </span>
-          <span>{getCommunesLabel()}</span>
-        </div>
-        <div className="flex justify-end mt-2">
-          <Link
-            className="fr-btn fr-btn--tertiary-no-outline fr-icon-arrow-right-line"
-            title={`Détails de ${nom}`}
-            href={`structures/${id}`}
-          >
-            Détails de {nom}
-          </Link>
-        </div>
+        {isOpen && <StructureMarkerContent id={id} />}
+        <div className="w-xl!" />
       </Popup>
     </Marker>
   );
@@ -98,16 +43,4 @@ type Props = {
   id: number;
   dnaCode: string;
   coordinates: LatLngTuple;
-  operateur: string | null | undefined;
-  filiale?: string;
-  type: StructureType;
-  placesAutorisees: number | undefined;
-  repartition: Repartition;
-  nom?: string;
-  commune: string;
-  codePostal: string;
-  departement: string;
-  adresses: AdresseApiType[];
-  debutConvention?: string | null;
-  finConvention?: string | null;
 };

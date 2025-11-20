@@ -4,7 +4,10 @@ import { Repartition } from "@/types/adresse.type";
 
 import { Badge, BadgeType } from "../../../components/common/Badge";
 
-export const RepartitionBadge = ({ repartition }: Props): ReactElement => {
+export const RepartitionBadge = ({
+  repartition,
+  className,
+}: Props): ReactElement => {
   const getBadgeType = (repartition: Repartition): BadgeType => {
     const typesByRepartition: Record<Repartition, BadgeType> = {
       [Repartition.DIFFUS]: "new",
@@ -13,9 +16,14 @@ export const RepartitionBadge = ({ repartition }: Props): ReactElement => {
     };
     return typesByRepartition[repartition];
   };
-  return <Badge type={getBadgeType(repartition)}>{repartition}</Badge>;
+  return (
+    <Badge type={getBadgeType(repartition)} className={className}>
+      {repartition}
+    </Badge>
+  );
 };
 
 type Props = {
   repartition: Repartition;
+  className?: string;
 };

@@ -6,7 +6,6 @@ import { ReactElement, useState } from "react";
 
 import { Pagination } from "@/app/components/common/Pagination";
 import { Table } from "@/app/components/common/Table";
-import { usePagination } from "@/app/hooks/usePagination";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { StructureItem } from "./StructureItem";
@@ -18,11 +17,9 @@ const finalisationModal = createModal({
 
 export const StructuresTable = ({
   structures,
+  totalStructures,
   ariaLabelledBy,
 }: Props): ReactElement => {
-  const { currentPage, setCurrentPage, totalPages, currentData } =
-    usePagination<StructureApiType>(structures);
-
   const router = useRouter();
 
   const headings = [
@@ -53,7 +50,7 @@ export const StructuresTable = ({
           ariaLabelledBy={ariaLabelledBy}
           className="[&_thead_tr]:bg-transparent! [&_thead_tr_th]:text-left [&_thead_tr_th]:h-12"
         >
-          {currentData.map((structure, index) => (
+          {structures.map((structure, index) => (
             <StructureItem
               key={structure.id}
               structure={structure}
@@ -63,11 +60,7 @@ export const StructuresTable = ({
           ))}
         </Table>
         <div className="pt-4 flex justify-center items-center">
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-          />
+          <Pagination totalStructures={totalStructures} />
         </div>
       </div>
       <finalisationModal.Component
@@ -101,5 +94,6 @@ export const StructuresTable = ({
 
 type Props = {
   structures: StructureApiType[];
+  totalStructures: number;
   ariaLabelledBy: string;
 };

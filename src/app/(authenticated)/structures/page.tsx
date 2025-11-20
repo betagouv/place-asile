@@ -2,35 +2,25 @@
 
 import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
 import dynamic from "next/dynamic";
-import { ReactElement, useEffect, useMemo, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 
 import Loader from "@/app/components/ui/Loader";
-import { StructureApiType } from "@/schemas/api/structure.schema";
+import { useFetchState } from "@/app/context/FetchStateContext";
+import { useStructuresSearch } from "@/app/hooks/useStructuresSearch";
+import { FetchState } from "@/types/fetch-state.type";
 
 import { SegmentedControl } from "../../components/common/SegmentedControl";
-import { useStructures } from "../../hooks/useStructures";
+import { Filters } from "./_components/Filters";
 import { SearchBar } from "./_components/SearchBar";
 import { StructuresTable } from "./_components/StructuresTable";
 
 export default function Structures(): ReactElement {
-  const [structures, setStructures] = useState<StructureApiType[]>([]);
-  const [loadingState, setLoadingState] = useState<
-    "idle" | "loading" | "loaded" | "error"
-  >("idle");
-  const { getStructures } = useStructures();
   const [selectedVisualization, setSelectedVisualization] = useState("tableau");
 
-  useEffect(() => {
-    const loadStructures = async () => {
-      setLoadingState("loading");
-      const result = await getStructures();
-      setStructures(result);
-      setFilteredStructures(result);
-      setLoadingState("loaded");
-    };
-    loadStructures();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { structures, totalStructures } = useStructuresSearch({ map: false });
+
+  const { getFetchState } = useFetchState();
+  const fetchState = getFetchState("structure-search");
 
   const StructuresMap = useMemo(
     () =>
@@ -45,12 +35,10 @@ export default function Structures(): ReactElement {
     []
   );
 
-  const [filteredStructures, setFilteredStructures] = useState(structures);
-
   return (
     <div className="h-full w-full flex flex-col">
       <StartDsfrOnHydration />
-      <div className="flex fr-p-2w border-b border-b-border-default-grey min-h-[4.35rem] items-center sticky top-0 z-2 bg-lifted-grey">
+      <div className="flex gap-4 fr-p-2w border-b border-b-border-default-grey min-h-[4.35rem] items-center sticky top-0 z-2 bg-lifted-grey">
         <SegmentedControl
           name="Visualisation"
           options={options}
@@ -64,34 +52,34 @@ export default function Structures(): ReactElement {
           </h2>
         </SegmentedControl>
         <div className="grow" />
-        <SearchBar
-          structures={structures}
-          setFilteredStructures={setFilteredStructures}
-        />
-        <p className="pl-3 text-mention-grey mb-0">
-          {filteredStructures.length} entrée
-          {filteredStructures.length > 1 ? "s" : ""}
+        <SearchBar />
+        <Filters />
+        <p className="pl-3 text-mention-grey mb-0 min-w-28 text-right">
+          {totalStructures} entrée
+          {totalStructures > 1 ? "s" : ""}
         </p>
       </div>
       {selectedVisualization === "tableau" && (
         <>
-          {loadingState === "loading" && (
+          {fetchState === FetchState.LOADING && (
             <div className="flex items-center p-4">
               <Loader />
               <span className="pl-2">Chargement des structures...</span>
             </div>
           )}
-          {loadingState === "error" && (
+          {fetchState === FetchState.ERROR && (
             <div className="flex items-center p-4">
               <span className="pl-2">
                 Erreur lors de la récupération des structures
               </span>
             </div>
           )}
-          {loadingState === "loaded" &&
-            (filteredStructures.length > 0 ? (
+          {fetchState === FetchState.IDLE &&
+            structures &&
+            (structures?.length > 0 ? (
               <StructuresTable
-                structures={filteredStructures}
+                structures={structures}
+                totalStructures={totalStructures}
                 ariaLabelledBy="structures-titre"
               />
             ) : (
@@ -101,9 +89,7 @@ export default function Structures(): ReactElement {
             ))}
         </>
       )}
-      {selectedVisualization === "carte" && (
-        <StructuresMap structures={filteredStructures} />
-      )}
+      {selectedVisualization === "carte" && <StructuresMap />}
     </div>
   );
 }
