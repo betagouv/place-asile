@@ -30,7 +30,7 @@ WITH
 SELECT
   s.id,
   s."dnaCode",
-  s."type"::public."StructureType",
+  s."type"::text,
   o."name" AS "operateur",
   s."departementAdministratif",
   d."region",
