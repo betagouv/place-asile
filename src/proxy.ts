@@ -3,7 +3,11 @@ import { getServerSession } from "next-auth";
 import { withAuth } from "next-auth/middleware";
 
 import { authOptions } from "./lib/next-auth/auth";
-import { proConnectProtectedPages } from "./proxy-config";
+import {
+  noProtectionPage,
+  passwordProtectedPage,
+  proConnectProtectedPages,
+} from "./proxy-config";
 import { getApiRouteProtection } from "./proxy-utils";
 
 const proConnectPagesProxy = withAuth(() => NextResponse.next(), {
@@ -17,22 +21,22 @@ const proConnectPagesProxy = withAuth(() => NextResponse.next(), {
   },
 });
 
-const passwordPagesProxy = (request: NextRequest): NextResponse | undefined => {
+const passwordPagesProxy = (request: NextRequest): NextResponse | null => {
   const url = request.nextUrl;
-  if (url.pathname.startsWith("/ajout-structure")) {
+  if (url.pathname.startsWith(passwordProtectedPage)) {
     const passwordCookie = request.cookies.get("mot-de-passe");
     if (passwordCookie?.value !== process.env.PAGE_PASSWORD) {
-      const loginUrl = new URL("/mot-de-passe", request.url);
+      const loginUrl = new URL(noProtectionPage, request.url);
       loginUrl.searchParams.set("from", url.pathname);
       return NextResponse.redirect(loginUrl);
     }
   }
-  return undefined;
+  return null;
 };
 
 const protectApiWithAuth = async (
   request: NextRequest
-): Promise<NextResponse | undefined> => {
+): Promise<NextResponse | null> => {
   const protection = getApiRouteProtection(request, request.nextUrl.pathname);
   if (protection === "proconnect") {
     const session = await getServerSession(authOptions);
@@ -47,18 +51,14 @@ const protectApiWithAuth = async (
   } else if (protection === "either") {
     const session = await getServerSession(authOptions);
     const passwordCookie = request.cookies.get("mot-de-passe");
-    if (
-      !session ||
-      !session.user ||
-      passwordCookie?.value !== process.env.PAGE_PASSWORD
-    ) {
+    const hasProconnectSession = !!session?.user;
+    const hasPassword = passwordCookie?.value === process.env.PAGE_PASSWORD;
+    if (!hasProconnectSession && !hasPassword) {
       return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
     }
-  } else {
-    return undefined;
   }
 
-  return undefined;
+  return null;
 };
 
 export async function proxy(request: NextRequest) {
@@ -76,16 +76,12 @@ export async function proxy(request: NextRequest) {
   );
 
   if (isProtected) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (proConnectPagesProxy as any)(request);
+    return (proConnectPagesProxy as (request: NextRequest) => NextResponse)(
+      request
+    );
   }
 
-  const passwordResult = passwordPagesProxy(request);
-  if (passwordResult) {
-    return passwordResult;
-  }
-
-  return NextResponse.next();
+  return passwordPagesProxy(request) ?? NextResponse.next();
 }
 
 export const config = {
