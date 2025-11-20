@@ -51,14 +51,22 @@ export const divideFileUploads = (
 export const getStructureOrderBy = (
   column: Column,
   direction: "asc" | "desc"
-): Prisma.StructureOrderByWithRelationInput => {
+): Prisma.StructureOrderByWithRelationInput[] => {
+  let primaryOrder: Prisma.StructureOrderByWithRelationInput = {
+    departementAdministratif: direction,
+  };
   if (["dnaCode", "type", "finConvention"].includes(column)) {
-    return { [column as Column]: direction };
+    primaryOrder = { [column as Column]: direction };
   }
   if (column === "operateur") {
-    return { operateur: { name: direction } };
+    primaryOrder = { operateur: { name: direction } };
   }
-  return { departementAdministratif: direction };
+  return [
+    primaryOrder,
+    { departementAdministratif: "asc" },
+    { operateur: { name: "asc" } },
+    { type: "asc" },
+  ];
 };
 
 export const getStructureSearchWhere = ({
