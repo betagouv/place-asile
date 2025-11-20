@@ -119,15 +119,7 @@ export const findBySearch = async ({
     take: DEFAULT_PAGE_SIZE,
     orderBy,
     include: {
-      adresses: {
-        include: {
-          adresseTypologies: {
-            orderBy: {
-              date: "desc",
-            },
-          },
-        },
-      },
+      adresses: true,
       operateur: true,
       structureTypologies: {
         orderBy: {

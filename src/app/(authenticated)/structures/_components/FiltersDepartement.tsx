@@ -44,7 +44,7 @@ export const FiltersDepartement = () => {
   }, [departements, searchParams, router]);
 
   return (
-    <div className="max-h-[648px] overflow-y-scroll">
+    <div className="max-h-[40.5rem] overflow-y-scroll">
       <div className={fr.cx("fr-accordions-group")}>
         {regions.map((region) => (
           <FiltersRegion

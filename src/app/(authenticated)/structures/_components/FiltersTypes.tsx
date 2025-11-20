@@ -1,8 +1,9 @@
-import Checkbox from "@codegouvfr/react-dsfr/Checkbox";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { StructureType } from "@/types/structure.type";
+
+import { FiltersTypesCheckbox } from "./FiltersTypesCheckbox";
 
 export const FiltersTypes = () => {
   const router = useRouter();
@@ -22,11 +23,11 @@ export const FiltersTypes = () => {
         StructureType.CAES,
         StructureType.PRAHDA,
       ];
-      setType(everyTypes.filter((t) => t !== value));
+      setType(everyTypes.filter((structureType) => structureType !== value));
       return;
     }
     if (type.includes(value)) {
-      setType(type.filter((t) => t !== value));
+      setType(type.filter((structureType) => structureType !== value));
     } else {
       if (type.length >= 4) {
         setType([]);
@@ -53,80 +54,35 @@ export const FiltersTypes = () => {
           Type de structure
         </legend>
         <div className="grid grid-cols-3 gap-x-3 gap-y-2">
-          <Checkbox
-            options={[
-              {
-                label: "CADA",
-                nativeInputProps: {
-                  name: "structure-type",
-                  value: "CADA",
-                  checked: type.includes("CADA") || noTypeSelected,
-                  onChange: handleTypeChange,
-                },
-              },
-            ]}
-            className={"[&_label]:text-sm [&_label]:leading-6 [&_label]:pb-0"}
-            small
+          <FiltersTypesCheckbox
+            label="CADA"
+            value={StructureType.CADA}
+            checked={type.includes(StructureType.CADA) || noTypeSelected}
+            onChange={handleTypeChange}
           />
-          <Checkbox
-            options={[
-              {
-                label: "CPH",
-                nativeInputProps: {
-                  name: "structure-type",
-                  value: "CPH",
-                  checked: type.includes("CPH") || noTypeSelected,
-                  onChange: handleTypeChange,
-                },
-              },
-            ]}
-            className={"[&_label]:text-sm [&_label]:leading-6 [&_label]:pb-0"}
-            small
+          <FiltersTypesCheckbox
+            label="CPH"
+            value={StructureType.CPH}
+            checked={type.includes(StructureType.CPH) || noTypeSelected}
+            onChange={handleTypeChange}
           />
-          <Checkbox
-            options={[
-              {
-                label: "HUDA",
-                nativeInputProps: {
-                  name: "structure-type",
-                  value: "HUDA",
-                  checked: type.includes("HUDA") || noTypeSelected,
-                  onChange: handleTypeChange,
-                },
-              },
-            ]}
-            className={"[&_label]:text-sm [&_label]:leading-6 [&_label]:pb-0"}
-            small
+          <FiltersTypesCheckbox
+            label="HUDA"
+            value={StructureType.HUDA}
+            checked={type.includes(StructureType.HUDA) || noTypeSelected}
+            onChange={handleTypeChange}
           />
-          <Checkbox
-            options={[
-              {
-                label: "CAES",
-                nativeInputProps: {
-                  name: "structure-type",
-                  value: "CAES",
-                  checked: type.includes("CAES") || noTypeSelected,
-                  onChange: handleTypeChange,
-                },
-              },
-            ]}
-            className={"[&_label]:text-sm [&_label]:leading-6 [&_label]:pb-0"}
-            small
+          <FiltersTypesCheckbox
+            label="CAES"
+            value={StructureType.CAES}
+            checked={type.includes(StructureType.CAES) || noTypeSelected}
+            onChange={handleTypeChange}
           />
-          <Checkbox
-            options={[
-              {
-                label: "PRAHDA",
-                nativeInputProps: {
-                  name: "structure-type",
-                  value: "PRAHDA",
-                  checked: type.includes("PRAHDA") || noTypeSelected,
-                  onChange: handleTypeChange,
-                },
-              },
-            ]}
-            className={"[&_label]:text-sm [&_label]:leading-6 [&_label]:pb-0"}
-            small
+          <FiltersTypesCheckbox
+            label="PRAHDA"
+            value={StructureType.PRAHDA}
+            checked={type.includes(StructureType.PRAHDA) || noTypeSelected}
+            onChange={handleTypeChange}
           />
         </div>
       </fieldset>

@@ -85,12 +85,12 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
             `structure-${map ? "map" : "search"}`,
             FetchState.ERROR
           );
-          throw new Error(`Failed to fetch structures ofii: ${result.status}`);
+          throw new Error(`Failed to fetch structures: ${result.status}`);
         }
         setFetchState(`structure-${map ? "map" : "search"}`, FetchState.IDLE);
         return await result.json();
       } catch (error) {
-        console.error("Error fetching structures ofii:", error);
+        console.error("Error fetching structures:", error);
         setFetchState(`structure-${map ? "map" : "search"}`, FetchState.ERROR);
         return { structures: [], totalStructures: 0 };
       }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useMaxPlacesAutorisees = () => {
+export const useStructureStats = () => {
   const [maxPlacesAutorisees, setMaxPlacesAutorisees] = useState<number>(0);
   const [minPlacesAutorisees, setMinPlacesAutorisees] = useState<number>(0);
 

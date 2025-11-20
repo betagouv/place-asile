@@ -10,7 +10,7 @@ export const FiltersResetter = ({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleReinitialisation = () => {
+  const handleReset = () => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
     filters.forEach((filter) => {
       params.delete(filter);
@@ -25,7 +25,7 @@ export const FiltersResetter = ({
       disabled={!isActive}
       priority="tertiary no outline"
       className="w-full -mt-2 flex justify-center"
-      onClick={handleReinitialisation}
+      onClick={handleReset}
     >
       {label}
     </Button>
