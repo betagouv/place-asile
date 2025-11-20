@@ -14,6 +14,7 @@ async function getStructure(id: string): Promise<StructureApiType> {
     const baseUrl = process.env.NEXT_URL || "";
     const result = await fetch(`${baseUrl}/api/structures/${id}`, {
       cache: "no-store",
+      // Requête côté serveur donc il faut appeler les headers manuellement
       headers: await headers(),
     });
 
