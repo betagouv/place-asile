@@ -1,6 +1,6 @@
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
@@ -11,7 +11,7 @@ import { LocationFiltersPanel } from "./LocationFiltersPanel";
 export const Filters = () => {
   const [openPanel, setOpenPanel] = useState<
     "filters" | "localisation" | undefined
-  >("localisation");
+  >(undefined);
 
   const handleTogglePanel = (panel: "filters" | "localisation" | undefined) => {
     if (openPanel === panel) {
@@ -51,17 +51,19 @@ export const Filters = () => {
     }
   }, [departements]);
 
+  const filterPanelRef = useRef<HTMLDivElement | null>(null);
+  const locationPanelRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!openPanel) return;
 
     const handleClickOutside = (event: MouseEvent) => {
-      const filtersPanel = document.getElementById("filters-panel");
-      const locationPanel = document.getElementById("location-panel");
       let clickedInsidePanel = false;
 
       if (
-        (filtersPanel && filtersPanel.contains(event.target as Node)) ||
-        (locationPanel && locationPanel.contains(event.target as Node))
+        (filterPanelRef.current &&
+          filterPanelRef.current.contains(event.target as Node)) ||
+        (locationPanelRef.current &&
+          locationPanelRef.current.contains(event.target as Node))
       ) {
         clickedInsidePanel = true;
       }
@@ -96,11 +98,12 @@ export const Filters = () => {
         </Button>
         {openPanel === "filters" && (
           <FiltersPanel
+            ref={filterPanelRef}
             closePanel={() => handleTogglePanel(undefined)}
             isActive={isFiltersActive}
           />
         )}
-      </div>{" "}
+      </div>
       <div className="relative">
         <Button
           priority="tertiary"
@@ -117,6 +120,7 @@ export const Filters = () => {
         </Button>
         {openPanel === "localisation" && (
           <LocationFiltersPanel
+            ref={locationPanelRef}
             closePanel={() => handleTogglePanel(undefined)}
             isActive={isLocationActive}
           />

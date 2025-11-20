@@ -3,10 +3,10 @@ import { FiltersPlacesAutorisees } from "./FiltersPlacesAutorisees";
 import { FiltersResetter } from "./FiltersResetter";
 import { FiltersTypes } from "./FiltersTypes";
 
-export const FiltersPanel = ({ closePanel, isActive }: Props) => {
+export const FiltersPanel = ({ closePanel, isActive, ref }: Props) => {
   return (
     <div
-      id="filters-panel"
+      ref={ref}
       className="absolute top-full -right-2 mt-1 w-96 bg-white rounded-md shadow-md"
     >
       <FiltersTypes />
@@ -23,4 +23,5 @@ export const FiltersPanel = ({ closePanel, isActive }: Props) => {
 type Props = {
   closePanel: () => void;
   isActive: boolean;
+  ref: React.RefObject<HTMLDivElement | null>;
 };
