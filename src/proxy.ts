@@ -38,24 +38,21 @@ const protectApiWithAuth = async (
   request: NextRequest
 ): Promise<NextResponse | null> => {
   const protection = getApiRouteProtection(request, request.nextUrl.pathname);
-  if (protection === "proconnect") {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user) {
-      return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
-    }
-  } else if (protection === "password") {
-    const passwordCookie = request.cookies.get("mot-de-passe");
-    if (passwordCookie?.value !== process.env.PAGE_PASSWORD) {
-      return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
-    }
-  } else if (protection === "either") {
-    const session = await getServerSession(authOptions);
-    const passwordCookie = request.cookies.get("mot-de-passe");
-    const hasProconnectSession = !!session?.user;
-    const hasPassword = passwordCookie?.value === process.env.PAGE_PASSWORD;
-    if (!hasProconnectSession && !hasPassword) {
-      return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
-    }
+  const session = await getServerSession(authOptions);
+  const hasProconnectSession = !!session?.user;
+  const passwordCookie = request.cookies.get("mot-de-passe");
+  const hasPassword = passwordCookie?.value === process.env.PAGE_PASSWORD;
+  const notAuthenticatedResponse = NextResponse.json(
+    { error: "Non authentifié" },
+    { status: 401 }
+  );
+
+  if (protection === "proconnect" && !hasProconnectSession) {
+    return notAuthenticatedResponse;
+  } else if (protection === "password" && !hasPassword) {
+    return notAuthenticatedResponse;
+  } else if (protection === "either" && !hasProconnectSession && !hasPassword) {
+    return notAuthenticatedResponse;
   }
 
   return null;
