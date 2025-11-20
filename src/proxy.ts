@@ -42,17 +42,15 @@ const protectApiWithAuth = async (
   const hasProconnectSession = !!session?.user;
   const passwordCookie = request.cookies.get("mot-de-passe");
   const hasPassword = passwordCookie?.value === process.env.PAGE_PASSWORD;
-  const notAuthenticatedResponse = NextResponse.json(
-    { error: "Non authentifié" },
-    { status: 401 }
-  );
 
-  if (protection === "proconnect" && !hasProconnectSession) {
-    return notAuthenticatedResponse;
-  } else if (protection === "password" && !hasPassword) {
-    return notAuthenticatedResponse;
-  } else if (protection === "either" && !hasProconnectSession && !hasPassword) {
-    return notAuthenticatedResponse;
+  const isUnauthenticated =
+    protection === null ||
+    (protection === "proconnect" && !hasProconnectSession) ||
+    (protection === "password" && !hasPassword) ||
+    (protection === "either" && !hasProconnectSession && !hasPassword);
+
+  if (isUnauthenticated) {
+    return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
   }
 
   return null;
@@ -90,11 +88,6 @@ export const config = {
     "/ajout-structure/:path*",
     "/mot-de-passe",
     // Routes API
-    "/api/structures",
-    "/api/structures/:id*",
-    "/api/structures/dna/:id*",
-    "/api/operateurs",
-    "/api/files",
-    "/api/files/:id*",
+    "/api/:path*",
   ],
 };
