@@ -401,12 +401,12 @@ enum PublicType {
 
 enum StructureType {
   CADA
-  HUDA
-  CPH
   CAES
-  PRAHDA
+  CPH
+  HUDA
   NH
-
+  PRAHDA
+  
   @@schema("public")
 }
 
