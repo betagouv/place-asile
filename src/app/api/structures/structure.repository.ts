@@ -1,6 +1,7 @@
 import { Prisma, Structure } from "@prisma/client";
 
 import { getCoordinates } from "@/app/utils/adresse.util";
+import { DEFAULT_PAGE_SIZE } from "@/constants";
 import prisma from "@/lib/prisma";
 import {
   StructureCreationApiType,
@@ -25,6 +26,7 @@ import {
   initializeDefaultForms,
 } from "../forms/form.repository";
 import { updateStructureTypologies } from "../structure-typologies/structure-typologie.repository";
+import { getStructureSearchWhere } from "./structure.service";
 import { convertToPublicType, convertToStructureType } from "./structure.util";
 
 export const findAll = async (): Promise<Structure[]> => {
@@ -52,6 +54,185 @@ export const findAll = async (): Promise<Structure[]> => {
       },
     },
   });
+};
+
+type SearchProps = {
+  search: string | null;
+  page: number | null;
+  type: string | null;
+  bati: string | null;
+  placesAutorisees: string | null;
+  departements: string | null;
+  map?: boolean;
+};
+export const findBySearch = async ({
+  search,
+  page,
+  type,
+  bati,
+  placesAutorisees,
+  departements,
+  map,
+}: SearchProps): Promise<Partial<Structure>[]> => {
+  const where = getStructureSearchWhere({
+    search,
+    type,
+    bati,
+    departements,
+  });
+
+  const structureIdsFilteredByPlacesAutorisees =
+    await getStructureIdsByPlacesAutorisees(placesAutorisees);
+  if (structureIdsFilteredByPlacesAutorisees) {
+    where.id = {
+      in: structureIdsFilteredByPlacesAutorisees,
+    };
+  }
+
+  if (map) {
+    return prisma.structure.findMany({
+      where,
+      select: {
+        id: true,
+        latitude: true,
+        longitude: true,
+      },
+    });
+  }
+
+  return prisma.structure.findMany({
+    where,
+    skip: page ? page * DEFAULT_PAGE_SIZE : 0,
+    take: DEFAULT_PAGE_SIZE,
+    include: {
+      adresses: true,
+      operateur: true,
+      structureTypologies: {
+        orderBy: {
+          date: "desc",
+        },
+      },
+      forms: {
+        include: {
+          formDefinition: true,
+        },
+      },
+    },
+  });
+};
+
+export const countBySearch = async ({
+  search,
+  type,
+  bati,
+  placesAutorisees,
+  departements,
+}: SearchProps): Promise<number> => {
+  const where = getStructureSearchWhere({
+    search,
+    type,
+    bati,
+    departements,
+  });
+  const structureIdsFilteredByPlacesAutorisees =
+    await getStructureIdsByPlacesAutorisees(placesAutorisees);
+  if (structureIdsFilteredByPlacesAutorisees) {
+    where.id = {
+      in: structureIdsFilteredByPlacesAutorisees,
+    };
+  }
+  return prisma.structure.count({ where });
+};
+
+const getStructureIdsByPlacesAutorisees = async (
+  placesAutorisees: string | null
+): Promise<number[] | null> => {
+  if (!placesAutorisees) {
+    return null;
+  }
+
+  const [minStr, maxStr] = placesAutorisees.split(",");
+  const min = minStr ? parseInt(minStr, 10) : null;
+  const max = maxStr ? parseInt(maxStr, 10) : null;
+
+  if (min === null && max === null) {
+    return null;
+  }
+
+  const allTypologies = await prisma.structureTypologie.findMany({
+    orderBy: { date: "desc" },
+    select: {
+      structureDnaCode: true,
+      placesAutorisees: true,
+    },
+  });
+
+  const seenStructures = new Set<string>();
+
+  const matchingDnaCodes = allTypologies
+    .filter((typology) => {
+      if (
+        seenStructures.has(typology.structureDnaCode) ||
+        typology.placesAutorisees === null
+      ) {
+        return false;
+      }
+      seenStructures.add(typology.structureDnaCode);
+
+      const places = typology.placesAutorisees;
+      return (min === null || places >= min) && (max === null || places <= max);
+    })
+    .map((typology) => typology.structureDnaCode);
+
+  if (matchingDnaCodes.length === 0) {
+    return [];
+  }
+
+  const structures = await prisma.structure.findMany({
+    where: { dnaCode: { in: matchingDnaCodes } },
+    select: { id: true },
+  });
+
+  return structures.map((structure) => structure.id);
+};
+
+const getLatestPlacesAutoriseesPerStructure = async (): Promise<number[]> => {
+  const allTypologies = await prisma.structureTypologie.findMany({
+    orderBy: {
+      date: "desc",
+    },
+    select: {
+      structureDnaCode: true,
+      placesAutorisees: true,
+    },
+  });
+
+  const seenStructures = new Set<string>();
+
+  return allTypologies
+    .filter((typology) => {
+      if (
+        seenStructures.has(typology.structureDnaCode) ||
+        typology.placesAutorisees === null
+      ) {
+        return false;
+      }
+      seenStructures.add(typology.structureDnaCode);
+      return true;
+    })
+    .map((typology) => typology.placesAutorisees as number);
+};
+
+export const getMaxPlacesAutorisees = async (): Promise<number> => {
+  const latestPlacesAutoriseesOfEveryStructure =
+    await getLatestPlacesAutoriseesPerStructure();
+  return Math.max(...latestPlacesAutoriseesOfEveryStructure);
+};
+
+export const getMinPlacesAutorisees = async (): Promise<number> => {
+  const latestPlacesAutoriseesOfEveryStructure =
+    await getLatestPlacesAutoriseesPerStructure();
+  return Math.min(...latestPlacesAutoriseesOfEveryStructure);
 };
 
 export const findOne = async (id: number): Promise<Structure> => {
@@ -264,8 +445,8 @@ export const updateOne = async (
           operateur: {
             connect: operateur
               ? {
-                id: operateur?.id,
-              }
+                  id: operateur?.id,
+                }
               : undefined,
           },
         },

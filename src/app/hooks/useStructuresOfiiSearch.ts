@@ -19,10 +19,7 @@ export const useStructuresOfiiSearch = ({
     try {
       const baseUrl = process.env.NEXT_URL || "";
       const result = await fetch(
-        `${baseUrl}/api/structures-ofii?operateur=${operateurId}&departement=${departementNumero}&type=${type}`,
-        {
-          cache: "no-store",
-        }
+        `${baseUrl}/api/structures-ofii?operateur=${operateurId}&departement=${departementNumero}&type=${type}`
       );
 
       if (!result.ok) {
