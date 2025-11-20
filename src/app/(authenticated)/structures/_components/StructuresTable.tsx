@@ -33,16 +33,14 @@ export const StructuresTable = ({
     <>
       <div className="p-4 bg-alt-grey h-full">
         <StructuresTableHeadings ariaLabelledBy={ariaLabelledBy}>
-          <>
-            {structures.map((structure, index) => (
-              <StructureItem
-                key={structure.id}
-                structure={structure}
-                index={index}
-                handleOpenModal={handleOpenModal}
-              />
-            ))}
-          </>
+          {structures.map((structure, index) => (
+            <StructureItem
+              key={structure.id}
+              structure={structure}
+              index={index}
+              handleOpenModal={handleOpenModal}
+            />
+          ))}
         </StructuresTableHeadings>
         <div className="pt-4 flex justify-center items-center">
           <Pagination totalStructures={totalStructures} />

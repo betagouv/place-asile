@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from "react";
 
 import { StructureApiType } from "@/schemas/api/structure.schema";
 import { Repartition } from "@/types/adresse.type";
-import { Column } from "@/types/column.type";
 import { FetchState } from "@/types/fetch-state.type";
 import { StructureType } from "@/types/structure.type";
+import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { useFetchState } from "../context/FetchStateContext";
 
@@ -28,7 +28,9 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
   ) as Repartition | null;
   const places: string | null = searchParams.get("places");
   const departements: string | null = searchParams.get("departements");
-  const column: Column | null = searchParams.get("column") as Column | null;
+  const column: StructureColumn | null = searchParams.get(
+    "column"
+  ) as StructureColumn | null;
   const direction: "asc" | "desc" | null = searchParams.get("direction") as
     | "asc"
     | "desc"
@@ -42,7 +44,7 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
       bati: Repartition | null,
       places: string | null,
       departements: string | null,
-      column: Column | null,
+      column: StructureColumn | null,
       direction: "asc" | "desc" | null
     ): Promise<{ structures: StructureApiType[]; totalStructures: number }> => {
       setFetchState(`structure-${map ? "map" : "search"}`, FetchState.LOADING);

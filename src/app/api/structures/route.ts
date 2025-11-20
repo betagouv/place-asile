@@ -5,7 +5,7 @@ import {
   structureCreationApiSchema,
   structureUpdateApiSchema,
 } from "@/schemas/api/structure.schema";
-import { Column } from "@/types/column.type";
+import { StructureColumn } from "@/types/StructureColumn.type";
 
 import {
   countBySearch,
@@ -27,7 +27,9 @@ export async function GET(request: NextRequest) {
     | string
     | null;
   const departements = request.nextUrl.searchParams.get("departements");
-  const column = request.nextUrl.searchParams.get("column") as Column | null;
+  const column = request.nextUrl.searchParams.get(
+    "column"
+  ) as StructureColumn | null;
   const direction = request.nextUrl.searchParams.get("direction") as
     | "asc"
     | "desc"

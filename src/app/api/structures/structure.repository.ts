@@ -7,7 +7,7 @@ import {
   StructureCreationApiType,
   StructureUpdateApiType,
 } from "@/schemas/api/structure.schema";
-import { Column } from "@/types/column.type";
+import { StructureColumn } from "@/types/StructureColumn.type";
 
 import {
   createAdresses,
@@ -67,7 +67,7 @@ type SearchProps = {
   bati: string | null;
   placesAutorisees: string | null;
   departements: string | null;
-  column?: Column | null;
+  column?: StructureColumn | null;
   direction?: "asc" | "desc" | null;
   map?: boolean;
 };

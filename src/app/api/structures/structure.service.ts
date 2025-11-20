@@ -1,10 +1,10 @@
 import { Prisma, Repartition, StructureType } from "@prisma/client";
 
-import { Column } from "@/types/column.type";
 import {
   ActeAdministratifCategory,
   DocumentFinancierCategory,
 } from "@/types/file-upload.type";
+import { StructureColumn } from "@/types/StructureColumn.type";
 
 export type StructureWithFileUploadsAndActivites = Prisma.StructureGetPayload<{
   include: { fileUploads: true; activites: true };
@@ -49,14 +49,14 @@ export const divideFileUploads = (
 };
 
 export const getStructureOrderBy = (
-  column: Column,
+  column: StructureColumn,
   direction: "asc" | "desc"
 ): Prisma.StructureOrderByWithRelationInput[] => {
   let primaryOrder: Prisma.StructureOrderByWithRelationInput = {
     departementAdministratif: direction,
   };
   if (["dnaCode", "type", "finConvention"].includes(column)) {
-    primaryOrder = { [column as Column]: direction };
+    primaryOrder = { [column as StructureColumn]: direction };
   }
   if (column === "operateur") {
     primaryOrder = { operateur: { name: direction } };

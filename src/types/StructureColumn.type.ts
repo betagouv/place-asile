@@ -1,4 +1,4 @@
-export type Column =
+export type StructureColumn =
   | "dnaCode"
   | "type"
   | "operateur"

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ReactElement, useEffect, useRef, useState } from "react";
 
 import { Table } from "@/app/components/common/Table";
-import { Column } from "@/types/column.type";
+import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { OrderButton } from "./OrderButton";
 
@@ -16,14 +16,14 @@ export const StructuresTableHeadings = ({
 
   const searchParams = useSearchParams();
 
-  const [column, setColumn] = useState<Column | null>(
-    searchParams.get("column") as Column | null
+  const [column, setColumn] = useState<StructureColumn | null>(
+    searchParams.get("column") as StructureColumn | null
   );
   const [direction, setDirection] = useState<"asc" | "desc" | null>(
     searchParams.get("direction") as "asc" | "desc" | null
   );
 
-  const handleOrdering = (newColumn: Column) => {
+  const handleOrdering = (newColumn: StructureColumn) => {
     if (newColumn === column) {
       if (direction === "asc") {
         setDirection("desc");
@@ -37,7 +37,7 @@ export const StructuresTableHeadings = ({
     }
   };
 
-  const prevColumn = useRef<Column | null>(null);
+  const prevColumn = useRef<StructureColumn | null>(null);
   const prevDirection = useRef<"asc" | "desc" | null>(null);
 
   useEffect(() => {
@@ -154,5 +154,5 @@ export const StructuresTableHeadings = ({
 
 type Props = {
   ariaLabelledBy: string;
-  children: ReactElement;
+  children: ReactElement[];
 };
