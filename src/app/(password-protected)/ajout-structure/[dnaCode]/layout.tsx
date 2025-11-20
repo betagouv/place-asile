@@ -15,6 +15,7 @@ export default async function RootLayout({
   try {
     const result = await fetch(
       `${process.env.NEXT_URL}/api/structures/dna/${dnaCode}`,
+      // Requête côté serveur donc il faut appeler les headers manuellement
       { next: { revalidate: 0 }, headers: await headers() }
     );
 

@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { withAuth } from "next-auth/middleware";
 
+import { getApiRouteProtection } from "./app/utils/proxy.util";
 import { authOptions } from "./lib/next-auth/auth";
 import {
   noProtectionPage,
   passwordProtectedPage,
   proConnectProtectedPages,
 } from "./proxy-config";
-import { getApiRouteProtection } from "./proxy-utils";
 
 const proConnectPagesProxy = withAuth(() => NextResponse.next(), {
   callbacks: {

@@ -1,9 +1,4 @@
-export type Protection = "proconnect" | "password" | "either";
-
-type ApiRoute = {
-  pattern: RegExp;
-  routes: Record<string, Protection>;
-};
+import { ApiRoute } from "./types/proxy.type";
 
 export const protectedApiRoutes: ApiRoute[] = [
   {

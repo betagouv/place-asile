@@ -1,6 +1,8 @@
 import { NextRequest } from "next/server";
 
-import { protectedApiRoutes, Protection } from "./proxy-config";
+import { Protection } from "@/types/proxy.type";
+
+import { protectedApiRoutes } from "../../proxy-config";
 
 export const getApiRouteProtection = (
   request: NextRequest,
