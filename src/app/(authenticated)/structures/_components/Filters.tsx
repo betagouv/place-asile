@@ -106,7 +106,7 @@ export const Filters = () => {
           priority="tertiary"
           size="small"
           onClick={() => handleTogglePanel("localisation")}
-          className="flex gap-1"
+          className="flex gap-1 whitespace-nowrap"
         >
           <span className="fr-icon-focus-3-line fr-icon--sm relative">
             {isLocationActive && (

@@ -19,18 +19,18 @@ export const OrderButton = ({
     >
       <span
         className={cn(
-          "absolute top-0 left-1/2 -translate-x-1/2 fr-icon-arrow-up-s-line fr-icon--sm text-disabled-grey",
+          "absolute top-0 left-1/2 -translate-x-1/2 fr-icon-arrow-up-s-line text-disabled-grey",
           column === currentColumn && currentDirection === "asc"
             ? "text-title-blue-france"
-            : "text-disabled-grey"
+            : "text-disabled-grey fr-icon--sm"
         )}
       />
       <span
         className={cn(
-          "absolute bottom-0 left-1/2 -translate-x-1/2 fr-icon-arrow-down-s-line fr-icon--sm text-disabled-grey",
+          "absolute bottom-0 left-1/2 -translate-x-1/2 fr-icon-arrow-down-s-line text-disabled-grey",
           column === currentColumn && currentDirection === "desc"
             ? "text-title-blue-france"
-            : "text-disabled-grey"
+            : "text-disabled-grey fr-icon--sm"
         )}
       />
     </Button>
