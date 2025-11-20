@@ -1,0 +1,45 @@
+import Button from "@codegouvfr/react-dsfr/Button";
+import { Column } from "@/types/column.type";
+import { ReactElement } from "react";
+import { cn } from "@/app/utils/classname.util";
+
+export const OrderButton = ({
+  column,
+  currentColumn,
+  currentDirection,
+  handleOrdering,
+}: Props): ReactElement => {
+  return (
+    <Button
+      priority="tertiary no outline"
+      onClick={() => handleOrdering(column)}
+      className="relative"
+      size="small"
+      aria-label={`Ordonner par ${column}`}
+    >
+      <span
+        className={cn(
+          "absolute top-0 left-1/2 -translate-x-1/2 fr-icon-arrow-up-s-line fr-icon--sm text-disabled-grey",
+          column === currentColumn && currentDirection === "asc"
+            ? "text-title-blue-france"
+            : "text-disabled-grey"
+        )}
+      />
+      <span
+        className={cn(
+          "absolute bottom-0 left-1/2 -translate-x-1/2 fr-icon-arrow-down-s-line fr-icon--sm text-disabled-grey",
+          column === currentColumn && currentDirection === "desc"
+            ? "text-title-blue-france"
+            : "text-disabled-grey"
+        )}
+      />
+    </Button>
+  );
+};
+
+type Props = {
+  column: Column;
+  currentColumn: Column | null;
+  currentDirection: "asc" | "desc" | null;
+  handleOrdering: (column: Column) => void;
+};

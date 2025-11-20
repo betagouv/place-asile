@@ -1,5 +1,6 @@
 import { Prisma, Repartition, StructureType } from "@prisma/client";
 
+import { Column } from "@/types/column.type";
 import {
   ActeAdministratifCategory,
   DocumentFinancierCategory,
@@ -45,6 +46,19 @@ export const divideFileUploads = (
     ),
     fileUploads: undefined,
   };
+};
+
+export const getStructureOrderBy = (
+  column: Column = "departementAdministratif",
+  direction: "asc" | "desc" = "asc"
+): Prisma.StructureOrderByWithRelationInput => {
+  if (["dnaCode", "type", "finConvention"].includes(column)) {
+    return { [column as Column]: direction };
+  }
+  if (column === "operateur") {
+    return { operateur: { name: direction } };
+  }
+  return { departementAdministratif: direction };
 };
 
 export const getStructureSearchWhere = ({

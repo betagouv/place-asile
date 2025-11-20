@@ -7,6 +7,7 @@ import {
   StructureCreationApiType,
   StructureUpdateApiType,
 } from "@/schemas/api/structure.schema";
+import { Column } from "@/types/column.type";
 
 import {
   createAdresses,
@@ -26,7 +27,10 @@ import {
   initializeDefaultForms,
 } from "../forms/form.repository";
 import { updateStructureTypologies } from "../structure-typologies/structure-typologie.repository";
-import { getStructureSearchWhere } from "./structure.service";
+import {
+  getStructureOrderBy,
+  getStructureSearchWhere,
+} from "./structure.service";
 import { convertToPublicType, convertToStructureType } from "./structure.util";
 
 export const findAll = async (): Promise<Structure[]> => {
@@ -63,6 +67,8 @@ type SearchProps = {
   bati: string | null;
   placesAutorisees: string | null;
   departements: string | null;
+  column?: Column | null;
+  direction?: "asc" | "desc" | null;
   map?: boolean;
 };
 export const findBySearch = async ({
@@ -72,6 +78,8 @@ export const findBySearch = async ({
   bati,
   placesAutorisees,
   departements,
+  column,
+  direction,
   map,
 }: SearchProps): Promise<Partial<Structure>[]> => {
   const where = getStructureSearchWhere({
@@ -100,10 +108,16 @@ export const findBySearch = async ({
     });
   }
 
+  const orderBy = getStructureOrderBy(
+    column ?? "departementAdministratif",
+    direction ?? "asc"
+  );
+
   return prisma.structure.findMany({
     where,
     skip: page ? page * DEFAULT_PAGE_SIZE : 0,
     take: DEFAULT_PAGE_SIZE,
+    orderBy,
     include: {
       adresses: {
         include: {

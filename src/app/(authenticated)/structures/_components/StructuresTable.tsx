@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { ReactElement, useState } from "react";
 
 import { Pagination } from "@/app/components/common/Pagination";
-import { Table } from "@/app/components/common/Table";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { StructureItem } from "./StructureItem";
@@ -33,20 +32,18 @@ export const StructuresTable = ({
   return (
     <>
       <div className="p-4 bg-alt-grey h-full">
-        <Table
-          headings={StructuresTableHeadings()}
-          ariaLabelledBy={ariaLabelledBy}
-          className="[&_thead_tr]:bg-transparent! [&_thead_tr_th]:text-left [&_thead_tr_th]:h-12"
-        >
-          {structures.map((structure, index) => (
-            <StructureItem
-              key={structure.id}
-              structure={structure}
-              index={index}
-              handleOpenModal={handleOpenModal}
-            />
-          ))}
-        </Table>
+        <StructuresTableHeadings ariaLabelledBy={ariaLabelledBy}>
+          <>
+            {structures.map((structure, index) => (
+              <StructureItem
+                key={structure.id}
+                structure={structure}
+                index={index}
+                handleOpenModal={handleOpenModal}
+              />
+            ))}
+          </>
+        </StructuresTableHeadings>
         <div className="pt-4 flex justify-center items-center">
           <Pagination totalStructures={totalStructures} />
         </div>
