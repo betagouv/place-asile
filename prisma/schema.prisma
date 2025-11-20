@@ -527,9 +527,9 @@ view StructuresOrder {
   operateur                String
   departementAdministratif String
   region                   String
+  bati                     String
   placesAutorisees         Int
   finConvention            DateTime
-  repartition              String
 
   @@schema("reporting")
 }

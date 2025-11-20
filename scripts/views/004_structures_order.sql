@@ -31,7 +31,7 @@ SELECT
   s.id,
   s."dnaCode",
   s."type"::public."StructureType",
-  o."name",
+  o."name" AS "operateur",
   s."departementAdministratif",
   d."region",
   sr."bati",
