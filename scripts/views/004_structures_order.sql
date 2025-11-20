@@ -1,36 +1,45 @@
 -- Objective: enable structure ordering in front-end
-CREATE OR REPLACE VIEW :"SCHEMA"."structures_order" AS with dernier_millesime_structure_typologie as (
-        select distinct on (st."structureDnaCode") st."structureDnaCode",
-            st."placesAutorisees",
-            st."date"
-        from public."StructureTypologie" st
-        order by st."structureDnaCode",
-            st."date" desc
-    ),
-    structure_repartition as (
-        select a."structureDnaCode",
-            case
-                when bool_and(
-                    a.repartition = 'COLLECTIF'::public."Repartition"
-                ) then 'COLLECTIF'
-                when bool_and(a.repartition = 'DIFFUS'::public."Repartition") then 'DIFFUS'
-                else 'MIXTE'
-            end as bati
-        from public."Adresse" a
-        where a.repartition is not null
-        group by a."structureDnaCode"
-    )
-select s.id,
-    s."dnaCode",
-    s."type"::public."StructureType",
-    o."name",
-    s."departementAdministratif",
-    d."region",
-    sr."bati",
-    st."placesAutorisees",
-    s."finConvention"
-from public."Structure" s
-    left join public."Operateur" o on o.id = s."operateurId"
-    left join dernier_millesime_structure_typologie st on st."structureDnaCode" = s."dnaCode"
-    left join structure_repartition sr on sr."structureDnaCode" = s."dnaCode"
-    left join public."Departement" d on d."numero" = s."departementAdministratif"
+CREATE OR REPLACE VIEW:"SCHEMA"."structures_order" AS
+WITH
+  dernier_millesime_structure_typologie AS (
+    SELECT DISTINCT
+      ON (st."structureDnaCode") st."structureDnaCode",
+      st."placesAutorisees",
+      st."date"
+    FROM
+      public."StructureTypologie" st
+    ORDER BY
+      st."structureDnaCode",
+      st."date" DESC
+  ),
+  structure_repartition AS (
+    SELECT
+      a."structureDnaCode",
+      CASE
+        WHEN BOOL_AND(a.repartition = 'COLLECTIF'::public."Repartition") THEN 'COLLECTIF'
+        WHEN BOOL_AND(a.repartition = 'DIFFUS'::public."Repartition") THEN 'DIFFUS'
+        ELSE 'MIXTE'
+      END AS bati
+    FROM
+      public."Adresse" a
+    WHERE
+      a.repartition IS NOT NULL
+    GROUP BY
+      a."structureDnaCode"
+  )
+SELECT
+  s.id,
+  s."dnaCode",
+  s."type"::public."StructureType",
+  o."name",
+  s."departementAdministratif",
+  d."region",
+  sr."bati",
+  st."placesAutorisees",
+  s."finConvention"
+FROM
+  public."Structure" s
+  LEFT JOIN public."Operateur" o ON o.id = s."operateurId"
+  LEFT JOIN dernier_millesime_structure_typologie st ON st."structureDnaCode" = s."dnaCode"
+  LEFT JOIN structure_repartition sr ON sr."structureDnaCode" = s."dnaCode"
+  LEFT JOIN public."Departement" d ON d."numero" = s."departementAdministratif"
