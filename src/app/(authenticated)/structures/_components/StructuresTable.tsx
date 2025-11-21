@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import { ReactElement, useState } from "react";
 
 import { Pagination } from "@/app/components/common/Pagination";
-import { Table } from "@/app/components/common/Table";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { StructureItem } from "./StructureItem";
+import { StructuresTableHeadings } from "./StructuresTableHeadings";
 
 const finalisationModal = createModal({
   id: "finalisation-modal",
@@ -22,21 +22,8 @@ export const StructuresTable = ({
 }: Props): ReactElement => {
   const router = useRouter();
 
-  const headings = [
-    "DNA",
-    "Type",
-    "Opérateur",
-    "Dépt.",
-    "Bâti",
-    "Communes",
-    "Places aut.",
-    "Fin convention",
-    "",
-  ];
-
   const [selectedStructure, setSelectedStructure] =
     useState<StructureApiType | null>(null);
-
   const handleOpenModal = (structure: StructureApiType) => {
     setSelectedStructure(structure);
     finalisationModal.open();
@@ -45,11 +32,7 @@ export const StructuresTable = ({
   return (
     <>
       <div className="p-4 bg-alt-grey h-full">
-        <Table
-          headings={headings}
-          ariaLabelledBy={ariaLabelledBy}
-          className="[&_thead_tr]:bg-transparent! [&_thead_tr_th]:text-left [&_thead_tr_th]:h-12"
-        >
+        <StructuresTableHeadings ariaLabelledBy={ariaLabelledBy}>
           {structures.map((structure, index) => (
             <StructureItem
               key={structure.id}
@@ -58,7 +41,7 @@ export const StructuresTable = ({
               handleOpenModal={handleOpenModal}
             />
           ))}
-        </Table>
+        </StructuresTableHeadings>
         <div className="pt-4 flex justify-center items-center">
           <Pagination totalStructures={totalStructures} />
         </div>

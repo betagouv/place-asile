@@ -5,6 +5,7 @@ import { StructureApiType } from "@/schemas/api/structure.schema";
 import { Repartition } from "@/types/adresse.type";
 import { FetchState } from "@/types/fetch-state.type";
 import { StructureType } from "@/types/structure.type";
+import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { useFetchState } from "../context/FetchStateContext";
 
@@ -27,6 +28,13 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
   ) as Repartition | null;
   const places: string | null = searchParams.get("places");
   const departements: string | null = searchParams.get("departements");
+  const column: StructureColumn | null = searchParams.get(
+    "column"
+  ) as StructureColumn | null;
+  const direction: "asc" | "desc" | null = searchParams.get("direction") as
+    | "asc"
+    | "desc"
+    | null;
 
   const getStructures = useCallback(
     async (
@@ -35,7 +43,9 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
       type: StructureType | null,
       bati: Repartition | null,
       places: string | null,
-      departements: string | null
+      departements: string | null,
+      column: StructureColumn | null,
+      direction: "asc" | "desc" | null
     ): Promise<{ structures: StructureApiType[]; totalStructures: number }> => {
       setFetchState(`structure-${map ? "map" : "search"}`, FetchState.LOADING);
       try {
@@ -61,6 +71,12 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
         }
         if (map) {
           params.append("map", "true");
+        }
+        if (column) {
+          params.append("column", column);
+        }
+        if (direction) {
+          params.append("direction", direction);
         }
         const result = await fetch(
           `${baseUrl}/api/structures?${params.toString()}`
@@ -92,14 +108,26 @@ export const useStructuresSearch = ({ map }: { map?: boolean }) => {
         type,
         bati,
         places,
-        departements
+        departements,
+        column,
+        direction
       );
       setStructures(structures);
       setTotalStructures(totalStructures);
     };
 
     fetchStructures();
-  }, [page, search, type, bati, places, departements, getStructures]);
+  }, [
+    page,
+    search,
+    type,
+    bati,
+    places,
+    departements,
+    column,
+    direction,
+    getStructures,
+  ]);
 
   return {
     structures,
