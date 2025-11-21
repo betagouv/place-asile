@@ -523,13 +523,20 @@ view StructuresFilling {
 view StructuresOrder {
   id                       Int
   dnaCode                  String
-  type                     StructureType
-  operateur                String
+  type                     String
+  operateur                String?      
+  finessCode               String?       
+  nom                      String?       
+  adresseAdministrative    String
+  codePostalAdministratif  String
+  communeAdministrative    String
   departementAdministratif String
-  region                   String
-  bati                     String
-  placesAutorisees         Int
-  finConvention            DateTime
+  region                   String?       
+  bati                     String?       
+  placesAutorisees         Int?         
+  finConvention            DateTime?    
 
+  @@map("structures_order")
   @@schema("reporting")
 }
+

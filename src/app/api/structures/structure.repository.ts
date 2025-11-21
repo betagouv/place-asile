@@ -87,21 +87,23 @@ export const findBySearch = async ({
     type,
     bati,
     departements,
+    placesAutorisees,
   });
 
-  const structureIdsFilteredByPlacesAutorisees =
-    await getStructureIdsByPlacesAutorisees(placesAutorisees);
-  if (structureIdsFilteredByPlacesAutorisees) {
-    where.id = {
-      in: structureIdsFilteredByPlacesAutorisees,
-    };
-  }
-
   if (map) {
-    return prisma.structure.findMany({
-      where,
+    const mapStructuresIds = await prisma.structuresOrder.findMany({
+      where: where as Prisma.StructuresOrderWhereInput,
       select: {
         id: true,
+      },
+    });
+    return prisma.structure.findMany({
+      where: {
+        id: {
+          in: mapStructuresIds.map((structure) => structure.id),
+        },
+      },
+      select: {
         latitude: true,
         longitude: true,
       },
@@ -113,11 +115,22 @@ export const findBySearch = async ({
     direction ?? "asc"
   );
 
-  return prisma.structure.findMany({
-    where,
+  const structuresIds = await prisma.structuresOrder.findMany({
+    where: where as Prisma.StructuresOrderWhereInput,
     skip: page ? page * DEFAULT_PAGE_SIZE : 0,
     take: DEFAULT_PAGE_SIZE,
     orderBy,
+    select: {
+      id: true,
+    },
+  });
+
+  const structures = await prisma.structure.findMany({
+    where: {
+      id: {
+        in: structuresIds.map((structure) => structure.id),
+      },
+    },
     include: {
       adresses: true,
       operateur: true,
@@ -133,6 +146,14 @@ export const findBySearch = async ({
       },
     },
   });
+
+  const orderedStructures = structuresIds
+    .map((structuresIds) => {
+      return structures.find((structure) => structure.id === structuresIds.id);
+    })
+    .filter((structure) => structure !== undefined);
+
+  return orderedStructures;
 };
 
 export const countBySearch = async ({
@@ -155,7 +176,7 @@ export const countBySearch = async ({
       in: structureIdsFilteredByPlacesAutorisees,
     };
   }
-  return prisma.structure.count({ where });
+  return prisma.structure.count({ where: where as Prisma.StructureWhereInput });
 };
 
 const getStructureIdsByPlacesAutorisees = async (

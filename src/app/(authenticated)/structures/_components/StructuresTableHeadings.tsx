@@ -109,12 +109,12 @@ export const StructuresTableHeadings = ({
         <th scope="col" key="bati">
           <span className="flex items-center">
             Bâti
-            {/* <OrderButton
+            <OrderButton
               column="bati"
               currentColumn={column}
               currentDirection={direction}
               handleOrdering={handleOrdering}
-            /> */}
+            />
           </span>
         </th>,
         <th scope="col" key="communes">
@@ -123,12 +123,12 @@ export const StructuresTableHeadings = ({
         <th scope="col" key="placesAutorisees">
           <span className="flex items-center justify-center">
             Places aut.
-            {/* <OrderButton
+            <OrderButton
               column="placesAutorisees"
               currentColumn={column}
               currentDirection={direction}
               handleOrdering={handleOrdering}
-            /> */}
+            />
           </span>
         </th>,
         <th scope="col" key="finConvention">

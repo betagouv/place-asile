@@ -51,20 +51,11 @@ export const divideFileUploads = (
 export const getStructureOrderBy = (
   column: StructureColumn,
   direction: "asc" | "desc"
-): Prisma.StructureOrderByWithRelationInput[] => {
-  let primaryOrder: Prisma.StructureOrderByWithRelationInput = {
-    departementAdministratif: direction,
-  };
-  if (["dnaCode", "type", "finConvention"].includes(column)) {
-    primaryOrder = { [column as StructureColumn]: direction };
-  }
-  if (column === "operateur") {
-    primaryOrder = { operateur: { name: direction } };
-  }
+): Prisma.StructuresOrderOrderByWithRelationInput[] => {
   return [
-    primaryOrder,
+    { [column as StructureColumn]: direction },
     { departementAdministratif: "asc" },
-    { operateur: { name: "asc" } },
+    { operateur: "asc" },
     { type: "asc" },
   ];
 };
@@ -74,13 +65,15 @@ export const getStructureSearchWhere = ({
   type,
   bati,
   departements,
+  placesAutorisees,
 }: {
   search: string | null;
   type: string | null;
   bati: string | null;
   departements: string | null;
-}): Prisma.StructureWhereInput => {
-  const where: Prisma.StructureWhereInput = {};
+  placesAutorisees: string | null;
+}): Prisma.StructuresOrderWhereInput => {
+  const where: Prisma.StructuresOrderWhereInput = {};
   if (type) {
     const typeList = type.split(",").filter(Boolean) as StructureType[];
     if (typeList.length > 0) {
@@ -95,6 +88,18 @@ export const getStructureSearchWhere = ({
     if (departementList.length > 0) {
       where.departementAdministratif = {
         in: departementList,
+      };
+    }
+  }
+
+  if (placesAutorisees) {
+    const [minStr, maxStr] = placesAutorisees.split(",");
+    const min = minStr ? parseInt(minStr, 10) : null;
+    const max = maxStr ? parseInt(maxStr, 10) : null;
+    if (min !== null && max !== null) {
+      where.placesAutorisees = {
+        gte: min,
+        lte: max,
       };
     }
   }
@@ -138,154 +143,18 @@ export const getStructureSearchWhere = ({
         },
       },
       {
-        adresses: {
-          some: {
-            commune: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
-        },
-      },
-      {
         operateur: {
-          name: {
-            contains: search,
-            mode: "insensitive",
-          },
+          contains: search,
+          mode: "insensitive",
         },
       },
     ];
   }
 
   if (bati) {
-    const batiList = bati
-      .split(",")
-      .map((b: string) => b.trim().toUpperCase() as Repartition)
-      .filter(Boolean);
-
-    if (batiList.length === 1 && batiList[0] === "MIXTE") {
-      where.AND = [
-        {
-          adresses: {
-            some: { repartition: "DIFFUS" },
-          },
-        },
-        {
-          adresses: {
-            some: { repartition: "COLLECTIF" },
-          },
-        },
-      ];
-    } else if (batiList.length === 1 && batiList[0] === "DIFFUS") {
-      where.AND = [
-        {
-          adresses: {
-            some: { repartition: "DIFFUS" },
-          },
-        },
-        {
-          adresses: {
-            none: { repartition: "COLLECTIF" },
-          },
-        },
-      ];
-    } else if (batiList.length === 1 && batiList[0] === "COLLECTIF") {
-      where.AND = [
-        {
-          adresses: {
-            some: { repartition: "COLLECTIF" },
-          },
-        },
-        {
-          adresses: {
-            none: { repartition: "DIFFUS" },
-          },
-        },
-      ];
-    } else if (
-      batiList.includes("MIXTE") &&
-      batiList.includes("DIFFUS") &&
-      !batiList.includes("COLLECTIF")
-    ) {
-      where.AND = [
-        {
-          adresses: {
-            some: { repartition: "DIFFUS" },
-          },
-        },
-      ];
-    } else if (
-      batiList.includes("MIXTE") &&
-      batiList.includes("COLLECTIF") &&
-      !batiList.includes("DIFFUS")
-    ) {
-      where.OR = [
-        {
-          AND: [
-            {
-              adresses: {
-                some: { repartition: "DIFFUS" },
-              },
-            },
-            {
-              adresses: {
-                some: { repartition: "COLLECTIF" },
-              },
-            },
-          ],
-        },
-        {
-          AND: [
-            {
-              adresses: {
-                some: { repartition: "COLLECTIF" },
-              },
-            },
-            {
-              adresses: {
-                none: { repartition: "DIFFUS" },
-              },
-            },
-          ],
-        },
-      ];
-    } else if (
-      batiList.includes("DIFFUS") &&
-      batiList.includes("COLLECTIF") &&
-      !batiList.includes("MIXTE")
-    ) {
-      where.OR = [
-        {
-          AND: [
-            {
-              adresses: {
-                some: { repartition: "DIFFUS" },
-              },
-            },
-            {
-              adresses: {
-                none: { repartition: "COLLECTIF" },
-              },
-            },
-          ],
-        },
-        {
-          AND: [
-            {
-              adresses: {
-                some: { repartition: "COLLECTIF" },
-              },
-            },
-            {
-              adresses: {
-                none: { repartition: "DIFFUS" },
-              },
-            },
-          ],
-        },
-      ];
-    }
+    where.bati = {
+      in: bati.split(",").filter(Boolean) as Repartition[],
+    };
   }
 
   return where;
