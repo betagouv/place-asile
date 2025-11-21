@@ -1,8 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { StructuresTableHeadings } from "@/app/(authenticated)/structures/_components/StructuresTableHeadings";
+
+import { getOrderButton } from "./OrderButton.test";
 
 const mockPush = vi.fn();
 const mockReplace = vi.fn();
@@ -37,7 +39,7 @@ describe("StructuresTableHeadings", () => {
       </StructuresTableHeadings>
     );
 
-    const dnaButton = screen.getByLabelText("Ordonner par dnaCode");
+    const dnaButton = getOrderButton("dnaCode");
     expect(dnaButton).toBeInTheDocument();
   });
 
@@ -55,7 +57,7 @@ describe("StructuresTableHeadings", () => {
       </StructuresTableHeadings>
     );
 
-    const typeButton = screen.getByLabelText("Ordonner par type");
+    const typeButton = getOrderButton("type");
     await user.click(typeButton);
 
     await waitFor(() => {
@@ -81,7 +83,7 @@ describe("StructuresTableHeadings", () => {
       </StructuresTableHeadings>
     );
 
-    const dnaButton = screen.getByLabelText("Ordonner par dnaCode");
+    const dnaButton = getOrderButton("dnaCode");
     await user.click(dnaButton);
 
     await waitFor(() => {
@@ -118,7 +120,7 @@ describe("StructuresTableHeadings", () => {
     // Clear calls from initial render
     mockReplace.mockClear();
 
-    const dnaButton = screen.getByLabelText("Ordonner par dnaCode");
+    const dnaButton = getOrderButton("dnaCode");
     await user.click(dnaButton);
 
     await waitFor(() => {
@@ -146,7 +148,7 @@ describe("StructuresTableHeadings", () => {
       </StructuresTableHeadings>
     );
 
-    const typeButton = screen.getByLabelText("Ordonner par type");
+    const typeButton = getOrderButton("type");
     await user.click(typeButton);
 
     await waitFor(() => {
