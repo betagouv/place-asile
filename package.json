@@ -50,6 +50,7 @@
     "@sentry/nextjs": "^10.23.0",
     "@socialgouv/matomo-next": "^1.10.0",
     "@tailwindcss/postcss": "^4.1.17",
+    "@testing-library/user-event": "^14.6.1",
     "chartist": "^1.4.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
