@@ -1,15 +1,12 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { FieldSetDescription } from "@/app/components/forms/fieldsets/structure/FieldSetDescription";
 import { FormKind } from "@/types/global";
 import { PublicType, StructureType } from "@/types/structure.type";
 
-import {
-  FormTestWrapper,
-  resetAllMocks,
-} from "../../../test-utils/form-test-wrapper";
+import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
 
 vi.mock("@/app/components/forms/OperateurAutocomplete", () => ({
   OperateurAutocomplete: () => <div data-testid="operateur-autocomplete" />,
@@ -22,10 +19,6 @@ vi.mock("@formkit/auto-animate", () => ({
 
 describe("FieldSetDescription", () => {
   const defaultDnaCode = "C0001";
-
-  beforeEach(() => {
-    resetAllMocks();
-  });
 
   describe("Rendering with FormKind.FINALISATION", () => {
     it("should render all fields correctly", () => {

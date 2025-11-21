@@ -1,15 +1,12 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
 import { Repartition } from "@/types/adresse.type";
 import { FormKind } from "@/types/global";
 
-import {
-  FormTestWrapper,
-  resetAllMocks,
-} from "../../../test-utils/form-test-wrapper";
+import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
 
 vi.mock("@/app/hooks/useAddressSuggestion", () => ({
   useAddressSuggestion: () => {
@@ -18,10 +15,6 @@ vi.mock("@/app/hooks/useAddressSuggestion", () => ({
 }));
 
 describe("FieldSetAdresseAdministrative", () => {
-  beforeEach(() => {
-    resetAllMocks();
-  });
-
   describe("Rendering with FormKind.FINALISATION", () => {
     it("should render all required fields", () => {
       render(

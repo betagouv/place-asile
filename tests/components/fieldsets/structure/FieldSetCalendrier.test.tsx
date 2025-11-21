@@ -1,20 +1,13 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
 import { StructureType } from "@/types/structure.type";
 
-import {
-  FormTestWrapper,
-  resetAllMocks,
-} from "../../../test-utils/form-test-wrapper";
+import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
 
 describe("FieldSetCalendrier", () => {
-  beforeEach(() => {
-    resetAllMocks();
-  });
-
   describe("Rendering with autorisée structure (CADA)", () => {
     it("should render all three date sections for autorisée with CPOM", () => {
       render(

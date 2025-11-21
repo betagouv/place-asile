@@ -1,21 +1,14 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { FieldSetTypePlaces } from "@/app/components/forms/fieldsets/structure/FieldSetTypePlaces";
 import { FormKind } from "@/types/global";
 
-import {
-  FormTestWrapper,
-  resetAllMocks,
-} from "../../../test-utils/form-test-wrapper";
+import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
 
 describe("FieldSetTypePlaces", () => {
   const years = [2025, 2024, 2023];
-
-  beforeEach(() => {
-    resetAllMocks();
-  });
 
   describe("Rendering with FormKind.FINALISATION", () => {
     it("should render with Types de place legend", () => {

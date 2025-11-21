@@ -1,20 +1,13 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { FieldSetContacts } from "@/app/components/forms/fieldsets/structure/FieldSetContacts";
 
 import { createContact } from "../../../test-utils/contact.factory";
-import {
-  FormTestWrapper,
-  resetAllMocks,
-} from "../../../test-utils/form-test-wrapper";
+import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
 
 describe("FieldSetContacts", () => {
-  beforeEach(() => {
-    resetAllMocks();
-  });
-
   describe("Rendering", () => {
     it("should render both contact fieldsets (principal and secondary)", () => {
       render(
