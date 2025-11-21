@@ -177,7 +177,9 @@ export const countBySearch = async ({
       in: structureIdsFilteredByPlacesAutorisees,
     };
   }
-  return prisma.structure.count({ where: where as Prisma.StructureWhereInput });
+  return prisma.structuresOrder.count({
+    where,
+  });
 };
 
 const getStructureIdsByPlacesAutorisees = async (
