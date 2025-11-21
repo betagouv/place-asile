@@ -5,6 +5,9 @@ import { useStructuresSearch } from "@/app/hooks/useStructuresSearch";
 
 global.fetch = vi.fn();
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const globalFetch = global.fetch as any;
+
 const mockUseSearchParams = vi.fn();
 
 vi.mock("next/navigation", () => ({
@@ -32,8 +35,7 @@ describe("useStructuresSearch", () => {
       new URLSearchParams("column=dnaCode&direction=asc")
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global.fetch as any).mockResolvedValue({
+    globalFetch.mockResolvedValue({
       ok: true,
       json: async () => ({
         structures: [],
@@ -44,11 +46,10 @@ describe("useStructuresSearch", () => {
     renderHook(() => useStructuresSearch({ map: false }));
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalled();
+      expect(globalFetch).toHaveBeenCalled();
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const fetchCall = (global.fetch as any).mock.calls[0][0];
+    const fetchCall = globalFetch.mock.calls[0][0];
     expect(fetchCall).toContain("column=dnaCode");
     expect(fetchCall).toContain("direction=asc");
   });
@@ -58,8 +59,7 @@ describe("useStructuresSearch", () => {
       new URLSearchParams("type=CADA&departements=75,92&bati=DIFFUS")
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global.fetch as any).mockResolvedValue({
+    globalFetch.mockResolvedValue({
       ok: true,
       json: async () => ({
         structures: [],
@@ -70,11 +70,10 @@ describe("useStructuresSearch", () => {
     renderHook(() => useStructuresSearch({ map: false }));
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalled();
+      expect(globalFetch).toHaveBeenCalled();
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const fetchCall = (global.fetch as any).mock.calls[0][0];
+    const fetchCall = globalFetch.mock.calls[0][0];
     expect(fetchCall).toContain("type=CADA");
     // URL encoding: comma becomes %2C
     expect(fetchCall).toMatch(/departements=75(%2C|,)92/);
@@ -87,8 +86,7 @@ describe("useStructuresSearch", () => {
       new URLSearchParams("column=type&direction=desc")
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global.fetch as any).mockResolvedValue({
+    globalFetch.mockResolvedValue({
       ok: true,
       json: async () => ({ structures: [], totalStructures: 0 }),
     });
@@ -96,12 +94,12 @@ describe("useStructuresSearch", () => {
     renderHook(() => useStructuresSearch({ map: false }));
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalled();
+      expect(globalFetch).toHaveBeenCalled();
     });
 
     // Verify the API was called with the correct params from URL
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const fetchCall = (global.fetch as any).mock.calls[0][0];
+
+    const fetchCall = globalFetch.mock.calls[0][0];
     expect(fetchCall).toContain("column=type");
     expect(fetchCall).toContain("direction=desc");
   });
@@ -114,8 +112,7 @@ describe("useStructuresSearch", () => {
       { id: 2, dnaCode: "C0002", type: "CPH" },
     ];
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global.fetch as any).mockResolvedValue({
+    globalFetch.mockResolvedValue({
       ok: true,
       json: async () => ({
         structures: mockStructures,
@@ -138,8 +135,7 @@ describe("useStructuresSearch", () => {
       new URLSearchParams("departements=75,92")
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global.fetch as any).mockResolvedValue({
+    globalFetch.mockResolvedValue({
       ok: true,
       json: async () => ({
         structures: [],
@@ -150,11 +146,10 @@ describe("useStructuresSearch", () => {
     renderHook(() => useStructuresSearch({ map: true }));
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalled();
+      expect(globalFetch).toHaveBeenCalled();
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const fetchCall = (global.fetch as any).mock.calls[0][0];
+    const fetchCall = globalFetch.mock.calls[0][0];
     expect(fetchCall).not.toContain("departements=");
     expect(fetchCall).toContain("map=true");
   });
