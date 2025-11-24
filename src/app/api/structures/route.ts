@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { requireProConnectAuth } from "@/lib/api-auth";
 import {
   structureCreationApiSchema,
   structureUpdateApiSchema,
@@ -14,10 +13,6 @@ import {
 } from "./structure.repository";
 
 export async function GET(request: NextRequest) {
-  const authResult = await requireProConnectAuth();
-  if (authResult.status === 401) {
-    return authResult;
-  }
   const search = request.nextUrl.searchParams.get("search");
   const page = request.nextUrl.searchParams.get("page") as number | null;
   const type = request.nextUrl.searchParams.get("type");
@@ -61,11 +56,6 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const authResult = await requireProConnectAuth();
-  if (authResult.status === 401) {
-    return authResult;
-  }
-
   try {
     const body = await request.json();
     const result = structureUpdateApiSchema.parse(body);
