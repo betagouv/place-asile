@@ -1,6 +1,6 @@
+import xlsx from "node-xlsx";
 import path from "path";
 import { fileURLToPath } from "url";
-import xlsx from "node-xlsx";
 
 import { Activite } from "@/generated/prisma/client";
 
