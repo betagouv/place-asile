@@ -1,4 +1,4 @@
-export type Protection = "proconnect" | "password" | "either";
+export type Protection = "proconnect" | "password" | "either" | "none";
 
 export type ApiRoute = {
   pattern: RegExp;
