@@ -1,8 +1,12 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import xlsx from "node-xlsx";
 
 import { Activite } from "@/generated/prisma/client";
 
 import { ActivitesMetadata, activitesMetadata } from "./activites-metadata";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const getPlacesVacantes = (
   metadata: ActivitesMetadata,

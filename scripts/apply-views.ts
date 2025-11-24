@@ -1,7 +1,9 @@
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const scriptsPath = path.join(__dirname, "views");
 const viewFiles = fs.readdirSync(scriptsPath);
 console.log("Creating views...");
