@@ -55,6 +55,13 @@ export const protectedApiRoutes: ApiRoute[] = [
       POST: "proconnect",
     },
   },
+  {
+    pattern: /^\/api\/auth(?:\/.*)?$/,
+    routes: {
+      GET: "none",
+      POST: "none",
+    },
+  },
 ];
 
 export const proConnectProtectedPages = [

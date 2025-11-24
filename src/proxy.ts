@@ -21,7 +21,7 @@ const proConnectPagesProxy = withAuth(() => NextResponse.next(), {
   },
 });
 
-const passwordPagesProxy = (request: NextRequest): NextResponse | null => {
+const passwordPagesProxy = (request: NextRequest): NextResponse => {
   const url = request.nextUrl;
   if (url.pathname.startsWith(passwordProtectedPage)) {
     const passwordCookie = request.cookies.get("mot-de-passe");
@@ -31,7 +31,7 @@ const passwordPagesProxy = (request: NextRequest): NextResponse | null => {
       return NextResponse.redirect(loginUrl);
     }
   }
-  return null;
+  return NextResponse.next();
 };
 
 const protectApiWithAuth = async (
@@ -43,6 +43,9 @@ const protectApiWithAuth = async (
   const passwordCookie = request.cookies.get("mot-de-passe");
   const hasPassword = passwordCookie?.value === process.env.PAGE_PASSWORD;
 
+  if (protection === "none" || request.nextUrl.pathname === noProtectionPage) {
+    return NextResponse.next();
+  }
   const isUnauthenticated =
     protection === null ||
     (protection === "proconnect" && !hasProconnectSession) ||
@@ -61,22 +64,26 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const apiAuthResult = await protectApiWithAuth(request);
-  if (apiAuthResult) {
-    return apiAuthResult;
-  }
-
   const isProtected = proConnectProtectedPages.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
-
   if (isProtected) {
     return (proConnectPagesProxy as (request: NextRequest) => NextResponse)(
       request
     );
   }
 
-  return passwordPagesProxy(request) ?? NextResponse.next();
+  const passwordResult = passwordPagesProxy(request);
+  if (passwordResult) {
+    return passwordResult;
+  }
+
+  const apiAuthResult = await protectApiWithAuth(request);
+  if (apiAuthResult) {
+    return apiAuthResult;
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
