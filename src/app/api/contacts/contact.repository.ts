@@ -1,5 +1,4 @@
-import { ContactType } from "@prisma/client";
-
+import { ContactType } from "@/generated/prisma/client";
 import { ContactApiType } from "@/schemas/api/contact.schema";
 import { PrismaTransaction } from "@/types/prisma.type";
 

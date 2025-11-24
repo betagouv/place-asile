@@ -1,6 +1,6 @@
 import {
     StepStatus,
-} from "@prisma/client";
+} from "@/generated/prisma/client";
 
 export const convertToStepStatus = (
     stepStatus: string | null | undefined

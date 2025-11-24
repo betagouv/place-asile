@@ -1,7 +1,6 @@
-import { defineConfig } from "@playwright/test";
+import "dotenv/config";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-require("dotenv").config();
+import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests/e2e",

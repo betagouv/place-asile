@@ -1,5 +1,6 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { AdresseTypologie } from "@prisma/client";
+
+import { AdresseTypologie } from "@/generated/prisma/client";
 
 export const createFakeAdresseTypologie = ({
   year,

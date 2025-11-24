@@ -1,5 +1,6 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { StructureTypologie } from "@prisma/client";
+
+import { StructureTypologie } from "@/generated/prisma/client";
 
 export const createFakeStructureTypologie = ({
   placesAutorisees,
