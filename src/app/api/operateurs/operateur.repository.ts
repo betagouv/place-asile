@@ -1,6 +1,5 @@
-import { Operateur, Prisma } from "@prisma/client";
-
 import { normalizeAccents } from "@/app/utils/string.util";
+import { Operateur, Prisma } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import { OperateurApiType } from "@/schemas/api/operateur.schema";
 

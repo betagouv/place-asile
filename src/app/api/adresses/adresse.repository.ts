@@ -1,5 +1,4 @@
-import { Repartition } from "@prisma/client";
-
+import { Repartition } from "@/generated/prisma/client";
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { PrismaTransaction } from "@/types/prisma.type";
 

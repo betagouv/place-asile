@@ -1,5 +1,6 @@
-import { Activite } from "@prisma/client";
 import xlsx from "node-xlsx";
+
+import { Activite } from "@/generated/prisma/client";
 
 import { ActivitesMetadata, activitesMetadata } from "./activites-metadata";
 

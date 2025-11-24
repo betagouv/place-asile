@@ -1,9 +1,13 @@
 // Fill StructureOfii table with csv from s3 bucket
-import { PrismaClient, StructureType } from "@prisma/client";
+import "dotenv/config";
+
+import { StructureType } from "@/generated/prisma/client";
 import { parse } from "csv-parse/sync";
 import { checkBucket, getObject } from "@/lib/minio";
 
-const prisma = new PrismaClient();
+import { createPrismaClient } from "@/prisma-client";
+
+const prisma = createPrismaClient();
 const bucketName = process.env.DOCS_BUCKET_NAME!;
 const args = process.argv.slice(2);
 const csvFilename = args[0];
