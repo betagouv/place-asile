@@ -1,5 +1,9 @@
 import fs from "fs";
 import xlsx from "node-xlsx";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const sheets = xlsx.parse(`${__dirname}/operateurs.xlsx`, {
   cellDates: true,
