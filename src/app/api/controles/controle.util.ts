@@ -1,4 +1,4 @@
-import { ControleType } from "@prisma/client";
+import { ControleType } from "@/generated/prisma/client";
 
 export const convertToControleType = (
   controleType: string | undefined

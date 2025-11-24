@@ -1,10 +1,10 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { Budget } from "@prisma/client";
 
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { Budget } from "@/generated/prisma/client";
 import { StructureType } from "@/types/structure.type";
 
 export const createFakeBudget = ({

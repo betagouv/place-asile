@@ -1,4 +1,6 @@
 import { fakerFR as faker } from "@faker-js/faker";
+
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
   Budget,
   Contact,
@@ -9,9 +11,7 @@ import {
   PublicType,
   Structure,
   StructureTypologie,
-} from "@prisma/client";
-
-import { isStructureAutorisee } from "@/app/utils/structure.util";
+} from "@/generated/prisma/client";
 import { StructureType } from "@/types/structure.type";
 
 import { AdresseWithTypologies, createFakeAdresses } from "./adresse.seed";

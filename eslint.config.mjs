@@ -32,9 +32,9 @@ const eslintConfig = [
         {
           paths: [
             {
-              name: "@prisma/client",
+              name: "@/generated/prisma/client",
               message:
-                "L'import de @prisma/client est interdit en dehors de src/app/api/, lib/ ou prisma/.",
+                "L'import de @/generated/prisma/client est interdit en dehors de src/app/api/, lib/ ou prisma/.",
             },
           ],
         },

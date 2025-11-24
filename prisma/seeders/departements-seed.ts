@@ -1,6 +1,5 @@
-import { Departement } from "@prisma/client";
-
 import { DEPARTEMENTS } from "@/constants";
+import { Departement } from "@/generated/prisma/client";
 
 export const createDepartements = (): Omit<Departement, "id">[] => {
     return DEPARTEMENTS.map((department) => ({

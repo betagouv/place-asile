@@ -1,6 +1,6 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { StructureOfii } from "@prisma/client";
 
+import { StructureOfii } from "@/generated/prisma/client";
 import { StructureType } from "@/types/structure.type";
 
 let counter = 1;
