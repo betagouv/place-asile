@@ -23,15 +23,16 @@ const proConnectPagesProxy = withAuth(() => NextResponse.next(), {
 
 const passwordPagesProxy = (request: NextRequest): NextResponse | null => {
   const url = request.nextUrl;
-  if (url.pathname.startsWith(passwordProtectedPage)) {
-    const passwordCookie = request.cookies.get("mot-de-passe");
-    if (passwordCookie?.value !== process.env.PAGE_PASSWORD) {
-      const loginUrl = new URL(noProtectionPage, request.url);
-      loginUrl.searchParams.set("from", url.pathname);
-      return NextResponse.redirect(loginUrl);
-    }
+  if (!url.pathname.startsWith(passwordProtectedPage)) {
+    return null;
   }
-  return null;
+  const passwordCookie = request.cookies.get("mot-de-passe");
+  if (passwordCookie?.value !== process.env.PAGE_PASSWORD) {
+    const loginUrl = new URL(noProtectionPage, request.url);
+    loginUrl.searchParams.set("from", url.pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+  return NextResponse.next();
 };
 
 const protectApiWithAuth = async (
@@ -42,6 +43,10 @@ const protectApiWithAuth = async (
   const hasProconnectSession = !!session?.user;
   const passwordCookie = request.cookies.get("mot-de-passe");
   const hasPassword = passwordCookie?.value === process.env.PAGE_PASSWORD;
+
+  if (protection === "none" || request.nextUrl.pathname === noProtectionPage) {
+    return NextResponse.next();
+  }
 
   const isUnauthenticated =
     protection === null ||
@@ -61,11 +66,6 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const apiAuthResult = await protectApiWithAuth(request);
-  if (apiAuthResult) {
-    return apiAuthResult;
-  }
-
   const isProtected = proConnectProtectedPages.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
@@ -76,7 +76,17 @@ export async function proxy(request: NextRequest) {
     );
   }
 
-  return passwordPagesProxy(request) ?? NextResponse.next();
+  const passwordResult = passwordPagesProxy(request);
+  if (passwordResult) {
+    return passwordResult;
+  }
+
+  const apiAuthResult = await protectApiWithAuth(request);
+  if (apiAuthResult) {
+    return apiAuthResult;
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
