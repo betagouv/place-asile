@@ -49,7 +49,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.0.0",
     "@prisma/client": "^7.0.0",
-    "@sentry/nextjs": "^10.26.0",
+    "@sentry/nextjs": "^10.27.0",
     "@socialgouv/matomo-next": "^1.10.0",
     "@tailwindcss/postcss": "^4.1.17",
     "chartist": "^1.4.0",
