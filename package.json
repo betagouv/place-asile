@@ -47,7 +47,7 @@
     "@gouvfr/dsfr-chart": "1.0.0",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.19.0",
-    "@sentry/nextjs": "^10.23.0",
+    "@sentry/nextjs": "^10.26.0",
     "@socialgouv/matomo-next": "^1.10.0",
     "@tailwindcss/postcss": "^4.1.17",
     "chartist": "^1.4.0",
@@ -55,7 +55,7 @@
     "dayjs": "^1.11.19",
     "leaflet": "^1.9.4",
     "minio": "^8.0.6",
-    "next": "16.0.1",
+    "next": "16.0.3",
     "next-auth": "^4.24.13",
     "next-leaflet-cluster": "^1.0.0",
     "postcss": "^8.5.6",
@@ -63,7 +63,7 @@
     "prisma": "^6.19.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-hook-form": "^7.66.0",
+    "react-hook-form": "^7.66.1",
     "react-leaflet": "^5.0.0",
     "react-number-format": "^5.4.4",
     "read-excel-file": "^6.0.1",
@@ -94,13 +94,13 @@
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.6.2",
-    "sass": "^1.93.3",
+    "sass": "^1.94.2",
     "sql-formatter": "^15.6.10",
-    "stylelint": "^16.25.0",
+    "stylelint": "^16.26.0",
     "stylelint-config-standard": "^39.0.1",
     "tsx": "^4.20.6",
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.13"
   }
 }
