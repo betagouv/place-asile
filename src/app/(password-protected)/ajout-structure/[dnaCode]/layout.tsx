@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { StructureApiType } from "@/schemas/api/structure.schema";
@@ -14,7 +15,8 @@ export default async function RootLayout({
   try {
     const result = await fetch(
       `${process.env.NEXT_URL}/api/structures/dna/${dnaCode}`,
-      { next: { revalidate: 0 } }
+      // Requête côté serveur donc il faut appeler les headers manuellement
+      { next: { revalidate: 0 }, headers: await headers() }
     );
 
     if (!result.ok) {
