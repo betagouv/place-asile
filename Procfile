@@ -1,1 +1,1 @@
-postdeploy: yarn prisma:deploy && yarn apply-views
+postdeploy: yarn install --production=false && yarn prisma:deploy && yarn apply-views
