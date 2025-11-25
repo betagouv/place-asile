@@ -169,68 +169,10 @@ export const countBySearch = async ({
     departements,
     placesAutorisees,
   });
-  const structureIdsFilteredByPlacesAutorisees =
-    await getStructureIdsByPlacesAutorisees(placesAutorisees);
-  if (structureIdsFilteredByPlacesAutorisees) {
-    where.id = {
-      in: structureIdsFilteredByPlacesAutorisees,
-    };
-  }
+
   return prisma.structuresOrder.count({
     where,
   });
-};
-
-const getStructureIdsByPlacesAutorisees = async (
-  placesAutorisees: string | null
-): Promise<number[] | null> => {
-  if (!placesAutorisees) {
-    return null;
-  }
-
-  const [minStr, maxStr] = placesAutorisees.split(",");
-  const min = minStr ? parseInt(minStr, 10) : null;
-  const max = maxStr ? parseInt(maxStr, 10) : null;
-
-  if (min === null && max === null) {
-    return null;
-  }
-
-  const allTypologies = await prisma.structureTypologie.findMany({
-    orderBy: { date: "desc" },
-    select: {
-      structureDnaCode: true,
-      placesAutorisees: true,
-    },
-  });
-
-  const seenStructures = new Set<string>();
-
-  const matchingDnaCodes = allTypologies
-    .filter((typology) => {
-      if (
-        seenStructures.has(typology.structureDnaCode) ||
-        typology.placesAutorisees === null
-      ) {
-        return false;
-      }
-      seenStructures.add(typology.structureDnaCode);
-
-      const places = typology.placesAutorisees;
-      return (min === null || places >= min) && (max === null || places <= max);
-    })
-    .map((typology) => typology.structureDnaCode);
-
-  if (matchingDnaCodes.length === 0) {
-    return [];
-  }
-
-  const structures = await prisma.structure.findMany({
-    where: { dnaCode: { in: matchingDnaCodes } },
-    select: { id: true },
-  });
-
-  return structures.map((structure) => structure.id);
 };
 
 const getLatestPlacesAutoriseesPerStructure = async (): Promise<number[]> => {
@@ -482,8 +424,8 @@ export const updateOne = async (
           operateur: {
             connect: operateur
               ? {
-                id: operateur?.id,
-              }
+                  id: operateur?.id,
+                }
               : undefined,
           },
         },
