@@ -91,7 +91,7 @@ export const findBySearch = async ({
 
   if (map) {
     const mapStructuresIds = await prisma.structuresOrder.findMany({
-      where: where as Prisma.StructuresOrderWhereInput,
+      where,
       select: {
         id: true,
       },
@@ -115,7 +115,7 @@ export const findBySearch = async ({
   );
 
   const structuresIds = await prisma.structuresOrder.findMany({
-    where: where as Prisma.StructuresOrderWhereInput,
+    where,
     skip: page ? page * DEFAULT_PAGE_SIZE : 0,
     take: DEFAULT_PAGE_SIZE,
     orderBy,
