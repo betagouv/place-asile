@@ -1,5 +1,4 @@
-import { Prisma, Repartition, StructureType } from "@prisma/client";
-
+import { Prisma, Repartition, StructureType } from "@/generated/prisma/client";
 import {
   ActeAdministratifCategory,
   DocumentFinancierCategory,

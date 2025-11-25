@@ -1,5 +1,4 @@
-import { StructureOfii, StructureType } from "@prisma/client";
-
+import { StructureOfii, StructureType } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 
 export const findBySearchTerm = async (

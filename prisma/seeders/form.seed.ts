@@ -1,11 +1,12 @@
 import { fakerFR as faker } from "@faker-js/faker";
+
 import {
   Form,
   FormDefinition,
   FormStep,
   FormStepDefinition,
   StepStatus,
-} from "@prisma/client";
+} from "@/generated/prisma/client";
 
 export const createFakeFormDefinition = (): Omit<FormDefinition, "id"> => {
   return {

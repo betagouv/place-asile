@@ -1,5 +1,4 @@
-import { FileUpload, FileUploadCategory } from "@prisma/client";
-
+import { FileUpload, FileUploadCategory } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
 import { DocumentFinancierApiType } from "@/schemas/api/documentFinancier.schema";
@@ -75,11 +74,11 @@ const deleteFileUploads = async (
     const isAllowedCategory =
       category === "acteAdministratif"
         ? ActeAdministratifCategory.includes(
-            fileUpload.category as (typeof ActeAdministratifCategory)[number]
-          )
+          fileUpload.category as (typeof ActeAdministratifCategory)[number]
+        )
         : DocumentFinancierCategory.includes(
-            fileUpload.category as (typeof DocumentFinancierCategory)[number]
-          );
+          fileUpload.category as (typeof DocumentFinancierCategory)[number]
+        );
 
     if (!isAllowedCategory) {
       return false;

@@ -1,8 +1,10 @@
+import "dotenv/config";
+
 import { fakerFR as faker } from "@faker-js/faker";
-import { PrismaClient } from "@prisma/client";
 
 import { StructureType } from "@/types/structure.type";
 
+import { createPrismaClient } from "./client";
 import { createDepartements } from "./seeders/departements-seed";
 import {
   createFakeFormDefinition,
@@ -15,7 +17,7 @@ import { createFakeStuctureWithRelations } from "./seeders/structure.seed";
 import { createFakeStructureOfii } from "./seeders/structure-ofii.seed";
 import { wipeTables } from "./utils/wipe";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 export async function seed(): Promise<void> {
   console.log("🗑️ Suppression des données existantes...");
@@ -109,7 +111,7 @@ export async function seed(): Promise<void> {
     console.log(
       `📎 Ajout des fichiers parent-enfant pour ${structure.dnaCode}...`
     );
-    await seedParentChildFileUploads(structure.dnaCode);
+    await seedParentChildFileUploads(prisma, structure.dnaCode);
   }
 }
 

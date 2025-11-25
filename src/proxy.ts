@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
 import { withAuth } from "next-auth/middleware";
 
-const proConnectProxy = withAuth(() => NextResponse.next(), {
+import { getApiRouteProtection } from "./app/utils/proxy.util";
+import { authOptions } from "./lib/next-auth/auth";
+import {
+  noProtectionPage,
+  passwordProtectedPage,
+  proConnectProtectedPages,
+} from "./proxy-config";
+
+const proConnectPagesProxy = withAuth(() => NextResponse.next(), {
   callbacks: {
     authorized: ({ token }) => {
       return token !== null;
@@ -12,36 +21,69 @@ const proConnectProxy = withAuth(() => NextResponse.next(), {
   },
 });
 
-const protectByPassword = (request: NextRequest): NextResponse | undefined => {
+const passwordPagesProxy = (request: NextRequest): NextResponse | null => {
   const url = request.nextUrl;
-  if (url.pathname.startsWith("/ajout-structure")) {
-    const passwordCookie = request.cookies.get("mot-de-passe");
-    if (passwordCookie?.value !== process.env.PAGE_PASSWORD) {
-      const loginUrl = new URL("/mot-de-passe", request.url);
-      loginUrl.searchParams.set("from", url.pathname);
-      return NextResponse.redirect(loginUrl);
-    }
+  if (!url.pathname.startsWith(passwordProtectedPage)) {
+    return null;
   }
-  return undefined;
+  const passwordCookie = request.cookies.get("mot-de-passe");
+  if (passwordCookie?.value !== process.env.PAGE_PASSWORD) {
+    const loginUrl = new URL(noProtectionPage, request.url);
+    loginUrl.searchParams.set("from", url.pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+  return NextResponse.next();
+};
+
+const protectApiWithAuth = async (
+  request: NextRequest
+): Promise<NextResponse | null> => {
+  const protection = getApiRouteProtection(request, request.nextUrl.pathname);
+  const session = await getServerSession(authOptions);
+  const hasProconnectSession = !!session?.user;
+  const passwordCookie = request.cookies.get("mot-de-passe");
+  const hasPassword = passwordCookie?.value === process.env.PAGE_PASSWORD;
+
+  if (protection === "none" || request.nextUrl.pathname === noProtectionPage) {
+    return NextResponse.next();
+  }
+
+  const isUnauthenticated =
+    protection === null ||
+    (protection === "proconnect" && !hasProconnectSession) ||
+    (protection === "password" && !hasPassword) ||
+    (protection === "either" && !hasProconnectSession && !hasPassword);
+
+  if (isUnauthenticated) {
+    return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+  }
+
+  return null;
 };
 
 export async function proxy(request: NextRequest) {
   if (process.env.DEV_AUTH_BYPASS) {
     return NextResponse.next();
   }
-  const protectedPaths = ["/structures", "/operateurs", "/statistiques"];
-  const isProtected = protectedPaths.some((path) =>
+
+  const isProtected = proConnectProtectedPages.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
 
   if (isProtected) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (proConnectProxy as any)(request);
+    return (proConnectPagesProxy as (request: NextRequest) => NextResponse)(
+      request
+    );
   }
 
-  const passwordResult = protectByPassword(request);
+  const passwordResult = passwordPagesProxy(request);
   if (passwordResult) {
     return passwordResult;
+  }
+
+  const apiAuthResult = await protectApiWithAuth(request);
+  if (apiAuthResult) {
+    return apiAuthResult;
   }
 
   return NextResponse.next();
@@ -49,10 +91,13 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // Pages
     "/structures/:path*",
     "/operateurs/:path*",
     "/statistiques/:path*",
     "/ajout-structure/:path*",
     "/mot-de-passe",
+    // Routes API
+    "/api/:path*",
   ],
 };

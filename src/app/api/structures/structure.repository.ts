@@ -1,7 +1,6 @@
-import { Prisma, Structure } from "@prisma/client";
-
 import { getCoordinates } from "@/app/utils/adresse.util";
 import { DEFAULT_PAGE_SIZE } from "@/constants";
+import { Prisma, Structure } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import {
   StructureCreationApiType,
@@ -483,8 +482,8 @@ export const updateOne = async (
           operateur: {
             connect: operateur
               ? {
-                  id: operateur?.id,
-                }
+                id: operateur?.id,
+              }
               : undefined,
           },
         },
