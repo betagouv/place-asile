@@ -36,9 +36,9 @@ SELECT
   s."codePostalAdministratif",
   s."communeAdministrative",
   s."departementAdministratif",
+  d."region",
   s."type"::text,
   o."name" AS "operateur",
-  d."region",
   sr."bati",
   st."placesAutorisees",
   s."finConvention"

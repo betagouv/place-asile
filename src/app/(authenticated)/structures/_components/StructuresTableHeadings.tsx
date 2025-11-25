@@ -4,9 +4,61 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ReactElement, useEffect, useRef, useState } from "react";
 
 import { Table } from "@/app/components/common/Table";
+import { cn } from "@/app/utils/classname.util";
 import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { OrderButton } from "./OrderButton";
+
+const COLUMNS = [
+  {
+    label: "DNA",
+    column: "dnaCode",
+    orderBy: true,
+    centered: false,
+  },
+  {
+    label: "Type",
+    column: "type",
+    orderBy: true,
+    centered: false,
+  },
+  {
+    label: "Opérateur",
+    column: "operateur",
+    orderBy: true,
+    centered: false,
+  },
+  {
+    label: "Dépt.",
+    column: "departementAdministratif",
+    orderBy: true,
+    centered: true,
+  },
+  {
+    label: "Bâti",
+    column: "bati",
+    orderBy: true,
+    centered: false,
+  },
+  {
+    label: "Communes",
+    column: "communes",
+    orderBy: false,
+    centered: false,
+  },
+  {
+    label: "Places aut.",
+    column: "placesAutorisees",
+    orderBy: true,
+    centered: true,
+  },
+  {
+    label: "Fin convention",
+    column: "finConvention",
+    orderBy: true,
+    centered: false,
+  },
+];
 
 export const StructuresTableHeadings = ({
   ariaLabelledBy,
@@ -62,86 +114,26 @@ export const StructuresTableHeadings = ({
   return (
     <Table
       headings={[
-        <th scope="col" key="dna">
-          <span className="flex items-center">
-            DNA
-            <OrderButton
-              column="dnaCode"
-              currentColumn={column}
-              currentDirection={direction}
-              handleOrdering={handleOrdering}
-            />
-          </span>
-        </th>,
-        <th scope="col" key="type">
-          <span className="flex items-center">
-            Type
-            <OrderButton
-              column="type"
-              currentColumn={column}
-              currentDirection={direction}
-              handleOrdering={handleOrdering}
-            />
-          </span>
-        </th>,
-        <th scope="col" key="operateur" className="flex items-center">
-          <span className="flex items-center">
-            Opérateur
-            <OrderButton
-              column="operateur"
-              currentColumn={column}
-              currentDirection={direction}
-              handleOrdering={handleOrdering}
-            />
-          </span>
-        </th>,
-        <th scope="col" key="departement">
-          <span className="flex items-center justify-center">
-            Dépt.
-            <OrderButton
-              column="departementAdministratif"
-              currentColumn={column}
-              currentDirection={direction}
-              handleOrdering={handleOrdering}
-            />
-          </span>
-        </th>,
-        <th scope="col" key="bati">
-          <span className="flex items-center">
-            Bâti
-            <OrderButton
-              column="bati"
-              currentColumn={column}
-              currentDirection={direction}
-              handleOrdering={handleOrdering}
-            />
-          </span>
-        </th>,
-        <th scope="col" key="communes">
-          <span className="flex items-center">Communes</span>
-        </th>,
-        <th scope="col" key="placesAutorisees">
-          <span className="flex items-center justify-center">
-            Places aut.
-            <OrderButton
-              column="placesAutorisees"
-              currentColumn={column}
-              currentDirection={direction}
-              handleOrdering={handleOrdering}
-            />
-          </span>
-        </th>,
-        <th scope="col" key="finConvention">
-          <span className="flex items-center">
-            Fin convention
-            <OrderButton
-              column="finConvention"
-              currentColumn={column}
-              currentDirection={direction}
-              handleOrdering={handleOrdering}
-            />
-          </span>
-        </th>,
+        ...COLUMNS.map((columnToDisplay) => (
+          <th scope="col" key={columnToDisplay.column}>
+            <span
+              className={cn(
+                "flex items-center",
+                columnToDisplay.centered && "justify-center"
+              )}
+            >
+              {columnToDisplay.label}
+              {columnToDisplay.orderBy && (
+                <OrderButton
+                  column={columnToDisplay.column as StructureColumn}
+                  currentColumn={column}
+                  currentDirection={direction}
+                  handleOrdering={handleOrdering}
+                />
+              )}
+            </span>
+          </th>
+        )),
         "",
       ]}
       ariaLabelledBy={ariaLabelledBy}
