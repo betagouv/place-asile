@@ -16,10 +16,10 @@ export const FiltersDepartement = () => {
     searchParams.get("departements")?.split(",") || []
   );
 
-  const regions = useMemo(() => {
-    return [
-      ...new Set(DEPARTEMENTS.map((departement) => departement.region)),
-    ].sort((a, b) => a.localeCompare(b));
+  const regionsWithoutCorse = useMemo(() => {
+    return [...new Set(DEPARTEMENTS.map((departement) => departement.region))]
+      .filter((region) => region !== "Corse")
+      .sort((a, b) => a.localeCompare(b));
   }, []);
 
   const handleDepartementToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,9 +44,9 @@ export const FiltersDepartement = () => {
   }, [departements, searchParams, router]);
 
   return (
-    <div className="max-h-[40.5rem] overflow-y-scroll">
+    <div className="max-h-[40.5rem] overflow-y-scroll overflow-x-hidden py-4">
       <div className={fr.cx("fr-accordions-group")}>
-        {regions.map((region) => (
+        {regionsWithoutCorse.map((region) => (
           <FiltersRegion
             region={region}
             key={region}

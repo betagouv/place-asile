@@ -48,7 +48,7 @@ export const FiltersTypes = () => {
   }, [type, searchParams, router]);
 
   return (
-    <div className="p-4">
+    <div className="p-6">
       <fieldset>
         <legend className="text-title-blue-france text-sm font-medium mb-4">
           Type de structure
@@ -61,6 +61,12 @@ export const FiltersTypes = () => {
             onChange={handleTypeChange}
           />
           <FiltersTypesCheckbox
+            label="CAES"
+            value={StructureType.CAES}
+            checked={type.includes(StructureType.CAES) || noTypeSelected}
+            onChange={handleTypeChange}
+          />
+          <FiltersTypesCheckbox
             label="CPH"
             value={StructureType.CPH}
             checked={type.includes(StructureType.CPH) || noTypeSelected}
@@ -70,12 +76,6 @@ export const FiltersTypes = () => {
             label="HUDA"
             value={StructureType.HUDA}
             checked={type.includes(StructureType.HUDA) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
-          <FiltersTypesCheckbox
-            label="CAES"
-            value={StructureType.CAES}
-            checked={type.includes(StructureType.CAES) || noTypeSelected}
             onChange={handleTypeChange}
           />
           <FiltersTypesCheckbox

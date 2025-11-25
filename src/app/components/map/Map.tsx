@@ -24,7 +24,7 @@ export const Map = ({ children }: PropsWithChildren): ReactElement => {
         zoom={DEFAULT_MAP_ZOOM}
         scrollWheelZoom={true}
         maxBounds={MAX_BOUNDS}
-        className="h-full w-full"
+        className="h-full w-full z-0"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
