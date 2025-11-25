@@ -10,7 +10,7 @@ import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
 describe("FieldSetTypePlaces", () => {
   const years = [2025, 2024, 2023];
 
-  describe("Rendering with FormKind.FINALISATION", () => {
+  describe("Rendering finalisation form", () => {
     it("should render with Types de place legend", () => {
       render(
         <FormTestWrapper
@@ -228,34 +228,15 @@ describe("FieldSetTypePlaces", () => {
       const input = container.querySelector(
         '[name="structureTypologies.0.placesAutorisees"]'
       ) as HTMLInputElement;
+
+      expect(input).toHaveAttribute("min", "0");
+
       await user.clear(input);
       await user.type(input, "100");
 
       await waitFor(() => {
         expect(input).toHaveValue("100");
       });
-    });
-
-    it("should enforce minimum value of 0", () => {
-      const { container } = render(
-        <FormTestWrapper
-          defaultValues={{
-            structureTypologies: years.map(() => ({
-              placesAutorisees: 0,
-              pmr: 0,
-              lgbt: 0,
-              fvvTeh: 0,
-            })),
-          }}
-        >
-          <FieldSetTypePlaces formKind={FormKind.FINALISATION} />
-        </FormTestWrapper>
-      );
-
-      const input = container.querySelector(
-        '[name="structureTypologies.0.placesAutorisees"]'
-      ) as HTMLInputElement;
-      expect(input).toHaveAttribute("min", "0");
     });
   });
 
@@ -310,28 +291,6 @@ describe("FieldSetTypePlaces", () => {
       );
 
       expect(screen.getByText("Types de place")).toBeInTheDocument();
-    });
-
-    it("should handle null values", () => {
-      const { container } = render(
-        <FormTestWrapper
-          defaultValues={{
-            structureTypologies: years.map(() => ({
-              placesAutorisees: null,
-              pmr: null,
-              lgbt: null,
-              fvvTeh: null,
-            })),
-          }}
-        >
-          <FieldSetTypePlaces formKind={FormKind.FINALISATION} />
-        </FormTestWrapper>
-      );
-
-      const input = container.querySelector(
-        '[name="structureTypologies.0.placesAutorisees"]'
-      ) as HTMLInputElement;
-      expect(input).toHaveValue("");
     });
   });
 

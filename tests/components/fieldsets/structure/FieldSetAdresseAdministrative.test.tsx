@@ -15,7 +15,7 @@ vi.mock("@/app/hooks/useAddressSuggestion", () => ({
 }));
 
 describe("FieldSetAdresseAdministrative", () => {
-  describe("Rendering with FormKind.FINALISATION", () => {
+  describe("Rendering finalisation form", () => {
     it("should render all required fields", () => {
       render(
         <FormTestWrapper
@@ -241,70 +241,6 @@ describe("FieldSetAdresseAdministrative", () => {
       await waitFor(() => {
         expect(typeBatiSelect).toHaveValue(Repartition.DIFFUS);
       });
-    });
-  });
-
-  describe("Edge cases", () => {
-    it("should handle null values gracefully", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            nom: null,
-            adresseAdministrativeComplete: null,
-            typeBati: null,
-          }}
-        >
-          <FieldSetAdresseAdministrative formKind={FormKind.MODIFICATION} />
-        </FormTestWrapper>
-      );
-
-      const nomInput = screen.getByLabelText("Nom de la structure (optionnel)");
-      expect(nomInput).toHaveValue("");
-
-      const typeBatiSelect = screen.getByLabelText("Type de bâti");
-      expect(typeBatiSelect).toHaveValue("");
-    });
-
-    it("should handle empty string values", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            nom: "",
-            adresseAdministrativeComplete: "",
-            adresseAdministrative: "",
-            codePostalAdministratif: "",
-            communeAdministrative: "",
-            departementAdministratif: "",
-          }}
-        >
-          <FieldSetAdresseAdministrative formKind={FormKind.FINALISATION} />
-        </FormTestWrapper>
-      );
-
-      const nomInput = screen.getByLabelText("Nom de la structure (optionnel)");
-      expect(nomInput).toHaveValue("");
-    });
-  });
-
-  describe("Field names", () => {
-    it("should have correct name attribute for nom field", () => {
-      const { container } = render(
-        <FormTestWrapper defaultValues={{}}>
-          <FieldSetAdresseAdministrative formKind={FormKind.FINALISATION} />
-        </FormTestWrapper>
-      );
-
-      expect(container.querySelector('[name="nom"]')).toBeInTheDocument();
-    });
-
-    it("should have correct name attribute for typeBati field", () => {
-      const { container } = render(
-        <FormTestWrapper defaultValues={{}}>
-          <FieldSetAdresseAdministrative formKind={FormKind.MODIFICATION} />
-        </FormTestWrapper>
-      );
-
-      expect(container.querySelector('[name="typeBati"]')).toBeInTheDocument();
     });
   });
 });

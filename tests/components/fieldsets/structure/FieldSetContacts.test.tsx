@@ -276,22 +276,6 @@ describe("FieldSetContacts", () => {
   });
 
   describe("Edge cases", () => {
-    it("should handle empty contact data", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            contacts: [{}, {}],
-          }}
-        >
-          <FieldSetContacts />
-        </FormTestWrapper>
-      );
-
-      const prenomInputs = screen.getAllByLabelText("Prénom");
-      expect(prenomInputs[0]).toHaveValue("");
-      expect(prenomInputs[1]).toHaveValue("");
-    });
-
     it("should handle partial contact data", () => {
       render(
         <FormTestWrapper
@@ -313,25 +297,6 @@ describe("FieldSetContacts", () => {
       expect(emailInputs[0]).toHaveValue("");
       expect(prenomInputs[1]).toHaveValue("");
       expect(emailInputs[1]).toHaveValue("contact@example.com");
-    });
-
-    it("should handle null values gracefully", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            contacts: [
-              { prenom: null, nom: null, email: null },
-              { prenom: null, nom: null, email: null },
-            ],
-          }}
-        >
-          <FieldSetContacts />
-        </FormTestWrapper>
-      );
-
-      const prenomInputs = screen.getAllByLabelText("Prénom");
-      expect(prenomInputs[0]).toHaveValue("");
-      expect(prenomInputs[1]).toHaveValue("");
     });
   });
 

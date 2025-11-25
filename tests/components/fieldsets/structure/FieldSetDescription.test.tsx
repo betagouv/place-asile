@@ -20,7 +20,7 @@ vi.mock("@formkit/auto-animate", () => ({
 describe("FieldSetDescription", () => {
   const defaultDnaCode = "C0001";
 
-  describe("Rendering with FormKind.FINALISATION", () => {
+  describe("Rendering finalisation form", () => {
     it("should render all fields correctly", () => {
       const { container } = render(
         <FormTestWrapper

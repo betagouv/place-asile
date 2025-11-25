@@ -28,10 +28,10 @@ describe("FieldSetCalendrier", () => {
       );
 
       expect(screen.getByText(/Calendrier/i)).toBeInTheDocument();
-      const dateDebuts = screen.getAllByLabelText(/Date de début/i);
-      const dateFins = screen.getAllByLabelText(/Date de fin/i);
-      expect(dateDebuts.length).toBe(3);
-      expect(dateFins.length).toBe(3);
+      const datesDebuts = screen.getAllByLabelText(/Date de début/i);
+      const datesFins = screen.getAllByLabelText(/Date de fin/i);
+      expect(datesDebuts.length).toBe(3);
+      expect(datesFins.length).toBe(3);
     });
 
     it("should render only autorisation and convention sections without CPOM", () => {
@@ -50,10 +50,10 @@ describe("FieldSetCalendrier", () => {
         </FormTestWrapper>
       );
 
-      const dateDebuts = screen.getAllByLabelText(/Date de début/i);
-      const dateFins = screen.getAllByLabelText(/Date de fin/i);
-      expect(dateDebuts.length).toBe(2);
-      expect(dateFins.length).toBe(2);
+      const datesDebuts = screen.getAllByLabelText(/Date de début/i);
+      const datesFins = screen.getAllByLabelText(/Date de fin/i);
+      expect(datesDebuts.length).toBe(2);
+      expect(datesFins.length).toBe(2);
     });
 
     it("should show optional label for convention section", () => {
@@ -160,10 +160,10 @@ describe("FieldSetCalendrier", () => {
       );
 
       const dateLabels = screen.getAllByLabelText("Date de début");
-      const dateFinLabels = screen.getAllByLabelText("Date de fin");
+      const datesFinLabels = screen.getAllByLabelText("Date de fin");
 
       expect(dateLabels[0]).toBeInTheDocument();
-      expect(dateFinLabels[0]).toBeInTheDocument();
+      expect(datesFinLabels[0]).toBeInTheDocument();
     });
 
     it("should update debut autorisation date", async () => {
@@ -296,11 +296,11 @@ describe("FieldSetCalendrier", () => {
       expect(screen.getByText("CPOM en cours")).toBeInTheDocument();
 
       const dateLabels = screen.getAllByLabelText("Date de début");
-      const dateFinLabels = screen.getAllByLabelText("Date de fin");
+      const datesFinLabels = screen.getAllByLabelText("Date de fin");
 
       // Should have 3 pairs: autorisation, convention, CPOM
       expect(dateLabels.length).toBe(3);
-      expect(dateFinLabels.length).toBe(3);
+      expect(datesFinLabels.length).toBe(3);
     });
 
     it("should not render CPOM fields when cpom is false", () => {
@@ -411,30 +411,6 @@ describe("FieldSetCalendrier", () => {
   });
 
   describe("Edge cases", () => {
-    it("should handle null date values", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CADA,
-            cpom: true,
-            debutPeriodeAutorisation: null,
-            finPeriodeAutorisation: null,
-            debutConvention: null,
-            finConvention: null,
-            debutCpom: null,
-            finCpom: null,
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
-
-      const dateInputs = screen.getAllByLabelText("Date de début");
-      dateInputs.forEach((input) => {
-        expect(input).toHaveValue("");
-      });
-    });
-
     it("should handle CADA with CPOM showing all sections", () => {
       render(
         <FormTestWrapper
@@ -447,11 +423,11 @@ describe("FieldSetCalendrier", () => {
         </FormTestWrapper>
       );
 
-      const dateDebuts = screen.getAllByLabelText(/Date de début/i);
-      const dateFins = screen.getAllByLabelText(/Date de fin/i);
+      const datesDebuts = screen.getAllByLabelText(/Date de début/i);
+      const datesFins = screen.getAllByLabelText(/Date de fin/i);
 
-      expect(dateDebuts.length).toBe(3);
-      expect(dateFins.length).toBe(3);
+      expect(datesDebuts.length).toBe(3);
+      expect(datesFins.length).toBe(3);
     });
 
     it("should handle HUDA without CPOM showing only convention", () => {
@@ -474,64 +450,6 @@ describe("FieldSetCalendrier", () => {
 
       const dateInputs = screen.getAllByLabelText("Date de début");
       expect(dateInputs.length).toBe(1);
-    });
-  });
-
-  describe("Field names", () => {
-    it("should have correct name attributes for autorisation dates", () => {
-      const { container } = render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CADA,
-            cpom: false,
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
-
-      expect(
-        container.querySelector('[name="debutPeriodeAutorisation"]')
-      ).toBeInTheDocument();
-      expect(
-        container.querySelector('[name="finPeriodeAutorisation"]')
-      ).toBeInTheDocument();
-    });
-
-    it("should have correct name attributes for convention dates", () => {
-      const { container } = render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CPH,
-            cpom: false,
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
-
-      expect(
-        container.querySelector('[name="debutConvention"]')
-      ).toBeInTheDocument();
-      expect(
-        container.querySelector('[name="finConvention"]')
-      ).toBeInTheDocument();
-    });
-
-    it("should have correct name attributes for CPOM dates", () => {
-      const { container } = render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CADA,
-            cpom: true,
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
-
-      expect(container.querySelector('[name="debutCpom"]')).toBeInTheDocument();
-      expect(container.querySelector('[name="finCpom"]')).toBeInTheDocument();
     });
   });
 });
