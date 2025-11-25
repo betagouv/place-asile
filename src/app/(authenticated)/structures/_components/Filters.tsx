@@ -88,6 +88,8 @@ export const Filters = () => {
           size="small"
           onClick={() => handleTogglePanel("filters")}
           className="flex gap-1"
+          aria-label={`Filtres ${isFiltersActive ? "actifs" : "inactifs"}`}
+          aria-pressed={isFiltersActive}
         >
           <span className="fr-icon-filter-line fr-icon--sm relative">
             {isFiltersActive && (
@@ -109,7 +111,9 @@ export const Filters = () => {
           priority="tertiary"
           size="small"
           onClick={() => handleTogglePanel("localisation")}
-          className="flex gap-1"
+          className="flex gap-1 whitespace-nowrap"
+          aria-label={`Filtres par région / département ${isLocationActive ? "actifs" : "inactifs"}`}
+          aria-pressed={isLocationActive}
         >
           <span className="fr-icon-focus-3-line fr-icon--sm relative">
             {isLocationActive && (

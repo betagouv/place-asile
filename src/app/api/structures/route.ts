@@ -4,6 +4,7 @@ import {
   structureCreationApiSchema,
   structureUpdateApiSchema,
 } from "@/schemas/api/structure.schema";
+import { StructureColumn } from "@/types/StructureColumn.type";
 
 import {
   countBySearch,
@@ -21,6 +22,13 @@ export async function GET(request: NextRequest) {
     | string
     | null;
   const departements = request.nextUrl.searchParams.get("departements");
+  const column = request.nextUrl.searchParams.get(
+    "column"
+  ) as StructureColumn | null;
+  const direction = request.nextUrl.searchParams.get("direction") as
+    | "asc"
+    | "desc"
+    | null;
   const map = request.nextUrl.searchParams.get("map") === "true";
   const structures = await findBySearch({
     search,
@@ -30,6 +38,8 @@ export async function GET(request: NextRequest) {
     placesAutorisees,
     departements,
     map,
+    column,
+    direction,
   });
   const totalStructures = await countBySearch({
     search,

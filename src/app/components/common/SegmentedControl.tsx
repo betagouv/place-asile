@@ -11,7 +11,7 @@ export const SegmentedControl = ({
       <legend className="fr-segmented__legend fr-segmented__legend--inline">
         {children}
       </legend>
-      <div className="fr-segmented__elements">
+      <div className="fr-segmented__elements m-0">
         {options.map(({ id, isChecked, label, value, icon }) => (
           <div className="fr-segmented__element" key={id}>
             <input

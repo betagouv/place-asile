@@ -30,10 +30,15 @@ WITH
 SELECT
   s.id,
   s."dnaCode",
-  s."type"::text,
-  o."name" AS "operateur",
+  s."finessCode",
+  s."nom",
+  s."adresseAdministrative",
+  s."codePostalAdministratif",
+  s."communeAdministrative",
   s."departementAdministratif",
   d."region",
+  s."type"::text,
+  o."name" AS "operateur",
   sr."bati",
   st."placesAutorisees",
   s."finConvention"
