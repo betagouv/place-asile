@@ -82,7 +82,7 @@ export const DEPARTEMENTS: Departement[] = [
   {
     numero: "10",
     name: "Aube",
-    region: "Grand-Est",
+    region: "Grand Est",
   },
   {
     numero: "11",
