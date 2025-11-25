@@ -9,7 +9,12 @@ import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { OrderButton } from "./OrderButton";
 
-const COLUMNS = [
+const COLUMNS: {
+  label: string;
+  column: StructureColumn;
+  orderBy: boolean;
+  centered: boolean;
+}[] = [
   {
     label: "DNA",
     column: "dnaCode",
@@ -125,7 +130,7 @@ export const StructuresTableHeadings = ({
               {columnToDisplay.label}
               {columnToDisplay.orderBy && (
                 <OrderButton
-                  column={columnToDisplay.column as StructureColumn}
+                  column={columnToDisplay.column}
                   currentColumn={column}
                   currentDirection={direction}
                   handleOrdering={handleOrdering}
