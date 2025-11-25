@@ -5,6 +5,8 @@ import {
 } from "@/types/file-upload.type";
 import { StructureColumn } from "@/types/StructureColumn.type";
 
+import { convertToRepartition } from "../adresses/adresse.util";
+
 export type StructureWithFileUploadsAndActivites = Prisma.StructureGetPayload<{
   include: { fileUploads: true; activites: true };
 }>;
@@ -152,7 +154,10 @@ export const getStructureSearchWhere = ({
 
   if (bati) {
     where.bati = {
-      in: bati.split(",").filter(Boolean) as Repartition[],
+      in: bati
+        .split(",")
+        .filter(Boolean)
+        .map((bati) => convertToRepartition(bati)) as Repartition[],
     };
   }
 

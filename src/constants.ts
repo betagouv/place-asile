@@ -72,7 +72,7 @@ export const DEPARTEMENTS: Departement[] = [
   {
     numero: "08",
     name: "Ardennes",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "09",
@@ -82,7 +82,7 @@ export const DEPARTEMENTS: Departement[] = [
   {
     numero: "10",
     name: "Aube",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "11",
@@ -297,12 +297,12 @@ export const DEPARTEMENTS: Departement[] = [
   {
     numero: "51",
     name: "Marne",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "52",
     name: "Haute-Marne",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "53",
@@ -312,12 +312,12 @@ export const DEPARTEMENTS: Departement[] = [
   {
     numero: "54",
     name: "Meurthe-et-Moselle",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "55",
     name: "Meuse",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "56",
@@ -327,7 +327,7 @@ export const DEPARTEMENTS: Departement[] = [
   {
     numero: "57",
     name: "Moselle",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "58",
@@ -377,12 +377,12 @@ export const DEPARTEMENTS: Departement[] = [
   {
     numero: "67",
     name: "Bas-Rhin",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "68",
     name: "Haut-Rhin",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "69",
@@ -482,7 +482,7 @@ export const DEPARTEMENTS: Departement[] = [
   {
     numero: "88",
     name: "Vosges",
-    region: "Grand Est",
+    region: "Grand-Est",
   },
   {
     numero: "89",

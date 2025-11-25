@@ -45,7 +45,7 @@ export const FiltersBatis = () => {
   }, [bati, searchParams, router]);
 
   return (
-    <div className="px-4 pt-3 pb-4">
+    <div className="px-6 pt-5 pb-6">
       <fieldset>
         <legend className="text-title-blue-france text-sm font-medium mb-4">
           Bâti
@@ -57,8 +57,8 @@ export const FiltersBatis = () => {
                 label: "Collectif",
                 nativeInputProps: {
                   name: "structure-bati",
-                  value: "COLLECTIF",
-                  checked: bati.includes("COLLECTIF") || noBatiSelected,
+                  value: "Collectif",
+                  checked: bati.includes("Collectif") || noBatiSelected,
                   onChange: handleTypeChange,
                 },
               },
@@ -72,8 +72,8 @@ export const FiltersBatis = () => {
                 label: "Diffus",
                 nativeInputProps: {
                   name: "structure-bati",
-                  value: "DIFFUS",
-                  checked: bati.includes("DIFFUS") || noBatiSelected,
+                  value: "Diffus",
+                  checked: bati.includes("Diffus") || noBatiSelected,
                   onChange: handleTypeChange,
                 },
               },
@@ -87,8 +87,8 @@ export const FiltersBatis = () => {
                 label: "Mixte",
                 nativeInputProps: {
                   name: "structure-bati",
-                  value: "MIXTE",
-                  checked: bati.includes("MIXTE") || noBatiSelected,
+                  value: "Mixte",
+                  checked: bati.includes("Mixte") || noBatiSelected,
                   onChange: handleTypeChange,
                 },
               },

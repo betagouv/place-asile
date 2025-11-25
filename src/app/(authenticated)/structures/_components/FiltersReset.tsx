@@ -1,9 +1,9 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export const FiltersResetter = ({
+export const FiltersReset = ({
   closePanel,
-  label = "Réinitialiser les filtres",
+  label = "Réinitialiser (Tout sélectionner)",
   filters = ["search", "type", "bati", "places"],
   isActive,
 }: Props) => {
@@ -24,7 +24,7 @@ export const FiltersResetter = ({
     <Button
       disabled={!isActive}
       priority="tertiary no outline"
-      className="w-full -mt-2 flex justify-center"
+      className="w-full -mt-2 flex justify-center py-3"
       onClick={handleReset}
     >
       {label}

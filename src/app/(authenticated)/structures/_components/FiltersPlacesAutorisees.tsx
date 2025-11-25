@@ -49,7 +49,7 @@ export const FiltersPlacesAutorisees = () => {
   }, [placesAutorisees, handlePlacesAutoriseesUpdate]);
 
   return (
-    <div className="px-4 pt-3 pb-4">
+    <div className="px-6 pt-5 pb-6">
       <fieldset>
         <legend className="text-title-blue-france text-sm font-medium mb-4">
           Places autorisées
