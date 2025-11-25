@@ -54,36 +54,17 @@ export const FiltersTypes = () => {
           Type de structure
         </legend>
         <div className="grid grid-cols-3 gap-x-3 gap-y-2">
-          <FiltersTypesCheckbox
-            label="CADA"
-            value={StructureType.CADA}
-            checked={type.includes(StructureType.CADA) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
-          <FiltersTypesCheckbox
-            label="CAES"
-            value={StructureType.CAES}
-            checked={type.includes(StructureType.CAES) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
-          <FiltersTypesCheckbox
-            label="CPH"
-            value={StructureType.CPH}
-            checked={type.includes(StructureType.CPH) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
-          <FiltersTypesCheckbox
-            label="HUDA"
-            value={StructureType.HUDA}
-            checked={type.includes(StructureType.HUDA) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
-          <FiltersTypesCheckbox
-            label="PRAHDA"
-            value={StructureType.PRAHDA}
-            checked={type.includes(StructureType.PRAHDA) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
+          {(["CADA", "CAES", "CPH", "HUDA", "PRAHDA"] as StructureType[]).map(
+            (type) => (
+              <FiltersTypesCheckbox
+                key={type}
+                label={type}
+                value={type}
+                checked={type.includes(type) || noTypeSelected}
+                onChange={handleTypeChange}
+              />
+            )
+          )}
         </div>
       </fieldset>
     </div>
