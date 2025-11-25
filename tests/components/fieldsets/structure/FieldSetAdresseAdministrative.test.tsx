@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
 import { Repartition } from "@/types/adresse.type";
@@ -8,13 +8,46 @@ import { FormKind } from "@/types/global";
 
 import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
 
-vi.mock("@/app/hooks/useAddressSuggestion", () => ({
-  useAddressSuggestion: () => {
-    return async () => [];
+const mockAddressSuggestions = [
+  {
+    id: "1",
+    key: "1",
+    label: "10 Rue de la Paix, 75001 Paris",
+    housenumber: "10",
+    street: "Rue de la Paix",
+    postcode: "75001",
+    city: "Paris",
+    context: "75, Paris, Île-de-France",
+    x: 2.3314,
+    y: 48.8686,
+    score: 0.95,
   },
+  {
+    id: "2",
+    key: "2",
+    label: "20 Rue de la Paix, 75001 Paris",
+    housenumber: "20",
+    street: "Rue de la Paix",
+    postcode: "75001",
+    city: "Paris",
+    context: "75, Paris, Île-de-France",
+    x: 2.3315,
+    y: 48.8687,
+    score: 0.9,
+  },
+];
+
+const mockUseAddressSuggestion = vi.fn();
+
+vi.mock("@/app/hooks/useAddressSuggestion", () => ({
+  useAddressSuggestion: () => mockUseAddressSuggestion,
 }));
 
 describe("FieldSetAdresseAdministrative", () => {
+  beforeEach(() => {
+    mockUseAddressSuggestion.mockResolvedValue([]);
+  });
+
   describe("Rendering finalisation form", () => {
     it("should render all required fields", () => {
       render(
@@ -195,6 +228,158 @@ describe("FieldSetAdresseAdministrative", () => {
       );
       expect(addressInput).toBeInTheDocument();
       expect(addressInput).toHaveValue(testAddress);
+    });
+
+    it("should display address suggestions when typing", async () => {
+      const user = userEvent.setup();
+      mockUseAddressSuggestion.mockResolvedValue(mockAddressSuggestions);
+
+      render(
+        <FormTestWrapper defaultValues={{}}>
+          <FieldSetAdresseAdministrative formKind={FormKind.FINALISATION} />
+        </FormTestWrapper>
+      );
+
+      const addressInput = screen.getByLabelText(
+        "Adresse principale de la structure"
+      );
+
+      await user.type(addressInput, "10 Rue");
+
+      await waitFor(
+        () => {
+          expect(mockUseAddressSuggestion).toHaveBeenCalledWith("10 Rue");
+        },
+        { timeout: 1000 }
+      );
+
+      await waitFor(
+        () => {
+          expect(
+            screen.getByText("10 Rue de la Paix, 75001 Paris")
+          ).toBeInTheDocument();
+        },
+        { timeout: 2000 }
+      );
+
+      expect(
+        screen.getByText("20 Rue de la Paix, 75001 Paris")
+      ).toBeInTheDocument();
+    });
+
+    it("should fill all address fields when selecting a suggestion", async () => {
+      const user = userEvent.setup();
+      mockUseAddressSuggestion.mockResolvedValue(mockAddressSuggestions);
+
+      render(
+        <FormTestWrapper
+          defaultValues={{
+            adresseAdministrativeComplete: "",
+            adresseAdministrative: "",
+            codePostalAdministratif: "",
+            communeAdministrative: "",
+            departementAdministratif: "",
+          }}
+        >
+          <FieldSetAdresseAdministrative formKind={FormKind.FINALISATION} />
+        </FormTestWrapper>
+      );
+
+      const addressInput = screen.getByLabelText(
+        "Adresse principale de la structure"
+      );
+
+      await user.type(addressInput, "10 Rue");
+
+      await waitFor(
+        () => {
+          expect(
+            screen.getByText("10 Rue de la Paix, 75001 Paris")
+          ).toBeInTheDocument();
+        },
+        { timeout: 2000 }
+      );
+
+      const firstSuggestion = screen.getByText(
+        "10 Rue de la Paix, 75001 Paris"
+      );
+      await user.click(firstSuggestion);
+
+      await waitFor(() => {
+        expect(addressInput).toHaveValue("10 Rue de la Paix, 75001 Paris");
+      });
+    });
+
+    it("should not show suggestions for queries shorter than 3 characters", async () => {
+      const user = userEvent.setup();
+      mockUseAddressSuggestion.mockResolvedValue(mockAddressSuggestions);
+
+      render(
+        <FormTestWrapper defaultValues={{}}>
+          <FieldSetAdresseAdministrative formKind={FormKind.FINALISATION} />
+        </FormTestWrapper>
+      );
+
+      const addressInput = screen.getByLabelText(
+        "Adresse principale de la structure"
+      );
+
+      // Clear any previous calls
+      mockUseAddressSuggestion.mockClear();
+
+      await user.type(addressInput, "10");
+
+      await waitFor(
+        () => {
+          expect(mockUseAddressSuggestion).not.toHaveBeenCalled();
+        },
+        { timeout: 1000 }
+      );
+
+      expect(
+        screen.queryByText("10 Rue de la Paix, 75001 Paris")
+      ).not.toBeInTheDocument();
+    });
+
+    it("should show loading state while fetching suggestions", async () => {
+      const user = userEvent.setup();
+      let resolvePromise: (value: typeof mockAddressSuggestions) => void;
+      const controlledPromise = new Promise<typeof mockAddressSuggestions>(
+        (resolve) => {
+          resolvePromise = resolve;
+        }
+      );
+      mockUseAddressSuggestion.mockReturnValue(controlledPromise);
+
+      render(
+        <FormTestWrapper defaultValues={{}}>
+          <FieldSetAdresseAdministrative formKind={FormKind.FINALISATION} />
+        </FormTestWrapper>
+      );
+
+      const addressInput = screen.getByLabelText(
+        "Adresse principale de la structure"
+      );
+
+      await user.type(addressInput, "10 Rue");
+
+      await waitFor(
+        () => {
+          expect(screen.getByText("Chargement...")).toBeInTheDocument();
+        },
+        { timeout: 1000 }
+      );
+
+      resolvePromise!(mockAddressSuggestions);
+
+      await waitFor(
+        () => {
+          expect(
+            screen.getByText("10 Rue de la Paix, 75001 Paris")
+          ).toBeInTheDocument();
+        },
+        { timeout: 2000 }
+      );
     });
   });
 
