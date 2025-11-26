@@ -1,4 +1,5 @@
 import { fakerFR as faker } from "@faker-js/faker";
+
 import type { Departement, PrismaClient } from "@/generated/prisma/client";
 
 export const createFakeCpoms = async (
