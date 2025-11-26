@@ -117,7 +117,7 @@ export async function seed(): Promise<void> {
   }
 
   console.log("📋 Création des CPOM...");
-  await createFakeCpoms();
+  await createFakeCpoms(prisma);
 }
 
 seed();

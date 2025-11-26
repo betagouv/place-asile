@@ -1,9 +1,11 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { Departement, PrismaClient } from "@prisma/client";
+import type { Departement, PrismaClient } from "@/generated/prisma/client";
 
-const prisma = new PrismaClient();
-
-export const createFakeCpoms = async (maxCpoms: number = 10, minStructuresPerCpom: number = 2): Promise<void> => {
+export const createFakeCpoms = async (
+    prisma: PrismaClient,
+    maxCpoms: number = 10,
+    minStructuresPerCpom: number = 2
+): Promise<void> => {
     const currentYear = new Date().getFullYear();
 
     console.log(`📋 Création de ${maxCpoms} CPOM maximum...`);
