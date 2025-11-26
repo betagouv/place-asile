@@ -57,6 +57,7 @@ model Structure {
   structureTypologies          StructureTypologie[]
   activites                    Activite[]
   fileUploads                  FileUpload[]
+  cpomStructures               CpomStructure[]
   budgets                      Budget[]
   operateur                    Operateur?                  @relation(fields: [operateurId], references: [id])
   operateurId                  Int?
@@ -64,9 +65,8 @@ model Structure {
   campaigns                    Campaign[]
   referential                  Referential?                @relation("StructureToReferential")
 
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @default(now()) @updatedAt
-  cpomStructures CpomStructure[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@schema("public")
 }
@@ -224,6 +224,8 @@ model FileUpload {
   id                 Int                 @id @default(autoincrement())
   structure          Structure?          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode   String?
+  cpom               Cpom?               @relation(fields: [cpomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  cpomId             Int?
   key                String              @unique
   mimeType           String
   fileSize           Int
@@ -376,14 +378,14 @@ model Operateur {
   @@schema("public")
 }
 
-// m-n relationship since cpoms are usually associated to multiple structures and structures can have multiple cpoms (eg 2019->2024, 2025->2029)
 model Cpom {
-  id         Int             @id @default(autoincrement())
-  name       String?
-  structures CpomStructure[]
-  debutCpom  DateTime
-  finCpom    DateTime
-  typologies CpomTypologie[]
+  id             Int             @id @default(autoincrement())
+  name           String?
+  structures     CpomStructure[]
+  debutCpom      DateTime
+  finCpom        DateTime
+  cpomTypologies CpomTypologie[]
+  fileUploads    FileUpload[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -460,7 +462,7 @@ enum StructureType {
   CAES
   PRAHDA
   NH
-  
+
   @@schema("public")
 }
 
@@ -490,6 +492,7 @@ enum FileUploadCategory {
   INSPECTION_CONTROLE
   EVALUATION
   AUTRE
+  AUTRE_FINANCIER
 
   @@schema("public")
 }
@@ -578,19 +581,18 @@ view StructuresOrder {
   id                       Int
   dnaCode                  String
   type                     String
-  operateur                String?      
-  finessCode               String?       
-  nom                      String?       
+  operateur                String?
+  finessCode               String?
+  nom                      String?
   adresseAdministrative    String
   codePostalAdministratif  String
   communeAdministrative    String
   departementAdministratif String
-  region                   String?       
-  bati                     String?       
-  placesAutorisees         Int?         
-  finConvention            DateTime?    
+  region                   String?
+  bati                     String?
+  placesAutorisees         Int?
+  finConvention            DateTime?
 
   @@map("structures_order")
   @@schema("reporting")
 }
-

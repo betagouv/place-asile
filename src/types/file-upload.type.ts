@@ -19,6 +19,7 @@ export const DocumentFinancierCategory = [
   "DEMANDE_SUBVENTION",
   "COMPTE_RENDU_FINANCIER",
   "RAPPORT_ACTIVITE_OPERATEUR",
+  "AUTRE_FINANCIER",
 ] as const;
 
 export const FileUploadCategory = [

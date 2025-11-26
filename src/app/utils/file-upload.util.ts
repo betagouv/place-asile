@@ -24,6 +24,7 @@ export const getCategoryLabel = (
     INSPECTION_CONTROLE: "Inspection contrôle",
     EVALUATION: "Évaluation",
     AUTRE: "Autre",
+    AUTRE_FINANCIER: "Autre financier",
   };
   return labels[category] || "";
 };
