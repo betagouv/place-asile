@@ -454,7 +454,6 @@ enum Repartition {
   DIFFUS
   COLLECTIF
   MIXTE
-  NH
 
   @@schema("public")
 }

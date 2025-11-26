@@ -4,9 +4,6 @@ CREATE TYPE "public"."FileUploadGranularity" AS ENUM ('STRUCTURE', 'CPOM', 'STRU
 -- AlterEnum
 ALTER TYPE "public"."FileUploadCategory" ADD VALUE 'AUTRE_FINANCIER';
 
--- AlterEnum
-ALTER TYPE "public"."Repartition" ADD VALUE 'NH';
-
 -- AlterTable
 ALTER TABLE "public"."FileUpload" ADD COLUMN     "granularity" "public"."FileUploadGranularity" NOT NULL DEFAULT 'STRUCTURE';
 
