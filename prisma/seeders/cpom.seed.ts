@@ -1,5 +1,5 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { PrismaClient } from "@prisma/client";
+import { Departement, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -21,8 +21,8 @@ export const createFakeCpoms = async (maxCpoms: number = 10, minStructuresPerCpo
 
     const departements = await prisma.departement.findMany();
 
-    const departementToRegion = new Map(
-        departements.map((departement) => [departement.numero, departement.region])
+    const departementToRegion = new Map<string, string>(
+        departements.map((departement: Departement) => [departement.numero, departement.region])
     );
 
     // Use string key instead of tuple (tuples are compared by reference, not value)

@@ -4,11 +4,8 @@ import { fakerFR as faker } from "@faker-js/faker";
 
 import { StructureType } from "@/types/structure.type";
 
-<<<<<<< HEAD
 import { createPrismaClient } from "./client";
-=======
 import { createFakeCpoms } from "./seeders/cpom.seed";
->>>>>>> 7beba50 (seed cpoms)
 import { createDepartements } from "./seeders/departements-seed";
 import {
   createFakeFormDefinition,
@@ -113,14 +110,10 @@ export async function seed(): Promise<void> {
   console.log(`📎 Ajout des fichiers parent-enfant pour ${structures.length} structures`);
 
   for (const structure of structures) {
-<<<<<<< HEAD
     console.log(
       `📎 Ajout des fichiers parent-enfant pour ${structure.dnaCode}...`
     );
     await seedParentChildFileUploads(prisma, structure.dnaCode);
-=======
-    await seedParentChildFileUploads(structure.dnaCode);
->>>>>>> 7beba50 (seed cpoms)
   }
 
   console.log("📋 Création des CPOM...");
