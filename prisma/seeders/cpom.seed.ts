@@ -152,18 +152,18 @@ export const createFakeCpoms = async (
       `✅ CPOM créé : ${cpomName} avec ${selectedStructures.length} structures`
     );
 
-    // Create typologies for each year of the CPOM
+    // Create millesimes for each year of the CPOM
     const annees = [...Array(dureeAnnees)].map(
       (_, index) => anneeDebut + index
     );
 
     for (const annee of annees) {
-      const typologieDate = new Date(annee, 0, 1, 13);
+      const millesimeDate = new Date(annee, 0, 1, 13);
 
-      await prisma.cpomTypologie.create({
+      await prisma.cpomMillesime.create({
         data: {
           cpomId: cpom.id,
-          date: typologieDate,
+          date: millesimeDate,
           cumulResultatNet: faker.number.float({
             min: -100000,
             max: 500000,

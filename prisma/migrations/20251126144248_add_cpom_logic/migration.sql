@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "public"."FileUploadGranularity" AS ENUM ('STRUCTURE', 'CPOM', 'STRUCTURE_ET_CPOM');
+
 -- AlterEnum
 ALTER TYPE "public"."FileUploadCategory" ADD VALUE 'AUTRE_FINANCIER';
 
@@ -5,7 +8,19 @@ ALTER TYPE "public"."FileUploadCategory" ADD VALUE 'AUTRE_FINANCIER';
 ALTER TYPE "public"."Repartition" ADD VALUE 'NH';
 
 -- AlterTable
-ALTER TABLE "public"."FileUpload" ADD COLUMN     "cpomId" INTEGER;
+ALTER TABLE "public"."FileUpload" ADD COLUMN     "granularity" "public"."FileUploadGranularity" NOT NULL DEFAULT 'STRUCTURE';
+
+-- CreateTable
+CREATE TABLE "public"."StructureMillesime" (
+    "id" SERIAL NOT NULL,
+    "structureDnaCode" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+    "operateurComment" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "StructureMillesime_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "public"."Cpom" (
@@ -31,7 +46,7 @@ CREATE TABLE "public"."CpomStructure" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."CpomTypologie" (
+CREATE TABLE "public"."CpomMillesime" (
     "id" SERIAL NOT NULL,
     "cpomId" INTEGER NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
@@ -50,14 +65,14 @@ CREATE TABLE "public"."CpomTypologie" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "CpomTypologie_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "CpomMillesime_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "CpomTypologie_cpomId_date_key" ON "public"."CpomTypologie"("cpomId", "date");
+CREATE UNIQUE INDEX "CpomMillesime_cpomId_date_key" ON "public"."CpomMillesime"("cpomId", "date");
 
 -- AddForeignKey
-ALTER TABLE "public"."FileUpload" ADD CONSTRAINT "FileUpload_cpomId_fkey" FOREIGN KEY ("cpomId") REFERENCES "public"."Cpom"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."StructureMillesime" ADD CONSTRAINT "StructureMillesime_structureDnaCode_fkey" FOREIGN KEY ("structureDnaCode") REFERENCES "public"."Structure"("dnaCode") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."CpomStructure" ADD CONSTRAINT "CpomStructure_cpomId_fkey" FOREIGN KEY ("cpomId") REFERENCES "public"."Cpom"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -66,4 +81,4 @@ ALTER TABLE "public"."CpomStructure" ADD CONSTRAINT "CpomStructure_cpomId_fkey" 
 ALTER TABLE "public"."CpomStructure" ADD CONSTRAINT "CpomStructure_structureId_fkey" FOREIGN KEY ("structureId") REFERENCES "public"."Structure"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."CpomTypologie" ADD CONSTRAINT "CpomTypologie_cpomId_fkey" FOREIGN KEY ("cpomId") REFERENCES "public"."Cpom"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "public"."CpomMillesime" ADD CONSTRAINT "CpomMillesime_cpomId_fkey" FOREIGN KEY ("cpomId") REFERENCES "public"."Cpom"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
