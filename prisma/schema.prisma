@@ -194,6 +194,11 @@ model StructureMillesime {
   date             DateTime
   operateurComment String?
 
+  structureTypologieId Int?
+  structureTypologie   StructureTypologie? @relation(fields: [structureTypologieId], references: [id], onDelete: Cascade)
+  budgetId             Int?
+  budget               Budget?             @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
@@ -201,14 +206,15 @@ model StructureMillesime {
 }
 
 model StructureTypologie {
-  id               Int       @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode String
-  date             DateTime
-  placesAutorisees Int?
-  pmr              Int
-  lgbt             Int
-  fvvTeh           Int
+  id                  Int                  @id @default(autoincrement())
+  structure           Structure            @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structureDnaCode    String
+  date                DateTime
+  placesAutorisees    Int?
+  pmr                 Int
+  lgbt                Int
+  fvvTeh              Int
+  structureMillesimes StructureMillesime[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -263,8 +269,8 @@ model FileUpload {
 }
 
 model Budget {
-  id                                Int        @id @default(autoincrement())
-  structure                         Structure? @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  id                                Int                  @id @default(autoincrement())
+  structure                         Structure?           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode                  String
   date                              DateTime
   ETP                               Float?
@@ -289,6 +295,7 @@ model Budget {
   reportANouveau                    Float?
   autre                             Float?
   commentaire                       String?
+  structureMillesimes               StructureMillesime[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

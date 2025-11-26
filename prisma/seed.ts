@@ -124,11 +124,9 @@ export async function seed(): Promise<void> {
   );
 
   for (const structure of structures) {
-    console.log(
-      `📎 Ajout des fichiers parent-enfant pour ${structure.dnaCode}...`
-    );
     await seedParentChildFileUploads(prisma, structure.dnaCode);
   }
+  console.log("✅ Fichiers parent-enfant ajoutés");
 
   await createFakeCpoms(prisma);
 }

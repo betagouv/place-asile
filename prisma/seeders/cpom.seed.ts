@@ -149,7 +149,7 @@ export const createFakeCpoms = async (
     });
 
     console.log(
-      `✅ CPOM créé : ${cpomName} avec ${selectedStructures.length} structures`
+      `🍏 CPOM créé : ${cpomName} avec ${selectedStructures.length} structures`
     );
 
     // Create millesimes for each year of the CPOM

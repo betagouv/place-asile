@@ -16,6 +16,8 @@ CREATE TABLE "public"."StructureMillesime" (
     "structureDnaCode" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "operateurComment" TEXT,
+    "structureTypologieId" INTEGER,
+    "budgetId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -73,6 +75,12 @@ CREATE UNIQUE INDEX "CpomMillesime_cpomId_date_key" ON "public"."CpomMillesime"(
 
 -- AddForeignKey
 ALTER TABLE "public"."StructureMillesime" ADD CONSTRAINT "StructureMillesime_structureDnaCode_fkey" FOREIGN KEY ("structureDnaCode") REFERENCES "public"."Structure"("dnaCode") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."StructureMillesime" ADD CONSTRAINT "StructureMillesime_structureTypologieId_fkey" FOREIGN KEY ("structureTypologieId") REFERENCES "public"."StructureTypologie"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."StructureMillesime" ADD CONSTRAINT "StructureMillesime_budgetId_fkey" FOREIGN KEY ("budgetId") REFERENCES "public"."Budget"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."CpomStructure" ADD CONSTRAINT "CpomStructure_cpomId_fkey" FOREIGN KEY ("cpomId") REFERENCES "public"."Cpom"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
