@@ -1,12 +1,12 @@
-import { CpomTypologieApiType } from "@/schemas/api/cpom.schema";
+import { CpomMillesimeApiType } from "@/schemas/api/cpom.schema";
 import { PrismaTransaction } from "@/types/prisma.type";
 
-export const createOrUpdateCpomTypologies = async (
+export const createOrUpdateCpomMillesimes = async (
   tx: PrismaTransaction,
-  typologies: CpomTypologieApiType[] | undefined,
+  millesimes: CpomMillesimeApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
-  if (!typologies || typologies.length === 0) {
+  if (!millesimes || millesimes.length === 0) {
     return;
   }
 
@@ -37,22 +37,22 @@ export const createOrUpdateCpomTypologies = async (
 
   if (cpomStructures.length === 0) {
     console.warn(
-      `Aucun CPOM associé à la structure ${structureDnaCode}, typologies ignorées`
+      `Aucun CPOM associé à la structure ${structureDnaCode}, millesimes ignorés`
     );
     return;
   }
 
-  // for each typology, find corresponding cpom (with two checks: date between debutCpom and finCpom and structure was in the cpom at this date)
+  // for each millesime, find corresponding cpom (with two checks: date between debutCpom and finCpom and structure was in the cpom at this date)
   await Promise.all(
-    typologies.map(async (typologie) => {
-      const typologieDate = new Date(typologie.date);
+    millesimes.map(async (millesime) => {
+      const millesimeDate = new Date(millesime.date);
 
       const matchingCpom = cpomStructures.find((cpomStructure) => {
         const debutCpom = new Date(cpomStructure.cpom.debutCpom);
         const finCpom = new Date(cpomStructure.cpom.finCpom);
 
-        // check if the typology date is within the cpom period
-        if (typologieDate < debutCpom || typologieDate > finCpom) {
+        // check if the millesime date is within the cpom period
+        if (millesimeDate < debutCpom || millesimeDate > finCpom) {
           return false;
         }
 
@@ -65,31 +65,31 @@ export const createOrUpdateCpomTypologies = async (
           : finCpom;
 
         return (
-          typologieDate >= dateDebutStructure &&
-          typologieDate <= dateFinStructure
+          millesimeDate >= dateDebutStructure &&
+          millesimeDate <= dateFinStructure
         );
       });
 
       if (!matchingCpom) {
         console.warn(
-          `Aucun CPOM trouvé pour la structure ${structureDnaCode} avec une période couvrant la date ${typologie.date}, typologie ignorée`
+          `Aucun CPOM trouvé pour la structure ${structureDnaCode} avec une période couvrant la date ${millesime.date}, millesime ignoré`
         );
         return;
       }
 
       const cpomId = matchingCpom.cpom.id;
 
-      return tx.cpomTypologie.upsert({
+      return tx.cpomMillesime.upsert({
         where: {
           cpomId_date: {
             cpomId: cpomId,
-            date: typologieDate,
+            date: millesimeDate,
           },
         },
-        update: typologie,
+        update: millesime,
         create: {
           cpomId,
-          ...typologie,
+          ...millesime,
         },
       });
     })

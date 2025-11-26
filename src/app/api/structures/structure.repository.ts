@@ -16,7 +16,7 @@ import { handleAdresses } from "../adresses/adresse.util";
 import { createOrUpdateBudgets } from "../budgets/budget.repository";
 import { createOrUpdateContacts } from "../contacts/contact.repository";
 import { createOrUpdateControles } from "../controles/controle.repository";
-import { createOrUpdateCpomTypologies } from "../cpoms/cpom.repository";
+import { createOrUpdateCpomMillesimes } from "../cpoms/cpom.repository";
 import { createOrUpdateEvaluations } from "../evaluations/evaluation.repository";
 import {
   createDocumentsFinanciers,
@@ -399,7 +399,7 @@ export const updateOne = async (
       id,
       contacts,
       budgets,
-      cpomTypologies,
+      cpomMillesimes,
       structureTypologies,
       adresses,
       actesAdministratifs,
@@ -414,7 +414,6 @@ export const updateOne = async (
       activites,
       ...structureProperties
     } = structure;
-
 
     return await prisma.$transaction(async (tx) => {
       const updatedStructure = await tx.structure.update({
@@ -434,17 +433,26 @@ export const updateOne = async (
         },
       });
 
-
       await createOrUpdateContacts(tx, contacts, structure.dnaCode);
       await createOrUpdateBudgets(tx, budgets, structure.dnaCode);
       await updateStructureTypologies(tx, structureTypologies);
       await createOrUpdateAdresses(tx, adresses, structure.dnaCode);
-      await updateFileUploads(tx, actesAdministratifs, structure.dnaCode, "acteAdministratif");
-      await updateFileUploads(tx, documentsFinanciers, structure.dnaCode, "documentFinancier");
+      await updateFileUploads(
+        tx,
+        actesAdministratifs,
+        structure.dnaCode,
+        "acteAdministratif"
+      );
+      await updateFileUploads(
+        tx,
+        documentsFinanciers,
+        structure.dnaCode,
+        "documentFinancier"
+      );
       await createOrUpdateControles(tx, controles, structure.dnaCode);
       await createOrUpdateForms(tx, forms, structure.dnaCode);
       await createOrUpdateEvaluations(tx, evaluations, structure.dnaCode);
-      await createOrUpdateCpomTypologies(tx, cpomTypologies, structure.dnaCode);
+      await createOrUpdateCpomMillesimes(tx, cpomMillesimes, structure.dnaCode);
 
       return updatedStructure;
     });

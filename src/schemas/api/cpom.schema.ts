@@ -2,7 +2,7 @@ import z from "zod";
 
 import { fileApiSchema } from "./file.schema";
 
-export const cpomTypologieApiSchema = z.object({
+export const cpomMillesimeApiSchema = z.object({
   id: z.number().optional(),
   date: z.string().datetime(),
   cumulResultatNet: z.number().nullish(),
@@ -19,7 +19,7 @@ export const cpomTypologieApiSchema = z.object({
   commentaire: z.string().nullish(),
 });
 
-export type CpomTypologieApiType = z.infer<typeof cpomTypologieApiSchema>;
+export type CpomMillesimeApiType = z.infer<typeof cpomMillesimeApiSchema>;
 
 export const cpomApiSchema = z.object({
   id: z.number().optional(),
@@ -27,7 +27,7 @@ export const cpomApiSchema = z.object({
   debutCpom: z.string().datetime(),
   finCpom: z.string().datetime(),
   structureIds: z.array(z.number()).optional(),
-  typologies: z.array(cpomTypologieApiSchema).optional(),
+  millesimes: z.array(cpomMillesimeApiSchema).optional(),
   fileUploads: z.array(fileApiSchema).optional(),
 });
 

@@ -8,7 +8,7 @@ import { adresseApiSchema } from "./adresse.schema";
 import { budgetApiSchema } from "./budget.schema";
 import { contactApiSchema } from "./contact.schema";
 import { controleApiSchema } from "./controle.schema";
-import { cpomTypologieApiSchema } from "./cpom.schema";
+import { cpomMillesimeApiSchema } from "./cpom.schema";
 import { documentFinancierApiSchema } from "./documentFinancier.schema";
 import { evaluationApiSchema } from "./evaluation.schema";
 import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grave.schema";
@@ -93,7 +93,7 @@ const remainingStructureUpdateApiSchema = z.object({
     .optional(),
   activites: z.array(activiteApiSchema).optional(),
   budgets: z.array(budgetApiSchema).optional(),
-  cpomTypologies: z.array(cpomTypologieApiSchema).optional(),
+  cpomMillesimes: z.array(cpomMillesimeApiSchema).optional(),
   forms: z.array(formApiSchema).optional(),
   actesAdministratifs: z.array(acteAdministratifApiSchema.partial()).optional(),
 });
