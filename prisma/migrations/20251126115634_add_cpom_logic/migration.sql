@@ -1,3 +1,12 @@
+-- AlterEnum
+ALTER TYPE "public"."FileUploadCategory" ADD VALUE 'AUTRE_FINANCIER';
+
+-- AlterEnum
+ALTER TYPE "public"."Repartition" ADD VALUE 'NH';
+
+-- AlterTable
+ALTER TABLE "public"."FileUpload" ADD COLUMN     "cpomId" INTEGER;
+
 -- CreateTable
 CREATE TABLE "public"."Cpom" (
     "id" SERIAL NOT NULL,
@@ -46,6 +55,9 @@ CREATE TABLE "public"."CpomTypologie" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "CpomTypologie_cpomId_date_key" ON "public"."CpomTypologie"("cpomId", "date");
+
+-- AddForeignKey
+ALTER TABLE "public"."FileUpload" ADD CONSTRAINT "FileUpload_cpomId_fkey" FOREIGN KEY ("cpomId") REFERENCES "public"."Cpom"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."CpomStructure" ADD CONSTRAINT "CpomStructure_cpomId_fkey" FOREIGN KEY ("cpomId") REFERENCES "public"."Cpom"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

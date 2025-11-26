@@ -5,7 +5,7 @@
 Le projet est basé sur :
 
 - [Next.js](https://nextjs.org/), pour gérer plus facilement la synchronisation du code front-end et back-end
-- Le [Design System de l&#39;Etat](https://www.systeme-de-design.gouv.fr/), pour le design nécessaire au produit et l'accessibilité
+- Le [Design System de l'État](https://www.systeme-de-design.gouv.fr/), pour le design nécessaire au produit et l'accessibilité
 - L'ORM [Prisma](https://www.prisma.io/) pour la documentation très fournie de Next-Prisma
 - La base de données [PostgreSQL](https://www.postgresql.org/) pour structurer de manière "stricte" les données, un des enjeux du projet
 
@@ -58,4 +58,4 @@ Une structure peut être liée à un ou plusieurs CPOM, et un CPOM peut concerne
 Il y a deux modes d'authentification dans l'application :
 
 - par mot de passe pour les opérateurs : elle ne permet d'accéder qu'à un formulaire et aucune donnée de l'application
-- avec [ProConnect](https://www.proconnect.gouv.fr/), solution d'authentification de l'Etat pour limiter la consultation du contenu de l'application aux agents de l'Etat uniquement
+- avec [ProConnect](https://www.proconnect.gouv.fr/), solution d'authentification de l'État pour limiter la consultation du contenu de l'application aux agents de l'État uniquement
