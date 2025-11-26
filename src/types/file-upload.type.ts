@@ -38,3 +38,5 @@ export type ActeAdministratifCategoryType = typeof ActeAdministratifCategory;
 export type DocumentFinancierCategoryType = typeof DocumentFinancierCategory;
 
 export type FileUploadCategoryType = typeof FileUploadCategory;
+
+export type FileUploadGranularityType = typeof FileUploadGranularity;
