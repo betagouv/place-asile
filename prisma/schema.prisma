@@ -188,33 +188,33 @@ model Contact {
 }
 
 model StructureMillesime {
-  id               Int       @id @default(autoincrement())
-  structure        Structure @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode String
-  date             DateTime
-  operateurComment String?
-
-  structureTypologieId Int?
+  id                   Int                 @id @default(autoincrement())
+  structure            Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structureDnaCode     String
+  date                 DateTime
+  operateurComment     String?
+  structureTypologieId Int?                @unique
   structureTypologie   StructureTypologie? @relation(fields: [structureTypologieId], references: [id], onDelete: Cascade)
-  budgetId             Int?
+  budgetId             Int?                @unique
   budget               Budget?             @relation(fields: [budgetId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  @@unique([structureDnaCode, date])
   @@schema("public")
 }
 
 model StructureTypologie {
-  id                  Int                  @id @default(autoincrement())
-  structure           Structure            @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode    String
-  date                DateTime
-  placesAutorisees    Int?
-  pmr                 Int
-  lgbt                Int
-  fvvTeh              Int
-  structureMillesimes StructureMillesime[]
+  id                 Int                 @id @default(autoincrement())
+  structure          Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structureDnaCode   String
+  date               DateTime
+  placesAutorisees   Int?
+  pmr                Int
+  lgbt               Int
+  fvvTeh             Int
+  structureMillesime StructureMillesime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -269,8 +269,8 @@ model FileUpload {
 }
 
 model Budget {
-  id                                Int                  @id @default(autoincrement())
-  structure                         Structure?           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  id                                Int                 @id @default(autoincrement())
+  structure                         Structure?          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode                  String
   date                              DateTime
   ETP                               Float?
@@ -295,7 +295,7 @@ model Budget {
   reportANouveau                    Float?
   autre                             Float?
   commentaire                       String?
-  structureMillesimes               StructureMillesime[]
+  structureMillesime                StructureMillesime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -445,7 +445,7 @@ model CpomMillesime {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([cpomId, date]) // TODO: how to deal with the fact that a structure can join or leave a cpom? only one cpom per year for a given structure
+  @@unique([cpomId, date])
   @@schema("public")
 }
 

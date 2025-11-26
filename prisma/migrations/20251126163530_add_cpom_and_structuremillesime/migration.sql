@@ -71,6 +71,15 @@ CREATE TABLE "public"."CpomMillesime" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "StructureMillesime_structureTypologieId_key" ON "public"."StructureMillesime"("structureTypologieId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "StructureMillesime_budgetId_key" ON "public"."StructureMillesime"("budgetId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "StructureMillesime_structureDnaCode_date_key" ON "public"."StructureMillesime"("structureDnaCode", "date");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "CpomMillesime_cpomId_date_key" ON "public"."CpomMillesime"("cpomId", "date");
 
 -- AddForeignKey

@@ -1,9 +1,8 @@
 import "dotenv/config";
 
-import { parse } from "csv-parse/sync";
-
-import { checkBucket, getObject } from "@/lib/minio";
 import { createPrismaClient } from "@/prisma-client";
+import { loadCsvFromS3 } from "../utils/csv-loader";
+import { parseDate } from "../utils/parse-date";
 
 const prisma = createPrismaClient();
 const bucketName = process.env.DOCS_BUCKET_NAME!;
@@ -24,206 +23,107 @@ type CpomCsvRow = {
   operateur?: string;
   date_debut: string;
   date_fin: string;
-  dates_entree_structure?: string;
-  dates_sortie_structure?: string;
-};
-
-type ValidatedRow = CpomCsvRow & {
-  lineNumber: number;
-  debut: Date;
-  fin: Date;
-  entree?: Date | null;
-  sortie?: Date | null;
-};
-
-const parseDate = (value: string, context: string): Date => {
-  const trimmed = value?.trim();
-  if (!trimmed) {
-    throw new Error(`${context}: valeur vide`);
-  }
-
-  const isoCandidate = new Date(trimmed);
-  if (!Number.isNaN(isoCandidate.getTime())) {
-    return isoCandidate;
-  }
-
-  const [day, month, year] = trimmed.split("/");
-  if (day && month && year) {
-    const fullYear = year.length === 2 ? Number(`20${year}`) : Number(year);
-    const parsed = new Date(fullYear, Number(month) - 1, Number(day));
-    if (!Number.isNaN(parsed.getTime())) {
-      return parsed;
-    }
-  }
-
-  throw new Error(`${context}: format de date invalide (${value})`);
-};
-
-const pickFirstDate = (rawValue: string | undefined, context: string) => {
-  if (!rawValue) {
-    return null;
-  }
-  const candidate = rawValue
-    .split(/[,;|]/)
-    .map((token) => token.trim())
-    .find(Boolean);
-  return candidate ? parseDate(candidate, context) : null;
+  date_entree_structure?: string;
+  date_sortie_structure?: string;
 };
 
 const loadCpomsFromCsv = async () => {
   try {
-    console.log("Vérification du bucket...");
-    await checkBucket(bucketName);
+    const records = await loadCsvFromS3<CpomCsvRow>(bucketName, csvFilename);
 
-    console.log("Récupération du fichier CSV...");
-    const stream = await getObject(bucketName, csvFilename);
-    const chunks: Buffer[] = [];
-    for await (const chunk of stream) {
-      chunks.push(chunk);
-    }
-    const csvContent = Buffer.concat(chunks).toString("utf-8");
-
-    console.log("Parsing du CSV...");
-    const records = parse<CpomCsvRow>(csvContent, {
-      columns: true,
-      skip_empty_lines: true,
-      trim: true,
-    });
-
-    console.log(`${records.length} lignes trouvées`);
     if (records.length === 0) {
-      console.log("⚠️ Aucune donnée à traiter");
       return;
     }
 
-    const validRows: ValidatedRow[] = [];
-    const errors: { line: number; issues: string[] }[] = [];
-
-    records.forEach((row, index) => {
-      const lineNumber = index + 2;
-      const issues: string[] = [];
-
-      if (!row.cpom) issues.push("CPOM manquant");
-      if (!row.code_dna) issues.push("code DNA manquant");
-      if (!row.date_debut) issues.push("date_debut manquante");
-      if (!row.date_fin) issues.push("date_fin manquante");
-
-      let debut: Date | undefined;
-      let fin: Date | undefined;
-      try {
-        if (row.date_debut) {
-          debut = parseDate(row.date_debut, `date_debut ligne ${lineNumber}`);
-        }
-        if (row.date_fin) {
-          fin = parseDate(row.date_fin, `date_fin ligne ${lineNumber}`);
-        }
-      } catch (err) {
-        issues.push((err as Error).message);
-      }
-
-      if (debut && fin && debut > fin) {
-        issues.push("date_debut après date_fin");
-      }
-
-      if (issues.length > 0 || !debut || !fin) {
-        errors.push({ line: lineNumber, issues });
-        return;
-      }
-
-      validRows.push({
-        ...row,
-        lineNumber,
-        debut,
-        fin,
-        entree: pickFirstDate(
-          row.dates_entree_structure,
-          `dates_entree_structure ligne ${lineNumber}`
-        ),
-        sortie: pickFirstDate(
-          row.dates_sortie_structure,
-          `dates_sortie_structure ligne ${lineNumber}`
-        ),
-      });
-    });
-
-    if (errors.length > 0) {
-      console.log(`⚠️ ${errors.length} lignes ignorées :`);
-      errors.slice(0, 10).forEach((err) => {
-        console.log(`  - Ligne ${err.line}: ${err.issues.join(", ")}`);
-      });
-      if (errors.length > 10) {
-        console.log(`  ... et ${errors.length - 10} autres erreurs`);
-      }
-    }
-
-    if (validRows.length === 0) {
-      console.log("❌ Aucune ligne exploitable.");
-      return;
-    }
-
-    const cpomCache = new Map<string, number>();
-    const dnaCodes = [...new Set(validRows.map((row) => row.code_dna))];
+    // Récupérer toutes les structures nécessaires
+    const dnaCodes = [...new Set(records.map((r) => r.code_dna))];
     const structures = await prisma.structure.findMany({
       where: { dnaCode: { in: dnaCodes } },
       select: { id: true, dnaCode: true },
     });
-
     const structureMap = new Map(structures.map((s) => [s.dnaCode, s.id]));
-    const missingStructures = dnaCodes.filter(
-      (code) => !structureMap.has(code)
-    );
 
-    if (missingStructures.length > 0) {
-      console.log(
-        `⚠️ ${missingStructures.length} structures introuvables (elles seront ignorées).`
-      );
-    }
+    // Grouper les CPOMs par nom + dates
+    const cpomMap = new Map<string, { name: string; debut: Date; fin: Date }>();
+    const cpomCache = new Map<string, number>();
 
-    let cpomsCreated = 0;
-    let linksCreated = 0;
-    let linksUpdated = 0;
-    let linesSkipped = 0;
-
-    for (const row of validRows) {
-      const structureId = structureMap.get(row.code_dna);
-      if (!structureId) {
-        linesSkipped += 1;
+    for (const row of records) {
+      if (!row.cpom || !row.date_debut || !row.date_fin) {
         continue;
       }
 
-      const cpomKey = `${row.cpom}|${row.debut.toISOString()}|${row.fin.toISOString()}`;
-      let cpomId = cpomCache.get(cpomKey);
+      const debut = parseDate(row.date_debut.trim(), `date_debut`);
+      const fin = parseDate(row.date_fin.trim(), `date_fin`);
+      const key = `${row.cpom} - ${debut.toISOString()} - ${fin.toISOString()}`;
 
-      if (!cpomId) {
-        const existingCpom = await prisma.cpom.findFirst({
-          where: {
-            name: row.cpom,
-            debutCpom: row.debut,
-            finCpom: row.fin,
+      if (!cpomMap.has(key)) {
+        cpomMap.set(key, { name: row.cpom, debut, fin });
+      }
+    }
+
+    // Créer ou récupérer les CPOMs
+    console.log(`📄 Création de ${cpomMap.size} CPOM(s)...`);
+    for (const [key, cpomData] of cpomMap.entries()) {
+      let cpom = await prisma.cpom.findFirst({
+        where: {
+          name: cpomData.name,
+          debutCpom: cpomData.debut,
+          finCpom: cpomData.fin,
+        },
+        select: { id: true },
+      });
+
+      if (!cpom) {
+        cpom = await prisma.cpom.create({
+          data: {
+            name: cpomData.name,
+            debutCpom: cpomData.debut,
+            finCpom: cpomData.fin,
           },
           select: { id: true },
         });
-
-        if (existingCpom) {
-          cpomId = existingCpom.id;
-        } else {
-          const created = await prisma.cpom.create({
-            data: {
-              name: row.cpom,
-              debutCpom: row.debut,
-              finCpom: row.fin,
-            },
-            select: { id: true },
-          });
-          cpomId = created.id;
-          cpomsCreated += 1;
-          console.log(`✅ CPOM créé "${row.cpom}" (ligne ${row.lineNumber})`);
-        }
-
-        cpomCache.set(cpomKey, cpomId);
+        console.log(`✅ CPOM créé "${cpomData.name}"`);
       }
 
-      const existingLink = await prisma.cpomStructure.findFirst({
+      cpomCache.set(key, cpom.id);
+    }
+
+    // Créer les liens CPOM/Structure
+    console.log("📄 Création des liens CPOM/Structure...");
+    let created = 0;
+    let updated = 0;
+    let skipped = 0;
+
+    for (const row of records) {
+      if (!row.cpom || !row.code_dna || !row.date_debut || !row.date_fin) {
+        skipped++;
+        continue;
+      }
+
+      const structureId = structureMap.get(row.code_dna);
+      if (!structureId) {
+        skipped++;
+        continue;
+      }
+
+      const debut = parseDate(row.date_debut.trim(), `date_debut`);
+      const fin = parseDate(row.date_fin.trim(), `date_fin`);
+      const cpomKey = `${row.cpom} - ${debut.toISOString()} - ${fin.toISOString()}`;
+      const cpomId = cpomCache.get(cpomKey);
+
+      if (!cpomId) {
+        skipped++;
+        continue;
+      }
+
+      const dateDebut = row.date_entree_structure?.trim()
+        ? parseDate(row.date_entree_structure.trim(), `date_entree_structure`)
+        : null;
+      const dateFin = row.date_sortie_structure?.trim()
+        ? parseDate(row.date_sortie_structure.trim(), `date_sortie_structure`)
+        : null;
+
+      const existing = await prisma.cpomStructure.findFirst({
         where: {
           cpomId,
           structureId,
@@ -231,36 +131,31 @@ const loadCpomsFromCsv = async () => {
         select: { id: true },
       });
 
-      if (existingLink) {
+      if (existing) {
         await prisma.cpomStructure.update({
-          where: { id: existingLink.id },
+          where: { id: existing.id },
           data: {
-            dateDebut: row.entree ?? null,
-            dateFin: row.sortie ?? null,
+            dateDebut,
+            dateFin,
           },
         });
-        linksUpdated += 1;
+        updated++;
       } else {
         await prisma.cpomStructure.create({
           data: {
             cpomId,
             structureId,
-            dateDebut: row.entree ?? null,
-            dateFin: row.sortie ?? null,
+            dateDebut,
+            dateFin,
           },
         });
-        linksCreated += 1;
+        created++;
       }
     }
 
-    console.log(`📄 ${validRows.length} lignes valides traitées`);
-    console.log(`✅ ${cpomsCreated} CPOM(s) créés`);
     console.log(
-      `✅ Liens CPOM/Structure: ${linksCreated} créés, ${linksUpdated} mis à jour`
+      `✅ ${created} liens créés, ${updated} liens mis à jour, ${skipped} lignes ignorées`
     );
-    if (linesSkipped > 0) {
-      console.log(`⚠️ ${linesSkipped} lignes ignorées (structure absente)`);
-    }
   } catch (error) {
     console.error("❌ Erreur lors du chargement des données:", error);
     throw error;
