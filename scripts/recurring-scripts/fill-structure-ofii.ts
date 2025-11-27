@@ -1,4 +1,7 @@
 // Fill StructureOfii table with csv from s3 bucket
+// Usage: yarn script fill-structure-ofii my_structure_ofii_file.csv
+// An example of the csv file is available at /public/ofii_example.csv
+
 import "dotenv/config";
 
 import { StructureType } from "@/generated/prisma/client";
