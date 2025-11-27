@@ -1,4 +1,6 @@
 // Fill Cpom table, link with structures and create associated structure millesimes with csv from s3 bucket
+// Usage: yarn script fill-cpoms my_cpom_file.csv
+// An example of the csv file is available at /public/cpom_example.csv
 
 import "dotenv/config";
 
