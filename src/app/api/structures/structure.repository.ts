@@ -26,6 +26,7 @@ import {
   createOrUpdateForms,
   initializeDefaultForms,
 } from "../forms/form.repository";
+import { createOrUpdateStructureMillesimes } from "../structure-millesimes/structure-millesime.repository";
 import { updateStructureTypologies } from "../structure-typologies/structure-typologie.repository";
 import {
   getStructureOrderBy,
@@ -412,6 +413,7 @@ export const updateOne = async (
       evenementsIndesirablesGraves,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars,
       activites,
+      structureMillesimes,
       ...structureProperties
     } = structure;
 
@@ -453,6 +455,11 @@ export const updateOne = async (
       await createOrUpdateForms(tx, forms, structure.dnaCode);
       await createOrUpdateEvaluations(tx, evaluations, structure.dnaCode);
       await createOrUpdateCpomMillesimes(tx, cpomMillesimes, structure.dnaCode);
+      await createOrUpdateStructureMillesimes(
+        tx,
+        structureMillesimes,
+        structure.dnaCode
+      );
 
       return updatedStructure;
     });
