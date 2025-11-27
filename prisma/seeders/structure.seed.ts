@@ -26,11 +26,9 @@ import { createFakeStructureTypologie } from "./structure-typologie.seed";
 let counter = 1;
 
 const generateDnaCode = ({
-  cpom,
   type,
-}: Pick<FakeStructureOptions, "cpom" | "type">): string => {
-  const cpomLabel = cpom ? "CPOM" : "SANS_CPOM";
-  return `${type}-${cpomLabel}-${counter++}`;
+}: Pick<FakeStructureOptions, "type">): string => {
+  return `${type}-${counter++}`;
 };
 
 const createFakeStructure = ({
@@ -45,7 +43,6 @@ const createFakeStructure = ({
 
   return {
     dnaCode: generateDnaCode({
-      cpom,
       type,
     }),
     // TODO : à gérer quand les filiales d'opérateurs seront en DB

@@ -2,6 +2,18 @@ import { fakerFR as faker } from "@faker-js/faker";
 
 import type { Departement, PrismaClient } from "@/generated/prisma/client";
 
+const buildStructureMillesimeDates = (start: Date, end: Date): Date[] => {
+  const dates: Date[] = [];
+  const startYear = start.getFullYear();
+  const endYear = end.getFullYear();
+
+  for (let year = startYear; year <= endYear; year++) {
+    dates.push(new Date(year, 0, 1, 13));
+  }
+
+  return dates;
+};
+
 export const createFakeCpoms = async (
   prisma: PrismaClient,
   maxCpoms: number = 10,
@@ -32,6 +44,7 @@ export const createFakeCpoms = async (
   );
 
   const structuresByOperateurAndRegion = new Map<string, number[]>();
+  const structureIdToDnaCode = new Map<number, string>();
 
   for (const operateur of operateurs) {
     for (const structure of operateur.structures) {
@@ -41,6 +54,7 @@ export const createFakeCpoms = async (
       if (!region) {
         continue;
       }
+      structureIdToDnaCode.set(structure.id, structure.dnaCode);
       const key = `${operateur.id}-${region}`;
       const existingStructures = structuresByOperateurAndRegion.get(key) || [];
       structuresByOperateurAndRegion.set(key, [
@@ -152,7 +166,53 @@ export const createFakeCpoms = async (
       `🍏 CPOM créé : ${cpomName} avec ${selectedStructures.length} structures`
     );
 
-    // Create millesimes for each year of the CPOM
+    const cpomStructures = await prisma.cpomStructure.findMany({
+      where: { cpomId: cpom.id },
+      select: {
+        structureId: true,
+        dateDebut: true,
+        dateFin: true,
+      },
+    });
+
+    for (const cpomStructure of cpomStructures) {
+      const structureDnaCode = structureIdToDnaCode.get(
+        cpomStructure.structureId
+      );
+
+      if (!structureDnaCode) {
+        console.warn(
+          `⚠️ Impossible de trouver le dnaCode pour la structure ${cpomStructure.structureId}, millésimes ignorés`
+        );
+        continue;
+      }
+
+      const millesimeDates = buildStructureMillesimeDates(
+        cpomStructure.dateDebut ?? new Date(debutCpom),
+        cpomStructure.dateFin ?? new Date(finCpom)
+      );
+
+      for (const millesimeDate of millesimeDates) {
+        await prisma.structureMillesime.upsert({
+          where: {
+            structureDnaCode_date: {
+              structureDnaCode,
+              date: millesimeDate,
+            },
+          },
+          update: {
+            cpom: true,
+          },
+          create: {
+            structureDnaCode,
+            date: millesimeDate,
+            cpom: true,
+          },
+        });
+      }
+    }
+
+    // Create CPOM millesimes for each year of the CPOM
     const annees = [...Array(dureeAnnees)].map(
       (_, index) => anneeDebut + index
     );
