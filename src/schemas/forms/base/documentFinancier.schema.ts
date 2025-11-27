@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import { z } from "zod";
 
 import {
@@ -8,12 +6,12 @@ import {
 } from "@/app/utils/zodCustomFields";
 import { DocumentFinancierCategory } from "@/types/file-upload.type";
 
-dayjs.extend(customParseFormat);
-
 const DocumentFinancierFlexibleSchema = z.object({
   key: z.string().optional(),
   date: optionalFrenchDateToISO(),
   category: z.enum(DocumentFinancierCategory).optional(),
+  granularity: z.string().optional(),
+  nom: z.string().optional(),
 });
 
 export const DocumentsFinanciersFlexibleSchema = z.object({

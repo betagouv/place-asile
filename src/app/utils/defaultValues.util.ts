@@ -15,7 +15,6 @@ import { getActesAdministratifsDefaultValues } from "./acteAdministratif.util";
 import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { getBudgetsDefaultValues } from "./budget.util";
 import { getControlesDefaultValues } from "./controle.util";
-import { getDocumentsFinanciersDefaultValues } from "./documentFinancier.util";
 import { getEvaluationsDefaultValues } from "./evaluation.util";
 import { isStructureAutorisee } from "./structure.util";
 
@@ -30,10 +29,6 @@ export const getDefaultValues = ({
   const budgets = getBudgetsDefaultValues(structure?.budgets || []);
 
   const actesAdministratifs = getActesAdministratifsDefaultValues(structure);
-  const documentsFinanciers = getDocumentsFinanciersDefaultValues({
-    structure,
-    isAutorisee,
-  });
 
   const controles = getControlesDefaultValues(structure.controles);
   const evaluations = getEvaluationsDefaultValues(
@@ -90,7 +85,7 @@ export const getDefaultValues = ({
     echeancePlacesAFermer: structure.echeancePlacesAFermer ?? undefined,
     date303: structure.date303 ?? undefined,
     budgets,
-    documentsFinanciers,
+    documentsFinanciers: structure.documentsFinanciers ?? [],
     actesAdministratifs,
     controles,
     evaluations,

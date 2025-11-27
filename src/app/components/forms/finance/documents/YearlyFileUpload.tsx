@@ -1,0 +1,218 @@
+import Button from "@codegouvfr/react-dsfr/Button";
+import Input from "@codegouvfr/react-dsfr/Input";
+import Select from "@codegouvfr/react-dsfr/Select";
+import { ReactElement, useCallback, useEffect, useState } from "react";
+import { Control, useFieldArray, useFormContext } from "react-hook-form";
+
+import { DropZone } from "@/app/components/forms/DropZone";
+import {
+  granularities,
+  structureAutoriseesDocuments,
+  structureSubventionneesDocuments,
+} from "@/app/components/forms/finance/documents/documentsStructures";
+import {
+  DocumentFinancierFlexibleFormValues,
+  DocumentsFinanciersFlexibleFormValues,
+} from "@/schemas/forms/base/documentFinancier.schema";
+import { Granularity } from "@/types/documentfinancier";
+import { DocumentFinancierCategoryType } from "@/types/file-upload.type";
+
+export const YearlyFileUpload = ({
+  year,
+  isAutorisee,
+  control,
+}: Props): ReactElement => {
+  const { watch } = useFormContext();
+  const documentsFinanciers: DocumentFinancierFlexibleFormValues[] = watch(
+    "documentsFinanciers"
+  );
+  const { append, remove } = useFieldArray({
+    control,
+    name: "documentsFinanciers",
+  });
+
+  const documentTypes = isAutorisee
+    ? structureAutoriseesDocuments
+    : structureSubventionneesDocuments;
+
+  const [shouldDisplayCategorySelect, setShouldDisplayCategorySelect] =
+    useState(false);
+  const [shouldDisplayGranularitySelect, setShouldDisplayGranularitySelect] =
+    useState(false);
+  const [shouldDisplayNomInput, setShouldDisplayNomInput] = useState(false);
+  const [shouldDisplayAddButton, setShouldDisplayAddButton] = useState(false);
+  const [shouldEnableAddButton, setShouldEnableAddButton] = useState(false);
+  const [dropZoneKey, setDropZoneKey] = useState<number>(Math.random());
+
+  const [key, setKey] = useState<string | undefined>(undefined);
+  const [category, setCategory] = useState<
+    DocumentFinancierCategoryType[number] | undefined
+  >(undefined);
+  const [granularity, setGranularity] = useState<Granularity | undefined>(
+    undefined
+  );
+  const [nom, setNom] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    console.log(key);
+    if (key) {
+      setShouldDisplayCategorySelect(true);
+      setShouldDisplayAddButton(true);
+    } else {
+      setShouldDisplayCategorySelect(false);
+      setShouldDisplayGranularitySelect(false);
+      setShouldDisplayAddButton(false);
+      setCategory(undefined);
+      setGranularity(undefined);
+      setNom(undefined);
+    }
+  }, [key]);
+
+  useEffect(() => {
+    if (key) {
+      if (category === "AUTRE_FINANCIER") {
+        setShouldDisplayNomInput(true);
+      } else {
+        setShouldDisplayNomInput(false);
+      }
+      if (category && category !== "AUTRE_FINANCIER") {
+        setShouldDisplayGranularitySelect(true);
+      } else {
+        setShouldDisplayGranularitySelect(false);
+      }
+    } else {
+      setShouldDisplayNomInput(false);
+    }
+  }, [key, category]);
+
+  useEffect(() => {
+    if (key && category) {
+      if (category === "AUTRE_FINANCIER") {
+        setShouldEnableAddButton(true);
+      } else {
+        if (granularity) {
+          setShouldEnableAddButton(true);
+        } else {
+          setShouldEnableAddButton(false);
+        }
+      }
+    } else {
+      setShouldEnableAddButton(false);
+    }
+  }, [key, category, granularity, nom]);
+
+  const handleAddDocument = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+
+      const index = documentsFinanciers.findIndex((documentFinancier) => {
+        return (
+          documentFinancier.date?.substring(0, 4) === year.toString() &&
+          documentFinancier.category === category &&
+          documentFinancier.granularity === granularity
+        );
+      });
+      if (index !== -1 && category !== "AUTRE_FINANCIER") {
+        remove(index);
+      }
+
+      append({
+        key,
+        category,
+        granularity,
+        nom,
+        date: new Date(year, 0, 1, 13).toISOString(),
+      });
+
+      setKey(undefined);
+      setCategory(undefined);
+      setGranularity(undefined);
+      setNom(undefined);
+      setDropZoneKey(Math.random());
+    },
+    [append, key, category, granularity, nom, year, documentsFinanciers, remove]
+  );
+
+  const handleFileChange = useCallback(
+    ({ key }: { key?: string }) => {
+      setKey(key);
+    },
+    [setKey]
+  );
+
+  return (
+    <DropZone
+      onChange={handleFileChange}
+      className="max-h-[30rem]"
+      key={dropZoneKey}
+    >
+      {shouldDisplayCategorySelect && (
+        <Select
+          label="type de document"
+          className="w-80"
+          nativeSelectProps={{
+            onChange: (e) => {
+              setCategory(
+                e.target.value as DocumentFinancierCategoryType[number]
+              );
+            },
+            value: category ?? "",
+          }}
+        >
+          <option value="">Sélectionnez une option</option>
+          {documentTypes.map((document) => (
+            <option key={document.value} value={document.value}>
+              {document.label}
+            </option>
+          ))}
+        </Select>
+      )}
+      {shouldDisplayGranularitySelect && (
+        <Select
+          label="Échelle"
+          className="w-80"
+          nativeSelectProps={{
+            onChange: (e) => {
+              setGranularity(e.target.value as Granularity);
+            },
+            value: granularity ?? "",
+          }}
+        >
+          <option value="">Sélectionnez une option</option>
+          {granularities.map((granularity) => (
+            <option key={granularity.value} value={granularity.value}>
+              {granularity.label}
+            </option>
+          ))}
+        </Select>
+      )}
+      {shouldDisplayNomInput && (
+        <Input
+          label="Nom du document"
+          className="w-80"
+          nativeInputProps={{
+            onChange: (e) => {
+              setNom(e.target.value);
+            },
+            value: nom ?? "",
+          }}
+        />
+      )}
+      {shouldDisplayAddButton && (
+        <Button
+          disabled={!shouldEnableAddButton}
+          priority="secondary"
+          onClick={handleAddDocument}
+        >
+          Ajouter le document
+        </Button>
+      )}
+    </DropZone>
+  );
+};
+
+type Props = {
+  year: number;
+  isAutorisee: boolean;
+  control: Control<DocumentsFinanciersFlexibleFormValues>;
+};

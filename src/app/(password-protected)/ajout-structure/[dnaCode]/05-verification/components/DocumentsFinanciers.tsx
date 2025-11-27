@@ -1,6 +1,10 @@
 import { useParams } from "next/navigation";
 import { ReactElement, useMemo } from "react";
 
+import {
+  structureAutoriseesDocuments,
+  structureSubventionneesDocuments,
+} from "@/app/components/forms/finance/documents/documentsStructures";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
@@ -9,10 +13,6 @@ import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/docu
 
 import { FileItem } from "../../../_components/FileItem";
 import { Year } from "../../../_components/Year";
-import {
-  structureAutoriseesDocuments,
-  structureSubventionneesDocuments,
-} from "../../04-documents/documents";
 
 export const DocumentsFinanciers = (): ReactElement => {
   const params = useParams();

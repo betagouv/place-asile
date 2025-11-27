@@ -3,24 +3,17 @@ import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
+import { FieldSetYearlyDocumentsFinanciers } from "@/app/components/forms/fieldsets/structure/FieldSetYearlyDocumentsFinanciers";
 import { Date303 } from "@/app/components/forms/finance/documents/Date303";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { getYearRange } from "@/app/utils/date.util";
-import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { DocumentsFinanciersStrictSchema } from "@/schemas/forms/base/documentFinancier.schema";
-
-import { DocumentItem } from "../../[dnaCode]/04-documents/DocumentItem";
-import {
-  structureAutoriseesDocuments,
-  structureSubventionneesDocuments,
-} from "../../[dnaCode]/04-documents/documents";
-import { Year } from "../Year";
 
 export default function FormDocuments() {
   const params = useParams();
@@ -47,17 +40,10 @@ export default function FormDocuments() {
   const isAutorisee = isStructureAutorisee(currentValue?.type);
   const isSubventionnee = isStructureSubventionnee(currentValue?.type);
 
-  const documents = isAutorisee
-    ? structureAutoriseesDocuments
-    : structureSubventionneesDocuments;
-
   const { years } = getYearRange();
 
   const yearsToDisplay = isSubventionnee ? years.slice(2) : years;
 
-  const documentIndexes = getDocumentIndexes(years.map(String), documents);
-
-  // TODO : refacto input hidden pour ne pas injecter les valeurs en l'absence de file upload
   return (
     <FormWrapper
       schema={DocumentsFinanciersStrictSchema}
@@ -71,7 +57,7 @@ export default function FormDocuments() {
         isEditMode ? "Modifier et revenir à la vérification" : "Vérifier"
       }
     >
-      {({ control, register, watch }) => {
+      {({ control, watch }) => {
         const date303 = watch("date303");
         const startYear = date303
           ? Number(date303?.split("/")?.[2])
@@ -102,48 +88,15 @@ export default function FormDocuments() {
               </p>
             )}
 
-            {yearsToDisplay.map((year) => {
-              return (
-                <Year key={year} year={year} startYear={startYear}>
-                  <p className="text-disabled-grey mb-0 text-xs col-span-3">
-                    Taille maximale par fichier : 10 Mo. Formats supportés :
-                    pdf, xls, xlsx, csv et ods.
-                    <br />
-                    Votre fichier est trop lourd ?{" "}
-                    <a
-                      target="_blank"
-                      className="underline"
-                      rel="noopener noreferrer"
-                      href="https://stirling-pdf.framalab.org/compress-pdf?lang=fr_FR"
-                    >
-                      Compressez-le
-                    </a>
-                    .
-                  </p>
-
-                  {documents.map((document) => {
-                    const todayYear = new Date().getFullYear();
-                    if (Number(year) <= todayYear - document.yearIndex) {
-                      const documentKey = `${document.value}-${year}`;
-                      const currentDocIndex = documentIndexes[documentKey];
-                      return (
-                        <DocumentItem
-                          key={`${document.value}-${year}`}
-                          year={year}
-                          control={control}
-                          index={currentDocIndex}
-                          register={register}
-                          categoryLabel={document.label}
-                          categorySubLabel={document.subLabel}
-                          categoryValue={document.value}
-                        />
-                      );
-                    }
-                    return null;
-                  })}
-                </Year>
-              );
-            })}
+            {yearsToDisplay.map((year) => (
+              <FieldSetYearlyDocumentsFinanciers
+                key={year}
+                year={year}
+                startYear={startYear}
+                isAutorisee={isAutorisee}
+                control={control}
+              />
+            ))}
           </>
         );
       }}
