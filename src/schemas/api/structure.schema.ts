@@ -15,6 +15,7 @@ import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grav
 import { formApiSchema } from "./form.schema";
 import { operateurApiSchema } from "./operateur.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
+import { structureMillesimeApiSchema } from "./structure-millesime.schema";
 
 export const structureCreationApiSchema = z.object({
   dnaCode: z.string().min(1, "Le code DNA est requis"),
@@ -62,6 +63,7 @@ export const structureCreationApiSchema = z.object({
   forms: z.array(formApiSchema).optional(),
   contacts: z.array(contactApiSchema),
   documentsFinanciers: z.array(documentFinancierApiSchema),
+  millesimes: z.array(structureMillesimeApiSchema).optional(),
 });
 
 const partialStructureCreationApiSchema = structureCreationApiSchema
@@ -77,6 +79,7 @@ const partialStructureCreationApiSchema = structureCreationApiSchema
     structureTypologies: z
       .array(structureTypologieApiSchema.partial())
       .optional(),
+    millesimes: z.array(structureMillesimeApiSchema.partial()).optional(),
   });
 
 const remainingStructureUpdateApiSchema = z.object({
