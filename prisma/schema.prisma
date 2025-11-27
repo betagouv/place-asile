@@ -192,6 +192,7 @@ model StructureMillesime {
   structure            Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode     String
   date                 DateTime
+  cpom                 Boolean             @default(false) // temporary field, while we are not sure of existing cpoms
   operateurComment     String?
   structureTypologieId Int?                @unique
   structureTypologie   StructureTypologie? @relation(fields: [structureTypologieId], references: [id], onDelete: Cascade)

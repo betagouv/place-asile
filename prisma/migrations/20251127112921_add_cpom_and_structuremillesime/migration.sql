@@ -12,6 +12,7 @@ CREATE TABLE "public"."StructureMillesime" (
     "id" SERIAL NOT NULL,
     "structureDnaCode" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
+    "cpom" BOOLEAN NOT NULL DEFAULT false,
     "operateurComment" TEXT,
     "structureTypologieId" INTEGER,
     "budgetId" INTEGER,
