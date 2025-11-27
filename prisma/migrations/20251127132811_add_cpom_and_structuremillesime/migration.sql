@@ -41,6 +41,8 @@ CREATE TABLE "public"."CpomStructure" (
     "structureId" INTEGER NOT NULL,
     "dateDebut" TIMESTAMP(3),
     "dateFin" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "CpomStructure_pkey" PRIMARY KEY ("id")
 );
@@ -76,6 +78,9 @@ CREATE UNIQUE INDEX "StructureMillesime_budgetId_key" ON "public"."StructureMill
 
 -- CreateIndex
 CREATE UNIQUE INDEX "StructureMillesime_structureDnaCode_date_key" ON "public"."StructureMillesime"("structureDnaCode", "date");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "CpomStructure_cpomId_structureId_key" ON "public"."CpomStructure"("cpomId", "structureId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "CpomMillesime_cpomId_date_key" ON "public"."CpomMillesime"("cpomId", "date");

@@ -27,6 +27,16 @@ type CpomCsvRow = {
   date_sortie_structure?: string;
 };
 
+const buildStructureMillesimeDates = (start: Date, end: Date): Date[] => {
+  const years: Date[] = [];
+  const startYear = start.getFullYear();
+  const endYear = end.getFullYear();
+  for (let year = startYear; year <= endYear; year++) {
+    years.push(new Date(year, 0, 1));
+  }
+  return years;
+};
+
 const loadCpomsFromCsv = async () => {
   try {
     const records = await loadCsvFromS3<CpomCsvRow>(bucketName, csvFilename);
@@ -90,19 +100,20 @@ const loadCpomsFromCsv = async () => {
 
     // Créer les liens CPOM/Structure
     console.log("📄 Création des liens CPOM/Structure...");
-    let created = 0;
-    let updated = 0;
-    let skipped = 0;
 
     for (const row of records) {
       if (!row.cpom || !row.code_dna || !row.date_debut || !row.date_fin) {
-        skipped++;
+        console.log(
+          `❌ Ligne ignorée, champs manquants : cpom=${row.cpom}, code_dna=${row.code_dna}, date_debut=${row.date_debut}, date_fin=${row.date_fin}`
+        );
         continue;
       }
 
       const structureId = structureMap.get(row.code_dna);
       if (!structureId) {
-        skipped++;
+        console.log(
+          `❌ Ligne ignorée, structure non trouvée: cpom=${row.cpom}, code_dna=${row.code_dna}, date_debut=${row.date_debut}, date_fin=${row.date_fin}`
+        );
         continue;
       }
 
@@ -112,7 +123,9 @@ const loadCpomsFromCsv = async () => {
       const cpomId = cpomCache.get(cpomKey);
 
       if (!cpomId) {
-        skipped++;
+        console.log(
+          `❌ Ligne ignorée, CPOM non trouvé: cpom=${row.cpom}, code_dna=${row.code_dna}, date_debut=${row.date_debut}, date_fin=${row.date_fin}`
+        );
         continue;
       }
 
@@ -123,39 +136,54 @@ const loadCpomsFromCsv = async () => {
         ? parseDate(row.date_sortie_structure.trim(), `date_sortie_structure`)
         : null;
 
-      const existing = await prisma.cpomStructure.findFirst({
+      const cpomStructure = await prisma.cpomStructure.upsert({
         where: {
-          cpomId,
-          structureId,
-        },
-        select: { id: true },
-      });
-
-      if (existing) {
-        await prisma.cpomStructure.update({
-          where: { id: existing.id },
-          data: {
-            dateDebut,
-            dateFin,
-          },
-        });
-        updated++;
-      } else {
-        await prisma.cpomStructure.create({
-          data: {
+          cpomId_structureId: {
             cpomId,
             structureId,
-            dateDebut,
-            dateFin,
+          },
+        },
+        update: {
+          dateDebut,
+          dateFin,
+        },
+        create: {
+          cpomId,
+          structureId,
+          dateDebut,
+          dateFin,
+        },
+      });
+
+      // Créer les millesimes pour la structure
+      console.log("📄 Création des millesimes pour la structure...");
+
+      const millesimeStart = dateDebut ?? cpomStructure.dateDebut ?? debut;
+      const millesimeEnd = dateFin ?? cpomStructure.dateFin ?? fin;
+      const millesimeDates = buildStructureMillesimeDates(
+        millesimeStart,
+        millesimeEnd
+      );
+
+      for (const millesimeDate of millesimeDates) {
+        await prisma.structureMillesime.upsert({
+          where: {
+            structureDnaCode_date: {
+              structureDnaCode: row.code_dna,
+              date: millesimeDate,
+            },
+          },
+          update: {
+            cpom: true,
+          },
+          create: {
+            structureDnaCode: row.code_dna,
+            date: millesimeDate,
+            cpom: true,
           },
         });
-        created++;
       }
     }
-
-    console.log(
-      `✅ ${created} liens créés, ${updated} liens mis à jour, ${skipped} lignes ignorées`
-    );
   } catch (error) {
     console.error("❌ Erreur lors du chargement des données:", error);
     throw error;

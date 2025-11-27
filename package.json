@@ -25,7 +25,7 @@
     "pre-push": "yarn lint && yarn check:ts && yarn test && yarn sql:format:check",
     "apply-views": "npx tsx scripts/apply-views.ts",
     "apply-views:dev": "npx tsx -r dotenv/config scripts/apply-views.ts",
-    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate": "prisma migrate dev && prisma generate",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:seed": "prisma db seed",
     "prisma:studio": "prisma studio",

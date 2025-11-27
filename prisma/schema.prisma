@@ -422,6 +422,10 @@ model CpomStructure {
   cpom        Cpom      @relation(fields: [cpomId], references: [id])
   structure   Structure @relation(fields: [structureId], references: [id])
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([cpomId, structureId])
   @@schema("public")
 }
 
