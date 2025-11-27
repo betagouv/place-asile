@@ -5,7 +5,7 @@ export const parseDate = (value: string, context: string): Date => {
   }
 
   if (trimmed.length === 4) {
-    return new Date(Number(trimmed), 0, 1);
+    return new Date(Number(trimmed), 0, 1, 12, 0, 0);
   }
 
   const isoCandidate = new Date(trimmed);

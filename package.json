@@ -21,6 +21,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui --grep @manual",
     "one-off": "scripts/run-one-off.sh",
+    "script": "SCRIPT_KIND=recurring scripts/run-one-off.sh",
     "prepare": "husky",
     "pre-push": "yarn lint && yarn check:ts && yarn test && yarn sql:format:check",
     "apply-views": "npx tsx scripts/apply-views.ts",

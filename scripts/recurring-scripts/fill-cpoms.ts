@@ -1,6 +1,9 @@
+// Fill Cpom table, link with structures and create associated structure millesimes with csv from s3 bucket
+
 import "dotenv/config";
 
 import { createPrismaClient } from "@/prisma-client";
+
 import { loadCsvFromS3 } from "../utils/csv-loader";
 import { parseDate } from "../utils/parse-date";
 
@@ -32,7 +35,7 @@ const buildStructureMillesimeDates = (start: Date, end: Date): Date[] => {
   const startYear = start.getFullYear();
   const endYear = end.getFullYear();
   for (let year = startYear; year <= endYear; year++) {
-    years.push(new Date(year, 0, 1));
+    years.push(new Date(year, 0, 1, 12, 0, 0));
   }
   return years;
 };
@@ -156,7 +159,9 @@ const loadCpomsFromCsv = async () => {
       });
 
       // Créer les millesimes pour la structure
-      console.log("📄 Création des millesimes pour la structure...");
+      console.log(
+        `📄 Création des millesimes pour la structure ${row.code_dna}`
+      );
 
       const millesimeStart = dateDebut ?? cpomStructure.dateDebut ?? debut;
       const millesimeEnd = dateFin ?? cpomStructure.dateFin ?? fin;
@@ -166,6 +171,7 @@ const loadCpomsFromCsv = async () => {
       );
 
       for (const millesimeDate of millesimeDates) {
+        console.log(`📄 Création du millésime pour la date ${millesimeDate}`);
         await prisma.structureMillesime.upsert({
           where: {
             structureDnaCode_date: {

@@ -2,8 +2,8 @@
 import "dotenv/config";
 
 import { StructureType } from "@/generated/prisma/client";
-
 import { createPrismaClient } from "@/prisma-client";
+
 import { loadCsvFromS3 } from "../utils/csv-loader";
 
 const prisma = createPrismaClient();
