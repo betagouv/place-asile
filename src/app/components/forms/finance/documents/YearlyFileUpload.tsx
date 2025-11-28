@@ -144,73 +144,83 @@ export const YearlyFileUpload = ({
   );
 
   return (
-    <DropZone
-      onChange={handleFileChange}
-      className="max-h-[30rem]"
-      key={dropZoneKey}
-    >
-      {shouldDisplayCategorySelect && (
-        <Select
-          label="type de document"
-          className="w-80"
-          nativeSelectProps={{
-            onChange: (e) => {
-              setCategory(
-                e.target.value as DocumentFinancierCategoryType[number]
-              );
-            },
-            value: category ?? "",
-          }}
-        >
-          <option value="">Sélectionnez une option</option>
-          {documentTypes.map((document) => (
-            <option key={document.value} value={document.value}>
-              {document.label}
-            </option>
-          ))}
-        </Select>
-      )}
-      {shouldDisplayGranularitySelect && isInCpom && (
-        <Select
-          label="Échelle"
-          className="w-80"
-          nativeSelectProps={{
-            onChange: (e) => {
-              setGranularity(e.target.value as Granularity);
-            },
-            value: granularity ?? "",
-          }}
-        >
-          <option value="">Sélectionnez une option</option>
-          {granularities.map((granularity) => (
-            <option key={granularity.value} value={granularity.value}>
-              {granularity.label}
-            </option>
-          ))}
-        </Select>
-      )}
-      {shouldDisplayNomInput && (
-        <Input
-          label="Nom du document"
-          className="w-80"
-          nativeInputProps={{
-            onChange: (e) => {
-              setNom(e.target.value);
-            },
-            value: nom ?? "",
-          }}
-        />
-      )}
-      {shouldDisplayAddButton && (
-        <Button
-          disabled={!shouldEnableAddButton}
-          priority="secondary"
-          onClick={handleAddDocument}
-        >
-          Ajouter le document
-        </Button>
-      )}
-    </DropZone>
+    <div className="flex flex-col items-center gap-2">
+      <DropZone
+        onChange={handleFileChange}
+        className="max-h-[30rem]"
+        key={dropZoneKey}
+      >
+        {shouldDisplayCategorySelect && (
+          <Select
+            label="type de document"
+            className="w-80"
+            nativeSelectProps={{
+              onChange: (e) => {
+                setCategory(
+                  e.target.value as DocumentFinancierCategoryType[number]
+                );
+              },
+              value: category ?? "",
+            }}
+          >
+            <option value="">Sélectionnez une option</option>
+            {documentTypes.map((document) => (
+              <option key={document.value} value={document.value}>
+                {document.label}
+              </option>
+            ))}
+          </Select>
+        )}
+        {shouldDisplayGranularitySelect && isInCpom && (
+          <Select
+            label="Échelle"
+            className="w-80"
+            nativeSelectProps={{
+              onChange: (e) => {
+                setGranularity(e.target.value as Granularity);
+              },
+              value: granularity ?? "",
+            }}
+          >
+            <option value="">Sélectionnez une option</option>
+            {granularities.map((granularity) => (
+              <option key={granularity.value} value={granularity.value}>
+                {granularity.label}
+              </option>
+            ))}
+          </Select>
+        )}
+        {shouldDisplayNomInput && (
+          <Input
+            label="Nom du document"
+            className="w-80"
+            nativeInputProps={{
+              onChange: (e) => {
+                setNom(e.target.value);
+              },
+              value: nom ?? "",
+            }}
+          />
+        )}
+        {shouldDisplayAddButton && (
+          <Button
+            disabled={!shouldEnableAddButton}
+            priority="secondary"
+            onClick={handleAddDocument}
+          >
+            Ajouter le document
+          </Button>
+        )}
+      </DropZone>
+      <a
+        target="_blank"
+        className="text-default-grey text-sm underline"
+        rel="noopener noreferrer"
+        href="https://stirling-pdf.framalab.org/compress-pdf?lang=fr_FR"
+      >
+        Mon fichier est trop lourd
+      </a>
+    </div>
   );
 };
 
