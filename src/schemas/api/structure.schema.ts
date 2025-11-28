@@ -13,6 +13,7 @@ import { evaluationApiSchema } from "./evaluation.schema";
 import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grave.schema";
 import { formApiSchema } from "./form.schema";
 import { operateurApiSchema } from "./operateur.schema";
+import { structureMillesimeApiSchema } from "./structure-millesime.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
 
 export const structureCreationApiSchema = z.object({
@@ -37,9 +38,6 @@ export const structureCreationApiSchema = z.object({
   longitude: z.string().optional(),
   debutConvention: z.string().datetime().nullish(),
   finConvention: z.string().datetime().nullish(),
-  cpom: z.boolean({
-    message: "Le CPOM est requis",
-  }),
   creationDate: z
     .string()
     .datetime({ message: "La date de création est requise" }),
@@ -54,9 +52,8 @@ export const structureCreationApiSchema = z.object({
   public: z.nativeEnum(PublicType),
   debutPeriodeAutorisation: z.string().datetime().nullish(),
   finPeriodeAutorisation: z.string().datetime().nullish(),
-  debutCpom: z.string().datetime().nullish(),
-  finCpom: z.string().datetime().nullish(),
   adresses: z.array(adresseApiSchema),
+  structureMillesimes: z.array(structureMillesimeApiSchema),
   structureTypologies: z.array(structureTypologieApiSchema),
   forms: z.array(formApiSchema).optional(),
   contacts: z.array(contactApiSchema),

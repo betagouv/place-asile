@@ -43,21 +43,17 @@ export const DocumentsFinanciers = (): ReactElement => {
           }
           const documentsFinanciers =
             localStorageValues?.documentsFinanciers ?? [];
-          console.log("documentsFinanciers", documentsFinanciers);
           const findDocument = documentsFinanciers.find(
             (documentFinancier) =>
               documentFinancier.category === document.value &&
               documentFinancier.date?.substring(0, 4) === year &&
               documentFinancier.key
           );
-          console.log("findDocument", document.value, year, findDocument);
           return !findDocument ? 1 : 0;
         })
         .reduce((accumulator: number) => accumulator + 1, 0)
     )
     .reduce((accumulator: number, current: number) => accumulator + current, 0);
-
-  console.log("numberOfMissingDocuments", numberOfMissingDocuments);
 
   if (numberOfMissingDocuments > 0) {
     return (

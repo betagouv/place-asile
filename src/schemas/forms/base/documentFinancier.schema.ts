@@ -21,6 +21,7 @@ export const DocumentsFinanciersFlexibleSchema = z.object({
   structureMillesimes: z.array(
     z.object({
       date: optionalFrenchDateToISO(),
+      cpom: z.boolean(),
       operateurComment: z.string(),
     })
   ),

@@ -37,7 +37,7 @@ model Structure {
   nom                          String?
   debutConvention              DateTime?
   finConvention                DateTime?
-  cpom                         Boolean
+  cpom                         Boolean?
   creationDate                 DateTime
   date303                      DateTime?
   finessCode                   String?

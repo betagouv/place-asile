@@ -344,7 +344,6 @@ export const createOne = async (
         date303: structure.date303,
         debutConvention: structure.debutConvention,
         finConvention: structure.finConvention,
-        cpom: structure.cpom,
         creationDate: structure.creationDate,
         finessCode: structure.finessCode,
         lgbt: structure.lgbt,
@@ -352,8 +351,6 @@ export const createOne = async (
         public: convertToPublicType(structure.public),
         debutPeriodeAutorisation: structure.debutPeriodeAutorisation,
         finPeriodeAutorisation: structure.finPeriodeAutorisation,
-        debutCpom: structure.debutCpom,
-        finCpom: structure.finCpom,
         contacts: {
           createMany: {
             data: structure.contacts,

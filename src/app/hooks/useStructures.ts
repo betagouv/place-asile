@@ -97,7 +97,6 @@ const transformAjoutFormStructureToApiStructure = (
     nom: values.nom,
     debutConvention: formatDateToIsoString(values.debutConvention),
     finConvention: formatDateToIsoString(values.finConvention),
-    cpom: values.cpom,
     creationDate: formatDateToIsoString(values.creationDate, true) as string,
     date303: values.date303 ? formatDateToIsoString(values.date303) : undefined,
     finessCode: values.finessCode,
@@ -110,8 +109,6 @@ const transformAjoutFormStructureToApiStructure = (
     finPeriodeAutorisation: formatDateToIsoString(
       values.finPeriodeAutorisation
     ),
-    debutCpom: formatDateToIsoString(values.debutCpom),
-    finCpom: formatDateToIsoString(values.finCpom),
     adresses: transformFormAdressesToApiAdresses(
       values.adresses,
       values.dnaCode
@@ -120,6 +117,7 @@ const transformAjoutFormStructureToApiStructure = (
       values.contactPrincipal,
       values.contactSecondaire
     ),
+    structureMillesimes: values.structureMillesimes,
     structureTypologies: values.typologies?.map((typologie) => ({
       ...typologie,
       placesAutorisees: Number(
