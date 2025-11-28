@@ -93,7 +93,6 @@ export const YearlyFileUpload = ({
       if (category === "AUTRE_FINANCIER") {
         setShouldEnableAddButton(true);
       } else {
-        console.log("granularity", granularity);
         if (granularity) {
           setShouldEnableAddButton(true);
         } else {
