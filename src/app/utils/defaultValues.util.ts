@@ -49,8 +49,6 @@ export const getDefaultValues = ({
       : undefined,
     debutConvention: structure.debutConvention ?? undefined,
     finConvention: structure.finConvention ?? undefined,
-    debutCpom: structure.debutCpom ?? undefined,
-    finCpom: structure.finCpom ?? undefined,
     finessCode: structure.finessCode || undefined,
     public: structure.public
       ? PublicType[structure.public as string as keyof typeof PublicType]
@@ -100,8 +98,6 @@ type StructureDefaultValues = Omit<
   | "finPeriodeAutorisation"
   | "debutConvention"
   | "finConvention"
-  | "debutCpom"
-  | "finCpom"
   | "finessCode"
   | "public"
   | "filiale"
@@ -129,8 +125,6 @@ type StructureDefaultValues = Omit<
   finPeriodeAutorisation?: string;
   debutConvention?: string;
   finConvention?: string;
-  debutCpom?: string;
-  finCpom?: string;
   finessCode?: string;
   public?: PublicType;
   filiale?: string;

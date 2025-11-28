@@ -1,5 +1,6 @@
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { StructureApiType } from "@/schemas/api/structure.schema";
+import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 import { PublicType, StructureType } from "@/types/structure.type";
 
@@ -10,8 +11,8 @@ export const createStructure = ({
   type,
   finessCode,
   publicType,
-  cpom,
   structureTypologies,
+  structureMillesimes = [],
 }: CreateStructuresArgs): StructureApiType => {
   return {
     id,
@@ -33,7 +34,6 @@ export const createStructure = ({
     nom: "Les Mimosas",
     debutConvention: new Date("01/02/2024").toISOString(),
     finConvention: new Date("01/02/2027").toISOString(),
-    cpom: cpom ?? true,
     creationDate: new Date("01/02/2007").toISOString(),
     finessCode: finessCode ?? "123456789",
     lgbt: true,
@@ -41,11 +41,10 @@ export const createStructure = ({
     public: publicType ?? ("TOUT_PUBLIC" as PublicType),
     debutPeriodeAutorisation: new Date("01/02/2022").toISOString(),
     finPeriodeAutorisation: new Date("01/02/2025").toISOString(),
-    debutCpom: new Date("01/02/2026").toISOString(),
-    finCpom: new Date("01/02/2028").toISOString(),
     adresses: adresses ?? [],
     notes: "Note 1",
     structureTypologies: structureTypologies ?? [],
+    structureMillesimes: structureMillesimes ?? [],
     forms: [],
     contacts: [],
     documentsFinanciers: [],
@@ -56,9 +55,9 @@ type CreateStructuresArgs = {
   id: number;
   adresseAdministrative?: string;
   structureTypologies?: StructureTypologieApiType[];
+  structureMillesimes?: StructureMillesimeApiType[];
   adresses?: AdresseApiType[];
   type?: StructureType;
   finessCode?: string;
   publicType?: PublicType;
-  cpom?: boolean;
 };

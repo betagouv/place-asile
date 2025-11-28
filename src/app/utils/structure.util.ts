@@ -126,3 +126,12 @@ export const getOperateurLabel = (
 ): string | null | undefined => {
   return filiale ? `${filiale} (${operateur})` : operateur;
 };
+
+export const isStructureInCpom = (structure: StructureApiType): boolean => {
+  return (
+    structure.structureMillesimes.find(
+      (millesime) =>
+        millesime.date.substring(0, 4) === new Date().getFullYear().toString()
+    )?.cpom ?? false
+  );
+};

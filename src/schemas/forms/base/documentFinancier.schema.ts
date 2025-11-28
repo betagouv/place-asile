@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import {
+  frenchDateToISO,
   nullishFrenchDateToISO,
   optionalFrenchDateToISO,
 } from "@/app/utils/zodCustomFields";
@@ -18,13 +19,15 @@ export const DocumentsFinanciersFlexibleSchema = z.object({
   creationDate: optionalFrenchDateToISO(),
   date303: nullishFrenchDateToISO(),
   documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
-  structureMillesimes: z.array(
-    z.object({
-      date: optionalFrenchDateToISO(),
-      cpom: z.boolean(),
-      operateurComment: z.string(),
-    })
-  ),
+  structureMillesimes: z
+    .array(
+      z.object({
+        date: frenchDateToISO(),
+        cpom: z.boolean(),
+        operateurComment: z.string().optional(),
+      })
+    )
+    .optional(),
 });
 
 export const DocumentsFinanciersStrictSchema =

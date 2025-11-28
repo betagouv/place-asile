@@ -20,7 +20,6 @@ export const DescriptionBlock = (): ReactElement => {
     public: publicValue,
     type,
     finessCode,
-    cpom,
     lgbt,
     fvvTeh,
   } = structure;
@@ -72,10 +71,6 @@ export const DescriptionBlock = (): ReactElement => {
         <div className="flex-1">
           <strong className="pr-2">Opérateur</strong>
           {getOperateurLabel(filiale, operateur?.name)}
-        </div>
-        <div className="flex-1">
-          <strong className="pr-2">CPOM</strong>
-          {cpom ? "Oui" : "Non"}
         </div>
       </div>
       <hr />

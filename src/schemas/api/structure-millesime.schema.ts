@@ -4,7 +4,7 @@ export const structureMillesimeApiSchema = z.object({
   id: z.number().optional(),
   date: z.string().datetime(),
   cpom: z.boolean(),
-  operateurComment: z.string().nullish(),
+  operateurComment: z.string().optional(),
 });
 
 export type StructureMillesimeApiType = z.infer<

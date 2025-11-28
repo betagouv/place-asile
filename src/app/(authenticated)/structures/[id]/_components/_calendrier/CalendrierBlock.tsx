@@ -16,8 +16,6 @@ export const CalendrierBlock = (): ReactElement => {
     finPeriodeAutorisation,
     debutConvention,
     finConvention,
-    debutCpom,
-    finCpom,
   } = structure;
 
   const datePairs = [];
@@ -35,13 +33,7 @@ export const CalendrierBlock = (): ReactElement => {
       endDate: finConvention,
     });
   }
-  if (debutCpom && finCpom) {
-    datePairs.push({
-      label: "CPOM",
-      startDate: debutCpom,
-      endDate: finCpom,
-    });
-  }
+
   return (
     <Block
       title="Calendrier"
