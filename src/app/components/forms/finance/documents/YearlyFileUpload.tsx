@@ -19,6 +19,7 @@ import { DocumentFinancierCategoryType } from "@/types/file-upload.type";
 
 export const YearlyFileUpload = ({
   year,
+  index,
   isAutorisee,
   control,
 }: Props): ReactElement => {
@@ -31,6 +32,8 @@ export const YearlyFileUpload = ({
     name: "documentsFinanciers",
   });
 
+  const isInCpom = watch(`structureMillesimes.${index}.cpom`);
+
   const documentTypes = isAutorisee
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
@@ -42,6 +45,7 @@ export const YearlyFileUpload = ({
   const [shouldDisplayNomInput, setShouldDisplayNomInput] = useState(false);
   const [shouldDisplayAddButton, setShouldDisplayAddButton] = useState(false);
   const [shouldEnableAddButton, setShouldEnableAddButton] = useState(false);
+  //  key is used to reset the drop zone when a document is added
   const [dropZoneKey, setDropZoneKey] = useState<number>(Math.random());
 
   const [key, setKey] = useState<string | undefined>(undefined);
@@ -49,12 +53,11 @@ export const YearlyFileUpload = ({
     DocumentFinancierCategoryType[number] | undefined
   >(undefined);
   const [granularity, setGranularity] = useState<Granularity | undefined>(
-    undefined
+    isInCpom ? undefined : Granularity.STRUCTURE
   );
   const [nom, setNom] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    console.log(key);
     if (key) {
       setShouldDisplayCategorySelect(true);
       setShouldDisplayAddButton(true);
@@ -63,10 +66,10 @@ export const YearlyFileUpload = ({
       setShouldDisplayGranularitySelect(false);
       setShouldDisplayAddButton(false);
       setCategory(undefined);
-      setGranularity(undefined);
+      setGranularity(isInCpom ? undefined : Granularity.STRUCTURE);
       setNom(undefined);
     }
-  }, [key]);
+  }, [key, isInCpom]);
 
   useEffect(() => {
     if (key) {
@@ -90,6 +93,7 @@ export const YearlyFileUpload = ({
       if (category === "AUTRE_FINANCIER") {
         setShouldEnableAddButton(true);
       } else {
+        console.log("granularity", granularity);
         if (granularity) {
           setShouldEnableAddButton(true);
         } else {
@@ -167,7 +171,7 @@ export const YearlyFileUpload = ({
           ))}
         </Select>
       )}
-      {shouldDisplayGranularitySelect && (
+      {shouldDisplayGranularitySelect && isInCpom && (
         <Select
           label="Échelle"
           className="w-80"
@@ -213,6 +217,7 @@ export const YearlyFileUpload = ({
 
 type Props = {
   year: number;
+  index: number;
   isAutorisee: boolean;
   control: Control<DocumentsFinanciersFlexibleFormValues>;
 };

@@ -80,7 +80,7 @@ export default function FormDocuments() {
               cinq dernières années.
             </p>
             <Date303 />
-
+            <hr className="mb-8" />
             {noYear && (
               <p className="text-disabled-grey mb-0 text-sm">
                 La structure est trop récente et n’est pas en mesure de fournir
@@ -88,13 +88,14 @@ export default function FormDocuments() {
               </p>
             )}
 
-            {yearsToDisplay.map((year) => (
+            {yearsToDisplay.map((year, index) => (
               <FieldSetYearlyDocumentsFinanciers
                 key={year}
                 year={year}
                 startYear={startYear}
                 isAutorisee={isAutorisee}
                 control={control}
+                index={index}
               />
             ))}
           </>

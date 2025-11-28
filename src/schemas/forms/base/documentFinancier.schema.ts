@@ -18,15 +18,16 @@ export const DocumentsFinanciersFlexibleSchema = z.object({
   creationDate: optionalFrenchDateToISO(),
   date303: nullishFrenchDateToISO(),
   documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
+  structureMillesimes: z.array(
+    z.object({
+      date: optionalFrenchDateToISO(),
+      operateurComment: z.string(),
+    })
+  ),
 });
 
-export const DocumentsFinanciersStrictSchema = z
-  .object({
-    creationDate: optionalFrenchDateToISO(),
-    date303: nullishFrenchDateToISO(),
-    documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
-  })
-  .superRefine((data, ctx) => {
+export const DocumentsFinanciersStrictSchema =
+  DocumentsFinanciersFlexibleSchema.superRefine((data, ctx) => {
     const referenceYear = Number(
       (data.date303 ?? data.creationDate)?.substring(0, 4)
     );
