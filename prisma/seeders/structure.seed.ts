@@ -41,6 +41,8 @@ const createFakeStructure = ({
 
   const isAutorisee = isStructureAutorisee(type);
 
+  const creationDate = faker.date.past();
+
   return {
     dnaCode: generateDnaCode({
       type,
@@ -65,7 +67,7 @@ const createFakeStructure = ({
     debutConvention,
     finConvention,
     cpom,
-    creationDate: faker.date.past(),
+    creationDate,
     finessCode: isAutorisee ? faker.number.int(1000000000).toString() : null,
     lgbt: faker.datatype.boolean(),
     fvvTeh: faker.datatype.boolean(),
@@ -81,6 +83,18 @@ const createFakeStructure = ({
     notes: faker.lorem.lines(2),
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
+    nomOfii: faker.lorem.words(2),
+    directionTerritoriale: "DT " + faker.location.city(),
+    activeInOfiiFileSince:
+      faker.helpers.maybe(
+        () => faker.date.between({ from: creationDate, to: new Date() }),
+        { probability: 0.01 }
+      ) ?? null,
+    inactiveInOfiiFileSince:
+      faker.helpers.maybe(
+        () => faker.date.between({ from: creationDate, to: new Date() }),
+        { probability: 0.01 }
+      ) ?? null,
   };
 };
 

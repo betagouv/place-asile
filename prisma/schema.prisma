@@ -15,6 +15,7 @@ model Departement {
   name           String
   region         String
   structuresOfii StructureOfii[]
+  structures     Structure[]
 
   @@schema("public")
 }
@@ -23,32 +24,36 @@ model Structure {
   id                           Int                         @id @default(autoincrement())
   dnaCode                      String                      @unique
   filiale                      String?
-  type                         StructureType
+  type                         StructureType?
   placesACreer                 Int?
   placesAFermer                Int?
   echeancePlacesACreer         DateTime?
   echeancePlacesAFermer        DateTime?
-  adresseAdministrative        String
-  codePostalAdministratif      String
-  communeAdministrative        String
-  departementAdministratif     String
-  latitude                     Decimal
-  longitude                    Decimal
+  adresseAdministrative        String?
+  codePostalAdministratif      String?
+  communeAdministrative        String?
+  departementAdministratif     String?
+  latitude                     Decimal?
+  longitude                    Decimal?
   nom                          String?
   debutConvention              DateTime?
   finConvention                DateTime?
-  cpom                         Boolean
-  creationDate                 DateTime
+  cpom                         Boolean?
+  creationDate                 DateTime?
   date303                      DateTime?
   finessCode                   String?
-  lgbt                         Boolean
-  fvvTeh                       Boolean
-  public                       PublicType
+  lgbt                         Boolean?
+  fvvTeh                       Boolean?
+  public                       PublicType?
   debutPeriodeAutorisation     DateTime?
   finPeriodeAutorisation       DateTime?
   debutCpom                    DateTime?
   finCpom                      DateTime?
   notes                        String?
+  nomOfii                      String?
+  directionTerritoriale        String?
+  activeInOfiiFileSince        DateTime? // date d'entrée dans le document Ofii
+  inactiveInOfiiFileSince      DateTime? // date de sortie du document Ofii
   controles                    Controle[]
   evaluations                  Evaluation[]
   evenementsIndesirablesGraves EvenementIndesirableGrave[]
@@ -65,6 +70,7 @@ model Structure {
   forms                        Form[]
   campaigns                    Campaign[]
   referential                  Referential?                @relation("StructureToReferential")
+  departement                  Departement?                @relation(fields: [departementAdministratif], references: [numero])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

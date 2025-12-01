@@ -341,7 +341,13 @@ export const createOne = async (
         adresseAdministrative: structure.adresseAdministrative,
         codePostalAdministratif: structure.codePostalAdministratif,
         communeAdministrative: structure.communeAdministrative,
-        departementAdministratif: structure.departementAdministratif,
+        departement: structure.departementAdministratif
+          ? {
+              connect: {
+                numero: structure.departementAdministratif,
+              },
+            }
+          : undefined,
         nom: structure.nom,
         date303: structure.date303,
         debutConvention: structure.debutConvention,
@@ -413,6 +419,7 @@ export const updateOne = async (
       evenementsIndesirablesGraves,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars,
       activites,
+      departementAdministratif,
       structureMillesimes,
       ...structureProperties
     } = structure;
@@ -425,6 +432,13 @@ export const updateOne = async (
         data: {
           ...structureProperties,
           public: convertToPublicType(structure.public!),
+          departement: departementAdministratif
+            ? {
+                connect: {
+                  numero: departementAdministratif,
+                },
+              }
+            : undefined,
           operateur: {
             connect: operateur
               ? {

@@ -49,7 +49,7 @@ export const createFakeCpoms = async (
   for (const operateur of operateurs) {
     for (const structure of operateur.structures) {
       const region = departementToRegion.get(
-        structure.departementAdministratif
+        structure.departementAdministratif ?? ""
       );
       if (!region) {
         continue;

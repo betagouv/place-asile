@@ -63,6 +63,10 @@ export const structureCreationApiSchema = z.object({
   forms: z.array(formApiSchema).optional(),
   contacts: z.array(contactApiSchema),
   documentsFinanciers: z.array(documentFinancierApiSchema),
+  nomOfii: z.string().optional(),
+  directionTerritoriale: z.string().optional(),
+  activeInOfiiFileSince: z.string().datetime().nullish(),
+  inactiveInOfiiFileSince: z.string().datetime().nullish(),
 });
 
 const partialStructureCreationApiSchema = structureCreationApiSchema
