@@ -1,4 +1,4 @@
-// Fill StructureOfii table with csv from s3 bucket
+// Fill Structure table with csv from s3 bucket
 // Usage: yarn script fill-structure-ofii my_structure_ofii_file.csv
 // An example of the csv file is available at /public/ofii_example.csv
 
@@ -30,7 +30,7 @@ type OfiiCsvRow = {
   nom_ofii?: string;
 };
 
-// open csv and load data into StructureOfii table
+// open csv and load data into Structure table (OFII-related fields only)
 const loadDataToOfiiTable = async () => {
   try {
     const records = await loadCsvFromS3<OfiiCsvRow>(bucketName, csvFilename);
@@ -115,71 +115,79 @@ const loadDataToOfiiTable = async () => {
     console.log(
       `✓ ${validRecords.length} lignes valides sur ${records.length}`
     );
+
     console.log("Mise à jour des données ofii...");
     let createdCount = 0;
     let updatedCount = 0;
 
-    const existingStructures = await prisma.structureOfii.findMany({
-      select: { dnaCode: true },
+    const existingStructures = await prisma.structure.findMany({
+      where: { dnaCode: { in: validRecords.map((r) => r.dnaCode) } },
+      select: {
+        dnaCode: true,
+        activeInOfiiFileSince: true,
+        inactiveInOfiiFileSince: true,
+      },
     });
-    const existingDnaCodes = new Set(
-      existingStructures.map(({ dnaCode }) => dnaCode)
+    const existingByDnaCode = new Map(
+      existingStructures.map((s) => [s.dnaCode, s])
     );
 
     await prisma.$transaction(async (tx) => {
       for (const row of validRecords) {
-        const exists = existingDnaCodes.has(row.dnaCode);
-        await tx.structureOfii.upsert({
+        const existing = existingByDnaCode.get(row.dnaCode);
+        const now = new Date();
+
+        await tx.structure.upsert({
           where: { dnaCode: row.dnaCode },
           update: {
-            nom: row.nom,
-            type: row.type as StructureType,
-            operateurId: row.operateur_nom
-              ? (operateurMap.get(row.operateur_nom) ?? null)
-              : null,
-            departementNumero: row.departement,
-            directionTerritoriale: row.direction_territoriale,
-            nomOfii: row.nom_ofii,
-            inactiveSince: null,
+            nomOfii: row.nom ?? undefined,
+            directionTerritoriale: row.direction_territoriale ?? undefined,
+            inactiveInOfiiFileSince: null,
           },
           create: {
             dnaCode: row.dnaCode,
             nom: row.nom,
             type: row.type as StructureType,
+            departementAdministratif: row.departement ?? undefined,
+            nomOfii: row.nom ?? undefined,
+            directionTerritoriale: row.direction_territoriale ?? undefined,
+            activeInOfiiFileSince: now,
+            inactiveInOfiiFileSince: null,
             operateurId: row.operateur_nom
               ? (operateurMap.get(row.operateur_nom) ?? null)
               : null,
-            departementNumero: row.departement,
-            directionTerritoriale: row.direction_territoriale,
-            nomOfii: row.nom_ofii,
-            activeSince: new Date(),
-            inactiveSince: null,
           },
         });
 
-        if (exists) {
-          updatedCount += 1;
-        } else {
-          createdCount += 1;
-        }
+        if (existing) updatedCount += 1;
+        else createdCount += 1;
       }
 
-      const csvDnaCodes = new Set(validRecords.map((row) => row.dnaCode));
-      const dnaCodesToDeactivate: string[] = [];
-      existingDnaCodes.forEach((dnaCode) => {
-        if (!csvDnaCodes.has(dnaCode)) {
-          dnaCodesToDeactivate.push(dnaCode);
-        }
+      // Deactivate structures that are not in the CSV
+      const csvDnaCodes = new Set(records.map((row) => row.dnaCode));
+
+      const allActiveOfiiStructures = await tx.structure.findMany({
+        where: {
+          inactiveInOfiiFileSince: null,
+        },
+        select: { dnaCode: true },
       });
+
+      const dnaCodesToDeactivate = allActiveOfiiStructures
+        .map((s) => s.dnaCode)
+        .filter((dnaCode) => !csvDnaCodes.has(dnaCode));
 
       if (dnaCodesToDeactivate.length > 0) {
         const now = new Date();
-        const deactivated = await tx.structureOfii.updateMany({
-          where: { dnaCode: { in: dnaCodesToDeactivate } },
-          data: { inactiveSince: now },
+        const deactivated = await tx.structure.updateMany({
+          where: {
+            dnaCode: { in: dnaCodesToDeactivate },
+            inactiveInOfiiFileSince: null,
+          },
+          data: { inactiveInOfiiFileSince: now },
         });
         console.log(
-          `⚠️ ${deactivated.count} structures marquées comme inactives (absentes du CSV).`
+          `⚠️ ${deactivated.count} structures marquées comme inactives dans le fichier OFII (absentes du CSV).`
         );
       } else {
         console.log("Aucune structure à désactiver.");
