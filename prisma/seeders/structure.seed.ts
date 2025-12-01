@@ -25,12 +25,11 @@ import { createFakeStructureTypologie } from "./structure-typologie.seed";
 
 let counter = 1;
 
+// TODO: re-add a way to name with the fact the structure is, or has been part of a CPOM
 const generateDnaCode = ({
-  cpom,
   type,
-}: Pick<FakeStructureOptions, "cpom" | "type">): string => {
-  const cpomLabel = cpom ? "CPOM" : "SANS_CPOM";
-  return `${type}-${cpomLabel}-${counter++}`;
+}: Pick<FakeStructureOptions, "type">): string => {
+  return `${type}-${counter++}`;
 };
 
 const createFakeStructure = ({
@@ -43,9 +42,10 @@ const createFakeStructure = ({
 
   const isAutorisee = isStructureAutorisee(type);
 
+  const creationDate = faker.date.past();
+
   return {
     dnaCode: generateDnaCode({
-      cpom,
       type,
     }),
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
@@ -68,7 +68,7 @@ const createFakeStructure = ({
     debutConvention,
     finConvention,
     cpom,
-    creationDate: faker.date.past(),
+    creationDate,
     finessCode: isAutorisee ? faker.number.int(1000000000).toString() : null,
     lgbt: faker.datatype.boolean(),
     fvvTeh: faker.datatype.boolean(),
@@ -84,6 +84,18 @@ const createFakeStructure = ({
     notes: faker.lorem.lines(2),
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
+    nomOfii: faker.lorem.words(2),
+    directionTerritoriale: "DT " + faker.location.city(),
+    activeInOfiiFileSince:
+      faker.helpers.maybe(
+        () => faker.date.between({ from: creationDate, to: new Date() }),
+        { probability: 0.01 }
+      ) ?? null,
+    inactiveInOfiiFileSince:
+      faker.helpers.maybe(
+        () => faker.date.between({ from: creationDate, to: new Date() }),
+        { probability: 0.01 }
+      ) ?? null,
   };
 };
 

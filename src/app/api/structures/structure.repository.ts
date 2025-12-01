@@ -16,6 +16,7 @@ import { handleAdresses } from "../adresses/adresse.util";
 import { createOrUpdateBudgets } from "../budgets/budget.repository";
 import { createOrUpdateContacts } from "../contacts/contact.repository";
 import { createOrUpdateControles } from "../controles/controle.repository";
+import { createOrUpdateCpomMillesimes } from "../cpoms/cpom.repository";
 import { createOrUpdateEvaluations } from "../evaluations/evaluation.repository";
 import {
   createDocumentsFinanciers,
@@ -25,6 +26,7 @@ import {
   createOrUpdateForms,
   initializeDefaultForms,
 } from "../forms/form.repository";
+import { createOrUpdateStructureMillesimes } from "../structure-millesimes/structure-millesime.repository";
 import { updateStructureTypologies } from "../structure-typologies/structure-typologie.repository";
 import {
   getStructureOrderBy,
@@ -339,7 +341,13 @@ export const createOne = async (
         adresseAdministrative: structure.adresseAdministrative,
         codePostalAdministratif: structure.codePostalAdministratif,
         communeAdministrative: structure.communeAdministrative,
-        departementAdministratif: structure.departementAdministratif,
+        departement: structure.departementAdministratif
+          ? {
+              connect: {
+                numero: structure.departementAdministratif,
+              },
+            }
+          : undefined,
         nom: structure.nom,
         date303: structure.date303,
         debutConvention: structure.debutConvention,
@@ -398,6 +406,7 @@ export const updateOne = async (
       id,
       contacts,
       budgets,
+      cpomMillesimes,
       structureTypologies,
       adresses,
       actesAdministratifs,
@@ -410,6 +419,8 @@ export const updateOne = async (
       evenementsIndesirablesGraves,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars,
       activites,
+      departementAdministratif,
+      structureMillesimes,
       ...structureProperties
     } = structure;
 
@@ -421,6 +432,13 @@ export const updateOne = async (
         data: {
           ...structureProperties,
           public: convertToPublicType(structure.public!),
+          departement: departementAdministratif
+            ? {
+                connect: {
+                  numero: departementAdministratif,
+                },
+              }
+            : undefined,
           operateur: {
             connect: operateur
               ? {
@@ -450,6 +468,12 @@ export const updateOne = async (
       await createOrUpdateControles(tx, controles, structure.dnaCode);
       await createOrUpdateForms(tx, forms, structure.dnaCode);
       await createOrUpdateEvaluations(tx, evaluations, structure.dnaCode);
+      await createOrUpdateCpomMillesimes(tx, cpomMillesimes, structure.dnaCode);
+      await createOrUpdateStructureMillesimes(
+        tx,
+        structureMillesimes,
+        structure.dnaCode
+      );
 
       return updatedStructure;
     });
