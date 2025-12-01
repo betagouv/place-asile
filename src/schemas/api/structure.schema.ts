@@ -8,11 +8,13 @@ import { adresseApiSchema } from "./adresse.schema";
 import { budgetApiSchema } from "./budget.schema";
 import { contactApiSchema } from "./contact.schema";
 import { controleApiSchema } from "./controle.schema";
+import { cpomMillesimeCreationApiSchema } from "./cpom.schema";
 import { documentFinancierApiSchema } from "./documentFinancier.schema";
 import { evaluationApiSchema } from "./evaluation.schema";
 import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grave.schema";
 import { formApiSchema } from "./form.schema";
 import { operateurApiSchema } from "./operateur.schema";
+import { structureMillesimeApiSchema } from "./structure-millesime.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
 
 export const structureCreationApiSchema = z.object({
@@ -61,6 +63,12 @@ export const structureCreationApiSchema = z.object({
   forms: z.array(formApiSchema).optional(),
   contacts: z.array(contactApiSchema),
   documentsFinanciers: z.array(documentFinancierApiSchema),
+  cpomMillesimes: z.array(cpomMillesimeCreationApiSchema).optional(),
+  structureMillesimes: z.array(structureMillesimeApiSchema).optional(),
+  nomOfii: z.string().optional(),
+  directionTerritoriale: z.string().optional(),
+  activeInOfiiFileSince: z.string().datetime().nullish(),
+  inactiveInOfiiFileSince: z.string().datetime().nullish(),
 });
 
 const partialStructureCreationApiSchema = structureCreationApiSchema
@@ -76,6 +84,7 @@ const partialStructureCreationApiSchema = structureCreationApiSchema
     structureTypologies: z
       .array(structureTypologieApiSchema.partial())
       .optional(),
+    structureMillesimes: z.array(structureMillesimeApiSchema).optional(),
   });
 
 const remainingStructureUpdateApiSchema = z.object({
@@ -92,6 +101,7 @@ const remainingStructureUpdateApiSchema = z.object({
     .optional(),
   activites: z.array(activiteApiSchema).optional(),
   budgets: z.array(budgetApiSchema).optional(),
+  cpomMillesimes: z.array(cpomMillesimeCreationApiSchema).optional(),
   forms: z.array(formApiSchema).optional(),
   actesAdministratifs: z.array(acteAdministratifApiSchema.partial()).optional(),
 });
