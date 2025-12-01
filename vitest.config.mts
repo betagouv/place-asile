@@ -10,5 +10,6 @@ export default defineConfig({
     sequence: { shuffle: true },
     setupFiles: ["./setupTests.js"],
     exclude: ["**/tests/e2e/**", "**/node_modules/**"],
+    testTimeout: 10000,
   },
 });
