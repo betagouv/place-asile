@@ -1,7 +1,5 @@
 "use client";
 
-import { ReactElement } from "react";
-
 import { StructureType } from "@/types/structure.type";
 
 import { useStructureContext } from "../_context/StructureClientContext";
@@ -11,9 +9,8 @@ import { Structure } from "./Structure";
 export default function StructureContent() {
   const { structure } = useStructureContext();
 
-  const components: Partial<Record<StructureType, () => ReactElement>> = {
-    [StructureType.PRAHDA]: PrahdaStructure,
-  };
-  const StructureComponent = components[structure.type] || Structure;
+  const StructureComponent =
+    structure.type === StructureType.PRAHDA ? PrahdaStructure : Structure;
+
   return <StructureComponent />;
 }

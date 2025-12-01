@@ -32,7 +32,7 @@ import {
   getStructureOrderBy,
   getStructureSearchWhere,
 } from "./structure.service";
-import { convertToPublicType, convertToStructureType } from "./structure.util";
+import { convertToPublicType } from "./structure.util";
 
 export const findAll = async (): Promise<Structure[]> => {
   return prisma.structure.findMany({
@@ -326,61 +326,94 @@ export const createOne = async (
   const newStructure = await prisma.$transaction(async (tx) => {
     const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
     const coordinates = await getCoordinates(fullAdress);
-    const baseStructure = await tx.structure.create({
-      data: {
-        dnaCode: structure.dnaCode,
-        operateur: {
-          connect: {
-            id: structure.operateur.id,
-          },
-        },
-        filiale: structure.filiale,
+    const {
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      contacts,
+      cpomMillesimes,
+      structureTypologies,
+      adresses,
+      documentsFinanciers,
+      operateur,
+      forms,
+      departementAdministratif,
+      structureMillesimes,
+      ...structureProperties
+      /* eslint-enable @typescript-eslint/no-unused-vars */
+    } = structure;
+
+    const baseStructure = await tx.structure.upsert({
+      where: { dnaCode: structure.dnaCode },
+      update: {
+        ...structureProperties,
         latitude: Prisma.Decimal(coordinates.latitude || 0),
         longitude: Prisma.Decimal(coordinates.longitude || 0),
-        type: convertToStructureType(structure.type),
-        adresseAdministrative: structure.adresseAdministrative,
-        codePostalAdministratif: structure.codePostalAdministratif,
-        communeAdministrative: structure.communeAdministrative,
-        departement: structure.departementAdministratif
+        public: convertToPublicType(structure.public),
+        departement: departementAdministratif
           ? {
               connect: {
-                numero: structure.departementAdministratif,
+                numero: departementAdministratif,
               },
             }
           : undefined,
-        nom: structure.nom,
-        date303: structure.date303,
-        debutConvention: structure.debutConvention,
-        finConvention: structure.finConvention,
-        cpom: structure.cpom,
-        creationDate: structure.creationDate,
-        finessCode: structure.finessCode,
-        lgbt: structure.lgbt,
-        fvvTeh: structure.fvvTeh,
-        public: convertToPublicType(structure.public),
-        debutPeriodeAutorisation: structure.debutPeriodeAutorisation,
-        finPeriodeAutorisation: structure.finPeriodeAutorisation,
-        debutCpom: structure.debutCpom,
-        finCpom: structure.finCpom,
+        operateur: {
+          connect: operateur
+            ? {
+                id: operateur?.id,
+              }
+            : undefined,
+        },
         contacts: {
           createMany: {
-            data: structure.contacts,
+            data: structure.contacts ?? [],
           },
         },
         structureTypologies: {
           createMany: {
-            data: structure.structureTypologies,
+            data: structure.structureTypologies ?? [],
+          },
+        },
+      },
+      create: {
+        ...structureProperties,
+        latitude: Prisma.Decimal(coordinates.latitude || 0),
+        longitude: Prisma.Decimal(coordinates.longitude || 0),
+        public: convertToPublicType(structure.public),
+        departement: departementAdministratif
+          ? {
+              connect: {
+                numero: departementAdministratif,
+              },
+            }
+          : undefined,
+        operateur: {
+          connect: operateur
+            ? {
+                id: operateur?.id,
+              }
+            : undefined,
+        },
+        contacts: {
+          createMany: {
+            data: structure.contacts ?? [],
+          },
+        },
+        structureTypologies: {
+          createMany: {
+            data: structure.structureTypologies ?? [],
           },
         },
       },
     });
 
-    const adresses = handleAdresses(structure.dnaCode, structure.adresses);
+    const adressesWithTypologies = handleAdresses(
+      structure.dnaCode,
+      structure.adresses ?? []
+    );
 
-    await createAdresses(tx, adresses, structure.dnaCode);
+    await createAdresses(tx, adressesWithTypologies, structure.dnaCode);
     await createDocumentsFinanciers(
       tx,
-      structure.documentsFinanciers,
+      structure.documentsFinanciers ?? [],
       structure.dnaCode
     );
     await initializeDefaultForms(tx, structure.dnaCode);
@@ -402,7 +435,7 @@ export const updateOne = async (
 ): Promise<Structure> => {
   try {
     const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       id,
       contacts,
       budgets,
@@ -415,13 +448,12 @@ export const updateOne = async (
       evaluations,
       operateur,
       forms,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       evenementsIndesirablesGraves,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars,
       activites,
       departementAdministratif,
       structureMillesimes,
       ...structureProperties
+      /* eslint-enable @typescript-eslint/no-unused-vars */
     } = structure;
 
     return await prisma.$transaction(async (tx) => {
