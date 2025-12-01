@@ -25,6 +25,7 @@ import { createFakeStructureTypologie } from "./structure-typologie.seed";
 
 let counter = 1;
 
+// TODO: re-add a way to name with the fact the structure is, or has been part of a CPOM
 const generateDnaCode = ({
   type,
 }: Pick<FakeStructureOptions, "type">): string => {

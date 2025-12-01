@@ -40,7 +40,7 @@ describe("parseDate util", () => {
 
     // THEN
     expect(result).toBeInstanceOf(Date);
-    expect(result.getTime()).toBe(new Date(value).getTime());
+    expect(result.toISOString()).toBe("2024-03-15T10:30:00.000Z");
   });
 
   it("should throw an error for an invalid non-empty date string", () => {
