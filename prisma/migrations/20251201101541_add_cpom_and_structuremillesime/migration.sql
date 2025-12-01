@@ -1,3 +1,10 @@
+/*
+  Warnings:
+
+  - A unique constraint covering the columns `[structureMillesimeId]` on the table `Budget` will be added. If there are existing duplicate values, this will fail.
+  - A unique constraint covering the columns `[structureMillesimeId]` on the table `StructureTypologie` will be added. If there are existing duplicate values, this will fail.
+
+*/
 -- CreateEnum
 CREATE TYPE "public"."FileUploadGranularity" AS ENUM ('STRUCTURE', 'CPOM', 'STRUCTURE_ET_CPOM');
 
@@ -5,7 +12,13 @@ CREATE TYPE "public"."FileUploadGranularity" AS ENUM ('STRUCTURE', 'CPOM', 'STRU
 ALTER TYPE "public"."FileUploadCategory" ADD VALUE 'AUTRE_FINANCIER';
 
 -- AlterTable
+ALTER TABLE "public"."Budget" ADD COLUMN     "structureMillesimeId" INTEGER;
+
+-- AlterTable
 ALTER TABLE "public"."FileUpload" ADD COLUMN     "granularity" "public"."FileUploadGranularity" NOT NULL DEFAULT 'STRUCTURE';
+
+-- AlterTable
+ALTER TABLE "public"."StructureTypologie" ADD COLUMN     "structureMillesimeId" INTEGER;
 
 -- CreateTable
 CREATE TABLE "public"."StructureMillesime" (
@@ -71,12 +84,6 @@ CREATE TABLE "public"."CpomMillesime" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "StructureMillesime_structureTypologieId_key" ON "public"."StructureMillesime"("structureTypologieId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "StructureMillesime_budgetId_key" ON "public"."StructureMillesime"("budgetId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "StructureMillesime_structureDnaCode_date_key" ON "public"."StructureMillesime"("structureDnaCode", "date");
 
 -- CreateIndex
@@ -85,14 +92,20 @@ CREATE UNIQUE INDEX "CpomStructure_cpomId_structureId_key" ON "public"."CpomStru
 -- CreateIndex
 CREATE UNIQUE INDEX "CpomMillesime_cpomId_date_key" ON "public"."CpomMillesime"("cpomId", "date");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Budget_structureMillesimeId_key" ON "public"."Budget"("structureMillesimeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "StructureTypologie_structureMillesimeId_key" ON "public"."StructureTypologie"("structureMillesimeId");
+
 -- AddForeignKey
 ALTER TABLE "public"."StructureMillesime" ADD CONSTRAINT "StructureMillesime_structureDnaCode_fkey" FOREIGN KEY ("structureDnaCode") REFERENCES "public"."Structure"("dnaCode") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."StructureMillesime" ADD CONSTRAINT "StructureMillesime_structureTypologieId_fkey" FOREIGN KEY ("structureTypologieId") REFERENCES "public"."StructureTypologie"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."StructureTypologie" ADD CONSTRAINT "StructureTypologie_structureMillesimeId_fkey" FOREIGN KEY ("structureMillesimeId") REFERENCES "public"."StructureMillesime"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."StructureMillesime" ADD CONSTRAINT "StructureMillesime_budgetId_fkey" FOREIGN KEY ("budgetId") REFERENCES "public"."Budget"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."Budget" ADD CONSTRAINT "Budget_structureMillesimeId_fkey" FOREIGN KEY ("structureMillesimeId") REFERENCES "public"."StructureMillesime"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."CpomStructure" ADD CONSTRAINT "CpomStructure_cpomId_fkey" FOREIGN KEY ("cpomId") REFERENCES "public"."Cpom"("id") ON DELETE CASCADE ON UPDATE CASCADE;

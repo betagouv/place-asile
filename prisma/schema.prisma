@@ -200,10 +200,10 @@ model StructureMillesime {
   date                 DateTime
   cpom                 Boolean             @default(false) // temporary field, while we are not sure of existing cpoms
   operateurComment     String?
-  structureTypologieId Int?                @unique
-  structureTypologie   StructureTypologie? @relation(fields: [structureTypologieId], references: [id], onDelete: Cascade)
-  budgetId             Int?                @unique
-  budget               Budget?             @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+  structureTypologieId Int?
+  structureTypologie   StructureTypologie?
+  budgetId             Int?
+  budget               Budget?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -213,15 +213,16 @@ model StructureMillesime {
 }
 
 model StructureTypologie {
-  id                 Int                 @id @default(autoincrement())
-  structure          Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode   String
-  date               DateTime
-  placesAutorisees   Int?
-  pmr                Int
-  lgbt               Int
-  fvvTeh             Int
-  structureMillesime StructureMillesime?
+  id                   Int                 @id @default(autoincrement())
+  structure            Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structureDnaCode     String
+  date                 DateTime
+  placesAutorisees     Int?
+  pmr                  Int
+  lgbt                 Int
+  fvvTeh               Int
+  structureMillesimeId Int?                @unique
+  structureMillesime   StructureMillesime? @relation(fields: [structureMillesimeId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -302,7 +303,8 @@ model Budget {
   reportANouveau                    Float?
   autre                             Float?
   commentaire                       String?
-  structureMillesime                StructureMillesime?
+  structureMillesimeId              Int?                @unique
+  structureMillesime                StructureMillesime? @relation(fields: [structureMillesimeId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
