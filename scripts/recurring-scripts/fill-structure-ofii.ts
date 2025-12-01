@@ -1,4 +1,5 @@
 // Fill Structure table with csv from s3 bucket
+// Fill Structure table with csv from s3 bucket
 // Usage: yarn script fill-structure-ofii my_structure_ofii_file.csv
 // An example of the csv file is available at /public/ofii_example.csv
 
@@ -31,6 +32,7 @@ type OfiiCsvRow = {
   nom_ofii?: string;
 };
 
+// open csv and load data into Structure table (OFII-related fields only)
 // Open csv and load data into Structure table (OFII-related fields only)
 const loadDataToOfiiTable = async () => {
   try {
