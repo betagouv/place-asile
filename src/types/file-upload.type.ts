@@ -19,6 +19,7 @@ export const DocumentFinancierCategory = [
   "DEMANDE_SUBVENTION",
   "COMPTE_RENDU_FINANCIER",
   "RAPPORT_ACTIVITE_OPERATEUR",
+  "AUTRE_FINANCIER",
 ] as const;
 
 export const FileUploadCategory = [
@@ -26,8 +27,16 @@ export const FileUploadCategory = [
   ...DocumentFinancierCategory,
 ] as const;
 
+export const FileUploadGranularity = [
+  "STRUCTURE",
+  "CPOM",
+  "STRUCTURE_ET_CPOM",
+] as const;
+
 export type ActeAdministratifCategoryType = typeof ActeAdministratifCategory;
 
 export type DocumentFinancierCategoryType = typeof DocumentFinancierCategory;
 
 export type FileUploadCategoryType = typeof FileUploadCategory;
+
+export type FileUploadGranularityType = typeof FileUploadGranularity;
