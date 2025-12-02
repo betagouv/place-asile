@@ -345,8 +345,12 @@ export const createOne = async (
       where: { dnaCode: structure.dnaCode },
       update: {
         ...structureProperties,
-        latitude: Prisma.Decimal(coordinates.latitude || 0),
-        longitude: Prisma.Decimal(coordinates.longitude || 0),
+        latitude: coordinates.latitude
+          ? Prisma.Decimal(coordinates.latitude)
+          : null,
+        longitude: coordinates.longitude
+          ? Prisma.Decimal(coordinates.longitude)
+          : null,
         public: convertToPublicType(structure.public),
         departement: departementAdministratif
           ? {
@@ -364,19 +368,23 @@ export const createOne = async (
         },
         contacts: {
           createMany: {
-            data: structure.contacts ?? [],
+            data: contacts ?? [],
           },
         },
         structureTypologies: {
           createMany: {
-            data: structure.structureTypologies ?? [],
+            data: structureTypologies ?? [],
           },
         },
       },
       create: {
         ...structureProperties,
-        latitude: Prisma.Decimal(coordinates.latitude || 0),
-        longitude: Prisma.Decimal(coordinates.longitude || 0),
+        latitude: coordinates.latitude
+          ? Prisma.Decimal(coordinates.latitude)
+          : null,
+        longitude: coordinates.longitude
+          ? Prisma.Decimal(coordinates.longitude)
+          : null,
         public: convertToPublicType(structure.public),
         departement: departementAdministratif
           ? {
@@ -394,12 +402,12 @@ export const createOne = async (
         },
         contacts: {
           createMany: {
-            data: structure.contacts ?? [],
+            data: contacts ?? [],
           },
         },
         structureTypologies: {
           createMany: {
-            data: structure.structureTypologies ?? [],
+            data: structureTypologies ?? [],
           },
         },
       },
@@ -407,13 +415,13 @@ export const createOne = async (
 
     const adressesWithTypologies = handleAdresses(
       structure.dnaCode,
-      structure.adresses ?? []
+      adresses ?? []
     );
 
     await createAdresses(tx, adressesWithTypologies, structure.dnaCode);
     await createDocumentsFinanciers(
       tx,
-      structure.documentsFinanciers ?? [],
+      documentsFinanciers ?? [],
       structure.dnaCode
     );
     await initializeDefaultForms(tx, structure.dnaCode);
