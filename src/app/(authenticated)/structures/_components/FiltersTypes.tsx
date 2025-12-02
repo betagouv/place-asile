@@ -62,15 +62,13 @@ export const FiltersTypes = () => {
         <div className="grid grid-cols-3 gap-x-3 gap-y-2">
           {(["CADA", "CAES", "CPH", "HUDA", "PRAHDA"] as StructureType[]).map(
             (structureType) => (
-              <>
-                <FiltersTypesCheckbox
-                  key={structureType}
-                  label={structureType}
-                  value={structureType}
-                  checked={types.includes(structureType) || noFilterOnType}
-                  onChange={handleTypeChange}
-                />
-              </>
+              <FiltersTypesCheckbox
+                key={structureType}
+                label={structureType}
+                value={structureType}
+                checked={types.includes(structureType) || noFilterOnType}
+                onChange={handleTypeChange}
+              />
             )
           )}
         </div>
