@@ -77,7 +77,7 @@ const loadCpomsFromCsv = async () => {
     }
 
     // Créer ou récupérer les CPOMs
-    console.log(`📄 Création de ${cpomMap.size} CPOM(s)...`);
+    console.log(`🍎 Création de ${cpomMap.size} CPOM(s)...`);
     for (const [key, cpomData] of cpomMap.entries()) {
       let cpom = await prisma.cpom.findFirst({
         where: {
@@ -104,7 +104,7 @@ const loadCpomsFromCsv = async () => {
     }
 
     // Créer les liens CPOM/Structure
-    console.log("📄 Création des liens CPOM/Structure...");
+    console.log("🔗 Création des liens CPOM/Structure...");
 
     for (const row of records) {
       if (!row.cpom || !row.code_dna || !row.date_debut || !row.date_fin) {
@@ -162,7 +162,7 @@ const loadCpomsFromCsv = async () => {
 
       // Créer les millesimes pour la structure
       console.log(
-        `📄 Création des millesimes pour la structure ${row.code_dna}`
+        `🍷 Création des millesimes pour la structure ${row.code_dna}`
       );
 
       const millesimeStart = dateDebut ?? cpomStructure.dateDebut ?? debut;
@@ -173,7 +173,6 @@ const loadCpomsFromCsv = async () => {
       );
 
       for (const millesimeDate of millesimeDates) {
-        console.log(`📄 Création du millésime pour la date ${millesimeDate}`);
         await prisma.structureMillesime.upsert({
           where: {
             structureDnaCode_date: {
