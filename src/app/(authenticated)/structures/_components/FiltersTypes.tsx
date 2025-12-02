@@ -9,43 +9,49 @@ export const FiltersTypes = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [type, setType] = useState(searchParams.get("type")?.split(",") || []);
+  const [types, setTypes] = useState(
+    searchParams.get("type")?.split(",") || []
+  );
 
-  const noTypeSelected = type.length === 0;
+  const noFilterOnType = !searchParams.has("type");
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (noTypeSelected) {
-      const everyTypes: StructureType[] = [
+    if (noFilterOnType) {
+      const allTypes: StructureType[] = [
         StructureType.CADA,
         StructureType.CPH,
         StructureType.HUDA,
         StructureType.CAES,
         StructureType.PRAHDA,
       ];
-      setType(everyTypes.filter((structureType) => structureType !== value));
+      setTypes(allTypes.filter((structureType) => structureType !== value));
       return;
     }
-    if (type.includes(value)) {
-      setType(type.filter((structureType) => structureType !== value));
+    if (types.includes(value)) {
+      setTypes(types.filter((structureType) => structureType !== value));
     } else {
-      if (type.length >= 4) {
-        setType([]);
+      if (types.length >= 4) {
+        setTypes([]);
       } else {
-        setType([...type, value]);
+        setTypes([...types, value]);
       }
     }
   };
 
-  const prevType = useRef(type);
+  const previousType = useRef(types);
   useEffect(() => {
-    if (prevType.current !== type) {
+    if (previousType.current !== types) {
       const params = new URLSearchParams(Array.from(searchParams.entries()));
-      params.set("type", type.join(","));
+      if (types.length === 0) {
+        params.set("type", "none");
+      } else {
+        params.set("type", types.join(","));
+      }
       router.replace(`?${params.toString()}`);
-      prevType.current = type;
+      previousType.current = types;
     }
-  }, [type, searchParams, router]);
+  }, [types, searchParams, router]);
 
   return (
     <div className="p-6">
@@ -60,7 +66,7 @@ export const FiltersTypes = () => {
                 key={structureType}
                 label={structureType}
                 value={structureType}
-                checked={type.includes(structureType) || noTypeSelected}
+                checked={types.includes(structureType) || noFilterOnType}
                 onChange={handleTypeChange}
               />
             )
