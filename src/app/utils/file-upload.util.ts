@@ -1,4 +1,7 @@
-import { FileUploadCategoryType } from "@/types/file-upload.type";
+import {
+  FileUploadCategoryType,
+  FileUploadGranularityType,
+} from "@/types/file-upload.type";
 
 export const getCategoryLabel = (
   category: FileUploadCategoryType[number] | undefined
@@ -35,4 +38,18 @@ export const getShortDisplayedName = (name: string = ""): string => {
     return splittedName[0].slice(0, 20) + "..." + splittedName[1];
   }
   return name;
+};
+
+export const getGranularityLabel = (
+  granularity: FileUploadGranularityType[number] | undefined
+): string => {
+  if (!granularity) {
+    return "";
+  }
+  const labels: Record<FileUploadGranularityType[number], string> = {
+    STRUCTURE: "Structure",
+    CPOM: "CPOM",
+    STRUCTURE_ET_CPOM: "Structure et CPOM",
+  };
+  return labels[granularity] || "";
 };

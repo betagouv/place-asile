@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { DepartementAutocomplete } from "@/app/components/forms/DepartementAutocomplete";
 import { OperateurAutocomplete } from "@/app/components/forms/OperateurAutocomplete";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import { useStructuresOfiiSearch } from "@/app/hooks/useStructuresOfiiSearch";
+import { useStructuresOfiiSearch } from "@/app/hooks/useStructuresSelection";
 import { StructureType } from "@/types/structure.type";
 
 import { StructureOfiiList } from "./StructureOfiiList";
