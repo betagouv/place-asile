@@ -8,6 +8,7 @@ import { StructureType } from "@/generated/prisma/client";
 import { createPrismaClient } from "@/prisma-client";
 
 import { loadCsvFromS3 } from "../utils/csv-loader";
+import { ensureOperateursExist } from "../utils/ensure-operateurs-exist";
 
 const prisma = createPrismaClient();
 const bucketName = process.env.DOCS_BUCKET_NAME!;
@@ -30,7 +31,7 @@ type OfiiCsvRow = {
   nom_ofii?: string;
 };
 
-// open csv and load data into Structure table (OFII-related fields only)
+// Open csv and load data into Structure table (OFII-related fields only)
 const loadDataToOfiiTable = async () => {
   try {
     const records = await loadCsvFromS3<OfiiCsvRow>(bucketName, csvFilename);
@@ -40,36 +41,11 @@ const loadDataToOfiiTable = async () => {
     }
 
     console.log("Résolution des IDs des opérateurs...");
-    const operateurs = await prisma.operateur.findMany({
-      select: { id: true, name: true },
-    });
-    const operateurMap = new Map(operateurs.map((op) => [op.name, op.id]));
-
-    // create missing opérateurs
-    const operateursInCsv = [
-      ...new Set(
-        records
-          .map((r: OfiiCsvRow) => r.operateur_nom)
-          .filter((nom): nom is string => !!nom)
-      ),
-    ];
-
-    const missingOperateurs = operateursInCsv.filter(
-      (nom) => !operateurMap.has(nom)
+    const operateurMap = await ensureOperateursExist(
+      prisma,
+      records,
+      "operateur_nom"
     );
-
-    if (missingOperateurs.length > 0) {
-      console.log(
-        `Création de ${missingOperateurs.length} opérateurs manquants...`
-      );
-      for (const nom of missingOperateurs) {
-        const newOperateur = await prisma.operateur.create({
-          data: { name: nom },
-        });
-        operateurMap.set(nom, newOperateur.id);
-        console.log(`-> Opérateur créé: ${nom}`);
-      }
-    }
 
     console.log("Résolution des IDs des départements...");
     const departements = await prisma.departement.findMany({
@@ -77,7 +53,7 @@ const loadDataToOfiiTable = async () => {
     });
     const departementSet = new Set(departements.map((dep) => dep.numero));
 
-    // Validation des données
+    // Validate data
     console.log("Validation des données...");
 
     const validRecords: OfiiCsvRow[] = [];
