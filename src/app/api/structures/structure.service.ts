@@ -6,6 +6,7 @@ import {
 import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { convertToRepartition } from "../adresses/adresse.util";
+import { getLatestPlacesAutoriseesPerStructure } from "./structure.repository";
 
 export type StructureWithFileUploadsAndActivites = Prisma.StructureGetPayload<{
   include: { fileUploads: true; activites: true };
@@ -168,4 +169,16 @@ export const getStructureSearchWhere = ({
   }
 
   return where;
+};
+
+export const getMaxPlacesAutorisees = async (): Promise<number> => {
+  const latestPlacesAutoriseesOfEveryStructure =
+    await getLatestPlacesAutoriseesPerStructure();
+  return Math.max(...latestPlacesAutoriseesOfEveryStructure);
+};
+
+export const getMinPlacesAutorisees = async (): Promise<number> => {
+  const latestPlacesAutoriseesOfEveryStructure =
+    await getLatestPlacesAutoriseesPerStructure();
+  return Math.min(...latestPlacesAutoriseesOfEveryStructure);
 };
