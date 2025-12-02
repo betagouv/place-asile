@@ -8,41 +8,47 @@ export const FiltersBatis = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [bati, setBati] = useState(searchParams.get("bati")?.split(",") || []);
+  const [batis, setBatis] = useState(
+    searchParams.get("bati")?.split(",") || []
+  );
 
-  const noBatiSelected = bati.length === 0;
+  const noFilterOnBati = !searchParams.has("bati");
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (noBatiSelected) {
-      const everyTypes: Repartition[] = [
+    if (noFilterOnBati) {
+      const allRepartitions: Repartition[] = [
         Repartition.COLLECTIF,
         Repartition.DIFFUS,
         Repartition.MIXTE,
       ];
-      setBati(everyTypes.filter((type) => type !== value));
+      setBatis(allRepartitions.filter((type) => type !== value));
       return;
     }
-    if (bati.includes(value)) {
-      setBati(bati.filter((type) => type !== value));
+    if (batis.includes(value)) {
+      setBatis(batis.filter((type) => type !== value));
     } else {
-      if (bati.length >= 2) {
-        setBati([]);
+      if (batis.length >= 2) {
+        setBatis([]);
       } else {
-        setBati([...bati, value]);
+        setBatis([...batis, value]);
       }
     }
   };
 
-  const prevBati = useRef(bati);
+  const previousBati = useRef(batis);
   useEffect(() => {
-    if (prevBati.current !== bati) {
+    if (previousBati.current !== batis) {
       const params = new URLSearchParams(Array.from(searchParams.entries()));
-      params.set("bati", bati.join(","));
+      if (batis.length === 0) {
+        params.set("bati", "none");
+      } else {
+        params.set("bati", batis.join(","));
+      }
       router.replace(`?${params.toString()}`);
-      prevBati.current = bati;
+      previousBati.current = batis;
     }
-  }, [bati, searchParams, router]);
+  }, [batis, searchParams, router]);
 
   return (
     <div className="px-6 pt-5 pb-6">
@@ -58,7 +64,7 @@ export const FiltersBatis = () => {
                 nativeInputProps: {
                   name: "structure-bati",
                   value: "Collectif",
-                  checked: bati.includes("Collectif") || noBatiSelected,
+                  checked: batis.includes("Collectif") || noFilterOnBati,
                   onChange: handleTypeChange,
                 },
               },
@@ -73,7 +79,7 @@ export const FiltersBatis = () => {
                 nativeInputProps: {
                   name: "structure-bati",
                   value: "Diffus",
-                  checked: bati.includes("Diffus") || noBatiSelected,
+                  checked: batis.includes("Diffus") || noFilterOnBati,
                   onChange: handleTypeChange,
                 },
               },
@@ -88,7 +94,7 @@ export const FiltersBatis = () => {
                 nativeInputProps: {
                   name: "structure-bati",
                   value: "Mixte",
-                  checked: bati.includes("Mixte") || noBatiSelected,
+                  checked: batis.includes("Mixte") || noFilterOnBati,
                   onChange: handleTypeChange,
                 },
               },
