@@ -56,40 +56,52 @@ export async function seed(): Promise<void> {
   );
 
   for (const operateurToInsert of operateursToInsert) {
-    const departementAdministratif = String(
-      faker.number.int({ min: 1, max: 95 })
-    ).padStart(2, "0");
     const baseParams = {
-      cpom: faker.datatype.boolean(),
-      type: faker.helpers.arrayElement([
-        StructureType.CADA,
-        StructureType.HUDA,
-        StructureType.CAES,
-        StructureType.CPH,
-      ]),
-      isFinalised: faker.datatype.boolean(),
       formDefinitionId: formDefinition.id,
       stepDefinitions,
       operateurName: operateurToInsert.name,
-      departementAdministratif,
     };
     const structuresToInsert = Array.from(
       { length: faker.number.int({ min: 50, max: 100 }) },
       () => {
+        const departementAdministratif = String(
+          faker.number.int({ min: 1, max: 95 })
+        ).padStart(2, "0");
         const fakeStructure = createFakeStuctureWithRelations({
           ...baseParams,
+          departementAdministratif,
           ofii: false,
+          type: faker.helpers.arrayElement([
+            StructureType.CADA,
+            StructureType.HUDA,
+            StructureType.CAES,
+            StructureType.CPH,
+          ]),
+          cpom: faker.datatype.boolean(),
+          isFinalised: faker.datatype.boolean(),
         });
         return fakeStructure;
       }
     );
 
     const structuresOfiiToInsert = Array.from(
-      { length: faker.number.int({ min: 50, max: 100 }) },
+      { length: faker.number.int({ min: 500, max: 600 }) },
       () => {
+        const departementAdministratif = String(
+          faker.number.int({ min: 1, max: 95 })
+        ).padStart(2, "0");
         const fakeStructure = createFakeStructure({
           ...baseParams,
+          departementAdministratif,
           ofii: true,
+          type: faker.helpers.arrayElement([
+            StructureType.CADA,
+            StructureType.HUDA,
+            StructureType.CAES,
+            StructureType.CPH,
+          ]),
+          cpom: faker.datatype.boolean(),
+          isFinalised: faker.datatype.boolean(),
         });
         return fakeStructure;
       }
@@ -101,7 +113,7 @@ export async function seed(): Promise<void> {
     };
 
     console.log(
-      `🏠 Ajout de ${structuresToInsert.length} structures pour ${operateurToInsert.name}`
+      `🏠 Ajout de ${structuresToInsert.length}structures et ${structuresOfiiToInsert.length} structures OFII pour ${operateurToInsert.name}`
     );
 
     await prisma.operateur.create({

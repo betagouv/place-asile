@@ -79,6 +79,7 @@ export const getStructureSearchWhere = ({
   selection?: boolean;
 }): Prisma.StructuresOrderWhereInput => {
   const where: Prisma.StructuresOrderWhereInput = {};
+
   if (type) {
     const typeList = type.split(",").filter(Boolean) as StructureType[];
     if (typeList.length > 0) {
