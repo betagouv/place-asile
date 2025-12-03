@@ -136,16 +136,22 @@ export const isStructureInCpom = (structure: StructureApiType): boolean => {
   );
 };
 
-export const getCpomStructureDates = (
+export const getCurrentCpomStructureDates = (
   structure: StructureApiType
-): { debutCpom: string | null; finCpom: string | null } => {
-  const lastCpomStructure = structure.cpomStructures?.[0];
-  const lastCpomStructureDateDebut =
-    lastCpomStructure?.dateDebut || lastCpomStructure?.cpom.debutCpom;
-  const lastCpomStructureDateFin =
-    lastCpomStructure?.dateFin || lastCpomStructure?.cpom.finCpom;
+): { debutCpom?: string; finCpom?: string } => {
+  const now = new Date().toISOString();
+  const currentCpomStructure = structure.cpomStructures?.find(
+    (cpomStructure) =>
+      (cpomStructure.dateDebut || cpomStructure.cpom.debutCpom) <= now &&
+      (cpomStructure.dateFin || cpomStructure.cpom.finCpom) >= now
+  );
+  const currentCpomStructureDateDebut =
+    currentCpomStructure?.dateDebut || currentCpomStructure?.cpom.debutCpom;
+  const currentCpomStructureDateFin =
+    currentCpomStructure?.dateFin || currentCpomStructure?.cpom.finCpom;
+
   return {
-    debutCpom: lastCpomStructureDateDebut,
-    finCpom: lastCpomStructureDateFin,
+    debutCpom: currentCpomStructureDateDebut,
+    finCpom: currentCpomStructureDateFin,
   };
 };
