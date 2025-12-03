@@ -31,6 +31,7 @@ export async function GET(request: NextRequest) {
     | "desc"
     | null;
   const map = request.nextUrl.searchParams.get("map") === "true";
+  const selection = request.nextUrl.searchParams.get("selection") === "true";
   const structures = await findBySearch({
     search,
     page,
@@ -42,6 +43,7 @@ export async function GET(request: NextRequest) {
     column,
     direction,
     operateurs,
+    selection,
   });
   const totalStructures = await countBySearch({
     search,
