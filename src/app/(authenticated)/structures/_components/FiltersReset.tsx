@@ -24,7 +24,7 @@ export const FiltersReset = ({
     <Button
       disabled={!isActive}
       priority="tertiary no outline"
-      className="w-full -mt-2 flex justify-center py-3"
+      className="w-full -mt-2 flex justify-center py-3 text-sm font-bold"
       onClick={handleReset}
     >
       {label}

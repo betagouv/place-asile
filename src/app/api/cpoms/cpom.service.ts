@@ -1,4 +1,4 @@
-import { CpomMillesimeApiType } from "@/schemas/api/cpom.schema";
+import { CpomMillesimeCreationApiType } from "@/schemas/api/cpom.schema";
 
 type CpomStructureForMatching = {
   dateDebut: Date | null;
@@ -12,7 +12,7 @@ type CpomStructureForMatching = {
 
 export const findMatchingCpomForMillesime = (
   cpomStructures: CpomStructureForMatching[],
-  millesime: CpomMillesimeApiType
+  millesime: CpomMillesimeCreationApiType
 ) => {
   const millesimeDate = new Date(millesime.date);
   const matchingCpom = cpomStructures.find((cpomStructure) => {

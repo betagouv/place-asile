@@ -9,7 +9,6 @@ const viewFiles = fs.readdirSync(scriptsPath);
 console.log("Creating views...");
 
 const databaseUrl = process.env.DATABASE_URL || "";
-console.log("DATABASE_URL", databaseUrl);
 
 const psqlUrl = getDbUrl(databaseUrl);
 
@@ -18,8 +17,8 @@ const schema = process.env.REPORTING_SCHEMA || "reporting";
 
 runPsqlOrExit(
   `psql "${psqlUrl}" -v ON_ERROR_STOP=1 ` +
-  `-c "DROP SCHEMA IF EXISTS \"${schema}\" CASCADE;" ` +
-  `-c "CREATE SCHEMA \"${schema}\";"`,
+    `-c "DROP SCHEMA IF EXISTS \"${schema}\" CASCADE;" ` +
+    `-c "CREATE SCHEMA \"${schema}\";"`,
   `✅ Schema "${schema}" recreated`,
   `❌ Failed to recreate schema "${schema}"`
 );
@@ -47,7 +46,11 @@ function getDbUrl(rawDatabaseUrl: string): string {
   }
 }
 
-function runPsqlOrExit(command: string, successMsg?: string, failureMsg?: string): void {
+function runPsqlOrExit(
+  command: string,
+  successMsg?: string,
+  failureMsg?: string
+): void {
   try {
     execSync(command, { stdio: "inherit" });
     if (successMsg) console.log(successMsg);

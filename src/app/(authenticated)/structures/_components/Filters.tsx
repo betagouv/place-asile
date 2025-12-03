@@ -10,10 +10,10 @@ import { LocationFiltersPanel } from "./LocationFiltersPanel";
 
 export const Filters = () => {
   const [openPanel, setOpenPanel] = useState<
-    "filters" | "localisation" | undefined
+    "filters" | "location" | undefined
   >(undefined);
 
-  const handleTogglePanel = (panel: "filters" | "localisation" | undefined) => {
+  const handleTogglePanel = (panel: "filters" | "location" | undefined) => {
     if (openPanel === panel) {
       setOpenPanel(undefined);
     } else {
@@ -52,7 +52,9 @@ export const Filters = () => {
   }, [departements]);
 
   const filterPanelRef = useRef<HTMLDivElement | null>(null);
+  const filterButtonRef = useRef<HTMLButtonElement | null>(null);
   const locationPanelRef = useRef<HTMLDivElement | null>(null);
+  const locationButtonRef = useRef<HTMLButtonElement | null>(null);
   useEffect(() => {
     if (!openPanel) return;
 
@@ -63,7 +65,11 @@ export const Filters = () => {
         (filterPanelRef.current &&
           filterPanelRef.current.contains(event.target as Node)) ||
         (locationPanelRef.current &&
-          locationPanelRef.current.contains(event.target as Node))
+          locationPanelRef.current.contains(event.target as Node)) ||
+        (filterButtonRef.current &&
+          filterButtonRef.current.contains(event.target as Node)) ||
+        (locationButtonRef.current &&
+          locationButtonRef.current.contains(event.target as Node))
       ) {
         clickedInsidePanel = true;
       }
@@ -84,6 +90,7 @@ export const Filters = () => {
     <>
       <div className="relative">
         <Button
+          ref={filterButtonRef}
           priority="tertiary"
           size="small"
           onClick={() => handleTogglePanel("filters")}
@@ -108,9 +115,10 @@ export const Filters = () => {
       </div>
       <div className="relative">
         <Button
+          ref={locationButtonRef}
           priority="tertiary"
           size="small"
-          onClick={() => handleTogglePanel("localisation")}
+          onClick={() => handleTogglePanel("location")}
           className="flex gap-1 whitespace-nowrap"
           aria-label={`Filtres par région / département ${isLocationActive ? "actifs" : "inactifs"}`}
           aria-pressed={isLocationActive}
@@ -122,7 +130,7 @@ export const Filters = () => {
           </span>{" "}
           Région / Département
         </Button>
-        {openPanel === "localisation" && (
+        {openPanel === "location" && (
           <LocationFiltersPanel
             ref={locationPanelRef}
             closePanel={() => handleTogglePanel(undefined)}

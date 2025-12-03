@@ -163,12 +163,18 @@ export const getStructureSearchWhere = ({
   }
 
   if (bati) {
-    where.bati = {
-      in: bati
-        .split(",")
-        .filter(Boolean)
-        .map((bati) => convertToRepartition(bati)) as Repartition[],
-    };
+    if (bati === "none") {
+      where.bati = {
+        in: ["none"],
+      };
+    } else {
+      where.bati = {
+        in: bati
+          .split(",")
+          .filter(Boolean)
+          .map((bati) => convertToRepartition(bati)) as Repartition[],
+      };
+    }
   }
 
   return where;
