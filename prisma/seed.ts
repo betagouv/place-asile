@@ -55,6 +55,8 @@ export async function seed(): Promise<void> {
     createFakeOperateur(index)
   );
 
+  let counter = 1;
+
   for (const operateurToInsert of operateursToInsert) {
     const baseParams = {
       formDefinitionId: formDefinition.id,
@@ -79,6 +81,7 @@ export async function seed(): Promise<void> {
           ]),
           cpom: faker.datatype.boolean(),
           isFinalised: faker.datatype.boolean(),
+          counter: counter++,
         });
         return fakeStructure;
       }
@@ -102,6 +105,7 @@ export async function seed(): Promise<void> {
           ]),
           cpom: faker.datatype.boolean(),
           isFinalised: faker.datatype.boolean(),
+          counter: counter++,
         });
         return fakeStructure;
       }
@@ -113,7 +117,7 @@ export async function seed(): Promise<void> {
     };
 
     console.log(
-      `🏠 Ajout de ${structuresToInsert.length}structures et ${structuresOfiiToInsert.length} structures OFII pour ${operateurToInsert.name}`
+      `🏠 Ajout de ${structuresToInsert.length} structures et ${structuresOfiiToInsert.length} structures OFII pour ${operateurToInsert.name}`
     );
 
     await prisma.operateur.create({
