@@ -7,6 +7,7 @@ import "dotenv/config";
 import { createPrismaClient } from "@/prisma-client";
 
 import { loadCsvFromS3 } from "../utils/csv-loader";
+import { ensureOperateursExist } from "../utils/ensure-operateurs-exist";
 import { parseDate } from "../utils/parse-date";
 
 const prisma = createPrismaClient();
@@ -50,7 +51,15 @@ const loadCpomsFromCsv = async () => {
       return;
     }
 
-    // Récupérer toutes les structures nécessaires
+    // Ensure no operator is missing
+    console.log("Résolution des IDs des opérateurs...");
+    const operateurMap = await ensureOperateursExist(
+      prisma,
+      records,
+      "operateur"
+    );
+
+    // Get all necessary structures
     const dnaCodes = [...new Set(records.map((r) => r.code_dna))];
     const structures = await prisma.structure.findMany({
       where: { dnaCode: { in: dnaCodes } },
@@ -58,8 +67,11 @@ const loadCpomsFromCsv = async () => {
     });
     const structureMap = new Map(structures.map((s) => [s.dnaCode, s.id]));
 
-    // Grouper les CPOMs par nom + dates
-    const cpomMap = new Map<string, { name: string; debut: Date; fin: Date }>();
+    // Group CPOMs by name + dates + operator
+    const cpomMap = new Map<
+      string,
+      { name: string; debut: Date; fin: Date; operateurId: number }
+    >();
     const cpomCache = new Map<string, number>();
 
     for (const row of records) {
@@ -67,23 +79,32 @@ const loadCpomsFromCsv = async () => {
         continue;
       }
 
+      if (!row.operateur) {
+        console.log(
+          `❌ Ligne ignorée, opérateur manquant pour le CPOM: cpom=${row.cpom}, departement=${row.departement}`
+        );
+        continue;
+      }
+
+      const operateurId = operateurMap.get(row.operateur)!;
       const debut = parseDate(row.date_debut.trim(), `date_debut`);
       const fin = parseDate(row.date_fin.trim(), `date_fin`);
-      const key = `${row.cpom} - ${debut.toISOString()} - ${fin.toISOString()}`;
+      const key = `${row.cpom} - ${debut.toISOString()} - ${fin.toISOString()} - ${operateurId}`;
 
       if (!cpomMap.has(key)) {
-        cpomMap.set(key, { name: row.cpom, debut, fin });
+        cpomMap.set(key, { name: row.cpom, debut, fin, operateurId });
       }
     }
 
     // Créer ou récupérer les CPOMs
-    console.log(`📄 Création de ${cpomMap.size} CPOM(s)...`);
+    console.log(`🍎 Création de ${cpomMap.size} CPOM(s)...`);
     for (const [key, cpomData] of cpomMap.entries()) {
       let cpom = await prisma.cpom.findFirst({
         where: {
           name: cpomData.name,
           debutCpom: cpomData.debut,
           finCpom: cpomData.fin,
+          operateurId: cpomData.operateurId,
         },
         select: { id: true },
       });
@@ -94,6 +115,7 @@ const loadCpomsFromCsv = async () => {
             name: cpomData.name,
             debutCpom: cpomData.debut,
             finCpom: cpomData.fin,
+            operateurId: cpomData.operateurId,
           },
           select: { id: true },
         });
@@ -103,8 +125,8 @@ const loadCpomsFromCsv = async () => {
       cpomCache.set(key, cpom.id);
     }
 
-    // Créer les liens CPOM/Structure
-    console.log("📄 Création des liens CPOM/Structure...");
+    // Create CPOM/Structure links
+    console.log("🔗 Création des liens CPOM/Structure...");
 
     for (const row of records) {
       if (!row.cpom || !row.code_dna || !row.date_debut || !row.date_fin) {
@@ -160,9 +182,9 @@ const loadCpomsFromCsv = async () => {
         },
       });
 
-      // Créer les millesimes pour la structure
+      // Create millesimes for the structure
       console.log(
-        `📄 Création des millesimes pour la structure ${row.code_dna}`
+        `🍷 Création des millesimes pour la structure ${row.code_dna}`
       );
 
       const millesimeStart = dateDebut ?? cpomStructure.dateDebut ?? debut;
@@ -173,7 +195,6 @@ const loadCpomsFromCsv = async () => {
       );
 
       for (const millesimeDate of millesimeDates) {
-        console.log(`📄 Création du millésime pour la date ${millesimeDate}`);
         await prisma.structureMillesime.upsert({
           where: {
             structureDnaCode_date: {

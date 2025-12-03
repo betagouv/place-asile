@@ -400,6 +400,7 @@ model Operateur {
   directionGenerale String?
   siret             String?
   siegeSocial       String?
+  cpoms             Cpom[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -414,6 +415,8 @@ model Cpom {
   debutCpom      DateTime
   finCpom        DateTime
   cpomMillesimes CpomMillesime[]
+  operateur      Operateur       @relation(fields: [operateurId], references: [id])
+  operateurId    Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
