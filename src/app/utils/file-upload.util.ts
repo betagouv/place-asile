@@ -1,7 +1,4 @@
-import {
-  FileUploadCategoryType,
-  FileUploadGranularityType,
-} from "@/types/file-upload.type";
+import { FileUploadCategoryType } from "@/types/file-upload.type";
 
 export const getCategoryLabel = (
   category: FileUploadCategoryType[number] | undefined

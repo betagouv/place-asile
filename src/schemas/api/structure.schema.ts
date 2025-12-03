@@ -71,7 +71,7 @@ export const structureCreationApiSchema = structureMinimalApiSchema.extend({
   forms: z.array(formApiSchema).optional(),
   contacts: z.array(contactApiSchema),
   documentsFinanciers: z.array(documentFinancierApiSchema),
-  cpomMillesimes: z.array(cpomMillesimeCreationApiSchema).optional(),
+  cpomMillesimes: z.array(cpomMillesimeApiSchema).optional(),
   structureMillesimes: z.array(structureMillesimeApiSchema).optional(),
   nomOfii: z.string().optional(),
   directionTerritoriale: z.string().optional(),
@@ -109,7 +109,7 @@ const remainingStructureUpdateApiSchema = z.object({
     .optional(),
   activites: z.array(activiteApiSchema).optional(),
   budgets: z.array(budgetApiSchema).optional(),
-  cpomMillesimes: z.array(cpomMillesimeCreationApiSchema).optional(),
+  cpomMillesimes: z.array(cpomMillesimeApiSchema).optional(),
   forms: z.array(formApiSchema).optional(),
   actesAdministratifs: z.array(acteAdministratifApiSchema.partial()).optional(),
 });

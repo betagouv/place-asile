@@ -1,11 +1,11 @@
-import { CpomMillesimeCreationApiType } from "@/schemas/api/cpom.schema";
+import { CpomMillesimeApiType } from "@/schemas/api/cpom.schema";
 import { PrismaTransaction } from "@/types/prisma.type";
 
 import { findMatchingCpomForMillesime } from "./cpom.service";
 
 export const createOrUpdateCpomMillesimes = async (
   tx: PrismaTransaction,
-  millesimes: CpomMillesimeCreationApiType[] | undefined,
+  millesimes: CpomMillesimeApiType[] | undefined,
   structureDnaCode: string
 ): Promise<void> => {
   if (!millesimes || millesimes.length === 0) {
