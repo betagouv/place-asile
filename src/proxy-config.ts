@@ -50,8 +50,8 @@ export const protectedApiRoutes: ApiRoute[] = [
   {
     pattern: /^\/api\/structures-ofii$/,
     routes: {
-      GET: "proconnect",
-      POST: "proconnect",
+      GET: "either",
+      POST: "either",
     },
   },
   {
