@@ -49,14 +49,14 @@ export const YearlyFileUpload = ({
   //  key is used to reset the drop zone when a document is added
   const [dropZoneKey, setDropZoneKey] = useState<string>(uuidv4());
 
-  const [key, setKey] = useState<string | undefined>(undefined);
+  const [key, setKey] = useState<string | undefined>();
   const [category, setCategory] = useState<
     DocumentFinancierCategoryType[number] | undefined
-  >(undefined);
+  >();
   const [granularity, setGranularity] = useState<Granularity | undefined>(
     isInCpom ? undefined : Granularity.STRUCTURE
   );
-  const [nom, setNom] = useState<string | undefined>(undefined);
+  const [nom, setNom] = useState<string | undefined>();
 
   useEffect(() => {
     if (key) {
