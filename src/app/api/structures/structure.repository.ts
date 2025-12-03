@@ -1,38 +1,24 @@
-import { getCoordinates } from "@/app/utils/adresse.util";
 import { DEFAULT_PAGE_SIZE } from "@/constants";
-import { Prisma, Structure } from "@/generated/prisma/client";
+import { Structure } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
-import {
-  StructureCreationApiType,
-  StructureUpdateApiType,
-} from "@/schemas/api/structure.schema";
+import { StructureUpdateApiType } from "@/schemas/api/structure.schema";
 import { StructureColumn } from "@/types/StructureColumn.type";
 
-import {
-  createAdresses,
-  createOrUpdateAdresses,
-} from "../adresses/adresse.repository";
-import { handleAdresses } from "../adresses/adresse.util";
+import { createOrUpdateAdresses } from "../adresses/adresse.repository";
 import { createOrUpdateBudgets } from "../budgets/budget.repository";
 import { createOrUpdateContacts } from "../contacts/contact.repository";
 import { createOrUpdateControles } from "../controles/controle.repository";
 import { createOrUpdateCpomMillesimes } from "../cpoms/cpom.repository";
 import { createOrUpdateEvaluations } from "../evaluations/evaluation.repository";
-import {
-  createDocumentsFinanciers,
-  updateFileUploads,
-} from "../files/file.repository";
-import {
-  createOrUpdateForms,
-  initializeDefaultForms,
-} from "../forms/form.repository";
+import { updateFileUploads } from "../files/file.repository";
+import { createOrUpdateForms } from "../forms/form.repository";
 import { createOrUpdateStructureMillesimes } from "../structure-millesimes/structure-millesime.repository";
 import { updateStructureTypologies } from "../structure-typologies/structure-typologie.repository";
 import {
   getStructureOrderBy,
   getStructureSearchWhere,
 } from "./structure.service";
-import { convertToPublicType, convertToStructureType } from "./structure.util";
+import { buildBaseStructureData } from "./structure.util";
 
 export const findAll = async (): Promise<Structure[]> => {
   return prisma.structure.findMany({
@@ -333,96 +319,11 @@ export const findByDnaCode = async (
   });
 };
 
-export const createOne = async (
-  structure: StructureCreationApiType
-): Promise<Structure> => {
-  const newStructure = await prisma.$transaction(async (tx) => {
-    const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
-    const coordinates = await getCoordinates(fullAdress);
-
-    const structureData = {
-      operateur: {
-        connect: {
-          id: structure.operateur.id,
-        },
-      },
-      filiale: structure.filiale,
-      latitude: Prisma.Decimal(coordinates.latitude || 0),
-      longitude: Prisma.Decimal(coordinates.longitude || 0),
-      type: convertToStructureType(structure.type),
-      adresseAdministrative: structure.adresseAdministrative,
-      codePostalAdministratif: structure.codePostalAdministratif,
-      communeAdministrative: structure.communeAdministrative,
-      departement: structure.departementAdministratif
-        ? {
-            connect: {
-              numero: structure.departementAdministratif,
-            },
-          }
-        : undefined,
-      nom: structure.nom,
-      date303: structure.date303,
-      debutConvention: structure.debutConvention,
-      finConvention: structure.finConvention,
-      creationDate: structure.creationDate,
-      finessCode: structure.finessCode,
-      lgbt: structure.lgbt,
-      fvvTeh: structure.fvvTeh,
-      public: convertToPublicType(structure.public),
-      debutPeriodeAutorisation: structure.debutPeriodeAutorisation,
-      finPeriodeAutorisation: structure.finPeriodeAutorisation,
-      contacts: {
-        createMany: {
-          data: structure.contacts,
-        },
-      },
-      structureTypologies: {
-        createMany: {
-          data: structure.structureTypologies,
-        },
-      },
-    };
-
-    const baseStructure = await tx.structure.upsert({
-      where: {
-        dnaCode: structure.dnaCode,
-      },
-      create: {
-        ...structureData,
-        dnaCode: structure.dnaCode,
-      },
-      update: structureData,
-    });
-
-    const adresses = handleAdresses(structure.dnaCode, structure.adresses);
-
-    await createAdresses(tx, adresses, structure.dnaCode);
-    await createDocumentsFinanciers(
-      tx,
-      structure.documentsFinanciers,
-      structure.dnaCode
-    );
-    await initializeDefaultForms(tx, structure.dnaCode);
-
-    return baseStructure;
-  });
-
-  const updatedStructure = await findOne(newStructure.id);
-  if (!updatedStructure) {
-    throw new Error(
-      `Impossible de trouver la structure avec le code DNA ${newStructure.dnaCode}`
-    );
-  }
-  return updatedStructure;
-};
-
 export const updateOne = async (
   structure: StructureUpdateApiType
 ): Promise<Structure> => {
   try {
     const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      id,
       contacts,
       budgets,
       cpomMillesimes,
@@ -432,43 +333,12 @@ export const updateOne = async (
       documentsFinanciers,
       controles,
       evaluations,
-      operateur,
       forms,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      evenementsIndesirablesGraves,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars,
-      activites,
-      departementAdministratif,
       structureMillesimes,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars,
-      cpomStructures,
-      ...structureProperties
     } = structure;
 
     return await prisma.$transaction(async (tx) => {
-      const updatedStructure = await tx.structure.update({
-        where: {
-          dnaCode: structure.dnaCode,
-        },
-        data: {
-          ...structureProperties,
-          public: convertToPublicType(structure.public!),
-          departement: departementAdministratif
-            ? {
-                connect: {
-                  numero: departementAdministratif,
-                },
-              }
-            : undefined,
-          operateur: {
-            connect: operateur
-              ? {
-                  id: operateur?.id,
-                }
-              : undefined,
-          },
-        },
-      });
+      const updatedStructure = await buildBaseStructureData(tx, structure);
 
       await createOrUpdateContacts(tx, contacts, structure.dnaCode);
       await createOrUpdateBudgets(tx, budgets, structure.dnaCode);

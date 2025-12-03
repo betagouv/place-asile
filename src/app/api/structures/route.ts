@@ -1,17 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import {
-  structureCreationApiSchema,
-  structureUpdateApiSchema,
-} from "@/schemas/api/structure.schema";
+import { structureUpdateApiSchema } from "@/schemas/api/structure.schema";
 import { StructureColumn } from "@/types/StructureColumn.type";
 
-import {
-  countBySearch,
-  createOne,
-  findBySearch,
-  updateOne,
-} from "./structure.repository";
+import { countBySearch, findBySearch, updateOne } from "./structure.repository";
 
 export async function GET(request: NextRequest) {
   const search = request.nextUrl.searchParams.get("search");
@@ -61,8 +53,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const result = structureCreationApiSchema.parse(body);
-    await createOne(result);
+    // Utiliser structureUpdateApiSchema qui accepte aussi les champs de création
+    const result = structureUpdateApiSchema.parse(body);
+    await updateOne(result);
     return NextResponse.json("Structure créée avec succès", { status: 201 });
   } catch (error) {
     console.error(error);
