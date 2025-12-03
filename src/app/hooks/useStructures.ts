@@ -117,7 +117,11 @@ const transformAjoutFormStructureToApiStructure = (
       values.contactPrincipal,
       values.contactSecondaire
     ),
-    structureMillesimes: values.structureMillesimes,
+    structureMillesimes:
+      values.structureMillesimes?.map((millesime) => ({
+        ...millesime,
+        operateurComment: millesime.operateurComment ?? undefined,
+      })) || undefined,
     structureTypologies: values.typologies?.map((typologie) => ({
       ...typologie,
       placesAutorisees: Number(

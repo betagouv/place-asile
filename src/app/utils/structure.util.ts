@@ -129,7 +129,7 @@ export const getOperateurLabel = (
 
 export const isStructureInCpom = (structure: StructureApiType): boolean => {
   return (
-    structure.structureMillesimes.find(
+    structure.structureMillesimes?.find(
       (millesime) =>
         millesime.date.substring(0, 4) === new Date().getFullYear().toString()
     )?.cpom ?? false

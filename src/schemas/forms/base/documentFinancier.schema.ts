@@ -24,7 +24,7 @@ export const DocumentsFinanciersFlexibleSchema = z.object({
       z.object({
         date: frenchDateToISO(),
         cpom: z.boolean(),
-        operateurComment: z.string().optional(),
+        operateurComment: z.string().nullish(),
       })
     )
     .optional(),

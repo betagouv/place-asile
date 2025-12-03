@@ -68,6 +68,7 @@ type SearchProps = {
   bati: string | null;
   placesAutorisees: string | null;
   departements: string | null;
+  operateurs: string | null;
   column?: StructureColumn | null;
   direction?: "asc" | "desc" | null;
   map?: boolean;
@@ -79,6 +80,7 @@ export const findBySearch = async ({
   bati,
   placesAutorisees,
   departements,
+  operateurs,
   column,
   direction,
   map,
@@ -89,6 +91,7 @@ export const findBySearch = async ({
     bati,
     departements,
     placesAutorisees,
+    operateurs,
   });
 
   if (map) {
@@ -135,6 +138,7 @@ export const findBySearch = async ({
     include: {
       adresses: true,
       operateur: true,
+      structureMillesimes: true,
       structureTypologies: {
         orderBy: {
           date: "desc",
@@ -163,6 +167,7 @@ export const countBySearch = async ({
   bati,
   placesAutorisees,
   departements,
+  operateurs,
 }: SearchProps): Promise<number> => {
   const where = getStructureSearchWhere({
     search,
@@ -170,6 +175,7 @@ export const countBySearch = async ({
     bati,
     departements,
     placesAutorisees,
+    operateurs,
   });
 
   return prisma.structuresOrder.count({
@@ -418,6 +424,8 @@ export const updateOne = async (
       activites,
       departementAdministratif,
       structureMillesimes,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars,
+      cpomStructures,
       ...structureProperties
     } = structure;
 

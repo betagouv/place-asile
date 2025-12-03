@@ -2,7 +2,6 @@ import Notice from "@codegouvfr/react-dsfr/Notice";
 import { ReactElement } from "react";
 import { Control } from "react-hook-form";
 
-import { cn } from "@/app/utils/classname.util";
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
 import { DocumentsFinanciers } from "../../finance/documents/DocumentsFinanciers";
@@ -16,11 +15,13 @@ export const FieldSetYearlyDocumentsFinanciers = ({
   startYear,
   isAutorisee,
   control,
-}: Props): ReactElement => {
+}: Props): ReactElement | null => {
+  const shouldHide = startYear && Number(year) < startYear;
+  if (shouldHide) {
+    return null;
+  }
   return (
-    <fieldset
-      className={cn("", startYear && Number(year) < startYear && "hidden")}
-    >
+    <fieldset>
       <h2 className="text-title-blue-france text-xl mb-6">{year}</h2>
       <DocumentsFinanciersCheckboxIsInCpom year={year} index={index} />
 

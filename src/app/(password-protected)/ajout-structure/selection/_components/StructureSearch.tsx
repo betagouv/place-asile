@@ -4,28 +4,28 @@ import { useFormContext } from "react-hook-form";
 import { DepartementAutocomplete } from "@/app/components/forms/DepartementAutocomplete";
 import { OperateurAutocomplete } from "@/app/components/forms/OperateurAutocomplete";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import { useStructuresOfiiSearch } from "@/app/hooks/useStructuresSelection";
+import { useStructuresSelection } from "@/app/hooks/useStructuresSelection";
 import { StructureType } from "@/types/structure.type";
 
-import { StructureOfiiList } from "./StructureOfiiList";
+import { StructuresList } from "./StructuresList";
 
 export const StructureSearch = (): ReactElement => {
   const parentFormContext = useFormContext();
   const { control, watch, setValue } = parentFormContext;
 
-  const operateurId = watch("operateur.id");
+  const operateurName = watch("operateur.name");
   const departementNumero = watch("departement.numero");
   const type = watch("type");
 
-  const { structuresOfii } = useStructuresOfiiSearch({
-    operateurId,
+  const { structures } = useStructuresSelection({
+    operateurName,
     departementNumero,
     type,
   });
 
   useEffect(() => {
-    setValue("structureOfii", undefined);
-  }, [operateurId, departementNumero, type, setValue]);
+    setValue("structure", undefined);
+  }, [operateurName, departementNumero, type, setValue]);
 
   return (
     <div className="bg-white p-6 rounded-lg mb-2">
@@ -49,7 +49,7 @@ export const StructureSearch = (): ReactElement => {
         <OperateurAutocomplete />
         <DepartementAutocomplete />
       </div>
-      <StructureOfiiList structuresOfii={structuresOfii} control={control} />
+      <StructuresList structures={structures} control={control} />
     </div>
   );
 };

@@ -20,19 +20,16 @@ export default async function RootLayout({
     );
 
     if (!result.ok) {
-      if (result.status === 404) {
-        return <>{children}</>;
-      }
-
       console.error(`API error: ${result.status}`, await result.text());
       return <>{children}</>;
     }
 
     const structure: StructureApiType | null = await result.json();
-
-    if (structure) {
+    if (!structure?.forms || structure?.forms.length === 0) {
       redirect(`/ajout-structure/existe-deja?dnaCode=${dnaCode}`);
     }
+
+    return <>{children}</>;
   } catch (error) {
     console.error("Error checking for existing structure:", error);
     throw error;

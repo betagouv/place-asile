@@ -67,12 +67,14 @@ export const getStructureSearchWhere = ({
   bati,
   departements,
   placesAutorisees,
+  operateurs,
 }: {
   search: string | null;
   type: string | null;
   bati: string | null;
   departements: string | null;
   placesAutorisees: string | null;
+  operateurs: string | null;
 }): Prisma.StructuresOrderWhereInput => {
   const where: Prisma.StructuresOrderWhereInput = {};
   if (type) {
@@ -89,6 +91,14 @@ export const getStructureSearchWhere = ({
     if (departementList.length > 0) {
       where.departementAdministratif = {
         in: departementList,
+      };
+    }
+  }
+  if (operateurs) {
+    const operateurList = operateurs.split(",").filter(Boolean);
+    if (operateurList.length > 0) {
+      where.operateur = {
+        in: operateurList,
       };
     }
   }

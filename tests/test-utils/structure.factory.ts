@@ -45,6 +45,7 @@ export const createStructure = ({
     notes: "Note 1",
     structureTypologies: structureTypologies ?? [],
     structureMillesimes: structureMillesimes ?? [],
+    cpomStructures: [],
     forms: [],
     contacts: [],
     documentsFinanciers: [],

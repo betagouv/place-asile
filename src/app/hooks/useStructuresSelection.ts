@@ -1,29 +1,32 @@
 import { useEffect, useState } from "react";
 
-import { StructureSelectionFormType } from "@/schemas/forms/ajout/ajoutStructure.schema";
+import { StructureMinimalApiType } from "@/schemas/api/structure.schema";
 
 export const useStructuresSelection = ({
-  operateurId,
+  operateurName,
   departementNumero,
   type,
 }: Props) => {
   const [structures, setStructures] = useState<
-    StructureSelectionFormType[] | undefined
+    StructureMinimalApiType[] | undefined
   >(undefined);
 
   const getStructures = async (
-    operateurId: string,
+    operateurName: string,
     departementNumero: string,
     type: string
-  ): Promise<StructureSelectionFormType[]> => {
+  ): Promise<{
+    structures: StructureMinimalApiType[];
+    totalStructures: number;
+  }> => {
     try {
       const baseUrl = process.env.NEXT_URL || "";
       const params = new URLSearchParams();
-      if (operateurId) {
-        params.append("operateur", operateurId);
+      if (operateurName) {
+        params.append("operateurs", operateurName);
       }
       if (departementNumero) {
-        params.append("departement", departementNumero);
+        params.append("departements", departementNumero);
       }
       if (type) {
         params.append("type", type);
@@ -39,24 +42,24 @@ export const useStructuresSelection = ({
       return await result.json();
     } catch (error) {
       console.error("Error fetching structures :", error);
-      return [];
+      return { structures: [], totalStructures: 0 };
     }
   };
 
   useEffect(() => {
     const fetchStructures = async () => {
-      const structures = await getStructures(
-        operateurId,
+      const { structures } = await getStructures(
+        operateurName,
         departementNumero,
         type
       );
       setStructures(structures);
     };
 
-    if (operateurId && departementNumero && type) {
+    if (operateurName && departementNumero && type) {
       fetchStructures();
     }
-  }, [operateurId, departementNumero, type]);
+  }, [operateurName, departementNumero, type]);
 
   return {
     structures,
@@ -64,7 +67,7 @@ export const useStructuresSelection = ({
 };
 
 type Props = {
-  operateurId: string;
+  operateurName: string;
   departementNumero: string;
   type: string;
 };

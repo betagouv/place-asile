@@ -58,10 +58,15 @@ export default function ModificationFinanceForm() {
     const documentsFinanciers = data.documentsFinanciers.filter(
       (documentFinancier) => documentFinancier.key
     );
+    const structureMillesimes = data.structureMillesimes?.map((millesime) => ({
+      ...millesime,
+      operateurComment: millesime.operateurComment ?? undefined,
+    }));
     await handleSubmit({
       ...data,
       documentsFinanciers,
       dnaCode: structure.dnaCode,
+      structureMillesimes,
     });
   };
 
