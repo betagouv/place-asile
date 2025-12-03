@@ -339,9 +339,11 @@ export const createOne = async (
   const newStructure = await prisma.$transaction(async (tx) => {
     const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
     const coordinates = await getCoordinates(fullAdress);
-    const baseStructure = await tx.structure.create({
-      data: {
+    const baseStructure = await tx.structure.update({
+      where: {
         dnaCode: structure.dnaCode,
+      },
+      data: {
         operateur: {
           connect: {
             id: structure.operateur.id,

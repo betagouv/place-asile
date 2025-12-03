@@ -31,7 +31,7 @@ const generateDnaCode = ({
   operateurName,
   departementAdministratif,
 }: Partial<FakeStructureOptions>): string => {
-  return `${type}-${operateurName}-${departementAdministratif}-${counter++}`;
+  return `${type}-${operateurName ? operateurName.slice(-1) : ""}-${departementAdministratif}-${counter++}`;
 };
 
 export const createFakeStructure = ({
