@@ -51,7 +51,9 @@ const loadDataToOfiiTable = async () => {
     const departements = await prisma.departement.findMany({
       select: { numero: true },
     });
-    const departementSet = new Set(departements.map((dep) => dep.numero));
+    const departementSet = new Set(
+      departements.map((departement) => departement.numero)
+    );
 
     // Validate data
     console.log("Validation des données...");
@@ -97,7 +99,9 @@ const loadDataToOfiiTable = async () => {
     let updatedCount = 0;
 
     const existingStructures = await prisma.structure.findMany({
-      where: { dnaCode: { in: validRecords.map((r) => r.dnaCode) } },
+      where: {
+        dnaCode: { in: validRecords.map((structure) => structure.dnaCode) },
+      },
       select: {
         dnaCode: true,
         activeInOfiiFileSince: true,
@@ -105,7 +109,7 @@ const loadDataToOfiiTable = async () => {
       },
     });
     const existingByDnaCode = new Map(
-      existingStructures.map((s) => [s.dnaCode, s])
+      existingStructures.map((structure) => [structure.dnaCode, structure])
     );
 
     await prisma.$transaction(async (tx) => {
