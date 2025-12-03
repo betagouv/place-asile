@@ -35,6 +35,4 @@ export default async function RootLayout({
     console.error("Error checking for existing structure:", error);
     throw error;
   }
-
-  return <>{children}</>;
 }
