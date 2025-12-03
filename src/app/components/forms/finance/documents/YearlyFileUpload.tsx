@@ -3,6 +3,7 @@ import Input from "@codegouvfr/react-dsfr/Input";
 import Select from "@codegouvfr/react-dsfr/Select";
 import { ReactElement, useCallback, useEffect, useState } from "react";
 import { Control, useFieldArray, useFormContext } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 
 import { DropZone } from "@/app/components/forms/DropZone";
 import {
@@ -46,7 +47,7 @@ export const YearlyFileUpload = ({
   const [shouldDisplayAddButton, setShouldDisplayAddButton] = useState(false);
   const [shouldEnableAddButton, setShouldEnableAddButton] = useState(false);
   //  key is used to reset the drop zone when a document is added
-  const [dropZoneKey, setDropZoneKey] = useState<number>(Math.random());
+  const [dropZoneKey, setDropZoneKey] = useState<string>(uuidv4());
 
   const [key, setKey] = useState<string | undefined>(undefined);
   const [category, setCategory] = useState<
@@ -131,7 +132,7 @@ export const YearlyFileUpload = ({
       setCategory(undefined);
       setGranularity(undefined);
       setNom(undefined);
-      setDropZoneKey(Math.random());
+      setDropZoneKey(uuidv4());
     },
     [append, key, category, granularity, nom, year, documentsFinanciers, remove]
   );
