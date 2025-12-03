@@ -1,6 +1,6 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { ReactElement } from "react";
-import { Control } from "react-hook-form";
+import { Control, useFormContext } from "react-hook-form";
 
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
@@ -16,6 +16,9 @@ export const FieldSetYearlyDocumentsFinanciers = ({
   isAutorisee,
   control,
 }: Props): ReactElement | null => {
+  const { watch } = useFormContext();
+  const isInCpom = watch(`structureMillesimes.${index}.cpom`);
+
   const shouldHide = startYear && Number(year) < startYear;
   if (shouldHide) {
     return null;
@@ -25,12 +28,14 @@ export const FieldSetYearlyDocumentsFinanciers = ({
       <h2 className="text-title-blue-france text-xl mb-6">{year}</h2>
       <DocumentsFinanciersCheckboxIsInCpom year={year} index={index} />
 
-      <Notice
-        severity="info"
-        title=""
-        className="rounded [&_p]:flex [&_p]:items-center mb-10"
-        description="Selon vos pratiques, les documents financiers de cette année peuvent être à l’échelle de la structure et/ou du CPOM et/ou regrouper les deux. Veuillez importer tous les documents en votre possession en précisant leur échelle."
-      />
+      {isInCpom && (
+        <Notice
+          severity="info"
+          title=""
+          className="rounded [&_p]:flex [&_p]:items-center mb-10"
+          description="Selon vos pratiques, les documents financiers de cette année peuvent être à l’échelle de la structure et/ou du CPOM et/ou regrouper les deux. Veuillez importer tous les documents en votre possession en précisant leur échelle."
+        />
+      )}
       <div className="grid grid-cols-2 gap-4 mb-10">
         <DocumentsFinanciers
           isAutorisee={isAutorisee}
