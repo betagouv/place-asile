@@ -74,7 +74,7 @@ export async function seed(): Promise<void> {
       departementAdministratif,
     };
     const structuresToInsert = Array.from(
-      { length: faker.number.int({ min: 20, max: 50 }) },
+      { length: faker.number.int({ min: 50, max: 100 }) },
       () => {
         const fakeStructure = createFakeStuctureWithRelations({
           ...baseParams,
@@ -85,7 +85,7 @@ export async function seed(): Promise<void> {
     );
 
     const structuresOfiiToInsert = Array.from(
-      { length: faker.number.int({ min: 20, max: 50 }) },
+      { length: faker.number.int({ min: 50, max: 100 }) },
       () => {
         const fakeStructure = createFakeStructure({
           ...baseParams,

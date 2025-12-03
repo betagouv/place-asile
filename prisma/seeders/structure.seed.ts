@@ -46,38 +46,39 @@ export const createFakeStructure = ({
   const [debutCpom, finCpom] = generateDatePair();
 
   const isAutorisee = isStructureAutorisee(type);
-
+  const createdAt = faker.date.past();
   const creationDate = faker.date.past();
+  const baseData = {
+    dnaCode: generateDnaCode({
+      type,
+      operateurName,
+      departementAdministratif,
+    }),
+    type,
+    nom: faker.lorem.words(2),
+    nomOfii: faker.lorem.words(2),
+    departementAdministratif,
+    directionTerritoriale: "DT " + faker.location.city(),
+    createdAt,
+    updatedAt: createdAt,
+    activeInOfiiFileSince: createdAt,
+    inactiveInOfiiFileSince:
+      faker.helpers.maybe(
+        () =>
+          faker.date.between({
+            from: createdAt,
+            to: new Date(),
+          }),
+        { probability: 0.1 }
+      ) ?? null,
+  };
 
   if (ofii) {
-    const createdAt = faker.date.past();
-    return {
-      dnaCode: generateDnaCode({
-        type,
-        operateurName,
-        departementAdministratif,
-      }),
-      type,
-      nom: faker.lorem.words(2),
-      nomOfii: faker.lorem.words(2),
-      departementAdministratif,
-      directionTerritoriale: "DT " + faker.location.city(),
-      createdAt,
-      updatedAt: createdAt,
-      activeInOfiiFileSince: createdAt,
-      inactiveInOfiiFileSince:
-        faker.helpers.maybe(
-          () =>
-            faker.date.between({
-              from: createdAt,
-              to: new Date(),
-            }),
-          { probability: 0.1 }
-        ) ?? null,
-    };
+    return baseData;
   }
 
   return {
+    ...baseData,
     dnaCode: generateDnaCode({
       type,
       operateurName,
@@ -85,18 +86,15 @@ export const createFakeStructure = ({
     }),
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
-    type,
     adresseAdministrative: faker.location.streetAddress(),
     communeAdministrative: faker.location.city(),
     codePostalAdministratif: faker.location.zipCode(),
-    departementAdministratif,
     latitude: Prisma.Decimal(
       faker.location.latitude({ min: 43.550851, max: 49.131627 })
     ),
     longitude: Prisma.Decimal(
       faker.location.longitude({ min: -0.851371, max: 5.843377 })
     ),
-    nom: faker.lorem.words(2),
     date303: null,
     debutConvention,
     finConvention,
@@ -115,16 +113,7 @@ export const createFakeStructure = ({
     echeancePlacesACreer: faker.date.future(),
     echeancePlacesAFermer: faker.date.future(),
     notes: faker.lorem.lines(2),
-    createdAt: faker.date.past(),
-    updatedAt: faker.date.past(),
-    nomOfii: faker.lorem.words(2),
-    directionTerritoriale: "DT " + faker.location.city(),
     activeInOfiiFileSince:
-      faker.helpers.maybe(
-        () => faker.date.between({ from: creationDate, to: new Date() }),
-        { probability: 0.01 }
-      ) ?? null,
-    inactiveInOfiiFileSince:
       faker.helpers.maybe(
         () => faker.date.between({ from: creationDate, to: new Date() }),
         { probability: 0.01 }
