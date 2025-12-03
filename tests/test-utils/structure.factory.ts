@@ -1,4 +1,5 @@
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
+import { CpomStructureApiType } from "@/schemas/api/cpom.schema";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
@@ -13,6 +14,7 @@ export const createStructure = ({
   publicType,
   structureTypologies,
   structureMillesimes = [],
+  cpomStructures = [],
 }: CreateStructuresArgs): StructureApiType => {
   return {
     id,
@@ -45,7 +47,7 @@ export const createStructure = ({
     notes: "Note 1",
     structureTypologies: structureTypologies ?? [],
     structureMillesimes: structureMillesimes ?? [],
-    cpomStructures: [],
+    cpomStructures: cpomStructures ?? [],
     forms: [],
     contacts: [],
     documentsFinanciers: [],
@@ -61,4 +63,5 @@ type CreateStructuresArgs = {
   type?: StructureType;
   finessCode?: string;
   publicType?: PublicType;
+  cpomStructures?: CpomStructureApiType[];
 };

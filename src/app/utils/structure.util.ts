@@ -141,14 +141,26 @@ export const getCurrentCpomStructureDates = (
 ): { debutCpom?: string; finCpom?: string } => {
   const now = new Date().toISOString();
   const currentCpomStructure = structure.cpomStructures?.find(
-    (cpomStructure) =>
-      (cpomStructure.dateDebut || cpomStructure.cpom.debutCpom) <= now &&
-      (cpomStructure.dateFin || cpomStructure.cpom.finCpom) >= now
+    (cpomStructure) => {
+      const dateDebut = cpomStructure.dateDebut ?? cpomStructure.cpom.debutCpom;
+      const dateFin = cpomStructure.dateFin ?? cpomStructure.cpom.finCpom;
+
+      if (!dateDebut || !dateFin) {
+        return false;
+      }
+
+      return dateDebut <= now && dateFin >= now;
+    }
   );
+
+  if (!currentCpomStructure) {
+    return {};
+  }
+
   const currentCpomStructureDateDebut =
-    currentCpomStructure?.dateDebut || currentCpomStructure?.cpom.debutCpom;
+    currentCpomStructure.dateDebut ?? currentCpomStructure.cpom.debutCpom;
   const currentCpomStructureDateFin =
-    currentCpomStructure?.dateFin || currentCpomStructure?.cpom.finCpom;
+    currentCpomStructure.dateFin ?? currentCpomStructure.cpom.finCpom;
 
   return {
     debutCpom: currentCpomStructureDateDebut,
