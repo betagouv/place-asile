@@ -339,52 +339,59 @@ export const createOne = async (
   const newStructure = await prisma.$transaction(async (tx) => {
     const fullAdress = `${structure.adresseAdministrative}, ${structure.codePostalAdministratif} ${structure.communeAdministrative}`;
     const coordinates = await getCoordinates(fullAdress);
-    const baseStructure = await tx.structure.update({
+
+    const structureData = {
+      operateur: {
+        connect: {
+          id: structure.operateur.id,
+        },
+      },
+      filiale: structure.filiale,
+      latitude: Prisma.Decimal(coordinates.latitude || 0),
+      longitude: Prisma.Decimal(coordinates.longitude || 0),
+      type: convertToStructureType(structure.type),
+      adresseAdministrative: structure.adresseAdministrative,
+      codePostalAdministratif: structure.codePostalAdministratif,
+      communeAdministrative: structure.communeAdministrative,
+      departement: structure.departementAdministratif
+        ? {
+            connect: {
+              numero: structure.departementAdministratif,
+            },
+          }
+        : undefined,
+      nom: structure.nom,
+      date303: structure.date303,
+      debutConvention: structure.debutConvention,
+      finConvention: structure.finConvention,
+      creationDate: structure.creationDate,
+      finessCode: structure.finessCode,
+      lgbt: structure.lgbt,
+      fvvTeh: structure.fvvTeh,
+      public: convertToPublicType(structure.public),
+      debutPeriodeAutorisation: structure.debutPeriodeAutorisation,
+      finPeriodeAutorisation: structure.finPeriodeAutorisation,
+      contacts: {
+        createMany: {
+          data: structure.contacts,
+        },
+      },
+      structureTypologies: {
+        createMany: {
+          data: structure.structureTypologies,
+        },
+      },
+    };
+
+    const baseStructure = await tx.structure.upsert({
       where: {
         dnaCode: structure.dnaCode,
       },
-      data: {
-        operateur: {
-          connect: {
-            id: structure.operateur.id,
-          },
-        },
-        filiale: structure.filiale,
-        latitude: Prisma.Decimal(coordinates.latitude || 0),
-        longitude: Prisma.Decimal(coordinates.longitude || 0),
-        type: convertToStructureType(structure.type),
-        adresseAdministrative: structure.adresseAdministrative,
-        codePostalAdministratif: structure.codePostalAdministratif,
-        communeAdministrative: structure.communeAdministrative,
-        departement: structure.departementAdministratif
-          ? {
-              connect: {
-                numero: structure.departementAdministratif,
-              },
-            }
-          : undefined,
-        nom: structure.nom,
-        date303: structure.date303,
-        debutConvention: structure.debutConvention,
-        finConvention: structure.finConvention,
-        creationDate: structure.creationDate,
-        finessCode: structure.finessCode,
-        lgbt: structure.lgbt,
-        fvvTeh: structure.fvvTeh,
-        public: convertToPublicType(structure.public),
-        debutPeriodeAutorisation: structure.debutPeriodeAutorisation,
-        finPeriodeAutorisation: structure.finPeriodeAutorisation,
-        contacts: {
-          createMany: {
-            data: structure.contacts,
-          },
-        },
-        structureTypologies: {
-          createMany: {
-            data: structure.structureTypologies,
-          },
-        },
+      create: {
+        ...structureData,
+        dnaCode: structure.dnaCode,
       },
+      update: structureData,
     });
 
     const adresses = handleAdresses(structure.dnaCode, structure.adresses);

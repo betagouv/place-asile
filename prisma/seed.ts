@@ -113,7 +113,7 @@ export async function seed(): Promise<void> {
     };
 
     console.log(
-      `🏠 Ajout de ${structuresToInsert.length + structuresOfiiToInsert.length} structures pour ${operateurToInsert.name}`
+      `🏠 Ajout de ${structuresToInsert.length}structures et ${structuresOfiiToInsert.length} structures OFII pour ${operateurToInsert.name}`
     );
 
     await prisma.operateur.create({
