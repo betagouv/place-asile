@@ -25,7 +25,8 @@ export default async function RootLayout({
     }
 
     const structure: StructureApiType | null = await result.json();
-    if (!structure?.forms || structure?.forms.length === 0) {
+
+    if (structure?.forms) {
       redirect(`/ajout-structure/existe-deja?dnaCode=${dnaCode}`);
     }
 

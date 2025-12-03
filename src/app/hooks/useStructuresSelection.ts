@@ -31,6 +31,7 @@ export const useStructuresSelection = ({
       if (type) {
         params.append("type", type);
       }
+      params.append("selection", "true");
       const result = await fetch(
         `${baseUrl}/api/structures?${params.toString()}`
       );

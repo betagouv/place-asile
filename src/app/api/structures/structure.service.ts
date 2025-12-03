@@ -68,6 +68,7 @@ export const getStructureSearchWhere = ({
   departements,
   placesAutorisees,
   operateurs,
+  selection,
 }: {
   search: string | null;
   type: string | null;
@@ -75,6 +76,7 @@ export const getStructureSearchWhere = ({
   departements: string | null;
   placesAutorisees: string | null;
   operateurs: string | null;
+  selection?: boolean;
 }): Prisma.StructuresOrderWhereInput => {
   const where: Prisma.StructuresOrderWhereInput = {};
   if (type) {
@@ -84,6 +86,10 @@ export const getStructureSearchWhere = ({
         in: typeList,
       };
     }
+  }
+
+  if (!selection) {
+    where.hasForms = true;
   }
 
   if (departements) {
