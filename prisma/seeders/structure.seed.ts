@@ -23,15 +23,15 @@ import { createFakeFormWithSteps } from "./form.seed";
 import { generateDatePair } from "./seed-util";
 import { createFakeStructureTypologie } from "./structure-typologie.seed";
 
-let counter = 1;
-
 // TODO: re-add a way to name with the fact the structure is, or has been part of a CPOM
 const generateDnaCode = ({
   type,
   operateurName,
   departementAdministratif,
-}: Partial<FakeStructureOptions>): string => {
-  return `${type}-${operateurName?.replace(/\D/g, "")}-${departementAdministratif}-${counter++}`;
+  counter,
+}: Partial<FakeStructureOptions> & { counter: number }): string => {
+  const operateurNum = operateurName?.replace(/\D/g, "") ?? "";
+  return `${type}-${operateurNum}-${departementAdministratif}-${counter}`;
 };
 
 export const createFakeStructure = ({
@@ -40,6 +40,7 @@ export const createFakeStructure = ({
   ofii,
   operateurName,
   departementAdministratif,
+  counter,
 }: FakeStructureOptions): Partial<Structure> => {
   const [debutConvention, finConvention] = generateDatePair();
   const [debutPeriodeAutorisation, finPeriodeAutorisation] = generateDatePair();
@@ -53,6 +54,7 @@ export const createFakeStructure = ({
       type,
       operateurName,
       departementAdministratif,
+      counter,
     }),
     type,
     nom: faker.lorem.words(2),
@@ -83,6 +85,7 @@ export const createFakeStructure = ({
       type,
       operateurName,
       departementAdministratif,
+      counter,
     }),
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
@@ -145,6 +148,7 @@ export const createFakeStuctureWithRelations = ({
   ofii,
   operateurName,
   departementAdministratif,
+  counter,
 }: FakeStructureWithRelationsOptions): Omit<StructureWithRelations, "id"> => {
   const fakeStructure = createFakeStructure({
     cpom,
@@ -153,6 +157,7 @@ export const createFakeStuctureWithRelations = ({
     ofii,
     operateurName,
     departementAdministratif,
+    counter,
   });
   const placesAutorisees = faker.number.int({ min: 1, max: 100 });
 
@@ -211,15 +216,10 @@ export type FakeStructureOptions = {
   ofii: boolean;
   operateurName: string;
   departementAdministratif: string;
+  counter: number;
 };
 
-export type FakeStructureWithRelationsOptions = {
-  cpom: boolean;
-  type: StructureType;
-  isFinalised: boolean;
-  ofii: boolean;
-  operateurName: string;
-  departementAdministratif: string;
+export type FakeStructureWithRelationsOptions = FakeStructureOptions & {
   formDefinitionId: number;
   stepDefinitions: { id: number; slug: string }[];
 };
