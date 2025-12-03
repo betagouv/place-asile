@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
     | string
     | null;
   const departements = request.nextUrl.searchParams.get("departements");
+  const operateurs = request.nextUrl.searchParams.get("operateurs");
   const column = request.nextUrl.searchParams.get(
     "column"
   ) as StructureColumn | null;
@@ -40,6 +41,7 @@ export async function GET(request: NextRequest) {
     map,
     column,
     direction,
+    operateurs,
   });
   const totalStructures = await countBySearch({
     search,
@@ -48,6 +50,7 @@ export async function GET(request: NextRequest) {
     bati,
     placesAutorisees,
     departements,
+    operateurs,
   });
 
   return NextResponse.json({ structures, totalStructures });

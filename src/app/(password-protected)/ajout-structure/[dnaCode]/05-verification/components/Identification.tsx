@@ -41,9 +41,6 @@ export const Identification = () => {
             {localStorageValues?.fvvTeh && "FVV-TEH"}
           </p>
         )}
-        <p className="flex gap-4 mb-0">
-          <b>CPOM</b> {localStorageValues?.debutCpom ? "Oui" : "Non"}
-        </p>
       </div>
       <h3 className="text-title-blue-france w-full flex justify-between text-lg mt-10">
         Contacts
@@ -126,19 +123,6 @@ export const Identification = () => {
           )}
         </p>
       </div>
-      {localStorageValues?.cpom && (
-        <div className="border-b border-default-grey pb-2 mb-3">
-          <p className="mb-0">
-            <b className="pr-4">CPOM en cours</b>
-            {localStorageValues?.debutCpom && (
-              <span>{localStorageValues?.debutCpom}</span>
-            )}
-            {localStorageValues?.finCpom && (
-              <span> - {localStorageValues?.finCpom}</span>
-            )}
-          </p>
-        </div>
-      )}
     </>
   );
 };

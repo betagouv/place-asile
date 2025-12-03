@@ -4,7 +4,7 @@ import "./globals.css"; // IMPORTANT cet import doit rester en premier pour que 
 import type { Metadata } from "next";
 import { PropsWithChildren, Suspense } from "react";
 
-import { DsfrProvider } from "./dsfr-bootstrap";
+import { DsfrProvider, StartDsfrOnHydration } from "./dsfr-bootstrap";
 import {
   DsfrHead,
   getHtmlAttributes,
@@ -31,6 +31,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
       </head>
       <body className="overscroll-none bg-default-grey-hover h-full">
         <DsfrProvider lang={lang}>
+          <StartDsfrOnHydration />
+
           <Providers>
             <Suspense>{children}</Suspense>
           </Providers>

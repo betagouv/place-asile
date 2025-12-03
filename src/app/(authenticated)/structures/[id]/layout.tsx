@@ -1,4 +1,3 @@
-import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
@@ -47,8 +46,6 @@ export default async function StructureLayout({
 
   return (
     <StructureProvider structure={structure}>
-      <StartDsfrOnHydration />
-
       <div className="flex flex-col h-full bg-alt-grey gap-3 pb-4">
         <StructureHeader />
         {children}

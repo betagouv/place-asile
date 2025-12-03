@@ -12,6 +12,7 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   isStructureAutorisee,
+  isStructureInCpom,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import {
@@ -29,18 +30,18 @@ import { ModificationTitle } from "../components/ModificationTitle";
 export default function ModificationFinanceForm() {
   const { structure } = useStructureContext();
 
-  const hasCpom = structure?.cpom;
+  const isInCpom = isStructureInCpom(structure);
   const isAutorisee = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
 
   let schema;
 
   if (isAutorisee) {
-    schema = hasCpom
+    schema = isInCpom
       ? ModificationFinanceAutoriseeAvecCpomSchema
       : ModificationFinanceAutoriseeSchema;
   } else if (isSubventionnee) {
-    schema = hasCpom
+    schema = isInCpom
       ? ModificationFinanceSubventionneeAvecCpomSchema
       : ModificationFinanceSubventionneeSchema;
   } else {
@@ -57,10 +58,15 @@ export default function ModificationFinanceForm() {
     const documentsFinanciers = data.documentsFinanciers.filter(
       (documentFinancier) => documentFinancier.key
     );
+    const structureMillesimes = data.structureMillesimes?.map((millesime) => ({
+      ...millesime,
+      operateurComment: millesime.operateurComment ?? undefined,
+    }));
     await handleSubmit({
       ...data,
       documentsFinanciers,
       dnaCode: structure.dnaCode,
+      structureMillesimes,
     });
   };
 

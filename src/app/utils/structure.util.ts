@@ -126,3 +126,44 @@ export const getOperateurLabel = (
 ): string | null | undefined => {
   return filiale ? `${filiale} (${operateur})` : operateur;
 };
+
+export const isStructureInCpom = (structure: StructureApiType): boolean => {
+  return (
+    structure.structureMillesimes?.find(
+      (millesime) =>
+        millesime.date.substring(0, 4) === new Date().getFullYear().toString()
+    )?.cpom ?? false
+  );
+};
+
+export const getCurrentCpomStructureDates = (
+  structure: StructureApiType
+): { debutCpom?: string; finCpom?: string } => {
+  const now = new Date().toISOString();
+  const currentCpomStructure = structure.cpomStructures?.find(
+    (cpomStructure) => {
+      const dateDebut = cpomStructure.dateDebut ?? cpomStructure.cpom.debutCpom;
+      const dateFin = cpomStructure.dateFin ?? cpomStructure.cpom.finCpom;
+
+      if (!dateDebut || !dateFin) {
+        return false;
+      }
+
+      return dateDebut <= now && dateFin >= now;
+    }
+  );
+
+  if (!currentCpomStructure) {
+    return {};
+  }
+
+  const currentCpomStructureDateDebut =
+    currentCpomStructure.dateDebut ?? currentCpomStructure.cpom.debutCpom;
+  const currentCpomStructureDateFin =
+    currentCpomStructure.dateFin ?? currentCpomStructure.cpom.finCpom;
+
+  return {
+    debutCpom: currentCpomStructureDateDebut,
+    finCpom: currentCpomStructureDateFin,
+  };
+};
