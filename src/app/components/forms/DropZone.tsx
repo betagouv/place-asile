@@ -1,7 +1,6 @@
 import { Button } from "@codegouvfr/react-dsfr/Button";
 import prettyBytes from "pretty-bytes";
-import { useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useRef, useState } from "react";
 
 import { FileUploadWithLink, useFileUpload } from "@/app/hooks/useFileUpload";
 import { cn } from "@/app/utils/classname.util";
@@ -16,6 +15,8 @@ export const DropZone = ({ className, onChange, children }: Props) => {
   const [currentErrorMessage, setCurrentErrorMessage] = useState<string>("");
   const [fileData, setFileData] = useState<FileUploadWithLink | null>(null);
   const [key, setKey] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDrop = async (files: File[]) => {
     if (files.length === 0) {
@@ -61,7 +62,44 @@ export const DropZone = ({ className, onChange, children }: Props) => {
     }
   };
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop });
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDropEvent = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length > 0) {
+      handleDrop(files);
+    }
+  };
+
+  const handleClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files ? Array.from(e.target.files) : [];
+    if (files.length > 0) {
+      handleDrop(files);
+    }
+  };
 
   if (currentState === "success" && key) {
     return (
@@ -93,11 +131,27 @@ export const DropZone = ({ className, onChange, children }: Props) => {
 
   return (
     <div
-      {...getRootProps()}
-      className={cn(wrapperClassName, "border-dashed", className)}
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDropEvent}
+      onClick={handleClick}
+      className={cn(
+        wrapperClassName,
+        "border-dashed",
+        isDragging && "border-2",
+        className
+      )}
+      style={{ cursor: "pointer" }}
     >
       <div className="flex flex-col items-center gap-3">
-        <input {...getInputProps()} />
+        <input
+          ref={fileInputRef}
+          type="file"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+          accept=".pdf,.xls,.xlsx,.csv,.ods"
+        />
         <span className="fr-icon-file-add-fill [&::before]:[--icon-size:2.5rem] text-title-blue-france mb-3" />
         {currentState === "loading" ? (
           <Loader />
@@ -126,6 +180,7 @@ export const DropZone = ({ className, onChange, children }: Props) => {
 
 const wrapperClassName =
   "flex flex-col justify-center items-center w-full h-full bg-alt-blue-france p-4 rounded border border-action-high-blue-france";
+
 type Props = {
   className?: string;
   onChange: (data: { key?: string }) => void;

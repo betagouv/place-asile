@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 import { DateBars } from "@/app/(authenticated)/structures/[id]/_components/_calendrier/DateBars";
 import { Block } from "@/app/components/common/Block";
 import {
-  getCpomStructureDates,
+  getCurrentCpomStructureDates,
   isStructureInCpom,
 } from "@/app/utils/structure.util";
 
@@ -23,7 +23,7 @@ export const CalendrierBlock = (): ReactElement => {
   } = structure;
 
   const isInCpom = isStructureInCpom(structure);
-  const { debutCpom, finCpom } = getCpomStructureDates(structure);
+  const { debutCpom, finCpom } = getCurrentCpomStructureDates(structure);
 
   const datePairs = [];
   if (debutPeriodeAutorisation && finPeriodeAutorisation) {
