@@ -38,10 +38,12 @@ export const DocumentsFinanciersCategory = ({
         <div className="flex items-center gap-2 justify-between w-full">
           <div>
             <div>
-              {documentType.label}
-              {!documentType.required && <span className=""> - optionnel</span>}
+              <strong>{documentType.label}</strong>
+              {!documentType.required && (
+                <span className="text-default-grey italic"> - optionnel</span>
+              )}
             </div>
-            {documentType.subLabel}
+            <span className="text-sm ">{documentType.subLabel}</span>
           </div>
           {documentType.required && (
             <div
