@@ -1,5 +1,6 @@
 "use client";
 import Button from "@codegouvfr/react-dsfr/Button";
+import Notice from "@codegouvfr/react-dsfr/Notice";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -123,12 +124,17 @@ export default function StepVerification() {
       <div className="bg-white p-6 rounded-lg border border-default-grey">
         <Link
           href={previousRoute}
-          className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2 mb-8"
+          className="fr-link fr-icon border-b w-fit pb-px hover:pb-0 hover:border-b-2 mb-8 block"
         >
           <i className="fr-icon-arrow-left-s-line before:w-4"></i>
           Revenir au formulaire
         </Link>
-
+        <Notice
+          severity="info"
+          title=""
+          className="rounded [&_p]:flex [&_p]:items-center"
+          description="Veuillez vérifier les informations saisies méticuleusement : une fois validées, il ne sera plus possible de les modifier."
+        />
         <StepResume
           className="mt-10"
           title="Identification de la structure"
@@ -151,6 +157,7 @@ export default function StepVerification() {
         <StepResume
           title="Documents financiers"
           link={`/ajout-structure/${params.dnaCode}/04-documents?mode=edit`}
+          canEdit={false}
         >
           <DocumentsFinanciers />
         </StepResume>

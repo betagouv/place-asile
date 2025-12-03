@@ -15,7 +15,6 @@ import { getActesAdministratifsDefaultValues } from "./acteAdministratif.util";
 import { transformApiAdressesToFormAdresses } from "./adresse.util";
 import { getBudgetsDefaultValues } from "./budget.util";
 import { getControlesDefaultValues } from "./controle.util";
-import { getDocumentsFinanciersDefaultValues } from "./documentFinancier.util";
 import { getEvaluationsDefaultValues } from "./evaluation.util";
 import { isStructureAutorisee } from "./structure.util";
 
@@ -30,10 +29,6 @@ export const getDefaultValues = ({
   const budgets = getBudgetsDefaultValues(structure?.budgets || []);
 
   const actesAdministratifs = getActesAdministratifsDefaultValues(structure);
-  const documentsFinanciers = getDocumentsFinanciersDefaultValues({
-    structure,
-    isAutorisee,
-  });
 
   const controles = getControlesDefaultValues(structure.controles);
   const evaluations = getEvaluationsDefaultValues(
@@ -54,8 +49,6 @@ export const getDefaultValues = ({
       : undefined,
     debutConvention: structure.debutConvention ?? undefined,
     finConvention: structure.finConvention ?? undefined,
-    debutCpom: structure.debutCpom ?? undefined,
-    finCpom: structure.finCpom ?? undefined,
     finessCode: structure.finessCode || undefined,
     public: structure.public
       ? PublicType[structure.public as string as keyof typeof PublicType]
@@ -90,7 +83,7 @@ export const getDefaultValues = ({
     echeancePlacesAFermer: structure.echeancePlacesAFermer ?? undefined,
     date303: structure.date303 ?? undefined,
     budgets,
-    documentsFinanciers,
+    documentsFinanciers: structure.documentsFinanciers ?? [],
     actesAdministratifs,
     controles,
     evaluations,
@@ -105,8 +98,6 @@ type StructureDefaultValues = Omit<
   | "finPeriodeAutorisation"
   | "debutConvention"
   | "finConvention"
-  | "debutCpom"
-  | "finCpom"
   | "finessCode"
   | "public"
   | "filiale"
@@ -134,8 +125,6 @@ type StructureDefaultValues = Omit<
   finPeriodeAutorisation?: string;
   debutConvention?: string;
   finConvention?: string;
-  debutCpom?: string;
-  finCpom?: string;
   finessCode?: string;
   public?: PublicType;
   filiale?: string;

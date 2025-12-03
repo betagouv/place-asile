@@ -1,10 +1,12 @@
 import dayjs from "dayjs";
 
 import {
+  getCurrentCpomStructureDates,
   getLastVisitInMonths,
   getPlacesByCommunes,
   getRepartition,
   isStructureAutorisee,
+  isStructureInCpom,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
@@ -259,6 +261,314 @@ describe("structure util", () => {
 
       // THEN
       expect(result).toBe(false);
+    });
+  });
+  describe("isStructureInCpom", () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("should return true when there is a millesime for the current year with cpom: true", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 1,
+        structureMillesimes: [
+          {
+            date: "2025-01-01T00:00:00.000Z",
+            cpom: true,
+            operateurComment: null,
+          },
+        ],
+      });
+
+      // WHEN
+      const result = isStructureInCpom(structure);
+
+      // THEN
+      expect(result).toBe(true);
+    });
+
+    it("should return false when there is a millesime for the current year with cpom: false", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 2,
+        structureMillesimes: [
+          {
+            date: "2025-01-01T00:00:00.000Z",
+            cpom: false,
+            operateurComment: null,
+          },
+        ],
+      });
+
+      // WHEN
+      const result = isStructureInCpom(structure);
+
+      // THEN
+      expect(result).toBe(false);
+    });
+
+    it("should return false when there is no millesime for the current year", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 3,
+        structureMillesimes: [
+          {
+            date: "2024-01-01T00:00:00.000Z",
+            cpom: true,
+            operateurComment: null,
+          },
+          {
+            date: "2026-01-01T00:00:00.000Z",
+            cpom: true,
+            operateurComment: null,
+          },
+        ],
+      });
+
+      // WHEN
+      const result = isStructureInCpom(structure);
+
+      // THEN
+      expect(result).toBe(false);
+    });
+
+    it("should return false when structureMillesimes is undefined", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 4,
+        structureMillesimes: [],
+      });
+      structure.structureMillesimes = undefined;
+
+      // WHEN
+      const result = isStructureInCpom(structure);
+
+      // THEN
+      expect(result).toBe(false);
+    });
+
+    it("should return false when structureMillesimes is an empty array", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 5,
+        structureMillesimes: [],
+      });
+
+      // WHEN
+      const result = isStructureInCpom(structure);
+
+      // THEN
+      expect(result).toBe(false);
+    });
+
+    it("should return true when there are multiple millesimes and one for the current year has cpom: true", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 6,
+        structureMillesimes: [
+          {
+            date: "2024-01-01T00:00:00.000Z",
+            cpom: false,
+            operateurComment: null,
+          },
+          {
+            date: "2025-01-01T00:00:00.000Z",
+            cpom: true,
+            operateurComment: null,
+          },
+          {
+            date: "2026-01-01T00:00:00.000Z",
+            cpom: false,
+            operateurComment: null,
+          },
+        ],
+      });
+
+      // WHEN
+      const result = isStructureInCpom(structure);
+
+      // THEN
+      expect(result).toBe(true);
+    });
+  });
+
+  describe("getCurrentCpomStructureDates", () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("should return structure-specific dates when CPOM is currently active", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 1,
+        cpomStructures: [
+          {
+            id: 1,
+            cpomId: 1,
+            structureId: 1,
+            dateDebut: "2025-01-01T00:00:00.000Z",
+            dateFin: "2025-12-31T23:59:59.999Z",
+            cpom: {
+              id: 1,
+              debutCpom: "2024-01-01T00:00:00.000Z",
+              finCpom: "2026-12-31T23:59:59.999Z",
+            },
+          },
+        ],
+      });
+
+      // WHEN
+      const result = getCurrentCpomStructureDates(structure);
+
+      // THEN
+      expect(result).toEqual({
+        debutCpom: "2025-01-01T00:00:00.000Z",
+        finCpom: "2025-12-31T23:59:59.999Z",
+      });
+    });
+
+    it("should return CPOM fallback dates when structure-specific dates are null", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 2,
+        cpomStructures: [
+          {
+            id: 2,
+            cpomId: 1,
+            structureId: 1,
+            dateDebut: null,
+            dateFin: null,
+            cpom: {
+              id: 1,
+              debutCpom: "2025-01-01T00:00:00.000Z",
+              finCpom: "2025-12-31T23:59:59.999Z",
+            },
+          },
+        ],
+      });
+
+      // WHEN
+      const result = getCurrentCpomStructureDates(structure);
+
+      // THEN
+      expect(result).toEqual({
+        debutCpom: "2025-01-01T00:00:00.000Z",
+        finCpom: "2025-12-31T23:59:59.999Z",
+      });
+    });
+
+    it("should return empty object when no CPOM structure is currently active", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 3,
+        cpomStructures: [
+          {
+            id: 3,
+            cpomId: 1,
+            structureId: 1,
+            dateDebut: "2024-01-01T00:00:00.000Z",
+            dateFin: "2024-12-31T23:59:59.999Z",
+            cpom: {
+              id: 1,
+              debutCpom: "2024-01-01T00:00:00.000Z",
+              finCpom: "2024-12-31T23:59:59.999Z",
+            },
+          },
+        ],
+      });
+
+      // WHEN
+      const result = getCurrentCpomStructureDates(structure);
+
+      // THEN
+      expect(result).toEqual({});
+    });
+
+    it("should return empty object when cpomStructures is undefined or empty", () => {
+      // GIVEN
+      const structure1 = createStructure({ id: 4 });
+      structure1.cpomStructures = undefined;
+
+      const structure2 = createStructure({ id: 5, cpomStructures: [] });
+
+      // WHEN
+      const result1 = getCurrentCpomStructureDates(structure1);
+      const result2 = getCurrentCpomStructureDates(structure2);
+
+      // THEN
+      expect(result1).toEqual({});
+      expect(result2).toEqual({});
+    });
+
+    it("should handle mixed null structure dates correctly", () => {
+      // GIVEN
+      const mockedDate = dayjs("2025-06-15");
+      vi.useFakeTimers();
+      vi.setSystemTime(mockedDate.toDate());
+
+      const structure = createStructure({
+        id: 6,
+        cpomStructures: [
+          {
+            id: 6,
+            cpomId: 1,
+            structureId: 1,
+            dateDebut: "2025-03-01T00:00:00.000Z",
+            dateFin: null,
+            cpom: {
+              id: 1,
+              debutCpom: "2025-01-01T00:00:00.000Z",
+              finCpom: "2025-12-31T23:59:59.999Z",
+            },
+          },
+        ],
+      });
+
+      // WHEN
+      const result = getCurrentCpomStructureDates(structure);
+
+      // THEN
+      expect(result).toEqual({
+        debutCpom: "2025-03-01T00:00:00.000Z",
+        finCpom: "2025-12-31T23:59:59.999Z",
+      });
     });
   });
 });

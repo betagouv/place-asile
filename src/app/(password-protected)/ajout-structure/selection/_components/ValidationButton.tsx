@@ -8,17 +8,17 @@ export const ValidationButton = (): ReactElement => {
   const parentFormContext = useFormContext();
   const { watch } = parentFormContext;
 
-  const structureOfii = watch("structureOfii");
+  const structure = watch("structure");
 
   return (
     <div className="flex justify-center">
-      {structureOfii ? (
-        <ValidationButtonWithHook key={structureOfii.dnaCode} />
+      {structure ? (
+        <ValidationButtonWithHook key={structure.dnaCode} />
       ) : (
         <Button
           type="button"
           onClick={() => ""}
-          disabled={!structureOfii}
+          disabled={!structure}
           className="flex gap-2"
         >
           J’ai trouvé ma structure{" "}

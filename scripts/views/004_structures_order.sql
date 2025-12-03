@@ -41,7 +41,15 @@ SELECT
   o."name" AS "operateur",
   sr."bati",
   st."placesAutorisees",
-  s."finConvention"
+  s."finConvention",
+  EXISTS (
+    SELECT
+      1
+    FROM
+      public."Form" f
+    WHERE
+      f."structureCodeDna" = s."dnaCode"
+  ) AS "hasForms"
 FROM
   public."Structure" s
   LEFT JOIN public."Operateur" o ON o.id = s."operateurId"

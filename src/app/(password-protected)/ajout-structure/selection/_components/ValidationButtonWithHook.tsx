@@ -11,33 +11,43 @@ export const ValidationButtonWithHook = (): ReactElement => {
   const parentFormContext = useFormContext();
   const { watch } = parentFormContext;
 
-  const structureOfii = watch("structureOfii");
+  const structure = watch("structure");
 
   const {
     updateLocalStorageValue: updateIdentification,
     currentValue: localIdentificationValue,
   } = useLocalStorage(
-    `ajout-structure-${structureOfii?.dnaCode}-identification`,
+    `ajout-structure-${structure?.dnaCode}-identification`,
     {}
   );
 
   const {
     updateLocalStorageValue: updateAdresses,
     currentValue: localAdressesValue,
-  } = useLocalStorage(`ajout-structure-${structureOfii?.dnaCode}-adresses`, {});
+  } = useLocalStorage(`ajout-structure-${structure?.dnaCode}-adresses`, {});
+
+  const {
+    updateLocalStorageValue: updateDocuments,
+    currentValue: localDocumentsValue,
+  } = useLocalStorage(`ajout-structure-${structure?.dnaCode}-documents`, {});
 
   const handleValidation = () => {
     updateIdentification({
       ...localIdentificationValue,
-      dnaCode: structureOfii?.dnaCode,
-      operateur: structureOfii?.operateur,
-      type: structureOfii?.type,
+      dnaCode: structure?.dnaCode,
+      operateur: structure?.operateur,
+      type: structure?.type,
     });
     updateAdresses({
       ...localAdressesValue,
-      nom: structureOfii?.nom,
+      nom: structure?.nom,
     });
-    router.push(`/ajout-structure/${structureOfii?.dnaCode}/01-identification`);
+
+    updateDocuments({
+      ...localDocumentsValue,
+      structureMillesimes: structure?.structureMillesimes,
+    });
+    router.push(`/ajout-structure/${structure?.dnaCode}/01-identification`);
   };
 
   return (
@@ -45,7 +55,7 @@ export const ValidationButtonWithHook = (): ReactElement => {
       <Button
         type="button"
         onClick={handleValidation}
-        disabled={!structureOfii}
+        disabled={!structure}
         className="flex gap-2"
       >
         J’ai trouvé ma structure{" "}

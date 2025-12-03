@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import {
   isStructureAutorisee,
+  isStructureInCpom,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { getFinanceFormTutorialLink } from "@/app/utils/tutorials.util";
@@ -16,7 +17,7 @@ import { StructureSubventionneeSansCpom } from "./gestion-budgetaire-tables/Stru
 
 export const BudgetTables = () => {
   const { structure } = useStructureContext();
-  const hasCpom = structure?.cpom;
+  const isInCpom = isStructureInCpom(structure);
   const isAutorisee = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
 
@@ -33,7 +34,7 @@ export const BudgetTables = () => {
               href={getFinanceFormTutorialLink({
                 isAutorisee,
                 isSubventionnee,
-                hasCpom,
+                isInCpom,
               })}
               target="_blank"
               className="underline"
@@ -52,25 +53,25 @@ export const BudgetTables = () => {
           Veuillez renseigner l’historique de ces données budgétaires.
         </p>
         {isAutorisee &&
-          (hasCpom ? <StructureAutorisee /> : <StructureAutoriseeSansCpom />)}
+          (isInCpom ? <StructureAutorisee /> : <StructureAutoriseeSansCpom />)}
         {isSubventionnee &&
-          (hasCpom ? (
+          (isInCpom ? (
             <StructureSubventionnee />
           ) : (
             <StructureSubventionneeSansCpom />
           ))}
       </fieldset>
-      {(isAutorisee || (isSubventionnee && hasCpom)) && (
+      {(isAutorisee || (isSubventionnee && isInCpom)) && (
         <>
           <hr />
           <fieldset className="flex flex-col gap-6 min-w-0 w-full">
             <legend className="text-xl font-bold mb-8 text-title-blue-france">
-              {structure?.cpom
+              {isInCpom
                 ? "Détail affectation réserves, provisions et fonds dédiés du CPOM"
                 : "Détail affectation réserves et provisions"}
             </legend>
             <p className="mb-0 w-4/5">
-              {structure?.cpom
+              {isInCpom
                 ? "Veuillez renseigner l’historique des affectations en réserves, provisions et fonds dédiés du CPOM. Pour rendre une année éditable, il faut que le montant saisi dans la colonne “affectation réserves et fonds dédiés” du tableau précédent soit supérieur à 0 pour cette année-là."
                 : "Veuillez renseigner l’historique des affectations en réserves et provisions de la structure. Pour rendre une année éditable, il faut que le montant saisi dans la colonne “affectation réserves et provisions” du tableau précédent soit supérieur à 0 pour cette année-là."}
             </p>
