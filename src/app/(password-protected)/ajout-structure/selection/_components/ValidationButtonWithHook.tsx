@@ -32,7 +32,6 @@ export const ValidationButtonWithHook = (): ReactElement => {
   } = useLocalStorage(`ajout-structure-${structure?.dnaCode}-documents`, {});
 
   const handleValidation = () => {
-    console.log("structure", structure);
     updateIdentification({
       ...localIdentificationValue,
       dnaCode: structure?.dnaCode,

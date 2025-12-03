@@ -15,7 +15,7 @@ import {
   DocumentFinancierFlexibleFormValues,
   DocumentsFinanciersFlexibleFormValues,
 } from "@/schemas/forms/base/documentFinancier.schema";
-import { Granularity } from "@/types/documentfinancier";
+import { Granularity } from "@/types/document-financier";
 import { DocumentFinancierCategoryType } from "@/types/file-upload.type";
 
 export const YearlyFileUpload = ({

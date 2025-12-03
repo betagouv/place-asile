@@ -1,4 +1,4 @@
-import { Granularity } from "@/types/documentfinancier";
+import { Granularity } from "@/types/document-financier";
 import { DocumentFinancierCategoryType } from "@/types/file-upload.type";
 
 export const structureAutoriseesDocuments: StructureDocument[] = [
