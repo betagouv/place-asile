@@ -56,7 +56,7 @@ export const structureAutoriseesDocuments: StructureDocument[] = [
     subLabel: "nécessaires à l’analyse financière annuelle",
     value: "AUTRE_FINANCIER",
     yearIndex: 0,
-    required: true,
+    required: false,
   },
 ];
 export const structureSubventionneesDocuments: StructureDocument[] = [
@@ -83,7 +83,7 @@ export const structureSubventionneesDocuments: StructureDocument[] = [
     subLabel: "nécessaires à l’analyse financière annuelle",
     value: "AUTRE_FINANCIER",
     yearIndex: 0,
-    required: true,
+    required: false,
   },
 ];
 

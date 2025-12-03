@@ -24,7 +24,7 @@ export const structureMinimalApiSchema = z.object({
   nom: z.string().optional(),
   structureMillesimes: z.array(structureMillesimeApiSchema),
   cpomMillesimes: z.array(cpomMillesimeApiSchema).optional(),
-  cpomStructures: z.array(cpomStructureApiSchema),
+  cpomStructures: z.array(cpomStructureApiSchema).optional(),
   nomOfii: z.string().optional(),
   directionTerritoriale: z.string().optional(),
   activeInOfiiFileSince: z.string().datetime().nullish(),
