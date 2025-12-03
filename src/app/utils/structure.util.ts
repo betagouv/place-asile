@@ -135,3 +135,17 @@ export const isStructureInCpom = (structure: StructureApiType): boolean => {
     )?.cpom ?? false
   );
 };
+
+export const getCpomStructureDates = (
+  structure: StructureApiType
+): { debutCpom: string | null; finCpom: string | null } => {
+  const lastCpomStructure = structure.cpomStructures?.[0];
+  const lastCpomStructureDateDebut =
+    lastCpomStructure?.dateDebut || lastCpomStructure?.cpom.debutCpom;
+  const lastCpomStructureDateFin =
+    lastCpomStructure?.dateFin || lastCpomStructure?.cpom.finCpom;
+  return {
+    debutCpom: lastCpomStructureDateDebut,
+    finCpom: lastCpomStructureDateFin,
+  };
+};
