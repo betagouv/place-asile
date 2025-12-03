@@ -68,9 +68,11 @@ type SearchProps = {
   bati: string | null;
   placesAutorisees: string | null;
   departements: string | null;
+  operateurs: string | null;
   column?: StructureColumn | null;
   direction?: "asc" | "desc" | null;
   map?: boolean;
+  selection?: boolean;
 };
 export const findBySearch = async ({
   search,
@@ -79,9 +81,11 @@ export const findBySearch = async ({
   bati,
   placesAutorisees,
   departements,
+  operateurs,
   column,
   direction,
   map,
+  selection,
 }: SearchProps): Promise<Partial<Structure>[]> => {
   const where = getStructureSearchWhere({
     search,
@@ -89,6 +93,8 @@ export const findBySearch = async ({
     bati,
     departements,
     placesAutorisees,
+    operateurs,
+    selection,
   });
 
   if (map) {
@@ -118,8 +124,8 @@ export const findBySearch = async ({
 
   const structuresIds = await prisma.structuresOrder.findMany({
     where,
-    skip: page ? page * DEFAULT_PAGE_SIZE : 0,
-    take: DEFAULT_PAGE_SIZE,
+    skip: selection ? 0 : page ? page * DEFAULT_PAGE_SIZE : 0,
+    take: selection ? undefined : DEFAULT_PAGE_SIZE,
     orderBy,
     select: {
       id: true,
@@ -135,6 +141,11 @@ export const findBySearch = async ({
     include: {
       adresses: true,
       operateur: true,
+      structureMillesimes: {
+        orderBy: {
+          date: "desc",
+        },
+      },
       structureTypologies: {
         orderBy: {
           date: "desc",
@@ -163,6 +174,7 @@ export const countBySearch = async ({
   bati,
   placesAutorisees,
   departements,
+  operateurs,
 }: SearchProps): Promise<number> => {
   const where = getStructureSearchWhere({
     search,
@@ -170,6 +182,7 @@ export const countBySearch = async ({
     bati,
     departements,
     placesAutorisees,
+    operateurs,
   });
 
   return prisma.structuresOrder.count({
@@ -352,7 +365,6 @@ export const createOne = async (
         date303: structure.date303,
         debutConvention: structure.debutConvention,
         finConvention: structure.finConvention,
-        cpom: structure.cpom,
         creationDate: structure.creationDate,
         finessCode: structure.finessCode,
         lgbt: structure.lgbt,
@@ -360,8 +372,6 @@ export const createOne = async (
         public: convertToPublicType(structure.public),
         debutPeriodeAutorisation: structure.debutPeriodeAutorisation,
         finPeriodeAutorisation: structure.finPeriodeAutorisation,
-        debutCpom: structure.debutCpom,
-        finCpom: structure.finCpom,
         contacts: {
           createMany: {
             data: structure.contacts,
@@ -421,6 +431,8 @@ export const updateOne = async (
       activites,
       departementAdministratif,
       structureMillesimes,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars,
+      cpomStructures,
       ...structureProperties
     } = structure;
 

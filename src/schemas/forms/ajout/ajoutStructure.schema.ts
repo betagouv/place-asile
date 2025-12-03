@@ -1,5 +1,6 @@
 import z from "zod";
 
+import { structureMinimalApiSchema } from "@/schemas/api/structure.schema";
 import { StructureType } from "@/types/structure.type";
 
 const departementSchema = z.object({
@@ -12,14 +13,6 @@ const operateurSchema = z.object({
   name: z.string(),
 });
 
-const structureOfiiSchema = z.object({
-  dnaCode: z.string(),
-  nom: z.string().optional(),
-  type: z.nativeEnum(StructureType),
-  operateur: operateurSchema,
-  departement: departementSchema,
-});
-
 export const ajoutStructureSchema = z.object({
   departement: departementSchema,
   operateur: operateurSchema,
@@ -27,7 +20,5 @@ export const ajoutStructureSchema = z.object({
     (val) => (val === "" ? undefined : val),
     z.nativeEnum(StructureType)
   ),
-  structureOfii: structureOfiiSchema,
+  structure: structureMinimalApiSchema,
 });
-
-export type StructureOfiiFormType = z.infer<typeof structureOfiiSchema>;

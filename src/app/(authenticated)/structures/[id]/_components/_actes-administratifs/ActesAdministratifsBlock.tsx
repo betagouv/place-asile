@@ -4,6 +4,7 @@ import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
 import { DownloadItem } from "@/app/components/common/DownloadItem";
+import { isStructureInCpom } from "@/app/utils/structure.util";
 import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
@@ -23,7 +24,7 @@ export const ActesAdministratifsBlock = (): ReactElement => {
     {
       label: "CPOM",
       category: "CPOM",
-      isDisplayed: structure.cpom,
+      isDisplayed: isStructureInCpom(structure),
     },
     {
       label: "Conventions",

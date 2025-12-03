@@ -8,7 +8,6 @@ export const structureBaseSchema = z.object({
     (val) => (val === "" ? undefined : val),
     z.nativeEnum(StructureType)
   ),
-  cpom: z.boolean(),
 });
 
 export type StructureBaseFormValues = z.infer<typeof structureBaseSchema>;

@@ -3,6 +3,10 @@ import { ReactElement } from "react";
 
 import { DateBars } from "@/app/(authenticated)/structures/[id]/_components/_calendrier/DateBars";
 import { Block } from "@/app/components/common/Block";
+import {
+  getCurrentCpomStructureDates,
+  isStructureInCpom,
+} from "@/app/utils/structure.util";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
@@ -16,9 +20,10 @@ export const CalendrierBlock = (): ReactElement => {
     finPeriodeAutorisation,
     debutConvention,
     finConvention,
-    debutCpom,
-    finCpom,
   } = structure;
+
+  const isInCpom = isStructureInCpom(structure);
+  const { debutCpom, finCpom } = getCurrentCpomStructureDates(structure);
 
   const datePairs = [];
   if (debutPeriodeAutorisation && finPeriodeAutorisation) {
@@ -35,13 +40,14 @@ export const CalendrierBlock = (): ReactElement => {
       endDate: finConvention,
     });
   }
-  if (debutCpom && finCpom) {
+  if (isInCpom && debutCpom && finCpom) {
     datePairs.push({
-      label: "CPOM",
+      label: "CPOM en cours",
       startDate: debutCpom,
       endDate: finCpom,
     });
   }
+
   return (
     <Block
       title="Calendrier"

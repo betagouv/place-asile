@@ -17,6 +17,7 @@ import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import { getFinalisationFormStepStatus } from "@/app/utils/finalisationForm.util";
 import {
   isStructureAutorisee,
+  isStructureInCpom,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import {
@@ -43,15 +44,15 @@ export default function FinalisationFinance(): ReactElement {
     structure
   );
 
-  const hasCpom = structure.cpom;
+  const isInCpom = isStructureInCpom(structure);
   const isAutorisee = isStructureAutorisee(structure.type);
   const isSubventionnee = isStructureSubventionnee(structure.type);
 
   let schema;
   if (isAutorisee) {
-    schema = hasCpom ? autoriseeAvecCpomSchema : autoriseeSchema;
+    schema = isInCpom ? autoriseeAvecCpomSchema : autoriseeSchema;
   } else if (isSubventionnee) {
-    schema = hasCpom ? subventionneeAvecCpomSchema : subventionneeSchema;
+    schema = isInCpom ? subventionneeAvecCpomSchema : subventionneeSchema;
   }
 
   const defaultValues = getDefaultValues({ structure });

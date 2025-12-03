@@ -8,6 +8,7 @@ export const StepResume = ({
   title,
   link,
   className,
+  canEdit = true,
 }: StepResumeProps): ReactElement => {
   return (
     <section
@@ -18,15 +19,19 @@ export const StepResume = ({
     >
       <h2 className="text-title-blue-france w-full flex justify-between text-xl">
         {title}
-        <Button
-          priority="secondary"
-          iconId="fr-icon-edit-line"
-          linkProps={{ href: link }}
-        >
-          Modifier
-        </Button>
+        {canEdit ? (
+          <Button
+            priority="secondary"
+            iconId="fr-icon-edit-line"
+            linkProps={{ href: link }}
+          >
+            Modifier
+          </Button>
+        ) : (
+          children
+        )}
       </h2>
-      {children}
+      {canEdit && children}
     </section>
   );
 };
@@ -35,4 +40,5 @@ type StepResumeProps = PropsWithChildren & {
   title: string;
   link: string;
   className?: string;
+  canEdit?: boolean;
 };

@@ -1,7 +1,4 @@
-import {
-  FileUploadCategoryType,
-  FileUploadGranularityType,
-} from "@/types/file-upload.type";
+import { FileUploadCategoryType } from "@/types/file-upload.type";
 
 export const getCategoryLabel = (
   category: FileUploadCategoryType[number] | undefined
@@ -27,21 +24,18 @@ export const getCategoryLabel = (
     INSPECTION_CONTROLE: "Inspection contrôle",
     EVALUATION: "Évaluation",
     AUTRE: "Autre",
-    AUTRE_FINANCIER: "Autre financier",
+    AUTRE_FINANCIER: "Autre",
   };
   return labels[category] || "";
 };
 
-export const getGranularityLabel = (
-  granularity: FileUploadGranularityType[number] | undefined
+export const getShortDisplayedName = (
+  name: string = "",
+  length: number = 25
 ): string => {
-  if (!granularity) {
-    return "";
+  if (name.length > length) {
+    const splittedName = name.split(".");
+    return splittedName[0].slice(0, 20) + "..." + splittedName[1];
   }
-  const labels: Record<FileUploadGranularityType[number], string> = {
-    STRUCTURE: "Structure",
-    CPOM: "CPOM",
-    STRUCTURE_ET_CPOM: "Structure et CPOM",
-  };
-  return labels[granularity] || "";
+  return name;
 };

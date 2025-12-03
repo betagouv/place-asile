@@ -1,18 +1,14 @@
 import { useParams } from "next/navigation";
 import { ReactElement, useMemo } from "react";
 
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
-
-import { FileItem } from "../../../_components/FileItem";
-import { Year } from "../../../_components/Year";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
-} from "../../04-documents/documents";
+} from "@/app/components/forms/finance/documents/documentsStructures";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
 export const DocumentsFinanciers = (): ReactElement => {
   const params = useParams();
@@ -38,35 +34,57 @@ export const DocumentsFinanciers = (): ReactElement => {
     [isAutorisee]
   );
 
-  const documentIndexes = getDocumentIndexes(
-    years as unknown as string[],
-    documents
+  const startDate =
+    localStorageValues?.date303 ?? identificationValues?.creationDate;
+
+  const yearsToCheck = years.filter(
+    (year) => Number(year) >= Number(startDate?.substring(0, 4))
   );
 
+  const numberOfMissingDocuments = yearsToCheck
+    .map((year) =>
+      documents
+        .filter((document) => {
+          if (!document.required) {
+            return false;
+          }
+          const documentsFinanciers =
+            localStorageValues?.documentsFinanciers ?? [];
+          const findDocument = documentsFinanciers.find(
+            (documentFinancier) =>
+              documentFinancier.category === document.value &&
+              documentFinancier.date?.substring(0, 4) === year &&
+              documentFinancier.key
+          );
+          return !findDocument ? 1 : 0;
+        })
+        .reduce((accumulator: number) => accumulator + 1, 0)
+    )
+    .reduce((accumulator: number, current: number) => accumulator + current, 0);
+
+  if (numberOfMissingDocuments > 0) {
+    return (
+      <div className="flex items-center gap-2 max-w-md text-base font-normal">
+        <span className="fr-icon-warning-line text-default-error fr-icon--sm" />
+        <p className="text-default-error mb-0 italic">
+          <strong>
+            {numberOfMissingDocuments}{" "}
+            {numberOfMissingDocuments > 1
+              ? "documents obligatoires sont manquants"
+              : "document obligatoire est manquant"}
+            {" : "}
+          </strong>
+          nous vous contacterons rapidement afin de trouver une solution.
+        </p>
+      </div>
+    );
+  }
   return (
-    <>
-      {years.map((year) => (
-        <Year key={year} year={year}>
-          {documents.map((document) => {
-            const todayYear = new Date().getFullYear();
-            if (Number(year) <= todayYear - document.yearIndex) {
-              const documentKey = `${document.value}-${year}`;
-              const currentDocIndex = documentIndexes[documentKey];
-              return (
-                <FileItem
-                  key={`${document.value}-${year}`}
-                  title={document.label}
-                  fileKey={
-                    localStorageValues?.documentsFinanciers?.[currentDocIndex]
-                      ?.key
-                  }
-                />
-              );
-            }
-            return null;
-          })}
-        </Year>
-      ))}
-    </>
+    <div className="flex items-center gap-2 max-w-md text-base font-normal">
+      <span className="fr-icon-success-line text-title-blue-france fr-icon--sm" />
+      <p className="text-title-blue-france mb-0 italic">
+        Tous les documents obligatoires ont été transmis.
+      </p>
+    </div>
   );
 };
