@@ -14,8 +14,10 @@ import {
 import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
-import { createFakeStuctureWithRelations } from "./seeders/structure.seed";
-import { createFakeStructureOfii } from "./seeders/structure-ofii.seed";
+import {
+  createFakeStructure,
+  createFakeStuctureWithRelations,
+} from "./seeders/structure.seed";
 import { wipeTables } from "./utils/wipe";
 
 const prisma = createPrismaClient();
@@ -54,20 +56,40 @@ export async function seed(): Promise<void> {
   );
 
   for (const operateurToInsert of operateursToInsert) {
+    const departementAdministratif = String(
+      faker.number.int({ min: 1, max: 95 })
+    ).padStart(2, "0");
+    const baseParams = {
+      cpom: faker.datatype.boolean(),
+      type: faker.helpers.arrayElement([
+        StructureType.CADA,
+        StructureType.HUDA,
+        StructureType.CAES,
+        StructureType.CPH,
+      ]),
+      isFinalised: faker.datatype.boolean(),
+      formDefinitionId: formDefinition.id,
+      stepDefinitions,
+      operateurName: operateurToInsert.name,
+      departementAdministratif,
+    };
     const structuresToInsert = Array.from(
       { length: faker.number.int({ min: 50, max: 100 }) },
       () => {
         const fakeStructure = createFakeStuctureWithRelations({
-          cpom: faker.datatype.boolean(),
-          type: faker.helpers.arrayElement([
-            StructureType.CADA,
-            StructureType.HUDA,
-            StructureType.CAES,
-            StructureType.CPH,
-          ]),
-          isFinalised: faker.datatype.boolean(),
-          formDefinitionId: formDefinition.id,
-          stepDefinitions,
+          ...baseParams,
+          ofii: false,
+        });
+        return fakeStructure;
+      }
+    );
+
+    const structuresOfiiToInsert = Array.from(
+      { length: faker.number.int({ min: 50, max: 100 }) },
+      () => {
+        const fakeStructure = createFakeStructure({
+          ...baseParams,
+          ofii: true,
         });
         return fakeStructure;
       }
@@ -75,7 +97,7 @@ export async function seed(): Promise<void> {
 
     const operateurWithStructures = {
       ...operateurToInsert,
-      structures: structuresToInsert,
+      structures: [...structuresToInsert, ...structuresOfiiToInsert],
     };
 
     console.log(
@@ -84,35 +106,6 @@ export async function seed(): Promise<void> {
 
     await prisma.operateur.create({
       data: convertToPrismaObject(operateurWithStructures),
-    });
-  }
-
-  const operateurs = await prisma.operateur.findMany();
-  const departements = await prisma.departement.findMany();
-  for (const operateur of operateurs) {
-    const structuresOfiiToInsert = Array.from(
-      { length: faker.number.int({ min: 100, max: 300 }) },
-      () => {
-        const fakeStructureOfii = createFakeStructureOfii({
-          type: faker.helpers.arrayElement([
-            StructureType.CADA,
-            StructureType.HUDA,
-            StructureType.CAES,
-            StructureType.CPH,
-          ]),
-          operateurId: operateur.id,
-          departementNumero: faker.helpers.arrayElement(departements).numero,
-        });
-        return fakeStructureOfii;
-      }
-    );
-
-    console.log(
-      `🏠 Ajout de ${structuresOfiiToInsert.length} structures ofii pour ${operateur.name}`
-    );
-
-    await prisma.structureOfii.createMany({
-      data: structuresOfiiToInsert,
     });
   }
 

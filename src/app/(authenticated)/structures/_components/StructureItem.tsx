@@ -33,7 +33,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
         <RepartitionBadge repartition={getRepartition(structure)} />
       </td>
       <td className="text-left!">{getCommuneLabel(structure)}</td>
-      <td>{structure.structureTypologies?.[0].placesAutorisees}</td>
+      <td>{structure.structureTypologies?.[0]?.placesAutorisees}</td>
       <td className="text-left!">
         {structure.finConvention ? (
           formatDate(structure.finConvention)
