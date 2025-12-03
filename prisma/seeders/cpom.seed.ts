@@ -108,6 +108,7 @@ export const createFakeCpoms = async (
     const cpom = await prisma.cpom.create({
       data: {
         name: cpomName,
+        operateurId: Number(operateurIdStr),
         debutCpom,
         finCpom,
         structures: {
