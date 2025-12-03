@@ -28,42 +28,73 @@ let counter = 1;
 // TODO: re-add a way to name with the fact the structure is, or has been part of a CPOM
 const generateDnaCode = ({
   type,
-}: Pick<FakeStructureOptions, "type">): string => {
-  return `${type}-${counter++}`;
+  operateurName,
+  departementAdministratif,
+}: Partial<FakeStructureOptions>): string => {
+  return `${type}-${operateurName}-${departementAdministratif}-${counter++}`;
 };
 
-const createFakeStructure = ({
+export const createFakeStructure = ({
   cpom,
   type,
-}: FakeStructureOptions): Omit<Structure, "id" | "operateurId"> => {
+  ofii,
+  operateurName,
+  departementAdministratif,
+}: FakeStructureOptions): Partial<Structure> => {
   const [debutConvention, finConvention] = generateDatePair();
   const [debutPeriodeAutorisation, finPeriodeAutorisation] = generateDatePair();
   const [debutCpom, finCpom] = generateDatePair();
 
   const isAutorisee = isStructureAutorisee(type);
-
+  const createdAt = faker.date.past();
   const creationDate = faker.date.past();
-
-  return {
+  const baseData = {
     dnaCode: generateDnaCode({
       type,
+      operateurName,
+      departementAdministratif,
+    }),
+    type,
+    nom: faker.lorem.words(2),
+    nomOfii: faker.lorem.words(2),
+    departementAdministratif,
+    directionTerritoriale: "DT " + faker.location.city(),
+    createdAt,
+    updatedAt: createdAt,
+    activeInOfiiFileSince: createdAt,
+    inactiveInOfiiFileSince:
+      faker.helpers.maybe(
+        () =>
+          faker.date.between({
+            from: createdAt,
+            to: new Date(),
+          }),
+        { probability: 0.1 }
+      ) ?? null,
+  };
+
+  if (ofii) {
+    return baseData;
+  }
+
+  return {
+    ...baseData,
+    dnaCode: generateDnaCode({
+      type,
+      operateurName,
+      departementAdministratif,
     }),
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
-    type,
     adresseAdministrative: faker.location.streetAddress(),
     communeAdministrative: faker.location.city(),
     codePostalAdministratif: faker.location.zipCode(),
-    departementAdministratif: String(
-      faker.number.int({ min: 1, max: 95 })
-    ).padStart(2, "0"),
     latitude: Prisma.Decimal(
       faker.location.latitude({ min: 43.550851, max: 49.131627 })
     ),
     longitude: Prisma.Decimal(
       faker.location.longitude({ min: -0.851371, max: 5.843377 })
     ),
-    nom: faker.lorem.words(2),
     date303: null,
     debutConvention,
     finConvention,
@@ -82,16 +113,7 @@ const createFakeStructure = ({
     echeancePlacesACreer: faker.date.future(),
     echeancePlacesAFermer: faker.date.future(),
     notes: faker.lorem.lines(2),
-    createdAt: faker.date.past(),
-    updatedAt: faker.date.past(),
-    nomOfii: faker.lorem.words(2),
-    directionTerritoriale: "DT " + faker.location.city(),
     activeInOfiiFileSince:
-      faker.helpers.maybe(
-        () => faker.date.between({ from: creationDate, to: new Date() }),
-        { probability: 0.01 }
-      ) ?? null,
-    inactiveInOfiiFileSince:
       faker.helpers.maybe(
         () => faker.date.between({ from: creationDate, to: new Date() }),
         { probability: 0.01 }
@@ -120,11 +142,18 @@ export const createFakeStuctureWithRelations = ({
   isFinalised,
   formDefinitionId,
   stepDefinitions,
-}: FakeStructureOptions & {
-  formDefinitionId: number;
-  stepDefinitions: { id: number; slug: string }[];
-}): Omit<StructureWithRelations, "id"> => {
-  const fakeStructure = createFakeStructure({ cpom, type, isFinalised });
+  ofii,
+  operateurName,
+  departementAdministratif,
+}: FakeStructureWithRelationsOptions): Omit<StructureWithRelations, "id"> => {
+  const fakeStructure = createFakeStructure({
+    cpom,
+    type,
+    isFinalised,
+    ofii,
+    operateurName,
+    departementAdministratif,
+  });
   const placesAutorisees = faker.number.int({ min: 1, max: 100 });
 
   const forms = [
@@ -179,4 +208,18 @@ export type FakeStructureOptions = {
   cpom: boolean;
   type: StructureType;
   isFinalised: boolean;
+  ofii: boolean;
+  operateurName: string;
+  departementAdministratif: string;
+};
+
+export type FakeStructureWithRelationsOptions = {
+  cpom: boolean;
+  type: StructureType;
+  isFinalised: boolean;
+  ofii: boolean;
+  operateurName: string;
+  departementAdministratif: string;
+  formDefinitionId: number;
+  stepDefinitions: { id: number; slug: string }[];
 };
