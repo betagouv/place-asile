@@ -14,6 +14,9 @@ export default function StructureContent() {
   const components: Partial<Record<StructureType, () => ReactElement>> = {
     [StructureType.PRAHDA]: PrahdaStructure,
   };
-  const StructureComponent = components[structure.type] || Structure;
+  const StructureComponent =
+    structure.type && components[structure.type]
+      ? components[structure.type]!
+      : Structure;
   return <StructureComponent />;
 }
