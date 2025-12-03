@@ -41,11 +41,15 @@ export default function FinalisationDocumentsFinanciers() {
     const documentsFinanciers = data.documentsFinanciers.filter(
       (documentFinancier) => documentFinancier.key
     );
-
+    const structureMillesimes = data.structureMillesimes?.map((millesime) => ({
+      ...millesime,
+      operateurComment: millesime.operateurComment ?? undefined,
+    }));
     await handleAutoSave({
       ...data,
       documentsFinanciers,
       dnaCode: structure.dnaCode,
+      structureMillesimes,
     });
   };
 

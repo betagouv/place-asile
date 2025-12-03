@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 export type FileUploadResponse = {
   key: string;
   mimeType: string;
@@ -29,22 +31,25 @@ export const useFileUpload = () => {
     };
   };
 
-  const getFile = async (key: string): Promise<FileUploadWithLink> => {
-    const encodedKey = encodeURIComponent(key);
-    const response = await fetch(`/api/files/${encodedKey}`);
-    const result = await response.json();
-    return {
-      ...result,
-      fileUrl: await getDownloadLink(result.key),
-    };
-  };
-
-  const getDownloadLink = async (key: string): Promise<string> => {
+  const getDownloadLink = useCallback(async (key: string): Promise<string> => {
     const encodedKey = encodeURIComponent(key);
     const response = await fetch(`/api/files/${encodedKey}?getLink=true`);
     const result = await response.json();
     return result.url;
-  };
+  }, []);
+
+  const getFile = useCallback(
+    async (key: string): Promise<FileUploadWithLink> => {
+      const encodedKey = encodeURIComponent(key);
+      const response = await fetch(`/api/files/${encodedKey}`);
+      const result = await response.json();
+      return {
+        ...result,
+        fileUrl: await getDownloadLink(result.key),
+      };
+    },
+    [getDownloadLink]
+  );
 
   const deleteFile = async (key: string): Promise<void> => {
     const encodedKey = encodeURIComponent(key);

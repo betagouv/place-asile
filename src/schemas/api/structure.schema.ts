@@ -8,7 +8,7 @@ import { adresseApiSchema } from "./adresse.schema";
 import { budgetApiSchema } from "./budget.schema";
 import { contactApiSchema } from "./contact.schema";
 import { controleApiSchema } from "./controle.schema";
-import { cpomMillesimeCreationApiSchema } from "./cpom.schema";
+import { cpomMillesimeApiSchema, cpomStructureApiSchema } from "./cpom.schema";
 import { documentFinancierApiSchema } from "./documentFinancier.schema";
 import { evaluationApiSchema } from "./evaluation.schema";
 import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grave.schema";
@@ -17,12 +17,25 @@ import { operateurApiSchema } from "./operateur.schema";
 import { structureMillesimeApiSchema } from "./structure-millesime.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
 
-export const structureCreationApiSchema = z.object({
-  dnaCode: z.string().min(1, "Le code DNA est requis"),
-  filiale: z.string().optional(),
+export const structureMinimalApiSchema = z.object({
+  dnaCode: z.string(),
   operateur: operateurApiSchema,
   type: z.nativeEnum(StructureType),
   nom: z.string().optional(),
+  structureMillesimes: z.array(structureMillesimeApiSchema),
+  cpomMillesimes: z.array(cpomMillesimeApiSchema).optional(),
+  cpomStructures: z.array(cpomStructureApiSchema).optional(),
+  nomOfii: z.string().optional(),
+  directionTerritoriale: z.string().optional(),
+  activeInOfiiFileSince: z.string().datetime().nullish(),
+  inactiveInOfiiFileSince: z.string().datetime().nullish(),
+  departementAdministratif: z
+    .string()
+    .min(1, "Le département de l'adresse administrative est requis"),
+});
+
+export const structureCreationApiSchema = structureMinimalApiSchema.extend({
+  filiale: z.string().optional(),
   adresseAdministrative: z
     .string()
     .min(1, "L'adresse administrative est requise"),
@@ -39,9 +52,6 @@ export const structureCreationApiSchema = z.object({
   longitude: z.string().optional(),
   debutConvention: z.string().datetime().nullish(),
   finConvention: z.string().datetime().nullish(),
-  cpom: z.boolean({
-    message: "Le CPOM est requis",
-  }),
   creationDate: z
     .string()
     .datetime({ message: "La date de création est requise" }),
@@ -56,14 +66,12 @@ export const structureCreationApiSchema = z.object({
   public: z.nativeEnum(PublicType),
   debutPeriodeAutorisation: z.string().datetime().nullish(),
   finPeriodeAutorisation: z.string().datetime().nullish(),
-  debutCpom: z.string().datetime().nullish(),
-  finCpom: z.string().datetime().nullish(),
   adresses: z.array(adresseApiSchema),
   structureTypologies: z.array(structureTypologieApiSchema),
   forms: z.array(formApiSchema).optional(),
   contacts: z.array(contactApiSchema),
   documentsFinanciers: z.array(documentFinancierApiSchema),
-  cpomMillesimes: z.array(cpomMillesimeCreationApiSchema).optional(),
+  cpomMillesimes: z.array(cpomMillesimeApiSchema).optional(),
   structureMillesimes: z.array(structureMillesimeApiSchema).optional(),
   nomOfii: z.string().optional(),
   directionTerritoriale: z.string().optional(),
@@ -101,7 +109,6 @@ const remainingStructureUpdateApiSchema = z.object({
     .optional(),
   activites: z.array(activiteApiSchema).optional(),
   budgets: z.array(budgetApiSchema).optional(),
-  cpomMillesimes: z.array(cpomMillesimeCreationApiSchema).optional(),
   forms: z.array(formApiSchema).optional(),
   actesAdministratifs: z.array(acteAdministratifApiSchema.partial()).optional(),
 });
@@ -115,6 +122,8 @@ export const structureApiSchema = structureCreationApiSchema.and(
     id: z.number(),
   })
 );
+
+export type StructureMinimalApiType = z.infer<typeof structureMinimalApiSchema>;
 
 export type StructureCreationApiType = z.infer<
   typeof structureCreationApiSchema

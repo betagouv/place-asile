@@ -1,34 +1,37 @@
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import { z } from "zod";
 
 import {
+  frenchDateToISO,
   nullishFrenchDateToISO,
   optionalFrenchDateToISO,
 } from "@/app/utils/zodCustomFields";
 import { DocumentFinancierCategory } from "@/types/file-upload.type";
 
-dayjs.extend(customParseFormat);
-
 const DocumentFinancierFlexibleSchema = z.object({
   key: z.string().optional(),
   date: optionalFrenchDateToISO(),
   category: z.enum(DocumentFinancierCategory).optional(),
+  granularity: z.string().optional(),
+  nom: z.string().optional(),
 });
 
 export const DocumentsFinanciersFlexibleSchema = z.object({
   creationDate: optionalFrenchDateToISO(),
   date303: nullishFrenchDateToISO(),
   documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
+  structureMillesimes: z
+    .array(
+      z.object({
+        date: frenchDateToISO(),
+        cpom: z.boolean(),
+        operateurComment: z.string().nullish(),
+      })
+    )
+    .optional(),
 });
 
-export const DocumentsFinanciersStrictSchema = z
-  .object({
-    creationDate: optionalFrenchDateToISO(),
-    date303: nullishFrenchDateToISO(),
-    documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
-  })
-  .superRefine((data, ctx) => {
+export const DocumentsFinanciersStrictSchema =
+  DocumentsFinanciersFlexibleSchema.superRefine((data, ctx) => {
     const referenceYear = Number(
       (data.date303 ?? data.creationDate)?.substring(0, 4)
     );

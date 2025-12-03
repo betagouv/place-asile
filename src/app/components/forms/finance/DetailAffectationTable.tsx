@@ -12,6 +12,7 @@ import { getYearRange } from "@/app/utils/date.util";
 import { formatCurrency } from "@/app/utils/number.util";
 import {
   isStructureAutorisee,
+  isStructureInCpom,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 
@@ -29,7 +30,7 @@ export const DetailAffectationTable = ({
   const { structure } = useStructureContext();
   const yearsToDisplay = years.slice(-sliceYears);
 
-  const hasCpom = structure?.cpom;
+  const isInCpom = isStructureInCpom(structure);
   const isAutorisee = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
 
@@ -120,7 +121,7 @@ export const DetailAffectationTable = ({
           <th
             scope="col"
             key="fondsDedies"
-            className={cn(Boolean(structure?.cpom) ? "" : "hidden")}
+            className={cn(isInCpom ? "" : "hidden")}
           >
             FONDS
             <br />
@@ -130,9 +131,9 @@ export const DetailAffectationTable = ({
             scope="col"
             key="reportANouveau"
             className={cn(
-              isAutorisee || (isSubventionnee && hasCpom) ? "" : "hidden"
+              isAutorisee || (isSubventionnee && isInCpom) ? "" : "hidden"
             )}
-            aria-hidden={!(isAutorisee || (isSubventionnee && hasCpom))}
+            aria-hidden={!(isAutorisee || (isSubventionnee && isInCpom))}
           >
             Report à nouveau
           </th>,
@@ -140,9 +141,9 @@ export const DetailAffectationTable = ({
             scope="col"
             key="autre"
             className={cn(
-              isAutorisee || (isSubventionnee && hasCpom) ? "" : "hidden"
+              isAutorisee || (isSubventionnee && isInCpom) ? "" : "hidden"
             )}
-            aria-hidden={!(isAutorisee || (isSubventionnee && hasCpom))}
+            aria-hidden={!(isAutorisee || (isSubventionnee && isInCpom))}
           >
             <Tooltip title="Précisez dans 'Commentaire'">
               Autre{" "}
@@ -259,7 +260,7 @@ export const DetailAffectationTable = ({
                   &nbsp;€
                 </div>
               </td>
-              {structure?.cpom && (
+              {isInCpom && (
                 <td>
                   <div className="flex items-center gap-2">
                     <InputWithValidation
@@ -278,7 +279,7 @@ export const DetailAffectationTable = ({
                 </td>
               )}
 
-              {(isAutorisee || (isSubventionnee && hasCpom)) && (
+              {(isAutorisee || (isSubventionnee && isInCpom)) && (
                 <>
                   <td>
                     <div className="flex items-center gap-2">

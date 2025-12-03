@@ -13,34 +13,8 @@ const baseCalendrierSchema = structureBaseSchema.extend({
   finPeriodeAutorisation: optionalFrenchDateToISO(),
   debutConvention: optionalFrenchDateToISO(),
   finConvention: optionalFrenchDateToISO(),
-  debutCpom: optionalFrenchDateToISO(),
-  finCpom: optionalFrenchDateToISO(),
 });
 export const calendrierSchema = baseCalendrierSchema
-  .refine(
-    (data) => {
-      if (data.cpom && !data.debutCpom) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "La date de début CPOM est obligatoire",
-      path: ["debutCpom"],
-    }
-  )
-  .refine(
-    (data) => {
-      if (data.cpom && !data.finCpom) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "La date de fin CPOM est obligatoire",
-      path: ["finCpom"],
-    }
-  )
   .superRefine((data, ctx) => {
     if (isStructureAutorisee(data.type)) {
       if (!data.debutPeriodeAutorisation) {
@@ -52,7 +26,7 @@ export const calendrierSchema = baseCalendrierSchema
         });
       }
 
-      if (data.cpom && !data.finPeriodeAutorisation) {
+      if (!data.finPeriodeAutorisation) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message:
@@ -138,27 +112,6 @@ export const calendrierSchema = baseCalendrierSchema
     {
       message: "La date de fin doit être postérieure à la date de début",
       path: ["finConvention"],
-    }
-  )
-  .refine(
-    (data) => {
-      if (
-        data.debutCpom &&
-        data.finCpom &&
-        data.debutCpom !== "" &&
-        data.finCpom !== ""
-      ) {
-        const debutDate = new Date(
-          data.debutCpom.split("/").reverse().join("-")
-        );
-        const finDate = new Date(data.finCpom.split("/").reverse().join("-"));
-        return finDate > debutDate;
-      }
-      return true;
-    },
-    {
-      message: "La date de fin doit être postérieure à la date de début",
-      path: ["finCpom"],
     }
   );
 

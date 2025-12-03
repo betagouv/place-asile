@@ -634,6 +634,7 @@ view StructuresOrder {
   bati                     String?
   placesAutorisees         Int?
   finConvention            DateTime?
+  hasForms                 Boolean?
 
   @@map("structures_order")
   @@schema("reporting")
