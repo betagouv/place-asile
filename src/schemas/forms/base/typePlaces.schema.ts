@@ -14,6 +14,10 @@ export const typologieItemBaseSchema = z.object({
   lgbt: zSafeDecimals(),
   fvvTeh: zSafeDecimals(),
   date: frenchDateToISO(),
+  placesACreer: zSafeDecimals(),
+  placesAFermer: zSafeDecimals(),
+  echeancePlacesACreer: optionalFrenchDateToISO(),
+  echeancePlacesAFermer: optionalFrenchDateToISO(),
 });
 
 const typologieItemWithIdSchema = typologieItemBaseSchema.extend({
