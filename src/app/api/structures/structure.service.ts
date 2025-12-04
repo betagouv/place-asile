@@ -4,7 +4,7 @@ import {
   Structure,
   StructureType,
 } from "@/generated/prisma/client";
-import { StructureUpdateApiType } from "@/schemas/api/structure.schema";
+import { StructureAgentUpdateApiType } from "@/schemas/api/structure.schema";
 import {
   ActeAdministratifCategory,
   DocumentFinancierCategory,
@@ -197,7 +197,7 @@ export const getStructureSearchWhere = ({
 
 export const createOrUpdateStructure = async (
   tx: PrismaTransaction,
-  structure: StructureUpdateApiType
+  structure: StructureAgentUpdateApiType
 ): Promise<Structure> => {
   const {
     public: publicType,

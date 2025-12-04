@@ -9,18 +9,14 @@ import { budgetApiSchema } from "./budget.schema";
 import { contactApiSchema } from "./contact.schema";
 import { controleApiSchema } from "./controle.schema";
 import { cpomMillesimeApiSchema, cpomStructureApiSchema } from "./cpom.schema";
-import { cpomMillesimeApiSchema, cpomStructureApiSchema } from "./cpom.schema";
 import { documentFinancierApiSchema } from "./documentFinancier.schema";
 import { evaluationApiSchema } from "./evaluation.schema";
 import { evenementIndesirableGraveApiSchema } from "./evenement-indesirable-grave.schema";
 import { formApiSchema } from "./form.schema";
 import { operateurApiSchema } from "./operateur.schema";
 import { structureMillesimeApiSchema } from "./structure-millesime.schema";
-import { structureMillesimeApiSchema } from "./structure-millesime.schema";
 import { structureTypologieApiSchema } from "./structure-typologie.schema";
 
-export const structureMinimalApiSchema = z.object({
-  dnaCode: z.string(),
 export const structureMinimalApiSchema = z.object({
   dnaCode: z.string(),
   operateur: operateurApiSchema,
@@ -90,7 +86,6 @@ const partialstructureOperateurUpdateApiSchema =
     structureTypologies: z
       .array(structureTypologieApiSchema.partial())
       .optional(),
-    structureMillesimes: z.array(structureMillesimeApiSchema).optional(),
     structureMillesimes: z.array(structureMillesimeApiSchema).optional(),
   });
 
