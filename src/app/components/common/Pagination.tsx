@@ -31,9 +31,7 @@ export const Pagination = ({ totalStructures }: Props): ReactElement | null => {
             role="link"
             onClick={(e) => {
               e.preventDefault();
-              if (currentPage === 0) {
-                setCurrentPage(0);
-              }
+              setCurrentPage(0);
             }}
           >
             Première page
@@ -89,9 +87,7 @@ export const Pagination = ({ totalStructures }: Props): ReactElement | null => {
             aria-disabled={currentPage + 1 < totalPages}
             onClick={(e) => {
               e.preventDefault();
-              if (currentPage + 1 < totalPages) {
-                setCurrentPage(totalPages);
-              }
+              setCurrentPage(totalPages - 1);
             }}
           >
             Dernière page
