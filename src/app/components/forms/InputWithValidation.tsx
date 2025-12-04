@@ -146,6 +146,7 @@ export default function InputWithValidation<
         onBlur: field.onBlur,
         min,
         max,
+        step: "any",
         id,
       }}
       label={label}
