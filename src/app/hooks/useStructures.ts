@@ -142,6 +142,10 @@ const transformAjoutFormStructureToApiStructure = async (
       fvvTeh: Number(
         String(typologie.fvvTeh).replace(",", ".").replaceAll(" ", "")
       ),
+      placesACreer: typologie.placesACreer,
+      placesAFermer: typologie.placesAFermer,
+      echeancePlacesACreer: typologie.echeancePlacesACreer,
+      echeancePlacesAFermer: typologie.echeancePlacesAFermer,
       date: formatDateToIsoString(typologie.date) as string,
     })),
     documentsFinanciers:
