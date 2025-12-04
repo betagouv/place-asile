@@ -120,7 +120,7 @@ export const FiltersRegion = ({
         </div>
       }
     >
-      {!isRegionWithOneDepartement && children}
+      <div className="ml-3">{!isRegionWithOneDepartement && children}</div>
     </Accordion>
   );
 };

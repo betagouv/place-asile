@@ -16,6 +16,13 @@ export const OrderButton = ({
   } else if (column === currentColumn && currentDirection === "desc") {
     ariaSort = "descending";
   }
+  if (
+    !currentColumn &&
+    !currentDirection &&
+    column === "departementAdministratif"
+  ) {
+    ariaSort = "ascending";
+  }
   return (
     <Button
       priority="tertiary no outline"

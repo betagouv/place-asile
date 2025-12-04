@@ -2,6 +2,7 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { cn } from "@/app/utils/classname.util";
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
 
@@ -94,7 +95,10 @@ export const Filters = () => {
           priority="tertiary"
           size="small"
           onClick={() => handleTogglePanel("filters")}
-          className="flex gap-1"
+          className={cn(
+            "flex gap-1",
+            isFiltersActive && "bg-[var(--blue-france-975-sun-113)]"
+          )}
           aria-label={`Filtres ${isFiltersActive ? "actifs" : "inactifs"}`}
           aria-pressed={isFiltersActive}
         >
@@ -119,7 +123,10 @@ export const Filters = () => {
           priority="tertiary"
           size="small"
           onClick={() => handleTogglePanel("location")}
-          className="flex gap-1 whitespace-nowrap"
+          className={cn(
+            "flex gap-1 whitespace-nowrap",
+            isLocationActive && "bg-[var(--blue-france-975-sun-113)]"
+          )}
           aria-label={`Filtres par région / département ${isLocationActive ? "actifs" : "inactifs"}`}
           aria-pressed={isLocationActive}
         >
