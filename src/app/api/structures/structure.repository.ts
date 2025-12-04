@@ -101,6 +101,7 @@ export const findBySearch = async ({
         },
       },
       select: {
+        id: true,
         latitude: true,
         longitude: true,
       },
