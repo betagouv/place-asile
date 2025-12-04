@@ -25,10 +25,10 @@ model Structure {
   dnaCode                      String                      @unique
   filiale                      String?
   type                         StructureType?
-  placesACreer                 Int?
-  placesAFermer                Int?
-  echeancePlacesACreer         DateTime?
-  echeancePlacesAFermer        DateTime?
+  placesACreer                 Int? // TODO: à nettoyer après migration
+  placesAFermer                Int? // à nettoyer après migration
+  echeancePlacesACreer         DateTime? // à nettoyer après migration
+  echeancePlacesAFermer        DateTime? // à nettoyer après migration
   adresseAdministrative        String?
   codePostalAdministratif      String?
   communeAdministrative        String?
