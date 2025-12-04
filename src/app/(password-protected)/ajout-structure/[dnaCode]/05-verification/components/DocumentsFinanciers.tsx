@@ -35,12 +35,8 @@ export const DocumentsFinanciers = (): ReactElement => {
   );
 
   const startYear = localStorageValues?.date303
-    ? localStorageValues.date303.substring(
-        localStorageValues.date303.length - 4
-      )
-    : identificationValues?.creationDate?.substring(
-        identificationValues?.creationDate.length - 4
-      );
+    ? Number(localStorageValues?.date303?.split("/")?.[2])
+    : Number(identificationValues?.creationDate?.split("/")?.[2]);
 
   const yearsToCheck = years.filter((year) => {
     return Number(year) >= Number(startYear);
