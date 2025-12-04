@@ -34,12 +34,16 @@ export const DocumentsFinanciers = (): ReactElement => {
     [isAutorisee]
   );
 
-  const startDate =
-    localStorageValues?.date303 ?? identificationValues?.creationDate;
+  // date303 is iso and creationDate is DD/MM/YYYY
+  const startYear =
+    localStorageValues?.date303?.substring(0, 4) ||
+    identificationValues?.creationDate?.substring(
+      identificationValues?.creationDate.length - 4
+    );
 
-  const yearsToCheck = years.filter(
-    (year) => Number(year) >= Number(startDate?.substring(0, 4))
-  );
+  const yearsToCheck = years.filter((year) => {
+    return Number(year) >= Number(startYear);
+  });
 
   const numberOfMissingDocuments = yearsToCheck
     .map((year) =>

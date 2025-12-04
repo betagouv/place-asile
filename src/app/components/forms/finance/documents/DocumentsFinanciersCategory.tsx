@@ -45,7 +45,7 @@ export const DocumentsFinanciersCategory = ({
             </div>
             <span className="text-sm ">{documentType.subLabel}</span>
           </div>
-          {documentType.required && (
+          {(documentType.required || isFilled) && (
             <div
               className={cn(
                 "uppercase text-[0.625rem]",

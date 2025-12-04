@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { useRedirectIfStructureExists } from "@/app/hooks/useRedirectIfStructureExists";
 import { useStructures } from "@/app/hooks/useStructures";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
@@ -21,6 +22,8 @@ import { StepResume } from "./components/StepResume";
 import { TypePlaces } from "./components/TypePlaces";
 
 export default function StepVerification() {
+  useRedirectIfStructureExists();
+
   const { addStructure } = useStructures();
   const router = useRouter();
   const params = useParams();
