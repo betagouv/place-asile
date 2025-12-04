@@ -1,7 +1,10 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
-import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
+import {
+  getCoordinates,
+  transformFormAdressesToApiAdresses,
+} from "@/app/utils/adresse.util";
 import { transformAjoutFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { formatDateToIsoString } from "@/app/utils/date.util";
 import { StructureApiType } from "@/schemas/api/structure.schema";
@@ -15,7 +18,7 @@ dayjs.extend(customParseFormat);
 
 export const useStructures = (): UseStructureResult => {
   const addStructure = async (values: AjoutFormValues): Promise<string> => {
-    const structure = transformAjoutFormStructureToApiStructure(values);
+    const structure = await transformAjoutFormStructureToApiStructure(values);
     try {
       const response = await fetch("/api/structures", {
         method: "POST",
@@ -82,9 +85,12 @@ type UseStructureResult = {
   ) => Promise<string>;
 };
 
-const transformAjoutFormStructureToApiStructure = (
+const transformAjoutFormStructureToApiStructure = async (
   values: AjoutFormValues
-): DeepPartial<StructureApiType> => {
+): Promise<DeepPartial<StructureApiType>> => {
+  const fullAdress = `${values.adresseAdministrative}, ${values.codePostalAdministratif} ${values.communeAdministrative}`;
+  const coordinates = await getCoordinates(fullAdress);
+
   return {
     dnaCode: values.dnaCode,
     operateur: values.operateur,
@@ -94,6 +100,8 @@ const transformAjoutFormStructureToApiStructure = (
     codePostalAdministratif: values.codePostalAdministratif,
     communeAdministrative: values.communeAdministrative,
     departementAdministratif: values.departementAdministratif,
+    latitude: (coordinates.latitude || 0).toString(),
+    longitude: (coordinates.longitude || 0).toString(),
     nom: values.nom,
     debutConvention: formatDateToIsoString(values.debutConvention),
     finConvention: formatDateToIsoString(values.finConvention),
