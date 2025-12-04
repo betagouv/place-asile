@@ -11,6 +11,7 @@ import {
 import { DEPARTEMENTS } from "@/constants";
 
 import { RepartitionBadge } from "./RepartitionBadge";
+
 export const StructureMarkerContent = ({ id }: { id: number }) => {
   const { structure } = useFetchStructure(id);
   if (!structure) {
