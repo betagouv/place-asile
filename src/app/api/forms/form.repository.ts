@@ -93,8 +93,13 @@ const createCompleteFormWithSteps = async (
 
 export const initializeDefaultForms = async (
   tx: PrismaTransaction,
+  isOperateurUpdate: boolean,
   structureCodeDna: string
 ): Promise<void> => {
+  if (!isOperateurUpdate) {
+    return;
+  }
+
   const formDefinition = await tx.formDefinition.findUnique({
     where: { slug: "finalisation-v1" },
     include: { stepsDefinition: true },

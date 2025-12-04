@@ -361,9 +361,7 @@ export const updateOne = async (
     return await prisma.$transaction(async (tx) => {
       const updatedStructure = await createOrUpdateStructure(tx, structure);
 
-      if (isOperateurUpdate) {
-        await initializeDefaultForms(tx, structure.dnaCode);
-      }
+      await initializeDefaultForms(tx, isOperateurUpdate, structure.dnaCode);
 
       await createOrUpdateContacts(tx, contacts, structure.dnaCode);
       await createOrUpdateBudgets(tx, budgets, structure.dnaCode);
