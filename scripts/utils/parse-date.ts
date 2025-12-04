@@ -18,4 +18,4 @@ export const parseDate = (value: string, context: string): Date => {
 
 // 1er janvier à 12:00:00 depuis une année
 export const buildYearStartDate = (year: number): Date =>
-  new Date(year, 0, 1, 12, 0, 0);
+  new Date(year, 0, 1, 13, 0, 0);

@@ -47,9 +47,10 @@ const migratePlacesToStructureTypologie = async () => {
     console.log("🔄 Migration vers StructureTypologie...");
 
     let updatedTypologiesCount = 0;
+    let errorCount = 0;
 
-    await prisma.$transaction(async (tx) => {
-      for (const structure of structures) {
+    for (const structure of structures) {
+      try {
         const {
           dnaCode,
           placesACreer,
@@ -58,7 +59,7 @@ const migratePlacesToStructureTypologie = async () => {
           echeancePlacesAFermer,
         } = structure;
 
-        await tx.structureTypologie.upsert({
+        await prisma.structureTypologie.upsert({
           where: {
             structureDnaCode_date: {
               structureDnaCode: dnaCode,
@@ -82,11 +83,17 @@ const migratePlacesToStructureTypologie = async () => {
         });
 
         updatedTypologiesCount += 1;
+      } catch (error) {
+        errorCount += 1;
+        console.error(
+          `❌ Erreur pour la structure ${structure.dnaCode}:`,
+          error
+        );
       }
-    });
+    }
 
     console.log(
-      `✅ Migration terminée : ${structures.length} structures traitées, ${updatedTypologiesCount} typologies mises à jour`
+      `✅ Migration terminée : ${structures.length} structures traitées, ${updatedTypologiesCount} typologies mises à jour${errorCount > 0 ? `, ${errorCount} erreurs` : ""}`
     );
   } catch (error) {
     console.error("❌ Erreur lors de la migration :", error);
