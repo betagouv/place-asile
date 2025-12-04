@@ -7,8 +7,8 @@ import {
 import { ControleApiType } from "@/schemas/api/controle.schema";
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
+  StructureAgentUpdateApiType,
   StructureApiType,
-  StructureUpdateApiType,
 } from "@/schemas/api/structure.schema";
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
@@ -37,7 +37,7 @@ export const getPlacesByCommunes = (
 };
 
 export const getRepartition = (
-  structure: StructureUpdateApiType | StructureApiType
+  structure: StructureAgentUpdateApiType | StructureApiType
 ): Repartition => {
   const repartitions = structure.adresses?.map(
     (adresse) => adresse.repartition

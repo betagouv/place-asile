@@ -1,7 +1,8 @@
 import { DEFAULT_PAGE_SIZE } from "@/constants";
 import { Structure } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
-import { StructureUpdateApiType } from "@/schemas/api/structure.schema";
+import { StructureAgentUpdateApiType } from "@/schemas/api/structure.schema";
+import { PrismaTransaction } from "@/types/prisma.type";
 import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { createOrUpdateAdresses } from "../adresses/adresse.repository";
@@ -18,10 +19,10 @@ import {
 import { createOrUpdateStructureMillesimes } from "../structure-millesimes/structure-millesime.repository";
 import { createOrUpdateStructureTypologies } from "../structure-typologies/structure-typologie.repository";
 import {
-  createOrUpdateStructure,
   getStructureOrderBy,
   getStructureSearchWhere,
 } from "./structure.service";
+import { convertToPublicType } from "./structure.util";
 
 export const findAll = async (): Promise<Structure[]> => {
   return prisma.structure.findMany({
@@ -327,8 +328,18 @@ export const findByDnaCode = async (
   });
 };
 
+export const updateOneAgent = async (
+  structure: StructureAgentUpdateApiType
+): Promise<Structure> => {
+  return await updateOne(structure, false);
+};
+export const updateOneOperateur = async (
+  structure: StructureAgentUpdateApiType
+): Promise<Structure> => {
+  return await updateOne(structure, true);
+};
 export const updateOne = async (
-  structure: StructureUpdateApiType,
+  structure: StructureAgentUpdateApiType,
   isOperateurUpdate: boolean = false
 ): Promise<Structure> => {
   try {
@@ -390,4 +401,91 @@ export const updateOne = async (
       `Impossible de mettre à jour la structure avec le code DNA ${structure.dnaCode}: ${error}`
     );
   }
+};
+
+const createOrUpdateStructure = async (
+  tx: PrismaTransaction,
+  structure: StructureAgentUpdateApiType
+): Promise<Structure> => {
+  const {
+    public: publicType,
+    departementAdministratif,
+    operateur,
+    adresseAdministrative,
+    codePostalAdministratif,
+    communeAdministrative,
+    filiale,
+    type,
+    placesACreer,
+    placesAFermer,
+    echeancePlacesACreer,
+    echeancePlacesAFermer,
+    latitude,
+    longitude,
+    nom,
+    date303,
+    debutConvention,
+    finConvention,
+    creationDate,
+    finessCode,
+    lgbt,
+    fvvTeh,
+    debutPeriodeAutorisation,
+    finPeriodeAutorisation,
+    notes,
+    nomOfii,
+    directionTerritoriale,
+    activeInOfiiFileSince,
+    inactiveInOfiiFileSince,
+  } = structure;
+
+  const updatedStructure = await tx.structure.update({
+    where: {
+      dnaCode: structure.dnaCode,
+    },
+    data: {
+      public: convertToPublicType(publicType!),
+      adresseAdministrative,
+      codePostalAdministratif,
+      communeAdministrative,
+      filiale,
+      type,
+      placesACreer,
+      placesAFermer,
+      echeancePlacesACreer,
+      echeancePlacesAFermer,
+      latitude,
+      longitude,
+      nom,
+      date303,
+      debutConvention,
+      finConvention,
+      creationDate,
+      finessCode,
+      lgbt,
+      fvvTeh,
+      debutPeriodeAutorisation,
+      finPeriodeAutorisation,
+      notes,
+      nomOfii,
+      directionTerritoriale,
+      activeInOfiiFileSince,
+      inactiveInOfiiFileSince,
+      departement: departementAdministratif
+        ? {
+            connect: {
+              numero: departementAdministratif,
+            },
+          }
+        : undefined,
+      operateur: {
+        connect: operateur
+          ? {
+              id: operateur?.id,
+            }
+          : undefined,
+      },
+    },
+  });
+  return updatedStructure;
 };

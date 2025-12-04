@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import {
-  structureCreationApiSchema,
-  structureUpdateApiSchema,
+  structureAgentUpdateApiSchema,
+  structureOperateurUpdateApiSchema,
 } from "@/schemas/api/structure.schema";
 import { StructureColumn } from "@/types/StructureColumn.type";
 
-import { countBySearch, findBySearch, updateOne } from "./structure.repository";
+import {
+  countBySearch,
+  findBySearch,
+  updateOneAgent,
+  updateOneOperateur,
+} from "./structure.repository";
 
 export async function GET(request: NextRequest) {
   const search = request.nextUrl.searchParams.get("search");
@@ -56,8 +61,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const result = structureCreationApiSchema.parse(body);
-    await updateOne(result, true);
+    const result = structureOperateurUpdateApiSchema.parse(body);
+    await updateOneOperateur(result);
     return NextResponse.json("Structure créée avec succès", { status: 201 });
   } catch (error) {
     console.error(error);
@@ -68,8 +73,8 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const result = structureUpdateApiSchema.parse(body);
-    await updateOne(result);
+    const result = structureAgentUpdateApiSchema.parse(body);
+    await updateOneAgent(result);
     return NextResponse.json("Structure mise à jour avec succès", {
       status: 201,
     });
