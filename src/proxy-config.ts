@@ -18,7 +18,7 @@ export const protectedApiRoutes: ApiRoute[] = [
   {
     pattern: /^\/api\/structures\/dna\/[^/]+$/,
     routes: {
-      GET: "proconnect",
+      GET: "password",
     },
   },
   {
