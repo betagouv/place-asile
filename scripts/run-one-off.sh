@@ -3,6 +3,7 @@
 # Bash pour exécuter un script one-off ou recurring.
 
 set -euo pipefail
+export HUSKY=0
 
 SCRIPT_KIND=${SCRIPT_KIND:-one-off}
 SCRIPTS_BASE_DIR="scripts/${SCRIPT_KIND}-scripts"
@@ -28,7 +29,7 @@ if [ ! -f "${SCRIPT_PATH}" ]; then
 fi
 
 echo "🚀 Installation des dépendances"
-yarn install --production=false
+rm -f .yarnrc && yarn install --production=false
 
 echo "🏃 Exécution du script ${SCRIPT_PATH}"
 npx tsx "${SCRIPT_PATH}" "$@"
