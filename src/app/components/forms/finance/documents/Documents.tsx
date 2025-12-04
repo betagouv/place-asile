@@ -1,26 +1,19 @@
 import { useFormContext } from "react-hook-form";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
-// TODO: globalize this component
-import { UploadItem } from "@/app/(password-protected)/ajout-structure/_components/UploadItem";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
-import UploadWithValidation from "@/app/components/forms/UploadWithValidation";
-import { cn } from "@/app/utils/classname.util";
 import { getYearRange } from "@/app/utils/date.util";
-import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
-import {
-  structureAutoriseesDocuments,
-  structureSubventionneesDocuments,
-} from "./documentsStructures";
+import { FieldSetYearlyDocumentsFinanciers } from "../../fieldsets/structure/FieldSetYearlyDocumentsFinanciers";
 
 export const Documents = ({ className }: { className?: string }) => {
   const { structure } = useStructureContext();
-  const { control, register } = useFormContext();
+  const { control } = useFormContext<DocumentsFinanciersFlexibleFormValues>();
   const isSubventionnee = isStructureSubventionnee(structure?.type);
   const isAutorisee = isStructureAutorisee(structure?.type);
 
@@ -31,12 +24,6 @@ export const Documents = ({ className }: { className?: string }) => {
   const { years } = getYearRange();
 
   const yearsToDisplay = isSubventionnee ? years.slice(2) : years;
-
-  const documents = isAutorisee
-    ? structureAutoriseesDocuments
-    : structureSubventionneesDocuments;
-
-  const documentIndexes = getDocumentIndexes(years.map(String), documents);
 
   const noYear =
     yearsToDisplay.filter((year) => Number(year) >= startYear).length === 0;
@@ -50,52 +37,15 @@ export const Documents = ({ className }: { className?: string }) => {
           documents. Vous pouvez valider cette étape.
         </p>
       )}
-      {yearsToDisplay.map((year) => (
-        <div key={year} className={cn("mb-7", year < startYear && "hidden")}>
-          <h2 className="text-xl font-bold mb-4 text-title-blue-france">
-            {year}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 gap-y-8 mb-8">
-            {documents.map((document) => {
-              const todayYear = new Date().getFullYear();
-              if (Number(year) <= todayYear - document.yearIndex) {
-                const documentKey = `${document.value}-${year}`;
-                const currentDocIndex = documentIndexes[documentKey];
-
-                return (
-                  <UploadItem
-                    key={`${document.value}-${year}`}
-                    title={`${document.label} pour ${year}`}
-                    subTitle={document.subLabel}
-                  >
-                    <UploadWithValidation
-                      name={`documentsFinanciers.${currentDocIndex}.key`}
-                      id={`documentsFinanciers.${currentDocIndex}.key`}
-                      control={control}
-                      className="[*]:!justify-start p-4 min-h-0"
-                    />
-                    <input
-                      type="hidden"
-                      aria-hidden="true"
-                      {...register(
-                        `documentsFinanciers.${currentDocIndex}.category`
-                      )}
-                    />
-                    <input
-                      type="hidden"
-                      aria-hidden="true"
-                      {...register(
-                        `documentsFinanciers.${currentDocIndex}.date`
-                      )}
-                    />
-                  </UploadItem>
-                );
-              }
-              return null;
-            })}
-          </div>
-          <hr />
-        </div>
+      {yearsToDisplay.map((year, index) => (
+        <FieldSetYearlyDocumentsFinanciers
+          key={year}
+          year={year}
+          startYear={startYear}
+          isAutorisee={isAutorisee}
+          control={control}
+          index={index}
+        />
       ))}
     </div>
   );
