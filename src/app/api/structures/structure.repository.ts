@@ -339,7 +339,7 @@ export const updateOneOperateur = async (
   return await updateOne(structure, true);
 };
 
-export const updateOne = async (
+const updateOne = async (
   structure: StructureAgentUpdateApiType,
   isOperateurUpdate: boolean = false
 ): Promise<Structure> => {
