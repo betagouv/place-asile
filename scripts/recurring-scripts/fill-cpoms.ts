@@ -144,9 +144,17 @@ const loadCpomsFromCsv = async () => {
         continue;
       }
 
+      if (!row.operateur) {
+        console.log(
+          `❌ Ligne ignorée, opérateur manquant pour le CPOM: cpom=${row.cpom}, code_dna=${row.code_dna}`
+        );
+        continue;
+      }
+
+      const operateurId = operateurMap.get(row.operateur)!;
       const debut = parseDate(row.date_debut.trim(), `date_debut`);
       const fin = parseDate(row.date_fin.trim(), `date_fin`);
-      const cpomKey = `${row.cpom} - ${debut.toISOString()} - ${fin.toISOString()}`;
+      const cpomKey = `${row.cpom} - ${debut.toISOString()} - ${fin.toISOString()} - ${operateurId}`;
       const cpomId = cpomCache.get(cpomKey);
 
       if (!cpomId) {
