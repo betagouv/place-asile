@@ -34,9 +34,9 @@ export default function AjoutStructurePage(): ReactElement {
           className="rounded [&_p]:flex  [&_p]:items-center mb-4"
           description={
             <span className="text-default-grey">
-              Si votre structure regroupe plusieurs codes DNA mais est une seule
-              entité juridique et/ou financière, veuillez ne pas remplir ce
-              formulaire et nous contacter directement par email via{" "}
+              Si vous n’établissez qu’un seul document budgétaire et/ou
+              financier pour une structure disposant de plusieurs codes DNA,
+              merci de nous contacter directement par email via{" "}
               {
                 <a
                   href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}

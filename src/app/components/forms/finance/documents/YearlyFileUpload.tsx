@@ -153,7 +153,7 @@ export const YearlyFileUpload = ({
       >
         {shouldDisplayCategorySelect && (
           <Select
-            label="type de document"
+            label="Type de document"
             className="w-80"
             nativeSelectProps={{
               onChange: (e) => {

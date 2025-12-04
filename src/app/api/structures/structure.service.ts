@@ -1,11 +1,19 @@
-import { Prisma, Repartition, StructureType } from "@/generated/prisma/client";
+import {
+  Prisma,
+  Repartition,
+  Structure,
+  StructureType,
+} from "@/generated/prisma/client";
+import { StructureUpdateApiType } from "@/schemas/api/structure.schema";
 import {
   ActeAdministratifCategory,
   DocumentFinancierCategory,
 } from "@/types/file-upload.type";
+import { PrismaTransaction } from "@/types/prisma.type";
 import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { convertToRepartition } from "../adresses/adresse.util";
+import { convertToPublicType } from "./structure.util";
 
 export type StructureWithFileUploadsAndActivites = Prisma.StructureGetPayload<{
   include: { fileUploads: true; activites: true };
@@ -185,4 +193,91 @@ export const getStructureSearchWhere = ({
   }
 
   return where;
+};
+
+export const createOrUpdateStructure = async (
+  tx: PrismaTransaction,
+  structure: StructureUpdateApiType
+): Promise<Structure> => {
+  const {
+    public: publicType,
+    departementAdministratif,
+    operateur,
+    adresseAdministrative,
+    codePostalAdministratif,
+    communeAdministrative,
+    filiale,
+    type,
+    placesACreer,
+    placesAFermer,
+    echeancePlacesACreer,
+    echeancePlacesAFermer,
+    latitude,
+    longitude,
+    nom,
+    date303,
+    debutConvention,
+    finConvention,
+    creationDate,
+    finessCode,
+    lgbt,
+    fvvTeh,
+    debutPeriodeAutorisation,
+    finPeriodeAutorisation,
+    notes,
+    nomOfii,
+    directionTerritoriale,
+    activeInOfiiFileSince,
+    inactiveInOfiiFileSince,
+  } = structure;
+
+  const updatedStructure = await tx.structure.update({
+    where: {
+      dnaCode: structure.dnaCode,
+    },
+    data: {
+      public: convertToPublicType(publicType!),
+      adresseAdministrative,
+      codePostalAdministratif,
+      communeAdministrative,
+      filiale,
+      type,
+      placesACreer,
+      placesAFermer,
+      echeancePlacesACreer,
+      echeancePlacesAFermer,
+      latitude,
+      longitude,
+      nom,
+      date303,
+      debutConvention,
+      finConvention,
+      creationDate,
+      finessCode,
+      lgbt,
+      fvvTeh,
+      debutPeriodeAutorisation,
+      finPeriodeAutorisation,
+      notes,
+      nomOfii,
+      directionTerritoriale,
+      activeInOfiiFileSince,
+      inactiveInOfiiFileSince,
+      departement: departementAdministratif
+        ? {
+            connect: {
+              numero: departementAdministratif,
+            },
+          }
+        : undefined,
+      operateur: {
+        connect: operateur
+          ? {
+              id: operateur?.id,
+            }
+          : undefined,
+      },
+    },
+  });
+  return updatedStructure;
 };

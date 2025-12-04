@@ -2,7 +2,6 @@ import { DEFAULT_PAGE_SIZE } from "@/constants";
 import { Structure } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import { StructureAgentUpdateApiType } from "@/schemas/api/structure.schema";
-import { PrismaTransaction } from "@/types/prisma.type";
 import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { createOrUpdateAdresses } from "../adresses/adresse.repository";
@@ -22,7 +21,6 @@ import {
   getStructureOrderBy,
   getStructureSearchWhere,
 } from "./structure.service";
-import { convertToPublicType } from "./structure.util";
 
 export const findAll = async (): Promise<Structure[]> => {
   return prisma.structure.findMany({
@@ -338,6 +336,7 @@ export const updateOneOperateur = async (
 ): Promise<Structure> => {
   return await updateOne(structure, true);
 };
+
 export const updateOne = async (
   structure: StructureAgentUpdateApiType,
   isOperateurUpdate: boolean = false
