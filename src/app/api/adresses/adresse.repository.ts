@@ -1,8 +1,7 @@
-import { Repartition } from "@/generated/prisma/client";
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { PrismaTransaction } from "@/types/prisma.type";
 
-import { AdresseInput, convertToRepartition } from "./adresse.util";
+import { convertToRepartition } from "./adresse.util";
 
 const getEveryAdresseTypologiesOfAdresses = async (
   tx: PrismaTransaction,
@@ -98,26 +97,5 @@ export const createOrUpdateAdresses = async (
         });
       }
     }
-  }
-};
-
-export const createAdresses = async (
-  tx: PrismaTransaction,
-  adresses: AdresseInput[],
-  structureDnaCode: string
-): Promise<void> => {
-  for (const adresse of adresses) {
-    await tx.adresse.create({
-      data: {
-        adresse: adresse.adresse,
-        codePostal: adresse.codePostal,
-        commune: adresse.commune,
-        repartition: adresse.repartition as Repartition | null | undefined,
-        structureDnaCode,
-        adresseTypologies: {
-          create: adresse.adresseTypologies,
-        },
-      },
-    });
   }
 };
