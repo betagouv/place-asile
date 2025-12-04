@@ -1,7 +1,7 @@
 import { DEFAULT_PAGE_SIZE } from "@/constants";
 import { Structure } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
-import { structureUpdateApiSchema } from "@/schemas/api/structure.schema";
+import { StructureUpdateApiType } from "@/schemas/api/structure.schema";
 import { StructureColumn } from "@/types/StructureColumn.type";
 
 import { createOrUpdateAdresses } from "../adresses/adresse.repository";
@@ -328,7 +328,7 @@ export const findByDnaCode = async (
 };
 
 export const updateOne = async (
-  structure: structureUpdateApiSchema,
+  structure: StructureUpdateApiType,
   isOperateurUpdate: boolean = false
 ): Promise<Structure> => {
   try {
