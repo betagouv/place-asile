@@ -213,20 +213,25 @@ model StructureMillesime {
 }
 
 model StructureTypologie {
-  id                   Int                 @id @default(autoincrement())
-  structure            Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode     String
-  date                 DateTime
-  placesAutorisees     Int?
-  pmr                  Int
-  lgbt                 Int
-  fvvTeh               Int
-  structureMillesimeId Int?                @unique
-  structureMillesime   StructureMillesime? @relation(fields: [structureMillesimeId], references: [id], onDelete: Cascade)
+  id                    Int                 @id @default(autoincrement())
+  structure             Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structureDnaCode      String
+  date                  DateTime
+  placesAutorisees      Int?
+  pmr                   Int?
+  lgbt                  Int?
+  fvvTeh                Int?
+  placesACreer          Int?
+  placesAFermer         Int?
+  echeancePlacesACreer  DateTime?
+  echeancePlacesAFermer DateTime?
+  structureMillesimeId  Int?                @unique
+  structureMillesime    StructureMillesime? @relation(fields: [structureMillesimeId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  @@unique([structureDnaCode, date])
   @@schema("public")
 }
 
