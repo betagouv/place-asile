@@ -25,33 +25,39 @@ const migrateStructureOfiiToStructure = async () => {
 
     console.log("🔄 Migration des données vers Structure...");
 
-    await prisma.$transaction(async (tx) => {
-      for (const structureOfii of structuresOfii) {
-        await tx.structure.upsert({
-          where: { dnaCode: structureOfii.dnaCode },
-          update: {
-            nomOfii: structureOfii.nom ?? undefined,
-            directionTerritoriale:
-              structureOfii.directionTerritoriale ?? undefined,
-            activeInOfiiFileSince: structureOfii.activeSince ?? undefined,
-            inactiveInOfiiFileSince: structureOfii.inactiveSince ?? undefined,
-          },
-          create: {
-            dnaCode: structureOfii.dnaCode,
-            type: structureOfii.type as StructureType,
-            nom: structureOfii.nom ?? undefined,
-            nomOfii: structureOfii.nom ?? undefined,
-            directionTerritoriale:
-              structureOfii.directionTerritoriale ?? undefined,
-            activeInOfiiFileSince: structureOfii.activeSince ?? undefined,
-            inactiveInOfiiFileSince: structureOfii.inactiveSince ?? undefined,
-            operateurId: structureOfii.operateurId ?? undefined,
-            departementAdministratif:
-              structureOfii.departementNumero ?? undefined,
-          },
-        });
+    await prisma.$transaction(
+      async (tx) => {
+        for (const structureOfii of structuresOfii) {
+          await tx.structure.upsert({
+            where: { dnaCode: structureOfii.dnaCode },
+            update: {
+              nomOfii: structureOfii.nom ?? undefined,
+              directionTerritoriale:
+                structureOfii.directionTerritoriale ?? undefined,
+              activeInOfiiFileSince: structureOfii.activeSince ?? undefined,
+              inactiveInOfiiFileSince: structureOfii.inactiveSince ?? undefined,
+            },
+            create: {
+              dnaCode: structureOfii.dnaCode,
+              type: structureOfii.type as StructureType,
+              nom: structureOfii.nom ?? undefined,
+              nomOfii: structureOfii.nom ?? undefined,
+              directionTerritoriale:
+                structureOfii.directionTerritoriale ?? undefined,
+              activeInOfiiFileSince: structureOfii.activeSince ?? undefined,
+              inactiveInOfiiFileSince: structureOfii.inactiveSince ?? undefined,
+              operateurId: structureOfii.operateurId ?? undefined,
+              departementAdministratif:
+                structureOfii.departementNumero ?? undefined,
+            },
+          });
+        }
+      },
+      {
+        maxWait: 10000,
+        timeout: 60000,
       }
-    });
+    );
 
     console.log("✅ Migration terminée");
   } catch (error) {
