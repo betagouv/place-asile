@@ -5,7 +5,7 @@ export const parseDate = (value: string, context: string): Date => {
   }
 
   if (trimmed.length === 4) {
-    return new Date(Number(trimmed), 0, 1, 12, 0, 0);
+    return buildYearStartDate(Number(trimmed));
   }
 
   const isoCandidate = new Date(trimmed);
@@ -15,3 +15,7 @@ export const parseDate = (value: string, context: string): Date => {
 
   throw new Error(`${context}: format de date invalide (${value})`);
 };
+
+// 1er janvier à 12:00:00 depuis une année
+export const buildYearStartDate = (year: number): Date =>
+  new Date(year, 0, 1, 12, 0, 0);
