@@ -34,12 +34,13 @@ export const DocumentsFinanciers = (): ReactElement => {
     [isAutorisee]
   );
 
-  // date303 is iso and creationDate is DD/MM/YYYY
-  const startYear =
-    localStorageValues?.date303?.substring(0, 4) ||
-    identificationValues?.creationDate?.substring(
-      identificationValues?.creationDate.length - 4
-    );
+  const startYear = localStorageValues?.date303
+    ? localStorageValues.date303.substring(
+        localStorageValues.date303.length - 4
+      )
+    : identificationValues?.creationDate?.substring(
+        identificationValues?.creationDate.length - 4
+      );
 
   const yearsToCheck = years.filter((year) => {
     return Number(year) >= Number(startYear);
