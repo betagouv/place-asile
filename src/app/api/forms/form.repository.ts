@@ -9,7 +9,9 @@ export const createOrUpdateForms = async (
   forms: FormApiType[] | undefined,
   structureCodeDna: string
 ): Promise<void> => {
-  if (!forms || forms.length === 0) return;
+  if (!forms || forms.length === 0) {
+    return;
+  }
 
   await Promise.all(
     forms.map(async (form) => {
