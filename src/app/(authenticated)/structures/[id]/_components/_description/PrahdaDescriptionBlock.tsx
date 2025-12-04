@@ -15,7 +15,6 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
     operateur,
     filiale,
     public: publicType,
-    type,
   } = structure;
   return (
     <Block title="Description" iconClass="fr-icon-menu-2-fill">
@@ -26,8 +25,7 @@ export const PrahdaDescriptionBlock = (): ReactElement => {
         </div>
         <div className="flex-1">
           <strong className="pr-2">Type de structure</strong>
-          {/* TODO: reprendre ça avec le type rendu facultatif par le updateOne ! */}
-          {type ?? ""}
+          PRAHDA
         </div>
       </div>
       <hr />
