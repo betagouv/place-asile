@@ -8,5 +8,9 @@ export const createStructureTypologie = (): StructureTypologieApiType => {
     lgbt: 4,
     placesAutorisees: 10,
     pmr: 3,
+    placesACreer: 1,
+    placesAFermer: 2,
+    echeancePlacesACreer: new Date("01/02/2026").toISOString(),
+    echeancePlacesAFermer: new Date("01/02/2027").toISOString(),
   };
 };
