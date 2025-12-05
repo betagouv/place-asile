@@ -45,7 +45,6 @@ export const FieldSetDescription = ({
     return undefined;
   }, [parentFormContext]);
 
-  const cpom = watch("cpom");
   const filiale = watch("filiale");
 
   useEffect(() => {
