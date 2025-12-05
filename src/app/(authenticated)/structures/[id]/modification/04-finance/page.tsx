@@ -55,9 +55,10 @@ export default function ModificationFinanceForm() {
   });
 
   const onSubmit = async (data: anyModificationFinanceFormValues) => {
-    const documentsFinanciers = data.documentsFinanciers.filter(
-      (documentFinancier) => documentFinancier.key
-    );
+    const documentsFinanciers =
+      data.documentsFinanciers?.filter(
+        (documentFinancier) => documentFinancier.key
+      ) ?? [];
     const structureMillesimes = data.structureMillesimes?.map((millesime) => ({
       ...millesime,
       operateurComment: millesime.operateurComment ?? undefined,
