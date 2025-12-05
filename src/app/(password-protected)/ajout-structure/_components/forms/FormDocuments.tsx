@@ -13,7 +13,7 @@ import {
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
-import { DocumentsFinanciersStrictSchema } from "@/schemas/forms/base/documentFinancier.schema";
+import { DocumentsFinanciersFlexibleSchema } from "@/schemas/forms/base/documentFinancier.schema";
 
 export default function FormDocuments() {
   const params = useParams();
@@ -46,7 +46,7 @@ export default function FormDocuments() {
 
   return (
     <FormWrapper
-      schema={DocumentsFinanciersStrictSchema}
+      schema={DocumentsFinanciersFlexibleSchema}
       localStorageKey={`ajout-structure-${params.dnaCode}-documents`}
       nextRoute={nextRoute}
       resetRoute={resetRoute}
@@ -62,7 +62,7 @@ export default function FormDocuments() {
         const startYear = date303
           ? Number(date303?.split("/")?.[2])
           : Number(currentValue?.creationDate?.split("/")?.[2]);
-        
+
         const noYear =
           yearsToDisplay.filter((year) => year >= startYear).length === 0;
 
