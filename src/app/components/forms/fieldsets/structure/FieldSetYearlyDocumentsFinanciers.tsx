@@ -4,9 +4,9 @@ import { Control, useFormContext } from "react-hook-form";
 
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
-import { DocumentsFinanciers } from "../../finance/documents/DocumentsFinanciers";
 import { DocumentsFinanciersCheckboxIsInCpom } from "../../finance/documents/DocumentsFinanciersCheckboxIsInCpom";
 import { DocumentsFinanciersCommentaire } from "../../finance/documents/DocumentsFinanciersCommentaire";
+import { DocumentsFinanciersList } from "../../finance/documents/DocumentsFinanciersList";
 import { YearlyFileUpload } from "../../finance/documents/YearlyFileUpload";
 
 export const FieldSetYearlyDocumentsFinanciers = ({
@@ -15,6 +15,7 @@ export const FieldSetYearlyDocumentsFinanciers = ({
   startYear,
   isAutorisee,
   control,
+  hasAccordion,
 }: Props): ReactElement | null => {
   const { watch, formState } = useFormContext();
   const isInCpom = watch(`structureMillesimes.${index}.cpom`);
@@ -41,7 +42,9 @@ export const FieldSetYearlyDocumentsFinanciers = ({
   }
   return (
     <fieldset ref={fieldsetRef}>
-      <h2 className="text-title-blue-france text-xl mb-6">{year}</h2>
+      {!hasAccordion && (
+        <h2 className="text-title-blue-france text-xl mb-6">{year}</h2>
+      )}
       {hasError && (
         <p className=" text-default-error flex items-center gap-2">
           <i
@@ -65,7 +68,7 @@ export const FieldSetYearlyDocumentsFinanciers = ({
       )}
 
       <div className="grid grid-cols-2 gap-4 mb-10">
-        <DocumentsFinanciers
+        <DocumentsFinanciersList
           isAutorisee={isAutorisee}
           control={control}
           year={year}
@@ -93,4 +96,5 @@ type Props = {
   startYear: number;
   isAutorisee: boolean;
   control: Control<DocumentsFinanciersFlexibleFormValues>;
+  hasAccordion?: boolean;
 };
