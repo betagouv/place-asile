@@ -24,14 +24,23 @@ export default function FormDocuments() {
   const resetRoute = `/ajout-structure/${params.dnaCode}/01-identification`;
   const nextRoute = `/ajout-structure/${params.dnaCode}/05-verification`;
 
+  const { currentValue: localStorageIdentificationValues } = useLocalStorage(
+    `ajout-structure-${params.dnaCode}-identification`,
+    {}
+  );
   const { currentValue: localStorageValues } = useLocalStorage(
     `ajout-structure-${params.dnaCode}-documents`,
     {}
   );
 
   const mergedDefaultValues = useMemo(() => {
-    return localStorageValues || {};
-  }, [localStorageValues]);
+    return {
+      ...localStorageValues,
+      creationDate: (
+        localStorageIdentificationValues as AjoutIdentificationFormValues
+      )?.creationDate,
+    };
+  }, [localStorageValues, localStorageIdentificationValues]);
 
   const { currentValue } = useLocalStorage<
     Partial<AjoutIdentificationFormValues>

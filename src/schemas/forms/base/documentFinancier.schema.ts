@@ -14,17 +14,18 @@ import {
 import { DocumentFinancierCategory } from "@/types/file-upload.type";
 import { StructureType } from "@/types/structure.type";
 
-const DocumentFinancierFlexibleSchema = z.object({
+const DocumentFinancierSchema = z.object({
   key: z.string().optional(),
   date: optionalFrenchDateToISO(),
   category: z.enum(DocumentFinancierCategory).optional(),
   granularity: z.string().optional(),
-  nom: z.string().optional(),
+  categoryName: z.string().nullish(),
 });
 
-export const DocumentsFinanciersFlexibleSchema = z.object({
+export const DocumentsFinanciersSchema = z.object({
+  creationDate: optionalFrenchDateToISO(),
   date303: nullishFrenchDateToISO(),
-  documentsFinanciers: z.array(DocumentFinancierFlexibleSchema).optional(),
+  documentsFinanciers: z.array(DocumentFinancierSchema).optional(),
   structureMillesimes: z
     .array(
       z.object({
@@ -36,14 +37,43 @@ export const DocumentsFinanciersFlexibleSchema = z.object({
     .optional(),
 });
 
-export const DocumentsFinanciersStrictSchema =
-  DocumentsFinanciersFlexibleSchema.extend({
-    creationDate: optionalFrenchDateToISO(),
+export const DocumentsFinanciersFlexibleSchema =
+  DocumentsFinanciersSchema.refine(
+    (data) => {
+      if (data.creationDate && data.date303) {
+        return data.creationDate <= data.date303;
+      }
+      return true;
+    },
+    {
+      message:
+        "La date de création de la structure doit être antérieure à la date de rattachement au programme 303",
+      path: ["date303"],
+    }
+  );
+
+export const DocumentsFinanciersStrictSchema = DocumentsFinanciersSchema.extend(
+  {
     type: z.preprocess(
       (val) => (val === "" ? undefined : val),
       z.nativeEnum(StructureType)
     ),
-  }).superRefine((data, ctx) => {
+  }
+)
+  .refine(
+    (data) => {
+      if (data.creationDate && data.date303) {
+        return data.creationDate <= data.date303;
+      }
+      return true;
+    },
+    {
+      message:
+        "La date de création de la structure doit être antérieure à la date de rattachement au programme 303",
+      path: ["date303"],
+    }
+  )
+  .superRefine((data, ctx) => {
     const isAutorisee = isStructureAutorisee(data.type);
     const documents = isAutorisee
       ? structureAutoriseesDocuments
@@ -81,7 +111,7 @@ export const DocumentsFinanciersStrictSchema =
   });
 
 export type DocumentFinancierFlexibleFormValues = z.infer<
-  typeof DocumentFinancierFlexibleSchema
+  typeof DocumentFinancierSchema
 >;
 
 export type DocumentsFinanciersFlexibleFormValues = z.infer<
