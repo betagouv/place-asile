@@ -19,7 +19,7 @@ const DocumentFinancierSchema = z.object({
   date: optionalFrenchDateToISO(),
   category: z.enum(DocumentFinancierCategory).optional(),
   granularity: z.string().optional(),
-  nom: z.string().optional(),
+  categoryName: z.string().nullish(),
 });
 
 export const DocumentsFinanciersSchema = z.object({

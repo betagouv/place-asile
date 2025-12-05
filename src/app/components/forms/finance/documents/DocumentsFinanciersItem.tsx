@@ -67,7 +67,8 @@ export const DocumentsFinanciersItem = ({
       </span>
       {" - "}
       <span>
-        {documentFinancier.nom || getShortDisplayedName(fileData?.originalName)}
+        {documentFinancier.categoryName ||
+          getShortDisplayedName(fileData?.originalName)}
       </span>
       <span>
         (
