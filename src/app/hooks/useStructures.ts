@@ -144,9 +144,10 @@ const transformAjoutFormStructureToApiStructure = async (
       ),
       date: formatDateToIsoString(typologie.date) as string,
     })),
-    documentsFinanciers: values.documentsFinanciers?.filter(
-      (documentFinancier) => documentFinancier.key
-    ),
+    documentsFinanciers:
+      values.documentsFinanciers?.filter(
+        (documentFinancier) => documentFinancier.key
+      ) ?? [],
   };
 };
 

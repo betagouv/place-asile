@@ -38,9 +38,10 @@ export default function FinalisationDocumentsFinanciers() {
     useAgentFormHandling({ currentStep });
 
   const onAutoSave = async (data: DocumentsFinanciersFlexibleFormValues) => {
-    const documentsFinanciers = data.documentsFinanciers.filter(
-      (documentFinancier) => documentFinancier.key
-    );
+    const documentsFinanciers =
+      data.documentsFinanciers?.filter(
+        (documentFinancier) => documentFinancier.key
+      ) ?? [];
     const structureMillesimes = data.structureMillesimes?.map((millesime) => ({
       ...millesime,
       operateurComment: millesime.operateurComment ?? undefined,

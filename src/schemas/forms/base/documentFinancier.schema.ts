@@ -1,11 +1,18 @@
 import { z } from "zod";
 
 import {
+  structureAutoriseesDocuments,
+  structureSubventionneesDocuments,
+} from "@/app/components/forms/finance/documents/documentsStructures";
+import { getYearRange } from "@/app/utils/date.util";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+import {
   frenchDateToISO,
   nullishFrenchDateToISO,
   optionalFrenchDateToISO,
 } from "@/app/utils/zodCustomFields";
 import { DocumentFinancierCategory } from "@/types/file-upload.type";
+import { StructureType } from "@/types/structure.type";
 
 const DocumentFinancierFlexibleSchema = z.object({
   key: z.string().optional(),
@@ -16,9 +23,8 @@ const DocumentFinancierFlexibleSchema = z.object({
 });
 
 export const DocumentsFinanciersFlexibleSchema = z.object({
-  creationDate: optionalFrenchDateToISO(),
   date303: nullishFrenchDateToISO(),
-  documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
+  documentsFinanciers: z.array(DocumentFinancierFlexibleSchema).optional(),
   structureMillesimes: z
     .array(
       z.object({
@@ -31,26 +37,44 @@ export const DocumentsFinanciersFlexibleSchema = z.object({
 });
 
 export const DocumentsFinanciersStrictSchema =
-  DocumentsFinanciersFlexibleSchema.superRefine((data, ctx) => {
+  DocumentsFinanciersFlexibleSchema.extend({
+    creationDate: optionalFrenchDateToISO(),
+    type: z.preprocess(
+      (val) => (val === "" ? undefined : val),
+      z.nativeEnum(StructureType)
+    ),
+  }).superRefine((data, ctx) => {
+    const isAutorisee = isStructureAutorisee(data.type);
+    const documents = isAutorisee
+      ? structureAutoriseesDocuments
+      : structureSubventionneesDocuments;
+
+    const { years } = getYearRange();
+
+    const yearsToDisplay = isAutorisee ? years : years.slice(2);
+
     const referenceYear = Number(
       (data.date303 ?? data.creationDate)?.substring(0, 4)
     );
 
-    data.documentsFinanciers.forEach((document, index) => {
-      const documentYear = document.date?.substring(0, 4);
-
-      const documentIsAfterReferenceYear =
-        Number(documentYear) >= referenceYear;
-
-      const documentIsRequired =
-        document.category !== "BUDGET_RECTIFICATIF" &&
-        document.category !== "RAPPORT_BUDGETAIRE";
-
-      if (documentIsAfterReferenceYear && documentIsRequired && !document.key) {
-        ctx.addIssue({
-          path: ["documentsFinanciers", index, "key"],
-          code: z.ZodIssueCode.custom,
-          message: "Ce champ est requis",
+    yearsToDisplay.forEach((year) => {
+      if (year >= referenceYear) {
+        documents.forEach((document) => {
+          const documentIsRequired = document.required;
+          if (documentIsRequired) {
+            const requiredDocument = data.documentsFinanciers?.find(
+              (documentFinancier) =>
+                documentFinancier.category === document.value &&
+                documentFinancier.date?.substring(0, 4) === String(year)
+            );
+            if (!requiredDocument) {
+              ctx.addIssue({
+                path: ["documentsFinanciers", year],
+                code: z.ZodIssueCode.custom,
+                message: "Ce champ est requis",
+              });
+            }
+          }
         });
       }
     });
