@@ -47,6 +47,7 @@ export const DotationChart = (): ReactElement => {
       offset: 70,
       labelInterpolationFnc: (value: number) => value.toLocaleString(),
     },
+    axisX: { showGrid: false },
   };
 
   return (

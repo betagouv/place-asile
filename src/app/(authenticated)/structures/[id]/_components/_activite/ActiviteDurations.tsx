@@ -8,7 +8,7 @@ import { ReactElement, useState } from "react";
 
 import { getLastMonths, getMonthsBetween } from "@/app/utils/date.util";
 
-export const ActivitesDurations = ({
+export const ActiviteDurations = ({
   setSelectedMonths,
   debutConvention,
   finConvention,

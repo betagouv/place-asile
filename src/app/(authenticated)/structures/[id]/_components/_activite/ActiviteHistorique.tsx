@@ -3,7 +3,7 @@
 import dayjs from "dayjs";
 import { ReactElement, useState } from "react";
 
-import { MultiLineChart } from "@/app/components/common/MultiLineChart";
+import LineChart from "@/app/components/common/LineChart";
 import { computeAverage } from "@/app/utils/common.util";
 import {
   formatForCharts,
@@ -12,8 +12,8 @@ import {
 } from "@/app/utils/date.util";
 import { ActiviteApiType } from "@/schemas/api/activite.schema";
 
-import { ActivitesDurations } from "./ActivitesDurations";
-import { ActivitesTypes } from "./ActivitesTypes";
+import { ActiviteDurations } from "./ActiviteDurations";
+import { ActiviteTypes } from "./ActiviteTypes";
 
 const typesActivite: Partial<
   Record<keyof ActiviteApiType, { label: string; seuil: number | null }>
@@ -27,7 +27,7 @@ const typesActivite: Partial<
   nbPlaces: { label: "Places totales", seuil: null },
 };
 
-export const ActivitesHistorique = ({
+export const ActiviteHistorique = ({
   activites,
   debutConvention,
   finConvention,
@@ -81,36 +81,37 @@ export const ActivitesHistorique = ({
     <div>
       <h4 className="text-lg text-title-blue-france">Historique</h4>
       <div className="flex pb-5">
-        <ActivitesTypes
+        <ActiviteTypes
           typeActivite={typeActivite}
           setTypeActivite={setTypeActivite}
         />
       </div>
       <div className="pb-5">
-        <ActivitesDurations
+        <ActiviteDurations
           setSelectedMonths={setSelectedMonths}
           debutConvention={debutConvention}
           finConvention={finConvention}
         />
       </div>
       <div className="flex">
-        <MultiLineChart
-          width={800}
-          x={[selectedMonths.map(formatForCharts)]}
-          y={[getActivitesData(), getSeuilRecommande(), getAverage()]}
-          color={["blue-cumulus", "blue-ecume", "green-bourgeon"]}
+        <LineChart
+          data={{
+            labels: selectedMonths.map(formatForCharts),
+            series: [getActivitesData(), getSeuilRecommande(), getAverage()],
+          }}
+          options={{ fullWidth: true, axisX: { showGrid: false } }}
         />
         <div className="pl-5">
           <div className="pb-1 flex items-center">
-            <div className="w-[40px] h-[2px] bg-flat-blue-cumulus mr-2" />
+            <div className="w-[40px] h-[2px] bg-flat-blue-cumulus mr-2 shrink-0 grow-0" />
             {typesActivite[typeActivite]?.label}
           </div>
           <div className="pb-1 flex items-center">
-            <div className="w-[40px] h-[2px] bg-flat-blue-ecume mr-2" />
+            <div className="w-[40px] h-[2px] bg-flat-blue-ecume mr-2 shrink-0 grow-0" />
             Seuil recommandé
           </div>
           <div className="pb-1 flex items-center">
-            <div className="w-[40px] h-[2px] bg-flat-green-bourgeon mr-2" />
+            <div className="w-[40px] h-[2px] bg-flat-green-bourgeon mr-2 shrink-0 grow-0" />
             Moyenne sur la période
           </div>
         </div>

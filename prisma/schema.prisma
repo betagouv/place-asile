@@ -251,6 +251,7 @@ model Activite {
   presencesInduesBPI       Int
   presencesInduesDeboutees Int
 
+  @@unique([structureDnaCode, date])
   @@schema("public")
 }
 

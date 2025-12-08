@@ -1,12 +1,17 @@
+import "dotenv/config";
+
 import xlsx from "node-xlsx";
 import path from "path";
 import { fileURLToPath } from "url";
 
 import { Activite } from "@/generated/prisma/client";
+import { createPrismaClient } from "@/prisma-client";
 
 import { ActivitesMetadata, activitesMetadata } from "./activites-metadata";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const prisma = createPrismaClient();
 
 const getPlacesVacantes = (
   metadata: ActivitesMetadata,
@@ -25,6 +30,7 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
   const metadata = activitesMetadata[index];
   // TODO : identifier l'origine des NaN
   return sheet.map((line) => ({
+    // TODO : utiliser parseDate
     date: new Date(metadata.date),
     structureDnaCode: String(line[metadata.dnaIndex]),
     nbPlaces: Number(line[metadata.nbPlacesIndex]) || 0,
@@ -53,8 +59,9 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
   }));
 };
 
-export const extractActivitesFromOds = (): Omit<Activite, "id">[] => {
-  const sheets = xlsx.parse(`${__dirname}/../data/activites.ods`, {
+// TODO : utiliser csv-loader.ts et supprimer node-xlsx
+const extractActivitesFromOds = (): Omit<Activite, "id">[] => {
+  const sheets = xlsx.parse(`${__dirname}/activites.ods`, {
     cellDates: true,
     blankrows: false,
   });
@@ -67,55 +74,13 @@ export const extractActivitesFromOds = (): Omit<Activite, "id">[] => {
     sheetData.shift();
     const activites = mapToActivites(sheetData, index);
     activites.forEach((activite) => {
-      if (existingStructureCodes.includes(activite.structureDnaCode)) {
-        allActivites.push(activite);
-      }
+      allActivites.push(activite);
     });
   });
 
   return allActivites;
 };
 
-// TODO : delete this and import all data
-const existingStructureCodes = [
-  "C1402",
-  "H1401",
-  "R1401",
-  "K1403",
-  "C2703",
-  "H2702",
-  "R2701",
-  "R2703",
-  "H5004",
-  "T5003",
-  "R5001",
-  "C5001",
-  "C6103",
-  "R7601",
-  "P6103",
-  "H6104",
-  "C7604",
-  "R7602",
-  "K7602",
-  "P7614",
-  "C4406",
-  "C4905",
-  "K4407",
-  "H4416",
-  "C4904",
-  "R4902",
-  "K4901",
-  "H4903",
-  "C5301",
-  "R5301",
-  "H5302",
-  "H5301",
-  "C7204",
-  "R7201",
-  "P7209",
-  "H7211",
-  "C8504",
-  "R8501",
-  "C8503",
-  "H8503",
-];
+await prisma.activite.createMany({
+  data: extractActivitesFromOds(),
+});
