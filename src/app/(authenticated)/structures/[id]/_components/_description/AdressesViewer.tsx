@@ -3,8 +3,8 @@
 import { ReactElement, useState } from "react";
 
 import { Badge } from "@/app/components/common/Badge";
-import { getRepartition } from "@/app/utils/structure.util";
 import { formatCityName } from "@/app/utils/adresse.util";
+import { getRepartition } from "@/app/utils/structure.util";
 import { Repartition } from "@/types/adresse.type";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
