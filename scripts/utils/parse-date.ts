@@ -5,7 +5,7 @@ export const parseDate = (value: string, context: string): Date => {
   }
 
   if (trimmed.length === 4) {
-    return new Date(Number(trimmed), 0, 1, 12, 0, 0);
+    return buildYearStartDate(Number(trimmed));
   }
 
   const isoCandidate = new Date(trimmed);
@@ -16,10 +16,23 @@ export const parseDate = (value: string, context: string): Date => {
   throw new Error(`${context}: format de date invalide (${value})`);
 };
 
-/**
- * Génère une date pour le début d'une année donnée à 13h (pour éviter les problèmes de timezone)
- * Utilise la même logique que parseDate mais avec 13h au lieu de 12h
- */
+// 1er janvier à 12:00:00 depuis une année
 export const buildYearStartDate = (year: number, hour: number = 13): Date => {
   return new Date(year, 0, 1, hour, 0, 0, 0);
+};
+
+// Normalize with the exception of the 31/12 at 23:00:00 (due to GMT issue)
+export const normalizeYearDate = (date: Date): Date => {
+  if (
+    date.getMonth() === 11 && // december (index starts at 0 for months...)
+    date.getDate() === 31 &&
+    date.getHours() === 23 &&
+    date.getMinutes() === 0 &&
+    date.getSeconds() === 0
+  ) {
+    const year = date.getFullYear();
+    return buildYearStartDate(year + 1);
+  }
+  const year = date.getFullYear();
+  return buildYearStartDate(year);
 };

@@ -5,25 +5,9 @@ import "dotenv/config";
 
 import { createPrismaClient } from "@/prisma-client";
 
-import { buildYearStartDate } from "../utils/parse-date";
+import { normalizeYearDate } from "../utils/parse-date";
 
 const prisma = createPrismaClient();
-
-// Normalize with the exception of the 31/12 at 23:00:00 (due to GMT issue)
-const normalizeDate = (date: Date): Date => {
-  if (
-    date.getMonth() === 11 && // december (index starts at 0 for months...)
-    date.getDate() === 31 &&
-    date.getHours() === 23 &&
-    date.getMinutes() === 0 &&
-    date.getSeconds() === 0
-  ) {
-    const year = date.getFullYear();
-    return buildYearStartDate(year + 1);
-  }
-  const year = date.getFullYear();
-  return buildYearStartDate(year);
-};
 
 const changeDatesForMillesimes = async () => {
   try {
@@ -61,7 +45,7 @@ const changeDatesForMillesimes = async () => {
 
     for (const budget of budgets) {
       try {
-        const normalizedDate = normalizeDate(budget.date);
+        const normalizedDate = normalizeYearDate(budget.date);
         if (normalizedDate.getTime() !== budget.date.getTime()) {
           await prisma.budget.update({
             where: { id: budget.id },
@@ -77,7 +61,7 @@ const changeDatesForMillesimes = async () => {
 
     for (const adresseTypologie of adresseTypologies) {
       try {
-        const normalizedDate = normalizeDate(adresseTypologie.date);
+        const normalizedDate = normalizeYearDate(adresseTypologie.date);
         if (normalizedDate.getTime() !== adresseTypologie.date.getTime()) {
           await prisma.adresseTypologie.update({
             where: { id: adresseTypologie.id },
@@ -96,7 +80,7 @@ const changeDatesForMillesimes = async () => {
 
     for (const structureTypologie of structureTypologies) {
       try {
-        const normalizedDate = normalizeDate(structureTypologie.date);
+        const normalizedDate = normalizeYearDate(structureTypologie.date);
         if (normalizedDate.getTime() !== structureTypologie.date.getTime()) {
           await prisma.structureTypologie.update({
             where: { id: structureTypologie.id },
