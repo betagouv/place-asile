@@ -7,6 +7,7 @@ import {
 } from "@/app/utils/adresse.util";
 import { transformAjoutFormContactsToApiContacts } from "@/app/utils/contacts.util";
 import { formatDateToIsoString } from "@/app/utils/date.util";
+import { transformFrenchDateToISO } from "@/app/utils/zodCustomFields";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
@@ -128,6 +129,7 @@ const transformAjoutFormStructureToApiStructure = async (
     structureMillesimes:
       values.structureMillesimes?.map((millesime) => ({
         ...millesime,
+        date: transformFrenchDateToISO(millesime.date) as string,
         operateurComment: millesime.operateurComment ?? undefined,
       })) || undefined,
     structureTypologies: values.typologies?.map((typologie) => ({
