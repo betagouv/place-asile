@@ -10,6 +10,7 @@ import {
   getPlacesByCommunes,
   getRepartition,
 } from "@/app/utils/structure.util";
+import { formatCityName } from "@/app/utils/adresse.util";
 import { StructureApiType } from "@/schemas/api/structure.schema";
 
 import { RepartitionBadge } from "./RepartitionBadge";
@@ -67,15 +68,19 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
 const getCommuneLabel = (structure: StructureApiType) => {
   const placesByCommune = getPlacesByCommunes(structure.adresses || []);
   const mainCommune = Object.keys(placesByCommune)[0];
+  const formattedMainCommune = formatCityName(mainCommune);
   const communesWithoutMainCommune = Object.keys(placesByCommune).filter(
     (commune) => commune !== mainCommune
   );
+  const formattedCommunesWithoutMainCommune = communesWithoutMainCommune.map(
+    (commune) => formatCityName(commune)
+  );
   return (
     <>
-      <span>{mainCommune} </span>
+      <span>{formattedMainCommune} </span>
       {mainCommune && communesWithoutMainCommune.length > 0 && (
         <span className="underline text-mention-grey inline-flex ms-1">
-          <Tooltip title={communesWithoutMainCommune.join(", ")}>
+          <Tooltip title={formattedCommunesWithoutMainCommune.join(", ")}>
             + {communesWithoutMainCommune.length}
           </Tooltip>
         </span>
