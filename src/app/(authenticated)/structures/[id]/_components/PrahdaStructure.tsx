@@ -1,10 +1,10 @@
 import { ReactElement } from "react";
 
 import { ActesAdministratifsBlock } from "./_actes-administratifs/ActesAdministratifsBlock";
-// import { ActivitesBlock } from "./(activites)/ActivitesBlock";
+import { ActiviteBlock } from "./_activite/ActiviteBlock";
 import { CalendrierBlock } from "./_calendrier/CalendrierBlock";
+import { HudaPrahdaControlesBlock } from "./_controles/HudaPrahdaControlesBlock";
 import { PrahdaDescriptionBlock } from "./_description/PrahdaDescriptionBlock";
-// import { HudaPrahdaControlesBlock } from "./(controles)/HudaPrahdaControlesBlock";
 import { NotesBlock } from "./_notes/NotesBlock";
 import { PrahdaTypePlaceBlock } from "./_type-places/PrahdaTypePlaceBlock";
 import { Section } from "./Section";
@@ -21,13 +21,12 @@ export const PrahdaStructure = (): ReactElement => {
       <Section id="places">
         <PrahdaTypePlaceBlock />
       </Section>
-      {/* TODO : réajouter cette section quand il y aura des EIG et/ou évaluation */}
-      {/* <Section id="controle">
+      <Section id="controle">
         <HudaPrahdaControlesBlock />
-      </Section> */}
-      {/* <Section id="activites">
-        <ActivitesBlock />
-      </Section> */}
+      </Section>
+      <Section id="activites">
+        <ActiviteBlock />
+      </Section>
       <Section id="actes-administratifs">
         <ActesAdministratifsBlock />
       </Section>
