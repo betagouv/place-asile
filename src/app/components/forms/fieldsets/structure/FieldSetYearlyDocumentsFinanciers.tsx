@@ -55,9 +55,7 @@ export const FieldSetYearlyDocumentsFinanciers = ({
           année.
         </p>
       )}
-
       <DocumentsFinanciersCheckboxIsInCpom year={year} index={index} />
-
       {isInCpom && (
         <Notice
           severity="info"
@@ -66,7 +64,6 @@ export const FieldSetYearlyDocumentsFinanciers = ({
           description="Selon vos pratiques, les documents financiers de cette année peuvent être à l’échelle de la structure et/ou du CPOM et/ou regrouper les deux. Veuillez importer tous les documents en votre possession en précisant leur échelle."
         />
       )}
-
       <div className="grid grid-cols-2 gap-4 mb-10">
         <DocumentsFinanciersList
           isAutorisee={isAutorisee}
