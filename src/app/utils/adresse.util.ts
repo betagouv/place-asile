@@ -88,7 +88,7 @@ export const transformApiAdressesToFormAdresses = (
  * https://www.amf.asso.fr/documents-noms-communes-nouvelles-les-regles-respecter/24266
  */
 export const formatCityName = (city: string): string | null => {
-  if (!city || typeof city !== "string") {
+  if (typeof city !== "string") {
     return city;
   }
 
@@ -99,7 +99,6 @@ export const formatCityName = (city: string): string | null => {
   }
 
   const articles = new Set(["le", "la", "les", "l"]);
-
   const prepositions = new Set([
     "sur",
     "en",
@@ -116,6 +115,8 @@ export const formatCityName = (city: string): string | null => {
     "avec",
     "sans",
     "vers",
+    "d",
+    "l",
   ]);
 
   const words = normalized.split(" ").filter(Boolean);
@@ -124,27 +125,29 @@ export const formatCityName = (city: string): string | null => {
     return null;
   }
 
-  // Vérifier si le premier mot est un article
   const firstWordLower = words[0].toLowerCase();
   const hasArticleAtStart = articles.has(firstWordLower);
 
-  // Formater chaque mot
   const formattedWords = words.map((word, index) => {
     const wordLower = word.toLowerCase();
     const isArticleInside = index > 0 && articles.has(wordLower);
     const isPreposition = prepositions.has(wordLower);
 
-    let formattedWord: string;
     if (isArticleInside || isPreposition) {
-      formattedWord = wordLower;
-    } else {
-      formattedWord = wordLower.charAt(0).toUpperCase() + wordLower.slice(1);
+      return wordLower;
     }
 
-    return formattedWord;
+    const parts = wordLower.split("'");
+    const formattedParts = parts.map((part) => {
+      if (index > 0 && (part === "l" || part === "d")) {
+        return part;
+      }
+      return part.charAt(0).toUpperCase() + part.slice(1);
+    });
+
+    return formattedParts.join("'");
   });
 
-  // Joindre avec des traits d'union, sauf après l'article au début
   let result = formattedWords[0];
 
   for (let i = 1; i < formattedWords.length; i++) {
