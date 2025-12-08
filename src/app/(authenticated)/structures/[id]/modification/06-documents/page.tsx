@@ -1,5 +1,4 @@
 "use client";
-import { UseFormReturn } from "react-hook-form";
 
 import UploadsByCategory from "@/app/components/forms/documents/UploadsByCategory";
 import FormWrapper, {
@@ -14,7 +13,6 @@ import {
   getCategoriesToDisplay,
 } from "@/app/utils/categoryToDisplay.util";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { filterActesAdministratifs } from "@/app/utils/filterActesAdministratifs";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
   actesAdministratifsAutoriseesSchema,
@@ -52,14 +50,9 @@ export default function ModificationQualiteForm() {
     structure,
   });
 
-  const onSubmit = async (
-    data: ActesAdministratifsFormValues,
-    methods: UseFormReturn<ActesAdministratifsFormValues>
-  ) => {
-    const actesAdministratifs = await filterActesAdministratifs(
-      data.actesAdministratifs,
-      methods,
-      categoriesDisplayRules
+  const onSubmit = async (data: ActesAdministratifsFormValues) => {
+    const actesAdministratifs = data.actesAdministratifs?.filter(
+      (acteAdministratif) => acteAdministratif.key
     );
 
     await handleSubmit({
