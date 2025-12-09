@@ -67,7 +67,7 @@ export const FieldSetYearlyDocumentsFinanciers = ({
         />
       )}
 
-      <div className="grid grid-cols-2 gap-4 mb-10">
+      <div className="grid grid-cols-2 gap-16 mb-10">
         <DocumentsFinanciersList
           isAutorisee={isAutorisee}
           control={control}

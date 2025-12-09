@@ -58,6 +58,7 @@ export const DocumentsFinanciersItem = ({
 
   return (
     <div className="flex items-center gap-2 text-xs text-mention-grey">
+      <span className="fr-icon-file-text-fill text-title-blue-france fr-icon--sm" />
       <span className="text-default-grey">
         {
           granularities.find(
