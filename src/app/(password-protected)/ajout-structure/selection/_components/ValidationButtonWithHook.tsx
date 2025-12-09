@@ -51,7 +51,7 @@ export const ValidationButtonWithHook = (): ReactElement => {
     );
 
     const structureMillesimes = years.map((year: number) => ({
-      date: year,
+      date: new Date(year, 0, 1, 13).toISOString(),
       cpom:
         filteredStructureMillesimes?.find(
           (millesime: StructureMillesimeApiType) =>
