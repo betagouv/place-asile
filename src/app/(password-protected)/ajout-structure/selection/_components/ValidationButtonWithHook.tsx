@@ -4,7 +4,6 @@ import { ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getYearDate } from "@/app/utils/date.util";
 import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
 
 export const ValidationButtonWithHook = (): ReactElement => {
