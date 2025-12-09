@@ -65,11 +65,12 @@ export const DocumentsFinanciersCategory = ({
           )}
         </div>
       }
-      className={
+      className={cn(
         !isFilled
-          ? "[&>h3>button]:cursor-default [&>h3>button]:hover:bg-transparent [&>h3>button]:after:content-none "
-          : "[&>h3>button]:after:w-6 [&>h3>button]:after:h-6 [&>h3>button]:after:ml-2"
-      }
+          ? "[&>h3>button]:cursor-default [&>h3>button]:hover:bg-transparent [&>h3>button]:after:text-disabled-grey"
+          : "",
+        "[&>h3>button]:after:w-6 [&>h3>button]:after:h-6 [&>h3>button]:after:ml-2"
+      )}
     >
       <div>
         {documentsFinanciersOfCategory.map((documentFinancier) => (
