@@ -30,6 +30,8 @@ export const DocumentsFinanciersCategory = ({
     ) || [];
 
   const isFilled = documentsFinanciersOfCategory.length > 0;
+  const isAllowedYear =
+    year <= new Date().getFullYear() - documentType.yearIndex;
 
   return (
     <Accordion
@@ -39,7 +41,7 @@ export const DocumentsFinanciersCategory = ({
           <div className={!isFilled ? "text-disabled-grey" : ""}>
             <div>
               <strong>{documentType.label}</strong>
-              {!documentType.required && (
+              {!(documentType.required && isAllowedYear) && (
                 <span
                   className={cn(
                     isFilled ? "text-default-grey" : "text-disabled-grey",
@@ -53,7 +55,7 @@ export const DocumentsFinanciersCategory = ({
             </div>
             <span className="text-sm ">{documentType.subLabel}</span>
           </div>
-          {(documentType.required || isFilled) && (
+          {((documentType.required && isAllowedYear) || isFilled) && (
             <div
               className={cn(
                 "uppercase text-[0.625rem]",

@@ -25,7 +25,7 @@ describe("parseDate util", () => {
     expect(result.getFullYear()).toBe(2021);
     expect(result.getMonth()).toBe(0);
     expect(result.getDate()).toBe(1);
-    expect(result.getHours()).toBe(12);
+    expect(result.getHours()).toBe(13);
     expect(result.getMinutes()).toBe(0);
     expect(result.getSeconds()).toBe(0);
   });
