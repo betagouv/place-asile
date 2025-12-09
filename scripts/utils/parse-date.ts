@@ -16,9 +16,10 @@ export const parseDate = (value: string, context: string): Date => {
   throw new Error(`${context}: format de date invalide (${value})`);
 };
 
-// 1er janvier à 12:00:00 depuis une année
-export const buildYearStartDate = (year: number, hour: number = 13): Date => {
-  return new Date(year, 0, 1, hour, 0, 0, 0);
+// 1er janvier à 12:00:00 UTC depuis une année
+// Utilise UTC pour éviter les problèmes de fuseau horaire
+export const buildYearStartDate = (year: number, hour: number = 12): Date => {
+  return new Date(Date.UTC(year, 0, 1, hour, 0, 0, 0));
 };
 
 // Normalize with the exception of the 31/12 at 23:00:00 (due to GMT issue)
