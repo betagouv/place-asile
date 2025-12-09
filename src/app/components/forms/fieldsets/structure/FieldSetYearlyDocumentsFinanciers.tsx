@@ -1,8 +1,12 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import { ReactElement, useEffect, useRef } from "react";
-import { Control, useFormContext } from "react-hook-form";
+import { ReactElement, useCallback, useEffect, useRef } from "react";
+import { Control, useFieldArray, useFormContext } from "react-hook-form";
 
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
+import { useFileUpload } from "@/app/hooks/useFileUpload";
+import {
+  DocumentFinancierFlexibleFormValues,
+  DocumentsFinanciersFlexibleFormValues,
+} from "@/schemas/forms/base/documentFinancier.schema";
 
 import { DocumentsFinanciersCheckboxIsInCpom } from "../../finance/documents/DocumentsFinanciersCheckboxIsInCpom";
 import { DocumentsFinanciersCommentaire } from "../../finance/documents/DocumentsFinanciersCommentaire";
@@ -18,6 +22,17 @@ export const FieldSetYearlyDocumentsFinanciers = ({
   hasAccordion,
 }: Props): ReactElement | null => {
   const { watch, formState } = useFormContext();
+
+  const { deleteFile } = useFileUpload();
+
+  const documentsFinanciers: DocumentFinancierFlexibleFormValues[] = watch(
+    "documentsFinanciers"
+  );
+  const { remove } = useFieldArray({
+    control,
+    name: "documentsFinanciers",
+  });
+
   const isInCpom = watch(`structureMillesimes.${index}.cpom`);
 
   const yearErrors =
@@ -35,6 +50,36 @@ export const FieldSetYearlyDocumentsFinanciers = ({
       });
     }
   }, [hasError]);
+
+  const removeCpomDocuments = useCallback(async () => {
+    const indicesToRemove: number[] = [];
+
+    for (const [index, document] of documentsFinanciers.entries()) {
+      const documentYear = document.date?.substring(0, 4);
+      if (
+        documentYear === year.toString() &&
+        document.granularity &&
+        document.granularity !== "STRUCTURE"
+      ) {
+        if (document.key) {
+          await deleteFile(document.key);
+        }
+        indicesToRemove.push(index);
+      }
+    }
+
+    indicesToRemove.sort((a, b) => b - a);
+
+    indicesToRemove.forEach((indexToRemove) => {
+      remove(indexToRemove);
+    });
+  }, [documentsFinanciers, year, deleteFile, remove]);
+
+  useEffect(() => {
+    if (!isInCpom && documentsFinanciers.length > 0) {
+      removeCpomDocuments();
+    }
+  }, [documentsFinanciers, isInCpom, removeCpomDocuments]);
 
   const shouldHide = startYear && Number(year) < startYear;
   if (shouldHide) {

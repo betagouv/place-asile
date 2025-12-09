@@ -23,7 +23,7 @@ export const DocumentsFinanciers = ({
   const { control } = useFormContext<DocumentsFinanciersFlexibleFormValues>();
   const isSubventionnee = isStructureSubventionnee(structure?.type);
   const isAutorisee = isStructureAutorisee(structure?.type);
-
+  
   const startYear = structure?.date303
     ? new Date(structure.date303).getFullYear()
     : new Date(structure.creationDate).getFullYear();
