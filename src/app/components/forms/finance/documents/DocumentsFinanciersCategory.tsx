@@ -36,11 +36,19 @@ export const DocumentsFinanciersCategory = ({
       key={documentType.label}
       label={
         <div className="flex items-center gap-2 justify-between w-full">
-          <div>
+          <div className={!isFilled ? "text-disabled-grey" : ""}>
             <div>
               <strong>{documentType.label}</strong>
               {!documentType.required && (
-                <span className="text-default-grey italic"> - optionnel</span>
+                <span
+                  className={cn(
+                    isFilled ? "text-default-grey" : "text-disabled-grey",
+                    "italic"
+                  )}
+                >
+                  {" "}
+                  - optionnel
+                </span>
               )}
             </div>
             <span className="text-sm ">{documentType.subLabel}</span>
@@ -56,6 +64,11 @@ export const DocumentsFinanciersCategory = ({
             </div>
           )}
         </div>
+      }
+      className={
+        !isFilled
+          ? "[&>h3>button]:cursor-default [&>h3>button]:hover:bg-transparent [&>h3>button]:after:content-none "
+          : ""
       }
     >
       <div>
