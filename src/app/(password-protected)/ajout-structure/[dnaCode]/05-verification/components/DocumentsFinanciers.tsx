@@ -45,10 +45,11 @@ export const DocumentsFinanciers = (): ReactElement => {
   const numberOfMissingDocuments = yearsToCheck
     .map((year) =>
       documents
-        .filter((document) => {
-          if (!document.required) {
+        .filter((document, index) => {
+          if (!document.required || document.yearIndex >= index) {
             return false;
           }
+
           const documentsFinanciers =
             localStorageValues?.documentsFinanciers ?? [];
           const findDocument = documentsFinanciers.find(
