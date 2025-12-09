@@ -41,14 +41,18 @@ export const DocumentsFinanciers = (): ReactElement => {
   const yearsToCheck = years.filter((year) => {
     return Number(year) >= Number(startYear);
   });
-
+  console.log(yearsToCheck);
   const numberOfMissingDocuments = yearsToCheck
     .map((year) =>
       documents
-        .filter((document) => {
+        .filter((document, index) => {
           if (!document.required) {
             return false;
           }
+          if (document.yearIndex >= index) {
+            return false;
+          }
+
           const documentsFinanciers =
             localStorageValues?.documentsFinanciers ?? [];
           const findDocument = documentsFinanciers.find(
