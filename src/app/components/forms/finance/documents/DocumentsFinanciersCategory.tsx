@@ -68,7 +68,7 @@ export const DocumentsFinanciersCategory = ({
       className={
         !isFilled
           ? "[&>h3>button]:cursor-default [&>h3>button]:hover:bg-transparent [&>h3>button]:after:content-none "
-          : ""
+          : "[&>h3>button]:after:w-6 [&>h3>button]:after:h-6 [&>h3>button]:after:ml-2"
       }
     >
       <div>
