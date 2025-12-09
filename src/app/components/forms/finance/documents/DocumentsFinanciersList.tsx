@@ -20,17 +20,15 @@ export const DocumentsFinanciersList = ({
     : structureSubventionneesDocuments;
 
   return (
-    <div>
-      <div className={fr.cx("fr-accordions-group")}>
-        {documentTypes.map((documentType) => (
-          <DocumentsFinanciersCategory
-            documentType={documentType}
-            key={documentType.value}
-            control={control}
-            year={year}
-          />
-        ))}
-      </div>
+    <div className={fr.cx("fr-accordions-group")}>
+      {documentTypes.map((documentType) => (
+        <DocumentsFinanciersCategory
+          documentType={documentType}
+          key={documentType.value}
+          control={control}
+          year={year}
+        />
+      ))}
     </div>
   );
 };
