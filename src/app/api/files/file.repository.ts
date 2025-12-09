@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/nextjs";
+
 import { FileUpload, FileUploadCategory } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
@@ -121,6 +123,20 @@ export const updateFileUploads = async (
       });
 
       if (!existingFileUpload) {
+        const message = `FileUpload with key "${fileUpload.key}" not found for structure "${structureDnaCode}" (category: ${category})`;
+        console.warn(message);
+        Sentry.captureMessage(message, {
+          level: "warning",
+          tags: {
+            component: "file.repository",
+            function: "updateFileUploads",
+          },
+          extra: {
+            key: fileUpload.key,
+            structureDnaCode,
+            category,
+          },
+        });
         return;
       }
 
