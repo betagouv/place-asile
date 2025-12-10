@@ -4,7 +4,7 @@ export const protectedApiRoutes: ApiRoute[] = [
   {
     pattern: /^\/api\/structures$/,
     routes: {
-      GET: "proconnect",
+      GET: "either",
       PUT: "proconnect",
       POST: "password",
     },

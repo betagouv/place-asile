@@ -45,7 +45,6 @@ export const FieldSetDescription = ({
     return undefined;
   }, [parentFormContext]);
 
-  const cpom = watch("cpom");
   const filiale = watch("filiale");
 
   useEffect(() => {
@@ -185,20 +184,6 @@ export const FieldSetDescription = ({
           ]}
         />
       </label>
-      {formKind !== FormKind.MODIFICATION && (
-        <div className="flex">
-          <ToggleSwitch
-            inputTitle="CPOM"
-            label="Actuellement, la structure fait-elle partie d’un CPOM ?"
-            labelPosition="left"
-            showCheckedHint={false}
-            className="w-fit"
-            checked={cpom === true}
-            onChange={(event) => setValue("cpom", event)}
-          />
-          <p className="pl-2">{cpom ? "Oui" : "Non"}</p>
-        </div>
-      )}
     </fieldset>
   );
 };

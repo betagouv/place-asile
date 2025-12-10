@@ -4,6 +4,7 @@ import { ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
 
 export const ValidationButtonWithHook = (): ReactElement => {
   const router = useRouter();
@@ -43,9 +44,29 @@ export const ValidationButtonWithHook = (): ReactElement => {
       nom: structure?.nom,
     });
 
+    const years = [2021, 2022, 2023, 2024, 2025];
+    const filteredStructureMillesimes = structure?.structureMillesimes?.filter(
+      (millesime: StructureMillesimeApiType) =>
+        years.includes(parseInt(millesime.date.substring(0, 4)))
+    );
+
+    const structureMillesimes = years.map((year: number) => ({
+      date: new Date(year, 0, 1, 13).toISOString(),
+      cpom:
+        filteredStructureMillesimes?.find(
+          (millesime: StructureMillesimeApiType) =>
+            millesime.date.substring(0, 4) === year.toString()
+        )?.cpom ?? false,
+      operateurComment:
+        filteredStructureMillesimes?.find(
+          (millesime: StructureMillesimeApiType) =>
+            millesime.date.substring(0, 4) === year.toString()
+        )?.operateurComment ?? undefined,
+    }));
+
     updateDocuments({
       ...localDocumentsValue,
-      structureMillesimes: structure?.structureMillesimes,
+      structureMillesimes: structureMillesimes,
     });
     router.push(`/ajout-structure/${structure?.dnaCode}/01-identification`);
   };

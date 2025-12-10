@@ -128,6 +128,7 @@ const transformAjoutFormStructureToApiStructure = async (
     structureMillesimes:
       values.structureMillesimes?.map((millesime) => ({
         ...millesime,
+        date: formatStructureMillesimeDateToIsoString(millesime.date),
         operateurComment: millesime.operateurComment ?? undefined,
       })) || undefined,
     structureTypologies: values.typologies?.map((typologie) => ({
@@ -157,3 +158,13 @@ export type AjoutFormValues = Partial<
     AjoutTypePlacesFormValues &
     DocumentsFinanciersFlexibleFormValues
 >;
+
+// TODO: This function is temporary. It should be deleted by 15/12/2025
+const formatStructureMillesimeDateToIsoString = (date: string): string => {
+  // If the input is already a valid ISO string, just return it
+  if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(date)) {
+    return date;
+  }
+  // Otherwise, assume it's a year (e.g., "2025")
+  return new Date(Number(date), 0, 1, 13).toISOString();
+};

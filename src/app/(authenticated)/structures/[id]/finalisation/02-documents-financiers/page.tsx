@@ -2,7 +2,7 @@
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { AutoSave } from "@/app/components/forms/AutoSave";
 import { Date303 } from "@/app/components/forms/finance/documents/Date303";
-import { Documents } from "@/app/components/forms/finance/documents/Documents";
+import { DocumentsFinanciers } from "@/app/components/forms/finance/documents/DocumentsFinanciers";
 import FormWrapper, {
   FooterButtonType,
 } from "@/app/components/forms/FormWrapper";
@@ -85,7 +85,7 @@ export default function FinalisationDocumentsFinanciers() {
           description="Veuillez vérifier les documents financiers fournis par l’opérateur concernant les cinq dernières années."
         />
         <Date303 />
-        <Documents className="mb-6" />
+        <DocumentsFinanciers className="mb-6" />
 
         {saveState === FetchState.ERROR && (
           <SubmitError
