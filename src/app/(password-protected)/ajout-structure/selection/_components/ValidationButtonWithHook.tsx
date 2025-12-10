@@ -4,6 +4,7 @@ import { ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { getYearRange } from "@/app/utils/date.util";
 import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
 
 export const ValidationButtonWithHook = (): ReactElement => {
@@ -44,7 +45,7 @@ export const ValidationButtonWithHook = (): ReactElement => {
       nom: structure?.nom,
     });
 
-    const years = [2021, 2022, 2023, 2024, 2025];
+    const { years } = getYearRange();
     const filteredStructureMillesimes = structure?.structureMillesimes?.filter(
       (millesime: StructureMillesimeApiType) => years.includes(millesime.year)
     );

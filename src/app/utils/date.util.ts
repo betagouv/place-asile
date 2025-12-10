@@ -100,8 +100,17 @@ export const parseFrDate = (value: unknown): Date | unknown => {
   return value;
 };
 
+export const getDocumentsFinanciersYearRange = ({
+  isAutorisee,
+}: {
+  isAutorisee: boolean;
+}): { years: number[] } => {
+  const { years } = getYearRange();
+  return { years: isAutorisee ? years : years.slice(2) };
+};
+
 export const getYearRange = ({
-  startYear = 2021,
+  startYear = CURRENT_YEAR - 4,
   endYear = CURRENT_YEAR,
   order = "asc",
 }: {

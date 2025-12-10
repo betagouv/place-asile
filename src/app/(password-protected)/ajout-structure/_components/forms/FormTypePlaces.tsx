@@ -9,6 +9,8 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { cn } from "@/app/utils/classname.util";
+import { getYearRange } from "@/app/utils/date.util";
+import { CURRENT_YEAR } from "@/constants";
 import { ajoutTypePlacesSchema } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
 
 export default function FormTypePlaces() {
@@ -22,7 +24,10 @@ export default function FormTypePlaces() {
     ? `/ajout-structure/${params.dnaCode}/05-verification`
     : `/ajout-structure/${params.dnaCode}/04-documents`;
 
-  const years = useMemo(() => [2025, 2024, 2023] as const, []);
+  const { years } = getYearRange({
+    startYear: CURRENT_YEAR - 2,
+    endYear: CURRENT_YEAR,
+  });
 
   const { currentValue: localStorageValues } = useLocalStorage(
     `ajout-structure-${params.dnaCode}-type-places`,
