@@ -10,6 +10,7 @@ import {
   StructureAgentUpdateApiType,
   StructureApiType,
 } from "@/schemas/api/structure.schema";
+import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
 
@@ -166,4 +167,16 @@ export const getCurrentCpomStructureDates = (
     debutCpom: currentCpomStructureDateDebut,
     finCpom: currentCpomStructureDateFin,
   };
+};
+
+export const getCurrentStructureTypology = (
+  structure: StructureAgentUpdateApiType | StructureApiType
+): StructureTypologieApiType => {
+  const currentYearStructureTypology = structure.structureTypologies?.find(
+    (structureTypologie) =>
+      structureTypologie.date?.slice(0, 4) ===
+      new Date().getFullYear().toString()
+  );
+
+  return currentYearStructureTypology as StructureTypologieApiType;
 };

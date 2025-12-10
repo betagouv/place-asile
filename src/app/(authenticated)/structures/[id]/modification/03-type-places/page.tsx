@@ -10,7 +10,7 @@ import { SubmitError } from "@/app/components/SubmitError";
 import { useFetchState } from "@/app/context/FetchStateContext";
 import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
-import { typePlacesSchema } from "@/schemas/forms/base/typePlaces.schema";
+import { structureTypologiesWithMandatoryEvolutionSchema } from "@/schemas/forms/base/structureTypologie.schema";
 import { FetchState } from "@/types/fetch-state.type";
 import { FormKind } from "@/types/global";
 
@@ -35,9 +35,14 @@ export default function ModificationTypePlaces() {
         closeLink={`/structures/${structure.id}`}
       />
       <FormWrapper
-        schema={typePlacesSchema}
+        schema={structureTypologiesWithMandatoryEvolutionSchema}
         defaultValues={defaultValues}
-        onSubmit={handleSubmit}
+        onSubmit={(data) =>
+          handleSubmit({
+            ...data,
+            dnaCode: structure.dnaCode,
+          })
+        }
         mode="onChange"
         resetRoute={`/structures/${structure.id}`}
         submitButtonText="Valider"

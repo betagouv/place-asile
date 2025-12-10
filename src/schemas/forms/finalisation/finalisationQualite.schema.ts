@@ -6,17 +6,17 @@ import {
   evaluationsSchema,
 } from "../base/evaluation.schema";
 import {
-  placesEvolutionAutoSaveSchema,
-  placesEvolutionSchema,
-} from "../base/typePlaces.schema";
+  structureTypologiesAutoSaveSchema,
+  structureTypologiesWithMandatoryEvolutionSchema,
+} from "../base/structureTypologie.schema";
 
 export const finalisationQualiteSchema = controlesAutoSaveSchema
   .and(evaluationsSchema)
-  .and(placesEvolutionSchema);
+  .and(structureTypologiesWithMandatoryEvolutionSchema);
 
 export const finalisationQualiteAutoSaveSchema = controlesAutoSaveSchema
   .and(evaluationsAutoSaveSchema)
-  .and(placesEvolutionAutoSaveSchema);
+  .and(structureTypologiesAutoSaveSchema);
 
 export type FinalisationQualiteFormValues = z.infer<
   typeof finalisationQualiteSchema
