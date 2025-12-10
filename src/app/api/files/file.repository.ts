@@ -140,7 +140,7 @@ export const updateFileUploads = async (
         return;
       }
 
-      tx.fileUpload.update({
+      await tx.fileUpload.update({
         where: { key: fileUpload.key },
         data: {
           date: fileUpload.date,

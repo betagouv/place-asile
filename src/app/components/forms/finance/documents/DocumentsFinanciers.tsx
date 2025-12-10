@@ -57,7 +57,7 @@ export const DocumentsFinanciers = ({
             startYear={startYear}
             isAutorisee={isAutorisee}
             control={control}
-            index={yearsToDisplay.length - 1 - index}
+            index={index}
             hasAccordion={hasAccordion}
           />
         </DocumentsFinanciersAccordion>
