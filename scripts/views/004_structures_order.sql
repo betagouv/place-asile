@@ -5,12 +5,12 @@ WITH
     SELECT DISTINCT
       ON (st."structureDnaCode") st."structureDnaCode",
       st."placesAutorisees",
-      st."date"
+      st."year"
     FROM
       public."StructureTypologie" st
     ORDER BY
       st."structureDnaCode",
-      st."date" DESC
+      st."year" DESC
   ),
   structure_repartition AS (
     SELECT

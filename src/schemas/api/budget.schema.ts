@@ -2,7 +2,7 @@ import z from "zod";
 
 export const budgetApiSchema = z.object({
   id: z.number().optional(),
-  date: z.string().datetime(),
+  year: z.number().int().positive(),
   ETP: z.number().nullish(),
   tauxEncadrement: z.number().nullish(),
   coutJournalier: z.number().nullish(),

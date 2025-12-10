@@ -19,9 +19,9 @@ export const ActivitesBlock = (): ReactElement => {
       <div className="flex">
         <span className="text-title-blue-france">
           Données mensuelles mises à jour le{" "}
-          {new Date(activites?.[0]?.date || new Date()).toLocaleDateString(
-            "fr-FR"
-          )}
+          {activites?.[0]?.date
+            ? new Date(activites?.[0]?.date).toLocaleDateString("fr-FR")
+            : "N/D"}
         </span>
         <div style={{ position: "relative", width: 40 }}>
           <Image

@@ -3,7 +3,7 @@ import z from "zod";
 import { Repartition } from "@/types/adresse.type";
 
 export const adresseTypologieSchema = z.object({
-  date: z.string().min(1),
+  year: z.number().int().positive(),
   placesAutorisees: z
     .preprocess(
       (val) => (val === "" ? undefined : Number(val)),

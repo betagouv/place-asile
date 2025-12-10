@@ -2,7 +2,7 @@ import z from "zod";
 
 export const structureTypologieApiSchema = z.object({
   id: z.number().optional(),
-  date: z.string().datetime({ message: "La date de la typologie est requise" }),
+  year: z.number().int().positive(),
   placesAutorisees: z.number().int(),
   pmr: z.number().int(),
   lgbt: z.number().int(),

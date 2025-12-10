@@ -73,7 +73,7 @@ const budgetBaseSchema = z.object({
     (val) => (val === "" ? undefined : val),
     z.number().optional()
   ),
-  date: frenchDateToISO(),
+  year: z.number().int().positive(),
 
   ETP: zSafeDecimals(),
   tauxEncadrement: zSafeDecimals(),

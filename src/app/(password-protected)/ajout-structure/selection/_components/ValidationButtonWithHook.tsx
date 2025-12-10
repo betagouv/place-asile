@@ -46,21 +46,18 @@ export const ValidationButtonWithHook = (): ReactElement => {
 
     const years = [2021, 2022, 2023, 2024, 2025];
     const filteredStructureMillesimes = structure?.structureMillesimes?.filter(
-      (millesime: StructureMillesimeApiType) =>
-        years.includes(parseInt(millesime.date.substring(0, 4)))
+      (millesime: StructureMillesimeApiType) => years.includes(millesime.year)
     );
 
     const structureMillesimes = years.map((year: number) => ({
       date: new Date(year, 0, 1, 13).toISOString(),
       cpom:
         filteredStructureMillesimes?.find(
-          (millesime: StructureMillesimeApiType) =>
-            millesime.date.substring(0, 4) === year.toString()
+          (millesime: StructureMillesimeApiType) => millesime.year === year
         )?.cpom ?? false,
       operateurComment:
         filteredStructureMillesimes?.find(
-          (millesime: StructureMillesimeApiType) =>
-            millesime.date.substring(0, 4) === year.toString()
+          (millesime: StructureMillesimeApiType) => millesime.year === year
         )?.operateurComment ?? undefined,
     }));
 

@@ -11,18 +11,16 @@ export const getBudgetsDefaultValues = (
   const budgets = Array(5)
     .fill({})
     .map((_, index) => ({
-      date: new Date(years[index], 0, 1, 13).toISOString(),
+      year: years[index],
     }))
     .map((emptyBudget) => {
       const budget = structureBudgets.find(
-        (budget) =>
-          new Date(budget.date).getFullYear() ===
-          new Date(emptyBudget.date).getFullYear()
+        (budget) => budget.year === emptyBudget.year
       );
       if (budget) {
         return {
           ...budget,
-          date: budget.date,
+          year: budget.year,
           ETP: budget.ETP ?? undefined,
           tauxEncadrement: budget.tauxEncadrement ?? undefined,
           coutJournalier: budget.coutJournalier ?? undefined,

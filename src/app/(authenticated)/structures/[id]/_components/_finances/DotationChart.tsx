@@ -2,22 +2,20 @@ import { ReactElement } from "react";
 
 import BarChart from "@/app/components/common/BarChart";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { CURRENT_YEAR } from "@/constants";
 import { BudgetApiType } from "@/schemas/api/budget.schema";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 
 export const DotationChart = (): ReactElement => {
   const { structure } = useStructureContext();
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
+  const years = Array.from({ length: 5 }, (_, i) => CURRENT_YEAR - i);
 
   const yearsWithBudget = years
     .map((year) => {
       return {
         year,
-        budget: structure.budgets?.find(
-          (budget) => new Date(budget.date).getFullYear() === year
-        ),
+        budget: structure.budgets?.find((budget) => budget.year === year),
       };
     })
     .reverse();

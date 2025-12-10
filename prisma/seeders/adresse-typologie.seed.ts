@@ -4,13 +4,13 @@ import { AdresseTypologie } from "@/generated/prisma/client";
 
 export const createFakeAdresseTypologie = ({
   year,
-  placesAutorisees
+  placesAutorisees,
 }: CreateFakeAdresseTypologieOptions): Omit<
   AdresseTypologie,
   "id" | "adresseId"
 > => {
   return {
-    date: new Date(year, 0, 1, 13),
+    year,
     placesAutorisees,
     qpv: faker.number.int({ min: 0, max: placesAutorisees / 5 }),
     logementSocial: faker.number.int({ min: 0, max: placesAutorisees / 5 }),
@@ -20,6 +20,6 @@ export const createFakeAdresseTypologie = ({
 };
 
 type CreateFakeAdresseTypologieOptions = {
-  placesAutorisees: number,
+  placesAutorisees: number;
   year: number;
 };

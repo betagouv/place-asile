@@ -7,6 +7,7 @@ import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { cn } from "@/app/utils/classname.util";
 import { getYearRange } from "@/app/utils/date.util";
+import { CURRENT_YEAR } from "@/constants";
 
 export const IndicateursGeneraux = () => {
   const { years } = getYearRange();
@@ -23,8 +24,6 @@ export const IndicateursGeneraux = () => {
         budgetItemErrors?.tauxEncadrement ||
         budgetItemErrors?.coutJournalier
     );
-
-  const currentYear = new Date().getFullYear();
 
   return (
     <fieldset className="flex flex-col gap-6">
@@ -86,7 +85,7 @@ export const IndicateursGeneraux = () => {
           <tr key={year} className="w-full border-t border-default-grey ">
             <td className="align-middle py-4 !border-r-1">
               {year}
-              {currentYear - year < 2 && (
+              {CURRENT_YEAR - year < 2 && (
                 <>
                   <br />
                   <span className="text-xs">(prévisionnel)</span>

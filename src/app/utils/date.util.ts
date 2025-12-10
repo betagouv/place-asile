@@ -2,6 +2,8 @@ import "dayjs/locale/fr";
 
 import dayjs from "dayjs";
 
+import { CURRENT_YEAR } from "@/constants";
+
 dayjs.locale("fr");
 
 export const formatDate = (date: Date | string | number): string => {
@@ -54,6 +56,29 @@ export const getYearDate = (year: string | number): string => {
   return new Date(Number(year), 0, 1, 13).toLocaleDateString("fr-FR");
 };
 
+export const getDateFromYear = (year: string | number): Date => {
+  return new Date(Number(year), 0, 1, 13);
+};
+export const getYearFromDate = (date: string | number | Date): number => {
+  if (typeof date === "string") {
+    const match = date.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (match) {
+      return Number(match[3]);
+    }
+    const parsed = new Date(date);
+    if (!isNaN(parsed.getTime())) {
+      return parsed.getFullYear();
+    }
+    return NaN;
+  }
+  if (date instanceof Date) {
+    return date.getFullYear();
+  }
+  if (typeof date === "number") {
+    return date;
+  }
+  return NaN;
+};
 export const parseFrDate = (value: unknown): Date | unknown => {
   if (typeof value === "string") {
     const match = value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
@@ -72,7 +97,7 @@ export const parseFrDate = (value: unknown): Date | unknown => {
 
 export const getYearRange = ({
   startYear = 2021,
-  endYear = new Date().getFullYear(),
+  endYear = CURRENT_YEAR,
   order = "asc",
 }: {
   startYear?: number;

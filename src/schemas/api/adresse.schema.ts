@@ -9,9 +9,7 @@ export const adresseTypologieApiSchema = z.object({
     .int()
     .positive()
     .min(1, "Le nombre de places total est requis"),
-  date: z.string().datetime({
-    message: "La date de la typologie d'adresse est requise",
-  }),
+  year: z.number().int().positive(),
   qpv: z.number().int(),
   logementSocial: z.number().int(),
 });
