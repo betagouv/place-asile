@@ -50,17 +50,19 @@ export const ValidationButtonWithHook = (): ReactElement => {
       (millesime: StructureMillesimeApiType) => years.includes(millesime.year)
     );
 
-    const structureMillesimes = years.map((year: number) => ({
-      date: new Date(year, 0, 1, 13).toISOString(),
-      cpom:
-        filteredStructureMillesimes?.find(
-          (millesime: StructureMillesimeApiType) => millesime.year === year
-        )?.cpom ?? false,
-      operateurComment:
-        filteredStructureMillesimes?.find(
-          (millesime: StructureMillesimeApiType) => millesime.year === year
-        )?.operateurComment ?? undefined,
-    }));
+    const structureMillesimes: StructureMillesimeApiType[] = years.map(
+      (year: number) => ({
+        year: year,
+        cpom:
+          filteredStructureMillesimes?.find(
+            (millesime: StructureMillesimeApiType) => millesime.year === year
+          )?.cpom ?? false,
+        operateurComment:
+          filteredStructureMillesimes?.find(
+            (millesime: StructureMillesimeApiType) => millesime.year === year
+          )?.operateurComment ?? undefined,
+      })
+    );
 
     updateDocuments({
       ...localDocumentsValue,

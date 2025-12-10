@@ -12,6 +12,7 @@ import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
   nullishFrenchDateToISO,
   optionalFrenchDateToISO,
+  zSafeYear,
 } from "@/app/utils/zodCustomFields";
 import { DocumentFinancierCategory } from "@/types/file-upload.type";
 import { StructureType } from "@/types/structure.type";
@@ -31,7 +32,7 @@ export const DocumentsFinanciersSchema = z.object({
   structureMillesimes: z
     .array(
       z.object({
-        year: z.number().int().positive(),
+        year: zSafeYear(),
         cpom: z.boolean(),
         operateurComment: z.string().nullish(),
       })

@@ -65,3 +65,9 @@ export const zSafeDecimalsNullish = () =>
     const parsed = Number(val);
     return isNaN(parsed) ? null : parsed;
   }, z.number().nullable());
+
+export const zSafeYear = () =>
+  z.preprocess(
+    (val) => (typeof val === "string" ? Number(val) : val),
+    z.number().int().positive()
+  );

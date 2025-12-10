@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { zSafeDecimalsNullish } from "@/app/utils/zodCustomFields";
+import { zSafeDecimalsNullish, zSafeYear } from "@/app/utils/zodCustomFields";
 import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
 
 /**
@@ -70,7 +70,7 @@ const budgetBaseSchema = z.object({
     (val) => (val === "" ? undefined : val),
     z.number().optional()
   ),
-  year: z.number().int().positive(),
+  year: zSafeYear(),
 
   ETP: zSafeDecimals(),
   tauxEncadrement: zSafeDecimals(),
@@ -133,7 +133,7 @@ const budgetAutoSaveSchema = budgetBaseSchema
   })
   .partial()
   .extend({
-    year: z.number().int().positive(),
+    year: zSafeYear(),
   });
 
 export const basicSchema = z.object({
@@ -242,7 +242,7 @@ const subventionneeFirstYears = z.object({
     (val) => (val === "" ? undefined : val),
     z.number().optional()
   ),
-  year: z.number().int().positive(),
+  year: zSafeYear(),
   ETP: zSafeDecimals(),
   tauxEncadrement: zSafeDecimals(),
   coutJournalier: zSafeDecimals(),
