@@ -43,10 +43,10 @@ export const DocumentsFinanciers = (): ReactElement => {
   });
 
   const numberOfMissingDocuments = yearsToCheck
-    .map((year) =>
+    .map((year, index) =>
       documents
-        .filter((document, index) => {
-          if (!document.required || document.yearIndex >= index) {
+        .filter((document) => {
+          if (!document.required || document.yearIndex > index) {
             return false;
           }
 
