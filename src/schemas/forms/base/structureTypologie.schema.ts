@@ -2,7 +2,7 @@ import z from "zod";
 
 import {
   frenchDateToISO,
-  optionalFrenchDateToISO,
+  nullishFrenchDateToISO,
 } from "@/app/utils/zodCustomFields";
 import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
 
@@ -16,10 +16,10 @@ export const structureTypologieWithoutEvolutionSchema = z.object({
 });
 
 export const placesEvolutionSchema = z.object({
-  placesACreer: zSafeDecimals().optional(),
-  placesAFermer: zSafeDecimals().optional(),
-  echeancePlacesACreer: optionalFrenchDateToISO().optional(),
-  echeancePlacesAFermer: optionalFrenchDateToISO().optional(),
+  placesACreer: zSafeDecimals().nullish(),
+  placesAFermer: zSafeDecimals().nullish(),
+  echeancePlacesACreer: nullishFrenchDateToISO(),
+  echeancePlacesAFermer: nullishFrenchDateToISO(),
 });
 
 export const structureTypologieSchema =

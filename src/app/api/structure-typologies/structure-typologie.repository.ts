@@ -20,6 +20,10 @@ export const createOrUpdateStructureTypologies = async (
           pmr: typologie.pmr!,
           lgbt: typologie.lgbt!,
           fvvTeh: typologie.fvvTeh!,
+          placesACreer: typologie.placesACreer,
+          placesAFermer: typologie.placesAFermer,
+          echeancePlacesACreer: typologie.echeancePlacesACreer,
+          echeancePlacesAFermer: typologie.echeancePlacesAFermer,
         },
         create: {
           structureDnaCode,
@@ -28,6 +32,10 @@ export const createOrUpdateStructureTypologies = async (
           pmr: typologie.pmr!,
           lgbt: typologie.lgbt!,
           fvvTeh: typologie.fvvTeh!,
+          placesACreer: typologie.placesACreer,
+          placesAFermer: typologie.placesAFermer,
+          echeancePlacesACreer: typologie.echeancePlacesACreer,
+          echeancePlacesAFermer: typologie.echeancePlacesAFermer,
         },
       });
     })
