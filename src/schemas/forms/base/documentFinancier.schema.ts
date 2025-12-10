@@ -7,7 +7,6 @@ import {
 import { getYearFromDate, getYearRange } from "@/app/utils/date.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
-  frenchDateToISO,
   nullishFrenchDateToISO,
   optionalFrenchDateToISO,
 } from "@/app/utils/zodCustomFields";
@@ -29,7 +28,7 @@ export const DocumentsFinanciersSchema = z.object({
   structureMillesimes: z
     .array(
       z.object({
-        date: frenchDateToISO(),
+        year: z.number().int().positive(),
         cpom: z.boolean(),
         operateurComment: z.string().nullish(),
       })

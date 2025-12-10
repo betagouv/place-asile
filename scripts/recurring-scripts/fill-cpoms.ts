@@ -33,12 +33,12 @@ type CpomCsvRow = {
   date_sortie_structure?: string;
 };
 
-const buildStructureMillesimeDates = (start: Date, end: Date): Date[] => {
-  const years: Date[] = [];
+const buildStructureMillesimeYears = (start: Date, end: Date): number[] => {
+  const years: number[] = [];
   const startYear = start.getFullYear();
   const endYear = end.getFullYear();
   for (let year = startYear; year <= endYear; year++) {
-    years.push(new Date(year, 0, 1, 12, 0, 0));
+    years.push(year);
   }
   return years;
 };
@@ -197,17 +197,17 @@ const loadCpomsFromCsv = async () => {
 
       const millesimeStart = dateDebut ?? cpomStructure.dateDebut ?? debut;
       const millesimeEnd = dateFin ?? cpomStructure.dateFin ?? fin;
-      const millesimeDates = buildStructureMillesimeDates(
+      const millesimeYears = buildStructureMillesimeYears(
         millesimeStart,
         millesimeEnd
       );
 
-      for (const millesimeDate of millesimeDates) {
+      for (const millesimeYear of millesimeYears) {
         await prisma.structureMillesime.upsert({
           where: {
-            structureDnaCode_date: {
+            structureDnaCode_year: {
               structureDnaCode: row.code_dna,
-              date: millesimeDate,
+              year: millesimeYear,
             },
           },
           update: {
@@ -215,7 +215,7 @@ const loadCpomsFromCsv = async () => {
           },
           create: {
             structureDnaCode: row.code_dna,
-            date: millesimeDate,
+            year: millesimeYear,
             cpom: true,
           },
         });

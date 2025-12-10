@@ -49,25 +49,25 @@ export const createOrUpdateCpomMillesimes = async (
 
       if (!resolved) {
         console.warn(
-          `Aucun CPOM trouvé pour la structure ${structureDnaCode} avec une période couvrant la date ${millesime.date}, millesime ignoré`
+          `Aucun CPOM trouvé pour la structure ${structureDnaCode} avec une période couvrant l'année ${millesime.year}, millesime ignoré`
         );
         return;
       }
 
-      const { cpomId, date } = resolved;
+      const { cpomId, year } = resolved;
 
       return tx.cpomMillesime.upsert({
         where: {
-          cpomId_date: {
+          cpomId_year: {
             cpomId,
-            date,
+            year,
           },
         },
         update: millesime,
         create: {
           cpomId,
           ...millesime,
-          date,
+          year,
         },
       });
     })

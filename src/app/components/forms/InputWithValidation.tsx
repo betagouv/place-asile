@@ -95,7 +95,6 @@ export default function InputWithValidation<
     return field.value !== undefined && field.value !== null ? field.value : "";
   };
 
-  // TODO : refacto pour gérer ce cas plus proprement
   if (type === "hidden") {
     return <input {...field} id={id} type="hidden" value={field.value ?? ""} />;
   }
@@ -178,5 +177,5 @@ type InputWithValidationProps<TFieldValues extends FieldValues = FieldValues> =
     stateRelatedMessage?: string;
     variant?: "simple";
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    defaultValue?: string;
+    defaultValue?: string | number;
   };

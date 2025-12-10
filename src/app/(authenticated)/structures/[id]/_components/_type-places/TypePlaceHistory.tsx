@@ -18,7 +18,7 @@ export const TypePlaceHistory = ({
       return undefined;
     }
     return structureTypologies.find((structureTypologie) => {
-      return structureTypologieYear === structureTypologie?.year;
+      return year === structureTypologie?.year;
     });
   };
 

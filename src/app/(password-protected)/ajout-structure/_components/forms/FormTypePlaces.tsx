@@ -9,7 +9,6 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { cn } from "@/app/utils/classname.util";
-import { getYearDate } from "@/app/utils/date.util";
 import { ajoutTypePlacesSchema } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
 
 export default function FormTypePlaces() {
@@ -134,9 +133,9 @@ export default function FormTypePlaces() {
                     />
                     <input
                       aria-hidden="true"
-                      defaultValue={getYearDate(String(year))}
+                      defaultValue={year}
                       type="hidden"
-                      {...register(`typologies.${index}.date`)}
+                      {...register(`typologies.${index}.year`)}
                     />
                   </td>
                 </tr>

@@ -10,7 +10,7 @@ describe("finalisationFinanceSchema", () => {
   // Helper to create a valid budget base
   const createValidBudget = (overrides = {}) => ({
     id: 1,
-    date: "2024-01-01T00:00:00.000Z",
+    year: 2024,
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -39,7 +39,7 @@ describe("finalisationFinanceSchema", () => {
   // Helper for autoriseeCurrentYear budget
   const createAutoriseeCurrentYear = (overrides = {}) => ({
     id: 1,
-    date: "2024-01-01T00:00:00.000Z",
+    year: 2024,
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -66,7 +66,7 @@ describe("finalisationFinanceSchema", () => {
   // Helper for autoriseeY2 budget
   const createAutoriseeY2 = (overrides = {}) => ({
     id: 2,
-    date: "2025-01-01T00:00:00.000Z",
+    year: 2025,
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -93,7 +93,7 @@ describe("finalisationFinanceSchema", () => {
   // Helper for sansCpom budget
   const createSansCpom = (overrides = {}) => ({
     id: 4,
-    date: "2024-01-01T00:00:00.000Z",
+    year: 2024,
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -122,7 +122,7 @@ describe("finalisationFinanceSchema", () => {
   // Helper for avecCpom budget
   const createAvecCpom = (overrides = {}) => ({
     id: 5,
-    date: "2024-01-01T00:00:00.000Z",
+    year: 2024,
     ETP: 1.5,
     tauxEncadrement: 0.8,
     coutJournalier: 50,
@@ -287,7 +287,7 @@ describe("finalisationFinanceSchema", () => {
     it("should validate subventionneeSchema correctly", () => {
       const firstYearBudget = {
         id: 1,
-        date: "2024-01-01T00:00:00.000Z",
+        year: 2024,
         ETP: 1.5,
         tauxEncadrement: 0.8,
         coutJournalier: 50,
@@ -320,7 +320,7 @@ describe("finalisationFinanceSchema", () => {
     it("should validate subventionneeAvecCpomSchema correctly", () => {
       const firstYearBudget = {
         id: 1,
-        date: "2024-01-01T00:00:00.000Z",
+        year: 2024,
         ETP: 1.5,
         tauxEncadrement: 0.8,
         coutJournalier: 50,
@@ -386,7 +386,7 @@ describe("finalisationFinanceSchema", () => {
     it("should enforce conditional validation in subventionneeAvecCpomSchema", () => {
       const firstYearBudget = {
         id: 1,
-        date: "2024-01-01T00:00:00.000Z",
+        year: 2024,
         ETP: 1.5,
         tauxEncadrement: 0.8,
         coutJournalier: 50,
