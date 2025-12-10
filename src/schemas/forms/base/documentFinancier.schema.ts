@@ -87,10 +87,11 @@ export const DocumentsFinanciersStrictSchema = DocumentsFinanciersSchema.extend(
       (data.date303 ?? data.creationDate)?.substring(0, 4)
     );
 
-    yearsToDisplay.forEach((year) => {
+    yearsToDisplay.forEach((year, index) => {
       if (year >= referenceYear) {
         documents.forEach((document) => {
-          const documentIsRequired = document.required;
+          const documentIsRequired =
+            document.required && index >= document.yearIndex;
           if (documentIsRequired) {
             const requiredDocument = data.documentsFinanciers?.find(
               (documentFinancier) =>

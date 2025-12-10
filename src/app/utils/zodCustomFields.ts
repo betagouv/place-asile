@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-const transformFrenchDateToISO = (val: string | undefined) => {
+const transformFrenchDateToISO = (
+  val: string | undefined
+): string | undefined => {
   if (val === undefined || val === "") {
     return undefined;
   }

@@ -158,7 +158,7 @@ export const YearlyFileUpload = ({
     <div className="flex flex-col items-center gap-2">
       <DropZone
         onChange={handleFileChange}
-        className="max-h-[30rem]"
+        className="max-h-120"
         key={dropZoneKey}
       >
         {shouldDisplayCategorySelect && (
