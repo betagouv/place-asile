@@ -5,7 +5,11 @@ import { ReactElement, useState } from "react";
 
 import { MultiLineChart } from "@/app/components/common/MultiLineChart";
 import { computeAverage } from "@/app/utils/common.util";
-import { formatForCharts, getMonthsBetween } from "@/app/utils/date.util";
+import {
+  formatForCharts,
+  getMonthsBetween,
+  getYearFromDate,
+} from "@/app/utils/date.util";
 import { ActiviteApiType } from "@/schemas/api/activite.schema";
 
 import { ActivitesDurations } from "./ActivitesDurations";
@@ -41,8 +45,7 @@ export const ActivitesHistorique = ({
     return activites.find((activite) => {
       const isSameMonth =
         new Date(activite.date)?.getMonth() === date.get("month");
-      const isSameYear =
-        new Date(activite.date)?.getFullYear() === date.get("year");
+      const isSameYear = getYearFromDate(activite.date) === date.get("year");
       return isSameMonth && isSameYear;
     });
   };

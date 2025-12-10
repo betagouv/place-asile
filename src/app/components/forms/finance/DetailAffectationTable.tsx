@@ -8,7 +8,7 @@ import { useForm, useFormContext } from "react-hook-form";
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { cn } from "@/app/utils/classname.util";
-import { getYearRange } from "@/app/utils/date.util";
+import { getYearFromDate, getYearRange } from "@/app/utils/date.util";
 import { formatCurrency } from "@/app/utils/number.util";
 import {
   isStructureAutorisee,
@@ -364,7 +364,7 @@ export const DetailAffectationTable = ({
       >
         <p className="font-bold text-xl">
           Détail affectation réserves et provisions du CPOM — Année{" "}
-          {new Date(currentCommentDate).getFullYear()}
+          {getYearFromDate(currentCommentDate)}
         </p>
 
         <Input

@@ -2,6 +2,7 @@ import Accordion from "@codegouvfr/react-dsfr/Accordion";
 import { ReactElement } from "react";
 
 import { DownloadItem } from "@/app/components/common/DownloadItem";
+import { getYearFromDate } from "@/app/utils/date.util";
 import { BudgetApiType } from "@/schemas/api/budget.schema";
 import {
   DocumentFinancierCategory,
@@ -17,8 +18,7 @@ export const DocumentsAdministratifs = (): ReactElement => {
     return (structure.documentsFinanciers || [])?.filter(
       (documentFinancier) => {
         const isSameYear =
-          new Date(documentFinancier.date!).getFullYear() ===
-          new Date(budget.date).getFullYear();
+          getYearFromDate(documentFinancier.date) === budget.year;
         const isOperateurCategory = DocumentFinancierCategory.includes(
           documentFinancier.category as DocumentFinancierCategoryType[number]
         );
@@ -30,7 +30,7 @@ export const DocumentsAdministratifs = (): ReactElement => {
   return (
     <>
       {structure.budgets?.map((budget) => (
-        <Accordion label={new Date(budget.date).getFullYear()} key={budget.id}>
+        <Accordion label={budget.year} key={budget.id}>
           <div className="columns-3">
             {getDocumentsFinanciersToDisplay(budget)?.length === 0 ? (
               <span>Aucun document importé</span>

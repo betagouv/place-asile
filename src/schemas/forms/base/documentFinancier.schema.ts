@@ -4,7 +4,7 @@ import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "@/app/components/forms/finance/documents/documentsStructures";
-import { getYearRange } from "@/app/utils/date.util";
+import { getYearFromDate, getYearRange } from "@/app/utils/date.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
   frenchDateToISO,
@@ -84,7 +84,7 @@ export const DocumentsFinanciersStrictSchema = DocumentsFinanciersSchema.extend(
     const yearsToDisplay = isAutorisee ? years : years.slice(2);
 
     const referenceYear = Number(
-      (data.date303 ?? data.creationDate)?.substring(0, 4)
+      getYearFromDate(data.date303 ?? data.creationDate)
     );
 
     yearsToDisplay.forEach((year, index) => {
@@ -96,7 +96,7 @@ export const DocumentsFinanciersStrictSchema = DocumentsFinanciersSchema.extend(
             const requiredDocument = data.documentsFinanciers?.find(
               (documentFinancier) =>
                 documentFinancier.category === document.value &&
-                documentFinancier.date?.substring(0, 4) === String(year)
+                getYearFromDate(documentFinancier.date) === year
             );
             if (!requiredDocument) {
               ctx.addIssue({

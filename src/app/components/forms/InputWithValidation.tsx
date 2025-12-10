@@ -11,6 +11,7 @@ import {
 } from "react-hook-form";
 
 import { cn } from "@/app/utils/classname.util";
+import { getYearFromDate } from "@/app/utils/date.util";
 
 import InputSimple from "../ui/InputSimple";
 
@@ -85,7 +86,7 @@ export default function InputWithValidation<
       // Handle ISO date strings (e.g., "2006-04-26T22:00:00.000Z")
       const isoDate = new Date(field.value);
       if (!isNaN(isoDate.getTime())) {
-        const year = isoDate.getFullYear();
+        const year = getYearFromDate(isoDate);
         const month = String(isoDate.getMonth() + 1).padStart(2, "0");
         const day = String(isoDate.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;

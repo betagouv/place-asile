@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { MaxSizeNotice } from "@/app/components/forms/MaxSizeNotice";
-import { getYearRange } from "@/app/utils/date.util";
+import { getYearFromDate, getYearRange } from "@/app/utils/date.util";
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
@@ -24,10 +24,9 @@ export const DocumentsFinanciers = ({
   const isSubventionnee = isStructureSubventionnee(structure?.type);
   const isAutorisee = isStructureAutorisee(structure?.type);
 
-  const startYear = structure?.date303
-    ? new Date(structure.date303).getFullYear()
-    : new Date(structure.creationDate).getFullYear();
-
+  const startYear = getYearFromDate(
+    structure?.date303 || structure?.creationDate
+  );
   const { years } = getYearRange();
 
   const yearsToDisplay = isSubventionnee ? years.slice(2) : years;

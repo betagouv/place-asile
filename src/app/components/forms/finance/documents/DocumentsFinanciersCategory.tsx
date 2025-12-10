@@ -3,6 +3,7 @@ import { ReactElement } from "react";
 import { Control, useFormContext } from "react-hook-form";
 
 import { cn } from "@/app/utils/classname.util";
+import { getYearFromDate } from "@/app/utils/date.util";
 import { CURRENT_YEAR } from "@/constants";
 import {
   DocumentFinancierFlexibleFormValues,
@@ -27,7 +28,7 @@ export const DocumentsFinanciersCategory = ({
     documentsFinanciers?.filter(
       (documentFinancier) =>
         documentFinancier.category === documentType.value &&
-        new Date(documentFinancier.date!).getFullYear() === year
+        getYearFromDate(documentFinancier.date) === year
     ) || [];
 
   const isFilled = documentsFinanciersOfCategory.length > 0;

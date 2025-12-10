@@ -1,5 +1,6 @@
 import z from "zod";
 
+import { getYearFromDate } from "@/app/utils/date.util";
 import {
   optionalFrenchDateToISO,
   zSafeDecimalsNullish,
@@ -26,7 +27,7 @@ const evaluationAutoSaveSchema = z.object({
 export const evaluationSchema = evaluationAutoSaveSchema
   .refine(
     (data) => {
-      const year = data.date ? new Date(data.date).getFullYear() : undefined;
+      const year = data.date ? getYearFromDate(data.date) : undefined;
       const requireNotes = year !== undefined && year >= 2022;
 
       if (

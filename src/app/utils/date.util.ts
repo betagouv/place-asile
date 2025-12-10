@@ -59,7 +59,12 @@ export const getYearDate = (year: string | number): string => {
 export const getDateFromYear = (year: string | number): Date => {
   return new Date(Number(year), 0, 1, 13);
 };
-export const getYearFromDate = (date: string | number | Date): number => {
+export const getYearFromDate = (
+  date: string | number | Date | undefined
+): number => {
+  if (!date) {
+    return NaN;
+  }
   if (typeof date === "string") {
     const match = date.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
     if (match) {

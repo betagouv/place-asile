@@ -11,6 +11,7 @@ import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "@/app/components/forms/finance/documents/documentsStructures";
+import { getYearFromDate } from "@/app/utils/date.util";
 import {
   DocumentFinancierFlexibleFormValues,
   DocumentsFinanciersFlexibleFormValues,
@@ -112,7 +113,7 @@ export const YearlyFileUpload = ({
 
       const index = documentsFinanciers.findIndex((documentFinancier) => {
         return (
-          documentFinancier.date?.substring(0, 4) === year.toString() &&
+          getYearFromDate(documentFinancier.date) === year &&
           documentFinancier.category === category &&
           documentFinancier.granularity === granularity
         );

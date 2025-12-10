@@ -92,7 +92,7 @@ export const GestionBudgetaireAutoriseeSansCpomTable = (): ReactElement => {
           {structure?.budgets?.map((budget) => (
             <tr key={budget.id} className="border-t border-default-grey">
               <td className="py-2 px-4 text-center text-sm border-r! border-default-grey">
-                {new Date(budget.date).getFullYear()}
+                {budget.year}
               </td>
               <td className="py-2 px-4 text-center test-sm">
                 {!isNullOrUndefined(budget.dotationDemandee) ? (

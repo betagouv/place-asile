@@ -278,7 +278,7 @@ describe("structure util", () => {
         id: 1,
         structureMillesimes: [
           {
-            date: "2025-01-01T00:00:00.000Z",
+            year: 2025,
             cpom: true,
             operateurComment: null,
           },
@@ -302,7 +302,7 @@ describe("structure util", () => {
         id: 2,
         structureMillesimes: [
           {
-            date: "2025-01-01T00:00:00.000Z",
+            year: 2025,
             cpom: false,
             operateurComment: null,
           },
@@ -326,12 +326,12 @@ describe("structure util", () => {
         id: 3,
         structureMillesimes: [
           {
-            date: "2024-01-01T00:00:00.000Z",
+            year: 2024,
             cpom: true,
             operateurComment: null,
           },
           {
-            date: "2026-01-01T00:00:00.000Z",
+            year: 2026,
             cpom: true,
             operateurComment: null,
           },
@@ -392,17 +392,17 @@ describe("structure util", () => {
         id: 6,
         structureMillesimes: [
           {
-            date: "2024-01-01T00:00:00.000Z",
+            year: 2024,
             cpom: false,
             operateurComment: null,
           },
           {
-            date: "2025-01-01T00:00:00.000Z",
+            year: 2025,
             cpom: true,
             operateurComment: null,
           },
           {
-            date: "2026-01-01T00:00:00.000Z",
+            year: 2026,
             cpom: false,
             operateurComment: null,
           },

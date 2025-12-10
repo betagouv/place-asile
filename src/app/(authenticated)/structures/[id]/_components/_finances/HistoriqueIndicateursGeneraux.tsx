@@ -17,7 +17,7 @@ export const HistoriqueIndicateursGeneraux = (): ReactElement => {
     }
     return structure.budgets.map((budget) => [
       <span className="inline-block text-center w-full" key={budget.id}>
-        {new Date(budget.date).getFullYear()}
+        {budget.year}
       </span>,
       <span className="inline-block text-center w-full" key={budget.id}>
         {formatNumber(budget.ETP)}

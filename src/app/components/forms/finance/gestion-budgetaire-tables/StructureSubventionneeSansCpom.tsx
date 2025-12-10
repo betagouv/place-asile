@@ -7,7 +7,7 @@ import { useForm, useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { getYearRange } from "@/app/utils/date.util";
+import { getYearFromDate, getYearRange } from "@/app/utils/date.util";
 
 const modal = createModal({
   id: "commentaire-modal",
@@ -334,7 +334,7 @@ export const StructureSubventionneeSansCpom = () => {
         ]}
       >
         <p className="font-bold text-xl">
-          Détail — Année {new Date(currentCommentDate).getFullYear()}
+          Détail — Année {getYearFromDate(currentCommentDate)}
         </p>
 
         <Input
