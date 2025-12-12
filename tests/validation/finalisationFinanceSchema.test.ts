@@ -6,6 +6,14 @@ import {
   subventionneeSchema,
 } from "@/schemas/forms/base/budget.schema";
 
+vi.mock("@/constants", async () => {
+  const actual = await vi.importActual("@/constants");
+  return {
+    ...actual,
+    CURRENT_YEAR: 2025,
+  };
+});
+
 describe("finalisationFinanceSchema", () => {
   // Helper to create a valid budget base
   const createValidBudget = (overrides = {}) => ({
