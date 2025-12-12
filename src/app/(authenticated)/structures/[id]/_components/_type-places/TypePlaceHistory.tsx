@@ -51,7 +51,10 @@ export const TypePlaceHistory = ({
 
     const groupedByYear = adresseTypologies.reduce(
       (aggregatedTypePlaces: AggregatedTypePlaces, adresseTypologie) => {
-        const year = adresseTypologie?.year ? adresseTypologie.year : 0;
+        const year = adresseTypologie?.year ? adresseTypologie.year : undefined;
+        if (!year) {
+          return aggregatedTypePlaces;
+        }
 
         if (!aggregatedTypePlaces[year]) {
           aggregatedTypePlaces[year] = {

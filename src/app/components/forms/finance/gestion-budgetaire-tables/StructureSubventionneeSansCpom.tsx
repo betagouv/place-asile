@@ -42,7 +42,6 @@ export const StructureSubventionneeSansCpom = () => {
     );
 
   const budgets = watch("budgets");
-  console.log(budgets);
   // TODO : Mettre la logique de modal dans un autre composant
   const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
   const [currentCommentDate, setCurrentCommentDate] = useState<Date>(
@@ -163,8 +162,8 @@ export const StructureSubventionneeSansCpom = () => {
                 />
                 <input
                   type="hidden"
-                  value={`${year}-01-01T13:00:00.000Z`}
-                  {...register(`budgets.${fieldIndex}.date`)}
+                  value={year}
+                  {...register(`budgets.${fieldIndex}.year`)}
                 />
               </td>
               <td>

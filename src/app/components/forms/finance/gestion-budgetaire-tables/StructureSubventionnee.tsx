@@ -112,8 +112,8 @@ export const StructureSubventionnee = () => {
               <input type="hidden" {...register(`budgets.${fieldIndex}.id`)} />
               <input
                 type="hidden"
-                value={`${year}-01-01T13:00:00.000Z`}
-                {...register(`budgets.${fieldIndex}.date`)}
+                value={year}
+                {...register(`budgets.${fieldIndex}.year`)}
               />
             </td>
             <td>
