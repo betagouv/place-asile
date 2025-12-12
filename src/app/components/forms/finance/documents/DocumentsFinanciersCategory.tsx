@@ -38,11 +38,19 @@ export const DocumentsFinanciersCategory = ({
       key={documentType.label}
       label={
         <div className="flex items-center gap-2 justify-between w-full">
-          <div>
+          <div className={!isFilled ? "text-disabled-grey" : ""}>
             <div>
               <strong>{documentType.label}</strong>
               {!(documentType.required && isAllowedYear) && (
-                <span className="text-default-grey italic"> - optionnel</span>
+                <span
+                  className={cn(
+                    isFilled ? "text-default-grey" : "text-disabled-grey",
+                    "italic"
+                  )}
+                >
+                  {" "}
+                  - optionnel
+                </span>
               )}
             </div>
             <span className="text-sm ">{documentType.subLabel}</span>
@@ -59,6 +67,12 @@ export const DocumentsFinanciersCategory = ({
           )}
         </div>
       }
+      className={cn(
+        !isFilled
+          ? "[&>h3>button]:cursor-default [&>h3>button]:hover:bg-transparent [&>h3>button]:after:text-disabled-grey"
+          : "",
+        "[&>h3>button]:after:w-6 [&>h3>button]:after:h-6 [&>h3>button]:after:ml-2"
+      )}
     >
       <div>
         {documentsFinanciersOfCategory.map((documentFinancier) => (

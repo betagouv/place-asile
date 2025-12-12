@@ -66,9 +66,9 @@ export const DocumentsFinanciers = (): ReactElement => {
 
   if (numberOfMissingDocuments > 0) {
     return (
-      <div className="flex items-center gap-2 max-w-md text-base font-normal">
-        <span className="fr-icon-warning-line text-default-error fr-icon--sm" />
-        <p className="text-default-error mb-0 italic">
+      <div className="flex items-center gap-3 max-w-md text-base font-normal">
+        <span className="fr-icon-warning-line text-default-warning fr-icon--sm" />
+        <p className="text-default-warning mb-0 italic">
           <strong>
             {numberOfMissingDocuments}{" "}
             {numberOfMissingDocuments > 1
@@ -76,7 +76,7 @@ export const DocumentsFinanciers = (): ReactElement => {
               : "document obligatoire est manquant"}
             {" : "}
           </strong>
-          nous vous contacterons rapidement afin de trouver une solution.
+          un·e agent·e vous contactera rapidement pour débloquer la situation.
         </p>
       </div>
     );
