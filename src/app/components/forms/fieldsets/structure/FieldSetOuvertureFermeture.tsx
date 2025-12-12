@@ -36,16 +36,16 @@ export const FieldSetOuvertureFermeture = ({
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6 mb-4">
         <InputWithValidation
-          name="placesACreer"
-          id="placesACreer"
+          name="structureTypologies[0].placesACreer"
+          id="structureTypologies[0].placesACreer"
           min={0}
           control={control}
           type="number"
           label="Nombre de places à créer"
         />
         <InputWithValidation
-          name="echeancePlacesACreer"
-          id="echeancePlacesACreer"
+          name="structureTypologies[0].echeancePlacesACreer"
+          id="structureTypologies[0].echeancePlacesACreer"
           control={control}
           type="date"
           label="Echéance"
@@ -57,16 +57,16 @@ export const FieldSetOuvertureFermeture = ({
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">
         <InputWithValidation
-          name="placesAFermer"
-          id="placesAFermer"
+          name="structureTypologies[0].placesAFermer"
+          id="structureTypologies[0].placesAFermer"
           min={0}
           control={control}
           type="number"
           label="Nombre de places à fermer"
         />
         <InputWithValidation
-          name="echeancePlacesAFermer"
-          id="echeancePlacesAFermer"
+          name="structureTypologies[0].echeancePlacesAFermer"
+          id="structureTypologies[0].echeancePlacesAFermer"
           control={control}
           type="date"
           label="Echéance"
