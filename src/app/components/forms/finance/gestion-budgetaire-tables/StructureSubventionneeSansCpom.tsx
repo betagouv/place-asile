@@ -21,9 +21,10 @@ export const StructureSubventionneeSansCpom = () => {
   const { control, formState, register, setValue, watch } =
     parentFormContext || localForm;
   const errors = formState.errors;
+
   const { years } = getYearRange();
-  const sliceYears = 3;
-  const yearsToDisplay = years.slice(-sliceYears);
+  const sliceYears = 2;
+  const yearsToDisplay = years.slice(sliceYears);
 
   const hasErrors =
     Array.isArray(errors.budgets) &&
@@ -41,7 +42,7 @@ export const StructureSubventionneeSansCpom = () => {
     );
 
   const budgets = watch("budgets");
-
+  console.log(budgets);
   // TODO : Mettre la logique de modal dans un autre composant
   const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
   const [currentCommentDate, setCurrentCommentDate] = useState<Date>(
@@ -150,8 +151,8 @@ export const StructureSubventionneeSansCpom = () => {
         ]}
         enableBorders
       >
-        {yearsToDisplay.map((year, index) => {
-          const fieldIndex = years.length - sliceYears + index;
+        {yearsToDisplay.map((year) => {
+          const fieldIndex = years.indexOf(year);
           return (
             <tr key={year}>
               <td className="!border-r-1">

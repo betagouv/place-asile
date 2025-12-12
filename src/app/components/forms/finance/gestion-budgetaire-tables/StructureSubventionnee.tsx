@@ -11,8 +11,8 @@ export const StructureSubventionnee = () => {
   const localForm = useForm();
   const { control, formState, register } = parentFormContext || localForm;
   const errors = formState.errors;
-  const { years } = getYearRange();
 
+  const { years } = getYearRange();
   const sliceYears = 2;
   const yearsToDisplay = years.slice(sliceYears);
 
@@ -102,8 +102,8 @@ export const StructureSubventionnee = () => {
       ]}
       enableBorders
     >
-      {yearsToDisplay.map((year, index) => {
-        const fieldIndex = years.length - sliceYears + index - 1;
+      {yearsToDisplay.map((year) => {
+        const fieldIndex = years.indexOf(year);
 
         return (
           <tr key={year}>
