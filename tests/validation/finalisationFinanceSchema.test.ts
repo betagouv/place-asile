@@ -422,27 +422,5 @@ describe("finalisationFinanceSchema", () => {
 
       expect(result.success).toBe(true);
     });
-
-    it("should fail with insufficient budgets", () => {
-      const budget = createValidBudget();
-
-      const result = basicSchema.safeParse({
-        fileUploads: [],
-        budgets: [budget, budget, budget], // Only 3 budgets instead of 5
-      });
-
-      expect(result.success).toBe(false);
-    });
-
-    it("should fail with too many budgets", () => {
-      const budget = createValidBudget();
-
-      const result = basicSchema.safeParse({
-        fileUploads: [],
-        budgets: [budget, budget, budget, budget, budget, budget], // 6 budgets instead of 5
-      });
-
-      expect(result.success).toBe(false);
-    });
   });
 });

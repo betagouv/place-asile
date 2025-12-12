@@ -115,8 +115,16 @@ export const getDocumentsFinanciersYearRange = ({
   return { years: years.slice(startIndex), startIndex };
 };
 
+export const getTypePlacesYearRange = (): { years: number[] } => {
+  const { years } = getYearRange({
+    startYear: 2023,
+    endYear: CURRENT_YEAR,
+  });
+  return { years };
+};
+
 export const getYearRange = ({
-  startYear = CURRENT_YEAR - 4,
+  startYear = 2021,
   endYear = CURRENT_YEAR,
   order = "asc",
 }: {

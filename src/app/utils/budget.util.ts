@@ -8,7 +8,7 @@ export const getBudgetsDefaultValues = (
 ): budgetsSchemaTypeFormValues => {
   const { years } = getYearRange();
 
-  const budgets = Array(5)
+  const budgets = Array(years.length)
     .fill({})
     .map((_, index) => ({
       year: years[index],

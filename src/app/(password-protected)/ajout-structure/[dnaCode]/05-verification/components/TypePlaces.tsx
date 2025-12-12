@@ -2,8 +2,7 @@ import { useParams } from "next/navigation";
 
 import { Table } from "@/app/components/common/Table";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getYearRange } from "@/app/utils/date.util";
-import { CURRENT_YEAR } from "@/constants";
+import { getTypePlacesYearRange } from "@/app/utils/date.util";
 import { AjoutTypePlacesFormValues } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
 
 export const TypePlaces = () => {
@@ -12,10 +11,7 @@ export const TypePlaces = () => {
     Partial<AjoutTypePlacesFormValues>
   >(`ajout-structure-${params.dnaCode}-type-places`, {});
 
-  const { years } = getYearRange({
-    startYear: CURRENT_YEAR - 2,
-    endYear: CURRENT_YEAR,
-  });
+  const { years } = getTypePlacesYearRange();
 
   return (
     <Table

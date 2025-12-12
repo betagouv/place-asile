@@ -1,10 +1,10 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";
 import { cn } from "@/app/utils/classname.util";
-import { getYearDate } from "@/app/utils/date.util";
+import { getTypePlacesYearRange, getYearDate } from "@/app/utils/date.util";
 import { FormKind } from "@/types/global";
 
 import InputWithValidation from "../../InputWithValidation";
@@ -25,7 +25,7 @@ export const FieldSetTypePlaces = ({
     }
   }, [formState]);
 
-  const years = useMemo(() => [2025, 2024, 2023] as const, []);
+  const { years } = getTypePlacesYearRange();
 
   return (
     <fieldset className="flex flex-col" ref={fieldsetRef}>

@@ -39,6 +39,7 @@ export const StructureSubventionneeSansCpom = () => {
         budgetItemErrors?.fondsDedies ||
         budgetItemErrors?.commentaire
     );
+
   const budgets = watch("budgets");
 
   // TODO : Mettre la logique de modal dans un autre composant
