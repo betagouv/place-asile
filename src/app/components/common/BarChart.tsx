@@ -8,7 +8,7 @@ import { useEffect, useId, useRef } from "react";
 export default function BarChart({ data, options }: Props) {
   const chartRef = useRef(null);
   const id = useId();
-  const chartClass = `piechart-${id.replace(/:/g, "-")}`;
+  const chartClass = `barchart-${id.replace(/:/g, "-")}`;
 
   useEffect(() => {
     let chart = null;
@@ -41,7 +41,7 @@ export default function BarChart({ data, options }: Props) {
           .${chartClass} .ct-series-b .ct-bar { stroke: var(--yellow-moutarde-main-679) !important; }
           .${chartClass} .ct-series-c .ct-bar { stroke: var(--purple-glycine-850-200) !important; }
           .${chartClass} .ct-series-d .ct-bar { stroke: var(--blue-cumulus-850-200) !important; }
-          `}
+        `}
       </style>
     </div>
   );

@@ -20,7 +20,7 @@ export const NavigationMenu = (): ReactElement => {
       section: "#controle",
       isDisplayed: true,
     },
-    { label: "Activites", section: "#activites", isDisplayed: false },
+    { label: "Activité", section: "#activite", isDisplayed: true },
     {
       label: "Actes administratifs",
       section: "#actes-administratifs",
