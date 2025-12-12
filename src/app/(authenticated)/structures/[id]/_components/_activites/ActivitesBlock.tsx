@@ -19,8 +19,7 @@ export const ActivitesBlock = (): ReactElement => {
     <Block title="Activités" iconClass="fr-icon-team-line">
       <div className="flex">
         <span className="text-title-blue-france">
-          Données mensuelles mises à jour le{" "}
-          {activites?.[0]?.date ? formatDate(activites?.[0]?.date) : "N/D"}
+          Données mensuelles mises à jour le {formatDate(activites?.[0]?.date)}
         </span>
         <div style={{ position: "relative", width: 40 }}>
           <Image
