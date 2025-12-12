@@ -56,7 +56,6 @@ export const structureAutoriseesDocuments: StructureDocument[] = [
   },
   {
     label: "Autre document",
-    subLabel: "nécessaires à l’analyse financière annuelle",
     value: "AUTRE_FINANCIER",
     yearIndex: baseYearIndex,
     required: false,
@@ -83,7 +82,6 @@ export const structureSubventionneesDocuments: StructureDocument[] = [
   },
   {
     label: "Autre document",
-    subLabel: "nécessaires à l’analyse financière annuelle",
     value: "AUTRE_FINANCIER",
     yearIndex: baseYearIndex,
     required: false,
