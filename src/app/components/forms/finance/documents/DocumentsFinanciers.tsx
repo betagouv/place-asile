@@ -26,7 +26,9 @@ export const DocumentsFinanciers = ({
   const startYear = getYearFromDate(
     structure?.date303 || structure?.creationDate
   );
-  const { years } = getDocumentsFinanciersYearRange({ isAutorisee });
+  const { years, startIndex } = getDocumentsFinanciersYearRange({
+    isAutorisee,
+  });
 
   const noYear = years.filter((year) => Number(year) >= startYear).length === 0;
 
@@ -52,7 +54,7 @@ export const DocumentsFinanciers = ({
             startYear={startYear}
             isAutorisee={isAutorisee}
             control={control}
-            index={index}
+            index={startIndex + index}
             hasAccordion={hasAccordion}
           />
         </DocumentsFinanciersAccordion>

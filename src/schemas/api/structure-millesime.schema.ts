@@ -1,8 +1,10 @@
 import z from "zod";
 
+import { zSafeYear } from "@/app/utils/zodCustomFields";
+
 export const structureMillesimeApiSchema = z.object({
   id: z.number().optional(),
-  year: z.number().int().positive(),
+  year: zSafeYear(),
   cpom: z.boolean(),
   operateurComment: z.string().nullish(),
 });

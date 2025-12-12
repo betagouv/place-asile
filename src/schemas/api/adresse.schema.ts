@@ -1,5 +1,6 @@
 import z from "zod";
 
+import { zSafeYear } from "@/app/utils/zodCustomFields";
 import { Repartition } from "@/types/adresse.type";
 
 export const adresseTypologieApiSchema = z.object({
@@ -9,7 +10,7 @@ export const adresseTypologieApiSchema = z.object({
     .int()
     .positive()
     .min(1, "Le nombre de places total est requis"),
-  year: z.number().int().positive(),
+  year: zSafeYear(),
   qpv: z.number().int(),
   logementSocial: z.number().int(),
 });

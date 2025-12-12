@@ -104,9 +104,10 @@ export const getDocumentsFinanciersYearRange = ({
   isAutorisee,
 }: {
   isAutorisee: boolean;
-}): { years: number[] } => {
+}): { years: number[]; startIndex: number } => {
+  const startIndex = isAutorisee ? 0 : 2;
   const { years } = getYearRange();
-  return { years: isAutorisee ? years : years.slice(2) };
+  return { years: years.slice(startIndex), startIndex };
 };
 
 export const getYearRange = ({
