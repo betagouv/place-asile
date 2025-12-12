@@ -2,6 +2,7 @@
 
 import { ReactElement, useState } from "react";
 
+import { formatCityName } from "@/app/utils/adresse.util";
 import { getCollectiveAddress } from "@/app/utils/collectiveAdress.util";
 import { formatPhoneNumber } from "@/app/utils/phone.util";
 
@@ -28,7 +29,7 @@ export const ContactsViewer = (): ReactElement => {
         <span className="fr-pr-1w">
           {nom ? `${nom}, ` : ""}
           {adresseAdministrative}, {codePostalAdministratif}{" "}
-          {communeAdministrative}
+          {formatCityName(communeAdministrative ?? "")}
         </span>
         <button
           className={`fr-btn fr-btn--sm fr-btn--icon-left fr-btn--tertiary-no-outline ${

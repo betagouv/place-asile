@@ -3,6 +3,7 @@
 import { ReactElement, useState } from "react";
 
 import { Badge } from "@/app/components/common/Badge";
+import { formatCityName } from "@/app/utils/adresse.util";
 import { getRepartition } from "@/app/utils/structure.util";
 import { Repartition } from "@/types/adresse.type";
 
@@ -44,7 +45,8 @@ export const AdressesViewer = (): ReactElement => {
           {adresses?.map((adresse) => (
             <div key={adresse.id} className="pb-1">
               <span className="pr-2">
-                {adresse.adresse}, {adresse.codePostal} {adresse.commune}{" "}
+                {adresse.adresse}, {adresse.codePostal}{" "}
+                {formatCityName(adresse.commune ?? "")}{" "}
                 <span className="italic">
                   ({adresse.adresseTypologies?.[0]?.placesAutorisees} places)
                 </span>
