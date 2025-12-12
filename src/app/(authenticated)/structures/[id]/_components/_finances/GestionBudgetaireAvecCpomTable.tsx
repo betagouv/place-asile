@@ -101,9 +101,7 @@ export const GestionBudgetaireAvecCpomTable = (): ReactElement => {
             ?.filter((budget) => !isBudgetEmpty(budget))
             .map((budget) => (
               <tr key={budget.id} className="border-t border-default-grey">
-                <td className="py-2 px-4 text-center text-sm">
-                  {new Date(budget.date).getFullYear()}
-                </td>
+                <td className="py-2 px-4 text-center text-sm">{budget.year}</td>
                 <td className="py-2 px-4 text-center test-sm">
                   {!isNullOrUndefined(budget.dotationDemandee) ? (
                     <NumberDisplay

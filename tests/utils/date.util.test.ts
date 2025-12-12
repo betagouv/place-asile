@@ -9,6 +9,7 @@ import {
   getLastMonths,
   getMonthsBetween,
   getYearDate,
+  getYearFromDate,
   parseFrDate,
 } from "@/app/utils/date.util";
 
@@ -245,6 +246,142 @@ describe("date util", () => {
       expect((result as Date).getFullYear()).toBe(2024);
       expect((result as Date).getMonth()).toBe(1);
       expect((result as Date).getDate()).toBe(29);
+    });
+  });
+
+  describe("getYearFromDate", () => {
+    describe("when input is a string with DD/MM/YYYY format", () => {
+      it("should extract the year from a valid DD/MM/YYYY string", () => {
+        // GIVEN
+        const date = "25/12/2022";
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBe(2022);
+      });
+    });
+
+    describe("when input is a string with other valid date formats", () => {
+      it("should parse ISO date string and return the year", () => {
+        // GIVEN
+        const date = "2024-03-15T10:30:00.000Z";
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBe(2024);
+      });
+
+      it("should parse YYYY-MM-DD format and return the year", () => {
+        // GIVEN
+        const date = "2025-12-31";
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBe(2025);
+      });
+
+      it("should parse GMT date string and return the year", () => {
+        // GIVEN
+        const date = "Mon, 01 Jan 2024 00:00:00 GMT";
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBe(2024);
+      });
+
+      it("should parse single digit day/month format by falling back to Date parsing", () => {
+        // GIVEN
+        const date = "1/1/2025";
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBe(2025);
+      });
+    });
+
+    describe("when input is a string with invalid date", () => {
+      it("should return NaN for invalid date string", () => {
+        // GIVEN
+        const date = "not-a-date";
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBeNaN();
+      });
+
+      it("should return NaN for empty string", () => {
+        // GIVEN
+        const date = "";
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBeNaN();
+      });
+    });
+
+    describe("when input is a Date instance", () => {
+      it("should return the full year from a Date object", () => {
+        // GIVEN
+        const date = new Date("2024-06-15T10:30:00Z");
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBe(2024);
+      });
+
+      it("should return the full year from a Date created with year, month, day", () => {
+        // GIVEN
+        const date = new Date(2025, 0, 1);
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBe(2025);
+      });
+    });
+
+    describe("when input is a number", () => {
+      it("should return the number as-is", () => {
+        // GIVEN
+        const year = 2024;
+
+        // WHEN
+        const result = getYearFromDate(year);
+
+        // THEN
+        expect(result).toBe(2024);
+      });
+
+      it("should return the number even if it's not a typical year value", () => {
+        // GIVEN
+        const number = 1999;
+        const number2 = 2100;
+
+        // WHEN
+        const result1 = getYearFromDate(number);
+        const result2 = getYearFromDate(number2);
+
+        // THEN
+        expect(result1).toBe(1999);
+        expect(result2).toBe(2100);
+      });
     });
   });
 

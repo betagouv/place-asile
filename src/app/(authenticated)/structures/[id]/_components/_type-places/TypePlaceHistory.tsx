@@ -18,10 +18,7 @@ export const TypePlaceHistory = ({
       return undefined;
     }
     return structureTypologies.find((structureTypologie) => {
-      const structureTypologieYear = new Date(
-        structureTypologie?.date
-      ).getFullYear();
-      return structureTypologieYear === year;
+      return year === structureTypologie?.year;
     });
   };
 
@@ -31,7 +28,7 @@ export const TypePlaceHistory = ({
       | StructureTypologieApiType[]
   ) => {
     return typologies.map((typologie) =>
-      typologie?.date ? new Date(typologie.date).getFullYear() : undefined
+      typologie?.year ? typologie.year : undefined
     );
   };
 
@@ -54,12 +51,13 @@ export const TypePlaceHistory = ({
 
     const groupedByYear = adresseTypologies.reduce(
       (aggregatedTypePlaces: AggregatedTypePlaces, adresseTypologie) => {
-        const year = adresseTypologie?.date
-          ? new Date(adresseTypologie.date).getFullYear()
-          : undefined;
+        const year = adresseTypologie?.year ? adresseTypologie.year : undefined;
+        if (!year) {
+          return aggregatedTypePlaces;
+        }
 
-        if (!aggregatedTypePlaces[year as number]) {
-          aggregatedTypePlaces[year as number] = {
+        if (!aggregatedTypePlaces[year]) {
+          aggregatedTypePlaces[year] = {
             placesAutorisees: 0,
             qpv: 0,
             logementSocial: 0,

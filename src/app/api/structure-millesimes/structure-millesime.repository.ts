@@ -14,9 +14,9 @@ export const createOrUpdateStructureMillesimes = async (
     structureMillesimes.map((millesime) =>
       tx.structureMillesime.upsert({
         where: {
-          structureDnaCode_date: {
+          structureDnaCode_year: {
             structureDnaCode,
-            date: millesime.date,
+            year: millesime.year,
           },
         },
         update: millesime,

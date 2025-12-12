@@ -1,8 +1,10 @@
 import z from "zod";
 
+import { zSafeYear } from "@/app/utils/zodCustomFields";
+
 export const structureTypologieApiSchema = z.object({
   id: z.number().optional(),
-  date: z.string().datetime({ message: "La date de la typologie est requise" }),
+  year: zSafeYear(),
   placesAutorisees: z.number().int(),
   pmr: z.number().int(),
   lgbt: z.number().int(),

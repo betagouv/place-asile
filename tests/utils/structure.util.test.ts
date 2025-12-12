@@ -21,6 +21,14 @@ import { createControle } from "../test-utils/controle.factory";
 import { createEvaluation } from "../test-utils/evaluation.factory";
 import { createStructure } from "../test-utils/structure.factory";
 
+vi.mock("@/constants", async () => {
+  const actual = await vi.importActual("@/constants");
+  return {
+    ...actual,
+    CURRENT_YEAR: 2025,
+  };
+});
+
 describe("structure util", () => {
   describe("getPlacesByCommunes", () => {
     it("should return an empty object when given an empty array", () => {
@@ -270,15 +278,11 @@ describe("structure util", () => {
 
     it("should return true when there is a millesime for the current year with cpom: true", () => {
       // GIVEN
-      const mockedDate = dayjs("2025-06-15");
-      vi.useFakeTimers();
-      vi.setSystemTime(mockedDate.toDate());
-
       const structure = createStructure({
         id: 1,
         structureMillesimes: [
           {
-            date: "2025-01-01T00:00:00.000Z",
+            year: 2025,
             cpom: true,
             operateurComment: null,
           },
@@ -294,15 +298,11 @@ describe("structure util", () => {
 
     it("should return false when there is a millesime for the current year with cpom: false", () => {
       // GIVEN
-      const mockedDate = dayjs("2025-06-15");
-      vi.useFakeTimers();
-      vi.setSystemTime(mockedDate.toDate());
-
       const structure = createStructure({
         id: 2,
         structureMillesimes: [
           {
-            date: "2025-01-01T00:00:00.000Z",
+            year: 2025,
             cpom: false,
             operateurComment: null,
           },
@@ -318,20 +318,16 @@ describe("structure util", () => {
 
     it("should return false when there is no millesime for the current year", () => {
       // GIVEN
-      const mockedDate = dayjs("2025-06-15");
-      vi.useFakeTimers();
-      vi.setSystemTime(mockedDate.toDate());
-
       const structure = createStructure({
         id: 3,
         structureMillesimes: [
           {
-            date: "2024-01-01T00:00:00.000Z",
+            year: 2024,
             cpom: true,
             operateurComment: null,
           },
           {
-            date: "2026-01-01T00:00:00.000Z",
+            year: 2026,
             cpom: true,
             operateurComment: null,
           },
@@ -347,10 +343,6 @@ describe("structure util", () => {
 
     it("should return false when structureMillesimes is undefined", () => {
       // GIVEN
-      const mockedDate = dayjs("2025-06-15");
-      vi.useFakeTimers();
-      vi.setSystemTime(mockedDate.toDate());
-
       const structure = createStructure({
         id: 4,
         structureMillesimes: [],
@@ -366,10 +358,6 @@ describe("structure util", () => {
 
     it("should return false when structureMillesimes is an empty array", () => {
       // GIVEN
-      const mockedDate = dayjs("2025-06-15");
-      vi.useFakeTimers();
-      vi.setSystemTime(mockedDate.toDate());
-
       const structure = createStructure({
         id: 5,
         structureMillesimes: [],
@@ -384,25 +372,21 @@ describe("structure util", () => {
 
     it("should return true when there are multiple millesimes and one for the current year has cpom: true", () => {
       // GIVEN
-      const mockedDate = dayjs("2025-06-15");
-      vi.useFakeTimers();
-      vi.setSystemTime(mockedDate.toDate());
-
       const structure = createStructure({
         id: 6,
         structureMillesimes: [
           {
-            date: "2024-01-01T00:00:00.000Z",
+            year: 2024,
             cpom: false,
             operateurComment: null,
           },
           {
-            date: "2025-01-01T00:00:00.000Z",
+            year: 2025,
             cpom: true,
             operateurComment: null,
           },
           {
-            date: "2026-01-01T00:00:00.000Z",
+            year: 2026,
             cpom: false,
             operateurComment: null,
           },
@@ -424,10 +408,6 @@ describe("structure util", () => {
 
     it("should return structure-specific dates when CPOM is currently active", () => {
       // GIVEN
-      const mockedDate = dayjs("2025-06-15");
-      vi.useFakeTimers();
-      vi.setSystemTime(mockedDate.toDate());
-
       const structure = createStructure({
         id: 1,
         cpomStructures: [
@@ -492,10 +472,6 @@ describe("structure util", () => {
 
     it("should return empty object when no CPOM structure is currently active", () => {
       // GIVEN
-      const mockedDate = dayjs("2025-06-15");
-      vi.useFakeTimers();
-      vi.setSystemTime(mockedDate.toDate());
-
       const structure = createStructure({
         id: 3,
         cpomStructures: [
@@ -539,10 +515,6 @@ describe("structure util", () => {
 
     it("should handle mixed null structure dates correctly", () => {
       // GIVEN
-      const mockedDate = dayjs("2025-06-15");
-      vi.useFakeTimers();
-      vi.setSystemTime(mockedDate.toDate());
-
       const structure = createStructure({
         id: 6,
         cpomStructures: [

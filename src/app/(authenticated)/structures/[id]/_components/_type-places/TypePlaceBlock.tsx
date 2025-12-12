@@ -5,6 +5,7 @@ import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
 import { InformationCard } from "@/app/components/InformationCard";
+import { formatDate } from "@/app/utils/date.util";
 import {
   getCurrentPlacesLogementsSociaux,
   getCurrentPlacesQpv,
@@ -49,18 +50,18 @@ export const TypePlaceBlock = (): ReactElement => {
           <div className="pr-4">
             <InformationCard
               primaryInformation={`dont ${placesACreer}`}
-              secondaryInformation={`places à créer au ${new Date(
+              secondaryInformation={`places à créer au ${formatDate(
                 echeancePlacesACreer
-              ).toLocaleDateString("fr-FR")}`}
+              )}`}
             />
           </div>
         )}
         {echeancePlacesAFermer && (
           <InformationCard
             primaryInformation={`dont ${placesAFermer}`}
-            secondaryInformation={`places à fermer au ${new Date(
+            secondaryInformation={`places à fermer au ${formatDate(
               echeancePlacesAFermer
-            ).toLocaleDateString("fr-FR")}`}
+            )}`}
           />
         )}
       </div>

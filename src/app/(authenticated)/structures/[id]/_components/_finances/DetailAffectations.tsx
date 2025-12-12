@@ -23,7 +23,7 @@ export const DetailAffectations = (): ReactElement => {
     return structure.budgets
       .filter(isBudgetEmpty)
       .map((budget) => [
-        new Date(budget.date).getFullYear(),
+        budget.year,
         <span key={budget.id}>
           {formatCurrency(budget.affectationReservesFondsDedies)}
         </span>,

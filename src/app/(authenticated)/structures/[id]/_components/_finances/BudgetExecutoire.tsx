@@ -7,9 +7,7 @@ import { useStructureContext } from "../../_context/StructureClientContext";
 
 export const BudgetExecutoire = ({ year }: Props): ReactElement => {
   const { structure } = useStructureContext();
-  const budget = structure?.budgets?.find(
-    (budget) => new Date(budget.date).getFullYear() === year
-  );
+  const budget = structure?.budgets?.find((budget) => budget.year === year);
 
   return (
     <div className="flex">

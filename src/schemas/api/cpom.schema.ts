@@ -1,10 +1,12 @@
 import z from "zod";
 
+import { zSafeYear } from "@/app/utils/zodCustomFields";
+
 import { fileApiSchema } from "./file.schema";
 
 export const cpomMillesimeApiSchema = z.object({
   id: z.number().optional(),
-  date: z.string().datetime(),
+  year: zSafeYear(),
   cumulResultatNet: z.number().nullish(),
   repriseEtat: z.number().nullish(),
   affectationTotal: z.number().nullish(),

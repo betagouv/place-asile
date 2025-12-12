@@ -2,7 +2,7 @@ import Button from "@codegouvfr/react-dsfr/Button";
 import { ReactElement, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-import { formatDate } from "@/app/utils/date.util";
+import { formatDate, getYearFromDate } from "@/app/utils/date.util";
 import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
 
 import InputWithValidation from "../InputWithValidation";
@@ -20,7 +20,7 @@ export const Evaluation = ({
   const [type, setType] = useState<"empty" | "old" | "new">("empty");
 
   const setEvaluationType = (date: string): void => {
-    const evaluationYear = new Date(date).getFullYear();
+    const evaluationYear = getYearFromDate(date);
     if (!evaluationYear) {
       setType("empty");
     }

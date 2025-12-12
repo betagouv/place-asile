@@ -7,6 +7,7 @@ import {
   isStructureInCpom,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { CURRENT_YEAR } from "@/constants";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { BudgetExecutoire } from "./BudgetExecutoire";
@@ -41,8 +42,8 @@ export const FinancesBlock = (): ReactElement => {
   };
 
   const budgetExecutoireYear = isAutorisee
-    ? new Date().getFullYear() - 1
-    : new Date().getFullYear() - 2;
+    ? CURRENT_YEAR - 1
+    : CURRENT_YEAR - 2;
 
   return (
     <Block

@@ -3,6 +3,7 @@ import autoAnimate from "@formkit/auto-animate";
 import { useEffect, useRef } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 
+import { CURRENT_YEAR } from "@/constants";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
 
@@ -39,7 +40,7 @@ export const FieldSetHebergement = () => {
       adresseTypologies: [
         {
           placesAutorisees: undefined as number | undefined,
-          date: new Date().toISOString(),
+          year: CURRENT_YEAR,
           logementSocial: false,
           qpv: false,
         },

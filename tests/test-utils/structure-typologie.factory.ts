@@ -3,7 +3,7 @@ import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.sch
 export const createStructureTypologie = (): StructureTypologieApiType => {
   return {
     id: 1,
-    date: new Date("01/01/2023").toISOString(),
+    year: 2023,
     fvvTeh: 5,
     lgbt: 4,
     placesAutorisees: 10,

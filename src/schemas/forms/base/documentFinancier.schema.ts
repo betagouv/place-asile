@@ -4,12 +4,15 @@ import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "@/app/components/forms/finance/documents/documentsStructures";
-import { getYearRange } from "@/app/utils/date.util";
+import {
+  getDocumentsFinanciersYearRange,
+  getYearFromDate,
+} from "@/app/utils/date.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
-  frenchDateToISO,
   nullishFrenchDateToISO,
   optionalFrenchDateToISO,
+  zSafeYear,
 } from "@/app/utils/zodCustomFields";
 import { DocumentFinancierCategory } from "@/types/file-upload.type";
 import { StructureType } from "@/types/structure.type";
@@ -29,7 +32,7 @@ export const DocumentsFinanciersSchema = z.object({
   structureMillesimes: z
     .array(
       z.object({
-        date: frenchDateToISO(),
+        year: zSafeYear(),
         cpom: z.boolean(),
         operateurComment: z.string().nullish(),
       })
@@ -79,15 +82,13 @@ export const DocumentsFinanciersStrictSchema = DocumentsFinanciersSchema.extend(
       ? structureAutoriseesDocuments
       : structureSubventionneesDocuments;
 
-    const { years } = getYearRange();
-
-    const yearsToDisplay = isAutorisee ? years : years.slice(2);
+    const { years } = getDocumentsFinanciersYearRange({ isAutorisee });
 
     const referenceYear = Number(
-      (data.date303 ?? data.creationDate)?.substring(0, 4)
+      getYearFromDate(data.date303 ?? data.creationDate)
     );
 
-    yearsToDisplay.forEach((year, index) => {
+    years.forEach((year, index) => {
       if (year >= referenceYear) {
         documents.forEach((document) => {
           const documentIsRequired =
@@ -96,7 +97,7 @@ export const DocumentsFinanciersStrictSchema = DocumentsFinanciersSchema.extend(
             const requiredDocument = data.documentsFinanciers?.find(
               (documentFinancier) =>
                 documentFinancier.category === document.value &&
-                documentFinancier.date?.substring(0, 4) === String(year)
+                getYearFromDate(documentFinancier.date) === year
             );
             if (!requiredDocument) {
               ctx.addIssue({

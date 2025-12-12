@@ -7,11 +7,8 @@ import { FieldSetYearlyDocumentsFinanciers } from "@/app/components/forms/fields
 import { Date303 } from "@/app/components/forms/finance/documents/Date303";
 import FormWrapper from "@/app/components/forms/FormWrapper";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getYearRange } from "@/app/utils/date.util";
-import {
-  isStructureAutorisee,
-  isStructureSubventionnee,
-} from "@/app/utils/structure.util";
+import { getDocumentsFinanciersYearRange } from "@/app/utils/date.util";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { DocumentsFinanciersFlexibleSchema } from "@/schemas/forms/base/documentFinancier.schema";
 
@@ -47,11 +44,8 @@ export default function FormDocuments() {
   >(`ajout-structure-${params.dnaCode}-identification`, {});
 
   const isAutorisee = isStructureAutorisee(currentValue?.type);
-  const isSubventionnee = isStructureSubventionnee(currentValue?.type);
 
-  const { years } = getYearRange();
-
-  const yearsToDisplay = isSubventionnee ? years.slice(2) : years;
+  const { years } = getDocumentsFinanciersYearRange({ isAutorisee });
 
   return (
     <FormWrapper
@@ -72,8 +66,7 @@ export default function FormDocuments() {
           ? Number(date303?.split("/")?.[2])
           : Number(currentValue?.creationDate?.split("/")?.[2]);
 
-        const noYear =
-          yearsToDisplay.filter((year) => year >= startYear).length === 0;
+        const noYear = years.filter((year) => year >= startYear).length === 0;
 
         return (
           <>
@@ -97,14 +90,14 @@ export default function FormDocuments() {
               </p>
             )}
 
-            {yearsToDisplay.map((year, index) => (
+            {years.map((year, index) => (
               <FieldSetYearlyDocumentsFinanciers
                 key={year}
                 year={year}
                 startYear={startYear}
                 isAutorisee={isAutorisee}
                 control={control}
-                index={yearsToDisplay.length - 1 - index}
+                index={years.length - 1 - index}
               />
             ))}
           </>

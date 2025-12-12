@@ -11,8 +11,8 @@ export const StructureSubventionnee = () => {
   const localForm = useForm();
   const { control, formState, register } = parentFormContext || localForm;
   const errors = formState.errors;
-  const { years } = getYearRange();
 
+  const { years } = getYearRange();
   const sliceYears = 2;
   const yearsToDisplay = years.slice(sliceYears);
 
@@ -102,8 +102,8 @@ export const StructureSubventionnee = () => {
       ]}
       enableBorders
     >
-      {yearsToDisplay.map((year, index) => {
-        const fieldIndex = years.length - sliceYears + index - 1;
+      {yearsToDisplay.map((year) => {
+        const fieldIndex = years.indexOf(year);
 
         return (
           <tr key={year}>
@@ -112,8 +112,8 @@ export const StructureSubventionnee = () => {
               <input type="hidden" {...register(`budgets.${fieldIndex}.id`)} />
               <input
                 type="hidden"
-                value={`${year}-01-01T13:00:00.000Z`}
-                {...register(`budgets.${fieldIndex}.date`)}
+                value={year}
+                {...register(`budgets.${fieldIndex}.year`)}
               />
             </td>
             <td>

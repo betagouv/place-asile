@@ -13,9 +13,9 @@ export const DocumentsFinanciersCommentaire = ({
   return (
     <div>
       <InputWithValidation
-        id={`structureMillesimes.${index}.date`}
-        name={`structureMillesimes.${index}.date`}
-        defaultValue={new Date(year, 0, 1, 13).toISOString()}
+        id={`structureMillesimes.${index}.year`}
+        name={`structureMillesimes.${index}.year`}
+        defaultValue={year}
         control={control}
         type="hidden"
         label=""

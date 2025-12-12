@@ -15,7 +15,7 @@ export const createOrUpdateStructureTypologies = async (
       return tx.structureTypologie.upsert({
         where: { id: typologie.id || 0 },
         update: {
-          date: typologie.date!,
+          year: typologie.year!,
           placesAutorisees: typologie.placesAutorisees,
           pmr: typologie.pmr!,
           lgbt: typologie.lgbt!,
@@ -23,7 +23,7 @@ export const createOrUpdateStructureTypologies = async (
         },
         create: {
           structureDnaCode,
-          date: typologie.date!,
+          year: typologie.year!,
           placesAutorisees: typologie.placesAutorisees,
           pmr: typologie.pmr!,
           lgbt: typologie.lgbt!,

@@ -1,6 +1,7 @@
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import { useFormContext } from "react-hook-form";
 
+import { CURRENT_YEAR } from "@/constants";
 import { FormKind } from "@/types/global";
 
 import InputWithValidation from "../../InputWithValidation";
@@ -11,7 +12,6 @@ export const FieldSetOuvertureFermeture = ({
   formKind?: FormKind;
 }) => {
   const { control } = useFormContext();
-  const currentYear = new Date().getFullYear();
 
   return (
     <fieldset className="flex flex-col">
@@ -25,13 +25,13 @@ export const FieldSetOuvertureFermeture = ({
       )}
       <h3 className="text-xl font-bold mb-8 text-title-blue-france">
         {formKind === FormKind.FINALISATION ? (
-          <>Objectifs d’ouverture et fermeture en {currentYear}</>
+          <>Objectifs d’ouverture et fermeture en {CURRENT_YEAR}</>
         ) : (
-          <>Ouvertures et fermetures en {currentYear}</>
+          <>Ouvertures et fermetures en {CURRENT_YEAR}</>
         )}
       </h3>
       <p className="mb-2">
-        En {currentYear}, sur le nombre total de places autorisées, combien
+        En {CURRENT_YEAR}, sur le nombre total de places autorisées, combien
         restent à créer ? <i>(Indiquez “0” si non prévu)</i>
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6 mb-4">
@@ -52,7 +52,7 @@ export const FieldSetOuvertureFermeture = ({
         />
       </div>
       <p className="mb-2">
-        En {currentYear}, sur le nombre total de places autorisées, combien
+        En {CURRENT_YEAR}, sur le nombre total de places autorisées, combien
         restent à fermer ? <i>(Indiquez “0” si non prévu)</i>
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 w-1/2 gap-6">

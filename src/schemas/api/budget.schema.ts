@@ -1,8 +1,10 @@
 import z from "zod";
 
+import { zSafeYear } from "@/app/utils/zodCustomFields";
+
 export const budgetApiSchema = z.object({
   id: z.number().optional(),
-  date: z.string().datetime(),
+  year: zSafeYear(),
   ETP: z.number().nullish(),
   tauxEncadrement: z.number().nullish(),
   coutJournalier: z.number().nullish(),

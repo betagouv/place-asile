@@ -3,13 +3,14 @@ import { ReactElement } from "react";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
 import { SeeFileButton } from "@/app/components/common/SeeFileButton";
+import { formatDate } from "@/app/utils/date.util";
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 
 export const EvaluationTable = ({ evaluations }: Props): ReactElement => {
   const getEvaluations = () => {
     return evaluations.map((evaluation) => [
       <span className="inline-block text-center w-full" key={evaluation.id}>
-        {new Date(evaluation.date ?? "").toLocaleDateString("fr-FR")}
+        {formatDate(evaluation.date)}
       </span>,
       <span className="inline-block text-center w-full" key={evaluation.id}>
         {evaluation.notePersonne}

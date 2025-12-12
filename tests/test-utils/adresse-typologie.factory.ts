@@ -6,7 +6,7 @@ export const createAdresseTypologie = ({
   return {
     id: 1,
     placesAutorisees: placesAutorisees ?? 5,
-    date: new Date("01/01/2023").toISOString(),
+    year: 2023,
     qpv: 3,
     logementSocial: 2,
   };

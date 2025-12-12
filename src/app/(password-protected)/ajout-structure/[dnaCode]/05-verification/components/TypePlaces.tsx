@@ -1,8 +1,8 @@
 import { useParams } from "next/navigation";
-import { useMemo } from "react";
 
 import { Table } from "@/app/components/common/Table";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { getTypePlacesYearRange } from "@/app/utils/date.util";
 import { AjoutTypePlacesFormValues } from "@/schemas/forms/ajout/ajoutTypePlaces.schema";
 
 export const TypePlaces = () => {
@@ -11,7 +11,7 @@ export const TypePlaces = () => {
     Partial<AjoutTypePlacesFormValues>
   >(`ajout-structure-${params.dnaCode}-type-places`, {});
 
-  const years = useMemo(() => [2025, 2024, 2023] as const, []);
+  const { years } = getTypePlacesYearRange();
 
   return (
     <Table

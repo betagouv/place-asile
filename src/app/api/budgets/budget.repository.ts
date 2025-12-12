@@ -14,9 +14,9 @@ export const createOrUpdateBudgets = async (
     (budgets || []).map((budget) => {
       return tx.budget.upsert({
         where: {
-          structureDnaCode_date: {
+          structureDnaCode_year: {
             structureDnaCode: structureDnaCode,
-            date: budget.date,
+            year: budget.year,
           },
         },
         update: budget,
