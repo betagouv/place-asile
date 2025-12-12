@@ -60,7 +60,7 @@
     "dotenv": "^17.2.3",
     "leaflet": "^1.9.4",
     "minio": "^8.0.6",
-    "next": "16.0.7",
+    "next": "16.0.9",
     "next-auth": "^4.24.13",
     "next-leaflet-cluster": "^1.0.0",
     "postcss": "^8.5.6",
