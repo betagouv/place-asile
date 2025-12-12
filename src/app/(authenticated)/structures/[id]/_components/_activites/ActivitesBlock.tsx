@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
+import { formatDate } from "@/app/utils/date.util";
 
 import ofii from "../../../../../../public/ofii.webp";
 import { useStructureContext } from "../../_context/StructureClientContext";
@@ -19,9 +20,7 @@ export const ActivitesBlock = (): ReactElement => {
       <div className="flex">
         <span className="text-title-blue-france">
           Données mensuelles mises à jour le{" "}
-          {activites?.[0]?.date
-            ? new Date(activites?.[0]?.date).toLocaleDateString("fr-FR")
-            : "N/D"}
+          {activites?.[0]?.date ? formatDate(activites?.[0]?.date) : "N/D"}
         </span>
         <div style={{ position: "relative", width: 40 }}>
           <Image

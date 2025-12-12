@@ -6,7 +6,12 @@ import { CURRENT_YEAR } from "@/constants";
 
 dayjs.locale("fr");
 
-export const formatDate = (date: Date | string | number): string => {
+export const formatDate = (
+  date: Date | string | number | undefined
+): string => {
+  if (!date) {
+    return "N/D";
+  }
   const dateObject = date instanceof Date ? date : new Date(date);
   return dateObject.toLocaleDateString("fr-FR");
 };
