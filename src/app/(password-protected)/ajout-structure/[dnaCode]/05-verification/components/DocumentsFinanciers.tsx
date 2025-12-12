@@ -1,11 +1,12 @@
 import { useParams } from "next/navigation";
-import { ReactElement, useMemo } from "react";
+import { ReactElement } from "react";
 
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "@/app/components/forms/finance/documents/documentsStructures";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { getYearRange } from "@/app/utils/date.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
@@ -26,13 +27,7 @@ export const DocumentsFinanciers = (): ReactElement => {
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
 
-  const years = useMemo(
-    () =>
-      isAutorisee
-        ? ["2025", "2024", "2023", "2022", "2021"]
-        : (["2023", "2022", "2021"] as const),
-    [isAutorisee]
-  );
+  const { years } = getYearRange();
 
   const startYear = localStorageValues?.date303
     ? Number(localStorageValues?.date303?.split("/")?.[2])
@@ -46,6 +41,7 @@ export const DocumentsFinanciers = (): ReactElement => {
     .map((year, index) =>
       documents
         .filter((document) => {
+          console.log(document.required, document.yearIndex, index);
           if (!document.required || document.yearIndex > index) {
             return false;
           }
@@ -55,7 +51,7 @@ export const DocumentsFinanciers = (): ReactElement => {
           const findDocument = documentsFinanciers.find(
             (documentFinancier) =>
               documentFinancier.category === document.value &&
-              documentFinancier.date?.substring(0, 4) === year &&
+              documentFinancier.date?.substring(0, 4) === String(year) &&
               documentFinancier.key
           );
           return !findDocument ? 1 : 0;
