@@ -3,10 +3,10 @@
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
 
 import FormIdentification from "@/app/(password-protected)/ajout-structure/_components/forms/FormIdentification";
-import { useRedirectIfStructureExists } from "@/app/hooks/useRedirectIfStructureExists";
+import { useRedirectStructureCreation } from "@/app/hooks/useRedirectStructureCreation";
 
 export default function StepInfo() {
-  useRedirectIfStructureExists();
+  useRedirectStructureCreation();
 
   return (
     <>
