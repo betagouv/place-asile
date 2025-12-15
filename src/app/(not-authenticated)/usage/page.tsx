@@ -1,6 +1,5 @@
-import { ReactElement } from "react";
-
 import { sign } from "jsonwebtoken";
+import { ReactElement } from "react";
 
 const METABASE_SITE_URL = process.env.METABASE_SITE_URL as string;
 const METABASE_SECRET_KEY = process.env.METABASE_SECRET_KEY as string;
