@@ -181,7 +181,9 @@ export const countBySearch = async ({
   });
 };
 
-const getLatestPlacesAutoriseesPerStructure = async (): Promise<number[]> => {
+export const getLatestPlacesAutoriseesPerStructure = async (): Promise<
+  number[]
+> => {
   const allTypologies = await prisma.structureTypologie.findMany({
     orderBy: {
       date: "desc",
@@ -206,18 +208,6 @@ const getLatestPlacesAutoriseesPerStructure = async (): Promise<number[]> => {
       return true;
     })
     .map((typology) => typology.placesAutorisees as number);
-};
-
-export const getMaxPlacesAutorisees = async (): Promise<number> => {
-  const latestPlacesAutoriseesOfEveryStructure =
-    await getLatestPlacesAutoriseesPerStructure();
-  return Math.max(...latestPlacesAutoriseesOfEveryStructure);
-};
-
-export const getMinPlacesAutorisees = async (): Promise<number> => {
-  const latestPlacesAutoriseesOfEveryStructure =
-    await getLatestPlacesAutoriseesPerStructure();
-  return Math.min(...latestPlacesAutoriseesOfEveryStructure);
 };
 
 export const findOne = async (id: number): Promise<Structure> => {

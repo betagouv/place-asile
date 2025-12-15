@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import {
   getMaxPlacesAutorisees,
   getMinPlacesAutorisees,
-} from "../structure.repository";
+} from "../structure.service";
 
 export async function GET() {
   const maxPlacesAutorisees = await getMaxPlacesAutorisees();
