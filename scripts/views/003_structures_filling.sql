@@ -34,6 +34,11 @@ SELECT
     WHEN ff."formId" IS NOT NULL THEN 'Finalisé opérateur' -- Finalisé opérateur : form existe
     ELSE 'Non commencé' -- Non commencé : pas de form
   END AS "finalisation_status",
+  CASE
+    WHEN ff."formId" IS NOT NULL
+    AND ff."formStatus" = TRUE THEN TRUE
+    ELSE FALSE
+  END AS "finalise",
   s."operateur" AS "operateur",
   s."type" AS "type",
   s."public" AS "public",

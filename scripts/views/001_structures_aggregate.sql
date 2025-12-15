@@ -57,6 +57,17 @@ WITH -- Last typology by structure
     GROUP BY
       adm."structureDnaCode"
   ),
+  -- Last dotationAccordee by structure (most recent budget)
+  budget_dernier_millesime AS (
+    SELECT DISTINCT
+      ON (b."structureDnaCode") b."structureDnaCode",
+      b."dotationAccordee"
+    FROM
+      public."Budget" b
+    ORDER BY
+      b."structureDnaCode",
+      b."date" DESC
+  ),
   -- Aggregate budgets by structure
   budgets_agreges AS (
     SELECT
@@ -137,6 +148,7 @@ SELECT
   ba."cout_journalier_min" AS "cout_journalier_min",
   COALESCE(ba."indicateurs_budgetaires", 5) AS "indicateurs_budgetaires",
   COALESCE(pai."indicateurs_places_agregees", 5) + COALESCE(ba."indicateurs_budgetaires", 5) AS "indicateurs_structure",
+  bdm."dotationAccordee" AS "dotation_accordee_derniere_annee",
   s."createdAt" AS "created_at",
   s."updatedAt" AS "updated_at"
 FROM
@@ -146,5 +158,6 @@ FROM
   LEFT JOIN adresses_agregees aa ON aa."structureDnaCode" = s."dnaCode"
   LEFT JOIN places_agregees_indicateurs pai ON pai."dnaCode" = s."dnaCode"
   LEFT JOIN budgets_agreges ba ON ba."structureDnaCode" = s."dnaCode"
+  LEFT JOIN budget_dernier_millesime bdm ON bdm."structureDnaCode" = s."dnaCode"
   LEFT JOIN public."Departement" d ON d."numero" = s."departementAdministratif"
   LEFT JOIN public."Operateur" o ON o."id" = s."operateurId";
