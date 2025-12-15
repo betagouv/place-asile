@@ -10,7 +10,11 @@ export default function PieChart({
   options,
   size = 60,
   children,
-  colors = ["#FCC63A", "#C3992A", "#E5E5E5"],
+  colors = [
+    "var(--yellow-moutarde-850-200)",
+    "var(--yellow-moutarde-main-679)",
+    "var(--grey-925-125)",
+  ],
   isDonut = false,
 }: Props) {
   const chartRef = useRef(null);
@@ -41,12 +45,12 @@ export default function PieChart({
   };
 
   const getDonutColors = () => {
-    let css = `.${chartClass} .ct-series-a .ct-slice-donut { fill: ${colors[0]} !important; }`;
+    let css = `.${chartClass} .ct-series-a .ct-slice-donut { stroke: ${colors[0]} !important; }`;
     if (data.series.length === 2) {
-      css += `.${chartClass} .ct-series-b .ct-slice-donut { fill: ${colors[2]} !important; }`;
+      css += `.${chartClass} .ct-series-b .ct-slice-donut { stroke: ${colors[2]} !important; }`;
     } else if (data.series.length === 3) {
-      css += `.${chartClass} .ct-series-b .ct-slice-donut { fill: ${colors[1]} !important; }
-              .${chartClass} .ct-series-c .ct-slice-donut { fill: ${colors[2]} !important; }`;
+      css += `.${chartClass} .ct-series-b .ct-slice-donut { stroke: ${colors[1]} !important; }
+              .${chartClass} .ct-series-c .ct-slice-donut { stroke: ${colors[2]} !important; }`;
     }
     return css;
   };

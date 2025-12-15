@@ -241,7 +241,7 @@ model Activite {
   structure                Structure? @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode         String
   date                     DateTime
-  nbPlaces                 Int
+  placesAutorisees         Int
   desinsectisation         Int
   remiseEnEtat             Int
   sousOccupation           Int

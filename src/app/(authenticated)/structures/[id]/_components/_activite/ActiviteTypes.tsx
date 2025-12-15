@@ -35,8 +35,8 @@ export const ActiviteTypes = ({
     },
     {
       label: "Total",
-      onClick: () => setTypeActivite("nbPlaces"),
-      value: "nbPlaces",
+      onClick: () => setTypeActivite("placesAutorisees"),
+      value: "placesAutorisees",
     },
   ];
 

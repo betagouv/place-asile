@@ -4,7 +4,6 @@ import { ReactElement } from "react";
 import { Block } from "@/app/components/common/Block";
 import { formatDate } from "@/app/utils/date.util";
 
-import ofii from "../../../../../../../public/ofii.webp";
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { ActiviteHistorique } from "./ActiviteHistorique";
 import { ActiviteMotifsIndisponibilite } from "./ActiviteMotifsIndisponibilite";
@@ -23,16 +22,17 @@ export const ActiviteBlock = (): ReactElement => {
         </span>
         <div style={{ position: "relative", width: 40 }}>
           <Image
-            src={ofii}
+            src={"/ofii.webp"}
             alt="Logo de l'OFII"
             fill
             sizes="(min-width: 40px)"
+            loading="lazy"
           />
         </div>
       </div>
       <div className="pb-6">
         <ActivitePlaces
-          nbPlaces={activites?.[0]?.nbPlaces || 0}
+          placesAutorisees={activites?.[0]?.placesAutorisees || 0}
           placesIndisponibles={activites?.[0]?.placesIndisponibles || 0}
           placesVacantes={activites?.[0]?.placesVacantes || 0}
           presencesInduesBPI={activites?.[0]?.presencesInduesBPI || 0}

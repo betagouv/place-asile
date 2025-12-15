@@ -6,7 +6,7 @@ import PieChart from "@/app/components/common/PieChart";
 import { getPercentage } from "@/app/utils/common.util";
 
 export const ActivitePlaces = ({
-  nbPlaces,
+  placesAutorisees,
   placesIndisponibles,
   placesVacantes,
   presencesInduesBPI,
@@ -17,7 +17,7 @@ export const ActivitePlaces = ({
     donut: true,
     donutWidth: 30,
   };
-  const placesDisponibles = nbPlaces - placesIndisponibles;
+  const placesDisponibles = placesAutorisees - placesIndisponibles;
   const placesOccupees = placesDisponibles - placesVacantes;
   return (
     <div className="flex items-center pt-3">
@@ -26,24 +26,32 @@ export const ActivitePlaces = ({
           size={160}
           data={{
             labels: ["Places indisponibles", "Places disponibles"],
-            series: [placesIndisponibles, nbPlaces - placesIndisponibles],
+            series: [
+              placesIndisponibles,
+              placesAutorisees - placesIndisponibles,
+            ],
           }}
           options={pieChartOptions}
-          colors={["green", "blue", "yellow"]}
+          colors={["var(--grey-925-125)", "", "var(--yellow-moutarde-850-200)"]}
           isDonut={true}
         >
           <div className="absolute w-22 top-13 left-26 text-sm text-center">
-            <strong>{nbPlaces}</strong> places enregistrées DNA
+            <strong>{placesAutorisees}</strong> places enregistrées DNA
           </div>
         </PieChart>
         <div className="pt-2 text-center">
           <div>
             <strong>{placesIndisponibles}</strong> indisponibles (
-            {getPercentage(placesIndisponibles, nbPlaces)})
+            {getPercentage(placesIndisponibles, placesAutorisees)})
           </div>
           <div>
-            <strong>{nbPlaces - placesIndisponibles}</strong> disponibles (
-            {getPercentage(nbPlaces - placesIndisponibles, nbPlaces)})
+            <strong>{placesAutorisees - placesIndisponibles}</strong>{" "}
+            disponibles (
+            {getPercentage(
+              placesAutorisees - placesIndisponibles,
+              placesAutorisees
+            )}
+            )
           </div>
         </div>
       </div>
@@ -56,6 +64,8 @@ export const ActivitePlaces = ({
             series: [placesVacantes, placesDisponibles - placesVacantes],
           }}
           options={pieChartOptions}
+          colors={["var(--grey-925-125)", "", "var(--purple-glycine-850-200)"]}
+          isDonut={true}
         >
           <div className="absolute w-22 top-15 left-26 text-sm text-center">
             <strong>{placesDisponibles}</strong> places disponibles
@@ -89,6 +99,12 @@ export const ActivitePlaces = ({
             ],
           }}
           options={pieChartOptions}
+          colors={[
+            "var(--blue-cumulus-main-526)",
+            "var(--blue-cumulus-925-125)",
+            "var(--blue-cumulus-850-200)",
+          ]}
+          isDonut={true}
         >
           <div className="absolute w-22 top-15 left-26 text-sm text-center">
             <strong>{placesOccupees}</strong> places occupées
@@ -110,7 +126,7 @@ export const ActivitePlaces = ({
 };
 
 type Props = {
-  nbPlaces: number;
+  placesAutorisees: number;
   placesIndisponibles: number;
   placesVacantes: number;
   presencesInduesBPI: number;

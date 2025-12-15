@@ -15,7 +15,7 @@ import {
 } from "@/generated/prisma/client";
 import { StructureType } from "@/types/structure.type";
 
-import { createFakeActivite } from "./activite.seed";
+import { createFakeActivites } from "./activite.seed";
 import { AdresseWithTypologies, createFakeAdresses } from "./adresse.seed";
 import { createFakeBudget } from "./budget.seed";
 import { createFakeContact } from "./contact.seed";
@@ -187,23 +187,7 @@ export const createFakeStuctureWithRelations = ({
         structureType: type,
       })
     ),
-    activites: [
-      createFakeActivite({
-        date: new Date(2025, 8, 1, 13),
-      }),
-      createFakeActivite({
-        date: new Date(2025, 7, 1, 13),
-      }),
-      createFakeActivite({
-        date: new Date(2025, 6, 1, 13),
-      }),
-      createFakeActivite({
-        date: new Date(2025, 5, 1, 13),
-      }),
-      createFakeActivite({
-        date: new Date(2025, 4, 1, 13),
-      }),
-    ],
+    activites: createFakeActivites(),
     forms,
   } as StructureWithRelations;
 

@@ -2,26 +2,43 @@ import { fakerFR as faker } from "@faker-js/faker";
 
 import { Activite } from "@/generated/prisma/client";
 
+export const createFakeActivites = (): Omit<
+  Activite,
+  "id" | "structureDnaCode"
+>[] => {
+  return Array.from(Array(12).keys()).map((month) =>
+    createFakeActivite({
+      date: new Date(2025, month, 1, 13),
+    })
+  );
+};
+
 export const createFakeActivite = ({
   date,
 }: CreateFakeActiviteArgs): Omit<Activite, "id" | "structureDnaCode"> => {
-  const nbPlaces = faker.number.int({ min: 10, max: 200 });
-  const desinsectisation = faker.number.int({ min: 1, max: nbPlaces / 4 });
-  const remiseEnEtat = faker.number.int({ min: 1, max: nbPlaces / 4 });
-  const sousOccupation = faker.number.int({ min: 1, max: nbPlaces / 4 });
-  const travaux = faker.number.int({ min: 1, max: nbPlaces / 4 });
+  const placesAutorisees = faker.number.int({ min: 10, max: 200 });
+  const desinsectisation = faker.number.int({
+    min: 1,
+    max: placesAutorisees / 5,
+  });
+  const remiseEnEtat = faker.number.int({ min: 1, max: placesAutorisees / 5 });
+  const sousOccupation = faker.number.int({
+    min: 1,
+    max: placesAutorisees / 5,
+  });
+  const travaux = faker.number.int({ min: 1, max: placesAutorisees / 5 });
   const placesIndisponibles =
     desinsectisation + remiseEnEtat + sousOccupation + travaux;
-  const placesVacantes = nbPlaces - placesIndisponibles;
+
   return {
     date,
     desinsectisation,
-    nbPlaces,
+    placesAutorisees,
     remiseEnEtat,
     sousOccupation,
     travaux,
     placesIndisponibles,
-    placesVacantes,
+    placesVacantes: faker.number.int({ min: 1, max: 5 }),
     presencesInduesBPI: faker.number.int({ min: 1, max: 5 }),
     presencesInduesDeboutees: faker.number.int({
       min: 1,

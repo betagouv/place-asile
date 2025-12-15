@@ -20,11 +20,10 @@ const typesActivite: Partial<
 > = {
   presencesInduesBPI: { label: "Présences indues BPI", seuil: 3 },
   presencesInduesDeboutees: { label: "Présences indues déboutées", seuil: 4 },
-  // TODO : update "seuil" to real values
-  presencesIndues: { label: "Présences indues totales", seuil: 3 },
+  presencesIndues: { label: "Présences indues totales", seuil: 7 },
   placesVacantes: { label: "Places vacantes", seuil: 3 },
   placesIndisponibles: { label: "Places indisponibles", seuil: 3 },
-  nbPlaces: { label: "Places totales", seuil: null },
+  placesAutorisees: { label: "Places totales", seuil: null },
 };
 
 export const ActiviteHistorique = ({
@@ -67,7 +66,7 @@ export const ActiviteHistorique = ({
       });
     return currentActivites.map((activite) => {
       const seuilRecommande = typesActivite[typeActivite]?.seuil || 0;
-      return (seuilRecommande * (activite?.nbPlaces || 0)) / 100;
+      return (seuilRecommande * (activite?.placesAutorisees || 0)) / 100;
     });
   };
 
@@ -94,24 +93,26 @@ export const ActiviteHistorique = ({
         />
       </div>
       <div className="flex">
-        <LineChart
-          data={{
-            labels: selectedMonths.map(formatForCharts),
-            series: [getActivitesData(), getSeuilRecommande(), getAverage()],
-          }}
-          options={{ fullWidth: true, axisX: { showGrid: false } }}
-        />
+        <div className="flex-4">
+          <LineChart
+            data={{
+              labels: selectedMonths.map(formatForCharts),
+              series: [getActivitesData(), getSeuilRecommande(), getAverage()],
+            }}
+            options={{ fullWidth: true, axisX: { showGrid: false } }}
+          />
+        </div>
         <div className="pl-5">
           <div className="pb-1 flex items-center">
-            <div className="w-[40px] h-[2px] bg-flat-blue-cumulus mr-2 shrink-0 grow-0" />
+            <div className="w-[40px] border-b-2 border-b-background-flat-blue-cumulus mr-2 shrink-0 grow-0" />
             {typesActivite[typeActivite]?.label}
           </div>
           <div className="pb-1 flex items-center">
-            <div className="w-[40px] h-[2px] bg-flat-blue-ecume mr-2 shrink-0 grow-0" />
+            <div className="w-[40px] border-b-2 border-b-background-flat-blue-ecume border-dashed mr-2 shrink-0 grow-0" />
             Seuil recommandé
           </div>
           <div className="pb-1 flex items-center">
-            <div className="w-[40px] h-[2px] bg-flat-green-bourgeon mr-2 shrink-0 grow-0" />
+            <div className="w-[40px] border-b-2 border-b-background-flat-green-bourgeon border-dashed mr-2 shrink-0 grow-0" />
             Moyenne sur la période
           </div>
         </div>

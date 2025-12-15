@@ -2,7 +2,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/02/2024",
     dnaIndex: 5,
-    nbPlacesIndex: 8,
+    placesAutoriseesIndex: 8,
     desinsectisationIndex: 9,
     remiseEnEtatIndex: 10,
     sousOccupationIndex: 11,
@@ -15,7 +15,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/03/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 10,
     sousOccupationIndex: 11,
@@ -28,7 +28,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/04/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 10,
     sousOccupationIndex: 11,
@@ -41,7 +41,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/05/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 10,
     sousOccupationIndex: 11,
@@ -54,7 +54,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/06/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 10,
     sousOccupationIndex: 11,
@@ -67,7 +67,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/07/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 10,
     sousOccupationIndex: 11,
@@ -80,7 +80,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/08/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 9,
     sousOccupationIndex: 10,
@@ -93,7 +93,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/09/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 9,
     sousOccupationIndex: 10,
@@ -106,7 +106,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/10/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 9,
     sousOccupationIndex: 10,
@@ -119,7 +119,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/11/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 9,
     sousOccupationIndex: 10,
@@ -132,7 +132,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/12/2024",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 9,
     sousOccupationIndex: 10,
@@ -145,7 +145,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/01/2025",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 9,
     sousOccupationIndex: 10,
@@ -158,7 +158,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
   {
     date: "01/02/2025",
     dnaIndex: 4,
-    nbPlacesIndex: 7,
+    placesAutoriseesIndex: 7,
     desinsectisationIndex: 8,
     remiseEnEtatIndex: 9,
     sousOccupationIndex: 10,
@@ -173,7 +173,7 @@ export const activitesMetadata: ActivitesMetadata[] = [
 export type ActivitesMetadata = {
   date: string;
   dnaIndex: number;
-  nbPlacesIndex: number;
+  placesAutoriseesIndex: number;
   desinsectisationIndex: number | null;
   remiseEnEtatIndex: number | null;
   sousOccupationIndex: number | null;

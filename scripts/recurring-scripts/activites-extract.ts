@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import xlsx from "node-xlsx";
 import path from "path";
+import { parseDate } from "scripts/utils/parse-date";
 import { fileURLToPath } from "url";
 
 import { Activite } from "@/generated/prisma/client";
@@ -17,7 +18,7 @@ const getPlacesVacantes = (
   metadata: ActivitesMetadata,
   line: (string | number | Date)[]
 ): number => {
-  const totalPlaces = Number(line[metadata.nbPlacesIndex]);
+  const totalPlaces = Number(line[metadata.placesAutoriseesIndex]);
   if (metadata.placesOccupeesIndex) {
     return totalPlaces - Number(line[metadata.placesOccupeesIndex]);
   } else {
@@ -30,10 +31,9 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
   const metadata = activitesMetadata[index];
   // TODO : identifier l'origine des NaN
   return sheet.map((line) => ({
-    // TODO : utiliser parseDate
-    date: new Date(metadata.date),
+    date: parseDate(metadata.date, "activites-extract"),
     structureDnaCode: String(line[metadata.dnaIndex]),
-    nbPlaces: Number(line[metadata.nbPlacesIndex]) || 0,
+    placesAutorisees: Number(line[metadata.placesAutoriseesIndex]) || 0,
     desinsectisation: metadata.desinsectisationIndex
       ? Number(line[metadata.desinsectisationIndex]) || 0
       : 0,
@@ -59,7 +59,6 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
   }));
 };
 
-// TODO : utiliser csv-loader.ts et supprimer node-xlsx
 const extractActivitesFromOds = (): Omit<Activite, "id">[] => {
   const sheets = xlsx.parse(`${__dirname}/activites.ods`, {
     cellDates: true,
