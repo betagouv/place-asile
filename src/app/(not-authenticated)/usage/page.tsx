@@ -15,7 +15,7 @@ const getMetabaseIframeUrl = (dashboardId: number): string => {
   const payload = {
     resource: { dashboard: dashboardId },
     params: {},
-    exp: Math.round(Date.now() / 1000) + 10 * 60, // 10 minutes
+    exp: Math.round(Date.now() / 1000) + 60 * 60, // 1 heure
   };
 
   const token = sign(payload, METABASE_SECRET_KEY);
