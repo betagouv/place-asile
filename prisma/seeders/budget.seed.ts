@@ -19,6 +19,7 @@ export const createFakeBudget = ({
   if (isSubventionnee && year >= currentYear - 1) {
     return {
       date: new Date(year, 0, 1, 13),
+      year,
       ETP: faker.number.int({ min: 1, max: 30 }),
       tauxEncadrement: faker.number.float({
         min: 1,
@@ -31,6 +32,7 @@ export const createFakeBudget = ({
 
   return {
     date: new Date(year, 0, 1, 13),
+    year,
     ETP: faker.number.int({ min: 1, max: 30 }),
     tauxEncadrement: faker.number.float({ min: 1, max: 10, fractionDigits: 2 }),
     coutJournalier: faker.number.int({ min: 1, max: 30 }),

@@ -166,12 +166,14 @@ model AdresseTypologie {
   adresseId        Int
   placesAutorisees Int
   date             DateTime
+  year             Int
   qpv              Int
   logementSocial   Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  @@unique([adresseId, year])
   @@schema("public")
 }
 
@@ -198,6 +200,7 @@ model StructureMillesime {
   structure            Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode     String
   date                 DateTime
+  year                 Int
   cpom                 Boolean             @default(false) // temporary field, while we are not sure of existing cpoms
   operateurComment     String?
   structureTypologieId Int?
@@ -208,7 +211,7 @@ model StructureMillesime {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([structureDnaCode, date])
+  @@unique([structureDnaCode, year])
   @@schema("public")
 }
 
@@ -217,6 +220,7 @@ model StructureTypologie {
   structure            Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode     String
   date                 DateTime
+  year                 Int
   placesAutorisees     Int?
   pmr                  Int
   lgbt                 Int
@@ -227,6 +231,7 @@ model StructureTypologie {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  @@unique([structureDnaCode, year])
   @@schema("public")
 }
 
@@ -281,6 +286,7 @@ model Budget {
   structure                         Structure?          @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
   structureDnaCode                  String
   date                              DateTime
+  year                              Int
   ETP                               Float?
   tauxEncadrement                   Float?
   coutJournalier                    Float?
@@ -309,7 +315,7 @@ model Budget {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([structureDnaCode, date])
+  @@unique([structureDnaCode, year])
   @@schema("public")
 }
 
@@ -413,7 +419,9 @@ model Cpom {
   name           String?
   structures     CpomStructure[]
   debutCpom      DateTime
+  yearStart      Int
   finCpom        DateTime
+  yearEnd        Int
   cpomMillesimes CpomMillesime[]
   operateur      Operateur       @relation(fields: [operateurId], references: [id])
   operateurId    Int
@@ -429,7 +437,9 @@ model CpomStructure {
   cpomId      Int
   structureId Int
   dateDebut   DateTime? // Date when the structure joined the CPOM (null = from the beginning of the CPOM)
+  yearStart   Int?
   dateFin     DateTime? // Date when the structure left the CPOM (null = until the end of the CPOM)
+  yearEnd     Int?
   cpom        Cpom      @relation(fields: [cpomId], references: [id], onDelete: Cascade)
   structure   Structure @relation(fields: [structureId], references: [id])
 
@@ -445,6 +455,7 @@ model CpomMillesime {
   cpomId                                       Int
   cpom                                         Cpom     @relation(fields: [cpomId], references: [id])
   date                                         DateTime
+  year                                         Int
   cumulResultatNet                             Float?
   repriseEtat                                  Float?
   affectationTotal                             Float?
@@ -461,7 +472,7 @@ model CpomMillesime {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([cpomId, date])
+  @@unique([cpomId, year])
   @@schema("public")
 }
 
