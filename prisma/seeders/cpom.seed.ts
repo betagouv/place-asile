@@ -2,16 +2,14 @@ import { fakerFR as faker } from "@faker-js/faker";
 
 import type { Departement, PrismaClient } from "@/generated/prisma/client";
 
-const buildStructureMillesimeDates = (start: Date, end: Date): Date[] => {
-  const dates: Date[] = [];
-  const startYear = start.getFullYear();
-  const endYear = end.getFullYear();
+const buildStructureMillesimeYears = (start: number, end: number): number[] => {
+  const years: number[] = [];
 
-  for (let year = startYear; year <= endYear; year++) {
-    dates.push(new Date(year, 0, 1, 13));
+  for (let year = start; year <= end; year++) {
+    years.push(year);
   }
 
-  return dates;
+  return years;
 };
 
 export const createFakeCpoms = async (
@@ -85,14 +83,15 @@ export const createFakeCpoms = async (
     const [operateurIdStr, region] = key.split("-");
 
     const dureeAnnees = faker.number.int({ min: 3, max: 5 });
-    const anneeDebut = faker.number.int({
+    const yearStart = faker.number.int({
       min: currentYear - dureeAnnees,
       max: currentYear,
     });
-    const debutCpom = new Date(anneeDebut, 0, 1, 13);
-    const finCpom = new Date(anneeDebut + dureeAnnees, 0, 1, 13);
+    const yearEnd = yearStart + dureeAnnees;
+    const debutCpom = new Date(yearStart, 0, 1, 13);
+    const finCpom = new Date(yearEnd, 0, 1, 13);
 
-    const cpomName = `CPOM ${operateurIdStr} ${region} ${anneeDebut}-${anneeDebut + dureeAnnees}`;
+    const cpomName = `CPOM ${operateurIdStr} ${region} ${yearStart}-${yearEnd}`;
 
     // Select between 60% and 100% of structures for this CPOM
     const nbStructures = Math.max(
@@ -110,7 +109,9 @@ export const createFakeCpoms = async (
         name: cpomName,
         operateurId: Number(operateurIdStr),
         debutCpom,
+        yearStart,
         finCpom,
+        yearEnd,
         structures: {
           create: selectedStructures.map((structureId) => {
             // 10% chance that a structure joins or leaves the CPOM in the middle
@@ -121,9 +122,9 @@ export const createFakeCpoms = async (
             let dateFin: Date | null = null;
 
             if (joinLater) {
-              const joinMin = Math.min(anneeDebut + 1, currentYear);
+              const joinMin = Math.min(yearStart + 1, currentYear);
               const joinMax = Math.min(
-                anneeDebut + dureeAnnees - 1,
+                yearStart + dureeAnnees - 1,
                 currentYear
               );
               if (joinMin <= joinMax) {
@@ -137,11 +138,11 @@ export const createFakeCpoms = async (
 
             if (leaveEarly && !joinLater) {
               const leaveMax = Math.min(
-                anneeDebut + dureeAnnees - 1,
+                yearStart + dureeAnnees - 1,
                 currentYear - 1
               );
               const leaveMin = Math.min(
-                Math.max(anneeDebut + 1, anneeDebut),
+                Math.max(yearStart + 1, yearStart),
                 leaveMax
               );
               if (leaveMin <= leaveMax) {
@@ -171,8 +172,8 @@ export const createFakeCpoms = async (
       where: { cpomId: cpom.id },
       select: {
         structureId: true,
-        dateDebut: true,
-        dateFin: true,
+        yearStart: true,
+        yearEnd: true,
       },
     });
 
@@ -188,17 +189,17 @@ export const createFakeCpoms = async (
         continue;
       }
 
-      const millesimeDates = buildStructureMillesimeDates(
-        cpomStructure.dateDebut ?? new Date(debutCpom),
-        cpomStructure.dateFin ?? new Date(finCpom)
+      const millesimeYears = buildStructureMillesimeYears(
+        cpomStructure.yearStart ?? yearStart,
+        cpomStructure.yearEnd ?? yearEnd
       );
 
-      for (const millesimeDate of millesimeDates) {
+      for (const millesimeYear of millesimeYears) {
         await prisma.structureMillesime.upsert({
           where: {
-            structureDnaCode_date: {
+            structureDnaCode_year: {
               structureDnaCode,
-              date: millesimeDate,
+              year: millesimeYear,
             },
           },
           update: {
@@ -206,7 +207,8 @@ export const createFakeCpoms = async (
           },
           create: {
             structureDnaCode,
-            date: millesimeDate,
+            year: millesimeYear,
+            date: new Date(millesimeYear, 0, 1, 13),
             cpom: true,
           },
         });
@@ -214,16 +216,17 @@ export const createFakeCpoms = async (
     }
 
     // Create CPOM millesimes for each year of the CPOM
-    const annees = [...Array(dureeAnnees)].map(
-      (_, index) => anneeDebut + index
+    const millesimeYears = [...Array(dureeAnnees)].map(
+      (_, index) => yearStart + index
     );
 
-    for (const annee of annees) {
-      const millesimeDate = new Date(annee, 0, 1, 13);
+    for (const millesimeYear of millesimeYears) {
+      const millesimeDate = new Date(millesimeYear, 0, 1, 13);
 
       await prisma.cpomMillesime.create({
         data: {
           cpomId: cpom.id,
+          year: millesimeYear,
           date: millesimeDate,
           cumulResultatNet: faker.number.float({
             min: -100000,

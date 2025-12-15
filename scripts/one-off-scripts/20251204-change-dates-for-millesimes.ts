@@ -1,3 +1,4 @@
+// @ts-nocheck
 // One off script to change the dates for millesimes in the Budget, AdresseTypologie and StructureTypologie tables
 // Usage: yarn one-off 20251204-change-dates-for-millesimes
 
