@@ -46,6 +46,10 @@ export const Menu = (): ReactElement => {
       url: "/accessibilite",
     },
     {
+      label: "Usage",
+      url: "/usage",
+    },
+    {
       label: "Code source",
       url: "https://github.com/betagouv/place-asile",
       isExternalLink: true,
