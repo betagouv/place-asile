@@ -8,7 +8,7 @@ import { createPrismaClient } from "@/prisma-client";
 
 import { loadCsvFromS3 } from "../utils/csv-loader";
 import { ensureOperateursExist } from "../utils/ensure-operateurs-exist";
-import { parseDate,parseYear } from "../utils/parse-date";
+import { parseDate, parseYear } from "../utils/parse-date";
 
 const prisma = createPrismaClient();
 const bucketName = process.env.DOCS_BUCKET_NAME!;
@@ -33,11 +33,9 @@ type CpomCsvRow = {
   date_sortie_structure?: string;
 };
 
-const buildStructureMillesimeYears = (start: Date, end: Date): number[] => {
+const buildStructureMillesimeYears = (start: number, end: number): number[] => {
   const years: number[] = [];
-  const startYear = start.getFullYear();
-  const endYear = end.getFullYear();
-  for (let year = startYear; year <= endYear; year++) {
+  for (let year = start; year <= end; year++) {
     years.push(year);
   }
   return years;
@@ -197,21 +195,19 @@ const loadCpomsFromCsv = async () => {
         `🍷 Création des millesimes pour la structure ${row.code_dna}`
       );
 
-      const millesimeStart = dateDebut ?? cpomStructure.dateDebut ?? debut;
-      const millesimeEnd = dateFin ?? cpomStructure.dateFin ?? fin;
+      const millesimeStart =
+        yearStartStructure ?? cpomStructure.yearStart ?? yearStart;
+      const millesimeEnd = yearEndStructure ?? cpomStructure.yearEnd ?? yearEnd;
       const millesimeYears = buildStructureMillesimeYears(
         millesimeStart,
         millesimeEnd
       );
 
       for (const millesimeYear of millesimeYears) {
-      for (const millesimeYear of millesimeYears) {
         await prisma.structureMillesime.upsert({
           where: {
             structureDnaCode_year: {
-            structureDnaCode_year: {
               structureDnaCode: row.code_dna,
-              year: millesimeYear,
               year: millesimeYear,
             },
           },
@@ -220,6 +216,7 @@ const loadCpomsFromCsv = async () => {
           },
           create: {
             structureDnaCode: row.code_dna,
+            date: parseDate(millesimeYear.toString(), `millesimeYear`),
             year: millesimeYear,
             cpom: true,
           },

@@ -65,7 +65,7 @@ export const getDateFromYear = (year: string | number): Date => {
   return new Date(Number(year), 0, 1, 13);
 };
 export const getYearFromDate = (
-  date: string | number | Date | undefined
+  date: string | number | Date | undefined | null
 ): number => {
   if (!date) {
     return NaN;

@@ -6,8 +6,8 @@ type CpomStructureForMatching = {
   dateFin: Date | null;
   cpom: {
     id: number;
-    debutCpom: Date | string;
-    finCpom: Date | string;
+    debutCpom: Date | string | null;
+    finCpom: Date | string | null;
   };
 };
 
@@ -27,6 +27,7 @@ export const findMatchingCpomForMillesime = (
       cpomStructure.dateDebut || debutCpom
     );
     const yearFinStructure = getYearFromDate(cpomStructure.dateFin || finCpom);
+
     return (
       millesime.year >= yearDebutStructure && millesime.year <= yearFinStructure
     );
