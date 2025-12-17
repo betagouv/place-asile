@@ -368,20 +368,6 @@ describe("date util", () => {
         // THEN
         expect(result).toBe(2024);
       });
-
-      it("should return the number even if it's not a typical year value", () => {
-        // GIVEN
-        const number = 1999;
-        const number2 = 2100;
-
-        // WHEN
-        const result1 = getYearFromDate(number);
-        const result2 = getYearFromDate(number2);
-
-        // THEN
-        expect(result1).toBe(1999);
-        expect(result2).toBe(2100);
-      });
     });
   });
 

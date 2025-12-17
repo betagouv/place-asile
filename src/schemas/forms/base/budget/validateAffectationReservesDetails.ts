@@ -12,7 +12,6 @@ export const validateAffectationReservesDetails = (
   ctx: z.RefinementCtx,
   cpom = true
 ) => {
-  // If affectationReservesFondsDedies is not equal to 0, then the detail fields are required
   if (
     data.affectationReservesFondsDedies !== null &&
     data.affectationReservesFondsDedies !== 0
