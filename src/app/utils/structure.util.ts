@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 
+import { CURRENT_YEAR } from "@/constants";
 import {
   AdresseApiType,
   AdresseTypologieApiType,
@@ -130,8 +131,7 @@ export const getOperateurLabel = (
 export const isStructureInCpom = (structure: StructureApiType): boolean => {
   return (
     structure.structureMillesimes?.find(
-      (millesime) =>
-        millesime.date.substring(0, 4) === new Date().getFullYear().toString()
+      (millesime) => millesime.year === CURRENT_YEAR
     )?.cpom ?? false
   );
 };

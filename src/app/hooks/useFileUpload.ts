@@ -51,7 +51,7 @@ export const useFileUpload = () => {
     [getDownloadLink]
   );
 
-  const deleteFile = async (key: string): Promise<void> => {
+  const deleteFile = useCallback(async (key: string): Promise<void> => {
     const encodedKey = encodeURIComponent(key);
     const response = await fetch(`/api/files/${encodedKey}`, {
       method: "DELETE",
@@ -63,7 +63,7 @@ export const useFileUpload = () => {
     }
 
     return await response.json();
-  };
+  }, []);
 
   return { uploadFile, getFile, deleteFile, getDownloadLink };
 };

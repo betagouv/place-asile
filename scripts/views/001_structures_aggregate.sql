@@ -8,12 +8,12 @@ WITH -- Last typology by structure
       st."pmr",
       st."lgbt",
       st."fvvTeh",
-      st."date"
+      st."year"
     FROM
       public."StructureTypologie" st
     ORDER BY
       st."structureDnaCode",
-      st."date" DESC
+      st."year" DESC
   ),
   -- Last typology by address
   adresse_typologie_dernier_millesime AS (
@@ -23,13 +23,13 @@ WITH -- Last typology by structure
       aty."placesAutorisees",
       aty."qpv",
       aty."logementSocial",
-      aty."date"
+      aty."year"
     FROM
       public."AdresseTypologie" aty
       JOIN public."Adresse" a ON a."id" = aty."adresseId"
     ORDER BY
       aty."adresseId",
-      aty."date" DESC
+      aty."year" DESC
   ),
   -- Last activite by structure
   activite_dernier_millesime AS (
@@ -51,11 +51,22 @@ WITH -- Last typology by structure
       SUM(adm."placesAutorisees") AS places_autorisees_adresse,
       SUM(adm."qpv") AS qpv_adresse,
       SUM(adm."logementSocial") AS logement_social_adresse,
-      MAX(adm."date") AS date_adresse
+      MAX(adm."year") AS year_adresse
     FROM
       adresse_typologie_dernier_millesime adm
     GROUP BY
       adm."structureDnaCode"
+  ),
+  -- Last dotationAccordee by structure (most recent budget)
+  budget_dernier_millesime AS (
+    SELECT DISTINCT
+      ON (b."structureDnaCode") b."structureDnaCode",
+      b."dotationAccordee"
+    FROM
+      public."Budget" b
+    ORDER BY
+      b."structureDnaCode",
+      b."date" DESC
   ),
   -- Aggregate budgets by structure
   budgets_agreges AS (
@@ -122,9 +133,9 @@ SELECT
   aa."places_autorisees_adresse" AS "places_autorisees_adresse",
   aa."qpv_adresse" AS "qpv_adresse",
   aa."logement_social_adresse" AS "logement_social_adresse",
-  aa."date_adresse" AS "date_adresse",
+  aa."year_adresse" AS "year_adresse",
   aa."nb_adresses" AS "nb_adresses",
-  sdm."date" AS "date_structure",
+  sdm."year" AS "year_structure",
   pa.nb_places_activite AS "nb_places_activite",
   pa.diff_places_adresse AS "diff_places_adresse",
   pa.pct_diff_places_adresse AS "pct_diff_places_adresse",
@@ -137,6 +148,7 @@ SELECT
   ba."cout_journalier_min" AS "cout_journalier_min",
   COALESCE(ba."indicateurs_budgetaires", 5) AS "indicateurs_budgetaires",
   COALESCE(pai."indicateurs_places_agregees", 5) + COALESCE(ba."indicateurs_budgetaires", 5) AS "indicateurs_structure",
+  bdm."dotationAccordee" AS "dotation_accordee_derniere_annee",
   s."createdAt" AS "created_at",
   s."updatedAt" AS "updated_at"
 FROM
@@ -146,5 +158,6 @@ FROM
   LEFT JOIN adresses_agregees aa ON aa."structureDnaCode" = s."dnaCode"
   LEFT JOIN places_agregees_indicateurs pai ON pai."dnaCode" = s."dnaCode"
   LEFT JOIN budgets_agreges ba ON ba."structureDnaCode" = s."dnaCode"
+  LEFT JOIN budget_dernier_millesime bdm ON bdm."structureDnaCode" = s."dnaCode"
   LEFT JOIN public."Departement" d ON d."numero" = s."departementAdministratif"
   LEFT JOIN public."Operateur" o ON o."id" = s."operateurId";

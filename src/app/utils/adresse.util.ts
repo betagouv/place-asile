@@ -83,6 +83,85 @@ export const transformApiAdressesToFormAdresses = (
   return formAdresses;
 };
 
+/**
+ * Formate un nom de ville selon les règles de typographie françaises :
+ * https://www.amf.asso.fr/documents-noms-communes-nouvelles-les-regles-respecter/24266
+ */
+export const formatCityName = (city: string): string | null => {
+  if (typeof city !== "string") {
+    return city;
+  }
+
+  const normalized = city.trim().replace(/\s+/g, " ");
+
+  if (!normalized) {
+    return null;
+  }
+
+  const articles = new Set(["le", "la", "les", "l"]);
+  const prepositions = new Set([
+    "sur",
+    "en",
+    "de",
+    "du",
+    "des",
+    "à",
+    "au",
+    "aux",
+    "sous",
+    "dans",
+    "par",
+    "pour",
+    "avec",
+    "sans",
+    "vers",
+    "d",
+    "l",
+  ]);
+
+  const words = normalized.split(" ").filter(Boolean);
+
+  if (words.length === 0) {
+    return null;
+  }
+
+  const firstWordLower = words[0].toLowerCase();
+  const hasArticleAtStart = articles.has(firstWordLower);
+
+  const formattedWords = words.map((word, index) => {
+    const wordLower = word.toLowerCase();
+    const isArticleInside = index > 0 && articles.has(wordLower);
+    const isPreposition = prepositions.has(wordLower);
+
+    if (isArticleInside || isPreposition) {
+      return wordLower;
+    }
+
+    const parts = wordLower.split("'");
+    const formattedParts = parts.map((part) => {
+      if (index > 0 && (part === "l" || part === "d")) {
+        return part;
+      }
+      return part.charAt(0).toUpperCase() + part.slice(1);
+    });
+
+    return formattedParts.join("'");
+  });
+
+  let result = formattedWords[0];
+
+  for (let i = 1; i < formattedWords.length; i++) {
+    const isAfterArticleAtStart = hasArticleAtStart && i === 1;
+    if (isAfterArticleAtStart) {
+      result += " " + formattedWords[i];
+    } else {
+      result += "-" + formattedWords[i];
+    }
+  }
+
+  return result;
+};
+
 type Coordinates = {
   latitude: number | undefined;
   longitude: number | undefined;

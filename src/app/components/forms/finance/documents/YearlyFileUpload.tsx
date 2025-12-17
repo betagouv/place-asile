@@ -11,6 +11,7 @@ import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
 } from "@/app/components/forms/finance/documents/documentsStructures";
+import { getYearFromDate } from "@/app/utils/date.util";
 import {
   DocumentFinancierFlexibleFormValues,
   DocumentsFinanciersFlexibleFormValues,
@@ -112,7 +113,7 @@ export const YearlyFileUpload = ({
 
       const index = documentsFinanciers.findIndex((documentFinancier) => {
         return (
-          documentFinancier.date?.substring(0, 4) === year.toString() &&
+          getYearFromDate(documentFinancier.date) === year &&
           documentFinancier.category === category &&
           documentFinancier.granularity === granularity
         );
@@ -158,7 +159,7 @@ export const YearlyFileUpload = ({
     <div className="flex flex-col items-center gap-2">
       <DropZone
         onChange={handleFileChange}
-        className="max-h-120"
+        className="min-h-[24rem] max-h-[30rem]"
         key={dropZoneKey}
       >
         {shouldDisplayCategorySelect && (

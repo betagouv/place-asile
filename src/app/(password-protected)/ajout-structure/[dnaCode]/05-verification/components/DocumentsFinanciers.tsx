@@ -6,7 +6,10 @@ import {
   structureSubventionneesDocuments,
 } from "@/app/components/forms/finance/documents/documentsStructures";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getYearRange } from "@/app/utils/date.util";
+import {
+  getDocumentsFinanciersYearRange,
+  getYearFromDate,
+} from "@/app/utils/date.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
@@ -27,7 +30,7 @@ export const DocumentsFinanciers = (): ReactElement => {
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
 
-  const { years } = getYearRange();
+  const { years } = getDocumentsFinanciersYearRange({ isAutorisee });
 
   const startYear = localStorageValues?.date303
     ? Number(localStorageValues?.date303?.split("/")?.[2])
@@ -50,7 +53,7 @@ export const DocumentsFinanciers = (): ReactElement => {
           const findDocument = documentsFinanciers.find(
             (documentFinancier) =>
               documentFinancier.category === document.value &&
-              documentFinancier.date?.substring(0, 4) === String(year) &&
+              getYearFromDate(documentFinancier.date) === year &&
               documentFinancier.key
           );
           return !findDocument ? 1 : 0;
@@ -61,9 +64,9 @@ export const DocumentsFinanciers = (): ReactElement => {
 
   if (numberOfMissingDocuments > 0) {
     return (
-      <div className="flex items-center gap-2 max-w-md text-base font-normal">
-        <span className="fr-icon-warning-line text-default-error fr-icon--sm" />
-        <p className="text-default-error mb-0 italic">
+      <div className="flex items-center gap-3 max-w-md text-base font-normal">
+        <span className="fr-icon-warning-line text-default-warning fr-icon--sm" />
+        <p className="text-default-warning mb-0 italic">
           <strong>
             {numberOfMissingDocuments}{" "}
             {numberOfMissingDocuments > 1
@@ -71,7 +74,7 @@ export const DocumentsFinanciers = (): ReactElement => {
               : "document obligatoire est manquant"}
             {" : "}
           </strong>
-          nous vous contacterons rapidement afin de trouver une solution.
+          un·e agent·e vous contactera rapidement pour débloquer la situation.
         </p>
       </div>
     );

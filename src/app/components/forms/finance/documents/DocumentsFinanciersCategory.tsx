@@ -3,6 +3,8 @@ import { ReactElement } from "react";
 import { Control, useFormContext } from "react-hook-form";
 
 import { cn } from "@/app/utils/classname.util";
+import { getYearFromDate } from "@/app/utils/date.util";
+import { CURRENT_YEAR } from "@/constants";
 import {
   DocumentFinancierFlexibleFormValues,
   DocumentsFinanciersFlexibleFormValues,
@@ -26,23 +28,30 @@ export const DocumentsFinanciersCategory = ({
     documentsFinanciers?.filter(
       (documentFinancier) =>
         documentFinancier.category === documentType.value &&
-        new Date(documentFinancier.date!).getFullYear() === year
+        getYearFromDate(documentFinancier.date) === year
     ) || [];
 
   const isFilled = documentsFinanciersOfCategory.length > 0;
-  const isAllowedYear =
-    year <= new Date().getFullYear() - documentType.yearIndex;
+  const isAllowedYear = year <= CURRENT_YEAR - documentType.yearIndex;
 
   return (
     <Accordion
       key={documentType.label}
       label={
         <div className="flex items-center gap-2 justify-between w-full">
-          <div>
+          <div className={!isFilled ? "text-disabled-grey" : ""}>
             <div>
               <strong>{documentType.label}</strong>
               {!(documentType.required && isAllowedYear) && (
-                <span className="text-default-grey italic"> - optionnel</span>
+                <span
+                  className={cn(
+                    isFilled ? "text-default-grey" : "text-disabled-grey",
+                    "italic"
+                  )}
+                >
+                  {" "}
+                  - optionnel
+                </span>
               )}
             </div>
             <span className="text-sm ">{documentType.subLabel}</span>
@@ -59,6 +68,12 @@ export const DocumentsFinanciersCategory = ({
           )}
         </div>
       }
+      className={cn(
+        !isFilled
+          ? "[&>h3>button]:cursor-default [&>h3>button]:hover:bg-transparent [&>h3>button]:after:text-disabled-grey"
+          : "",
+        "[&>h3>button]:after:w-6 [&>h3>button]:after:h-6 [&>h3>button]:after:ml-2"
+      )}
     >
       <div>
         {documentsFinanciersOfCategory.map((documentFinancier) => (

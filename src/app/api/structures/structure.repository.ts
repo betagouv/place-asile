@@ -31,7 +31,7 @@ export const findAll = async (): Promise<Structure[]> => {
         include: {
           adresseTypologies: {
             orderBy: {
-              date: "desc",
+              year: "desc",
             },
           },
         },
@@ -39,7 +39,7 @@ export const findAll = async (): Promise<Structure[]> => {
       operateur: true,
       structureTypologies: {
         orderBy: {
-          date: "desc",
+          year: "desc",
         },
       },
       forms: {
@@ -134,12 +134,12 @@ export const findBySearch = async ({
       operateur: true,
       structureMillesimes: {
         orderBy: {
-          date: "desc",
+          year: "desc",
         },
       },
       structureTypologies: {
         orderBy: {
-          date: "desc",
+          year: "desc",
         },
       },
       forms: {
@@ -181,10 +181,12 @@ export const countBySearch = async ({
   });
 };
 
-const getLatestPlacesAutoriseesPerStructure = async (): Promise<number[]> => {
+export const getLatestPlacesAutoriseesPerStructure = async (): Promise<
+  number[]
+> => {
   const allTypologies = await prisma.structureTypologie.findMany({
     orderBy: {
-      date: "desc",
+      year: "desc",
     },
     select: {
       structureDnaCode: true,
@@ -208,18 +210,6 @@ const getLatestPlacesAutoriseesPerStructure = async (): Promise<number[]> => {
     .map((typology) => typology.placesAutorisees as number);
 };
 
-export const getMaxPlacesAutorisees = async (): Promise<number> => {
-  const latestPlacesAutoriseesOfEveryStructure =
-    await getLatestPlacesAutoriseesPerStructure();
-  return Math.max(...latestPlacesAutoriseesOfEveryStructure);
-};
-
-export const getMinPlacesAutorisees = async (): Promise<number> => {
-  const latestPlacesAutoriseesOfEveryStructure =
-    await getLatestPlacesAutoriseesPerStructure();
-  return Math.min(...latestPlacesAutoriseesOfEveryStructure);
-};
-
 export const findOne = async (id: number): Promise<Structure> => {
   const structure = await prisma.structure.findFirstOrThrow({
     where: {
@@ -230,7 +220,7 @@ export const findOne = async (id: number): Promise<Structure> => {
         include: {
           adresseTypologies: {
             orderBy: {
-              date: "desc",
+              year: "desc",
             },
           },
         },
@@ -238,12 +228,12 @@ export const findOne = async (id: number): Promise<Structure> => {
       contacts: true,
       structureTypologies: {
         orderBy: {
-          date: "desc",
+          year: "desc",
         },
       },
       structureMillesimes: {
         orderBy: {
-          date: "desc",
+          year: "desc",
         },
       },
       evaluations: {
@@ -276,7 +266,7 @@ export const findOne = async (id: number): Promise<Structure> => {
       },
       budgets: {
         orderBy: {
-          date: "desc",
+          year: "desc",
         },
       },
       operateur: true,
@@ -307,7 +297,7 @@ export const findByDnaCode = async (
         include: {
           adresseTypologies: {
             orderBy: {
-              date: "desc",
+              year: "desc",
             },
           },
         },
@@ -316,7 +306,7 @@ export const findByDnaCode = async (
       operateur: true,
       structureTypologies: {
         orderBy: {
-          date: "desc",
+          year: "desc",
         },
       },
       forms: {

@@ -17,7 +17,11 @@ import { AdressImporter } from "@/app/components/forms/address/AdressImporter";
 import AddressWithValidation from "@/app/components/forms/AddressWithValidation";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
-import { MODELE_DIFFUS_LINK, MODELE_MIXTE_LINK } from "@/constants";
+import {
+  CURRENT_YEAR,
+  MODELE_DIFFUS_LINK,
+  MODELE_MIXTE_LINK,
+} from "@/constants";
 import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
@@ -61,7 +65,7 @@ export const AdressesList = ({
       adresseTypologies: [
         {
           placesAutorisees: undefined as unknown as number,
-          date: new Date().toISOString(),
+          year: CURRENT_YEAR,
           logementSocial: false,
           qpv: false,
         },

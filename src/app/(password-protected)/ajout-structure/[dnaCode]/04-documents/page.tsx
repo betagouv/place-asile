@@ -1,12 +1,12 @@
 "use client";
 import Stepper from "@codegouvfr/react-dsfr/Stepper";
 
-import { useRedirectIfStructureExists } from "@/app/hooks/useRedirectIfStructureExists";
+import { useRedirectStructureCreation } from "@/app/hooks/useRedirectStructureCreation";
 
 import FormDocuments from "../../_components/forms/FormDocuments";
 
 export default function StepDocuments() {
-  useRedirectIfStructureExists();
+  useRedirectStructureCreation();
 
   return (
     <>
