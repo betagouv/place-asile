@@ -9,34 +9,27 @@
 
 */
 -- AlterTable
-ALTER TABLE "AdresseTypologie" ADD COLUMN     "year" INTEGER NOT NULL DEFAULT 0,
-ALTER COLUMN "date" DROP NOT NULL;
+ALTER TABLE "AdresseTypologie" ADD COLUMN     "year" INTEGER;
 
 -- AlterTable
-ALTER TABLE "Budget" ADD COLUMN     "year" INTEGER NOT NULL DEFAULT 0,
-ALTER COLUMN "date" DROP NOT NULL;
+ALTER TABLE "Budget" ADD COLUMN     "year" INTEGER;
 
 -- AlterTable
-ALTER TABLE "Cpom" ADD COLUMN     "yearEnd" INTEGER NOT NULL DEFAULT 0,
-ADD COLUMN     "yearStart" INTEGER NOT NULL DEFAULT 0,
-ALTER COLUMN "debutCpom" DROP NOT NULL,
-ALTER COLUMN "finCpom" DROP NOT NULL;
+ALTER TABLE "Cpom" ADD COLUMN     "yearEnd" INTEGER,
+ADD COLUMN     "yearStart" INTEGER;
 
 -- AlterTable
-ALTER TABLE "CpomMillesime" ADD COLUMN     "year" INTEGER NOT NULL DEFAULT 0,
-ALTER COLUMN "date" DROP NOT NULL;
+ALTER TABLE "CpomMillesime" ADD COLUMN     "year" INTEGER;
 
 -- AlterTable
-ALTER TABLE "CpomStructure" ADD COLUMN     "yearEnd" INTEGER NOT NULL DEFAULT 0,
-ADD COLUMN     "yearStart" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "CpomStructure" ADD COLUMN     "yearEnd" INTEGER,
+ADD COLUMN     "yearStart" INTEGER;
 
 -- AlterTable
-ALTER TABLE "StructureMillesime" ADD COLUMN     "year" INTEGER NOT NULL DEFAULT 0,
-ALTER COLUMN "date" DROP NOT NULL;
+ALTER TABLE "StructureMillesime" ADD COLUMN     "year" INTEGER;
 
 -- AlterTable
-ALTER TABLE "StructureTypologie" ADD COLUMN     "year" INTEGER NOT NULL DEFAULT 0,
-ALTER COLUMN "date" DROP NOT NULL;
+ALTER TABLE "StructureTypologie" ADD COLUMN     "year" INTEGER;
 
 -- CreateIndex
 CREATE UNIQUE INDEX "AdresseTypologie_adresseId_year_key" ON "AdresseTypologie"("adresseId", "year");
