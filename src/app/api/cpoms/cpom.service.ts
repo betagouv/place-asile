@@ -1,13 +1,12 @@
-import { getYearFromDate } from "@/app/utils/date.util";
 import { CpomMillesimeApiType } from "@/schemas/api/cpom.schema";
 
 type CpomStructureForMatching = {
-  dateDebut: Date | null;
-  dateFin: Date | null;
+  yearStart: number;
+  yearEnd: number;
   cpom: {
     id: number;
-    debutCpom: Date | string | null;
-    finCpom: Date | string | null;
+    yearStart: number;
+    yearEnd: number;
   };
 };
 
@@ -16,17 +15,17 @@ export const findMatchingCpomForMillesime = (
   millesime: CpomMillesimeApiType
 ) => {
   const matchingCpom = cpomStructures.find((cpomStructure) => {
-    const debutCpom = getYearFromDate(cpomStructure.cpom.debutCpom);
-    const finCpom = getYearFromDate(cpomStructure.cpom.finCpom);
-
-    if (millesime.year < debutCpom || millesime.year > finCpom) {
+    if (
+      millesime.year < cpomStructure.cpom.yearStart ||
+      millesime.year > cpomStructure.cpom.yearEnd
+    ) {
       return false;
     }
 
-    const yearDebutStructure = getYearFromDate(
-      cpomStructure.dateDebut || debutCpom
-    );
-    const yearFinStructure = getYearFromDate(cpomStructure.dateFin || finCpom);
+    const yearDebutStructure =
+      cpomStructure.yearStart || cpomStructure.cpom.yearStart;
+    const yearFinStructure =
+      cpomStructure.yearEnd || cpomStructure.cpom.yearEnd;
 
     return (
       millesime.year >= yearDebutStructure && millesime.year <= yearFinStructure
