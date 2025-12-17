@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 
 import { ActiviteApiType } from "@/schemas/api/activite.schema";
 
-export const ActivitesTypes = ({
+export const ActiviteTypes = ({
   typeActivite,
   setTypeActivite,
 }: Props): ReactElement => {
@@ -35,8 +35,8 @@ export const ActivitesTypes = ({
     },
     {
       label: "Total",
-      onClick: () => setTypeActivite("nbPlaces"),
-      value: "nbPlaces",
+      onClick: () => setTypeActivite("placesAutorisees"),
+      value: "placesAutorisees",
     },
   ];
 

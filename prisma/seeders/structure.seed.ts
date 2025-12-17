@@ -2,6 +2,7 @@ import { fakerFR as faker } from "@faker-js/faker";
 
 import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
+  Activite,
   Budget,
   Contact,
   FileUpload,
@@ -14,6 +15,7 @@ import {
 } from "@/generated/prisma/client";
 import { StructureType } from "@/types/structure.type";
 
+import { createFakeActivites } from "./activite.seed";
 import { AdresseWithTypologies, createFakeAdresses } from "./adresse.seed";
 import { createFakeBudget } from "./budget.seed";
 import { createFakeContact } from "./contact.seed";
@@ -130,6 +132,7 @@ type StructureWithRelations = Structure & {
   controles: Omit<ControleWithFileUploads, "id" | "structureDnaCode">[];
   structureTypologies: Omit<StructureTypologie, "id" | "structureDnaCode">[];
   budgets: Omit<Budget, "id" | "structureDnaCode">[];
+  activites: Omit<Activite, "id" | "structureDnaCode">[];
   fileUploads: Omit<
     FileUpload,
     "id" | "structureDnaCode" | "controleId" | "parentFileUploadId"
@@ -178,13 +181,13 @@ export const createFakeStuctureWithRelations = ({
       createFakeStructureTypologie({ year: 2024, placesAutorisees }),
       createFakeStructureTypologie({ year: 2023, placesAutorisees }),
     ],
-
     fileUploads: Array.from({ length: 5 }, () =>
       createFakeFileUpload({
         cpom,
         structureType: type,
       })
     ),
+    activites: createFakeActivites(),
     forms,
   } as StructureWithRelations;
 

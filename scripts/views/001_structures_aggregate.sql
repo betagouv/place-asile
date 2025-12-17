@@ -36,7 +36,7 @@ WITH -- Last typology by structure
     SELECT DISTINCT
       ON (sa."structureDnaCode") sa."structureDnaCode",
       sa."date",
-      sa."nbPlaces"
+      sa."placesAutorisees"
     FROM
       public."Activite" sa
     ORDER BY
@@ -91,7 +91,7 @@ WITH -- Last typology by structure
       s."dnaCode",
       sdm."placesAutorisees" AS places_autorisees_structure,
       aa."places_autorisees_adresse",
-      adm."nbPlaces" AS nb_places_activite,
+      adm."placesAutorisees" AS nb_places_activite,
       -- Differences and percentages
       COALESCE(sdm."placesAutorisees", 0) - COALESCE(aa."places_autorisees_adresse", 0) AS diff_places_adresse,
       COALESCE(
@@ -100,9 +100,9 @@ WITH -- Last typology by structure
         ) / NULLIF(COALESCE(sdm."placesAutorisees", 0)::float, 0) * 100,
         0
       ) AS pct_diff_places_adresse,
-      COALESCE(adm."nbPlaces", 0) - COALESCE(sdm."placesAutorisees", 0) AS diff_places_activite,
+      COALESCE(adm."placesAutorisees", 0) - COALESCE(sdm."placesAutorisees", 0) AS diff_places_activite,
       COALESCE(
-        ABS(COALESCE(adm."nbPlaces", 0) - COALESCE(sdm."placesAutorisees", 0)) / NULLIF(COALESCE(adm."nbPlaces", 0)::float, 0) * 100,
+        ABS(COALESCE(adm."placesAutorisees", 0) - COALESCE(sdm."placesAutorisees", 0)) / NULLIF(COALESCE(adm."placesAutorisees", 0)::float, 0) * 100,
         0
       ) AS pct_diff_places_activite
     FROM
