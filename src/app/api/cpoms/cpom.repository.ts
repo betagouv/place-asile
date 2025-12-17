@@ -38,7 +38,7 @@ export const createOrUpdateCpomMillesimes = async (
 
   if (cpomStructures.length === 0) {
     console.warn(
-      `Aucun CPOM associé à la structure ${structureDnaCode}, millesimes ignorés`
+      `Aucun CPOM associé à la structure ${structureDnaCode}, millésimes ignorés`
     );
     return;
   }
@@ -49,7 +49,7 @@ export const createOrUpdateCpomMillesimes = async (
 
       if (!resolved) {
         console.warn(
-          `Aucun CPOM trouvé pour la structure ${structureDnaCode} avec une période couvrant l'année ${millesime.year}, millesime ignoré`
+          `Aucun CPOM trouvé pour la structure ${structureDnaCode} avec une période couvrant l'année ${millesime.year}, millésime ignoré`
         );
         return;
       }
