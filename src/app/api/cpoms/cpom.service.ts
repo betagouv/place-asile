@@ -1,8 +1,8 @@
 import { CpomMillesimeApiType } from "@/schemas/api/cpom.schema";
 
 type CpomStructureForMatching = {
-  yearStart: number;
-  yearEnd: number;
+  yearStart: number | null;
+  yearEnd: number | null;
   cpom: {
     id: number;
     yearStart: number;
