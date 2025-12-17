@@ -310,7 +310,7 @@ describe("date util", () => {
     });
 
     describe("when input is a string with invalid date", () => {
-      it("should return NaN for invalid date string", () => {
+      it("should return -1 for invalid date string", () => {
         // GIVEN
         const date = "not-a-date";
 
@@ -321,7 +321,7 @@ describe("date util", () => {
         expect(result).toBe(-1);
       });
 
-      it("should return NaN for empty string", () => {
+      it("should return -1 for empty string", () => {
         // GIVEN
         const date = "";
 
