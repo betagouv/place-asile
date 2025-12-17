@@ -80,14 +80,14 @@ export const StructureSubventionneeSansCpom = () => {
         ariaLabelledBy="gestionBudgetaire"
         hasErrors={hasErrors}
         preHeadings={[
-          <th scope="col" key="annee" className="!border-r-1">
+          <th scope="col" key="annee" className="border-r!">
             {" "}
           </th>,
           <th
             scope="col"
             colSpan={2}
             key="budgetExecutoire"
-            className="!border-r-3"
+            className="border-r-3!"
           >
             demande subvention de la structure
           </th>,
@@ -96,13 +96,13 @@ export const StructureSubventionneeSansCpom = () => {
           </th>,
         ]}
         headings={[
-          <th scope="col" key="annee" className="!border-r-1">
+          <th scope="col" key="annee" className="border-r!">
             Année
           </th>,
           <th scope="col" key="dotationDemandee">
             Dotation <br /> demandée
           </th>,
-          <th scope="col" key="dotationAccordee" className="!border-r-3">
+          <th scope="col" key="dotationAccordee" className="border-r-3!">
             Dotation <br />
             accordée
           </th>,
@@ -110,7 +110,7 @@ export const StructureSubventionneeSansCpom = () => {
             Total produits <br />
             <small>dont dotation État</small>
           </th>,
-          <th scope="col" key="totalChargesRetenues" className="!border-r-1">
+          <th scope="col" key="totalChargesRetenues" className="border-r!">
             Total charges <small>retenues</small>
           </th>,
           <th scope="col" key="deficitCompenséParEtat">
@@ -119,14 +119,14 @@ export const StructureSubventionneeSansCpom = () => {
           <th
             scope="col"
             key="excedentRecupereTitreDeRecette"
-            className="!border-r-1"
+            className="border-r!"
           >
             excédent récupéré <small>titre de recette</small>
           </th>,
           <th
             scope="col"
             key="excedentDéduitDotationAVenir"
-            className="!border-r-1"
+            className="border-r!"
           >
             <Tooltip
               title={
@@ -141,7 +141,7 @@ export const StructureSubventionneeSansCpom = () => {
               <i className="fr-icon-information-line before:scale-50 before:origin-left" />
             </Tooltip>
           </th>,
-          <th scope="col" key="restantFondsDedies" className="!border-r-1">
+          <th scope="col" key="restantFondsDedies" className="border-r!">
             restant <small>fonds dédiés</small>
           </th>,
           <th scope="col" key="commentaire">
@@ -154,7 +154,7 @@ export const StructureSubventionneeSansCpom = () => {
           const fieldIndex = years.indexOf(year);
           return (
             <tr key={year}>
-              <td className="!border-r-1">
+              <td className="border-r!">
                 {year}
                 <input
                   type="hidden"
@@ -181,7 +181,7 @@ export const StructureSubventionneeSansCpom = () => {
                   &nbsp;€
                 </div>
               </td>
-              <td className="!border-r-3">
+              <td className="border-r-3!">
                 <div className="flex items-center gap-2">
                   <InputWithValidation
                     name={`budgets.${fieldIndex}.dotationAccordee`}
@@ -211,7 +211,7 @@ export const StructureSubventionneeSansCpom = () => {
                   &nbsp;€
                 </div>
               </td>
-              <td className="!border-r-1">
+              <td className="border-r!">
                 <div className="flex items-center gap-2">
                   <InputWithValidation
                     name={`budgets.${fieldIndex}.totalCharges`}
@@ -242,10 +242,9 @@ export const StructureSubventionneeSansCpom = () => {
                 </div>
               </td>
 
-              <td className="!border-r-1">
+              <td className="border-r!">
                 <div className="flex items-center gap-2">
                   <InputWithValidation
-                    // TODO: fix this name with correct value in db
                     name={`budgets.${fieldIndex}.excedentRecupere`}
                     id={`gestionBudgetaire.${fieldIndex}.excedentRecupere`}
                     control={control}
@@ -258,10 +257,9 @@ export const StructureSubventionneeSansCpom = () => {
                   &nbsp;€
                 </div>
               </td>
-              <td className="!border-r-1">
+              <td className="border-r!">
                 <div className="flex items-center gap-2">
                   <InputWithValidation
-                    // TODO: fix this name with correct value in db
                     name={`budgets.${fieldIndex}.excedentDeduit`}
                     id={`gestionBudgetaire.${fieldIndex}.excedentDeduit`}
                     control={control}
@@ -274,7 +272,7 @@ export const StructureSubventionneeSansCpom = () => {
                   &nbsp;€
                 </div>
               </td>
-              <td className="!border-r-1">
+              <td className="border-r!">
                 <div className="flex items-center gap-2">
                   <InputWithValidation
                     name={`budgets.${fieldIndex}.fondsDedies`}
