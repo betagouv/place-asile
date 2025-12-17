@@ -8,7 +8,7 @@ import z from "zod";
 export const validateAffectationReservesDetails = (
   // Accepts partial data to handle missing properties
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: Partial<any>,
+  data: any,
   ctx: z.RefinementCtx,
   cpom = true
 ) => {
