@@ -2,9 +2,16 @@ import "dayjs/locale/fr";
 
 import dayjs from "dayjs";
 
+import { CURRENT_YEAR } from "@/constants";
+
 dayjs.locale("fr");
 
-export const formatDate = (date: Date | string | number): string => {
+export const formatDate = (
+  date: Date | string | number | undefined
+): string => {
+  if (!date) {
+    return "N/D";
+  }
   const dateObject = date instanceof Date ? date : new Date(date);
   return dateObject.toLocaleDateString("fr-FR");
 };
@@ -54,6 +61,34 @@ export const getYearDate = (year: string | number): string => {
   return new Date(Number(year), 0, 1, 13).toLocaleDateString("fr-FR");
 };
 
+export const getDateFromYear = (year: string | number): Date => {
+  return new Date(Number(year), 0, 1, 13);
+};
+export const getYearFromDate = (
+  date: string | number | Date | undefined | null
+): number => {
+  if (!date) {
+    return -1;
+  }
+  if (typeof date === "string") {
+    const match = date.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (match) {
+      return Number(match[3]);
+    }
+    const parsed = new Date(date);
+    if (!isNaN(parsed.getTime())) {
+      return parsed.getFullYear();
+    }
+    return -1;
+  }
+  if (date instanceof Date) {
+    return date.getFullYear();
+  }
+  if (typeof date === "number") {
+    return date;
+  }
+  return -1;
+};
 export const parseFrDate = (value: unknown): Date | unknown => {
   if (typeof value === "string") {
     const match = value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
@@ -70,9 +105,27 @@ export const parseFrDate = (value: unknown): Date | unknown => {
   return value;
 };
 
+export const getDocumentsFinanciersYearRange = ({
+  isAutorisee,
+}: {
+  isAutorisee: boolean;
+}): { years: number[]; startIndex: number } => {
+  const startIndex = isAutorisee ? 0 : 2;
+  const { years } = getYearRange();
+  return { years: years.slice(startIndex), startIndex };
+};
+
+export const getTypePlacesYearRange = (): { years: number[] } => {
+  const { years } = getYearRange({
+    startYear: 2023,
+    endYear: CURRENT_YEAR,
+  });
+  return { years };
+};
+
 export const getYearRange = ({
   startYear = 2021,
-  endYear = new Date().getFullYear(),
+  endYear = CURRENT_YEAR,
   order = "asc",
 }: {
   startYear?: number;

@@ -1,60 +1,63 @@
+import { CURRENT_OPEN_YEAR, CURRENT_YEAR } from "@/constants";
 import { Granularity } from "@/types/document-financier";
 import { DocumentFinancierCategoryType } from "@/types/file-upload.type";
+
+const baseYearIndex = CURRENT_YEAR - CURRENT_OPEN_YEAR;
 
 export const structureAutoriseesDocuments: StructureDocument[] = [
   {
     label: "Budget prévisionnel demandé",
     subLabel: "par l'opérateur",
     value: "BUDGET_PREVISIONNEL_DEMANDE",
-    yearIndex: 0,
+    yearIndex: baseYearIndex,
     required: true,
   },
   {
     label: "Rapport budgétaire",
     subLabel: "si séparé du budget prévisionnel demandé",
     value: "RAPPORT_BUDGETAIRE",
-    yearIndex: 0,
+    yearIndex: baseYearIndex,
     required: false,
   },
   {
     label: "Budget prévisionnel retenu (ou exécutoire)",
     subLabel: "par l'autorité de tarification",
     value: "BUDGET_PREVISIONNEL_RETENU",
-    yearIndex: 0,
+    yearIndex: baseYearIndex,
     required: true,
   },
   {
-    label: "Budget réctificatif",
+    label: "Budget rectificatif",
     subLabel: "intervenu en cours d'année",
     value: "BUDGET_RECTIFICATIF",
-    yearIndex: 1,
+    yearIndex: baseYearIndex + 1,
     required: false,
   },
   {
     label: "Compte administratif soumis",
     subLabel: "par l'opérateur",
     value: "COMPTE_ADMINISTRATIF_SOUMIS",
-    yearIndex: 1,
+    yearIndex: baseYearIndex + 1,
     required: true,
   },
   {
     label: "Rapport d'activité",
     subLabel: "qui accompagne le compte administratif soumis",
     value: "RAPPORT_ACTIVITE",
-    yearIndex: 1,
+    yearIndex: baseYearIndex + 1,
     required: true,
   },
   {
     label: "Compte administratif retenu",
     subLabel: "par l'autorité de tarification",
     value: "COMPTE_ADMINISTRATIF_RETENU",
-    yearIndex: 2,
+    yearIndex: baseYearIndex + 2,
     required: true,
   },
   {
     label: "Autre document",
     value: "AUTRE_FINANCIER",
-    yearIndex: 0,
+    yearIndex: baseYearIndex,
     required: false,
   },
 ];
@@ -62,25 +65,25 @@ export const structureSubventionneesDocuments: StructureDocument[] = [
   {
     label: "Demande de subvention",
     value: "DEMANDE_SUBVENTION",
-    yearIndex: 2,
+    yearIndex: baseYearIndex + 2,
     required: true,
   },
   {
     label: "Compte-rendu financier",
     value: "COMPTE_RENDU_FINANCIER",
-    yearIndex: 2,
+    yearIndex: baseYearIndex + 2,
     required: true,
   },
   {
     label: "Rapport d'activité de l'opérateur",
     value: "RAPPORT_ACTIVITE_OPERATEUR",
-    yearIndex: 2,
+    yearIndex: baseYearIndex + 2,
     required: true,
   },
   {
     label: "Autre document",
     value: "AUTRE_FINANCIER",
-    yearIndex: 0,
+    yearIndex: baseYearIndex,
     required: false,
   },
 ];

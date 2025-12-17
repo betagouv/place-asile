@@ -12,7 +12,7 @@ export const createFakeStructureTypologie = ({
   const lgbt = faker.number.int({ min: 0, max: placesAutorisees });
 
   return {
-    date: new Date(year, 0, 1, 13),
+    date: null,
     year,
     pmr: faker.number.int({ min: 0, max: placesAutorisees }),
     lgbt,

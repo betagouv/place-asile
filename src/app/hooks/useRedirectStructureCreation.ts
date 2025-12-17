@@ -4,13 +4,41 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { StructureApiType } from "@/schemas/api/structure.schema";
+import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
-export function useRedirectIfStructureExists() {
+import { useLocalStorage } from "./useLocalStorage";
+
+export function useRedirectStructureCreation() {
   const params = useParams();
   const pathname = usePathname();
   const router = useRouter();
   const dnaCode = params.dnaCode as string;
 
+  const { currentValue: localStorageIdentificationValues } = useLocalStorage<
+    Partial<AjoutIdentificationFormValues>
+  >(`ajout-structure-${dnaCode}-identification`, {});
+
+  const { currentValue: localStorageDocumentsValues } = useLocalStorage<
+    Partial<DocumentsFinanciersFlexibleFormValues>
+  >(`ajout-structure-${dnaCode}-documents`, {});
+
+  // Redirect if we did not go through the selection page
+  useEffect(() => {
+    if (
+      !localStorageDocumentsValues?.structureMillesimes ||
+      !localStorageIdentificationValues?.type
+    ) {
+      router.replace(`/ajout-structure`);
+    }
+  }, [
+    localStorageDocumentsValues,
+    localStorageIdentificationValues,
+    router,
+    dnaCode,
+  ]);
+
+  // Redirect if the structure already exists
   useEffect(() => {
     async function checkExistence() {
       if (!dnaCode) {

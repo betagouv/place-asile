@@ -8,12 +8,12 @@ WITH -- Last typology by structure
       st."pmr",
       st."lgbt",
       st."fvvTeh",
-      st."date"
+      st."year"
     FROM
       public."StructureTypologie" st
     ORDER BY
       st."structureDnaCode",
-      st."date" DESC
+      st."year" DESC
   ),
   -- Last typology by address
   adresse_typologie_dernier_millesime AS (
@@ -23,13 +23,13 @@ WITH -- Last typology by structure
       aty."placesAutorisees",
       aty."qpv",
       aty."logementSocial",
-      aty."date"
+      aty."year"
     FROM
       public."AdresseTypologie" aty
       JOIN public."Adresse" a ON a."id" = aty."adresseId"
     ORDER BY
       aty."adresseId",
-      aty."date" DESC
+      aty."year" DESC
   ),
   -- Last activite by structure
   activite_dernier_millesime AS (
@@ -51,7 +51,7 @@ WITH -- Last typology by structure
       SUM(adm."placesAutorisees") AS places_autorisees_adresse,
       SUM(adm."qpv") AS qpv_adresse,
       SUM(adm."logementSocial") AS logement_social_adresse,
-      MAX(adm."date") AS date_adresse
+      MAX(adm."year") AS year_adresse
     FROM
       adresse_typologie_dernier_millesime adm
     GROUP BY
@@ -133,9 +133,9 @@ SELECT
   aa."places_autorisees_adresse" AS "places_autorisees_adresse",
   aa."qpv_adresse" AS "qpv_adresse",
   aa."logement_social_adresse" AS "logement_social_adresse",
-  aa."date_adresse" AS "date_adresse",
+  aa."year_adresse" AS "year_adresse",
   aa."nb_adresses" AS "nb_adresses",
-  sdm."date" AS "date_structure",
+  sdm."year" AS "year_structure",
   pa.nb_places_activite AS "nb_places_activite",
   pa.diff_places_adresse AS "diff_places_adresse",
   pa.pct_diff_places_adresse AS "pct_diff_places_adresse",

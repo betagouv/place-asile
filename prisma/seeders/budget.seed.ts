@@ -4,6 +4,7 @@ import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { CURRENT_YEAR } from "@/constants";
 import { Budget } from "@/generated/prisma/client";
 import { StructureType } from "@/types/structure.type";
 
@@ -14,11 +15,9 @@ export const createFakeBudget = ({
 }: CreateFakeBudgetOptions): Omit<Budget, "id" | "structureDnaCode"> => {
   const isAutorisee = isStructureAutorisee(type);
   const isSubventionnee = isStructureSubventionnee(type);
-  const currentYear = new Date().getFullYear();
 
-  if (isSubventionnee && year >= currentYear - 1) {
+  if (isSubventionnee && year >= CURRENT_YEAR - 1) {
     return {
-      date: new Date(year, 0, 1, 13),
       year,
       ETP: faker.number.int({ min: 1, max: 30 }),
       tauxEncadrement: faker.number.float({
@@ -31,7 +30,6 @@ export const createFakeBudget = ({
   }
 
   return {
-    date: new Date(year, 0, 1, 13),
     year,
     ETP: faker.number.int({ min: 1, max: 30 }),
     tauxEncadrement: faker.number.float({ min: 1, max: 10, fractionDigits: 2 }),
@@ -39,19 +37,31 @@ export const createFakeBudget = ({
     dotationDemandee: faker.number.int({ min: 1, max: 10000 }),
     dotationAccordee: faker.number.int({ min: 1, max: 10000 }),
     totalProduits:
-      year <= currentYear - 2 ? faker.number.int({ min: 1, max: 10000 }) : null,
+      year <= CURRENT_YEAR - 2
+        ? faker.number.int({ min: 1, max: 10000 })
+        : null,
     totalCharges:
-      year <= currentYear - 2 ? faker.number.int({ min: 1, max: 10000 }) : null,
+      year <= CURRENT_YEAR - 2
+        ? faker.number.int({ min: 1, max: 10000 })
+        : null,
     totalChargesProposees:
-      year <= currentYear - 2 ? faker.number.int({ min: 1, max: 10000 }) : null,
+      year <= CURRENT_YEAR - 2
+        ? faker.number.int({ min: 1, max: 10000 })
+        : null,
     cumulResultatsNetsCPOM:
-      year <= currentYear - 2 ? faker.number.int({ min: 1, max: 10000 }) : null,
+      year <= CURRENT_YEAR - 2
+        ? faker.number.int({ min: 1, max: 10000 })
+        : null,
     repriseEtat:
-      year <= currentYear - 2 ? faker.number.int({ min: 1, max: 10000 }) : null,
+      year <= CURRENT_YEAR - 2
+        ? faker.number.int({ min: 1, max: 10000 })
+        : null,
     excedentRecupere: faker.number.int({ min: 1, max: 10000 }) ?? null,
     excedentDeduit: faker.number.int({ min: 1, max: 10000 }) ?? null,
     affectationReservesFondsDedies:
-      year <= currentYear - 2 ? faker.number.int({ min: 1, max: 10000 }) : null,
+      year <= CURRENT_YEAR - 2
+        ? faker.number.int({ min: 1, max: 10000 })
+        : null,
     reserveInvestissement: faker.number.int({ min: 1, max: 10000 }),
     chargesNonReconductibles: faker.number.int({ min: 1, max: 10000 }),
     reserveCompensationDeficits: faker.number.int({ min: 1, max: 10000 }),
@@ -67,7 +77,7 @@ export const createFakeBudget = ({
     structureMillesimeId: null,
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
-  };
+  } as Budget;
 };
 
 type CreateFakeBudgetOptions = {

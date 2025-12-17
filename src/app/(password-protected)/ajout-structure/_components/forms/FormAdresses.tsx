@@ -9,6 +9,7 @@ import FormWrapper from "@/app/components/forms/FormWrapper";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import SelectWithValidation from "@/app/components/forms/SelectWithValidation";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { CURRENT_YEAR } from "@/constants";
 import { ajoutAdressesSchema } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 import { Repartition } from "@/types/adresse.type";
 
@@ -43,7 +44,7 @@ export default function FormAdresses() {
           repartition: Repartition.DIFFUS,
           adresseTypologies: [
             {
-              date: new Date().toISOString(),
+              year: CURRENT_YEAR,
               placesAutorisees: undefined as unknown as number,
               logementSocial: false,
               qpv: false,
@@ -109,7 +110,7 @@ export default function FormAdresses() {
                   adresseTypologies: [
                     {
                       placesAutorisees: undefined as unknown as number,
-                      date: new Date().toISOString(),
+                      year: CURRENT_YEAR,
                       logementSocial: false,
                       qpv: false,
                     },

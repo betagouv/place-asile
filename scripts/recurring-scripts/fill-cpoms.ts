@@ -8,7 +8,7 @@ import { createPrismaClient } from "@/prisma-client";
 
 import { loadCsvFromS3 } from "../utils/csv-loader";
 import { ensureOperateursExist } from "../utils/ensure-operateurs-exist";
-import { parseDate,parseYear } from "../utils/parse-date";
+import { parseDate, parseYear } from "../utils/parse-date";
 
 const prisma = createPrismaClient();
 const bucketName = process.env.DOCS_BUCKET_NAME!;

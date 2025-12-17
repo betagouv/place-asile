@@ -7,7 +7,7 @@ import { useForm, useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
-import { getYearRange } from "@/app/utils/date.util";
+import { getYearFromDate, getYearRange } from "@/app/utils/date.util";
 
 const modal = createModal({
   id: "commentaire-modal",
@@ -21,9 +21,10 @@ export const StructureSubventionneeSansCpom = () => {
   const { control, formState, register, setValue, watch } =
     parentFormContext || localForm;
   const errors = formState.errors;
+
   const { years } = getYearRange();
-  const sliceYears = 3;
-  const yearsToDisplay = years.slice(-sliceYears);
+  const sliceYears = 2;
+  const yearsToDisplay = years.slice(sliceYears);
 
   const hasErrors =
     Array.isArray(errors.budgets) &&
@@ -39,8 +40,8 @@ export const StructureSubventionneeSansCpom = () => {
         budgetItemErrors?.fondsDedies ||
         budgetItemErrors?.commentaire
     );
-  const budgets = watch("budgets");
 
+  const budgets = watch("budgets");
   // TODO : Mettre la logique de modal dans un autre composant
   const [currentCommentIndex, setCurrentCommentIndex] = useState(0);
   const [currentCommentDate, setCurrentCommentDate] = useState<Date>(
@@ -149,8 +150,8 @@ export const StructureSubventionneeSansCpom = () => {
         ]}
         enableBorders
       >
-        {yearsToDisplay.map((year, index) => {
-          const fieldIndex = years.length - sliceYears + index;
+        {yearsToDisplay.map((year) => {
+          const fieldIndex = years.indexOf(year);
           return (
             <tr key={year}>
               <td className="!border-r-1">
@@ -161,8 +162,8 @@ export const StructureSubventionneeSansCpom = () => {
                 />
                 <input
                   type="hidden"
-                  value={`${year}-01-01T13:00:00.000Z`}
-                  {...register(`budgets.${fieldIndex}.date`)}
+                  value={year}
+                  {...register(`budgets.${fieldIndex}.year`)}
                 />
               </td>
               <td>
@@ -334,7 +335,7 @@ export const StructureSubventionneeSansCpom = () => {
         ]}
       >
         <p className="font-bold text-xl">
-          Détail — Année {new Date(currentCommentDate).getFullYear()}
+          Détail — Année {getYearFromDate(currentCommentDate)}
         </p>
 
         <Input

@@ -4,6 +4,7 @@ import { ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { getYearRange } from "@/app/utils/date.util";
 import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
 
 export const ValidationButtonWithHook = (): ReactElement => {
@@ -44,25 +45,24 @@ export const ValidationButtonWithHook = (): ReactElement => {
       nom: structure?.nom,
     });
 
-    const years = [2021, 2022, 2023, 2024, 2025];
+    const { years } = getYearRange();
     const filteredStructureMillesimes = structure?.structureMillesimes?.filter(
-      (millesime: StructureMillesimeApiType) =>
-        years.includes(parseInt(millesime.date.substring(0, 4)))
+      (millesime: StructureMillesimeApiType) => years.includes(millesime.year)
     );
 
-    const structureMillesimes = years.map((year: number) => ({
-      date: new Date(year, 0, 1, 13).toISOString(),
-      cpom:
-        filteredStructureMillesimes?.find(
-          (millesime: StructureMillesimeApiType) =>
-            millesime.date.substring(0, 4) === year.toString()
-        )?.cpom ?? false,
-      operateurComment:
-        filteredStructureMillesimes?.find(
-          (millesime: StructureMillesimeApiType) =>
-            millesime.date.substring(0, 4) === year.toString()
-        )?.operateurComment ?? undefined,
-    }));
+    const structureMillesimes: StructureMillesimeApiType[] = years.map(
+      (year: number) => ({
+        year: year,
+        cpom:
+          filteredStructureMillesimes?.find(
+            (millesime: StructureMillesimeApiType) => millesime.year === year
+          )?.cpom ?? false,
+        operateurComment:
+          filteredStructureMillesimes?.find(
+            (millesime: StructureMillesimeApiType) => millesime.year === year
+          )?.operateurComment ?? undefined,
+      })
+    );
 
     updateDocuments({
       ...localDocumentsValue,
