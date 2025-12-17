@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -16,9 +16,13 @@ const psqlUrl = getDbUrl(databaseUrl);
 const schema = process.env.REPORTING_SCHEMA || "reporting";
 
 runPsqlOrExit(
-  `psql "${psqlUrl}" -v ON_ERROR_STOP=1 ` +
-    `-c "DROP SCHEMA IF EXISTS \"${schema}\" CASCADE;" ` +
-    `-c "CREATE SCHEMA \"${schema}\";"`,
+  "psql",
+  [
+    psqlUrl,
+    "-v", "ON_ERROR_STOP=1",
+    "-c", `DROP SCHEMA IF EXISTS "${schema}" CASCADE;`,
+    "-c", `CREATE SCHEMA "${schema}";`
+  ],
   `✅ Schema "${schema}" recreated`,
   `❌ Failed to recreate schema "${schema}"`
 );
@@ -26,7 +30,13 @@ runPsqlOrExit(
 for (const file of viewFiles) {
   console.log(`➡️ Applying ${file}`);
   runPsqlOrExit(
-    `psql "${psqlUrl}" -v ON_ERROR_STOP=1 -v SCHEMA="${schema}" -f ${scriptsPath}/${file}`,
+    "psql",
+    [
+      psqlUrl,
+      "-v", "ON_ERROR_STOP=1",
+      "-v", `SCHEMA=${schema}`,
+      "-f", path.join(scriptsPath, file)
+    ],
     `✅ Applied ${file}`,
     `❌ Failed to apply ${file}`
   );
@@ -48,11 +58,12 @@ function getDbUrl(rawDatabaseUrl: string): string {
 
 function runPsqlOrExit(
   command: string,
+  args: string[],
   successMsg?: string,
   failureMsg?: string
 ): void {
   try {
-    execSync(command, { stdio: "inherit" });
+    execFileSync(command, args, { stdio: "inherit" });
     if (successMsg) console.log(successMsg);
   } catch (error: unknown) {
     if (failureMsg) console.error(failureMsg);
