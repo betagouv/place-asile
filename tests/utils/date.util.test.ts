@@ -318,7 +318,7 @@ describe("date util", () => {
         const result = getYearFromDate(date);
 
         // THEN
-        expect(result).toBeNaN();
+        expect(result).toBe(-1);
       });
 
       it("should return NaN for empty string", () => {
@@ -329,7 +329,7 @@ describe("date util", () => {
         const result = getYearFromDate(date);
 
         // THEN
-        expect(result).toBeNaN();
+        expect(result).toBe(-1);
       });
     });
 

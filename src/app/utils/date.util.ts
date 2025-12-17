@@ -68,7 +68,7 @@ export const getYearFromDate = (
   date: string | number | Date | undefined | null
 ): number => {
   if (!date) {
-    return NaN;
+    return -1;
   }
   if (typeof date === "string") {
     const match = date.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
@@ -79,7 +79,7 @@ export const getYearFromDate = (
     if (!isNaN(parsed.getTime())) {
       return parsed.getFullYear();
     }
-    return NaN;
+    return -1;
   }
   if (date instanceof Date) {
     return date.getFullYear();
@@ -87,7 +87,7 @@ export const getYearFromDate = (
   if (typeof date === "number") {
     return date;
   }
-  return NaN;
+  return -1;
 };
 export const parseFrDate = (value: unknown): Date | unknown => {
   if (typeof value === "string") {
