@@ -6,8 +6,6 @@
   - Made the column `yearEnd` on table `Cpom` required. This step will fail if there are existing NULL values in that column.
   - Made the column `yearStart` on table `Cpom` required. This step will fail if there are existing NULL values in that column.
   - Made the column `year` on table `CpomMillesime` required. This step will fail if there are existing NULL values in that column.
-  - Made the column `yearEnd` on table `CpomStructure` required. This step will fail if there are existing NULL values in that column.
-  - Made the column `yearStart` on table `CpomStructure` required. This step will fail if there are existing NULL values in that column.
   - Made the column `year` on table `StructureMillesime` required. This step will fail if there are existing NULL values in that column.
   - Made the column `year` on table `StructureTypologie` required. This step will fail if there are existing NULL values in that column.
 
@@ -34,12 +32,6 @@ ALTER COLUMN "yearStart" SET DEFAULT 0;
 ALTER TABLE "CpomMillesime" ALTER COLUMN "date" DROP NOT NULL,
 ALTER COLUMN "year" SET NOT NULL,
 ALTER COLUMN "year" SET DEFAULT 0;
-
--- AlterTable
-ALTER TABLE "CpomStructure" ALTER COLUMN "yearEnd" SET NOT NULL,
-ALTER COLUMN "yearEnd" SET DEFAULT 0,
-ALTER COLUMN "yearStart" SET NOT NULL,
-ALTER COLUMN "yearStart" SET DEFAULT 0;
 
 -- AlterTable
 ALTER TABLE "StructureMillesime" ALTER COLUMN "date" DROP NOT NULL,
