@@ -41,7 +41,6 @@ export const DocumentsFinanciers = (): ReactElement => {
     .map((year, index) =>
       documents
         .filter((document) => {
-          console.log(document.required, document.yearIndex, index);
           if (!document.required || document.yearIndex > index) {
             return false;
           }
