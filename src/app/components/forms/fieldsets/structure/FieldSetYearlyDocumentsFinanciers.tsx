@@ -76,7 +76,7 @@ export const FieldSetYearlyDocumentsFinanciers = ({
   }, [documentsFinanciers, year, deleteFile, remove]);
 
   useEffect(() => {
-    if (!isInCpom && documentsFinanciers.length > 0) {
+    if (!isInCpom && documentsFinanciers?.length > 0) {
       removeCpomDocuments();
     }
   }, [documentsFinanciers, isInCpom, removeCpomDocuments]);

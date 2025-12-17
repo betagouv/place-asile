@@ -8,7 +8,7 @@ import { createPrismaClient } from "@/prisma-client";
 
 import { loadCsvFromS3 } from "../utils/csv-loader";
 import { ensureOperateursExist } from "../utils/ensure-operateurs-exist";
-import { parseDate } from "../utils/parse-date";
+import { parseDate,parseYear } from "../utils/parse-date";
 
 const prisma = createPrismaClient();
 const bucketName = process.env.DOCS_BUCKET_NAME!;
@@ -70,7 +70,7 @@ const loadCpomsFromCsv = async () => {
     // Group CPOMs by name + dates + operator
     const cpomMap = new Map<
       string,
-      { name: string; debut: Date; fin: Date; operateurId: number }
+      { name: string; yearStart: number; yearEnd: number; operateurId: number }
     >();
     const cpomCache = new Map<string, number>();
 
@@ -87,12 +87,12 @@ const loadCpomsFromCsv = async () => {
       }
 
       const operateurId = operateurMap.get(row.operateur)!;
-      const debut = parseDate(row.date_debut.trim(), `date_debut`);
-      const fin = parseDate(row.date_fin.trim(), `date_fin`);
-      const key = `${row.cpom} - ${debut.toISOString()} - ${fin.toISOString()} - ${operateurId}`;
+      const yearStart = parseYear(row.date_debut.trim(), `date_debut`);
+      const yearEnd = parseYear(row.date_fin.trim(), `date_fin`);
+      const key = `${row.cpom} - ${yearStart} - ${yearEnd} - ${operateurId}`;
 
       if (!cpomMap.has(key)) {
-        cpomMap.set(key, { name: row.cpom, debut, fin, operateurId });
+        cpomMap.set(key, { name: row.cpom, yearStart, yearEnd, operateurId });
       }
     }
 
@@ -102,8 +102,8 @@ const loadCpomsFromCsv = async () => {
       let cpom = await prisma.cpom.findFirst({
         where: {
           name: cpomData.name,
-          debutCpom: cpomData.debut,
-          finCpom: cpomData.fin,
+          yearStart: cpomData.yearStart,
+          yearEnd: cpomData.yearEnd,
           operateurId: cpomData.operateurId,
         },
         select: { id: true },
@@ -113,8 +113,10 @@ const loadCpomsFromCsv = async () => {
         cpom = await prisma.cpom.create({
           data: {
             name: cpomData.name,
-            debutCpom: cpomData.debut,
-            finCpom: cpomData.fin,
+            debutCpom: parseDate(cpomData.yearStart.toString(), `yearStart`),
+            finCpom: parseDate(cpomData.yearEnd.toString(), `yearEnd`),
+            yearStart: cpomData.yearStart,
+            yearEnd: cpomData.yearEnd,
             operateurId: cpomData.operateurId,
           },
           select: { id: true },
@@ -152,9 +154,9 @@ const loadCpomsFromCsv = async () => {
       }
 
       const operateurId = operateurMap.get(row.operateur)!;
-      const debut = parseDate(row.date_debut.trim(), `date_debut`);
-      const fin = parseDate(row.date_fin.trim(), `date_fin`);
-      const cpomKey = `${row.cpom} - ${debut.toISOString()} - ${fin.toISOString()} - ${operateurId}`;
+      const yearStart = parseYear(row.date_debut.trim(), `date_debut`);
+      const yearEnd = parseYear(row.date_fin.trim(), `date_fin`);
+      const cpomKey = `${row.cpom} - ${yearStart} - ${yearEnd} - ${operateurId}`;
       const cpomId = cpomCache.get(cpomKey);
 
       if (!cpomId) {
@@ -164,11 +166,11 @@ const loadCpomsFromCsv = async () => {
         continue;
       }
 
-      const dateDebut = row.date_entree_structure?.trim()
-        ? parseDate(row.date_entree_structure.trim(), `date_entree_structure`)
+      const yearStartStructure = row.date_entree_structure?.trim()
+        ? parseYear(row.date_entree_structure.trim(), `date_entree_structure`)
         : null;
-      const dateFin = row.date_sortie_structure?.trim()
-        ? parseDate(row.date_sortie_structure.trim(), `date_sortie_structure`)
+      const yearEndStructure = row.date_sortie_structure?.trim()
+        ? parseYear(row.date_sortie_structure.trim(), `date_sortie_structure`)
         : null;
 
       const cpomStructure = await prisma.cpomStructure.upsert({
@@ -179,14 +181,14 @@ const loadCpomsFromCsv = async () => {
           },
         },
         update: {
-          dateDebut,
-          dateFin,
+          yearStart,
+          yearEnd,
         },
         create: {
           cpomId,
           structureId,
-          dateDebut,
-          dateFin,
+          yearStart,
+          yearEnd,
         },
       });
 
@@ -203,10 +205,13 @@ const loadCpomsFromCsv = async () => {
       );
 
       for (const millesimeYear of millesimeYears) {
+      for (const millesimeYear of millesimeYears) {
         await prisma.structureMillesime.upsert({
           where: {
             structureDnaCode_year: {
+            structureDnaCode_year: {
               structureDnaCode: row.code_dna,
+              year: millesimeYear,
               year: millesimeYear,
             },
           },

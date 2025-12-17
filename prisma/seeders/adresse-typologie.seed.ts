@@ -10,6 +10,7 @@ export const createFakeAdresseTypologie = ({
   "id" | "adresseId"
 > => {
   return {
+    date: new Date(year, 0, 1, 13),
     year,
     placesAutorisees,
     qpv: faker.number.int({ min: 0, max: placesAutorisees / 5 }),

@@ -13,7 +13,7 @@ const buildStructureMillesimeDates = (start: Date, end: Date): number[] => {
     dates.push(year);
   }
 
-  return dates;
+  return years;
 };
 
 export const createFakeCpoms = async (
@@ -92,7 +92,7 @@ export const createFakeCpoms = async (
     const debutCpom = getDateFromYear(anneeDebut);
     const finCpom = getDateFromYear(anneeDebut + dureeAnnees);
 
-    const cpomName = `CPOM ${operateurIdStr} ${region} ${anneeDebut}-${anneeDebut + dureeAnnees}`;
+    const cpomName = `CPOM ${operateurIdStr} ${region} ${yearStart}-${yearEnd}`;
 
     // Select between 60% and 100% of structures for this CPOM
     const nbStructures = Math.max(
@@ -110,7 +110,9 @@ export const createFakeCpoms = async (
         name: cpomName,
         operateurId: Number(operateurIdStr),
         debutCpom,
+        yearStart,
         finCpom,
+        yearEnd,
         structures: {
           create: selectedStructures.map((structureId) => {
             // 10% chance that a structure joins or leaves the CPOM in the middle
@@ -141,7 +143,7 @@ export const createFakeCpoms = async (
                 CURRENT_YEAR - 1
               );
               const leaveMin = Math.min(
-                Math.max(anneeDebut + 1, anneeDebut),
+                Math.max(yearStart + 1, yearStart),
                 leaveMax
               );
               if (leaveMin <= leaveMax) {
@@ -171,8 +173,8 @@ export const createFakeCpoms = async (
       where: { cpomId: cpom.id },
       select: {
         structureId: true,
-        dateDebut: true,
-        dateFin: true,
+        yearStart: true,
+        yearEnd: true,
       },
     });
 
@@ -193,9 +195,10 @@ export const createFakeCpoms = async (
         cpomStructure.dateFin ?? finCpom
       );
 
-      for (const millesimeDate of millesimeDates) {
+      for (const millesimeYear of millesimeYears) {
         await prisma.structureMillesime.upsert({
           where: {
+            structureDnaCode_year: {
             structureDnaCode_year: {
               structureDnaCode,
               year: millesimeDate,
@@ -214,8 +217,8 @@ export const createFakeCpoms = async (
     }
 
     // Create CPOM millesimes for each year of the CPOM
-    const annees = [...Array(dureeAnnees)].map(
-      (_, index) => anneeDebut + index
+    const millesimeYears = [...Array(dureeAnnees)].map(
+      (_, index) => yearStart + index
     );
 
     for (const annee of annees) {

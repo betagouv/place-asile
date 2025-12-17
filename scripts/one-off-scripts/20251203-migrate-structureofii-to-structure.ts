@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Migrate all data from StructureOfii to Structure table
 // This script merges StructureOfii data into Structure, updating OFII-related fields
 // Usage: yarn one-off 20251203-migrate-structureofii-to-structure

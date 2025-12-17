@@ -34,6 +34,14 @@ SELECT
     WHEN ff."formId" IS NOT NULL THEN 'Finalisé opérateur' -- Finalisé opérateur : form existe
     ELSE 'Non commencé' -- Non commencé : pas de form
   END AS "finalisation_status",
+  CASE
+    WHEN ff."formId" IS NOT NULL
+    AND ff."formStatus" = TRUE THEN 'Finalisé' -- Finalisé : form existe et status = true
+    WHEN ff."formId" IS NOT NULL
+    AND ff."hasValidatedStep" = TRUE THEN 'En cours' -- En cours : form existe et au moins un step est VALIDE
+    WHEN ff."formId" IS NOT NULL THEN 'En cours' -- Non finalisé : form existe mais aucun step VALIDE
+    ELSE 'Non commencé' -- Non commencé : pas de form
+  END AS "finalisation_simplifiee",
   s."operateur" AS "operateur",
   s."type" AS "type",
   s."public" AS "public",

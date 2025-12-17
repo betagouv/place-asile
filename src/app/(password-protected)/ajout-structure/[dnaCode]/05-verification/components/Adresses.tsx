@@ -2,6 +2,7 @@ import { useParams } from "next/navigation";
 
 import { Badge } from "@/app/components/common/Badge";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import { formatCityName } from "@/app/utils/adresse.util";
 import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 
 export const Adresses = () => {
@@ -25,7 +26,7 @@ export const Adresses = () => {
           <b>Adresse principale de la structure</b>{" "}
           {localStorageValues?.adresseAdministrative}{" "}
           {localStorageValues?.codePostalAdministratif}{" "}
-          {localStorageValues?.communeAdministrative}
+          {formatCityName(localStorageValues?.communeAdministrative ?? "")}
         </p>
       </div>
       <div className="grid border-b border-default-grey pb-2 mb-3">
