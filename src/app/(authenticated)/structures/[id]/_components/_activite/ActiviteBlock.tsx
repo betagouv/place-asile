@@ -11,8 +11,7 @@ import { ActivitePlaces } from "./ActivitePlaces";
 
 export const ActiviteBlock = (): ReactElement => {
   const { structure } = useStructureContext();
-
-  const { activites, debutConvention, finConvention } = structure;
+  const { activites } = structure;
 
   return (
     <Block title="Activité" iconClass="fr-icon-team-line">
@@ -31,29 +30,12 @@ export const ActiviteBlock = (): ReactElement => {
         </div>
       </div>
       <div className="pb-6">
-        <ActivitePlaces
-          placesAutorisees={activites?.[0]?.placesAutorisees || 0}
-          placesIndisponibles={activites?.[0]?.placesIndisponibles || 0}
-          placesVacantes={activites?.[0]?.placesVacantes || 0}
-          presencesInduesBPI={activites?.[0]?.presencesInduesBPI || 0}
-          presencesInduesDeboutees={
-            activites?.[0]?.presencesInduesDeboutees || 0
-          }
-        />
+        <ActivitePlaces />
       </div>
       <div className="pb-12">
-        <ActiviteMotifsIndisponibilite
-          desinsectisation={activites?.[0]?.desinsectisation || 0}
-          remiseEnEtat={activites?.[0]?.remiseEnEtat || 0}
-          sousOccupation={activites?.[0]?.sousOccupation || 0}
-          travaux={activites?.[0]?.travaux || 0}
-        />
+        <ActiviteMotifsIndisponibilite />
       </div>
-      <ActiviteHistorique
-        activites={activites || []}
-        debutConvention={debutConvention}
-        finConvention={finConvention}
-      />
+      <ActiviteHistorique />
       <div className="italic pt-6">
         La méthode de calcul ayant changé au 01/01/2025, l’outil donne accès aux
         données seulement à partir de cette date.

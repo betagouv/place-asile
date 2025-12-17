@@ -12,6 +12,7 @@ import {
 } from "@/app/utils/date.util";
 import { ActiviteApiType } from "@/schemas/api/activite.schema";
 
+import { useStructureContext } from "../../_context/StructureClientContext";
 import { ActiviteDurations } from "./ActiviteDurations";
 import { ActiviteTypes } from "./ActiviteTypes";
 
@@ -26,11 +27,10 @@ const typesActivite: Partial<
   placesAutorisees: { label: "Places totales", seuil: null },
 };
 
-export const ActiviteHistorique = ({
-  activites,
-  debutConvention,
-  finConvention,
-}: Props): ReactElement => {
+export const ActiviteHistorique = (): ReactElement => {
+  const { structure } = useStructureContext();
+  const { activites = [], debutConvention, finConvention } = structure;
+
   const [selectedMonths, setSelectedMonths] = useState<dayjs.Dayjs[]>(
     getMonthsBetween(debutConvention, finConvention)
   );
@@ -119,10 +119,4 @@ export const ActiviteHistorique = ({
       </div>
     </div>
   );
-};
-
-type Props = {
-  activites: ActiviteApiType[];
-  debutConvention?: string | null;
-  finConvention?: string | null;
 };

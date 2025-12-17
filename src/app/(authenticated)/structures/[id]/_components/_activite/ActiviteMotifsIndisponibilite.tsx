@@ -4,18 +4,18 @@ import { ReactElement } from "react";
 
 import styles from "@/app/components/common/Accordion.module.css";
 
-export const ActiviteMotifsIndisponibilite = ({
-  desinsectisation,
-  remiseEnEtat,
-  sousOccupation,
-  travaux,
-}: Props): ReactElement => {
+import { useStructureContext } from "../../_context/StructureClientContext";
+
+export const ActiviteMotifsIndisponibilite = (): ReactElement => {
+  const { structure } = useStructureContext();
+  const activite = structure.activites?.[0];
+
   const getTableData = () => {
     return [
-      ["Désinsectisation", desinsectisation],
-      ["Remise en état de l'unité", remiseEnEtat],
-      ["Sous-occupation", sousOccupation],
-      ["Travaux", travaux],
+      ["Désinsectisation", activite?.desinsectisation],
+      ["Remise en état de l'unité", activite?.remiseEnEtat],
+      ["Sous-occupation", activite?.sousOccupation],
+      ["Travaux", activite?.travaux],
     ];
   };
   return (
@@ -32,11 +32,4 @@ export const ActiviteMotifsIndisponibilite = ({
       />
     </Accordion>
   );
-};
-
-type Props = {
-  desinsectisation: number;
-  remiseEnEtat: number;
-  sousOccupation: number;
-  travaux: number;
 };

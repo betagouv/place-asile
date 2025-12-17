@@ -5,18 +5,23 @@ import { ReactElement } from "react";
 import PieChart from "@/app/components/common/PieChart";
 import { getPercentage } from "@/app/utils/common.util";
 
-export const ActivitePlaces = ({
-  placesAutorisees,
-  placesIndisponibles,
-  placesVacantes,
-  presencesInduesBPI,
-  presencesInduesDeboutees,
-}: Props): ReactElement => {
-  const pieChartOptions = {
-    showLabel: false,
-    donut: true,
-    donutWidth: 30,
-  };
+import { useStructureContext } from "../../_context/StructureClientContext";
+
+const pieChartOptions = {
+  showLabel: false,
+  donut: true,
+  donutWidth: 30,
+};
+
+export const ActivitePlaces = (): ReactElement => {
+  const { structure } = useStructureContext();
+  const activite = structure.activites?.[0];
+  const placesAutorisees = activite?.placesAutorisees || 0;
+  const placesIndisponibles = activite?.placesIndisponibles || 0;
+  const placesVacantes = activite?.placesVacantes || 0;
+  const presencesInduesBPI = activite?.presencesInduesBPI || 0;
+  const presencesInduesDeboutees = activite?.presencesInduesDeboutees || 0;
+
   const placesDisponibles = placesAutorisees - placesIndisponibles;
   const placesOccupees = placesDisponibles - placesVacantes;
   return (
@@ -123,12 +128,4 @@ export const ActivitePlaces = ({
       </div>
     </div>
   );
-};
-
-type Props = {
-  placesAutorisees: number;
-  placesIndisponibles: number;
-  placesVacantes: number;
-  presencesInduesBPI: number;
-  presencesInduesDeboutees: number;
 };
