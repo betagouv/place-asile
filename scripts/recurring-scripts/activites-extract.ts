@@ -1,4 +1,3 @@
-// @ts-nocheck
 import "dotenv/config";
 
 import xlsx from "node-xlsx";
@@ -49,6 +48,9 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
       : 0,
     placesIndisponibles: metadata.placesIndisponiblesIndex
       ? Number(line[metadata.placesIndisponiblesIndex]) || 0
+      : 0,
+    placesOccupees: metadata.placesOccupeesIndex
+      ? Number(line[metadata.placesOccupeesIndex]) || 0
       : 0,
     placesVacantes: getPlacesVacantes(metadata, line) || 0,
     presencesInduesBPI: metadata.presencesInduesBPIIndex
