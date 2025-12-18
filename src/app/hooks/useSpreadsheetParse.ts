@@ -76,6 +76,13 @@ const getSchema = (isMixte: boolean): Schema => ({
     column: "Places autorisées",
     type: Number,
     required: true,
+    validate: (value) => {
+      if (value < 1) {
+        throw new Error(
+          "Le nombre de places autorisées doit être au moins de 1"
+        );
+      }
+    },
   },
   logementSocial: {
     column: "Logement social",
