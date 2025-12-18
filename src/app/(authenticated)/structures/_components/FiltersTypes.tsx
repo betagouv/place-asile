@@ -9,81 +9,68 @@ export const FiltersTypes = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [type, setType] = useState(searchParams.get("type")?.split(",") || []);
+  const [types, setTypes] = useState(
+    searchParams.get("type")?.split(",") || []
+  );
 
-  const noTypeSelected = type.length === 0;
+  const noFilterOnType = !searchParams.has("type");
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (noTypeSelected) {
-      const everyTypes: StructureType[] = [
+    if (noFilterOnType) {
+      const allTypes: StructureType[] = [
         StructureType.CADA,
         StructureType.CPH,
         StructureType.HUDA,
         StructureType.CAES,
         StructureType.PRAHDA,
       ];
-      setType(everyTypes.filter((structureType) => structureType !== value));
+      setTypes(allTypes.filter((structureType) => structureType !== value));
       return;
     }
-    if (type.includes(value)) {
-      setType(type.filter((structureType) => structureType !== value));
+    if (types.includes(value)) {
+      setTypes(types.filter((structureType) => structureType !== value));
     } else {
-      if (type.length >= 4) {
-        setType([]);
+      if (types.length >= 4) {
+        setTypes([]);
       } else {
-        setType([...type, value]);
+        setTypes([...types, value]);
       }
     }
   };
 
-  const prevType = useRef(type);
+  const previousType = useRef(types);
   useEffect(() => {
-    if (prevType.current !== type) {
+    if (previousType.current !== types) {
       const params = new URLSearchParams(Array.from(searchParams.entries()));
-      params.set("type", type.join(","));
+      if (types.length === 0) {
+        params.set("type", "none");
+      } else {
+        params.set("type", types.join(","));
+      }
       router.replace(`?${params.toString()}`);
-      prevType.current = type;
+      previousType.current = types;
     }
-  }, [type, searchParams, router]);
+  }, [types, searchParams, router]);
 
   return (
-    <div className="p-4">
+    <div className="p-6">
       <fieldset>
         <legend className="text-title-blue-france text-sm font-medium mb-4">
           Type de structure
         </legend>
         <div className="grid grid-cols-3 gap-x-3 gap-y-2">
-          <FiltersTypesCheckbox
-            label="CADA"
-            value={StructureType.CADA}
-            checked={type.includes(StructureType.CADA) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
-          <FiltersTypesCheckbox
-            label="CPH"
-            value={StructureType.CPH}
-            checked={type.includes(StructureType.CPH) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
-          <FiltersTypesCheckbox
-            label="HUDA"
-            value={StructureType.HUDA}
-            checked={type.includes(StructureType.HUDA) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
-          <FiltersTypesCheckbox
-            label="CAES"
-            value={StructureType.CAES}
-            checked={type.includes(StructureType.CAES) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
-          <FiltersTypesCheckbox
-            label="PRAHDA"
-            value={StructureType.PRAHDA}
-            checked={type.includes(StructureType.PRAHDA) || noTypeSelected}
-            onChange={handleTypeChange}
-          />
+          {(["CADA", "CAES", "CPH", "HUDA", "PRAHDA"] as StructureType[]).map(
+            (structureType) => (
+              <FiltersTypesCheckbox
+                key={structureType}
+                label={structureType}
+                value={structureType}
+                checked={types.includes(structureType) || noFilterOnType}
+                onChange={handleTypeChange}
+              />
+            )
+          )}
         </div>
       </fieldset>
     </div>

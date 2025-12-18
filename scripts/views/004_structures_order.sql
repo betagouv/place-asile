@@ -5,12 +5,12 @@ WITH
     SELECT DISTINCT
       ON (st."structureDnaCode") st."structureDnaCode",
       st."placesAutorisees",
-      st."date"
+      st."year"
     FROM
       public."StructureTypologie" st
     ORDER BY
       st."structureDnaCode",
-      st."date" DESC
+      st."year" DESC
   ),
   structure_repartition AS (
     SELECT
@@ -30,13 +30,26 @@ WITH
 SELECT
   s.id,
   s."dnaCode",
-  s."type"::text,
-  o."name" AS "operateur",
+  s."finessCode",
+  s."nom",
+  s."adresseAdministrative",
+  s."codePostalAdministratif",
+  s."communeAdministrative",
   s."departementAdministratif",
   d."region",
+  s."type"::text,
+  o."name" AS "operateur",
   sr."bati",
   st."placesAutorisees",
-  s."finConvention"
+  s."finConvention",
+  EXISTS (
+    SELECT
+      1
+    FROM
+      public."Form" f
+    WHERE
+      f."structureCodeDna" = s."dnaCode"
+  ) AS "hasForms"
 FROM
   public."Structure" s
   LEFT JOIN public."Operateur" o ON o.id = s."operateurId"

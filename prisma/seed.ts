@@ -1,8 +1,11 @@
+import "dotenv/config";
+
 import { fakerFR as faker } from "@faker-js/faker";
-import { PrismaClient } from "@prisma/client";
 
 import { StructureType } from "@/types/structure.type";
 
+import { createPrismaClient } from "./client";
+import { createFakeCpoms } from "./seeders/cpom.seed";
 import { createDepartements } from "./seeders/departements-seed";
 import {
   createFakeFormDefinition,
@@ -11,11 +14,13 @@ import {
 import { createFakeOperateur } from "./seeders/operateur.seed";
 import { seedParentChildFileUploads } from "./seeders/parent-child-file-upload.seed";
 import { convertToPrismaObject } from "./seeders/seed-util";
-import { createFakeStuctureWithRelations } from "./seeders/structure.seed";
-import { createFakeStructureOfii } from "./seeders/structure-ofii.seed";
+import {
+  createFakeStructure,
+  createFakeStuctureWithRelations,
+} from "./seeders/structure.seed";
 import { wipeTables } from "./utils/wipe";
 
-const prisma = new PrismaClient();
+const prisma = createPrismaClient();
 
 export async function seed(): Promise<void> {
   console.log("🗑️ Suppression des données existantes...");
@@ -50,67 +55,89 @@ export async function seed(): Promise<void> {
     createFakeOperateur(index)
   );
 
+  let counter = 1;
+
   for (const operateurToInsert of operateursToInsert) {
-    const structuresToInsert = Array.from({ length: 5 }, () => {
-      const fakeStructure = createFakeStuctureWithRelations({
-        cpom: faker.datatype.boolean(),
-        type: faker.helpers.arrayElement([
-          StructureType.CADA,
-          StructureType.HUDA,
-          StructureType.CAES,
-          StructureType.CPH,
-        ]),
-        isFinalised: faker.datatype.boolean(),
-        formDefinitionId: formDefinition.id,
-        stepDefinitions,
-      });
-      console.log(`🏠 Ajout de la structure ${fakeStructure.dnaCode}...`);
-      return fakeStructure;
-    });
+    const baseParams = {
+      formDefinitionId: formDefinition.id,
+      stepDefinitions,
+      operateurName: operateurToInsert.name,
+    };
+    const structuresToInsert = Array.from(
+      { length: faker.number.int({ min: 50, max: 100 }) },
+      () => {
+        const departementAdministratif = String(
+          faker.number.int({ min: 1, max: 95 })
+        ).padStart(2, "0");
+        const fakeStructure = createFakeStuctureWithRelations({
+          ...baseParams,
+          departementAdministratif,
+          ofii: false,
+          type: faker.helpers.arrayElement([
+            StructureType.CADA,
+            StructureType.HUDA,
+            StructureType.CAES,
+            StructureType.CPH,
+          ]),
+          cpom: faker.datatype.boolean(),
+          isFinalised: faker.datatype.boolean(),
+          counter: counter++,
+        });
+        return fakeStructure;
+      }
+    );
+
+    const structuresOfiiToInsert = Array.from(
+      { length: faker.number.int({ min: 500, max: 600 }) },
+      () => {
+        const departementAdministratif = String(
+          faker.number.int({ min: 1, max: 95 })
+        ).padStart(2, "0");
+        const fakeStructure = createFakeStructure({
+          ...baseParams,
+          departementAdministratif,
+          ofii: true,
+          type: faker.helpers.arrayElement([
+            StructureType.CADA,
+            StructureType.HUDA,
+            StructureType.CAES,
+            StructureType.CPH,
+          ]),
+          cpom: faker.datatype.boolean(),
+          isFinalised: faker.datatype.boolean(),
+          counter: counter++,
+        });
+        return fakeStructure;
+      }
+    );
 
     const operateurWithStructures = {
       ...operateurToInsert,
-      structures: structuresToInsert,
+      structures: [...structuresToInsert, ...structuresOfiiToInsert],
     };
+
+    console.log(
+      `🏠 Ajout de ${structuresToInsert.length} structures et ${structuresOfiiToInsert.length} structures OFII pour ${operateurToInsert.name}`
+    );
+
     await prisma.operateur.create({
       data: convertToPrismaObject(operateurWithStructures),
     });
   }
 
-  const operateurs = await prisma.operateur.findMany();
-  const departements = await prisma.departement.findMany();
-  for (const operateur of operateurs) {
-    const structuresOfiiToInsert = Array.from({ length: 500 }, () => {
-      const fakeStructureOfii = createFakeStructureOfii({
-        type: faker.helpers.arrayElement([
-          StructureType.CADA,
-          StructureType.HUDA,
-          StructureType.CAES,
-          StructureType.CPH,
-        ]),
-        operateurId: operateur.id,
-        departementNumero: faker.helpers.arrayElement(departements).numero,
-      });
-      console.log(
-        `🏠 Ajout de la structure ofii ${fakeStructureOfii.dnaCode}...`
-      );
-      return fakeStructureOfii;
-    });
-
-    await prisma.structureOfii.createMany({
-      data: structuresOfiiToInsert,
-    });
-  }
-
-  console.log("📄 Création des relations parent-enfant pour les fichiers...");
-  const structures = await prisma.structure.findMany({ take: 15 });
+  const structures = await prisma.structure.findMany({
+    take: faker.number.int({ min: 30, max: 50 }),
+  });
+  console.log(
+    `📎 Ajout des fichiers parent-enfant pour ${structures.length} structures`
+  );
 
   for (const structure of structures) {
-    console.log(
-      `📎 Ajout des fichiers parent-enfant pour ${structure.dnaCode}...`
-    );
-    await seedParentChildFileUploads(structure.dnaCode);
+    await seedParentChildFileUploads(prisma, structure.dnaCode);
   }
+  console.log("✅ Fichiers parent-enfant ajoutés");
+
+  await createFakeCpoms(prisma);
 }
 
 seed();

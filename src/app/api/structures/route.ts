@@ -1,23 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { requireProConnectAuth } from "@/lib/api-auth";
 import {
-  structureCreationApiSchema,
-  structureUpdateApiSchema,
+  structureAgentUpdateApiSchema,
+  structureOperateurUpdateApiSchema,
 } from "@/schemas/api/structure.schema";
+import { StructureColumn } from "@/types/StructureColumn.type";
 
 import {
   countBySearch,
-  createOne,
   findBySearch,
-  updateOne,
+  updateOneAgent,
+  updateOneOperateur,
 } from "./structure.repository";
 
 export async function GET(request: NextRequest) {
-  const authResult = await requireProConnectAuth();
-  if (authResult.status === 401) {
-    return authResult;
-  }
   const search = request.nextUrl.searchParams.get("search");
   const page = request.nextUrl.searchParams.get("page") as number | null;
   const type = request.nextUrl.searchParams.get("type");
@@ -26,7 +22,16 @@ export async function GET(request: NextRequest) {
     | string
     | null;
   const departements = request.nextUrl.searchParams.get("departements");
+  const operateurs = request.nextUrl.searchParams.get("operateurs");
+  const column = request.nextUrl.searchParams.get(
+    "column"
+  ) as StructureColumn | null;
+  const direction = request.nextUrl.searchParams.get("direction") as
+    | "asc"
+    | "desc"
+    | null;
   const map = request.nextUrl.searchParams.get("map") === "true";
+  const selection = request.nextUrl.searchParams.get("selection") === "true";
   const structures = await findBySearch({
     search,
     page,
@@ -35,6 +40,10 @@ export async function GET(request: NextRequest) {
     placesAutorisees,
     departements,
     map,
+    column,
+    direction,
+    operateurs,
+    selection,
   });
   const totalStructures = await countBySearch({
     search,
@@ -43,6 +52,7 @@ export async function GET(request: NextRequest) {
     bati,
     placesAutorisees,
     departements,
+    operateurs,
   });
 
   return NextResponse.json({ structures, totalStructures });
@@ -51,8 +61,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const result = structureCreationApiSchema.parse(body);
-    await createOne(result);
+    const result = structureOperateurUpdateApiSchema.parse(body);
+    await updateOneOperateur(result);
     return NextResponse.json("Structure créée avec succès", { status: 201 });
   } catch (error) {
     console.error(error);
@@ -61,15 +71,10 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const authResult = await requireProConnectAuth();
-  if (authResult.status === 401) {
-    return authResult;
-  }
-
   try {
     const body = await request.json();
-    const result = structureUpdateApiSchema.parse(body);
-    await updateOne(result);
+    const result = structureAgentUpdateApiSchema.parse(body);
+    await updateOneAgent(result);
     return NextResponse.json("Structure mise à jour avec succès", {
       status: 201,
     });

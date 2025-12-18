@@ -77,6 +77,11 @@ export const Footer = (): ReactElement => {
               </a>
             </li>
             <li className="fr-footer__bottom-item">
+              <a className="fr-footer__bottom-link" href="/usage">
+                Usage
+              </a>
+            </li>
+            <li className="fr-footer__bottom-item">
               <a
                 className="fr-footer__bottom-link"
                 href="https://github.com/betagouv/place-asile"

@@ -9,7 +9,9 @@ export const createOrUpdateForms = async (
   forms: FormApiType[] | undefined,
   structureCodeDna: string
 ): Promise<void> => {
-  if (!forms || forms.length === 0) return;
+  if (!forms || forms.length === 0) {
+    return;
+  }
 
   await Promise.all(
     forms.map(async (form) => {
@@ -91,8 +93,13 @@ const createCompleteFormWithSteps = async (
 
 export const initializeDefaultForms = async (
   tx: PrismaTransaction,
+  isOperateurUpdate: boolean,
   structureCodeDna: string
 ): Promise<void> => {
+  if (!isOperateurUpdate) {
+    return;
+  }
+
   const formDefinition = await tx.formDefinition.findUnique({
     where: { slug: "finalisation-v1" },
     include: { stepsDefinition: true },

@@ -1,8 +1,8 @@
 import z from "zod";
 
 import {
-  frenchDateToISO,
   optionalFrenchDateToISO,
+  zSafeYear,
 } from "@/app/utils/zodCustomFields";
 import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
 
@@ -13,7 +13,7 @@ export const typologieItemBaseSchema = z.object({
   pmr: zSafeDecimals(),
   lgbt: zSafeDecimals(),
   fvvTeh: zSafeDecimals(),
-  date: frenchDateToISO(),
+  year: zSafeYear(),
 });
 
 const typologieItemWithIdSchema = typologieItemBaseSchema.extend({

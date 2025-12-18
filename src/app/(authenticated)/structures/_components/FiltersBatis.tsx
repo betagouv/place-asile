@@ -8,44 +8,50 @@ export const FiltersBatis = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [bati, setBati] = useState(searchParams.get("bati")?.split(",") || []);
+  const [batis, setBatis] = useState(
+    searchParams.get("bati")?.split(",") || []
+  );
 
-  const noBatiSelected = bati.length === 0;
+  const noFilterOnBati = !searchParams.has("bati");
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    if (noBatiSelected) {
-      const everyTypes: Repartition[] = [
+    if (noFilterOnBati) {
+      const allRepartitions: Repartition[] = [
         Repartition.COLLECTIF,
         Repartition.DIFFUS,
         Repartition.MIXTE,
       ];
-      setBati(everyTypes.filter((type) => type !== value));
+      setBatis(allRepartitions.filter((type) => type !== value));
       return;
     }
-    if (bati.includes(value)) {
-      setBati(bati.filter((type) => type !== value));
+    if (batis.includes(value)) {
+      setBatis(batis.filter((type) => type !== value));
     } else {
-      if (bati.length >= 2) {
-        setBati([]);
+      if (batis.length >= 2) {
+        setBatis([]);
       } else {
-        setBati([...bati, value]);
+        setBatis([...batis, value]);
       }
     }
   };
 
-  const prevBati = useRef(bati);
+  const previousBati = useRef(batis);
   useEffect(() => {
-    if (prevBati.current !== bati) {
+    if (previousBati.current !== batis) {
       const params = new URLSearchParams(Array.from(searchParams.entries()));
-      params.set("bati", bati.join(","));
+      if (batis.length === 0) {
+        params.set("bati", "none");
+      } else {
+        params.set("bati", batis.join(","));
+      }
       router.replace(`?${params.toString()}`);
-      prevBati.current = bati;
+      previousBati.current = batis;
     }
-  }, [bati, searchParams, router]);
+  }, [batis, searchParams, router]);
 
   return (
-    <div className="px-4 pt-3 pb-4">
+    <div className="px-6 pt-5 pb-6">
       <fieldset>
         <legend className="text-title-blue-france text-sm font-medium mb-4">
           Bâti
@@ -57,8 +63,8 @@ export const FiltersBatis = () => {
                 label: "Collectif",
                 nativeInputProps: {
                   name: "structure-bati",
-                  value: "COLLECTIF",
-                  checked: bati.includes("COLLECTIF") || noBatiSelected,
+                  value: "Collectif",
+                  checked: batis.includes("Collectif") || noFilterOnBati,
                   onChange: handleTypeChange,
                 },
               },
@@ -72,8 +78,8 @@ export const FiltersBatis = () => {
                 label: "Diffus",
                 nativeInputProps: {
                   name: "structure-bati",
-                  value: "DIFFUS",
-                  checked: bati.includes("DIFFUS") || noBatiSelected,
+                  value: "Diffus",
+                  checked: batis.includes("Diffus") || noFilterOnBati,
                   onChange: handleTypeChange,
                 },
               },
@@ -87,8 +93,8 @@ export const FiltersBatis = () => {
                 label: "Mixte",
                 nativeInputProps: {
                   name: "structure-bati",
-                  value: "MIXTE",
-                  checked: bati.includes("MIXTE") || noBatiSelected,
+                  value: "Mixte",
+                  checked: batis.includes("Mixte") || noFilterOnBati,
                   onChange: handleTypeChange,
                 },
               },

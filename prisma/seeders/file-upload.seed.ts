@@ -1,10 +1,14 @@
 import { fakerFR as faker } from "@faker-js/faker";
-import { FileUpload, FileUploadCategory } from "@prisma/client";
 
 import {
   isStructureAutorisee,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import {
+  FileUpload,
+  FileUploadCategory,
+  FileUploadGranularity,
+} from "@/generated/prisma/client";
 import { StructureType } from "@/types/structure.type";
 
 import { generateDatePair } from "./seed-util";
@@ -94,6 +98,7 @@ const buildFakeFileUpload = ({
     categoryName:
       category === FileUploadCategory.AUTRE ? faker.lorem.word() : null,
     parentFileUploadId: parentFileUploadId ?? null,
+    granularity: FileUploadGranularity.STRUCTURE,
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
   };

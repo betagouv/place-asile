@@ -4,8 +4,10 @@ import { ReactElement } from "react";
 import { Block } from "@/app/components/common/Block";
 import {
   isStructureAutorisee,
+  isStructureInCpom,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
+import { CURRENT_YEAR } from "@/constants";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
 import { BudgetExecutoire } from "./BudgetExecutoire";
@@ -25,10 +27,10 @@ export const FinancesBlock = (): ReactElement => {
   const isAutorisee = isStructureAutorisee(structure.type);
   const isConventionnee = isStructureSubventionnee(structure.type);
   const isDetailAffectationsDisplayed =
-    isAutorisee || (isConventionnee && structure.cpom);
+    isAutorisee || (isConventionnee && isStructureInCpom(structure));
 
   const getGestionBudgetaireComponent = (): ReactElement => {
-    if (!structure.cpom) {
+    if (!isStructureInCpom(structure)) {
       if (isAutorisee) {
         return <GestionBudgetaireAutoriseeSansCpomTable />;
       }
@@ -40,8 +42,8 @@ export const FinancesBlock = (): ReactElement => {
   };
 
   const budgetExecutoireYear = isAutorisee
-    ? new Date().getFullYear() - 1
-    : new Date().getFullYear() - 2;
+    ? CURRENT_YEAR - 1
+    : CURRENT_YEAR - 2;
 
   return (
     <Block

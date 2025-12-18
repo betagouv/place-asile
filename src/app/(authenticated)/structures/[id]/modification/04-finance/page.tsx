@@ -1,7 +1,7 @@
 "use client";
 import { useStructureContext } from "@/app/(authenticated)/structures/[id]/_context/StructureClientContext";
 import { BudgetTables } from "@/app/components/forms/finance/BudgetTables";
-import { DocumentsAccordion } from "@/app/components/forms/finance/documents/DocumentsAccordion";
+import { DocumentsFinanciers } from "@/app/components/forms/finance/documents/DocumentsFinanciers";
 import { IndicateursGeneraux } from "@/app/components/forms/finance/IndicateursGeneraux";
 import FormWrapper, {
   FooterButtonType,
@@ -12,6 +12,7 @@ import { useAgentFormHandling } from "@/app/hooks/useAgentFormHandling";
 import { getDefaultValues } from "@/app/utils/defaultValues.util";
 import {
   isStructureAutorisee,
+  isStructureInCpom,
   isStructureSubventionnee,
 } from "@/app/utils/structure.util";
 import {
@@ -29,18 +30,18 @@ import { ModificationTitle } from "../components/ModificationTitle";
 export default function ModificationFinanceForm() {
   const { structure } = useStructureContext();
 
-  const hasCpom = structure?.cpom;
+  const isInCpom = isStructureInCpom(structure);
   const isAutorisee = isStructureAutorisee(structure?.type);
   const isSubventionnee = isStructureSubventionnee(structure?.type);
 
   let schema;
 
   if (isAutorisee) {
-    schema = hasCpom
+    schema = isInCpom
       ? ModificationFinanceAutoriseeAvecCpomSchema
       : ModificationFinanceAutoriseeSchema;
   } else if (isSubventionnee) {
-    schema = hasCpom
+    schema = isInCpom
       ? ModificationFinanceSubventionneeAvecCpomSchema
       : ModificationFinanceSubventionneeSchema;
   } else {
@@ -54,13 +55,19 @@ export default function ModificationFinanceForm() {
   });
 
   const onSubmit = async (data: anyModificationFinanceFormValues) => {
-    const documentsFinanciers = data.documentsFinanciers.filter(
-      (documentFinancier) => documentFinancier.key
-    );
+    const documentsFinanciers =
+      data.documentsFinanciers?.filter(
+        (documentFinancier) => documentFinancier.key
+      ) ?? [];
+    const structureMillesimes = data.structureMillesimes?.map((millesime) => ({
+      ...millesime,
+      operateurComment: millesime.operateurComment ?? undefined,
+    }));
     await handleSubmit({
       ...data,
       documentsFinanciers,
       dnaCode: structure.dnaCode,
+      structureMillesimes,
     });
   };
 
@@ -87,7 +94,7 @@ export default function ModificationFinanceForm() {
         onSubmit={onSubmit}
         className="border-2 border-solid border-(--text-title-blue-france)"
       >
-        <DocumentsAccordion className="mb-6" />
+        <DocumentsFinanciers className="mb-6" hasAccordion />
         <IndicateursGeneraux />
         <hr />
 

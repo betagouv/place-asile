@@ -5,6 +5,14 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from "react";
 import { cn } from "@/app/utils/classname.util";
 import { DEPARTEMENTS } from "@/constants";
 
+const REGIONS_WITH_ONE_DEPARTEMENT = [
+  "Guadeloupe",
+  "Martinique",
+  "Guyane",
+  "La Réunion",
+  "Mayotte",
+];
+
 export const FiltersRegion = ({
   region,
   departements,
@@ -74,12 +82,17 @@ export const FiltersRegion = ({
     };
   }, [checkedStatus, setDepartements, region]);
 
+  const isRegionWithOneDepartement = useMemo(() => {
+    return REGIONS_WITH_ONE_DEPARTEMENT.includes(region);
+  }, [region]);
+
   return (
     <Accordion
       className={cn(
         "[&:before]:content-none",
-        "[&>h3>button]:py-1.5 [&>h3>button]:min-h-0 [&>h3>button]:bg-transparent!",
-        "[&>div]:py-0 [&>div]:px-6"
+        "[&>h3>button]:py-1.5 [&>h3>button]:px-6 [&>h3>button]:min-h-0 [&>h3>button]:bg-transparent!",
+        "[&>div]:py-0 [&>div]:px-6",
+        isRegionWithOneDepartement && "[&>h3>button:after]:content-none"
       )}
       label={
         <div ref={checkboxWrapperRef}>
@@ -107,7 +120,7 @@ export const FiltersRegion = ({
         </div>
       }
     >
-      {children}
+      <div className="ml-3">{!isRegionWithOneDepartement && children}</div>
     </Accordion>
   );
 };

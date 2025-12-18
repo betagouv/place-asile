@@ -1,5 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const staticSrcPath = path.join(__dirname, ".next/static");
 const staticDestPath = path.join(__dirname, ".next/standalone/.next/static");

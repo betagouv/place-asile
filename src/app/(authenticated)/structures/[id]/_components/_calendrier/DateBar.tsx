@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { ReactElement, useEffect, useState } from "react";
 
 import { Badge } from "@/app/components/common/Badge";
-import { getElapsedPercentage } from "@/app/utils/date.util";
+import { formatDate, getElapsedPercentage } from "@/app/utils/date.util";
 
 export const DateBar = ({ datePair }: Props): ReactElement => {
   const [percentage, setPercentage] = useState<number | null>(null);
@@ -21,7 +21,7 @@ export const DateBar = ({ datePair }: Props): ReactElement => {
     <>
       <div className="flex-1 flex items-center">
         <span className="inline-block w-24 shrink-0">
-          {new Date(datePair.startDate).toLocaleDateString("fr-FR")}
+          {formatDate(datePair.startDate)}
         </span>
         <div className="relative flex-1 bg-background-disabled-grey h-[10px] rounded-[5px] mr-4">
           <div
@@ -32,7 +32,7 @@ export const DateBar = ({ datePair }: Props): ReactElement => {
       </div>
       <div className="w-44 flex items-center">
         <span className="inline-block w-24 shrink-0">
-          {new Date(datePair.endDate).toLocaleDateString("fr-FR")}
+          {formatDate(datePair.endDate)}
         </span>
         {!isConventionExpiree && isLessThan3Months && (
           <div className="pl-2">

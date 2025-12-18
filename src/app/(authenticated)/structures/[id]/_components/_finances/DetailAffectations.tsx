@@ -4,6 +4,7 @@ import { ReactElement } from "react";
 
 import styles from "@/app/components/common/Accordion.module.css";
 import { formatCurrency } from "@/app/utils/number.util";
+import { isStructureInCpom } from "@/app/utils/structure.util";
 import { BudgetApiType } from "@/schemas/api/budget.schema";
 
 import { useStructureContext } from "../../_context/StructureClientContext";
@@ -22,7 +23,7 @@ export const DetailAffectations = (): ReactElement => {
     return structure.budgets
       .filter(isBudgetEmpty)
       .map((budget) => [
-        new Date(budget.date).getFullYear(),
+        budget.year,
         <span key={budget.id}>
           {formatCurrency(budget.affectationReservesFondsDedies)}
         </span>,
@@ -41,7 +42,7 @@ export const DetailAffectations = (): ReactElement => {
         <span key={budget.id}>
           {formatCurrency(budget.reserveCompensationAmortissements)}
         </span>,
-        structure.cpom && (
+        isStructureInCpom(structure) && (
           <span key={budget.id}>{formatCurrency(budget.fondsDedies)}</span>
         ),
         <span key={budget.id}>{formatCurrency(budget.reportANouveau)}</span>,
@@ -57,7 +58,7 @@ export const DetailAffectations = (): ReactElement => {
   return (
     <Accordion
       label={
-        structure.cpom
+        isStructureInCpom(structure)
           ? "Détail affectations réserves, provisions et fonds dédiés du CPOM"
           : "Détail affectations réserves et provisions"
       }
@@ -76,7 +77,7 @@ export const DetailAffectations = (): ReactElement => {
           "RÉSERVE DE COMPENSATION DES DÉFICITS",
           "RÉSERVE DE COUVERTURE DE BFR",
           "RÉSERVE DE COMPENSATION DES AMORTIS.",
-          structure.cpom && "FONDS DÉDIÉS",
+          isStructureInCpom(structure) && "FONDS DÉDIÉS",
           "REPORT A NOUVEAU",
           "AUTRE",
           "COMMENTAIRE",

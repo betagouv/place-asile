@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <main className="w-full max-w-screen flex bg-white" id="content">
       <Menu />
-      <div className="w-[80vw]">{children}</div>
+      <div className="flex-1">{children}</div>
     </main>
   );
 }

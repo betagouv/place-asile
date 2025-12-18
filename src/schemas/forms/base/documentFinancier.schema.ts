@@ -1,60 +1,119 @@
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import { z } from "zod";
 
 import {
+  structureAutoriseesDocuments,
+  structureSubventionneesDocuments,
+} from "@/app/components/forms/finance/documents/documentsStructures";
+import {
+  getDocumentsFinanciersYearRange,
+  getYearFromDate,
+} from "@/app/utils/date.util";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+import {
   nullishFrenchDateToISO,
   optionalFrenchDateToISO,
+  zSafeYear,
 } from "@/app/utils/zodCustomFields";
 import { DocumentFinancierCategory } from "@/types/file-upload.type";
+import { StructureType } from "@/types/structure.type";
 
-dayjs.extend(customParseFormat);
-
-const DocumentFinancierFlexibleSchema = z.object({
+const DocumentFinancierSchema = z.object({
   key: z.string().optional(),
   date: optionalFrenchDateToISO(),
   category: z.enum(DocumentFinancierCategory).optional(),
+  granularity: z.string().optional(),
+  categoryName: z.string().nullish(),
 });
 
-export const DocumentsFinanciersFlexibleSchema = z.object({
+export const DocumentsFinanciersSchema = z.object({
   creationDate: optionalFrenchDateToISO(),
   date303: nullishFrenchDateToISO(),
-  documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
+  documentsFinanciers: z.array(DocumentFinancierSchema).optional(),
+  structureMillesimes: z
+    .array(
+      z.object({
+        year: zSafeYear(),
+        cpom: z.boolean(),
+        operateurComment: z.string().nullish(),
+      })
+    )
+    .optional(),
 });
 
-export const DocumentsFinanciersStrictSchema = z
-  .object({
-    creationDate: optionalFrenchDateToISO(),
-    date303: nullishFrenchDateToISO(),
-    documentsFinanciers: z.array(DocumentFinancierFlexibleSchema),
-  })
+export const DocumentsFinanciersFlexibleSchema =
+  DocumentsFinanciersSchema.refine(
+    (data) => {
+      if (data.creationDate && data.date303) {
+        return data.creationDate <= data.date303;
+      }
+      return true;
+    },
+    {
+      message:
+        "La date de création de la structure doit être antérieure à la date de rattachement au programme 303",
+      path: ["date303"],
+    }
+  );
+
+export const DocumentsFinanciersStrictSchema = DocumentsFinanciersSchema.extend(
+  {
+    type: z.preprocess(
+      (val) => (val === "" ? undefined : val),
+      z.nativeEnum(StructureType)
+    ),
+  }
+)
+  .refine(
+    (data) => {
+      if (data.creationDate && data.date303) {
+        return data.creationDate <= data.date303;
+      }
+      return true;
+    },
+    {
+      message:
+        "La date de création de la structure doit être antérieure à la date de rattachement au programme 303",
+      path: ["date303"],
+    }
+  )
   .superRefine((data, ctx) => {
+    const isAutorisee = isStructureAutorisee(data.type);
+    const documents = isAutorisee
+      ? structureAutoriseesDocuments
+      : structureSubventionneesDocuments;
+
+    const { years } = getDocumentsFinanciersYearRange({ isAutorisee });
+
     const referenceYear = Number(
-      (data.date303 ?? data.creationDate)?.substring(0, 4)
+      getYearFromDate(data.date303 ?? data.creationDate)
     );
 
-    data.documentsFinanciers.forEach((document, index) => {
-      const documentYear = document.date?.substring(0, 4);
-
-      const documentIsAfterReferenceYear =
-        Number(documentYear) >= referenceYear;
-
-      const documentIsRequired =
-        document.category !== "BUDGET_RECTIFICATIF" &&
-        document.category !== "RAPPORT_BUDGETAIRE";
-
-      if (documentIsAfterReferenceYear && documentIsRequired && !document.key) {
-        ctx.addIssue({
-          path: ["documentsFinanciers", index, "key"],
-          code: z.ZodIssueCode.custom,
-          message: "Ce champ est requis",
+    years.forEach((year, index) => {
+      if (year >= referenceYear) {
+        documents.forEach((document) => {
+          const documentIsRequired =
+            document.required && index >= document.yearIndex;
+          if (documentIsRequired) {
+            const requiredDocument = data.documentsFinanciers?.find(
+              (documentFinancier) =>
+                documentFinancier.category === document.value &&
+                getYearFromDate(documentFinancier.date) === year
+            );
+            if (!requiredDocument) {
+              ctx.addIssue({
+                path: ["documentsFinanciers", year],
+                code: z.ZodIssueCode.custom,
+                message: "Ce champ est requis",
+              });
+            }
+          }
         });
       }
     });
   });
 
 export type DocumentFinancierFlexibleFormValues = z.infer<
-  typeof DocumentFinancierFlexibleSchema
+  typeof DocumentFinancierSchema
 >;
 
 export type DocumentsFinanciersFlexibleFormValues = z.infer<

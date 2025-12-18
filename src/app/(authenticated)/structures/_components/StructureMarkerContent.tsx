@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ReactElement } from "react";
 
 import { useFetchStructure } from "@/app/hooks/useFetchStructure";
+import { formatDate } from "@/app/utils/date.util";
 import {
   getCurrentPlacesAutorisees,
   getOperateurLabel,
@@ -11,6 +12,7 @@ import {
 import { DEPARTEMENTS } from "@/constants";
 
 import { RepartitionBadge } from "./RepartitionBadge";
+
 export const StructureMarkerContent = ({ id }: { id: number }) => {
   const { structure } = useFetchStructure(id);
   if (!structure) {
@@ -66,7 +68,7 @@ export const StructureMarkerContent = ({ id }: { id: number }) => {
       {finConvention && (
         <div className="text-sm mt-1 mb-0">
           <strong>Fin convention : </strong>
-          <span>{new Date(finConvention).toLocaleDateString("fr-FR")}</span>
+          <span>{formatDate(finConvention)}</span>
         </div>
       )}
       <div className="text-sm mt-1 mb-0">

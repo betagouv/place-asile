@@ -1,4 +1,4 @@
-import { PublicType, StructureType } from "@prisma/client";
+import { PublicType, StructureType } from "@/generated/prisma/client";
 
 export const convertToPublicType = (
   typePublic: string | null | undefined

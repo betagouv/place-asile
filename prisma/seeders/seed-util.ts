@@ -22,6 +22,7 @@ export const convertToPrismaObject = (initialObject: unknown): any => {
     "structureTypologies",
     "forms",
     "formSteps",
+    "activites",
   ];
 
   if (

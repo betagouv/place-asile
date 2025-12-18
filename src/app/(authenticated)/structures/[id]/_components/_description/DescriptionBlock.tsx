@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";
+import { formatDate } from "@/app/utils/date.util";
 import { getOperateurLabel } from "@/app/utils/structure.util";
 import { PublicType } from "@/types/structure.type";
 
@@ -20,7 +21,6 @@ export const DescriptionBlock = (): ReactElement => {
     public: publicValue,
     type,
     finessCode,
-    cpom,
     lgbt,
     fvvTeh,
   } = structure;
@@ -47,7 +47,7 @@ export const DescriptionBlock = (): ReactElement => {
       <div className="flex mb-2">
         <div className="flex-1">
           <strong className="pr-2">Date de création</strong>
-          {new Date(creationDate).toLocaleDateString("fr-FR")}
+          {formatDate(creationDate)}
         </div>
         <div className="flex-1">
           <strong className="pr-2">Type de structure</strong>
@@ -72,10 +72,6 @@ export const DescriptionBlock = (): ReactElement => {
         <div className="flex-1">
           <strong className="pr-2">Opérateur</strong>
           {getOperateurLabel(filiale, operateur?.name)}
-        </div>
-        <div className="flex-1">
-          <strong className="pr-2">CPOM</strong>
-          {cpom ? "Oui" : "Non"}
         </div>
       </div>
       <hr />

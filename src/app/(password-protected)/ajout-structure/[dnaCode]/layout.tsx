@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { StructureApiType } from "@/schemas/api/structure.schema";
@@ -14,27 +15,23 @@ export default async function RootLayout({
   try {
     const result = await fetch(
       `${process.env.NEXT_URL}/api/structures/dna/${dnaCode}`,
-      { next: { revalidate: 0 } }
+      // Requête côté serveur donc il faut appeler les headers manuellement
+      { next: { revalidate: 0 }, headers: await headers() }
     );
 
     if (!result.ok) {
-      if (result.status === 404) {
-        return <>{children}</>;
-      }
-
       console.error(`API error: ${result.status}`, await result.text());
-      return <>{children}</>;
+      return children;
     }
 
     const structure: StructureApiType | null = await result.json();
-
-    if (structure) {
+    if (structure?.forms && structure?.forms?.length > 0) {
       redirect(`/ajout-structure/existe-deja?dnaCode=${dnaCode}`);
     }
+
+    return children;
   } catch (error) {
     console.error("Error checking for existing structure:", error);
     throw error;
   }
-
-  return <>{children}</>;
 }

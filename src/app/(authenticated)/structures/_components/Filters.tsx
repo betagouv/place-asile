@@ -2,6 +2,7 @@ import { Button } from "@codegouvfr/react-dsfr/Button";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { cn } from "@/app/utils/classname.util";
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
 
@@ -10,10 +11,10 @@ import { LocationFiltersPanel } from "./LocationFiltersPanel";
 
 export const Filters = () => {
   const [openPanel, setOpenPanel] = useState<
-    "filters" | "localisation" | undefined
+    "filters" | "location" | undefined
   >(undefined);
 
-  const handleTogglePanel = (panel: "filters" | "localisation" | undefined) => {
+  const handleTogglePanel = (panel: "filters" | "location" | undefined) => {
     if (openPanel === panel) {
       setOpenPanel(undefined);
     } else {
@@ -52,7 +53,9 @@ export const Filters = () => {
   }, [departements]);
 
   const filterPanelRef = useRef<HTMLDivElement | null>(null);
+  const filterButtonRef = useRef<HTMLButtonElement | null>(null);
   const locationPanelRef = useRef<HTMLDivElement | null>(null);
+  const locationButtonRef = useRef<HTMLButtonElement | null>(null);
   useEffect(() => {
     if (!openPanel) return;
 
@@ -63,7 +66,11 @@ export const Filters = () => {
         (filterPanelRef.current &&
           filterPanelRef.current.contains(event.target as Node)) ||
         (locationPanelRef.current &&
-          locationPanelRef.current.contains(event.target as Node))
+          locationPanelRef.current.contains(event.target as Node)) ||
+        (filterButtonRef.current &&
+          filterButtonRef.current.contains(event.target as Node)) ||
+        (locationButtonRef.current &&
+          locationButtonRef.current.contains(event.target as Node))
       ) {
         clickedInsidePanel = true;
       }
@@ -84,10 +91,16 @@ export const Filters = () => {
     <>
       <div className="relative">
         <Button
+          ref={filterButtonRef}
           priority="tertiary"
           size="small"
           onClick={() => handleTogglePanel("filters")}
-          className="flex gap-1"
+          className={cn(
+            "flex gap-1",
+            isFiltersActive && "bg-[var(--blue-france-975-sun-113)]"
+          )}
+          aria-label={`Filtres ${isFiltersActive ? "actifs" : "inactifs"}`}
+          aria-pressed={isFiltersActive}
         >
           <span className="fr-icon-filter-line fr-icon--sm relative">
             {isFiltersActive && (
@@ -106,10 +119,16 @@ export const Filters = () => {
       </div>
       <div className="relative">
         <Button
+          ref={locationButtonRef}
           priority="tertiary"
           size="small"
-          onClick={() => handleTogglePanel("localisation")}
-          className="flex gap-1"
+          onClick={() => handleTogglePanel("location")}
+          className={cn(
+            "flex gap-1 whitespace-nowrap",
+            isLocationActive && "bg-[var(--blue-france-975-sun-113)]"
+          )}
+          aria-label={`Filtres par région / département ${isLocationActive ? "actifs" : "inactifs"}`}
+          aria-pressed={isLocationActive}
         >
           <span className="fr-icon-focus-3-line fr-icon--sm relative">
             {isLocationActive && (
@@ -118,7 +137,7 @@ export const Filters = () => {
           </span>{" "}
           Région / Département
         </Button>
-        {openPanel === "localisation" && (
+        {openPanel === "location" && (
           <LocationFiltersPanel
             ref={locationPanelRef}
             closePanel={() => handleTogglePanel(undefined)}

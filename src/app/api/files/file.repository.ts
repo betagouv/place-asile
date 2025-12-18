@@ -1,5 +1,6 @@
-import { FileUpload, FileUploadCategory } from "@prisma/client";
+import * as Sentry from "@sentry/nextjs";
 
+import { FileUpload, FileUploadCategory } from "@/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
 import { DocumentFinancierApiType } from "@/schemas/api/documentFinancier.schema";
@@ -112,8 +113,34 @@ export const updateFileUploads = async (
   await deleteFileUploads(tx, fileUploads, structureDnaCode, category);
 
   await Promise.all(
-    (fileUploads || []).map((fileUpload) =>
-      tx.fileUpload.update({
+    (fileUploads || []).map(async (fileUpload) => {
+      if (!fileUpload.key) {
+        return;
+      }
+
+      const existingFileUpload = await tx.fileUpload.findUnique({
+        where: { key: fileUpload.key },
+      });
+
+      if (!existingFileUpload) {
+        const message = `FileUpload with key "${fileUpload.key}" not found for structure "${structureDnaCode}" (category: ${category})`;
+        console.warn(message);
+        Sentry.captureMessage(message, {
+          level: "warning",
+          tags: {
+            component: "file.repository",
+            function: "updateFileUploads",
+          },
+          extra: {
+            key: fileUpload.key,
+            structureDnaCode,
+            category,
+          },
+        });
+        return;
+      }
+
+      await tx.fileUpload.update({
         where: { key: fileUpload.key },
         data: {
           date: fileUpload.date,
@@ -126,24 +153,7 @@ export const updateFileUploads = async (
           controleId: fileUpload.controleId,
           evaluationId: fileUpload.evaluationId,
         },
-      })
-    )
+      });
+    })
   );
-};
-
-export const createDocumentsFinanciers = async (
-  tx: PrismaTransaction,
-  documentsFinanciers: DocumentFinancierApiType[],
-  structureDnaCode: string
-): Promise<void> => {
-  for (const documentFinancier of documentsFinanciers) {
-    await tx.fileUpload.update({
-      where: { key: documentFinancier.key },
-      data: {
-        date: documentFinancier.date,
-        category: (documentFinancier.category as FileUploadCategory) || null,
-        structureDnaCode,
-      },
-    });
-  }
 };

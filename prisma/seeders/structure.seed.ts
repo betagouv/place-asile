@@ -1,5 +1,8 @@
 import { fakerFR as faker } from "@faker-js/faker";
+
+import { isStructureAutorisee } from "@/app/utils/structure.util";
 import {
+  Activite,
   Budget,
   Contact,
   FileUpload,
@@ -9,11 +12,10 @@ import {
   PublicType,
   Structure,
   StructureTypologie,
-} from "@prisma/client";
-
-import { isStructureAutorisee } from "@/app/utils/structure.util";
+} from "@/generated/prisma/client";
 import { StructureType } from "@/types/structure.type";
 
+import { createFakeActivites } from "./activite.seed";
 import { AdresseWithTypologies, createFakeAdresses } from "./adresse.seed";
 import { createFakeBudget } from "./budget.seed";
 import { createFakeContact } from "./contact.seed";
@@ -23,52 +25,86 @@ import { createFakeFormWithSteps } from "./form.seed";
 import { generateDatePair } from "./seed-util";
 import { createFakeStructureTypologie } from "./structure-typologie.seed";
 
-let counter = 1;
-
+// TODO: re-add a way to name with the fact the structure is, or has been part of a CPOM
 const generateDnaCode = ({
-  cpom,
   type,
-}: Pick<FakeStructureOptions, "cpom" | "type">): string => {
-  const cpomLabel = cpom ? "CPOM" : "SANS_CPOM";
-  return `${type}-${cpomLabel}-${counter++}`;
+  operateurName,
+  departementAdministratif,
+  counter,
+}: Partial<FakeStructureOptions> & { counter: number }): string => {
+  const operateurNum = operateurName?.replace(/\D/g, "") ?? "";
+  return `${type}-${operateurNum}-${departementAdministratif}-${counter}`;
 };
 
-const createFakeStructure = ({
+export const createFakeStructure = ({
   cpom,
   type,
-}: FakeStructureOptions): Omit<Structure, "id" | "operateurId"> => {
+  ofii,
+  operateurName,
+  departementAdministratif,
+  counter,
+}: FakeStructureOptions): Partial<Structure> => {
   const [debutConvention, finConvention] = generateDatePair();
   const [debutPeriodeAutorisation, finPeriodeAutorisation] = generateDatePair();
   const [debutCpom, finCpom] = generateDatePair();
 
   const isAutorisee = isStructureAutorisee(type);
+  const createdAt = faker.date.past();
+  const creationDate = faker.date.past();
+  const baseData = {
+    dnaCode: generateDnaCode({
+      type,
+      operateurName,
+      departementAdministratif,
+      counter,
+    }),
+    type,
+    nom: faker.lorem.words(2),
+    nomOfii: faker.lorem.words(2),
+    departementAdministratif,
+    directionTerritoriale: "DT " + faker.location.city(),
+    createdAt,
+    updatedAt: createdAt,
+    activeInOfiiFileSince: createdAt,
+    inactiveInOfiiFileSince:
+      faker.helpers.maybe(
+        () =>
+          faker.date.between({
+            from: createdAt,
+            to: new Date(),
+          }),
+        { probability: 0.1 }
+      ) ?? null,
+  };
+
+  if (ofii) {
+    return baseData;
+  }
 
   return {
+    ...baseData,
     dnaCode: generateDnaCode({
-      cpom,
       type,
+      operateurName,
+      departementAdministratif,
+      counter,
     }),
     // TODO : à gérer quand les filiales d'opérateurs seront en DB
     filiale: "",
-    type,
     adresseAdministrative: faker.location.streetAddress(),
     communeAdministrative: faker.location.city(),
     codePostalAdministratif: faker.location.zipCode(),
-    departementAdministratif: String(
-      faker.number.int({ min: 1, max: 95 })
-    ).padStart(2, "0"),
     latitude: Prisma.Decimal(
       faker.location.latitude({ min: 43.550851, max: 49.131627 })
     ),
     longitude: Prisma.Decimal(
       faker.location.longitude({ min: -0.851371, max: 5.843377 })
     ),
-    nom: faker.lorem.words(2),
     date303: null,
     debutConvention,
     finConvention,
     cpom,
-    creationDate: faker.date.past(),
+    creationDate,
     finessCode: isAutorisee ? faker.number.int(1000000000).toString() : null,
     lgbt: faker.datatype.boolean(),
     fvvTeh: faker.datatype.boolean(),
@@ -82,8 +118,11 @@ const createFakeStructure = ({
     echeancePlacesACreer: faker.date.future(),
     echeancePlacesAFermer: faker.date.future(),
     notes: faker.lorem.lines(2),
-    createdAt: faker.date.past(),
-    updatedAt: faker.date.past(),
+    activeInOfiiFileSince:
+      faker.helpers.maybe(
+        () => faker.date.between({ from: creationDate, to: new Date() }),
+        { probability: 0.01 }
+      ) ?? null,
   };
 };
 
@@ -93,6 +132,7 @@ type StructureWithRelations = Structure & {
   controles: Omit<ControleWithFileUploads, "id" | "structureDnaCode">[];
   structureTypologies: Omit<StructureTypologie, "id" | "structureDnaCode">[];
   budgets: Omit<Budget, "id" | "structureDnaCode">[];
+  activites: Omit<Activite, "id" | "structureDnaCode">[];
   fileUploads: Omit<
     FileUpload,
     "id" | "structureDnaCode" | "controleId" | "parentFileUploadId"
@@ -108,11 +148,20 @@ export const createFakeStuctureWithRelations = ({
   isFinalised,
   formDefinitionId,
   stepDefinitions,
-}: FakeStructureOptions & {
-  formDefinitionId: number;
-  stepDefinitions: { id: number; slug: string }[];
-}): Omit<StructureWithRelations, "id"> => {
-  const fakeStructure = createFakeStructure({ cpom, type, isFinalised });
+  ofii,
+  operateurName,
+  departementAdministratif,
+  counter,
+}: FakeStructureWithRelationsOptions): Omit<StructureWithRelations, "id"> => {
+  const fakeStructure = createFakeStructure({
+    cpom,
+    type,
+    isFinalised,
+    ofii,
+    operateurName,
+    departementAdministratif,
+    counter,
+  });
   const placesAutorisees = faker.number.int({ min: 1, max: 100 });
 
   const forms = [
@@ -132,13 +181,13 @@ export const createFakeStuctureWithRelations = ({
       createFakeStructureTypologie({ year: 2024, placesAutorisees }),
       createFakeStructureTypologie({ year: 2023, placesAutorisees }),
     ],
-
     fileUploads: Array.from({ length: 5 }, () =>
       createFakeFileUpload({
         cpom,
         structureType: type,
       })
     ),
+    activites: createFakeActivites(),
     forms,
   } as StructureWithRelations;
 
@@ -167,4 +216,13 @@ export type FakeStructureOptions = {
   cpom: boolean;
   type: StructureType;
   isFinalised: boolean;
+  ofii: boolean;
+  operateurName: string;
+  departementAdministratif: string;
+  counter: number;
+};
+
+export type FakeStructureWithRelationsOptions = FakeStructureOptions & {
+  formDefinitionId: number;
+  stepDefinitions: { id: number; slug: string }[];
 };

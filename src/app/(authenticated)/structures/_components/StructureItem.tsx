@@ -3,6 +3,7 @@ import Tooltip from "@codegouvfr/react-dsfr/Tooltip";
 import Link from "next/link";
 
 import { EmptyCell } from "@/app/components/common/EmptyCell";
+import { formatCityName } from "@/app/utils/adresse.util";
 import { formatDate } from "@/app/utils/date.util";
 import { getFinalisationFormStatus } from "@/app/utils/finalisationForm.util";
 import {
@@ -33,7 +34,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
         <RepartitionBadge repartition={getRepartition(structure)} />
       </td>
       <td className="text-left!">{getCommuneLabel(structure)}</td>
-      <td>{structure.structureTypologies?.[0].placesAutorisees}</td>
+      <td>{structure.structureTypologies?.[0]?.placesAutorisees}</td>
       <td className="text-left!">
         {structure.finConvention ? (
           formatDate(structure.finConvention)
@@ -67,15 +68,19 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
 const getCommuneLabel = (structure: StructureApiType) => {
   const placesByCommune = getPlacesByCommunes(structure.adresses || []);
   const mainCommune = Object.keys(placesByCommune)[0];
+  const formattedMainCommune = formatCityName(mainCommune);
   const communesWithoutMainCommune = Object.keys(placesByCommune).filter(
     (commune) => commune !== mainCommune
   );
+  const formattedCommunesWithoutMainCommune = communesWithoutMainCommune.map(
+    (commune) => formatCityName(commune)
+  );
   return (
     <>
-      <span>{mainCommune} </span>
+      <span>{formattedMainCommune} </span>
       {mainCommune && communesWithoutMainCommune.length > 0 && (
         <span className="underline text-mention-grey inline-flex ms-1">
-          <Tooltip title={communesWithoutMainCommune.join(", ")}>
+          <Tooltip title={formattedCommunesWithoutMainCommune.join(", ")}>
             + {communesWithoutMainCommune.length}
           </Tooltip>
         </span>

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@/generated/prisma/client";
 
 export const wipeTables = async (prisma: PrismaClient) => {
   await prisma.adresseTypologie.deleteMany({});
@@ -10,6 +10,10 @@ export const wipeTables = async (prisma: PrismaClient) => {
   await prisma.structureTypologie.deleteMany({});
   await prisma.activite.deleteMany({});
   await prisma.budget.deleteMany({});
+  await prisma.structureMillesime.deleteMany({});
+  await prisma.cpomMillesime.deleteMany({});
+  await prisma.cpom.deleteMany({});
+  await prisma.cpomStructure.deleteMany({});
   await prisma.structure.deleteMany({});
   await prisma.operateur.deleteMany({});
   await prisma.formStepDefinition.deleteMany({});
@@ -18,5 +22,4 @@ export const wipeTables = async (prisma: PrismaClient) => {
   await prisma.form.deleteMany({});
   await prisma.departement.deleteMany({});
   await prisma.campaign.deleteMany({});
-  await prisma.referential.deleteMany({});
 };

@@ -1,4 +1,3 @@
-import { StartDsfrOnHydration } from "@codegouvfr/react-dsfr/next-app-router";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
@@ -14,6 +13,7 @@ async function getStructure(id: string): Promise<StructureApiType> {
     const baseUrl = process.env.NEXT_URL || "";
     const result = await fetch(`${baseUrl}/api/structures/${id}`, {
       cache: "no-store",
+      // Requête côté serveur donc il faut appeler les headers manuellement
       headers: await headers(),
     });
 
@@ -46,8 +46,6 @@ export default async function StructureLayout({
 
   return (
     <StructureProvider structure={structure}>
-      <StartDsfrOnHydration />
-
       <div className="flex flex-col h-full bg-alt-grey gap-3 pb-4">
         <StructureHeader />
         {children}

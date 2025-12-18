@@ -1,6 +1,8 @@
 import { Table } from "@codegouvfr/react-dsfr/Table";
 import { ReactElement } from "react";
 
+import { formatDate } from "@/app/utils/date.util";
+
 import { useStructureContext } from "../../_context/StructureClientContext";
 
 export const EIGTable = (): ReactElement => {
@@ -10,12 +12,8 @@ export const EIGTable = (): ReactElement => {
   const getEvenementsIndesirablesGraves = () => {
     return evenementsIndesirablesGraves?.map((evenementIndesirableGrave) => [
       evenementIndesirableGrave.numeroDossier,
-      new Date(
-        evenementIndesirableGrave.evenementDate ?? ""
-      ).toLocaleDateString("fr-FR"),
-      new Date(
-        evenementIndesirableGrave.declarationDate ?? ""
-      ).toLocaleDateString("fr-FR"),
+      formatDate(evenementIndesirableGrave.evenementDate),
+      formatDate(evenementIndesirableGrave.declarationDate),
       evenementIndesirableGrave.type,
     ]);
   };

@@ -24,6 +24,18 @@ export const getCategoryLabel = (
     INSPECTION_CONTROLE: "Inspection contrôle",
     EVALUATION: "Évaluation",
     AUTRE: "Autre",
+    AUTRE_FINANCIER: "Autre",
   };
   return labels[category] || "";
+};
+
+export const getShortDisplayedName = (
+  name: string = "",
+  length: number = 25
+): string => {
+  if (name.length > length) {
+    const splittedName = name.split(".");
+    return splittedName[0].slice(0, 20) + "..." + splittedName[1];
+  }
+  return name;
 };

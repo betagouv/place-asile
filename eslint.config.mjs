@@ -18,7 +18,8 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
-      "scripts/one-off-scripts/**"
+      "scripts/one-off-scripts/**",
+      "src/generated/**",
     ],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
@@ -35,6 +36,11 @@ const eslintConfig = [
               name: "@prisma/client",
               message:
                 "L'import de @prisma/client est interdit en dehors de src/app/api/, lib/ ou prisma/.",
+            },
+            {
+              name: "@/generated/prisma/client",
+              message:
+                "L'import de @/generated/prisma/client est interdit en dehors de src/app/api/, lib/ ou prisma/.",
             },
           ],
         },

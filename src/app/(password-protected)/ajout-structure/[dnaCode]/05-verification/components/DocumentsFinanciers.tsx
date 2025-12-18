@@ -1,18 +1,18 @@
 import { useParams } from "next/navigation";
-import { ReactElement, useMemo } from "react";
+import { ReactElement } from "react";
 
-import { useLocalStorage } from "@/app/hooks/useLocalStorage";
-import { getDocumentIndexes } from "@/app/utils/documentFinancier.util";
-import { isStructureAutorisee } from "@/app/utils/structure.util";
-import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
-import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
-
-import { FileItem } from "../../../_components/FileItem";
-import { Year } from "../../../_components/Year";
 import {
   structureAutoriseesDocuments,
   structureSubventionneesDocuments,
-} from "../../04-documents/documents";
+} from "@/app/components/forms/finance/documents/documentsStructures";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import {
+  getDocumentsFinanciersYearRange,
+  getYearFromDate,
+} from "@/app/utils/date.util";
+import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
+import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
 export const DocumentsFinanciers = (): ReactElement => {
   const params = useParams();
@@ -30,43 +30,61 @@ export const DocumentsFinanciers = (): ReactElement => {
     ? structureAutoriseesDocuments
     : structureSubventionneesDocuments;
 
-  const years = useMemo(
-    () =>
-      isAutorisee
-        ? ["2025", "2024", "2023", "2022", "2021"]
-        : (["2023", "2022", "2021"] as const),
-    [isAutorisee]
-  );
+  const { years } = getDocumentsFinanciersYearRange({ isAutorisee });
 
-  const documentIndexes = getDocumentIndexes(
-    years as unknown as string[],
-    documents
-  );
+  const startYear = localStorageValues?.date303
+    ? Number(localStorageValues?.date303?.split("/")?.[2])
+    : Number(identificationValues?.creationDate?.split("/")?.[2]);
 
+  const yearsToCheck = years.filter((year) => {
+    return Number(year) >= Number(startYear);
+  });
+
+  const numberOfMissingDocuments = yearsToCheck
+    .map((year, index) =>
+      documents
+        .filter((document) => {
+          if (!document.required || document.yearIndex > index) {
+            return false;
+          }
+
+          const documentsFinanciers =
+            localStorageValues?.documentsFinanciers ?? [];
+          const findDocument = documentsFinanciers.find(
+            (documentFinancier) =>
+              documentFinancier.category === document.value &&
+              getYearFromDate(documentFinancier.date) === year &&
+              documentFinancier.key
+          );
+          return !findDocument ? 1 : 0;
+        })
+        .reduce((accumulator: number) => accumulator + 1, 0)
+    )
+    .reduce((accumulator: number, current: number) => accumulator + current, 0);
+
+  if (numberOfMissingDocuments > 0) {
+    return (
+      <div className="flex items-center gap-3 max-w-md text-base font-normal">
+        <span className="fr-icon-warning-line text-default-warning fr-icon--sm" />
+        <p className="text-default-warning mb-0 italic">
+          <strong>
+            {numberOfMissingDocuments}{" "}
+            {numberOfMissingDocuments > 1
+              ? "documents obligatoires sont manquants"
+              : "document obligatoire est manquant"}
+            {" : "}
+          </strong>
+          un·e agent·e vous contactera rapidement pour débloquer la situation.
+        </p>
+      </div>
+    );
+  }
   return (
-    <>
-      {years.map((year) => (
-        <Year key={year} year={year}>
-          {documents.map((document) => {
-            const todayYear = new Date().getFullYear();
-            if (Number(year) <= todayYear - document.yearIndex) {
-              const documentKey = `${document.value}-${year}`;
-              const currentDocIndex = documentIndexes[documentKey];
-              return (
-                <FileItem
-                  key={`${document.value}-${year}`}
-                  title={document.label}
-                  fileKey={
-                    localStorageValues?.documentsFinanciers?.[currentDocIndex]
-                      ?.key
-                  }
-                />
-              );
-            }
-            return null;
-          })}
-        </Year>
-      ))}
-    </>
+    <div className="flex items-center gap-2 max-w-md text-base font-normal">
+      <span className="fr-icon-success-line text-title-blue-france fr-icon--sm" />
+      <p className="text-title-blue-france mb-0 italic">
+        Tous les documents obligatoires ont été transmis.
+      </p>
+    </div>
   );
 };

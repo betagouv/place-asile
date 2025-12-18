@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 
+import { CURRENT_YEAR } from "@/constants";
 import {
   AdresseApiType,
   AdresseTypologieApiType,
@@ -7,8 +8,8 @@ import {
 import { ControleApiType } from "@/schemas/api/controle.schema";
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
+  StructureAgentUpdateApiType,
   StructureApiType,
-  StructureUpdateApiType,
 } from "@/schemas/api/structure.schema";
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
@@ -37,7 +38,7 @@ export const getPlacesByCommunes = (
 };
 
 export const getRepartition = (
-  structure: StructureUpdateApiType | StructureApiType
+  structure: StructureAgentUpdateApiType | StructureApiType
 ): Repartition => {
   const repartitions = structure.adresses?.map(
     (adresse) => adresse.repartition
@@ -125,4 +126,44 @@ export const getOperateurLabel = (
   operateur: string | null | undefined
 ): string | null | undefined => {
   return filiale ? `${filiale} (${operateur})` : operateur;
+};
+
+export const isStructureInCpom = (structure: StructureApiType): boolean => {
+  return (
+    structure.structureMillesimes?.find(
+      (millesime) => millesime.year === CURRENT_YEAR
+    )?.cpom ?? false
+  );
+};
+
+export const getCurrentCpomStructureDates = (
+  structure: StructureApiType
+): { debutCpom?: string; finCpom?: string } => {
+  const now = new Date().toISOString();
+  const currentCpomStructure = structure.cpomStructures?.find(
+    (cpomStructure) => {
+      const dateDebut = cpomStructure.dateDebut ?? cpomStructure.cpom.debutCpom;
+      const dateFin = cpomStructure.dateFin ?? cpomStructure.cpom.finCpom;
+
+      if (!dateDebut || !dateFin) {
+        return false;
+      }
+
+      return dateDebut <= now && dateFin >= now;
+    }
+  );
+
+  if (!currentCpomStructure) {
+    return {};
+  }
+
+  const currentCpomStructureDateDebut =
+    currentCpomStructure.dateDebut ?? currentCpomStructure.cpom.debutCpom;
+  const currentCpomStructureDateFin =
+    currentCpomStructure.dateFin ?? currentCpomStructure.cpom.finCpom;
+
+  return {
+    debutCpom: currentCpomStructureDateDebut,
+    finCpom: currentCpomStructureDateFin,
+  };
 };
