@@ -173,9 +173,7 @@ export const getCurrentStructureTypology = (
   structure: StructureAgentUpdateApiType | StructureApiType
 ): StructureTypologieApiType => {
   const currentYearStructureTypology = structure.structureTypologies?.find(
-    (structureTypologie) =>
-      structureTypologie.date?.slice(0, 4) ===
-      new Date().getFullYear().toString()
+    (structureTypologie) => structureTypologie.year === CURRENT_YEAR
   );
 
   return currentYearStructureTypology as StructureTypologieApiType;

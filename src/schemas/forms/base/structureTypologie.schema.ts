@@ -1,9 +1,6 @@
 import z from "zod";
 
-import {
-  frenchDateToISO,
-  nullishFrenchDateToISO,
-} from "@/app/utils/zodCustomFields";
+import { nullishFrenchDateToISO, zSafeYear } from "@/app/utils/zodCustomFields";
 import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
 
 export const structureTypologieWithoutEvolutionSchema = z.object({
@@ -12,7 +9,7 @@ export const structureTypologieWithoutEvolutionSchema = z.object({
   pmr: zSafeDecimals(),
   lgbt: zSafeDecimals(),
   fvvTeh: zSafeDecimals(),
-  date: frenchDateToISO(),
+  year: zSafeYear(),
 });
 
 export const placesEvolutionSchema = z.object({

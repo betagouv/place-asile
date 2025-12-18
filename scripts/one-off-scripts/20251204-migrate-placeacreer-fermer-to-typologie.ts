@@ -6,12 +6,9 @@ import "dotenv/config";
 
 import { createPrismaClient } from "@/prisma-client";
 
-import { buildYearStartDate } from "../utils/parse-date";
-
 const prisma = createPrismaClient();
 
 const YEAR = 2025;
-const YEAR_START = buildYearStartDate(YEAR);
 
 const migratePlacesToStructureTypologie = async () => {
   try {
@@ -61,9 +58,9 @@ const migratePlacesToStructureTypologie = async () => {
 
         await prisma.structureTypologie.upsert({
           where: {
-            structureDnaCode_date: {
+            structureDnaCode_year: {
               structureDnaCode: dnaCode,
-              date: YEAR_START,
+              year: YEAR,
             },
           },
           update: {
@@ -74,7 +71,7 @@ const migratePlacesToStructureTypologie = async () => {
           },
           create: {
             structureDnaCode: dnaCode,
-            date: YEAR_START,
+            year: YEAR,
             placesACreer,
             placesAFermer,
             echeancePlacesACreer,
