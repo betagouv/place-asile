@@ -28,7 +28,7 @@ export type AggregateActivite = {
 
 export type ActiviteAvgAggregateOutputType = {
   id: number | null
-  nbPlaces: number | null
+  placesAutorisees: number | null
   desinsectisation: number | null
   remiseEnEtat: number | null
   sousOccupation: number | null
@@ -41,7 +41,7 @@ export type ActiviteAvgAggregateOutputType = {
 
 export type ActiviteSumAggregateOutputType = {
   id: number | null
-  nbPlaces: number | null
+  placesAutorisees: number | null
   desinsectisation: number | null
   remiseEnEtat: number | null
   sousOccupation: number | null
@@ -56,7 +56,7 @@ export type ActiviteMinAggregateOutputType = {
   id: number | null
   structureDnaCode: string | null
   date: Date | null
-  nbPlaces: number | null
+  placesAutorisees: number | null
   desinsectisation: number | null
   remiseEnEtat: number | null
   sousOccupation: number | null
@@ -71,7 +71,7 @@ export type ActiviteMaxAggregateOutputType = {
   id: number | null
   structureDnaCode: string | null
   date: Date | null
-  nbPlaces: number | null
+  placesAutorisees: number | null
   desinsectisation: number | null
   remiseEnEtat: number | null
   sousOccupation: number | null
@@ -86,7 +86,7 @@ export type ActiviteCountAggregateOutputType = {
   id: number
   structureDnaCode: number
   date: number
-  nbPlaces: number
+  placesAutorisees: number
   desinsectisation: number
   remiseEnEtat: number
   sousOccupation: number
@@ -101,7 +101,7 @@ export type ActiviteCountAggregateOutputType = {
 
 export type ActiviteAvgAggregateInputType = {
   id?: true
-  nbPlaces?: true
+  placesAutorisees?: true
   desinsectisation?: true
   remiseEnEtat?: true
   sousOccupation?: true
@@ -114,7 +114,7 @@ export type ActiviteAvgAggregateInputType = {
 
 export type ActiviteSumAggregateInputType = {
   id?: true
-  nbPlaces?: true
+  placesAutorisees?: true
   desinsectisation?: true
   remiseEnEtat?: true
   sousOccupation?: true
@@ -129,7 +129,7 @@ export type ActiviteMinAggregateInputType = {
   id?: true
   structureDnaCode?: true
   date?: true
-  nbPlaces?: true
+  placesAutorisees?: true
   desinsectisation?: true
   remiseEnEtat?: true
   sousOccupation?: true
@@ -144,7 +144,7 @@ export type ActiviteMaxAggregateInputType = {
   id?: true
   structureDnaCode?: true
   date?: true
-  nbPlaces?: true
+  placesAutorisees?: true
   desinsectisation?: true
   remiseEnEtat?: true
   sousOccupation?: true
@@ -159,7 +159,7 @@ export type ActiviteCountAggregateInputType = {
   id?: true
   structureDnaCode?: true
   date?: true
-  nbPlaces?: true
+  placesAutorisees?: true
   desinsectisation?: true
   remiseEnEtat?: true
   sousOccupation?: true
@@ -261,7 +261,7 @@ export type ActiviteGroupByOutputType = {
   id: number
   structureDnaCode: string
   date: Date
-  nbPlaces: number
+  placesAutorisees: number
   desinsectisation: number
   remiseEnEtat: number
   sousOccupation: number
@@ -299,7 +299,7 @@ export type ActiviteWhereInput = {
   id?: Prisma.IntFilter<"Activite"> | number
   structureDnaCode?: Prisma.StringFilter<"Activite"> | string
   date?: Prisma.DateTimeFilter<"Activite"> | Date | string
-  nbPlaces?: Prisma.IntFilter<"Activite"> | number
+  placesAutorisees?: Prisma.IntFilter<"Activite"> | number
   desinsectisation?: Prisma.IntFilter<"Activite"> | number
   remiseEnEtat?: Prisma.IntFilter<"Activite"> | number
   sousOccupation?: Prisma.IntFilter<"Activite"> | number
@@ -315,7 +315,7 @@ export type ActiviteOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   structureDnaCode?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  nbPlaces?: Prisma.SortOrder
+  placesAutorisees?: Prisma.SortOrder
   desinsectisation?: Prisma.SortOrder
   remiseEnEtat?: Prisma.SortOrder
   sousOccupation?: Prisma.SortOrder
@@ -329,12 +329,13 @@ export type ActiviteOrderByWithRelationInput = {
 
 export type ActiviteWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  structureDnaCode_date?: Prisma.ActiviteStructureDnaCodeDateCompoundUniqueInput
   AND?: Prisma.ActiviteWhereInput | Prisma.ActiviteWhereInput[]
   OR?: Prisma.ActiviteWhereInput[]
   NOT?: Prisma.ActiviteWhereInput | Prisma.ActiviteWhereInput[]
   structureDnaCode?: Prisma.StringFilter<"Activite"> | string
   date?: Prisma.DateTimeFilter<"Activite"> | Date | string
-  nbPlaces?: Prisma.IntFilter<"Activite"> | number
+  placesAutorisees?: Prisma.IntFilter<"Activite"> | number
   desinsectisation?: Prisma.IntFilter<"Activite"> | number
   remiseEnEtat?: Prisma.IntFilter<"Activite"> | number
   sousOccupation?: Prisma.IntFilter<"Activite"> | number
@@ -344,13 +345,13 @@ export type ActiviteWhereUniqueInput = Prisma.AtLeast<{
   presencesInduesBPI?: Prisma.IntFilter<"Activite"> | number
   presencesInduesDeboutees?: Prisma.IntFilter<"Activite"> | number
   structure?: Prisma.XOR<Prisma.StructureNullableScalarRelationFilter, Prisma.StructureWhereInput> | null
-}, "id">
+}, "id" | "structureDnaCode_date">
 
 export type ActiviteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   structureDnaCode?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  nbPlaces?: Prisma.SortOrder
+  placesAutorisees?: Prisma.SortOrder
   desinsectisation?: Prisma.SortOrder
   remiseEnEtat?: Prisma.SortOrder
   sousOccupation?: Prisma.SortOrder
@@ -373,7 +374,7 @@ export type ActiviteScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Activite"> | number
   structureDnaCode?: Prisma.StringWithAggregatesFilter<"Activite"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"Activite"> | Date | string
-  nbPlaces?: Prisma.IntWithAggregatesFilter<"Activite"> | number
+  placesAutorisees?: Prisma.IntWithAggregatesFilter<"Activite"> | number
   desinsectisation?: Prisma.IntWithAggregatesFilter<"Activite"> | number
   remiseEnEtat?: Prisma.IntWithAggregatesFilter<"Activite"> | number
   sousOccupation?: Prisma.IntWithAggregatesFilter<"Activite"> | number
@@ -386,7 +387,7 @@ export type ActiviteScalarWhereWithAggregatesInput = {
 
 export type ActiviteCreateInput = {
   date: Date | string
-  nbPlaces: number
+  placesAutorisees: number
   desinsectisation: number
   remiseEnEtat: number
   sousOccupation: number
@@ -402,7 +403,7 @@ export type ActiviteUncheckedCreateInput = {
   id?: number
   structureDnaCode: string
   date: Date | string
-  nbPlaces: number
+  placesAutorisees: number
   desinsectisation: number
   remiseEnEtat: number
   sousOccupation: number
@@ -415,7 +416,7 @@ export type ActiviteUncheckedCreateInput = {
 
 export type ActiviteUpdateInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  nbPlaces?: Prisma.IntFieldUpdateOperationsInput | number
+  placesAutorisees?: Prisma.IntFieldUpdateOperationsInput | number
   desinsectisation?: Prisma.IntFieldUpdateOperationsInput | number
   remiseEnEtat?: Prisma.IntFieldUpdateOperationsInput | number
   sousOccupation?: Prisma.IntFieldUpdateOperationsInput | number
@@ -431,7 +432,7 @@ export type ActiviteUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   structureDnaCode?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  nbPlaces?: Prisma.IntFieldUpdateOperationsInput | number
+  placesAutorisees?: Prisma.IntFieldUpdateOperationsInput | number
   desinsectisation?: Prisma.IntFieldUpdateOperationsInput | number
   remiseEnEtat?: Prisma.IntFieldUpdateOperationsInput | number
   sousOccupation?: Prisma.IntFieldUpdateOperationsInput | number
@@ -446,7 +447,7 @@ export type ActiviteCreateManyInput = {
   id?: number
   structureDnaCode: string
   date: Date | string
-  nbPlaces: number
+  placesAutorisees: number
   desinsectisation: number
   remiseEnEtat: number
   sousOccupation: number
@@ -459,7 +460,7 @@ export type ActiviteCreateManyInput = {
 
 export type ActiviteUpdateManyMutationInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  nbPlaces?: Prisma.IntFieldUpdateOperationsInput | number
+  placesAutorisees?: Prisma.IntFieldUpdateOperationsInput | number
   desinsectisation?: Prisma.IntFieldUpdateOperationsInput | number
   remiseEnEtat?: Prisma.IntFieldUpdateOperationsInput | number
   sousOccupation?: Prisma.IntFieldUpdateOperationsInput | number
@@ -474,7 +475,7 @@ export type ActiviteUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   structureDnaCode?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  nbPlaces?: Prisma.IntFieldUpdateOperationsInput | number
+  placesAutorisees?: Prisma.IntFieldUpdateOperationsInput | number
   desinsectisation?: Prisma.IntFieldUpdateOperationsInput | number
   remiseEnEtat?: Prisma.IntFieldUpdateOperationsInput | number
   sousOccupation?: Prisma.IntFieldUpdateOperationsInput | number
@@ -495,11 +496,16 @@ export type ActiviteOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type ActiviteStructureDnaCodeDateCompoundUniqueInput = {
+  structureDnaCode: string
+  date: Date | string
+}
+
 export type ActiviteCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   structureDnaCode?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  nbPlaces?: Prisma.SortOrder
+  placesAutorisees?: Prisma.SortOrder
   desinsectisation?: Prisma.SortOrder
   remiseEnEtat?: Prisma.SortOrder
   sousOccupation?: Prisma.SortOrder
@@ -512,7 +518,7 @@ export type ActiviteCountOrderByAggregateInput = {
 
 export type ActiviteAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  nbPlaces?: Prisma.SortOrder
+  placesAutorisees?: Prisma.SortOrder
   desinsectisation?: Prisma.SortOrder
   remiseEnEtat?: Prisma.SortOrder
   sousOccupation?: Prisma.SortOrder
@@ -527,7 +533,7 @@ export type ActiviteMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   structureDnaCode?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  nbPlaces?: Prisma.SortOrder
+  placesAutorisees?: Prisma.SortOrder
   desinsectisation?: Prisma.SortOrder
   remiseEnEtat?: Prisma.SortOrder
   sousOccupation?: Prisma.SortOrder
@@ -542,7 +548,7 @@ export type ActiviteMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   structureDnaCode?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  nbPlaces?: Prisma.SortOrder
+  placesAutorisees?: Prisma.SortOrder
   desinsectisation?: Prisma.SortOrder
   remiseEnEtat?: Prisma.SortOrder
   sousOccupation?: Prisma.SortOrder
@@ -555,7 +561,7 @@ export type ActiviteMinOrderByAggregateInput = {
 
 export type ActiviteSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  nbPlaces?: Prisma.SortOrder
+  placesAutorisees?: Prisma.SortOrder
   desinsectisation?: Prisma.SortOrder
   remiseEnEtat?: Prisma.SortOrder
   sousOccupation?: Prisma.SortOrder
@@ -610,7 +616,7 @@ export type ActiviteUncheckedUpdateManyWithoutStructureNestedInput = {
 
 export type ActiviteCreateWithoutStructureInput = {
   date: Date | string
-  nbPlaces: number
+  placesAutorisees: number
   desinsectisation: number
   remiseEnEtat: number
   sousOccupation: number
@@ -624,7 +630,7 @@ export type ActiviteCreateWithoutStructureInput = {
 export type ActiviteUncheckedCreateWithoutStructureInput = {
   id?: number
   date: Date | string
-  nbPlaces: number
+  placesAutorisees: number
   desinsectisation: number
   remiseEnEtat: number
   sousOccupation: number
@@ -668,7 +674,7 @@ export type ActiviteScalarWhereInput = {
   id?: Prisma.IntFilter<"Activite"> | number
   structureDnaCode?: Prisma.StringFilter<"Activite"> | string
   date?: Prisma.DateTimeFilter<"Activite"> | Date | string
-  nbPlaces?: Prisma.IntFilter<"Activite"> | number
+  placesAutorisees?: Prisma.IntFilter<"Activite"> | number
   desinsectisation?: Prisma.IntFilter<"Activite"> | number
   remiseEnEtat?: Prisma.IntFilter<"Activite"> | number
   sousOccupation?: Prisma.IntFilter<"Activite"> | number
@@ -682,7 +688,7 @@ export type ActiviteScalarWhereInput = {
 export type ActiviteCreateManyStructureInput = {
   id?: number
   date: Date | string
-  nbPlaces: number
+  placesAutorisees: number
   desinsectisation: number
   remiseEnEtat: number
   sousOccupation: number
@@ -695,7 +701,7 @@ export type ActiviteCreateManyStructureInput = {
 
 export type ActiviteUpdateWithoutStructureInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  nbPlaces?: Prisma.IntFieldUpdateOperationsInput | number
+  placesAutorisees?: Prisma.IntFieldUpdateOperationsInput | number
   desinsectisation?: Prisma.IntFieldUpdateOperationsInput | number
   remiseEnEtat?: Prisma.IntFieldUpdateOperationsInput | number
   sousOccupation?: Prisma.IntFieldUpdateOperationsInput | number
@@ -709,7 +715,7 @@ export type ActiviteUpdateWithoutStructureInput = {
 export type ActiviteUncheckedUpdateWithoutStructureInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  nbPlaces?: Prisma.IntFieldUpdateOperationsInput | number
+  placesAutorisees?: Prisma.IntFieldUpdateOperationsInput | number
   desinsectisation?: Prisma.IntFieldUpdateOperationsInput | number
   remiseEnEtat?: Prisma.IntFieldUpdateOperationsInput | number
   sousOccupation?: Prisma.IntFieldUpdateOperationsInput | number
@@ -723,7 +729,7 @@ export type ActiviteUncheckedUpdateWithoutStructureInput = {
 export type ActiviteUncheckedUpdateManyWithoutStructureInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  nbPlaces?: Prisma.IntFieldUpdateOperationsInput | number
+  placesAutorisees?: Prisma.IntFieldUpdateOperationsInput | number
   desinsectisation?: Prisma.IntFieldUpdateOperationsInput | number
   remiseEnEtat?: Prisma.IntFieldUpdateOperationsInput | number
   sousOccupation?: Prisma.IntFieldUpdateOperationsInput | number
@@ -740,7 +746,7 @@ export type ActiviteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   structureDnaCode?: boolean
   date?: boolean
-  nbPlaces?: boolean
+  placesAutorisees?: boolean
   desinsectisation?: boolean
   remiseEnEtat?: boolean
   sousOccupation?: boolean
@@ -756,7 +762,7 @@ export type ActiviteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   structureDnaCode?: boolean
   date?: boolean
-  nbPlaces?: boolean
+  placesAutorisees?: boolean
   desinsectisation?: boolean
   remiseEnEtat?: boolean
   sousOccupation?: boolean
@@ -772,7 +778,7 @@ export type ActiviteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   structureDnaCode?: boolean
   date?: boolean
-  nbPlaces?: boolean
+  placesAutorisees?: boolean
   desinsectisation?: boolean
   remiseEnEtat?: boolean
   sousOccupation?: boolean
@@ -788,7 +794,7 @@ export type ActiviteSelectScalar = {
   id?: boolean
   structureDnaCode?: boolean
   date?: boolean
-  nbPlaces?: boolean
+  placesAutorisees?: boolean
   desinsectisation?: boolean
   remiseEnEtat?: boolean
   sousOccupation?: boolean
@@ -799,7 +805,7 @@ export type ActiviteSelectScalar = {
   presencesInduesDeboutees?: boolean
 }
 
-export type ActiviteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "structureDnaCode" | "date" | "nbPlaces" | "desinsectisation" | "remiseEnEtat" | "sousOccupation" | "travaux" | "placesIndisponibles" | "placesVacantes" | "presencesInduesBPI" | "presencesInduesDeboutees", ExtArgs["result"]["activite"]>
+export type ActiviteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "structureDnaCode" | "date" | "placesAutorisees" | "desinsectisation" | "remiseEnEtat" | "sousOccupation" | "travaux" | "placesIndisponibles" | "placesVacantes" | "presencesInduesBPI" | "presencesInduesDeboutees", ExtArgs["result"]["activite"]>
 export type ActiviteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   structure?: boolean | Prisma.Activite$structureArgs<ExtArgs>
 }
@@ -819,7 +825,7 @@ export type $ActivitePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: number
     structureDnaCode: string
     date: Date
-    nbPlaces: number
+    placesAutorisees: number
     desinsectisation: number
     remiseEnEtat: number
     sousOccupation: number
@@ -1255,7 +1261,7 @@ export interface ActiviteFieldRefs {
   readonly id: Prisma.FieldRef<"Activite", 'Int'>
   readonly structureDnaCode: Prisma.FieldRef<"Activite", 'String'>
   readonly date: Prisma.FieldRef<"Activite", 'DateTime'>
-  readonly nbPlaces: Prisma.FieldRef<"Activite", 'Int'>
+  readonly placesAutorisees: Prisma.FieldRef<"Activite", 'Int'>
   readonly desinsectisation: Prisma.FieldRef<"Activite", 'Int'>
   readonly remiseEnEtat: Prisma.FieldRef<"Activite", 'Int'>
   readonly sousOccupation: Prisma.FieldRef<"Activite", 'Int'>

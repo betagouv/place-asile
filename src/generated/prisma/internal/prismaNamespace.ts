@@ -2590,7 +2590,7 @@ export const ActiviteScalarFieldEnum = {
   id: 'id',
   structureDnaCode: 'structureDnaCode',
   date: 'date',
-  nbPlaces: 'nbPlaces',
+  placesAutorisees: 'placesAutorisees',
   desinsectisation: 'desinsectisation',
   remiseEnEtat: 'remiseEnEtat',
   sousOccupation: 'sousOccupation',

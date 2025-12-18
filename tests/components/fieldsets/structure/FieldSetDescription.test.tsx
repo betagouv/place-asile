@@ -69,9 +69,6 @@ describe("FieldSetDescription", () => {
 
       expect(screen.getByLabelText("FVV et TEH")).toBeInTheDocument();
 
-      const cpomToggle = screen.getByTitle("CPOM");
-      expect(cpomToggle).toBeInTheDocument();
-
       const hiddenInput = container.querySelector(
         'input[type="hidden"][id="dnaCode"]'
       );
@@ -256,41 +253,6 @@ describe("FieldSetDescription", () => {
 
       await waitFor(() => {
         expect(screen.queryByLabelText("Filiale")).not.toBeInTheDocument();
-      });
-    });
-  });
-
-  describe("CPOM toggle interaction", () => {
-    it("should toggle CPOM value", async () => {
-      const user = userEvent.setup();
-
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CADA,
-            operateur: { id: 1, name: "Adoma" },
-            cpom: false,
-          }}
-        >
-          <FieldSetDescription
-            dnaCode={defaultDnaCode}
-            formKind={FormKind.FINALISATION}
-          />
-        </FormTestWrapper>
-      );
-
-      const cpomToggle = screen.getByLabelText(
-        "Actuellement, la structure fait-elle partie d’un CPOM ?"
-      );
-
-      // Initially CPOM should be unchecked
-      expect(cpomToggle).not.toBeChecked();
-
-      await user.click(cpomToggle);
-
-      // After toggle, CPOM should be checked
-      await waitFor(() => {
-        expect(cpomToggle).toBeChecked();
       });
     });
   });
