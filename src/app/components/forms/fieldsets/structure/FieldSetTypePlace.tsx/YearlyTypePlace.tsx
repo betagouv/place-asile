@@ -14,12 +14,7 @@ export const YearlyTypePlace = ({ year }: Props) => {
     structureTypologies,
     year
   );
-  console.log(currentStructureTypologyIndex, year, structureTypologies);
-  console.log(
-    structureTypologies?.findIndex(
-      (structureTypology) => structureTypology.year === year
-    )
-  );
+
   return (
     <tr className="w-full [&_input]:max-w-16 border-t border-default-grey ">
       <td className="hidden">
