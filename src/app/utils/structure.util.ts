@@ -178,3 +178,14 @@ export const getCurrentStructureTypology = (
 
   return currentYearStructureTypology as StructureTypologieApiType;
 };
+
+export const getStructureTypologyIndexForAYear = (
+  structureTypologies: StructureTypologieApiType[],
+  year: number = CURRENT_YEAR
+): number => {
+  return (
+    structureTypologies?.findIndex(
+      (structureTypology) => structureTypology.year === year
+    ) ?? -1
+  );
+};

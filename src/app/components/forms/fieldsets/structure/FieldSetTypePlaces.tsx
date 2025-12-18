@@ -4,10 +4,10 @@ import { useFormContext } from "react-hook-form";
 
 import { Table } from "@/app/components/common/Table";
 import { cn } from "@/app/utils/classname.util";
-import { getTypePlacesYearRange, getYearDate } from "@/app/utils/date.util";
+import { getTypePlacesYearRange } from "@/app/utils/date.util";
 import { FormKind } from "@/types/global";
 
-import InputWithValidation from "../../InputWithValidation";
+import { YearlyTypePlace } from "./FieldSetTypePlace.tsx/YearlyTypePlace";
 
 export const FieldSetTypePlaces = ({
   formKind = FormKind.FINALISATION,
@@ -15,7 +15,7 @@ export const FieldSetTypePlaces = ({
   formKind?: FormKind;
 }) => {
   const fieldsetRef = useRef<HTMLFieldSetElement>(null);
-  const { control, register, formState } = useFormContext();
+  const { formState } = useFormContext();
 
   const hasErrors = Object.values(formState.errors).length > 0;
 
@@ -53,76 +53,8 @@ export const FieldSetTypePlaces = ({
           hasErrors && "border-action-high-error"
         )}
       >
-        {years.map((year, index) => (
-          <tr
-            key={year}
-            className="w-full [&_input]:max-w-16 border-t border-default-grey "
-          >
-            <td className="hidden">
-              <InputWithValidation
-                name={`structureTypologies.${index}.id`}
-                id={`structureTypologies.${index}.id`}
-                control={control}
-                type="hidden"
-                label="id"
-              />
-            </td>
-            <td className="align-middle py-4">{year}</td>
-            <td className="py-4!">
-              <InputWithValidation
-                name={`structureTypologies.${index}.placesAutorisees`}
-                id={`structureTypologies.${index}.placesAutorisees`}
-                control={control}
-                type="number"
-                min={0}
-                label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden"
-                variant="simple"
-              />
-            </td>
-            <td className="py-1!">
-              <InputWithValidation
-                name={`structureTypologies.${index}.pmr`}
-                id={`structureTypologies.${index}.pmr`}
-                control={control}
-                type="number"
-                min={0}
-                label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden"
-                variant="simple"
-              />
-            </td>
-            <td className="py-1!">
-              <InputWithValidation
-                name={`structureTypologies.${index}.lgbt`}
-                id={`structureTypologies.${index}.lgbt`}
-                control={control}
-                type="number"
-                min={0}
-                label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden"
-                variant="simple"
-              />
-            </td>
-            <td className="py-1!">
-              <InputWithValidation
-                name={`structureTypologies.${index}.fvvTeh`}
-                id={`structureTypologies.${index}.fvvTeh`}
-                control={control}
-                type="number"
-                min={0}
-                label=""
-                className="mb-0 mx-auto items-center [&_p]:hidden"
-                variant="simple"
-              />
-              <input
-                aria-hidden="true"
-                defaultValue={getYearDate(String(year))}
-                type="hidden"
-                {...register(`structureTypologies.${index}.date`)}
-              />
-            </td>
-          </tr>
+        {years.map((year) => (
+          <YearlyTypePlace key={year} year={year} />
         ))}
       </Table>
       {hasErrors && (

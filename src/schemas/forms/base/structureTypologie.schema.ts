@@ -1,7 +1,9 @@
 import z from "zod";
 
+import { getStructureTypologyIndexForAYear } from "@/app/utils/structure.util";
 import { nullishFrenchDateToISO, zSafeYear } from "@/app/utils/zodCustomFields";
 import { zSafeDecimals } from "@/app/utils/zodSafeDecimals";
+import { CURRENT_YEAR } from "@/constants";
 
 export const structureTypologieWithoutEvolutionSchema = z.object({
   id: z.number().optional(),
@@ -35,53 +37,86 @@ export const structureTypologiesAutoSaveSchema = z.object({
 });
 
 export const structureTypologiesWithMandatoryEvolutionSchema =
-  structureTypologiesSchema
-    .refine(
-      (data) => {
-        return (
-          !!data.structureTypologies[0]?.placesACreer ||
-          data.structureTypologies[0]?.placesACreer === 0
-        );
-      },
-      {
+  structureTypologiesSchema.superRefine((data, ctx) => {
+    const currentStructureTypologyIndex = getStructureTypologyIndexForAYear(
+      data.structureTypologies,
+      CURRENT_YEAR
+    );
+
+    if (
+      !(
+        !!data.structureTypologies[currentStructureTypologyIndex]
+          ?.placesACreer ||
+        data.structureTypologies[currentStructureTypologyIndex]
+          ?.placesACreer === 0
+      )
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
         message: "Le nombre de place à créer est obligatoire",
-        path: ["structureTypologies", "0", "placesACreer"],
-      }
-    )
-    .refine(
-      (data) => {
-        return (
-          !!data.structureTypologies[0]?.placesAFermer ||
-          data.structureTypologies[0]?.placesAFermer === 0
-        );
-      },
-      {
+        path: [
+          "structureTypologies",
+          currentStructureTypologyIndex,
+          "placesACreer",
+        ],
+      });
+    }
+
+    if (
+      !(
+        !!data.structureTypologies[currentStructureTypologyIndex]
+          ?.placesAFermer ||
+        data.structureTypologies[currentStructureTypologyIndex]
+          ?.placesAFermer === 0
+      )
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
         message: "Le nombre de place à fermer est obligatoire",
-        path: ["structureTypologies", "0", "placesAFermer"],
-      }
-    )
-    .refine(
-      (data) => {
-        return (
-          data.structureTypologies[0]?.placesACreer === 0 ||
-          !!data.structureTypologies[0]?.echeancePlacesACreer
-        );
-      },
-      {
+        path: [
+          "structureTypologies",
+          currentStructureTypologyIndex,
+          "placesAFermer",
+        ],
+      });
+    }
+
+    if (
+      !(
+        data.structureTypologies[currentStructureTypologyIndex]
+          ?.placesACreer === 0 ||
+        !!data.structureTypologies[currentStructureTypologyIndex]
+          ?.echeancePlacesACreer
+      )
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
         message: "Ce champ est obligatoire s'il y a au moins une place à créer",
-        path: ["structureTypologies", "0", "echeancePlacesACreer"],
-      }
-    )
-    .refine(
-      (data) => {
-        return (
-          data.structureTypologies[0]?.placesAFermer === 0 ||
-          !!data.structureTypologies[0]?.echeancePlacesAFermer
-        );
-      },
-      {
+        path: [
+          "structureTypologies",
+          currentStructureTypologyIndex,
+          "echeancePlacesACreer",
+        ],
+      });
+    }
+
+    if (
+      !(
+        data.structureTypologies[currentStructureTypologyIndex]
+          ?.placesAFermer === 0 ||
+        !!data.structureTypologies[currentStructureTypologyIndex]
+          ?.echeancePlacesAFermer
+      )
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
         message:
           "Ce champ est obligatoire s'il y a au moins une place à fermer",
-        path: ["structureTypologies", "0", "echeancePlacesAFermer"],
-      }
-    );
+        path: [
+          "structureTypologies",
+          currentStructureTypologyIndex,
+          "echeancePlacesAFermer",
+        ],
+      });
+    }
+  });
