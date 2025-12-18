@@ -61,6 +61,12 @@ export const protectedApiRoutes: ApiRoute[] = [
       POST: "none",
     },
   },
+  {
+    pattern: /^\/api\/metabase$/,
+    routes: {
+      GET: "none",
+    },
+  },
 ];
 
 export const proConnectProtectedPages = [

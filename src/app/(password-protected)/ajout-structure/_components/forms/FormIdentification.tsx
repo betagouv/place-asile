@@ -1,5 +1,5 @@
 "use client";
-// TODO @ledjay : split this file for code clarity
+
 import { Checkbox } from "@codegouvfr/react-dsfr/Checkbox";
 import Notice from "@codegouvfr/react-dsfr/Notice";
 import ToggleSwitch from "@codegouvfr/react-dsfr/ToggleSwitch";

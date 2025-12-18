@@ -29,8 +29,8 @@ export const createOrUpdateCpomMillesimes = async (
       cpom: {
         select: {
           id: true,
-          debutCpom: true,
-          finCpom: true,
+          yearStart: true,
+          yearEnd: true,
         },
       },
     },
@@ -38,7 +38,7 @@ export const createOrUpdateCpomMillesimes = async (
 
   if (cpomStructures.length === 0) {
     console.warn(
-      `Aucun CPOM associé à la structure ${structureDnaCode}, millesimes ignorés`
+      `Aucun CPOM associé à la structure ${structureDnaCode}, millésimes ignorés`
     );
     return;
   }
@@ -49,25 +49,25 @@ export const createOrUpdateCpomMillesimes = async (
 
       if (!resolved) {
         console.warn(
-          `Aucun CPOM trouvé pour la structure ${structureDnaCode} avec une période couvrant la date ${millesime.date}, millesime ignoré`
+          `Aucun CPOM trouvé pour la structure ${structureDnaCode} avec une période couvrant l'année ${millesime.year}, millésime ignoré`
         );
         return;
       }
 
-      const { cpomId, date } = resolved;
+      const { cpomId, year } = resolved;
 
       return tx.cpomMillesime.upsert({
         where: {
-          cpomId_date: {
+          cpomId_year: {
             cpomId,
-            date,
+            year,
           },
         },
         update: millesime,
         create: {
           cpomId,
           ...millesime,
-          date,
+          year,
         },
       });
     })

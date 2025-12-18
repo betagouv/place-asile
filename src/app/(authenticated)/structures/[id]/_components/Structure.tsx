@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 
 import { ActesAdministratifsBlock } from "./_actes-administratifs/ActesAdministratifsBlock";
-// import { ActivitesBlock } from "./(activites)/ActivitesBlock";
+import { ActiviteBlock } from "./_activite/ActiviteBlock";
 import { CalendrierBlock } from "./_calendrier/CalendrierBlock";
 import { ControlesBlock } from "./_controles/ControlesBlock";
 import { DescriptionBlock } from "./_description/DescriptionBlock";
@@ -28,9 +28,9 @@ export const Structure = (): ReactElement => {
       <Section id="controle">
         <ControlesBlock />
       </Section>
-      {/* <Section id="activites">
-        <ActivitesBlock />
-      </Section> */}
+      <Section id="activites">
+        <ActiviteBlock />
+      </Section>
       <Section id="actes-administratifs">
         <ActesAdministratifsBlock />
       </Section>

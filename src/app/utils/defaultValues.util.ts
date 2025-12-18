@@ -1,7 +1,6 @@
 import { getRepartition } from "@/app/utils/structure.util";
 import { ContactApiType } from "@/schemas/api/contact.schema";
 import { StructureApiType } from "@/schemas/api/structure.schema";
-import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 import { ActeAdministratifFormValues } from "@/schemas/forms/base/acteAdministratif.schema";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { budgetsSchemaTypeFormValues } from "@/schemas/forms/base/budget.schema";
@@ -69,18 +68,6 @@ export const getDefaultValues = ({
     departementAdministratif: structure.departementAdministratif || "",
     typeBati: repartition,
     adresses: transformApiAdressesToFormAdresses(structure.adresses),
-    typologies: structure?.structureTypologies?.map((typologie) => ({
-      id: typologie.id,
-      date: typologie.date,
-      placesAutorisees: typologie.placesAutorisees,
-      pmr: typologie.pmr,
-      lgbt: typologie.lgbt,
-      fvvTeh: typologie.fvvTeh,
-      placesACreer: typologie.placesACreer ?? undefined,
-      placesAFermer: typologie.placesAFermer ?? undefined,
-      echeancePlacesACreer: typologie.echeancePlacesACreer ?? undefined,
-      echeancePlacesAFermer: typologie.echeancePlacesAFermer ?? undefined,
-    })),
     placesACreer: structure.placesACreer ?? undefined,
     placesAFermer: structure.placesAFermer ?? undefined,
     echeancePlacesACreer: structure.echeancePlacesACreer ?? undefined,
@@ -111,7 +98,6 @@ type StructureDefaultValues = Omit<
   | "codePostalAdministratif"
   | "communeAdministrative"
   | "departementAdministratif"
-  | "typologies"
   | "adresses"
   | "placesACreer"
   | "placesAFermer"
@@ -140,7 +126,6 @@ type StructureDefaultValues = Omit<
   departementAdministratif: string;
   typeBati: Repartition;
   adresses: FormAdresse[];
-  typologies?: StructureTypologieApiType[];
   placesACreer?: number;
   placesAFermer?: number;
   echeancePlacesACreer?: string;

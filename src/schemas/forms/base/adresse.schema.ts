@@ -1,9 +1,10 @@
 import z from "zod";
 
+import { zSafeYear } from "@/app/utils/zodCustomFields";
 import { Repartition } from "@/types/adresse.type";
 
 export const adresseTypologieSchema = z.object({
-  date: z.string().min(1),
+  year: zSafeYear(),
   placesAutorisees: z
     .preprocess(
       (val) => (val === "" ? undefined : Number(val)),

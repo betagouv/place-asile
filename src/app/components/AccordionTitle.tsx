@@ -1,5 +1,7 @@
 import { ReactElement } from "react";
 
+import { formatDate } from "@/app/utils/date.util";
+
 export const AccordionTitle = ({ title, lastVisit }: Props): ReactElement => {
   return (
     <div className="flex justify-between w-full">
@@ -7,7 +9,7 @@ export const AccordionTitle = ({ title, lastVisit }: Props): ReactElement => {
       <span className="text-mention-grey italic fr-pr-1w">
         Dernier le{" "}
         {lastVisit ? (
-          <strong>{new Date(lastVisit).toLocaleDateString("fr-FR")}</strong>
+          <strong>{formatDate(lastVisit)}</strong>
         ) : (
           <strong>-</strong>
         )}

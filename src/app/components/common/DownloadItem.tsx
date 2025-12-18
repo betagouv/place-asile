@@ -2,6 +2,7 @@ import prettyBytes from "pretty-bytes";
 import { ReactElement } from "react";
 
 import { useFileUpload } from "@/app/hooks/useFileUpload";
+import { getYearFromDate } from "@/app/utils/date.util";
 import { getCategoryLabel } from "@/app/utils/file-upload.util";
 import { ActeAdministratifApiType } from "@/schemas/api/acteAdministratif.schema";
 import { DocumentFinancierApiType } from "@/schemas/api/documentFinancier.schema";
@@ -31,12 +32,8 @@ export const DownloadItem = ({ fileUpload }: Props): ReactElement => {
       const categoryLabel = getCategoryLabel(
         fileUpload.category as unknown as FileUploadCategoryType[number]
       );
-      const startYear = new Date(
-        "startDate" in fileUpload ? fileUpload.startDate || "" : ""
-      ).getFullYear();
-      const endYear = new Date(
-        "endDate" in fileUpload ? fileUpload.endDate || "" : ""
-      ).getFullYear();
+      const startYear = getYearFromDate(fileUpload.startDate);
+      const endYear = getYearFromDate(fileUpload.endDate);
       if (isNaN(startYear) || isNaN(endYear)) {
         return categoryLabel;
       }

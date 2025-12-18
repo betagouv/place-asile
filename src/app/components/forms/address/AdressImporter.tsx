@@ -61,7 +61,7 @@ export const AdressImporter = ({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-alt-blue-france p-4 rounded min-h-[4rem]">
+    <div className="flex flex-col items-center justify-center bg-alt-blue-france p-4 rounded min-h-16">
       <input
         type="file"
         id="adresses-upload"
