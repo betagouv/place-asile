@@ -120,3 +120,7 @@ export const structureTypologiesWithMandatoryEvolutionSchema =
       });
     }
   });
+
+export type structureTypologieSchemaTypeFormValues = z.infer<
+  typeof structureTypologieSchema
+>;
