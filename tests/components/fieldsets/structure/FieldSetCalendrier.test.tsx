@@ -3,6 +3,10 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
 import { FieldSetCalendrier } from "@/app/components/forms/fieldsets/structure/FieldSetCalendrier";
+import {
+  isStructureAutorisee,
+  isStructureSubventionnee,
+} from "@/app/utils/structure.util";
 import { StructureType } from "@/types/structure.type";
 
 import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
@@ -212,7 +216,9 @@ describe("FieldSetCalendrier", () => {
   });
 
   describe("Convention fields", () => {
-    it("should render debut and fin convention fields", () => {
+    it("should render debut and fin convention fields and update them", async () => {
+      const user = userEvent.setup();
+
       render(
         <FormTestWrapper
           defaultValues={{
@@ -229,22 +235,6 @@ describe("FieldSetCalendrier", () => {
         0
       );
       expect(screen.getAllByLabelText("Date de fin").length).toBeGreaterThan(0);
-    });
-
-    it("should update debut convention date", async () => {
-      const user = userEvent.setup();
-
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CPH,
-            cpom: false,
-            debutConvention: "",
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
 
       const debutInput = screen.getAllByLabelText("Date de début")[0];
       await user.type(debutInput, "2024-01-15");
@@ -368,8 +358,11 @@ describe("FieldSetCalendrier", () => {
   });
 
   describe("Conditional rendering based on structure type", () => {
-    const autoriseeTypes = [StructureType.CADA, StructureType.CPH];
-    const subventionneeTypes = [StructureType.HUDA, StructureType.CAES];
+    const autoriseeTypes =
+      Object.values(StructureType).filter(isStructureAutorisee);
+    const subventionneeTypes = Object.values(StructureType).filter(
+      isStructureSubventionnee
+    );
 
     autoriseeTypes.forEach((type) => {
       it(`should show autorisation section for ${type}`, () => {

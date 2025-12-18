@@ -83,7 +83,7 @@ describe("FieldSetDescription", () => {
       const autoriseeTypes = [StructureType.CADA, StructureType.CPH];
 
       autoriseeTypes.forEach((type) => {
-        const { unmount } = render(
+        render(
           <FormTestWrapper
             defaultValues={{
               type,
@@ -98,7 +98,6 @@ describe("FieldSetDescription", () => {
         );
 
         expect(screen.getByLabelText("Code FINESS")).toBeInTheDocument();
-        unmount();
       });
     });
 
@@ -106,7 +105,7 @@ describe("FieldSetDescription", () => {
       const subventionneeTypes = [StructureType.HUDA, StructureType.CAES];
 
       subventionneeTypes.forEach((type) => {
-        const { unmount } = render(
+        render(
           <FormTestWrapper
             defaultValues={{
               type,
@@ -121,7 +120,6 @@ describe("FieldSetDescription", () => {
         );
 
         expect(screen.queryByLabelText("Code FINESS")).not.toBeInTheDocument();
-        unmount();
       });
     });
 
@@ -149,7 +147,7 @@ describe("FieldSetDescription", () => {
     });
   });
 
-  describe("Rendering with FormKind.MODIFICATION", () => {
+  describe("Rendering endering finalisation form", () => {
     it("should render with Général legend", () => {
       render(
         <FormTestWrapper

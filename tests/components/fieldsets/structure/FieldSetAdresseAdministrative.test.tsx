@@ -118,7 +118,7 @@ describe("FieldSetAdresseAdministrative", () => {
     });
   });
 
-  describe("Rendering with FormKind.MODIFICATION", () => {
+  describe("Rendering endering finalisation form", () => {
     it("should not display notice about address confidentiality", () => {
       render(
         <FormTestWrapper defaultValues={{}}>
@@ -259,7 +259,7 @@ describe("FieldSetAdresseAdministrative", () => {
             screen.getByText("10 Rue de la Paix, 75001 Paris")
           ).toBeInTheDocument();
         },
-        { timeout: 2000 }
+        { timeout: 1000 }
       );
 
       expect(
@@ -297,7 +297,7 @@ describe("FieldSetAdresseAdministrative", () => {
             screen.getByText("10 Rue de la Paix, 75001 Paris")
           ).toBeInTheDocument();
         },
-        { timeout: 2000 }
+        { timeout: 1000 }
       );
 
       const firstSuggestion = screen.getByText(
@@ -378,7 +378,7 @@ describe("FieldSetAdresseAdministrative", () => {
             screen.getByText("10 Rue de la Paix, 75001 Paris")
           ).toBeInTheDocument();
         },
-        { timeout: 2000 }
+        { timeout: 1000 }
       );
     });
   });

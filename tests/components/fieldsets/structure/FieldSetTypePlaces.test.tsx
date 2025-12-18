@@ -118,7 +118,7 @@ describe("FieldSetTypePlaces", () => {
     });
   });
 
-  describe("Rendering with FormKind.MODIFICATION", () => {
+  describe("Rendering endering finalisation form", () => {
     it("should render with Détails et historique legend", () => {
       render(
         <FormTestWrapper
