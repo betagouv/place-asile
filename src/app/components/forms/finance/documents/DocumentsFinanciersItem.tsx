@@ -1,25 +1,19 @@
 import Button from "@codegouvfr/react-dsfr/Button";
 import prettyBytes from "pretty-bytes";
 import { ReactElement, useEffect, useState } from "react";
-import { Control, useFieldArray } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 import { FileUploadWithLink, useFileUpload } from "@/app/hooks/useFileUpload";
 import { getShortDisplayedName } from "@/app/utils/file-upload.util";
-import {
-  DocumentFinancierFlexibleFormValues,
-  DocumentsFinanciersFlexibleFormValues,
-} from "@/schemas/forms/base/documentFinancier.schema";
+import { DocumentFinancierFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
 import { granularities } from "./documentsStructures";
 
 export const DocumentsFinanciersItem = ({
   documentFinancier,
-  control,
 }: Props): ReactElement => {
-  const { fields, remove } = useFieldArray({
-    control,
-    name: "documentsFinanciers",
-  });
+  const { watch, setValue } = useFormContext();
+
   const { getFile, deleteFile } = useFileUpload();
 
   const [fileData, setFileData] = useState<FileUploadWithLink | null>(null);
@@ -40,10 +34,19 @@ export const DocumentsFinanciersItem = ({
       if (documentFinancier.key) {
         await deleteFile(documentFinancier.key);
       }
-      const indexToRemove = fields.findIndex(
+
+      const documentsFinanciers = watch(
+        "documentsFinanciers"
+      ) as DocumentFinancierFlexibleFormValues[];
+
+      const indexToRemove = documentsFinanciers.findIndex(
         (field) => field.key === documentFinancier.key
       );
-      remove(indexToRemove);
+
+      setValue(
+        "documentsFinanciers",
+        documentsFinanciers.filter((_, index) => index !== indexToRemove)
+      );
     } catch {
       console.error("Erreur lors de la suppression du fichier");
     }
@@ -99,5 +102,4 @@ export const DocumentsFinanciersItem = ({
 
 type Props = {
   documentFinancier: DocumentFinancierFlexibleFormValues;
-  control: Control<DocumentsFinanciersFlexibleFormValues>;
 };
