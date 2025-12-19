@@ -126,11 +126,7 @@ export const FieldSetYearlyDocumentsFinanciers = ({
       )}
 
       <div className="grid grid-cols-2 gap-16 mb-10">
-        <DocumentsFinanciersList
-          isAutorisee={isAutorisee}
-          control={control}
-          year={year}
-        />
+        <DocumentsFinanciersList isAutorisee={isAutorisee} year={year} />
         <YearlyFileUpload
           year={year}
           index={index}
