@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "StructureTypologie" ALTER COLUMN "pmr" DROP NOT NULL,
+ALTER COLUMN "lgbt" DROP NOT NULL,
+ALTER COLUMN "fvvTeh" DROP NOT NULL;

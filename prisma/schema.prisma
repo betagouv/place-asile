@@ -223,9 +223,9 @@ model StructureTypologie {
   date                 DateTime?
   year                 Int                 @default(0)
   placesAutorisees     Int?
-  pmr                  Int
-  lgbt                 Int
-  fvvTeh               Int
+  pmr                  Int?
+  lgbt                 Int?
+  fvvTeh               Int?
   structureMillesimeId Int?                @unique
   structureMillesime   StructureMillesime? @relation(fields: [structureMillesimeId], references: [id], onDelete: Cascade)
 
