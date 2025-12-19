@@ -9,32 +9,49 @@ const viewFiles = fs.readdirSync(scriptsPath);
 console.log("Creating views...");
 
 const databaseUrl = process.env.DATABASE_URL || "";
-
 const psqlUrl = getDbUrl(databaseUrl);
-
-// Drop and recreate reporting schema
 const schema = process.env.REPORTING_SCHEMA || "reporting";
 
-runPsqlOrExit(
-  `psql "${psqlUrl}" -v ON_ERROR_STOP=1 ` +
-    `-c "DROP SCHEMA IF EXISTS \"${schema}\" CASCADE;" ` +
-    `-c "CREATE SCHEMA \"${schema}\";"`,
-  `✅ Schema "${schema}" recreated`,
-  `❌ Failed to recreate schema "${schema}"`
-);
+// Drop and recreate reporting schema (if mode is not delete)
+deleteViews();
+const mode = process.argv[2];
+if (mode === "delete") {
+  process.exit(0);
+}
 
-for (const file of viewFiles) {
-  console.log(`➡️ Applying ${file}`);
+createSchema();
+applyViews();
+
+// Utils
+function deleteViews() {
   runPsqlOrExit(
-    `psql "${psqlUrl}" -v ON_ERROR_STOP=1 -v SCHEMA="${schema}" -f ${scriptsPath}/${file}`,
-    `✅ Applied ${file}`,
-    `❌ Failed to apply ${file}`
+    `psql "${psqlUrl}" -v ON_ERROR_STOP=1 ` +
+      `-c "DROP SCHEMA IF EXISTS \"${schema}\" CASCADE;"`,
+    `✅ Schema "${schema}" deleted`,
+    `❌ Failed to delete schema "${schema}"`
   );
 }
 
-console.log("Views created successfully");
+function createSchema() {
+  runPsqlOrExit(
+    `psql "${psqlUrl}" -v ON_ERROR_STOP=1 ` +
+      `-c "CREATE SCHEMA \"${schema}\";"`,
+    `✅ Schema "${schema}" created`,
+    `❌ Failed to create schema "${schema}"`
+  );
+}
 
-// Utils
+function applyViews() {
+  for (const file of viewFiles) {
+    console.log(`➡️ Applying ${file}`);
+    runPsqlOrExit(
+      `psql "${psqlUrl}" -v ON_ERROR_STOP=1 -v SCHEMA="${schema}" -f ${scriptsPath}/${file}`,
+      `✅ Applied ${file}`,
+      `❌ Failed to apply ${file}`
+    );
+  }
+  console.log("Views created successfully");
+}
 
 function getDbUrl(rawDatabaseUrl: string): string {
   try {
