@@ -21,16 +21,16 @@ export const getStructureTypologyDefaultValues = (
       return {
         ...structureTypology,
         year: structureTypology?.year ?? emptyStructureTypology.year,
-        placesAutorisees: structureTypology?.placesAutorisees || undefined,
-        pmr: structureTypology?.pmr || undefined,
-        lgbt: structureTypology?.lgbt || undefined,
-        fvvTeh: structureTypology?.fvvTeh || undefined,
-        placesACreer: structureTypology?.placesACreer || undefined,
-        placesAFermer: structureTypology?.placesAFermer || undefined,
+        placesAutorisees: structureTypology?.placesAutorisees ?? undefined,
+        pmr: structureTypology?.pmr ?? undefined,
+        lgbt: structureTypology?.lgbt ?? undefined,
+        fvvTeh: structureTypology?.fvvTeh ?? undefined,
+        placesACreer: structureTypology?.placesACreer ?? undefined,
+        placesAFermer: structureTypology?.placesAFermer ?? undefined,
         echeancePlacesACreer:
-          structureTypology?.echeancePlacesACreer || undefined,
+          structureTypology?.echeancePlacesACreer ?? undefined,
         echeancePlacesAFermer:
-          structureTypology?.echeancePlacesAFermer || undefined,
+          structureTypology?.echeancePlacesAFermer ?? undefined,
       };
     }) as structureTypologieSchemaTypeFormValues[];
 };
