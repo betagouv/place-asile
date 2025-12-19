@@ -42,6 +42,10 @@ export const structureTypologiesWithMandatoryEvolutionSchema =
       data.structureTypologies,
       CURRENT_YEAR
     );
+    
+    if (currentStructureTypologyIndex === -1) {
+      return;
+    }
 
     if (
       !(

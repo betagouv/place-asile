@@ -1,6 +1,5 @@
 import { fakerFR as faker } from "@faker-js/faker";
 
-import { CURRENT_YEAR } from "@/constants";
 import { StructureTypologie } from "@/generated/prisma/client";
 
 export const createFakeStructureTypologie = ({
@@ -22,8 +21,8 @@ export const createFakeStructureTypologie = ({
     structureMillesimeId: null,
     placesACreer: faker.number.int({ min: 0, max: placesAutorisees }),
     placesAFermer: faker.number.int({ min: 0, max: placesAutorisees }),
-    echeancePlacesACreer: faker.date.future({ years: year - CURRENT_YEAR }),
-    echeancePlacesAFermer: faker.date.future({ years: year - CURRENT_YEAR }),
+    echeancePlacesACreer: faker.date.future({ years: 1 }),
+    echeancePlacesAFermer: faker.date.future({ years: 1 }),
     createdAt: faker.date.past(),
     updatedAt: faker.date.past(),
   };

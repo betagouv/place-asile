@@ -59,10 +59,10 @@ export const DocumentsFinanciersCheckboxIsInCpom = ({ year, index }: Props) => {
         ]}
       >
         <p>
-          {index}En décochant la case affirmant que cette structure faisait
-          partie d’un CPOM cette année-là, vous ne conserverez que les documents
-          importé à l’échelle de la structure. Les autres documents seront
-          supprimés, voulez-vous continuer ?
+          En décochant la case affirmant que cette structure faisait partie d’un
+          CPOM cette année-là, vous ne conserverez que les documents importé à
+          l’échelle de la structure. Les autres documents seront supprimés,
+          voulez-vous continuer ?
         </p>
       </confirmUncheckModal.Component>
     </>
