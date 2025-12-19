@@ -19,10 +19,10 @@ export const getStructureMillesimeDefaultValues = (
       );
       return {
         ...structureMillesime,
-        id: structureMillesime?.id || undefined,
-        year: structureMillesime?.year || emptyStructureMillesime.year,
-        cpom: structureMillesime?.cpom || false,
-        operateurComment: structureMillesime?.operateurComment || undefined,
+        id: structureMillesime?.id ?? undefined,
+        year: structureMillesime?.year ?? emptyStructureMillesime.year,
+        cpom: structureMillesime?.cpom ?? false,
+        operateurComment: structureMillesime?.operateurComment ?? undefined,
       };
     }) as StructureMillesimeApiType[];
 };
