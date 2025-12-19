@@ -1,5 +1,6 @@
 "use client";
 
+import Notice from "@codegouvfr/react-dsfr/Notice";
 import { ReactElement, useState } from "react";
 
 import { Badge } from "@/app/components/common/Badge";
@@ -42,6 +43,14 @@ export const AdressesViewer = (): ReactElement => {
       </button>
       {showAdresses && (
         <div className="text-mention-grey">
+          {adresses?.length === 0 && (
+            <Notice
+              severity="alert"
+              title=""
+              className="rounded [&_p]:flex  [&_p]:items-center"
+              description="Un problème technique a empêché l’enregistrement des hébergements liés à cette structure. La situation est en cours de correction, merci pour votre compréhension."
+            />
+          )}
           {adresses?.map((adresse) => (
             <div key={adresse.id} className="pb-1">
               <span className="pr-2">
