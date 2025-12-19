@@ -17,7 +17,7 @@ import { getBudgetsDefaultValues } from "./budget.util";
 import { getControlesDefaultValues } from "./controle.util";
 import { getEvaluationsDefaultValues } from "./evaluation.util";
 import { isStructureAutorisee } from "./structure.util";
-import { getStructureTypologyDefaultValues } from "./structureTypology";
+import { getStructureTypologyDefaultValues } from "./structureTypology.util";
 
 export const getDefaultValues = ({
   structure,
