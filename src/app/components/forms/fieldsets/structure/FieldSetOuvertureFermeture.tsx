@@ -23,6 +23,10 @@ export const FieldSetOuvertureFermeture = ({
     CURRENT_YEAR
   );
 
+  if (currentStructureTypologyIndex === -1) {
+    return null;
+  }
+
   return (
     <fieldset className="flex flex-col">
       {formKind === FormKind.MODIFICATION && (

@@ -93,6 +93,11 @@ export const FieldSetYearlyDocumentsFinanciers = ({
   if (shouldHide) {
     return null;
   }
+
+  if (index === -1) {
+    return null;
+  }
+
   return (
     <fieldset ref={fieldsetRef}>
       {!hasAccordion && (

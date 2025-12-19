@@ -15,6 +15,10 @@ export const YearlyTypePlace = ({ year }: Props) => {
     year
   );
 
+  if (currentStructureTypologyIndex === -1) {
+    return null;
+  }
+
   return (
     <tr className="w-full [&_input]:max-w-16 border-t border-default-grey ">
       <td className="hidden">
