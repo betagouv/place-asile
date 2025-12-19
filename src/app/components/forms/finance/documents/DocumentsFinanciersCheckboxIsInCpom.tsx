@@ -3,12 +3,12 @@ import { createModal } from "@codegouvfr/react-dsfr/Modal";
 
 import { useFormContext } from "@/app/context/FormContext";
 
-const confirmUncheckModal = createModal({
-  id: "confirm-uncheck-cpom-modal",
-  isOpenedByDefault: false,
-});
-
 export const DocumentsFinanciersCheckboxIsInCpom = ({ year, index }: Props) => {
+  const confirmUncheckModal = createModal({
+    id: `confirm-uncheck-cpom-modal-${index}`,
+    isOpenedByDefault: false,
+  });
+
   const { register, watch, setValue } = useFormContext();
 
   const fieldName = `structureMillesimes.${index}.cpom`;
@@ -59,10 +59,10 @@ export const DocumentsFinanciersCheckboxIsInCpom = ({ year, index }: Props) => {
         ]}
       >
         <p>
-          En décochant la case affirmant que cette structure faisait partie d’un
-          CPOM cette année-là, vous ne conserverez que les documents importé à
-          l’échelle de la structure. Les autres documents seront supprimés,
-          voulez-vous continuer ?
+          {index}En décochant la case affirmant que cette structure faisait
+          partie d’un CPOM cette année-là, vous ne conserverez que les documents
+          importé à l’échelle de la structure. Les autres documents seront
+          supprimés, voulez-vous continuer ?
         </p>
       </confirmUncheckModal.Component>
     </>

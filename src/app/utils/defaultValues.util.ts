@@ -17,6 +17,7 @@ import { getBudgetsDefaultValues } from "./budget.util";
 import { getControlesDefaultValues } from "./controle.util";
 import { getEvaluationsDefaultValues } from "./evaluation.util";
 import { isStructureAutorisee } from "./structure.util";
+import { getStructureMillesimeDefaultValues } from "./structureMillesime.util";
 import { getStructureTypologyDefaultValues } from "./structureTypology.util";
 
 export const getDefaultValues = ({
@@ -31,6 +32,9 @@ export const getDefaultValues = ({
 
   const structureTypologies = getStructureTypologyDefaultValues(
     structure?.structureTypologies || []
+  );
+  const structureMillesimes = getStructureMillesimeDefaultValues(
+    structure?.structureMillesimes || []
   );
   const actesAdministratifs = getActesAdministratifsDefaultValues(structure);
 
@@ -80,6 +84,7 @@ export const getDefaultValues = ({
     date303: structure.date303 ?? undefined,
     budgets,
     structureTypologies,
+    structureMillesimes,
     documentsFinanciers: structure.documentsFinanciers ?? [],
     actesAdministratifs,
     controles,

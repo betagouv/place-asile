@@ -11,6 +11,7 @@ import {
   StructureAgentUpdateApiType,
   StructureApiType,
 } from "@/schemas/api/structure.schema";
+import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
 import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
@@ -186,6 +187,17 @@ export const getStructureTypologyIndexForAYear = (
   return (
     structureTypologies?.findIndex(
       (structureTypology) => structureTypology.year === year
+    ) ?? -1
+  );
+};
+
+export const getStructureMillesimeIndexForAYear = (
+  structureMillesimes: StructureMillesimeApiType[],
+  year: number = CURRENT_YEAR
+): number => {
+  return (
+    structureMillesimes?.findIndex(
+      (structureMillesime) => structureMillesime.year === year
     ) ?? -1
   );
 };

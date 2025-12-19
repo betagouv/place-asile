@@ -41,7 +41,7 @@ export const DocumentsFinanciers = ({
           documents. Vous pouvez valider cette étape.
         </p>
       )}
-      {years.map((year, index) => (
+      {years.map((year) => (
         <DocumentsFinanciersAccordion
           key={year}
           year={year}
@@ -54,7 +54,6 @@ export const DocumentsFinanciers = ({
             startYear={startYear}
             isAutorisee={isAutorisee}
             control={control}
-            index={startIndex + index}
             hasAccordion={hasAccordion}
           />
         </DocumentsFinanciersAccordion>
