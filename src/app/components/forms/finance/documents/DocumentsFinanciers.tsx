@@ -26,7 +26,7 @@ export const DocumentsFinanciers = ({
   const startYear = getYearFromDate(
     structure?.date303 || structure?.creationDate
   );
-  const { years, startIndex } = getDocumentsFinanciersYearRange({
+  const { years } = getDocumentsFinanciersYearRange({
     isAutorisee,
   });
 
