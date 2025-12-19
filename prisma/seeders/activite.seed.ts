@@ -38,6 +38,7 @@ export const createFakeActivite = ({
     sousOccupation,
     travaux,
     placesIndisponibles,
+    placesOccupees: faker.number.int({ min: 1, max: 5 }),
     placesVacantes: faker.number.int({ min: 1, max: 5 }),
     presencesInduesBPI: faker.number.int({ min: 1, max: 5 }),
     presencesInduesDeboutees: faker.number.int({

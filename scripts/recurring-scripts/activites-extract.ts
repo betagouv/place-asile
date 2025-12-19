@@ -49,6 +49,9 @@ const mapToActivites = (sheet: (string | number | Date)[][], index: number) => {
     placesIndisponibles: metadata.placesIndisponiblesIndex
       ? Number(line[metadata.placesIndisponiblesIndex]) || 0
       : 0,
+    placesOccupees: metadata.placesOccupeesIndex
+      ? Number(line[metadata.placesOccupeesIndex]) || 0
+      : 0,
     placesVacantes: getPlacesVacantes(metadata, line) || 0,
     presencesInduesBPI: metadata.presencesInduesBPIIndex
       ? Number(line[metadata.presencesInduesBPIIndex]) || 0
