@@ -90,14 +90,13 @@ export default function FormDocuments() {
               </p>
             )}
 
-            {years.map((year, index) => (
+            {years.map((year) => (
               <FieldSetYearlyDocumentsFinanciers
                 key={year}
                 year={year}
                 startYear={startYear}
                 isAutorisee={isAutorisee}
                 control={control}
-                index={years.length - 1 - index}
               />
             ))}
           </>

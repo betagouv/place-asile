@@ -25,10 +25,10 @@ model Structure {
   dnaCode                      String                      @unique
   filiale                      String?
   type                         StructureType?
-  placesACreer                 Int?
-  placesAFermer                Int?
-  echeancePlacesACreer         DateTime?
-  echeancePlacesAFermer        DateTime?
+  placesACreer                 Int? // TODO: à nettoyer après migration
+  placesAFermer                Int? // à nettoyer après migration
+  echeancePlacesACreer         DateTime? // à nettoyer après migration
+  echeancePlacesAFermer        DateTime? // à nettoyer après migration
   adresseAdministrative        String?
   codePostalAdministratif      String?
   communeAdministrative        String?
@@ -217,17 +217,21 @@ model StructureMillesime {
 }
 
 model StructureTypologie {
-  id                   Int                 @id @default(autoincrement())
-  structure            Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
-  structureDnaCode     String
-  date                 DateTime?
-  year                 Int                 @default(0)
-  placesAutorisees     Int?
-  pmr                  Int
-  lgbt                 Int
-  fvvTeh               Int
-  structureMillesimeId Int?                @unique
-  structureMillesime   StructureMillesime? @relation(fields: [structureMillesimeId], references: [id], onDelete: Cascade)
+  id                    Int                 @id @default(autoincrement())
+  structure             Structure           @relation(fields: [structureDnaCode], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
+  structureDnaCode      String
+  date                  DateTime?
+  year                  Int                 @default(0)
+  placesAutorisees      Int?
+  pmr                   Int?
+  lgbt                  Int?
+  fvvTeh                Int?
+  placesACreer          Int?
+  placesAFermer         Int?
+  echeancePlacesACreer  DateTime?
+  echeancePlacesAFermer DateTime?
+  structureMillesimeId  Int?                @unique
+  structureMillesime    StructureMillesime? @relation(fields: [structureMillesimeId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

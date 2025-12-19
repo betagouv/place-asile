@@ -13,20 +13,20 @@ import {
   identificationSchemaWithContactsAutoSaveSchema,
 } from "@/schemas/forms/base/identification.schema";
 import {
-  typePlacesWithEvolutionAutoSaveSchema,
-  typePlacesWithoutEvolutionSchema,
-} from "@/schemas/forms/base/typePlaces.schema";
+  structureTypologiesAutoSaveSchema,
+  structureTypologiesSchema,
+} from "@/schemas/forms/base/structureTypologie.schema";
 
 export const finalisationIdentificationSchema = identificationSchemaWithContacts
   .and(calendrierSchema)
   .and(adresseAdministrativeSchema)
-  .and(typePlacesWithoutEvolutionSchema);
+  .and(structureTypologiesSchema);
 
 export const finalisationIdentificationAutoSaveSchema =
   identificationSchemaWithContactsAutoSaveSchema
     .and(calendrierAutoSaveSchema)
     .and(adresseAdministrativeAutoSaveSchema)
-    .and(typePlacesWithEvolutionAutoSaveSchema);
+    .and(structureTypologiesAutoSaveSchema);
 
 export type FinalisationIdentificationFormValues = z.infer<
   typeof finalisationIdentificationSchema

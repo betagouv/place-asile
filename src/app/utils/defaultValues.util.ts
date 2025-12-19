@@ -7,6 +7,7 @@ import { budgetsSchemaTypeFormValues } from "@/schemas/forms/base/budget.schema"
 import { ControleFormValues } from "@/schemas/forms/base/controle.schema";
 import { DocumentFinancierFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 import { EvaluationFormValues } from "@/schemas/forms/base/evaluation.schema";
+import { structureTypologieSchemaTypeFormValues } from "@/schemas/forms/base/structureTypologie.schema";
 import { Repartition } from "@/types/adresse.type";
 import { PublicType } from "@/types/structure.type";
 
@@ -16,6 +17,8 @@ import { getBudgetsDefaultValues } from "./budget.util";
 import { getControlesDefaultValues } from "./controle.util";
 import { getEvaluationsDefaultValues } from "./evaluation.util";
 import { isStructureAutorisee } from "./structure.util";
+import { getStructureMillesimeDefaultValues } from "./structureMillesime.util";
+import { getStructureTypologyDefaultValues } from "./structureTypology.util";
 
 export const getDefaultValues = ({
   structure,
@@ -27,6 +30,12 @@ export const getDefaultValues = ({
 
   const budgets = getBudgetsDefaultValues(structure?.budgets || []);
 
+  const structureTypologies = getStructureTypologyDefaultValues(
+    structure?.structureTypologies || []
+  );
+  const structureMillesimes = getStructureMillesimeDefaultValues(
+    structure?.structureMillesimes || []
+  );
   const actesAdministratifs = getActesAdministratifsDefaultValues(structure);
 
   const controles = getControlesDefaultValues(structure.controles);
@@ -74,6 +83,8 @@ export const getDefaultValues = ({
     echeancePlacesAFermer: structure.echeancePlacesAFermer ?? undefined,
     date303: structure.date303 ?? undefined,
     budgets,
+    structureTypologies,
+    structureMillesimes,
     documentsFinanciers: structure.documentsFinanciers ?? [],
     actesAdministratifs,
     controles,
@@ -108,6 +119,7 @@ type StructureDefaultValues = Omit<
   | "controles"
   | "evaluations"
   | "budgets"
+  | "structureTypologies"
 > & {
   creationDate: string;
   nom: string;
@@ -135,4 +147,5 @@ type StructureDefaultValues = Omit<
   controles: ControleFormValues[];
   evaluations: EvaluationFormValues[];
   budgets: budgetsSchemaTypeFormValues;
+  structureTypologies: structureTypologieSchemaTypeFormValues[];
 };

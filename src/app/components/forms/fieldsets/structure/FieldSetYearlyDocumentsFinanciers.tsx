@@ -3,6 +3,8 @@ import { ReactElement, useCallback, useEffect, useRef } from "react";
 import { Control, useFieldArray, useFormContext } from "react-hook-form";
 
 import { useFileUpload } from "@/app/hooks/useFileUpload";
+import { getStructureMillesimeIndexForAYear } from "@/app/utils/structure.util";
+import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
 import {
   DocumentFinancierFlexibleFormValues,
   DocumentsFinanciersFlexibleFormValues,
@@ -14,7 +16,6 @@ import { DocumentsFinanciersList } from "../../finance/documents/DocumentsFinanc
 import { YearlyFileUpload } from "../../finance/documents/YearlyFileUpload";
 
 export const FieldSetYearlyDocumentsFinanciers = ({
-  index,
   year,
   startYear,
   isAutorisee,
@@ -25,9 +26,16 @@ export const FieldSetYearlyDocumentsFinanciers = ({
 
   const { deleteFile } = useFileUpload();
 
+  const structureMillesimes = watch(
+    "structureMillesimes"
+  ) as StructureMillesimeApiType[];
+
+  const index = getStructureMillesimeIndexForAYear(structureMillesimes, year);
+
   const documentsFinanciers: DocumentFinancierFlexibleFormValues[] = watch(
     "documentsFinanciers"
   );
+
   const { remove } = useFieldArray({
     control,
     name: "documentsFinanciers",
@@ -85,6 +93,11 @@ export const FieldSetYearlyDocumentsFinanciers = ({
   if (shouldHide) {
     return null;
   }
+
+  if (index === -1) {
+    return null;
+  }
+
   return (
     <fieldset ref={fieldsetRef}>
       {!hasAccordion && (
@@ -136,7 +149,6 @@ export const FieldSetYearlyDocumentsFinanciers = ({
 };
 
 type Props = {
-  index: number;
   year: number;
   startYear: number;
   isAutorisee: boolean;

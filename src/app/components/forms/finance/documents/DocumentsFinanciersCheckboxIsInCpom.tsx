@@ -3,12 +3,12 @@ import { createModal } from "@codegouvfr/react-dsfr/Modal";
 
 import { useFormContext } from "@/app/context/FormContext";
 
-const confirmUncheckModal = createModal({
-  id: "confirm-uncheck-cpom-modal",
-  isOpenedByDefault: false,
-});
-
 export const DocumentsFinanciersCheckboxIsInCpom = ({ year, index }: Props) => {
+  const confirmUncheckModal = createModal({
+    id: `confirm-uncheck-cpom-modal-${index}`,
+    isOpenedByDefault: false,
+  });
+
   const { register, watch, setValue } = useFormContext();
 
   const fieldName = `structureMillesimes.${index}.cpom`;

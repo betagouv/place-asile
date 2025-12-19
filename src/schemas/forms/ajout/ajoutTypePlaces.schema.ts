@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import { typologieItemBaseSchema } from "../base/typePlaces.schema";
+import { structureTypologieWithoutEvolutionSchema } from "../base/structureTypologie.schema";
 
 export const ajoutTypePlacesSchema = z.object({
-  typologies: z.array(typologieItemBaseSchema),
+  typologies: z.array(structureTypologieWithoutEvolutionSchema),
 });
 
 export type AjoutTypePlacesFormValues = z.infer<typeof ajoutTypePlacesSchema>;
