@@ -20,7 +20,7 @@ export const getStructureTypologyDefaultValues = (
       );
       return {
         ...structureTypology,
-        year: structureTypology?.year || emptyStructureTypology.year,
+        year: structureTypology?.year ?? emptyStructureTypology.year,
         placesAutorisees: structureTypology?.placesAutorisees || undefined,
         pmr: structureTypology?.pmr || undefined,
         lgbt: structureTypology?.lgbt || undefined,

@@ -13,7 +13,7 @@ export const ONE_WEEK_IN_SECONDS = 60 * 60 * 24 * 7;
 
 export const FILE_UPLOAD_EXPIRATION_DELAY = 60 * 60; // 1 hour
 
-export const CURRENT_YEAR = 2025;
+export const CURRENT_YEAR = 2026;
 export const CURRENT_OPEN_YEAR = 2025;
 
 export const SPREADSHEET_MIME_TYPES = [

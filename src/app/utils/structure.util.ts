@@ -170,34 +170,18 @@ export const getCurrentCpomStructureDates = (
   };
 };
 
-export const getCurrentStructureTypology = (
-  structure: StructureAgentUpdateApiType | StructureApiType
-): StructureTypologieApiType => {
-  const currentYearStructureTypology = structure.structureTypologies?.find(
-    (structureTypologie) => structureTypologie.year === CURRENT_YEAR
-  );
-
-  return currentYearStructureTypology as StructureTypologieApiType;
-};
-
 export const getStructureTypologyIndexForAYear = (
   structureTypologies: StructureTypologieApiType[],
   year: number = CURRENT_YEAR
-): number => {
-  return (
-    structureTypologies?.findIndex(
-      (structureTypology) => structureTypology.year === year
-    ) ?? -1
-  );
-};
+): number =>
+  structureTypologies?.findIndex(
+    (structureTypology) => structureTypology.year === year
+  ) ?? -1;
 
 export const getStructureMillesimeIndexForAYear = (
   structureMillesimes: StructureMillesimeApiType[],
   year: number = CURRENT_YEAR
-): number => {
-  return (
-    structureMillesimes?.findIndex(
-      (structureMillesime) => structureMillesime.year === year
-    ) ?? -1
-  );
-};
+): number =>
+  structureMillesimes?.findIndex(
+    (structureMillesime) => structureMillesime.year === year
+  ) ?? -1;

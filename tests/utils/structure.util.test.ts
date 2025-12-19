@@ -5,6 +5,8 @@ import {
   getLastVisitInMonths,
   getPlacesByCommunes,
   getRepartition,
+  getStructureMillesimeIndexForAYear,
+  getStructureTypologyIndexForAYear,
   isStructureAutorisee,
   isStructureInCpom,
   isStructureSubventionnee,
@@ -12,6 +14,8 @@ import {
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { ControleApiType } from "@/schemas/api/controle.schema";
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
+import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
+import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 import { StructureType } from "@/types/structure.type";
 
 import { Repartition } from "../../src/types/adresse.type";
@@ -20,6 +24,7 @@ import { createAdresseTypologie } from "../test-utils/adresse-typologie.factory"
 import { createControle } from "../test-utils/controle.factory";
 import { createEvaluation } from "../test-utils/evaluation.factory";
 import { createStructure } from "../test-utils/structure.factory";
+import { createStructureTypologie } from "../test-utils/structure-typologie.factory";
 
 vi.mock("@/constants", async () => {
   const actual = await vi.importActual("@/constants");
@@ -541,6 +546,142 @@ describe("structure util", () => {
         debutCpom: "2025-03-01T00:00:00.000Z",
         finCpom: "2025-12-31T23:59:59.999Z",
       });
+    });
+  });
+
+  describe("getStructureTypologyIndexForAYear", () => {
+    it("should return the correct index when the year exists in the array", () => {
+      // GIVEN
+      const structureTypologies = [
+        createStructureTypologie(),
+        createStructureTypologie({ year: 2024 }),
+        createStructureTypologie({ year: 2025 }),
+        createStructureTypologie({ year: 2026 }),
+      ];
+
+      // WHEN
+      const result = getStructureTypologyIndexForAYear(
+        structureTypologies,
+        2024
+      );
+
+      // THEN
+      expect(result).toBe(1);
+    });
+
+    it("should return -1 when the year does not exist in the array", () => {
+      // GIVEN
+      const structureTypologies = [
+        createStructureTypologie(),
+        createStructureTypologie({ year: 2024 }),
+        createStructureTypologie({ year: 2026 }),
+      ];
+
+      // WHEN
+      const result = getStructureTypologyIndexForAYear(
+        structureTypologies,
+        2025
+      );
+
+      // THEN
+      expect(result).toBe(-1);
+    });
+
+    it("should use CURRENT_YEAR as default when no year is provided", () => {
+      // GIVEN
+      const structureTypologies = [
+        createStructureTypologie({ year: 2024 }),
+        createStructureTypologie({ year: 2025 }),
+        createStructureTypologie({ year: 2026 }),
+      ];
+
+      // WHEN
+      const result = getStructureTypologyIndexForAYear(structureTypologies);
+
+      // THEN
+      expect(result).toBe(1);
+    });
+
+    it("should return -1 when the array is empty", () => {
+      // GIVEN
+      const structureTypologies: StructureTypologieApiType[] = [];
+
+      // WHEN
+      const result = getStructureTypologyIndexForAYear(
+        structureTypologies,
+        2025
+      );
+
+      // THEN
+      expect(result).toBe(-1);
+    });
+  });
+
+  describe("getStructureMillesimeIndexForAYear", () => {
+    it("should return the correct index when the year exists in the array", () => {
+      // GIVEN
+      const structureMillesimes = [
+        { year: 2023, cpom: false, operateurComment: null },
+        { year: 2024, cpom: true, operateurComment: null },
+        { year: 2025, cpom: false, operateurComment: null },
+        { year: 2026, cpom: true, operateurComment: null },
+      ];
+
+      // WHEN
+      const result = getStructureMillesimeIndexForAYear(
+        structureMillesimes,
+        2024
+      );
+
+      // THEN
+      expect(result).toBe(1);
+    });
+
+    it("should return -1 when the year does not exist in the array", () => {
+      // GIVEN
+      const structureMillesimes = [
+        { year: 2023, cpom: false, operateurComment: null },
+        { year: 2024, cpom: true, operateurComment: null },
+        { year: 2026, cpom: false, operateurComment: null },
+      ];
+
+      // WHEN
+      const result = getStructureMillesimeIndexForAYear(
+        structureMillesimes,
+        2025
+      );
+
+      // THEN
+      expect(result).toBe(-1);
+    });
+
+    it("should use CURRENT_YEAR as default when no year is provided", () => {
+      // GIVEN
+      const structureMillesimes = [
+        { year: 2024, cpom: false, operateurComment: null },
+        { year: 2025, cpom: true, operateurComment: null },
+        { year: 2026, cpom: false, operateurComment: null },
+      ];
+
+      // WHEN
+      const result = getStructureMillesimeIndexForAYear(structureMillesimes);
+
+      // THEN
+      expect(result).toBe(1);
+    });
+
+    it("should return -1 when the array is empty", () => {
+      // GIVEN
+      const structureMillesimes: StructureMillesimeApiType[] = [];
+
+      // WHEN
+      const result = getStructureMillesimeIndexForAYear(
+        structureMillesimes,
+        2025
+      );
+
+      // THEN
+      expect(result).toBe(-1);
     });
   });
 });
