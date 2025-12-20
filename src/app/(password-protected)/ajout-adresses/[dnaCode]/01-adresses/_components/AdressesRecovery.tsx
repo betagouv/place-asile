@@ -11,17 +11,22 @@ import FormWrapper, {
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { useStructures } from "@/app/hooks/useStructures";
 import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
+import { getYearFromDate } from "@/app/utils/date.util";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import {
   AjoutAdressesFormValues,
   ajoutAdressesSchema,
 } from "@/schemas/forms/ajout/ajoutAdresses.schema";
+import {
+  FormAdresse,
+  FormAdresseTypologie,
+} from "@/schemas/forms/base/adresse.schema";
 import { FormKind } from "@/types/global";
 
 import { AdressesRecoveryModal } from "./AdressesRecoveryModal";
 
 export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
-  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const [state, setState] = useState<"idle" | "error">("idle");
   const [backendError, setBackendError] = useState("");
 
   const router = useRouter();
@@ -31,9 +36,29 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
     {} as AjoutAdressesFormValues
   );
 
-  const numAdressesRecovered = useMemo(() => {
-    return localStorageValues?.adresses?.length ?? 0;
+  const formattedLocalStorageValues = useMemo(() => {
+    return {
+      ...localStorageValues,
+      adresses: localStorageValues?.adresses?.map((adresse: FormAdresse) => ({
+        ...adresse,
+        adresseTypologies: adresse.adresseTypologies?.map(
+          (typologie: FormAdresseTypologie) => {
+            const typedTypologie = typologie as FormAdresseTypologie & {
+              date: string;
+            };
+            return {
+              ...typologie,
+              year: typedTypologie.year ?? getYearFromDate(typedTypologie.date),
+            };
+          }
+        ),
+      })),
+    };
   }, [localStorageValues]);
+
+  const numAdressesRecovered = useMemo(() => {
+    return formattedLocalStorageValues?.adresses?.length ?? 0;
+  }, [formattedLocalStorageValues]);
 
   const handleSubmit = async (data: AjoutAdressesFormValues) => {
     const result = await updateStructure({
@@ -73,7 +98,7 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
     <>
       <FormWrapper
         schema={ajoutAdressesSchema}
-        defaultValues={localStorageValues}
+        defaultValues={formattedLocalStorageValues}
         onSubmit={handleSubmit}
         mode="onChange"
         resetRoute={`/ajout-adresses/${dnaCode}/01-adresses`}
