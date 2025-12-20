@@ -1,7 +1,7 @@
 "use client";
 
 import { createModal } from "@codegouvfr/react-dsfr/Modal";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 const adressesRecoveryModal = createModal({
   id: "adresses-recovery-modal",
@@ -22,14 +22,6 @@ export const AdressesRecoveryModal = ({
     return "Aucune adresse n'a été récupérée";
   }, [numAdressesRecovered]);
 
-  useEffect(() => {
-    // I don't get why but the modal is not always open when the component is mounted
-    const timeout = setTimeout(() => {
-      adressesRecoveryModal.open();
-    }, 100);
-    return () => clearTimeout(timeout);
-  }, []);
-
   return (
     <adressesRecoveryModal.Component
       title={title}
@@ -43,13 +35,15 @@ export const AdressesRecoveryModal = ({
     >
       {numAdressesRecovered ? (
         <p>
-          Vous n’avez plus qu’à valider le formulaire pour finaliser la
-          récupération des adresses.
+          Vous n’avez plus qu’à valider le formulaire pour finaliser
+          l’enregistrement
         </p>
       ) : (
         <p>
-          Aucune adresse n’a été récupérée. Êtes-vous bien sur le même poste que
-          celui utilisé pour la création de la structure ?
+          Aucune adresse n’a été récupérée. Assurez-vous d’utiliser le même
+          poste et le même navigateur que lors de la création de la structure.
+          Si ce n’est pas possible, ou si le cache a été vidé, le formulaire
+          devra être rempli manuellement.
         </p>
       )}
     </adressesRecoveryModal.Component>

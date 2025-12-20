@@ -9,38 +9,38 @@ export default async function AjoutStructurePage(): Promise<ReactElement> {
         Formulaire d’ajout des adresses de votre structure
       </h2>
       <p className="text-center mb-10">
-        Suite à un problème technique, les adresses que vous avez renseignées
-        lors de la création de votre structure ne sont pas enregistrées.
+        Un problème technique a empêché l’enregistrement des adresses lors de la
+        création de votre structure.
         <br />
         <br />
-        Ce formulaire vous permet de les renseigner à nouveau. Si vous utilisez
-        le même poste et le même navigateur que lors de la création de votre
-        structure, les adresses que vous avez renseignées seront automatiquement
-        pré-remplies. Vous n’aurez plus qu’à valider le formulaire pour les
+        Ce formulaire permet de les renseigner à nouveau.
+        <br />
+        Si vous utilisez le même poste et le même navigateur que lors de la
+        création initiale, les adresses précédemment saisies seront
+        automatiquement préremplies. Une simple validation suffira pour les
         enregistrer.
         <br />
       </p>
       <div className="bg-white rounded-lg p-6 max-w-xl mb-10">
         <h3 className="text-base font-bold mb-4 text-title-blue-france text-center">
-          Pré-requis pour que le formulaire soit rempli automatiquement
+          Conditions pour le préremplissage automatique
         </h3>
         <ul className="p-0">
           <li className="flex items-start gap-2 mb-3">
             <i className="fr-icon-check-line text-action-high-blue-france text-sm [&::before]:[--icon-size:1.5rem]"></i>
             <span>
               Utiliser le même poste et le même navigateur que lors de la
-              création de la page dédiée à votre structure.
+              création de la structure.
             </span>
           </li>
           <li className="flex items-start gap-2 mb-3">
             <i className="fr-icon-check-line text-action-high-blue-france text-sm [&::before]:[--icon-size:1.5rem]"></i>
-            <span>Ne pas naviguer en navigation privée.</span>
+            <span>Ne pas être en navigation privée.</span>
           </li>
           <li className="flex items-start gap-2 mb-3">
             <i className="fr-icon-check-line text-action-high-blue-france text-sm [&::before]:[--icon-size:1.5rem]"></i>
             <span>
-              Ne pas avoir vidé en profondeur le cache de votre navigateur (le
-              &quot;local storage&quot; de votre navigateur).
+              Ne pas avoir vidé le stockage local du navigateur (local storage).
             </span>
           </li>
         </ul>
