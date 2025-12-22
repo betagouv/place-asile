@@ -1,3 +1,4 @@
+import prisma from "@/lib/prisma";
 import { AdresseApiType } from "@/schemas/api/adresse.schema";
 import { PrismaTransaction } from "@/types/prisma.type";
 
@@ -102,4 +103,13 @@ export const createOrUpdateAdresses = async (
       });
     }
   }
+};
+
+export const checkAdressesExistence = async (
+  structureDnaCode: string
+): Promise<boolean> => {
+  const adresses = await prisma.adresse.findMany({
+    where: { structureDnaCode: structureDnaCode },
+  });
+  return adresses.length > 0;
 };
