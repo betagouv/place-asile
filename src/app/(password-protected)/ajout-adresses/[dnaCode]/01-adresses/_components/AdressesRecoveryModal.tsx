@@ -8,19 +8,19 @@ const adressesRecoveryModal = createModal({
   isOpenedByDefault: true,
 });
 export const AdressesRecoveryModal = ({
-  numAdressesRecovered,
+  adressesRecoveredNumber,
 }: {
-  numAdressesRecovered: number;
+  adressesRecoveredNumber: number;
 }) => {
   const title = useMemo(() => {
-    if (numAdressesRecovered) {
-      if (numAdressesRecovered === 1) {
-        return `${numAdressesRecovered} adresse a été récupérée`;
+    if (adressesRecoveredNumber) {
+      if (adressesRecoveredNumber === 1) {
+        return `${adressesRecoveredNumber} adresse a été récupérée`;
       }
-      return `${numAdressesRecovered} adresses ont été récupérées`;
+      return `${adressesRecoveredNumber} adresses ont été récupérées`;
     }
     return "Aucune adresse n'a été récupérée";
-  }, [numAdressesRecovered]);
+  }, [adressesRecoveredNumber]);
 
   // We need this because the modal does not always reopen when we navigate back to the page
   useEffect(() => {
@@ -41,7 +41,7 @@ export const AdressesRecoveryModal = ({
         },
       ]}
     >
-      {numAdressesRecovered ? (
+      {adressesRecoveredNumber ? (
         <p>
           Vous n’avez plus qu’à valider le formulaire pour finaliser
           l’enregistrement.

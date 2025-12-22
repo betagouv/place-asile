@@ -23,7 +23,8 @@ const proConnectPagesProxy = withAuth(() => NextResponse.next(), {
 
 const passwordPagesProxy = (request: NextRequest): NextResponse | null => {
   const url = request.nextUrl;
-  if (!url.pathname.startsWith(passwordProtectedPage)) {
+
+  if (!passwordProtectedPage.some((path) => url.pathname.startsWith(path))) {
     return null;
   }
   const passwordCookie = request.cookies.get("mot-de-passe");
@@ -96,6 +97,7 @@ export const config = {
     "/operateurs/:path*",
     "/statistiques/:path*",
     "/ajout-structure/:path*",
+    "/ajout-adresses/:path*",
     "/mot-de-passe",
     // Routes API
     "/api/:path*",

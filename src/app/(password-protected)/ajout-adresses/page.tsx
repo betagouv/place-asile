@@ -28,20 +28,16 @@ export default async function AjoutStructurePage(): Promise<ReactElement> {
         <ul className="p-0">
           <li className="flex items-start gap-2 mb-3">
             <i className="fr-icon-check-line text-action-high-blue-france text-sm [&::before]:[--icon-size:1.5rem]"></i>
-            <span>
-              Utiliser le même poste et le même navigateur que lors de la
-              création de la structure.
-            </span>
+            Utiliser le même poste et le même navigateur que lors de la création
+            de la structure.
           </li>
           <li className="flex items-start gap-2 mb-3">
             <i className="fr-icon-check-line text-action-high-blue-france text-sm [&::before]:[--icon-size:1.5rem]"></i>
-            <span>Ne pas être en navigation privée.</span>
+            Ne pas être en navigation privée.
           </li>
           <li className="flex items-start gap-2 mb-3">
             <i className="fr-icon-check-line text-action-high-blue-france text-sm [&::before]:[--icon-size:1.5rem]"></i>
-            <span>
-              Ne pas avoir vidé le stockage local du navigateur (local storage).
-            </span>
+            Ne pas avoir vidé le stockage local du navigateur (local storage).
           </li>
         </ul>
       </div>

@@ -84,7 +84,7 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
         };
   }, [localStorageValues]);
 
-  const numAdressesRecovered = useMemo(() => {
+  const adressesRecoveredNumber = useMemo(() => {
     return localStorageValues?.adresses?.length ?? 0;
   }, [localStorageValues]);
 
@@ -139,7 +139,9 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
           </p>
         </div>
       )}
-      <AdressesRecoveryModal numAdressesRecovered={numAdressesRecovered} />
+      <AdressesRecoveryModal
+        adressesRecoveredNumber={adressesRecoveredNumber}
+      />
     </>
   );
 };
