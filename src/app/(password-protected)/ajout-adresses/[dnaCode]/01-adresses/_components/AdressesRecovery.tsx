@@ -129,14 +129,10 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
       {state === "error" && (
         <div className="flex items-end flex-col">
           <p className="text-default-error m-0">
-            Une erreur s’est produite. Vos données restent sauvegardées dans le
-            navigateur.
-          </p>
-          <p className="text-default-error">
+            Une erreur s’est produite.{" "}
             <a
               href={getErrorEmail(backendError, dnaCode)}
               className="underline"
-              target="_blank"
             >
               Nous prévenir
             </a>
