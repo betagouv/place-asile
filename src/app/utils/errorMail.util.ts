@@ -7,6 +7,6 @@ export const getErrorEmail = (
   const subject = structureDnaCode
     ? `Problème avec le formulaire de Place d'asile (code DNA ${structureDnaCode})`
     : "Problème avec le formulaire de Place d'asile";
-  const body = `Bonjour,%0D%0A%0D%0AAjoutez ici des informations supplémentaires...%0D%0A%0D%0ARapport d'erreur: ${error ?? "N/A"}`;
+  const body = `Bonjour,\r\n\r\nAjoutez ici des informations supplémentaires...\r\n\r\nRapport d'erreur: ${error ?? "N/A"}`;
   return `mailto:${PLACE_ASILE_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
