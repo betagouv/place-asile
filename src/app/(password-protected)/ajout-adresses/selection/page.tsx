@@ -28,12 +28,7 @@ export default function AjoutAdressesPage(): ReactElement {
         <StructureSearch />
         <p className="text-mention-grey text-sm text-center mb-10">
           Si vous ne trouvez pas votre structure,{" "}
-          <a
-            href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline"
-          >
+          <a href={`mailto:${PLACE_ASILE_CONTACT_EMAIL}`} className="underline">
             contactez-nous par mail
           </a>{" "}
           ou par téléphone ({PLACE_ASILE_PHONE_NUMBERS})

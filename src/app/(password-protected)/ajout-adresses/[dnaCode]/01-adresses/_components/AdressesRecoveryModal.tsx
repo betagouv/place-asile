@@ -22,7 +22,7 @@ export const AdressesRecoveryModal = ({
     return "Aucune adresse n'a été récupérée";
   }, [numAdressesRecovered]);
 
-  // The modal does not reopen when we navigate back to the page
+  // We need this because the modal does not always reopen when we navigate back to the page
   useEffect(() => {
     const timeout = setTimeout(() => {
       adressesRecoveryModal.open();

@@ -17,7 +17,7 @@ export const ValidationButton = (): ReactElement => {
         onClick={() =>
           router.push(`/ajout-adresses/${structure.dnaCode}/01-adresses`)
         }
-        disabled={!structure}
+        disabled={!structure?.dnaCode}
         className="flex gap-2"
       >
         J’ai trouvé ma structure{" "}
