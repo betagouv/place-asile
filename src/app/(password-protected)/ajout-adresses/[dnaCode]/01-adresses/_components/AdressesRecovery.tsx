@@ -25,6 +25,7 @@ import { Repartition } from "@/types/adresse.type";
 import { FormKind } from "@/types/global";
 
 import { AdressesRecoveryModal } from "./AdressesRecoveryModal";
+import { AdressesRecoveryTypeBati } from "./AdressesRecoveryTypeBati";
 
 export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
   const [state, setState] = useState<"idle" | "error">("idle");
@@ -89,8 +90,8 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
   }, [localStorageValues]);
 
   const numAdressesRecovered = useMemo(() => {
-    return formattedLocalStorageValues?.adresses?.length ?? 0;
-  }, [formattedLocalStorageValues]);
+    return localStorageValues?.adresses?.length ?? 0;
+  }, [localStorageValues]);
 
   const handleSubmit = async (data: AjoutAdressesFormValues) => {
     const result = await updateStructure({
@@ -137,9 +138,8 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
         submitButtonText="Valider"
         availableFooterButtons={[FooterButtonType.SUBMIT]}
       >
-        <FieldSetAdresseAdministrative formKind={FormKind.MODIFICATION} />
-        <hr />
-        <FieldSetHebergement />
+        <AdressesRecoveryTypeBati />
+        <FieldSetHebergement formKind={FormKind.ADRESSES_RECOVERY} />
       </FormWrapper>
       {state === "error" && (
         <div className="flex items-end flex-col">

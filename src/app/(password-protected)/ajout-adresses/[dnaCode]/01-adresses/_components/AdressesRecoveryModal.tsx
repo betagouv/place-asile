@@ -44,7 +44,7 @@ export const AdressesRecoveryModal = ({
       {numAdressesRecovered ? (
         <p>
           Vous n’avez plus qu’à valider le formulaire pour finaliser
-          l’enregistrement
+          l’enregistrement.
         </p>
       ) : (
         <p>
