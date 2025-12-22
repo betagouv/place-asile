@@ -6,11 +6,14 @@ import { useForm, useFormContext } from "react-hook-form";
 import { CURRENT_YEAR } from "@/constants";
 import { FormAdresse } from "@/schemas/forms/base/adresse.schema";
 import { Repartition } from "@/types/adresse.type";
+import { FormKind } from "@/types/global";
 
 import { AdresseComponent } from "./fieldSetHebergement/Adresse";
 import { Notices } from "./fieldSetHebergement/Notices";
 
-export const FieldSetHebergement = () => {
+export const FieldSetHebergement = ({
+  formKind = FormKind.FINALISATION,
+}: Props) => {
   const parentFormContext = useFormContext();
   const localForm = useForm();
   const { control, setValue, watch, getValues, setError } =
@@ -132,7 +135,6 @@ export const FieldSetHebergement = () => {
 
   return (
     <div>
-      <hr />
       <fieldset className="flex flex-col gap-6">
         <legend className="text-xl font-bold mb-4 text-title-blue-france">
           Hébergements
@@ -145,20 +147,21 @@ export const FieldSetHebergement = () => {
           hebergementsContainerRef={hebergementsContainerRef}
         />
 
-        {typeBati === Repartition.COLLECTIF && (
-          <div className="flex mt-6 -mb-4">
-            <ToggleSwitch
-              inputTitle="Adresse d'hébergement identique"
-              label="L'adresse d'hébergement est-elle la même que l'adresse administrative ?"
-              labelPosition="left"
-              showCheckedHint={false}
-              className="w-fit [&_label]:gap-2"
-              checked={sameAddress}
-              onChange={handleSameAddressChange}
-            />
-            <p className="pl-2">{sameAddress ? "Oui" : "Non"}</p>
-          </div>
-        )}
+        {typeBati === Repartition.COLLECTIF &&
+          formKind !== FormKind.ADRESSES_RECOVERY && (
+            <div className="flex mt-6 -mb-4">
+              <ToggleSwitch
+                inputTitle="Adresse d'hébergement identique"
+                label="L'adresse d'hébergement est-elle la même que l'adresse administrative ?"
+                labelPosition="left"
+                showCheckedHint={false}
+                className="w-fit [&_label]:gap-2"
+                checked={sameAddress}
+                onChange={handleSameAddressChange}
+              />
+              <p className="pl-2">{sameAddress ? "Oui" : "Non"}</p>
+            </div>
+          )}
 
         {((getValues("adresses") || []) as FormAdresse[]).map((_, index) => (
           <AdresseComponent
@@ -185,4 +188,8 @@ export const FieldSetHebergement = () => {
       </fieldset>
     </div>
   );
+};
+
+type Props = {
+  formKind?: FormKind;
 };

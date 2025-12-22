@@ -4,14 +4,14 @@ import { Notice } from "@codegouvfr/react-dsfr/Notice";
 import { ReactElement } from "react";
 
 import FormWrapper from "@/app/components/forms/FormWrapper";
+import { BackButton } from "@/app/components/structure-selection/BackButton";
+import { StructureSearch } from "@/app/components/structure-selection/StructureSearch";
 import {
   PLACE_ASILE_CONTACT_EMAIL,
   PLACE_ASILE_PHONE_NUMBERS,
 } from "@/constants";
 import { ajoutStructureSchema } from "@/schemas/forms/ajout/ajoutStructure.schema";
 
-import { BackButton } from "./_components/BackButton";
-import { StructureSearch } from "./_components/StructureSearch";
 import { ValidationButton } from "./_components/ValidationButton";
 
 export default function AjoutStructurePage(): ReactElement {

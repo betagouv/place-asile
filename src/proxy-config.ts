@@ -75,6 +75,6 @@ export const proConnectProtectedPages = [
   "/statistiques",
 ];
 
-export const passwordProtectedPage = "/ajout-structure";
+export const passwordProtectedPage = ["/ajout-structure", "/ajout-adresses"];
 
 export const noProtectionPage = "/mot-de-passe";
