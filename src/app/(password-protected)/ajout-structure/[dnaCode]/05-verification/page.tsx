@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { useRedirectStructureCreation } from "@/app/hooks/useRedirectStructureCreation";
 import { useStructures } from "@/app/hooks/useStructures";
+import { getErrorEmail } from "@/app/utils/errorMail.util";
 import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import { AjoutAdressesFormValues } from "@/schemas/forms/ajout/ajoutAdresses.schema";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
@@ -107,12 +108,6 @@ export default function StepVerification() {
     return null;
   }
 
-  const getErrorEmail = (error: string): string => {
-    const subject = "Problème avec le formulaire de Place d'asile";
-    const body = `Bonjour,%0D%0A%0D%0AAjoutez ici des informations supplémentaires...%0D%0A%0D%0ARapport d'erreur: ${error}`;
-    return `mailto:${PLACE_ASILE_CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-  };
-
   return (
     <>
       <div>
@@ -172,7 +167,7 @@ export default function StepVerification() {
             </p>
             <p className="text-default-error">
               <a
-                href={getErrorEmail(backendError)}
+                href={getErrorEmail(backendError, params.dnaCode as string)}
                 className="underline"
                 target="_blank"
               >

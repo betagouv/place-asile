@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import { FieldSetAdresseAdministrative } from "@/app/components/forms/fieldsets/structure/FieldSetAdresseAdministrative";
 import { FieldSetHebergement } from "@/app/components/forms/fieldsets/structure/FieldSetHebergement";
 import FormWrapper, {
   FooterButtonType,
@@ -12,15 +11,16 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { useStructures } from "@/app/hooks/useStructures";
 import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
 import { getYearFromDate } from "@/app/utils/date.util";
-import { CURRENT_YEAR, PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
-import {
-  AjoutAdressesFormValues,
-  ajoutAdressesSchema,
-} from "@/schemas/forms/ajout/ajoutAdresses.schema";
+import { getErrorEmail } from "@/app/utils/errorMail.util";
+import { CURRENT_YEAR } from "@/constants";
 import {
   FormAdresse,
   FormAdresseTypologie,
 } from "@/schemas/forms/base/adresse.schema";
+import {
+  RecoveryAdressesFormValues,
+  recoveryAdressesSchema,
+} from "@/schemas/forms/recovery-adresses/recoveryAdresses.schema";
 import { Repartition } from "@/types/adresse.type";
 import { FormKind } from "@/types/global";
 
@@ -35,14 +35,14 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
   const { updateStructure } = useStructures();
   const { currentValue: localStorageValues } = useLocalStorage(
     `ajout-structure-${dnaCode}-adresses`,
-    {} as AjoutAdressesFormValues
+    {} as RecoveryAdressesFormValues
   );
 
   const formattedLocalStorageValues = useMemo(() => {
     return localStorageValues && Object.keys(localStorageValues).length > 0
       ? {
-          ...localStorageValues,
-          adresses: localStorageValues?.adresses?.map(
+          typeBati: localStorageValues.typeBati,
+          adresses: localStorageValues.adresses?.map(
             (adresse: FormAdresse) => ({
               ...adresse,
               adresseTypologies: adresse.adresseTypologies?.map(
@@ -62,11 +62,6 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
           ),
         }
       : {
-          nom: "",
-          adresseAdministrative: "",
-          codePostalAdministratif: "",
-          communeAdministrative: "",
-          departementAdministratif: "",
           typeBati: undefined,
           adresses: [
             {
@@ -93,15 +88,11 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
     return localStorageValues?.adresses?.length ?? 0;
   }, [localStorageValues]);
 
-  const handleSubmit = async (data: AjoutAdressesFormValues) => {
+  const handleSubmit = async (data: RecoveryAdressesFormValues) => {
     const result = await updateStructure({
       dnaCode,
       adresses: transformFormAdressesToApiAdresses(data.adresses, dnaCode),
       typeBati: data.typeBati,
-      adresseAdministrative: data.adresseAdministrative,
-      codePostalAdministratif: data.codePostalAdministratif,
-      communeAdministrative: data.communeAdministrative,
-      departementAdministratif: data.departementAdministratif,
     });
 
     if (result === "OK") {
@@ -110,12 +101,6 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
       setBackendError(result);
       setState("error");
     }
-  };
-
-  const getErrorEmail = (error: string): string => {
-    const subject = "Problème avec le formulaire de Place d'asile";
-    const body = `Bonjour,%0D%0A%0D%0AAjoutez ici des informations supplémentaires...%0D%0A%0D%0ARapport d'erreur: ${error}`;
-    return `mailto:${PLACE_ASILE_CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   // Needed to avoid hydration error
@@ -130,7 +115,7 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
   return (
     <>
       <FormWrapper
-        schema={ajoutAdressesSchema}
+        schema={recoveryAdressesSchema}
         defaultValues={formattedLocalStorageValues}
         onSubmit={handleSubmit}
         mode="onChange"
@@ -149,7 +134,7 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
           </p>
           <p className="text-default-error">
             <a
-              href={getErrorEmail(backendError)}
+              href={getErrorEmail(backendError, dnaCode)}
               className="underline"
               target="_blank"
             >

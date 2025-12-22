@@ -48,8 +48,8 @@ export const AdressesRecoveryModal = ({
         </p>
       ) : (
         <p>
-          Aucune adresse n’a été récupérée. Assurez-vous d’utiliser le même
-          poste et le même navigateur que lors de la création de la structure.
+          Assurez-vous d’utiliser le même poste et le même navigateur que lors
+          de la création de la structure.
           <br />
           <br />
           Si ce n’est pas possible, ou si le cache a été vidé, le formulaire
