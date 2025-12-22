@@ -1,7 +1,7 @@
 "use client";
 
 import { createModal } from "@codegouvfr/react-dsfr/Modal";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 const adressesRecoveryModal = createModal({
   id: "adresses-recovery-modal",
@@ -21,6 +21,14 @@ export const AdressesRecoveryModal = ({
     }
     return "Aucune adresse n'a été récupérée";
   }, [numAdressesRecovered]);
+
+  // The modal does not reopen when we navigate back to the page
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      adressesRecoveryModal.open();
+    }, 100);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <adressesRecoveryModal.Component
@@ -42,6 +50,8 @@ export const AdressesRecoveryModal = ({
         <p>
           Aucune adresse n’a été récupérée. Assurez-vous d’utiliser le même
           poste et le même navigateur que lors de la création de la structure.
+          <br />
+          <br />
           Si ce n’est pas possible, ou si le cache a été vidé, le formulaire
           devra être rempli manuellement.
         </p>

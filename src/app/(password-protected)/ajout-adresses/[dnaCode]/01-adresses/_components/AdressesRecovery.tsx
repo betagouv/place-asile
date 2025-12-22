@@ -12,7 +12,7 @@ import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import { useStructures } from "@/app/hooks/useStructures";
 import { transformFormAdressesToApiAdresses } from "@/app/utils/adresse.util";
 import { getYearFromDate } from "@/app/utils/date.util";
-import { PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
+import { CURRENT_YEAR, PLACE_ASILE_CONTACT_EMAIL } from "@/constants";
 import {
   AjoutAdressesFormValues,
   ajoutAdressesSchema,
@@ -21,6 +21,7 @@ import {
   FormAdresse,
   FormAdresseTypologie,
 } from "@/schemas/forms/base/adresse.schema";
+import { Repartition } from "@/types/adresse.type";
 import { FormKind } from "@/types/global";
 
 import { AdressesRecoveryModal } from "./AdressesRecoveryModal";
@@ -37,23 +38,54 @@ export const AdressesRecovery = ({ dnaCode }: { dnaCode: string }) => {
   );
 
   const formattedLocalStorageValues = useMemo(() => {
-    return {
-      ...localStorageValues,
-      adresses: localStorageValues?.adresses?.map((adresse: FormAdresse) => ({
-        ...adresse,
-        adresseTypologies: adresse.adresseTypologies?.map(
-          (typologie: FormAdresseTypologie) => {
-            const typedTypologie = typologie as FormAdresseTypologie & {
-              date: string;
-            };
-            return {
-              ...typologie,
-              year: typedTypologie.year ?? getYearFromDate(typedTypologie.date),
-            };
-          }
-        ),
-      })),
-    };
+    return localStorageValues && Object.keys(localStorageValues).length > 0
+      ? {
+          ...localStorageValues,
+          adresses: localStorageValues?.adresses?.map(
+            (adresse: FormAdresse) => ({
+              ...adresse,
+              adresseTypologies: adresse.adresseTypologies?.map(
+                (typologie: FormAdresseTypologie) => {
+                  const typedTypologie = typologie as FormAdresseTypologie & {
+                    date: string;
+                  };
+                  return {
+                    ...typologie,
+                    year:
+                      typedTypologie.year ??
+                      getYearFromDate(typedTypologie.date),
+                  };
+                }
+              ),
+            })
+          ),
+        }
+      : {
+          nom: "",
+          adresseAdministrative: "",
+          codePostalAdministratif: "",
+          communeAdministrative: "",
+          departementAdministratif: "",
+          typeBati: undefined,
+          adresses: [
+            {
+              adresseComplete: "",
+              adresse: "",
+              codePostal: "",
+              commune: "",
+              departement: "",
+              repartition: Repartition.DIFFUS,
+              adresseTypologies: [
+                {
+                  year: CURRENT_YEAR,
+                  placesAutorisees: undefined as unknown as number,
+                  logementSocial: false,
+                  qpv: false,
+                },
+              ],
+            },
+          ],
+        };
   }, [localStorageValues]);
 
   const numAdressesRecovered = useMemo(() => {
