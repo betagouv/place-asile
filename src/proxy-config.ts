@@ -16,6 +16,12 @@ export const protectedApiRoutes: ApiRoute[] = [
     },
   },
   {
+    pattern: /^\/api\/structures\/[^/]+\/adresses$/,
+    routes: {
+      HEAD: "password",
+    },
+  },
+  {
     pattern: /^\/api\/structures\/dna\/[^/]+$/,
     routes: {
       GET: "password",
