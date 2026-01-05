@@ -17,6 +17,7 @@ import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
 
 import { sortKeysByValue } from "./common.util";
+import { getYearFromDate } from "./date.util";
 
 export const getPlacesByCommunes = (
   adresses: AdresseApiType[]
@@ -141,7 +142,6 @@ export const isStructureInCpom = (structure: StructureApiType): boolean => {
 export const getCurrentCpomStructureDates = (
   structure: StructureApiType
 ): { debutCpom?: string; finCpom?: string } => {
-  const now = new Date().toISOString();
   const currentCpomStructure = structure.cpomStructures?.find(
     (cpomStructure) => {
       const dateDebut = cpomStructure.dateDebut ?? cpomStructure.cpom.debutCpom;
@@ -151,7 +151,10 @@ export const getCurrentCpomStructureDates = (
         return false;
       }
 
-      return dateDebut <= now && dateFin >= now;
+      const yearDebut = getYearFromDate(dateDebut);
+      const yearFin = getYearFromDate(dateFin);
+
+      return yearDebut <= CURRENT_YEAR && yearFin >= CURRENT_YEAR;
     }
   );
 
