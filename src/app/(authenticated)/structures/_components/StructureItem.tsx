@@ -66,7 +66,7 @@ export const StructureItem = ({ structure, index, handleOpenModal }: Props) => {
 };
 
 const getCommuneLabel = (structure: StructureApiType) => {
-  let placesByCommune = getPlacesByCommunes(structure.adresses || []);
+  const placesByCommune = getPlacesByCommunes(structure.adresses || []);
   const mainCommune = Object.keys(placesByCommune)[0];
   const formattedMainCommune = formatCityName(mainCommune);
   const communesWithoutMainCommune = Object.keys(placesByCommune).filter(
