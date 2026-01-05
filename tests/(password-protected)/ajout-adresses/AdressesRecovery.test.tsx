@@ -112,6 +112,17 @@ describe("AdressesRecovery", () => {
   const dnaCode = "TEST123";
   const localStorageKey = `ajout-structure-${dnaCode}-adresses`;
 
+  const getSelectByName = (name: string): HTMLSelectElement => {
+    const comboboxes = screen.getAllByRole("combobox");
+    const select = comboboxes.find(
+      (cb) => (cb as HTMLSelectElement).name === name
+    ) as HTMLSelectElement;
+    if (!select) {
+      throw new Error(`Select with name="${name}" not found`);
+    }
+    return select;
+  };
+
   beforeEach(() => {
     localStorage.clear();
     vi.clearAllMocks();
@@ -135,7 +146,8 @@ describe("AdressesRecovery", () => {
       "0"
     );
 
-    expect(screen.getByLabelText(/Type de bâti/i)).toBeInTheDocument();
+    const typeBatiSelect = getSelectByName("typeBati");
+    expect(typeBatiSelect).toBeInTheDocument();
 
     const submitButton = screen.getByRole("button", { name: /Valider/i });
     await userEvent.click(submitButton);
@@ -187,9 +199,7 @@ describe("AdressesRecovery", () => {
       "1"
     );
 
-    const typeBatiSelect = screen.getByLabelText(
-      /Type de bâti/i
-    ) as HTMLSelectElement;
+    const typeBatiSelect = getSelectByName("typeBati");
     expect(typeBatiSelect.value).toBe(Repartition.DIFFUS);
 
     const submitButton = screen.getByRole("button", { name: /Valider/i });
@@ -242,9 +252,7 @@ describe("AdressesRecovery", () => {
       "1"
     );
 
-    const typeBatiSelect = screen.getByLabelText(
-      /Type de bâti/i
-    ) as HTMLSelectElement;
+    const typeBatiSelect = getSelectByName("typeBati");
     expect(typeBatiSelect.value).toBe(Repartition.COLLECTIF);
 
     const submitButton = screen.getByRole("button", { name: /Valider/i });
@@ -264,7 +272,7 @@ describe("AdressesRecovery", () => {
       expect(screen.getByTestId("adresses-recovery-modal")).toBeInTheDocument();
     });
 
-    const typeBatiSelect = screen.getByLabelText(/Type de bâti/i);
+    const typeBatiSelect = getSelectByName("typeBati");
     await userEvent.selectOptions(typeBatiSelect, Repartition.DIFFUS);
 
     const addressInput = screen.getByLabelText(/Adresse/i);
@@ -304,7 +312,7 @@ describe("AdressesRecovery", () => {
       expect(screen.getByTestId("adresses-recovery-modal")).toBeInTheDocument();
     });
 
-    const typeBatiSelect = screen.getByLabelText(/Type de bâti/i);
+    const typeBatiSelect = getSelectByName("typeBati");
     await userEvent.selectOptions(typeBatiSelect, Repartition.MIXTE);
 
     const addressInput = screen.getByLabelText(/Adresse/i);
@@ -326,6 +334,7 @@ describe("AdressesRecovery", () => {
     await userEvent.clear(placesInput);
     await userEvent.type(placesInput, "5");
 
+    // Get repartition selects from address components (they still have labels)
     const repartitionSelects = screen.getAllByLabelText(/Type de bâti/i);
     if (repartitionSelects.length > 1) {
       await userEvent.selectOptions(repartitionSelects[1], Repartition.DIFFUS);
@@ -358,7 +367,13 @@ describe("AdressesRecovery", () => {
     await userEvent.clear(placesInputs[1]);
     await userEvent.type(placesInputs[1], "8");
 
-    const allRepartitionSelects = screen.getAllByLabelText(/Type de bâti/i);
+    const mainTypeBatiSelect = getSelectByName("typeBati");
+
+    const addressRepartitionSelects = screen.getAllByLabelText(/Type de bâti/i);
+    const allRepartitionSelects = [
+      mainTypeBatiSelect,
+      ...addressRepartitionSelects,
+    ];
     if (allRepartitionSelects.length > 2) {
       await userEvent.selectOptions(
         allRepartitionSelects[2],
@@ -384,7 +399,7 @@ describe("AdressesRecovery", () => {
       expect(screen.getByTestId("adresses-recovery-modal")).toBeInTheDocument();
     });
 
-    const typeBatiSelect = screen.getByLabelText(/Type de bâti/i);
+    const typeBatiSelect = getSelectByName("typeBati");
     await userEvent.selectOptions(typeBatiSelect, Repartition.COLLECTIF);
 
     const addressInput = screen.getByLabelText(/Adresse/i);
