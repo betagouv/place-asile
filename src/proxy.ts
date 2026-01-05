@@ -28,10 +28,10 @@ const passwordPagesProxy = (request: NextRequest): NextResponse | null => {
     return null;
   }
   const passwordCookie = request.cookies.get("mot-de-passe");
-  if (
-    passwordCookie?.value !== process.env.PAGE_PASSWORD &&
-    passwordCookie?.value !== process.env.OPERATEUR_PASSWORD
-  ) {
+  const passwords = process.env.OPERATEUR_PASSWORDS?.split(",").map(
+    (password) => password.trim()
+  );
+  if (!passwordCookie || !passwords?.includes(passwordCookie?.value)) {
     const loginUrl = new URL(noProtectionPage, request.url);
     loginUrl.searchParams.set("from", url.pathname);
     return NextResponse.redirect(loginUrl);
@@ -46,10 +46,11 @@ const protectApiWithAuth = async (
   const session = await getServerSession(authOptions);
   const hasProconnectSession = !!session?.user;
   const passwordCookie = request.cookies.get("mot-de-passe");
-  // TODO: delete PAGE_PASSWORD
+  const passwords = process.env.OPERATEUR_PASSWORDS?.split(",").map(
+    (password) => password.trim()
+  );
   const hasPassword =
-    passwordCookie?.value === process.env.PAGE_PASSWORD ||
-    passwordCookie?.value === process.env.OPERATEUR_PASSWORD;
+    passwordCookie && passwords?.includes(passwordCookie?.value);
 
   if (protection === "none" || request.nextUrl.pathname === noProtectionPage) {
     return NextResponse.next();
