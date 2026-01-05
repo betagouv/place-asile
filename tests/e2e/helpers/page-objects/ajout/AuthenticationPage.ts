@@ -17,7 +17,7 @@ export class AuthenticationPage {
       // Password protection is active - authenticate
       await this.page.fill(
         'input[type="password"]',
-        process.env.PAGE_PASSWORD!
+        process.env.OPERATEUR_PASSWORD!
       );
       await this.page.click("button.fr-btn");
 

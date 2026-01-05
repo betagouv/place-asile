@@ -8,7 +8,9 @@ export async function verifyPassword(
   password: string
 ): Promise<{ success: boolean; message?: string }> {
   try {
-    const isValid = password === process.env.PAGE_PASSWORD;
+    const isValid =
+      password === process.env.PAGE_PASSWORD ||
+      password === process.env.OPERATEUR_PASSWORD;
 
     if (isValid) {
       const cookieStore = await cookies();
