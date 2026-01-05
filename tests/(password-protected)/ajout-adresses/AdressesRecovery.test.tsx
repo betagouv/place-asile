@@ -296,11 +296,10 @@ describe("AdressesRecovery", () => {
   });
 
   it("should display form without localStorage, can input some adresses (in mixte) and validate", async () => {
-    // GIVEN - No localStorage (already cleared in beforeEach)
-
     // WHEN
     render(<AdressesRecovery dnaCode={dnaCode} />);
 
+    // THEN - Verify the modal display correctly
     await waitFor(() => {
       expect(screen.getByTestId("adresses-recovery-modal")).toBeInTheDocument();
     });
@@ -370,18 +369,17 @@ describe("AdressesRecovery", () => {
     const submitButton = screen.getByRole("button", { name: /Valider/i });
     await userEvent.click(submitButton);
 
-    // Form should submit successfully
+    // THEN - Form should submit successfully
     await waitFor(() => {
       expect(mockUpdateStructure).toHaveBeenCalled();
     });
   });
 
   it("should display form without localStorage, can input one adresse (in collectif) and validate", async () => {
-    // GIVEN - No localStorage (already cleared in beforeEach)
-
     // WHEN
     render(<AdressesRecovery dnaCode={dnaCode} />);
 
+    // THEN - Verify the modal display correctly
     await waitFor(() => {
       expect(screen.getByTestId("adresses-recovery-modal")).toBeInTheDocument();
     });
@@ -411,7 +409,7 @@ describe("AdressesRecovery", () => {
     const submitButton = screen.getByRole("button", { name: /Valider/i });
     await userEvent.click(submitButton);
 
-    // Form should submit successfully
+    // THEN - Form should submit successfully
     await waitFor(() => {
       expect(mockUpdateStructure).toHaveBeenCalled();
     });

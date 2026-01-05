@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkAdressesExistence } from "@/app/api/adresses/adresse.repository";
 import { findOne } from "@/app/api/structures/structure.repository";
 
-export async function GET(
+export async function HEAD(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -14,15 +14,13 @@ export async function GET(
 
     const hasAdresses = await checkAdressesExistence(structure.dnaCode);
 
-    return NextResponse.json(hasAdresses);
+    if (hasAdresses) {
+      return new NextResponse(null, { status: 200 });
+    } else {
+      return new NextResponse(null, { status: 404 });
+    }
   } catch (error) {
-    console.error("Error in GET /api/structures/[id]", error);
-    return NextResponse.json(
-      {
-        error: "Internal server error",
-        details: error instanceof Error ? error.message : String(error),
-      },
-      { status: 500 }
-    );
+    console.error("Error in HEAD /api/structures/[id]/adresses", error);
+    return new NextResponse(null, { status: 500 });
   }
 }

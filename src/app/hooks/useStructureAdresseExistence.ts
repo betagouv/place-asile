@@ -4,19 +4,15 @@ export const useStructureAdresseExistence = () => {
   ): Promise<boolean | string> => {
     try {
       const response = await fetch(`/api/structures/${id}/adresses/exists`, {
-        method: "GET",
+        method: "HEAD",
       });
-      if (!response.ok) {
+      if (!response.ok && response.status !== 404) {
         throw new Error(
           `Failed to fetch adresses existence: ${response.status}`
         );
       }
-      if (response.status < 400) {
-        return await response.json();
-      } else {
-        const result = await response.json();
-        return result;
-      }
+
+      return response.status === 200;
     } catch (error) {
       throw error;
     }
