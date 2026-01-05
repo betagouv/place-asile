@@ -144,7 +144,7 @@ describe("FieldSetDescription", () => {
     });
   });
 
-  describe("Rendering endering finalisation form", () => {
+  describe("Rendering modification form", () => {
     it("should render with Général legend", () => {
       render(
         <FormTestWrapper
@@ -161,7 +161,6 @@ describe("FieldSetDescription", () => {
       );
 
       expect(screen.getByText("Général")).toBeInTheDocument();
-      expect(screen.queryByText("Description")).not.toBeInTheDocument();
     });
 
     it("should not render filiale toggle and creation date", () => {

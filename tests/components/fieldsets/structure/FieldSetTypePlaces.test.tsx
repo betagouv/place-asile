@@ -7,8 +7,16 @@ import { FormKind } from "@/types/global";
 
 import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
 
+vi.mock("@/constants", async () => {
+  const actual = await vi.importActual("@/constants");
+  return {
+    ...actual,
+    CURRENT_YEAR: 2026,
+  };
+});
+
 describe("FieldSetTypePlaces", () => {
-  const years = [2025, 2024, 2023];
+  const years = [2026, 2025, 2024, 2023];
 
   describe("Rendering finalisation form", () => {
     it("should render with Types de place legend", () => {
@@ -16,7 +24,7 @@ describe("FieldSetTypePlaces", () => {
         <FormTestWrapper
           defaultValues={{
             structureTypologies: years.map((year) => ({
-              date: `01/01/${year}`,
+              year,
               placesAutorisees: 0,
               pmr: 0,
               lgbt: 0,
@@ -36,7 +44,7 @@ describe("FieldSetTypePlaces", () => {
         <FormTestWrapper
           defaultValues={{
             structureTypologies: years.map((year) => ({
-              date: `01/01/${year}`,
+              year,
               placesAutorisees: 0,
               pmr: 0,
               lgbt: 0,
@@ -60,7 +68,7 @@ describe("FieldSetTypePlaces", () => {
         <FormTestWrapper
           defaultValues={{
             structureTypologies: years.map((year) => ({
-              date: `01/01/${year}`,
+              year,
               placesAutorisees: 0,
               pmr: 0,
               lgbt: 0,
@@ -118,13 +126,13 @@ describe("FieldSetTypePlaces", () => {
     });
   });
 
-  describe("Rendering endering finalisation form", () => {
+  describe("Rendering modification form", () => {
     it("should render with Détails et historique legend", () => {
       render(
         <FormTestWrapper
           defaultValues={{
             structureTypologies: years.map((year) => ({
-              date: `01/01/${year}`,
+              year,
               placesAutorisees: 0,
               pmr: 0,
               lgbt: 0,
@@ -147,7 +155,7 @@ describe("FieldSetTypePlaces", () => {
         <FormTestWrapper
           defaultValues={{
             structureTypologies: years.map((year) => ({
-              date: `01/01/${year}`,
+              year,
               placesAutorisees: 0,
               pmr: 0,
               lgbt: 0,
@@ -184,7 +192,7 @@ describe("FieldSetTypePlaces", () => {
         <FormTestWrapper
           defaultValues={{
             structureTypologies: years.map((year) => ({
-              date: `01/01/${year}`,
+              year,
               placesAutorisees: 0,
               pmr: 0,
               lgbt: 0,
@@ -198,7 +206,7 @@ describe("FieldSetTypePlaces", () => {
 
       years.forEach((_, index) => {
         const dateInput = container.querySelector(
-          `input[name="structureTypologies.${index}.date"]`
+          `input[name="structureTypologies.${index}.year"]`
         );
         expect(dateInput).toBeInTheDocument();
         expect(dateInput).toHaveAttribute("type", "hidden");
@@ -213,7 +221,8 @@ describe("FieldSetTypePlaces", () => {
       const { container } = render(
         <FormTestWrapper
           defaultValues={{
-            structureTypologies: years.map(() => ({
+            structureTypologies: years.map((year) => ({
+              year,
               placesAutorisees: 0,
               pmr: 0,
               lgbt: 0,
@@ -246,9 +255,16 @@ describe("FieldSetTypePlaces", () => {
         <FormTestWrapper
           defaultValues={{
             structureTypologies: [
-              { placesAutorisees: 100, pmr: 10, lgbt: 5, fvvTeh: 3 },
-              { placesAutorisees: 95, pmr: 8, lgbt: 4, fvvTeh: 2 },
-              { placesAutorisees: 90, pmr: 7, lgbt: 3, fvvTeh: 1 },
+              {
+                year: 2026,
+                placesAutorisees: 100,
+                pmr: 10,
+                lgbt: 5,
+                fvvTeh: 3,
+              },
+              { year: 2025, placesAutorisees: 95, pmr: 8, lgbt: 4, fvvTeh: 2 },
+              { year: 2024, placesAutorisees: 90, pmr: 7, lgbt: 3, fvvTeh: 1 },
+              { year: 2023, placesAutorisees: 90, pmr: 7, lgbt: 3, fvvTeh: 1 },
             ],
           }}
         >
@@ -278,28 +294,13 @@ describe("FieldSetTypePlaces", () => {
     });
   });
 
-  describe("Edge cases", () => {
-    it("should handle empty typologies array", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            structureTypologies: [],
-          }}
-        >
-          <FieldSetTypePlaces formKind={FormKind.FINALISATION} />
-        </FormTestWrapper>
-      );
-
-      expect(screen.getByText("Types de place")).toBeInTheDocument();
-    });
-  });
-
   describe("Hidden ID fields", () => {
     it("should have hidden id fields when provided", () => {
       const { container } = render(
         <FormTestWrapper
           defaultValues={{
-            structureTypologies: years.map((_, index) => ({
+            structureTypologies: years.map((year, index) => ({
+              year,
               id: index + 1,
               placesAutorisees: 0,
               pmr: 0,

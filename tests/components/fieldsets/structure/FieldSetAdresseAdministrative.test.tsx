@@ -118,7 +118,7 @@ describe("FieldSetAdresseAdministrative", () => {
     });
   });
 
-  describe("Rendering endering finalisation form", () => {
+  describe("Rendering modification form", () => {
     it("should not display notice about address confidentiality", () => {
       render(
         <FormTestWrapper defaultValues={{}}>
@@ -195,18 +195,6 @@ describe("FieldSetAdresseAdministrative", () => {
   });
 
   describe("Address autocomplete integration", () => {
-    it("should render AddressWithValidation component", () => {
-      render(
-        <FormTestWrapper defaultValues={{}}>
-          <FieldSetAdresseAdministrative formKind={FormKind.FINALISATION} />
-        </FormTestWrapper>
-      );
-
-      expect(
-        screen.getByLabelText("Adresse principale de la structure")
-      ).toBeInTheDocument();
-    });
-
     it("should pass correct props to AddressWithValidation and display address", () => {
       const testAddress = "1 rue de Paris, 75001 Paris";
       render(
@@ -226,7 +214,6 @@ describe("FieldSetAdresseAdministrative", () => {
       const addressInput = screen.getByLabelText(
         "Adresse principale de la structure"
       );
-      expect(addressInput).toBeInTheDocument();
       expect(addressInput).toHaveValue(testAddress);
     });
 
@@ -267,7 +254,7 @@ describe("FieldSetAdresseAdministrative", () => {
       ).toBeInTheDocument();
     });
 
-    it("should fill all address fields when selecting a suggestion", async () => {
+    it("should fill address fields when selecting a suggestion", async () => {
       const user = userEvent.setup();
       mockUseAddressSuggestion.mockResolvedValue(mockAddressSuggestions);
 
