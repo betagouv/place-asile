@@ -11,6 +11,7 @@ import {
   getYearFromDate,
 } from "@/app/utils/date.util";
 import { isStructureAutorisee } from "@/app/utils/structure.util";
+import { CURRENT_OPEN_YEAR } from "@/constants";
 import { AjoutIdentificationFormValues } from "@/schemas/forms/ajout/ajoutIdentification.schema";
 import { DocumentsFinanciersFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
@@ -41,10 +42,12 @@ export const DocumentsFinanciers = (): ReactElement => {
   });
 
   const numberOfMissingDocuments = yearsToCheck
-    .map((year, index) =>
+    .map((year) =>
       documents
         .filter((document) => {
-          if (!document.required || document.yearIndex > index) {
+          const yearIndex = CURRENT_OPEN_YEAR - year;
+
+          if (!document.required || document.yearIndex > yearIndex) {
             return false;
           }
 

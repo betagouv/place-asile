@@ -11,10 +11,13 @@ import {
   StructureAgentUpdateApiType,
   StructureApiType,
 } from "@/schemas/api/structure.schema";
+import { StructureMillesimeApiType } from "@/schemas/api/structure-millesime.schema";
+import { StructureTypologieApiType } from "@/schemas/api/structure-typologie.schema";
 import { Repartition } from "@/types/adresse.type";
 import { StructureType } from "@/types/structure.type";
 
 import { sortKeysByValue } from "./common.util";
+import { getYearFromDate } from "./date.util";
 
 export const getPlacesByCommunes = (
   adresses: AdresseApiType[]
@@ -139,7 +142,6 @@ export const isStructureInCpom = (structure: StructureApiType): boolean => {
 export const getCurrentCpomStructureDates = (
   structure: StructureApiType
 ): { debutCpom?: string; finCpom?: string } => {
-  const now = new Date().toISOString();
   const currentCpomStructure = structure.cpomStructures?.find(
     (cpomStructure) => {
       const dateDebut = cpomStructure.dateDebut ?? cpomStructure.cpom.debutCpom;
@@ -149,7 +151,10 @@ export const getCurrentCpomStructureDates = (
         return false;
       }
 
-      return dateDebut <= now && dateFin >= now;
+      const yearDebut = getYearFromDate(dateDebut);
+      const yearFin = getYearFromDate(dateFin);
+
+      return yearDebut <= CURRENT_YEAR && yearFin >= CURRENT_YEAR;
     }
   );
 
@@ -167,3 +172,19 @@ export const getCurrentCpomStructureDates = (
     finCpom: currentCpomStructureDateFin,
   };
 };
+
+export const getStructureTypologyIndexForAYear = (
+  structureTypologies: StructureTypologieApiType[],
+  year: number = CURRENT_YEAR
+): number =>
+  structureTypologies?.findIndex(
+    (structureTypology) => structureTypology.year === year
+  ) ?? -1;
+
+export const getStructureMillesimeIndexForAYear = (
+  structureMillesimes: StructureMillesimeApiType[],
+  year: number = CURRENT_YEAR
+): number =>
+  structureMillesimes?.findIndex(
+    (structureMillesime) => structureMillesime.year === year
+  ) ?? -1;

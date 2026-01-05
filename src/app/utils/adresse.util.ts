@@ -91,7 +91,6 @@ export const formatCityName = (city: string): string | null => {
   if (typeof city !== "string") {
     return city;
   }
-
   const normalized = city.trim().replace(/\s+/g, " ");
 
   if (!normalized) {
@@ -128,35 +127,56 @@ export const formatCityName = (city: string): string | null => {
   const firstWordLower = words[0].toLowerCase();
   const hasArticleAtStart = articles.has(firstWordLower);
 
-  const formattedWords = words.map((word, index) => {
+  const formatPart = (
+    part: string,
+    partIndex: number,
+    wordIndex: number,
+    hasApostrophe: boolean
+  ): string => {
+    const isPartArticle = partIndex > 0 && articles.has(part);
+    const isPartPreposition = partIndex > 0 && prepositions.has(part);
+
+    if (isPartArticle || isPartPreposition) {
+      return part;
+    }
+
+    if (hasApostrophe && wordIndex > 0 && (part === "l" || part === "d")) {
+      return part;
+    }
+
+    return part.charAt(0).toUpperCase() + part.slice(1);
+  };
+
+  const formatWord = (word: string, wordIndex: number): string => {
     const wordLower = word.toLowerCase();
-    const isArticleInside = index > 0 && articles.has(wordLower);
+    const isArticleInside = wordIndex > 0 && articles.has(wordLower);
     const isPreposition = prepositions.has(wordLower);
 
     if (isArticleInside || isPreposition) {
       return wordLower;
     }
 
-    const parts = wordLower.split("'");
-    const formattedParts = parts.map((part) => {
-      if (index > 0 && (part === "l" || part === "d")) {
-        return part;
-      }
-      return part.charAt(0).toUpperCase() + part.slice(1);
-    });
+    const hasApostrophe = wordLower.includes("'");
+    const hasHyphen = wordLower.includes("-");
 
-    return formattedParts.join("'");
-  });
+    if (hasApostrophe || hasHyphen) {
+      const separator = hasApostrophe ? "'" : "-";
+      const parts = wordLower.split(separator);
+      const formattedParts = parts.map((part, partIndex) =>
+        formatPart(part, partIndex, wordIndex, hasApostrophe)
+      );
+      return formattedParts.join(separator);
+    }
+
+    return formatPart(wordLower, 0, wordIndex, false);
+  };
+
+  const formattedWords = words.map(formatWord);
 
   let result = formattedWords[0];
-
   for (let i = 1; i < formattedWords.length; i++) {
-    const isAfterArticleAtStart = hasArticleAtStart && i === 1;
-    if (isAfterArticleAtStart) {
-      result += " " + formattedWords[i];
-    } else {
-      result += "-" + formattedWords[i];
-    }
+    const separator = hasArticleAtStart && i === 1 ? " " : "-";
+    result += separator + formattedWords[i];
   }
 
   return result;

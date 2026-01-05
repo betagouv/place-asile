@@ -1,21 +1,17 @@
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
 import { ReactElement } from "react";
-import { Control, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 import { cn } from "@/app/utils/classname.util";
 import { getYearFromDate } from "@/app/utils/date.util";
 import { CURRENT_YEAR } from "@/constants";
-import {
-  DocumentFinancierFlexibleFormValues,
-  DocumentsFinanciersFlexibleFormValues,
-} from "@/schemas/forms/base/documentFinancier.schema";
+import { DocumentFinancierFlexibleFormValues } from "@/schemas/forms/base/documentFinancier.schema";
 
 import { DocumentsFinanciersItem } from "./DocumentsFinanciersItem";
 import { StructureDocument } from "./documentsStructures";
 
 export const DocumentsFinanciersCategory = ({
   documentType,
-  control,
   year,
 }: Props): ReactElement => {
   const { watch } = useFormContext();
@@ -80,7 +76,6 @@ export const DocumentsFinanciersCategory = ({
           <DocumentsFinanciersItem
             key={documentFinancier.key}
             documentFinancier={documentFinancier}
-            control={control}
           />
         ))}
       </div>
@@ -90,6 +85,5 @@ export const DocumentsFinanciersCategory = ({
 
 type Props = {
   documentType: StructureDocument;
-  control: Control<DocumentsFinanciersFlexibleFormValues>;
   year: number;
 };

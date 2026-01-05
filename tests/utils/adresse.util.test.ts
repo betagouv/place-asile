@@ -16,11 +16,16 @@ describe("adresse util", () => {
       expect(formatCityName("La Rochelle")).toBe("La Rochelle");
     });
 
+    it("handles names with multiple words", () => {
+      expect(formatCityName("Rueil-malmaison")).toBe("Rueil-Malmaison");
+    });
+
     it("lowercases prepositions and inside articles", () => {
       expect(formatCityName("Neuilly Sur Seine")).toBe("Neuilly-sur-Seine");
       expect(formatCityName("Le Grau du Roi")).toBe("Le Grau-du-Roi");
       expect(formatCityName("Ville sous Bois")).toBe("Ville-sous-Bois");
       expect(formatCityName("Ivry La Bataille")).toBe("Ivry-la-Bataille");
+      expect(formatCityName("Aulnay-Sous-Bois")).toBe("Aulnay-sous-Bois");
     });
 
     it("capitalizes all other words correctly", () => {
