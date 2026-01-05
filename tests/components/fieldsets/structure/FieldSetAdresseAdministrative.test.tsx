@@ -75,14 +75,17 @@ describe("FieldSetAdresseAdministrative", () => {
     });
 
     it("should display notice about address confidentiality", () => {
-      const { container } = render(
+      render(
         <FormTestWrapper defaultValues={{}}>
           <FieldSetAdresseAdministrative formKind={FormKind.FINALISATION} />
         </FormTestWrapper>
       );
 
-      const notice = container.querySelector(".fr-notice.fr-notice--info");
-      expect(notice).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "L’ensemble des adresses ne seront communiquées qu’aux agentes et agents en charge de cette politique publique."
+        )
+      ).toBeInTheDocument();
     });
 
     it("should display helper text for structure name", () => {
