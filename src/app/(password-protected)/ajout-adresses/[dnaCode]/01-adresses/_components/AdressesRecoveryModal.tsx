@@ -53,8 +53,7 @@ export const AdressesRecoveryModal = ({
           <br />
           <br />
           Si ce n’est pas possible, ou si le cache a été vidé, le formulaire
-          devra être rempli manuellement ou à l’aide du modèle de tableau à
-          télécharger.
+          devra être rempli via les méthodes classiques.
         </p>
       )}
     </adressesRecoveryModal.Component>

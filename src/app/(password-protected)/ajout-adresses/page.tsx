@@ -3,21 +3,22 @@ import { ReactElement } from "react";
 
 export default async function AjoutStructurePage(): Promise<ReactElement> {
   return (
-    <div className="max-w-xl mx-auto flex flex-col items-center">
+    <div className="max-w-2xl mx-auto flex flex-col items-center">
       <h2 className="flex flex-col items-center gap-4 text-center text-xl font-bold mb-2 text-title-blue-france">
         <i className="fr-icon-draft-line text-action-high-blue-france text-4xl [&::before]:[--icon-size:5rem]"></i>
         Formulaire d’ajout des adresses de votre structure
       </h2>
       <p className="text-center mb-10">
         Un problème technique a empêché l’enregistrement des adresses lors de la
-        création de votre structure.
+        création de votre structure. Nous nous excusons pour la gène
+        occasionnée.
         <br />
         <br />
         Ce formulaire permet de les renseigner à nouveau.
         <br />
         Si vous utilisez le même poste et le même navigateur que lors de la
         création initiale, les adresses précédemment saisies seront
-        automatiquement préremplies. Une simple validation suffira pour les
+        automatiquement récupérées et une simple validation suffira pour les
         enregistrer.
         <br />
       </p>
@@ -40,6 +41,10 @@ export default async function AjoutStructurePage(): Promise<ReactElement> {
             Ne pas avoir vidé le stockage local du navigateur (local storage).
           </li>
         </ul>
+        <p>
+          Si vous ne remplissez pas ces conditions, vous pourrez saisir les
+          adresses via les méthodes classiques.
+        </p>
       </div>
       <Button
         size="large"
