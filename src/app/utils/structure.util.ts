@@ -139,6 +139,16 @@ export const isStructureInCpom = (structure: StructureApiType): boolean => {
   );
 };
 
+export const isStructureInCpomForAYear = (
+  structure: StructureApiType,
+  year: number = CURRENT_YEAR
+): boolean => {
+  return (
+    structure.structureMillesimes?.find((millesime) => millesime.year === year)
+      ?.cpom ?? false
+  );
+};
+
 export const getCurrentCpomStructureDates = (
   structure: StructureApiType
 ): { debutCpom?: string; finCpom?: string } => {

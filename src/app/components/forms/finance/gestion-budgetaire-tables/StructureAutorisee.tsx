@@ -30,6 +30,22 @@ export const StructureAutorisee = () => {
     <Table
       ariaLabelledBy="gestionBudgetaire"
       hasErrors={hasErrors}
+      headings={[
+        ..." ",
+        ...years.map((year) => (
+          <th scope="col" key={year}>
+            {year}
+          </th>
+        )),
+      ]}
+      enableBorders
+    />
+  );
+
+  return (
+    <Table
+      ariaLabelledBy="gestionBudgetaire"
+      hasErrors={hasErrors}
       preHeadings={[
         <th scope="col" key="annee" className="!border-r-1">
           {" "}
