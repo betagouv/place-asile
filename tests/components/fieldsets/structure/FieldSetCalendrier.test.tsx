@@ -13,37 +13,12 @@ import { FormTestWrapper } from "../../../test-utils/form-test-wrapper";
 
 describe("FieldSetCalendrier", () => {
   describe("Rendering with autorisée structure (CADA)", () => {
-    it("should render all three date sections for autorisée with CPOM", () => {
+    it("should render only autorisation and convention sections", () => {
       render(
         <FormTestWrapper
           defaultValues={{
             type: StructureType.CADA,
-            cpom: true,
-            debutPeriodeAutorisation: "01/01/2024",
-            finPeriodeAutorisation: "31/12/2028",
-            debutConvention: "01/01/2024",
-            finConvention: "31/12/2028",
-            debutCpom: "01/01/2024",
-            finCpom: "31/12/2028",
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
 
-      expect(screen.getByText(/Calendrier/i)).toBeInTheDocument();
-      const datesDebuts = screen.getAllByLabelText(/Date de début/i);
-      const datesFins = screen.getAllByLabelText(/Date de fin/i);
-      expect(datesDebuts.length).toBe(3);
-      expect(datesFins.length).toBe(3);
-    });
-
-    it("should render only autorisation and convention sections without CPOM", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CADA,
-            cpom: false,
             debutPeriodeAutorisation: "01/01/2024",
             finPeriodeAutorisation: "31/12/2028",
             debutConvention: "01/01/2024",
@@ -65,7 +40,6 @@ describe("FieldSetCalendrier", () => {
         <FormTestWrapper
           defaultValues={{
             type: StructureType.CADA,
-            cpom: false,
           }}
         >
           <FieldSetCalendrier />
@@ -82,7 +56,6 @@ describe("FieldSetCalendrier", () => {
         <FormTestWrapper
           defaultValues={{
             type: StructureType.CADA,
-            cpom: false,
           }}
         >
           <FieldSetCalendrier />
@@ -101,7 +74,7 @@ describe("FieldSetCalendrier", () => {
         <FormTestWrapper
           defaultValues={{
             type: StructureType.HUDA,
-            cpom: false,
+
             debutConvention: "01/01/2024",
             finConvention: "31/12/2028",
           }}
@@ -121,7 +94,6 @@ describe("FieldSetCalendrier", () => {
         <FormTestWrapper
           defaultValues={{
             type: StructureType.HUDA,
-            cpom: false,
           }}
         >
           <FieldSetCalendrier />
@@ -129,23 +101,6 @@ describe("FieldSetCalendrier", () => {
       );
 
       expect(screen.queryByText(/\(optionnel\)/i)).not.toBeInTheDocument();
-    });
-
-    it("should show CPOM section when cpom is true", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CPH,
-            cpom: true,
-            debutCpom: "01/01/2024",
-            finCpom: "31/12/2028",
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
-
-      expect(screen.getByText("CPOM en cours")).toBeInTheDocument();
     });
   });
 
@@ -251,7 +206,7 @@ describe("FieldSetCalendrier", () => {
         <FormTestWrapper
           defaultValues={{
             type: StructureType.CPH,
-            cpom: false,
+
             finConvention: "",
           }}
         >
@@ -264,95 +219,6 @@ describe("FieldSetCalendrier", () => {
 
       await waitFor(() => {
         expect(finInput).toHaveValue("2028-06-30");
-      });
-    });
-  });
-
-  describe("CPOM fields", () => {
-    it("should render CPOM fields when cpom is true", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CADA,
-            cpom: true,
-            debutCpom: "01/01/2024",
-            finCpom: "31/12/2028",
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
-
-      expect(screen.getByText("CPOM en cours")).toBeInTheDocument();
-
-      const dateLabels = screen.getAllByLabelText("Date de début");
-      const datesFinLabels = screen.getAllByLabelText("Date de fin");
-
-      // Should have 3 pairs: autorisation, convention, CPOM
-      expect(dateLabels.length).toBe(3);
-      expect(datesFinLabels.length).toBe(3);
-    });
-
-    it("should not render CPOM fields when cpom is false", () => {
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CADA,
-            cpom: false,
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
-
-      expect(screen.queryByText("CPOM en cours")).not.toBeInTheDocument();
-    });
-
-    it("should update debut CPOM date", async () => {
-      const user = userEvent.setup();
-
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CADA,
-            cpom: true,
-            debutCpom: "",
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
-
-      const dateInputs = screen.getAllByLabelText("Date de début");
-      const cpomDebutInput = dateInputs[dateInputs.length - 1];
-      await user.type(cpomDebutInput, "2024-03-01");
-
-      await waitFor(() => {
-        expect(cpomDebutInput).toHaveValue("2024-03-01");
-      });
-    });
-
-    it("should update fin CPOM date", async () => {
-      const user = userEvent.setup();
-
-      render(
-        <FormTestWrapper
-          defaultValues={{
-            type: StructureType.CADA,
-            cpom: true,
-            finCpom: "",
-          }}
-        >
-          <FieldSetCalendrier />
-        </FormTestWrapper>
-      );
-
-      const dateInputs = screen.getAllByLabelText("Date de fin");
-      const cpomFinInput = dateInputs[dateInputs.length - 1];
-      await user.type(cpomFinInput, "2029-02-28");
-
-      await waitFor(() => {
-        expect(cpomFinInput).toHaveValue("2029-02-28");
       });
     });
   });
@@ -370,7 +236,6 @@ describe("FieldSetCalendrier", () => {
           <FormTestWrapper
             defaultValues={{
               type,
-              cpom: false,
             }}
           >
             <FieldSetCalendrier />
@@ -389,7 +254,6 @@ describe("FieldSetCalendrier", () => {
           <FormTestWrapper
             defaultValues={{
               type,
-              cpom: false,
             }}
           >
             <FieldSetCalendrier />
@@ -404,12 +268,11 @@ describe("FieldSetCalendrier", () => {
   });
 
   describe("Edge cases", () => {
-    it("should handle CADA with CPOM showing all sections", () => {
+    it("should handle CADA showing all sections", () => {
       render(
         <FormTestWrapper
           defaultValues={{
             type: StructureType.CADA,
-            cpom: true,
           }}
         >
           <FieldSetCalendrier />
@@ -419,16 +282,15 @@ describe("FieldSetCalendrier", () => {
       const datesDebuts = screen.getAllByLabelText(/Date de début/i);
       const datesFins = screen.getAllByLabelText(/Date de fin/i);
 
-      expect(datesDebuts.length).toBe(3);
-      expect(datesFins.length).toBe(3);
+      expect(datesDebuts.length).toBe(2);
+      expect(datesFins.length).toBe(2);
     });
 
-    it("should handle HUDA without CPOM showing only convention", () => {
+    it("should handle HUDA showing only convention", () => {
       render(
         <FormTestWrapper
           defaultValues={{
             type: StructureType.HUDA,
-            cpom: false,
           }}
         >
           <FieldSetCalendrier />
@@ -439,7 +301,6 @@ describe("FieldSetCalendrier", () => {
         screen.queryByText("Période d'autorisation en cours")
       ).not.toBeInTheDocument();
       expect(screen.getByText(/Convention en cours/i)).toBeInTheDocument();
-      expect(screen.queryByText("CPOM en cours")).not.toBeInTheDocument();
 
       const dateInputs = screen.getAllByLabelText("Date de début");
       expect(dateInputs.length).toBe(1);
