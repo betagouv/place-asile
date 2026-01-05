@@ -3,7 +3,7 @@ export const useStructureAdresseExistence = () => {
     id: number
   ): Promise<boolean | string> => {
     try {
-      const response = await fetch(`/api/structures/${id}/adresses/exists`, {
+      const response = await fetch(`/api/structures/${id}/adresses`, {
         method: "HEAD",
       });
       if (!response.ok && response.status !== 404) {
