@@ -10,7 +10,7 @@ export default async function AjoutStructurePage(): Promise<ReactElement> {
       </h2>
       <p className="text-center mb-10">
         Un problème technique a empêché l’enregistrement des adresses lors de la
-        création de votre structure. Nous nous excusons pour la gène
+        création de votre structure. Nous nous excusons pour la gêne
         occasionnée.
         <br />
         <br />
