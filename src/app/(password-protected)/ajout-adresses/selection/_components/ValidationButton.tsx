@@ -72,8 +72,8 @@ export const ValidationButton = (): ReactElement => {
         ]}
       >
         <p>
-          Les adresses de votre structures sont déjà enregistrées. Vous pouvez
-          quitter cette page.
+          Vous n’êtes pas concerné par le problème technique, vos adresses sont
+          bien enregistrées. Vous n’avez pas besoin de les saisir à nouveau.
         </p>
       </checkAdressesModal.Component>
     </>
