@@ -307,6 +307,17 @@ describe("date util", () => {
         // THEN
         expect(result).toBe(2025);
       });
+
+      it("should parse really late ISO date string and return the correct year", () => {
+        // GIVEN
+        const date = "2024-12-31T23:59:59.999Z";
+
+        // WHEN
+        const result = getYearFromDate(date);
+
+        // THEN
+        expect(result).toBe(2024);
+      });
     });
 
     describe("when input is a string with invalid date", () => {

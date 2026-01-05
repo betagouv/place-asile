@@ -1,28 +1,81 @@
 import Button from "@codegouvfr/react-dsfr/Button";
+import { createModal } from "@codegouvfr/react-dsfr/Modal";
 import { useRouter } from "next/navigation";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
+import { useStructureAdresseExistence } from "@/app/hooks/useStructureAdresseExistence";
+import { getErrorEmail } from "@/app/utils/errorMail.util";
+
+const checkAdressesModal = createModal({
+  id: "check-adresses-modal",
+  isOpenedByDefault: false,
+});
 export const ValidationButton = (): ReactElement => {
   const router = useRouter();
   const parentFormContext = useFormContext();
   const { watch } = parentFormContext;
 
+  const [error, setError] = useState<string | null>(null);
+
   const structure = watch("structure");
 
+  const { checkAdressesExistence } = useStructureAdresseExistence();
+
+  const handleClick = async () => {
+    try {
+      const hasAdresses = await checkAdressesExistence(structure.id);
+      if (hasAdresses) {
+        checkAdressesModal.open();
+      } else {
+        router.push(`/ajout-adresses/${structure.dnaCode}/01-adresses`);
+      }
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      setError(message);
+    }
+  };
+
   return (
-    <div className="flex justify-center">
-      <Button
-        type="button"
-        onClick={() =>
-          router.push(`/ajout-adresses/${structure.dnaCode}/01-adresses`)
-        }
-        disabled={!structure?.dnaCode}
-        className="flex gap-2"
+    <>
+      <div className="flex justify-center">
+        <Button
+          type="button"
+          onClick={handleClick}
+          disabled={!structure?.dnaCode}
+          className="flex gap-2 mb-4"
+        >
+          J’ai trouvé ma structure{" "}
+          <span className="fr-icon-arrow-right-line fr-icon--md" />
+        </Button>
+      </div>
+      {error && (
+        <p className="text-default-error m-0 p-0 text-center">
+          Une erreur s’est produite.{" "}
+          <a
+            href={getErrorEmail(error, structure?.dnaCode)}
+            className="underline"
+            target="_blank"
+          >
+            Nous prévenir
+          </a>
+        </p>
+      )}
+      <checkAdressesModal.Component
+        title="Adresses déjà enregistrées"
+        buttons={[
+          {
+            doClosesModal: true,
+            children: "J’ai compris",
+            type: "button",
+          },
+        ]}
       >
-        J’ai trouvé ma structure{" "}
-        <span className="fr-icon-arrow-right-line fr-icon--md" />
-      </Button>
-    </div>
+        <p>
+          Les adresses de votre structures sont déjà enregistrées. Vous pouvez
+          quitter cette page.
+        </p>
+      </checkAdressesModal.Component>
+    </>
   );
 };

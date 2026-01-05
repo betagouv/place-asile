@@ -12,7 +12,7 @@ export default function StepConfirmation() {
         Vous avez terminé l’enregistrement des adresses de votre structure.
       </h1>
       <p>
-        Merci pour votre participation, nous nous excusons
+        Merci pour votre mobilisation, nous nous excusons
         <br />
         pour la gêne occasionnée.
       </p>

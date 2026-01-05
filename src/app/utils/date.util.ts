@@ -75,9 +75,17 @@ export const getYearFromDate = (
     if (match) {
       return Number(match[3]);
     }
-    const parsed = new Date(date);
-    if (!isNaN(parsed.getTime())) {
-      return parsed.getFullYear();
+    const isIsoString = date.includes("T") || date.endsWith("Z");
+    if (isIsoString) {
+      const parsed = new Date(date);
+      if (!isNaN(parsed.getTime())) {
+        return parsed.getUTCFullYear();
+      }
+    } else {
+      const parsed = dayjs(date);
+      if (parsed.isValid()) {
+        return parsed.year();
+      }
     }
     return -1;
   }
