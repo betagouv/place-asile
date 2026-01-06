@@ -1,4 +1,4 @@
-import { useFormContext } from "react-hook-form";
+import { useForm, useFormContext } from "react-hook-form";
 
 import { getYearRange } from "@/app/utils/date.util";
 import { getBudgetIndexForAYear } from "@/app/utils/structure.util";
@@ -12,10 +12,13 @@ export const BudgetTableLine = ({
   subLabel,
   budgets,
   disabledYearsStart,
+  enabledYears,
 }: Props) => {
   const parentFormContext = useFormContext();
 
-  const { control } = parentFormContext;
+  const localForm = useForm();
+
+  const { control } = parentFormContext || localForm;
 
   const { years } = getYearRange({ order: "desc" });
 
@@ -30,7 +33,7 @@ export const BudgetTableLine = ({
         <td key={year}>
           <div className="flex items-center gap-2">
             <InputWithValidation
-              name={`${name}.${getBudgetIndexForAYear(budgets, year)}.${name}`}
+              name={`budgets.${getBudgetIndexForAYear(budgets, year)}.${name}`}
               id={`gestionBudgetaire.${getBudgetIndexForAYear(budgets, year)}.${name}`}
               control={control}
               type="number"
@@ -38,7 +41,13 @@ export const BudgetTableLine = ({
               label=""
               className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
               variant="simple"
-              disabled={disabledYearsStart ? year >= disabledYearsStart : false}
+              disabled={
+                enabledYears
+                  ? !enabledYears.includes(year)
+                  : disabledYearsStart
+                    ? year >= disabledYearsStart
+                    : false
+              }
             />
             &nbsp;€
           </div>
@@ -54,4 +63,5 @@ interface Props {
   subLabel?: string;
   budgets: BudgetApiType[];
   disabledYearsStart?: number;
+  enabledYears?: number[];
 }

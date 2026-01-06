@@ -13,6 +13,7 @@ import {
   OTHER_DISABLED_YEARS_START,
   TOTAL_PRODUITS_DISABLED_YEARS_START,
 } from "@/constants";
+import { BudgetApiType } from "@/schemas/api/budget.schema";
 
 import { BudgetTableCommentLine } from "./BudgetTableCommentLine";
 import { BudgetTableLine } from "./BudgetTableLine";
@@ -26,7 +27,8 @@ export const StructureAutorisee = () => {
   const { years } = getYearRange({ order: "desc" });
 
   const localForm = useForm();
-  const { control, formState, register } = parentFormContext || localForm;
+  const { control, watch, formState, register } =
+    parentFormContext || localForm;
 
   const errors = formState.errors;
   const hasErrors =
@@ -47,6 +49,18 @@ export const StructureAutorisee = () => {
   if (!structure.budgets) {
     return null;
   }
+
+  const budgets = watch("budgets") as BudgetApiType[];
+  const detailAffectationEnabledYears = budgets
+    .filter((budget) => {
+      const totalValue = Number(
+        String(budget?.affectationReservesFondsDedies)
+          .replaceAll(" ", "")
+          .replace(",", ".") || 0
+      );
+      return totalValue > 0;
+    })
+    .map((budget) => budget.year);
 
   return (
     <Table
@@ -128,6 +142,7 @@ export const StructureAutorisee = () => {
         subLabel="dédiée à l'investissement"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}
+        enabledYears={detailAffectationEnabledYears}
       />
       <BudgetTableLine
         name="chargesNonReconductibles"
@@ -135,6 +150,7 @@ export const StructureAutorisee = () => {
         subLabel="non reductibles"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}
+        enabledYears={detailAffectationEnabledYears}
       />
       <BudgetTableLine
         name="reserveCompensationDeficits"
@@ -142,6 +158,7 @@ export const StructureAutorisee = () => {
         subLabel="des déficits"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}
+        enabledYears={detailAffectationEnabledYears}
       />
       <BudgetTableLine
         name="reserveCompensationBFR"
@@ -149,6 +166,7 @@ export const StructureAutorisee = () => {
         subLabel="de BFR"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}
+        enabledYears={detailAffectationEnabledYears}
       />
       <BudgetTableLine
         name="reserveCompensationAmortissements"
@@ -156,24 +174,28 @@ export const StructureAutorisee = () => {
         subLabel="des amortissements"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}
+        enabledYears={detailAffectationEnabledYears}
       />
       <BudgetTableLine
         name="reportANouveau"
         label="Report à nouveau"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}
+        enabledYears={detailAffectationEnabledYears}
       />
       <BudgetTableLine
         name="autre"
         label="Autre"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}
+        enabledYears={detailAffectationEnabledYears}
       />
       <BudgetTableCommentLine
         name="commentaire"
         label="Commentaire"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}
+        enabledYears={detailAffectationEnabledYears}
       />
     </Table>
   );
