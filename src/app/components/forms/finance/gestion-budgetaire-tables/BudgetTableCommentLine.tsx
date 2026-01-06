@@ -1,45 +1,141 @@
+import Button from "@codegouvfr/react-dsfr/Button";
+import Input from "@codegouvfr/react-dsfr/Input";
+import { createModal } from "@codegouvfr/react-dsfr/Modal";
+import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { getYearRange } from "@/app/utils/date.util";
 import { getBudgetIndexForAYear } from "@/app/utils/structure.util";
 import { BudgetApiType } from "@/schemas/api/budget.schema";
 
-import InputWithValidation from "../../InputWithValidation";
+const modal = createModal({
+  id: "commentaire-modal",
+  isOpenedByDefault: false,
+});
 
-export const BudgetTableCommentLine = ({ name, label, budgets }: Props) => {
+export const BudgetTableCommentLine = ({
+  label,
+  budgets,
+  disabledYearsStart,
+  enabledYears,
+}: Props) => {
   const parentFormContext = useFormContext();
 
-  const { control } = parentFormContext;
+  const { register, setValue } = parentFormContext;
 
   const { years } = getYearRange({ order: "desc" });
 
+  const inputModalRef = useRef<HTMLTextAreaElement>(null);
+
+  const [currentCommentIndex, setCurrentCommentIndex] = useState<
+    number | undefined
+  >(undefined);
+
+  const handleOpenModal = (year: number) => {
+    const newCommentIndex = getBudgetIndexForAYear(budgets, year);
+    setCurrentCommentIndex(newCommentIndex);
+    if (inputModalRef.current) {
+      inputModalRef.current.value = budgets[newCommentIndex]?.commentaire || "";
+    }
+    modal.open();
+  };
+
+  const handleCloseModal = () => {
+    setCurrentCommentIndex(undefined);
+    modal.close();
+  };
+
+  const handleSaveModal = () => {
+    setValue(
+      `budgets.${currentCommentIndex}.commentaire`,
+      inputModalRef.current?.value || ""
+    );
+    handleCloseModal();
+  };
+
   return (
-    <tr>
-      <td>{label}</td>
-      {years.map((year) => (
-        <td key={year}>
-          <div className="flex items-center gap-2">
-            <InputWithValidation
-              name={`${name}.${getBudgetIndexForAYear(budgets, year)}.${name}`}
-              id={`gestionBudgetaire.${getBudgetIndexForAYear(budgets, year)}.${name}`}
-              control={control}
-              type="number"
-              min={0}
-              label=""
-              className="mb-0 mx-auto items-center [&_p]:hidden [&_input]:w-full"
-              variant="simple"
+    <>
+      <tr>
+        <td>{label}</td>
+        {years.map((year) => (
+          <td key={year}>
+            <Button
+              type="button"
+              iconId="fr-icon-edit-box-line"
+              onClick={() => {
+                handleOpenModal(year);
+              }}
+              priority="tertiary no outline"
+              disabled={
+                enabledYears
+                  ? !enabledYears.includes(year)
+                  : disabledYearsStart
+                    ? year >= disabledYearsStart
+                    : false
+              }
+            >
+              {budgets[getBudgetIndexForAYear(budgets, year)]?.commentaire
+                ? "Modifier"
+                : "Ajouter"}
+            </Button>
+
+            <input
+              type="hidden"
+              id={`gestionBudgetaire.${getBudgetIndexForAYear(budgets, year)}.commentaire`}
+              {...register(
+                `budgets.${getBudgetIndexForAYear(budgets, year)}.commentaire`
+              )}
             />
-            &nbsp;€
-          </div>
-        </td>
-      ))}
-    </tr>
+          </td>
+        ))}
+      </tr>
+      <modal.Component
+        title={
+          currentCommentIndex && budgets?.[currentCommentIndex]?.commentaire
+            ? "Modifier un commentaire"
+            : "Ajouter un commentaire"
+        }
+        size="large"
+        buttons={[
+          {
+            doClosesModal: true,
+            children: "Annuler",
+            type: "button",
+          },
+          {
+            doClosesModal: true,
+            children:
+              currentCommentIndex && budgets?.[currentCommentIndex]?.commentaire
+                ? "Modifier"
+                : "Ajouter",
+            type: "button",
+            onClick: () => {
+              handleSaveModal();
+            },
+          },
+        ]}
+      >
+        <p className="font-bold text-xl">
+          Détail affectation réserves et provisions du CPOM — Année{" "}
+          {(currentCommentIndex && budgets?.[currentCommentIndex]?.year) || ""}
+        </p>
+
+        <Input
+          label=""
+          textArea
+          nativeTextAreaProps={{
+            ref: inputModalRef,
+          }}
+        />
+      </modal.Component>
+    </>
   );
 };
 
 interface Props {
-  name: string;
   label: string;
   subLabel?: string;
   budgets: BudgetApiType[];
+  disabledYearsStart?: number;
+  enabledYears?: number[];
 }

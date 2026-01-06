@@ -67,7 +67,6 @@ export const BudgetTables = () => {
                 ? "Veuillez renseigner l’historique des affectations en réserves, provisions et fonds dédiés du CPOM. Pour rendre une année éditable, il faut que le montant saisi dans la colonne “affectation réserves et fonds dédiés” du tableau précédent soit supérieur à 0 pour cette année-là."
                 : "Veuillez renseigner l’historique des affectations en réserves et provisions de la structure. Pour rendre une année éditable, il faut que le montant saisi dans la colonne “affectation réserves et provisions” du tableau précédent soit supérieur à 0 pour cette année-là."}
             </p>
-            <DetailAffectationTable sliceYears={3} />
           </fieldset>
         </>
       )}

@@ -31,7 +31,7 @@ export const BudgetTableLine = ({
       </td>
       {years.map((year) => (
         <td key={year}>
-          <div className="flex items-center gap-2">
+          <span className="flex items-center gap-2">
             <InputWithValidation
               name={`budgets.${getBudgetIndexForAYear(budgets, year)}.${name}`}
               id={`gestionBudgetaire.${getBudgetIndexForAYear(budgets, year)}.${name}`}
@@ -50,7 +50,7 @@ export const BudgetTableLine = ({
               }
             />
             &nbsp;€
-          </div>
+          </span>
         </td>
       ))}
     </tr>

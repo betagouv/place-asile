@@ -131,7 +131,8 @@ export const StructureAutorisee = () => {
       />
       <BudgetTableLine
         name="affectationReservesFondsDedies"
-        label="Affectation réserves & fonds dédiés"
+        label="Affectation"
+        subLabel="réserves & provision"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}
       />
