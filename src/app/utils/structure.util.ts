@@ -5,6 +5,7 @@ import {
   AdresseApiType,
   AdresseTypologieApiType,
 } from "@/schemas/api/adresse.schema";
+import { BudgetApiType } from "@/schemas/api/budget.schema";
 import { ControleApiType } from "@/schemas/api/controle.schema";
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
@@ -190,3 +191,8 @@ export const getStructureMillesimeIndexForAYear = (
   structureMillesimes?.findIndex(
     (structureMillesime) => structureMillesime.year === year
   ) ?? -1;
+
+export const getBudgetIndexForAYear = (
+  budgets: BudgetApiType[],
+  year: number = CURRENT_YEAR
+): number => budgets?.findIndex((budget) => budget.year === year) ?? -1;

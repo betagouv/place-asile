@@ -11,9 +11,7 @@ import { getFinanceFormTutorialLink } from "@/app/utils/tutorials.util";
 import { useStructureContext } from "../../../(authenticated)/structures/[id]/_context/StructureClientContext";
 import { DetailAffectationTable } from "./DetailAffectationTable";
 import { StructureAutorisee } from "./gestion-budgetaire-tables/StructureAutorisee";
-import { StructureAutoriseeSansCpom } from "./gestion-budgetaire-tables/StructureAutoriseeSansCpom";
 import { StructureSubventionnee } from "./gestion-budgetaire-tables/StructureSubventionnee";
-import { StructureSubventionneeSansCpom } from "./gestion-budgetaire-tables/StructureSubventionneeSansCpom";
 
 export const BudgetTables = () => {
   const { structure } = useStructureContext();
@@ -52,14 +50,8 @@ export const BudgetTables = () => {
         <p className="mb-0">
           Veuillez renseigner l’historique de ces données budgétaires.
         </p>
-        {isAutorisee &&
-          (isInCpom ? <StructureAutorisee /> : <StructureAutoriseeSansCpom />)}
-        {isSubventionnee &&
-          (isInCpom ? (
-            <StructureSubventionnee />
-          ) : (
-            <StructureSubventionneeSansCpom />
-          ))}
+        {isAutorisee && <StructureAutorisee />}
+        {isSubventionnee && <StructureSubventionnee />}
       </fieldset>
       {(isAutorisee || (isSubventionnee && isInCpom)) && (
         <>
