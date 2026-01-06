@@ -131,15 +131,7 @@ export const getOperateurLabel = (
   return filiale ? `${filiale} (${operateur})` : operateur;
 };
 
-export const isStructureInCpom = (structure: StructureApiType): boolean => {
-  return (
-    structure.structureMillesimes?.find(
-      (millesime) => millesime.year === CURRENT_YEAR
-    )?.cpom ?? false
-  );
-};
-
-export const isStructureInCpomForAYear = (
+export const isStructureInCpom = (
   structure: StructureApiType,
   year: number = CURRENT_YEAR
 ): boolean => {
