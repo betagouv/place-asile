@@ -192,7 +192,6 @@ export const StructureAutorisee = () => {
         enabledYears={detailAffectationEnabledYears}
       />
       <BudgetTableCommentLine
-        name="commentaire"
         label="Commentaire"
         budgets={structure.budgets}
         disabledYearsStart={OTHER_DISABLED_YEARS_START}

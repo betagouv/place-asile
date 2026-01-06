@@ -9,7 +9,6 @@ import {
 import { getFinanceFormTutorialLink } from "@/app/utils/tutorials.util";
 
 import { useStructureContext } from "../../../(authenticated)/structures/[id]/_context/StructureClientContext";
-import { DetailAffectationTable } from "./DetailAffectationTable";
 import { StructureAutorisee } from "./gestion-budgetaire-tables/StructureAutorisee";
 import { StructureSubventionnee } from "./gestion-budgetaire-tables/StructureSubventionnee";
 
