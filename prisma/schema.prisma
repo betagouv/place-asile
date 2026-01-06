@@ -657,5 +657,5 @@ view StructuresOrder {
   hasForms                 Boolean?
 
   @@map("structures_order")
-  @@schema("reporting")
+  @@schema("public")
 }
