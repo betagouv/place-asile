@@ -69,7 +69,6 @@ model Structure {
   operateurId                  Int?
   forms                        Form[]
   campaigns                    Campaign[]
-  referential                  Referential?                @relation("StructureToReferential")
   departement                  Departement?                @relation(fields: [departementAdministratif], references: [numero])
 
   createdAt DateTime @default(now())
@@ -396,14 +395,6 @@ model Campaign {
   structure Structure @relation(fields: [structureCodeDna], references: [dnaCode], onDelete: Cascade, onUpdate: Cascade)
 
   @@schema("public")
-}
-
-model Referential {
-  dnaCode   String     @id
-  name      String?
-  structure Structure? @relation("StructureToReferential", fields: [dnaCode], references: [dnaCode])
-
-  @@schema("reporting")
 }
 
 model Operateur {
