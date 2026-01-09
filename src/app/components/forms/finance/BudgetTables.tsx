@@ -9,11 +9,8 @@ import {
 import { getFinanceFormTutorialLink } from "@/app/utils/tutorials.util";
 
 import { useStructureContext } from "../../../(authenticated)/structures/[id]/_context/StructureClientContext";
-import { DetailAffectationTable } from "./DetailAffectationTable";
 import { StructureAutorisee } from "./gestion-budgetaire-tables/StructureAutorisee";
-import { StructureAutoriseeSansCpom } from "./gestion-budgetaire-tables/StructureAutoriseeSansCpom";
 import { StructureSubventionnee } from "./gestion-budgetaire-tables/StructureSubventionnee";
-import { StructureSubventionneeSansCpom } from "./gestion-budgetaire-tables/StructureSubventionneeSansCpom";
 
 export const BudgetTables = () => {
   const { structure } = useStructureContext();
@@ -52,14 +49,8 @@ export const BudgetTables = () => {
         <p className="mb-0">
           Veuillez renseigner l’historique de ces données budgétaires.
         </p>
-        {isAutorisee &&
-          (isInCpom ? <StructureAutorisee /> : <StructureAutoriseeSansCpom />)}
-        {isSubventionnee &&
-          (isInCpom ? (
-            <StructureSubventionnee />
-          ) : (
-            <StructureSubventionneeSansCpom />
-          ))}
+        {isAutorisee && <StructureAutorisee />}
+        {isSubventionnee && <StructureSubventionnee />}
       </fieldset>
       {(isAutorisee || (isSubventionnee && isInCpom)) && (
         <>
@@ -75,7 +66,6 @@ export const BudgetTables = () => {
                 ? "Veuillez renseigner l’historique des affectations en réserves, provisions et fonds dédiés du CPOM. Pour rendre une année éditable, il faut que le montant saisi dans la colonne “affectation réserves et fonds dédiés” du tableau précédent soit supérieur à 0 pour cette année-là."
                 : "Veuillez renseigner l’historique des affectations en réserves et provisions de la structure. Pour rendre une année éditable, il faut que le montant saisi dans la colonne “affectation réserves et provisions” du tableau précédent soit supérieur à 0 pour cette année-là."}
             </p>
-            <DetailAffectationTable sliceYears={3} />
           </fieldset>
         </>
       )}

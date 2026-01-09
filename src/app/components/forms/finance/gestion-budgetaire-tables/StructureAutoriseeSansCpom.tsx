@@ -1,12 +1,18 @@
 import Tooltip from "@codegouvfr/react-dsfr/Tooltip";
 import { useForm, useFormContext } from "react-hook-form";
 
+import { Badge } from "@/app/components/common/Badge";
 import { Table } from "@/app/components/common/Table";
 import InputWithValidation from "@/app/components/forms/InputWithValidation";
 import { getYearRange } from "@/app/utils/date.util";
+import { isStructureInCpom } from "@/app/utils/structure.util";
+
+import { useStructureContext } from "../../../../(authenticated)/structures/[id]/_context/StructureClientContext";
 
 export const StructureAutoriseeSansCpom = () => {
   const parentFormContext = useFormContext();
+
+  const { structure } = useStructureContext();
 
   const localForm = useForm();
   const { control, formState, register } = parentFormContext || localForm;
@@ -25,6 +31,27 @@ export const StructureAutoriseeSansCpom = () => {
         budgetItemErrors?.affectationReservesFondsDedies ||
         budgetItemErrors?.commentaire
     );
+
+  return (
+    <Table
+      ariaLabelledBy="gestionBudgetaire"
+      hasErrors={hasErrors}
+      headings={[
+        " ",
+        ...years.map((year) => (
+          <th scope="col" key={year}>
+            {year}{" "}
+            {isStructureInCpom(structure, year) ? (
+              <Badge type="info">CPOM</Badge>
+            ) : (
+              <Badge type="success">Hors CPOM</Badge>
+            )}
+          </th>
+        )),
+      ]}
+      enableBorders
+    />
+  );
 
   return (
     <Table

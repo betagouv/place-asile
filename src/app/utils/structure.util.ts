@@ -5,6 +5,7 @@ import {
   AdresseApiType,
   AdresseTypologieApiType,
 } from "@/schemas/api/adresse.schema";
+import { BudgetApiType } from "@/schemas/api/budget.schema";
 import { ControleApiType } from "@/schemas/api/controle.schema";
 import { EvaluationApiType } from "@/schemas/api/evaluation.schema";
 import {
@@ -131,11 +132,13 @@ export const getOperateurLabel = (
   return filiale ? `${filiale} (${operateur})` : operateur;
 };
 
-export const isStructureInCpom = (structure: StructureApiType): boolean => {
+export const isStructureInCpom = (
+  structure: StructureApiType,
+  year: number = CURRENT_YEAR
+): boolean => {
   return (
-    structure.structureMillesimes?.find(
-      (millesime) => millesime.year === CURRENT_YEAR
-    )?.cpom ?? false
+    structure.structureMillesimes?.find((millesime) => millesime.year === year)
+      ?.cpom ?? false
   );
 };
 
@@ -188,3 +191,8 @@ export const getStructureMillesimeIndexForAYear = (
   structureMillesimes?.findIndex(
     (structureMillesime) => structureMillesime.year === year
   ) ?? -1;
+
+export const getBudgetIndexForAYear = (
+  budgets: BudgetApiType[],
+  year: number = CURRENT_YEAR
+): number => budgets?.findIndex((budget) => budget.year === year) ?? -1;
