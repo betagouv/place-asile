@@ -5,12 +5,10 @@ import {
 } from "@/app/utils/date.util";
 import { sumValues } from "@/app/utils/math.util";
 import { getNow } from "@/app/utils/now.util";
-import {
-  EXCLUDED_STRUCTURE_TYPES,
-  PLACES_VERSIONED_FROM_YEAR,
-} from "@/constants";
+import { PLACES_VERSIONED_FROM_YEAR } from "@/constants";
 import { StructureType } from "@/generated/prisma/client";
 import type { StatistiquesFilters } from "@/schemas/api/statistique.schema";
+import { EXCLUDED_STRUCTURE_TYPES } from "@/types/structure.type";
 
 import { pickVersionBefore } from "../structure-versions/structure-version.util";
 import type {

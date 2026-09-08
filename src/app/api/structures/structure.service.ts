@@ -310,7 +310,7 @@ export const getFullStructure = async (
 
 export const getStructureForOperateur = async (
   id: number
-): Promise<StructureDbOperateur> => findOneOperateur(id);
+): Promise<StructureDbOperateur | null> => findOneOperateur(id);
 
 export const getStructureDepartement = async (id: number): Promise<string> => {
   const { departementAdministratif } = await findStructureDepartement(id);

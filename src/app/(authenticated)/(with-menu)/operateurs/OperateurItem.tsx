@@ -13,7 +13,6 @@ const getBadgeColor = (structureType: string): BadgeType => {
     CPH: "brown",
     CAES: "purple",
     HUDA: "purple",
-    PRAHDA: "info",
   };
   return types[structureType] || "";
 };

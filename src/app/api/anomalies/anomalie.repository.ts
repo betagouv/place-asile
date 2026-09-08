@@ -2,6 +2,7 @@ import {
   type StructureAnomalieDb,
   structureAnomalieInclude,
 } from "@/app/api/anomalies/anomalie.db.type";
+import { includedStructureWhere } from "@/app/api/structures/structure.db.type";
 import type { DetectedAnomalie } from "@/lib/anomalies/anomalie.rule";
 import prisma from "@/lib/prisma";
 import type { AnomalieCode } from "@/types/anomalie.type";
@@ -10,13 +11,14 @@ export const findStructureForAnomalies = (
   structureId: number,
   now: Date
 ): Promise<StructureAnomalieDb | null> =>
-  prisma.structure.findUnique({
-    where: { id: structureId },
+  prisma.structure.findFirst({
+    where: { id: structureId, ...includedStructureWhere },
     include: structureAnomalieInclude(now),
   });
 
 export const findAllStructureIds = async (): Promise<number[]> => {
   const structures = await prisma.structure.findMany({
+    where: includedStructureWhere,
     select: { id: true },
     orderBy: { id: "asc" },
   });

@@ -1,4 +1,5 @@
 import { Form, Prisma, StructureType } from "@/generated/prisma/client";
+import { EXCLUDED_STRUCTURE_TYPES } from "@/types/structure.type";
 
 import {
   resolvableVersionSelect,
@@ -7,6 +8,11 @@ import {
   transformationStatusSelect,
 } from "../structure-versions/structure-version.db.type";
 import { VERSIONED_FIELD_KEYS } from "./structure.constants";
+
+/** Les types exclus restent en base mais ne doivent jamais remonter dans l'application. */
+export const includedStructureWhere = {
+  OR: [{ type: null }, { type: { notIn: [...EXCLUDED_STRUCTURE_TYPES] } }],
+} satisfies Prisma.StructureWhereInput;
 
 export const structureListLightVersionSelect = {
   ...resolvableVersionSelect,

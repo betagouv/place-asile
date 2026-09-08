@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactElement } from "react";
 
 import { Section } from "@/app/components/common/Section";

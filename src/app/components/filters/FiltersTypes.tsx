@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { useFilterNavigation } from "@/app/hooks/useFilterNavigation";
-import { StructureType } from "@/types/structure.type";
+import { STRUCTURE_TYPES_DISPLAY_ORDER } from "@/types/structure.type";
 
 import { FiltersTypesCheckbox } from "./FiltersTypesCheckbox";
 
@@ -21,20 +21,17 @@ export const FiltersTypes = () => {
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (noFilterOnType) {
-      const allTypes: StructureType[] = [
-        StructureType.CADA,
-        StructureType.CPH,
-        StructureType.HUDA,
-        StructureType.CAES,
-        StructureType.PRAHDA,
-      ];
-      setTypes(allTypes.filter((structureType) => structureType !== value));
+      setTypes(
+        STRUCTURE_TYPES_DISPLAY_ORDER.filter(
+          (structureType) => structureType !== value
+        )
+      );
       return;
     }
     if (types.includes(value)) {
       setTypes(types.filter((structureType) => structureType !== value));
     } else {
-      if (types.length >= 4) {
+      if (types.length >= STRUCTURE_TYPES_DISPLAY_ORDER.length - 1) {
         setTypes([]);
       } else {
         setTypes([...types, value]);
@@ -57,17 +54,15 @@ export const FiltersTypes = () => {
           Type de structure
         </legend>
         <div className="grid grid-cols-3 gap-x-3 gap-y-2">
-          {(["CADA", "CAES", "CPH", "HUDA", "PRAHDA"] as StructureType[]).map(
-            (structureType) => (
-              <FiltersTypesCheckbox
-                key={structureType}
-                label={structureType}
-                value={structureType}
-                checked={types.includes(structureType) || noFilterOnType}
-                onChange={handleTypeChange}
-              />
-            )
-          )}
+          {STRUCTURE_TYPES_DISPLAY_ORDER.map((structureType) => (
+            <FiltersTypesCheckbox
+              key={structureType}
+              label={structureType}
+              value={structureType}
+              checked={types.includes(structureType) || noFilterOnType}
+              onChange={handleTypeChange}
+            />
+          ))}
         </div>
       </fieldset>
     </div>
