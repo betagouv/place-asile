@@ -6,7 +6,7 @@ import { OperateurAutocomplete } from "@/app/components/forms/autocomplete/Opera
 import { useStructuresSelection } from "@/app/hooks/useStructuresSelection";
 import { StructureMinimalApiType } from "@/schemas/api/structure.schema";
 import {
-  STRUCTURE_TYPES_DISPLAY_ORDER,
+  ACCEPTED_STRUCTURE_TYPES,
   StructureType,
 } from "@/types/structure.type";
 
@@ -87,7 +87,7 @@ export const StructureSearch = ({
             }}
           >
             <option value="">Sélectionnez un type</option>
-            {STRUCTURE_TYPES_DISPLAY_ORDER.map((structureTypeOption) => (
+            {ACCEPTED_STRUCTURE_TYPES.map((structureTypeOption) => (
               <option key={structureTypeOption} value={structureTypeOption}>
                 {structureTypeOption}
               </option>

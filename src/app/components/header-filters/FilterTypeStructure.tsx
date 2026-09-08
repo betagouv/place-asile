@@ -4,7 +4,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 import { FiltersTypesCheckbox } from "@/app/components/filters/FiltersTypesCheckbox";
 import { useFilterNavigation } from "@/app/hooks/useFilterNavigation";
-import { STRUCTURE_TYPES_DISPLAY_ORDER } from "@/types/structure.type";
+import { ACCEPTED_STRUCTURE_TYPES } from "@/types/structure.type";
 
 export const FilterTypeStructure = () => {
   const pathname = usePathname();
@@ -13,15 +13,14 @@ export const FilterTypeStructure = () => {
 
   const urlTypes = searchParams.get("types")?.split(",").filter(Boolean);
   const currentTypes =
-    urlTypes && urlTypes.length > 0 ? urlTypes : STRUCTURE_TYPES_DISPLAY_ORDER;
+    urlTypes && urlTypes.length > 0 ? urlTypes : ACCEPTED_STRUCTURE_TYPES;
 
-  const isAllChecked =
-    currentTypes.length === STRUCTURE_TYPES_DISPLAY_ORDER.length;
+  const isAllChecked = currentTypes.length === ACCEPTED_STRUCTURE_TYPES.length;
 
   const updateUrl = (newTypes: string[]) => {
     navigateWithFilter(
       "types",
-      newTypes.length < STRUCTURE_TYPES_DISPLAY_ORDER.length ? newTypes : [],
+      newTypes.length < ACCEPTED_STRUCTURE_TYPES.length ? newTypes : [],
       { pathname, scroll: false }
     );
   };
@@ -30,7 +29,7 @@ export const FilterTypeStructure = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target.checked) {
-      updateUrl(STRUCTURE_TYPES_DISPLAY_ORDER);
+      updateUrl(ACCEPTED_STRUCTURE_TYPES);
     } else {
       updateUrl([]);
     }
@@ -54,7 +53,7 @@ export const FilterTypeStructure = () => {
         checked={isAllChecked}
         onChange={handleSelectAllChange}
       />
-      {STRUCTURE_TYPES_DISPLAY_ORDER.map((structureType) => (
+      {ACCEPTED_STRUCTURE_TYPES.map((structureType) => (
         <FiltersTypesCheckbox
           key={structureType}
           label={structureType}

@@ -11,7 +11,7 @@ import {
 } from "@/schemas/api/statistique.schema";
 import { Repartition, REPARTITION_DISPLAY_ORDER } from "@/types/adresse.type";
 import {
-  STRUCTURE_TYPES_DISPLAY_ORDER,
+  ACCEPTED_STRUCTURE_TYPES,
   StructureType,
 } from "@/types/structure.type";
 
@@ -208,7 +208,7 @@ const fillStructureTypes = (
       )
       .map((stat) => [stat.type, stat])
   );
-  return STRUCTURE_TYPES_DISPLAY_ORDER.map((structureType) => ({
+  return ACCEPTED_STRUCTURE_TYPES.map((structureType) => ({
     type: structureType,
     structures: statsByType.get(structureType)?.structures ?? 0,
     places: statsByType.get(structureType)?.places ?? 0,

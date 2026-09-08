@@ -8,7 +8,7 @@ import { getNow } from "@/app/utils/now.util";
 import { PLACES_VERSIONED_FROM_YEAR } from "@/constants";
 import { StructureType } from "@/generated/prisma/client";
 import type { StatistiquesFilters } from "@/schemas/api/statistique.schema";
-import { EXCLUDED_STRUCTURE_TYPES } from "@/types/structure.type";
+import { ACCEPTED_STRUCTURE_TYPES } from "@/types/structure.type";
 
 import { pickVersionBefore } from "../structure-versions/structure-version.util";
 import type {
@@ -33,13 +33,6 @@ export const createEmptyActiveStructureIdsByPeriod =
     year: new Map(),
   });
 
-const excludedStructureTypes = new Set<string>(EXCLUDED_STRUCTURE_TYPES);
-
-/** Types de structures retenus par défaut dans les stats (tous sauf exclus). */
-const NON_EXCLUDED_STRUCTURE_TYPES: StructureType[] = Object.values(
-  StructureType
-).filter((type) => !excludedStructureTypes.has(type));
-
 export type StatistiquesResolvedPerimeterFilters = {
   departements: Set<string> | null;
   types: Set<StructureType>;
@@ -61,7 +54,7 @@ export const parseStatistiquesPerimeterFilters = (
     filters.types?.split(",").filter(Boolean) ?? []
   );
   const types = new Set(
-    NON_EXCLUDED_STRUCTURE_TYPES.filter(
+    ACCEPTED_STRUCTURE_TYPES.filter(
       (type) => requestedTypes.size === 0 || requestedTypes.has(type)
     )
   );

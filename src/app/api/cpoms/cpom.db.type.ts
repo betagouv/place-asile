@@ -1,9 +1,10 @@
 import { Prisma } from "@/generated/prisma/client";
 
 import { resolvableVersionSelect } from "../structure-versions/structure-version.db.type";
+import { includedStructureWhere } from "../structures/structure.db.type";
 
 export const cpomListInclude = {
-  structures: true,
+  structures: { where: { structure: includedStructureWhere } },
   budgets: true,
   operateur: true,
   region: true,
@@ -26,6 +27,7 @@ export const cpomListInclude = {
 
 export const cpomDetailsInclude = {
   structures: {
+    where: { structure: includedStructureWhere },
     include: {
       structure: {
         select: {

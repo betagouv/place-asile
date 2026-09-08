@@ -5,10 +5,7 @@ import { useFormContext } from "react-hook-form";
 
 import { isCreation as isCreationFormKind } from "@/app/utils/transformation.util";
 import { FormKind } from "@/types/global";
-import {
-  PublicType,
-  STRUCTURE_TYPES_DISPLAY_ORDER,
-} from "@/types/structure.type";
+import { ACCEPTED_STRUCTURE_TYPES,PublicType } from "@/types/structure.type";
 
 import { OperateurAutocompleteRhf } from "../autocomplete/OperateurAutocompleteRhf";
 import InputWithValidation from "../InputWithValidation";
@@ -72,7 +69,7 @@ export const FieldSetDescription = ({
                 id="type"
               >
                 <option value="">Sélectionnez un type</option>
-                {STRUCTURE_TYPES_DISPLAY_ORDER.map((type) => (
+                {ACCEPTED_STRUCTURE_TYPES.map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>

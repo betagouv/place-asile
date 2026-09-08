@@ -115,6 +115,7 @@ export const structureDetailsInclude = {
       cpom: {
         include: {
           structures: {
+            where: { structure: includedStructureWhere },
             include: {
               structure: {
                 select: {

@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { useFilterNavigation } from "@/app/hooks/useFilterNavigation";
-import { STRUCTURE_TYPES_DISPLAY_ORDER } from "@/types/structure.type";
+import { ACCEPTED_STRUCTURE_TYPES } from "@/types/structure.type";
 
 import { FiltersTypesCheckbox } from "./FiltersTypesCheckbox";
 
@@ -22,7 +22,7 @@ export const FiltersTypes = () => {
     const value = event.target.value;
     if (noFilterOnType) {
       setTypes(
-        STRUCTURE_TYPES_DISPLAY_ORDER.filter(
+        ACCEPTED_STRUCTURE_TYPES.filter(
           (structureType) => structureType !== value
         )
       );
@@ -31,7 +31,7 @@ export const FiltersTypes = () => {
     if (types.includes(value)) {
       setTypes(types.filter((structureType) => structureType !== value));
     } else {
-      if (types.length >= STRUCTURE_TYPES_DISPLAY_ORDER.length - 1) {
+      if (types.length >= ACCEPTED_STRUCTURE_TYPES.length - 1) {
         setTypes([]);
       } else {
         setTypes([...types, value]);
@@ -54,7 +54,7 @@ export const FiltersTypes = () => {
           Type de structure
         </legend>
         <div className="grid grid-cols-3 gap-x-3 gap-y-2">
-          {STRUCTURE_TYPES_DISPLAY_ORDER.map((structureType) => (
+          {ACCEPTED_STRUCTURE_TYPES.map((structureType) => (
             <FiltersTypesCheckbox
               key={structureType}
               label={structureType}

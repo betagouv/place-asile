@@ -11,10 +11,9 @@ export enum StructureType {
   CAES = "CAES",
 }
 
-/** Types conservés en base mais absents de l'application. */
 export const EXCLUDED_STRUCTURE_TYPES = ["PRAHDA", "NH"] as const;
 
-export const STRUCTURE_TYPES_DISPLAY_ORDER: StructureType[] = [
+export const ACCEPTED_STRUCTURE_TYPES: StructureType[] = [
   StructureType.CADA,
   StructureType.CAES,
   StructureType.CPH,
