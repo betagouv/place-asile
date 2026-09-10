@@ -7,6 +7,7 @@ import {
   STRUCTURE_VERSION_TRANSFORMATION_FORM_SLUGS,
   TRANSFORMATION_FORM_SLUG,
 } from "@/app/api/forms/form.constants";
+import { CURRENT_YEAR } from "@/constants";
 import {
   Form,
   FormDefinition,
@@ -15,6 +16,24 @@ import {
   StepStatus,
 } from "@/generated/prisma/client";
 import { StructureVersionTransformationType } from "@/generated/prisma/enums";
+
+/** Dernière année seedée : c'est elle qu'actualise la campagne ouverte. */
+export const ACTUALISATION_SEED_YEAR = CURRENT_YEAR;
+
+/** Une campagne couvre son année et la précédente ; en dessous la donnée est historique. */
+export const ACTUALISATION_COVERED_FIRST_YEAR = ACTUALISATION_SEED_YEAR - 1;
+
+/**
+ * Dernière année pour laquelle une structure a déclaré ses données. Sans
+ * actualisation validée, elle s'arrête avant les années sous responsabilité de
+ * la campagne : c'est ce qui fait décrocher les millésimes récents, comme en prod.
+ */
+export const getLastDeclaredYear = (
+  hasValidatedActualisation: boolean
+): number =>
+  hasValidatedActualisation
+    ? ACTUALISATION_SEED_YEAR
+    : ACTUALISATION_COVERED_FIRST_YEAR - 1;
 
 export const createFakeFormTransformation = (): Omit<FormDefinition, "id"> => {
   return {

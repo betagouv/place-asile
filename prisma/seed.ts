@@ -4,7 +4,6 @@ import { fakerFR as faker } from "@faker-js/faker";
 
 import { recomputeAllAnomalies } from "@/app/api/anomalies/anomalie.service";
 import { mirrorLegacyPlacesToBaseVersions } from "@/app/api/structure-versions/structure-version.repository";
-import { CURRENT_YEAR } from "@/constants";
 import { StructureType } from "@/types/structure.type";
 import { getRegionFromDepartement } from "@/utils/region.util";
 
@@ -17,6 +16,7 @@ import { createDnaList, createDnaStructures } from "./seeders/dna.seed";
 import { createEvenementsIndesirablesGraves } from "./seeders/evenement-indesirable-grave.seed";
 import { createFinessList } from "./seeders/finess.seed";
 import {
+  ACTUALISATION_SEED_YEAR,
   createFakeActualisationFormStepDefinition,
   createFakeFinalisationFormStepDefinition,
   createFakeFormActualisation,
@@ -65,9 +65,6 @@ const STRUCTURE_LOG_STEP = 200;
 
 const seedNumber = (number: number): number =>
   process.env.SMALL_SEED ? Math.floor(number / 10) : number;
-
-// Dernière année seedée (typologies et budgets vont jusque-là) : c'est elle qu'actualise la campagne ouverte.
-const ACTUALISATION_SEED_YEAR = CURRENT_YEAR;
 
 // Part des structures initialisées ayant validé leur actualisation, calé sur l'observé en prod.
 const ACTUALISATION_VALIDATED_RATIO = 0.2;
