@@ -1,9 +1,13 @@
 import Accordion from "@codegouvfr/react-dsfr/Accordion";
 import { ReactElement } from "react";
 
+import { useFaq } from "@/app/hooks/useFaq";
 import { FaqTab } from "@/types/ressources.type";
 
 export const FaqTabPanel = ({ tab }: Props): ReactElement => {
+  const { faqItems } = useFaq();
+  console.log(">>>>>>>>>>>", faqItems);
+
   return (
     <>
       {tab.questions.map((question) => (
