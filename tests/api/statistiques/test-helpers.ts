@@ -179,6 +179,9 @@ export const buildTestStatistiquesContext = (
         | "indicateurs"
         | "activites"
         | "rmus"
+        | "finalisedStructureIds"
+        | "actualisationFormDefinitions"
+        | "lastValidatedCampagneYearByStructureId"
       >
     >
 ): StatistiquesContext => {
@@ -229,5 +232,10 @@ export const buildTestStatistiquesContext = (
     indicateurs: partial.indicateurs ?? [],
     activites: partial.activites ?? [],
     rmus: partial.rmus !== undefined ? partial.rmus : [],
+    finalisedStructureIds:
+      partial.finalisedStructureIds ?? new Set(allStructureIds),
+    actualisationFormDefinitions: partial.actualisationFormDefinitions ?? [],
+    lastValidatedCampagneYearByStructureId:
+      partial.lastValidatedCampagneYearByStructureId ?? new Map(),
   };
 };
