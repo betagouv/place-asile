@@ -1,3 +1,5 @@
+"use client";
+
 import Tabs from "@codegouvfr/react-dsfr/Tabs";
 import { useRouter } from "next/navigation";
 import { ReactElement, useState } from "react";

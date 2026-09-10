@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactElement } from "react";
 
 import { ActesAdministratifsBlock } from "@/app/components/blocks/actesAdministratifs/ActesAdministratifsBlock";
