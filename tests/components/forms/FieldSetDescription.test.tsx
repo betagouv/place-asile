@@ -198,7 +198,7 @@ describe("FieldSetDescription", () => {
       expect(options).toContain(StructureType.HUDA);
       expect(options).toContain(StructureType.CPH);
       expect(options).toContain(StructureType.CAES);
-      expect(options).not.toContain(StructureType.PRAHDA);
+      expect(options).not.toContain("PRAHDA");
     });
 
     it("présélectionne le type de structure courant dans le sélecteur", () => {

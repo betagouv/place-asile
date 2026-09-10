@@ -381,13 +381,6 @@ describe("structure util", () => {
       // THEN
       expect(result).toBe(false);
     });
-    it("retourne false pour un PRAHDA", () => {
-      // WHEN
-      const result = isStructureAutorisee(StructureType.PRAHDA);
-
-      // THEN
-      expect(result).toBe(false);
-    });
   });
   describe("isStructureSubventionnee", () => {
     it("retourne false pour un CADA", () => {
@@ -417,13 +410,6 @@ describe("structure util", () => {
 
       // THEN
       expect(result).toBe(true);
-    });
-    it("retourne false pour un PRAHDA", () => {
-      // WHEN
-      const result = isStructureSubventionnee(StructureType.PRAHDA);
-
-      // THEN
-      expect(result).toBe(false);
     });
   });
   describe("isStructureInCpom", () => {

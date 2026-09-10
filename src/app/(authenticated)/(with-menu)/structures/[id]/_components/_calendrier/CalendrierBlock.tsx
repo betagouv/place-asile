@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactElement } from "react";
 
 import { Block } from "@/app/components/common/Block";

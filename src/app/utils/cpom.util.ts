@@ -8,7 +8,7 @@ import { CpomFormValues } from "@/schemas/forms/base/cpom.schema";
 import { ActeAdministratifCategory } from "@/types/acte-administratif.type";
 import { CpomGranularity } from "@/types/cpom.type";
 import {
-  STRUCTURE_TYPES_DISPLAY_ORDER,
+  ACCEPTED_STRUCTURE_TYPES,
   StructureType,
 } from "@/types/structure.type";
 
@@ -173,7 +173,7 @@ export const getCpomActesScopes = (cpom?: CpomApiRead): CpomActesScope[] => {
       scope: CPOM_ACTE_SCOPE,
       actesAdministratifs: actesByScope.get(CPOM_ACTE_SCOPE) ?? [],
     },
-    ...STRUCTURE_TYPES_DISPLAY_ORDER.filter((structureType) =>
+    ...ACCEPTED_STRUCTURE_TYPES.filter((structureType) =>
       displayedTypes.has(structureType)
     ).map((structureType) => ({
       scope: structureType,

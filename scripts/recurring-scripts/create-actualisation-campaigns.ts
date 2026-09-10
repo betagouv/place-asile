@@ -14,6 +14,7 @@ import {
   ACTUALISATION_FORM_STEP_SLUGS,
   getActualisationFormSlug,
 } from "@/app/api/forms/form.constants";
+import { includedStructureWhere } from "@/app/api/structures/structure.db.type";
 import { isStructureFinalisedAndOpen } from "@/app/api/structures/structure.util";
 import { createPrismaClient } from "@/prisma-client";
 import { StepStatus } from "@/types/form.type";
@@ -84,6 +85,7 @@ const run = async () => {
     const now = new Date();
 
     const structures = await prisma.structure.findMany({
+      where: includedStructureWhere,
       include: {
         forms: { include: { formDefinition: { select: { slug: true } } } },
         structureVersions: {

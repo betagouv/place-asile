@@ -71,4 +71,7 @@ FROM
   LEFT JOIN public."Operateur" o ON o."id" = s."operateurId"
   LEFT JOIN public."Departement" dep ON dep."numero" = s."departementAdministratif"
   LEFT JOIN public."Region" r ON r."id" = dep."regionId"
-  LEFT JOIN dna_codes_by_version dna ON dna."structureVersionId" = svc."structure_version_id";
+  LEFT JOIN dna_codes_by_version dna ON dna."structureVersionId" = svc."structure_version_id"
+WHERE
+  s."type" IS NULL
+  OR s."type" NOT IN ('PRAHDA', 'NH');

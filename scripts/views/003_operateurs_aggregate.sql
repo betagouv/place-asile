@@ -13,6 +13,10 @@ SELECT
 FROM
   public."Operateur" o
   LEFT JOIN public."Structure" s ON s."operateurId" = o."id"
+  AND (
+    s."type" IS NULL
+    OR s."type" NOT IN ('PRAHDA', 'NH')
+  )
   LEFT JOIN:"SCHEMA"."structures_aggregates" sa ON sa."id" = s."id"
 GROUP BY
   o."id",

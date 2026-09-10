@@ -45,7 +45,6 @@ const STRUCTURE_TYPES: StructureType[] = [
   StructureType.HUDA,
   StructureType.CPH,
   StructureType.CAES,
-  StructureType.PRAHDA,
 ];
 
 const FINANCES_TYPE_SWITCH_NAME = "cpomFinancesType";

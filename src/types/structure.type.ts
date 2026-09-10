@@ -9,13 +9,13 @@ export enum StructureType {
   HUDA = "HUDA",
   CPH = "CPH",
   CAES = "CAES",
-  PRAHDA = "PRAHDA",
 }
 
-export const STRUCTURE_TYPES_DISPLAY_ORDER: StructureType[] = [
+export const EXCLUDED_STRUCTURE_TYPES = ["PRAHDA", "NH"] as const;
+
+export const ACCEPTED_STRUCTURE_TYPES: StructureType[] = [
   StructureType.CADA,
   StructureType.CAES,
   StructureType.CPH,
   StructureType.HUDA,
-  StructureType.PRAHDA,
 ];

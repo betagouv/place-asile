@@ -1694,9 +1694,9 @@ describe("structure.repository db integration", () => {
       const result = await getStructureForOperateur(structure.id);
 
       // THEN: type comes from the Structure scalar, identity fields stay intact
-      expect(result.type).toBe(StructureType.CADA);
-      expect(result.id).toBe(structure.id);
-      expect(result.codeBhasile).toBe(structure.codeBhasile);
+      expect(result?.type).toBe(StructureType.CADA);
+      expect(result?.id).toBe(structure.id);
+      expect(result?.codeBhasile).toBe(structure.codeBhasile);
     });
 
     it("getFullStructure résout type/commune des structures liées d'un CPOM via leur version courante", async () => {

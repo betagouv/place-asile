@@ -5,7 +5,10 @@ import { DepartementAutocomplete } from "@/app/components/forms/autocomplete/Dep
 import { OperateurAutocomplete } from "@/app/components/forms/autocomplete/OperateurAutocomplete";
 import { useStructuresSelection } from "@/app/hooks/useStructuresSelection";
 import { StructureMinimalApiType } from "@/schemas/api/structure.schema";
-import { StructureType } from "@/types/structure.type";
+import {
+  ACCEPTED_STRUCTURE_TYPES,
+  StructureType,
+} from "@/types/structure.type";
 
 import { StructuresList } from "./StructuresList";
 
@@ -84,13 +87,11 @@ export const StructureSearch = ({
             }}
           >
             <option value="">Sélectionnez un type</option>
-            {Object.values(StructureType)
-              .filter((structureType) => structureType !== StructureType.PRAHDA)
-              .map((structureTypeOption) => (
-                <option key={structureTypeOption} value={structureTypeOption}>
-                  {structureTypeOption}
-                </option>
-              ))}
+            {ACCEPTED_STRUCTURE_TYPES.map((structureTypeOption) => (
+              <option key={structureTypeOption} value={structureTypeOption}>
+                {structureTypeOption}
+              </option>
+            ))}
           </Select>
         )}
         {!fixedOperateurName && (

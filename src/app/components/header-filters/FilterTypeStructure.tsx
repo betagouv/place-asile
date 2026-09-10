@@ -4,14 +4,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 import { FiltersTypesCheckbox } from "@/app/components/filters/FiltersTypesCheckbox";
 import { useFilterNavigation } from "@/app/hooks/useFilterNavigation";
-import { StructureType } from "@/types/structure.type";
-
-const ALL_STRUCTURE_TYPES: StructureType[] = [
-  StructureType.CADA,
-  StructureType.CAES,
-  StructureType.CPH,
-  StructureType.HUDA,
-];
+import { ACCEPTED_STRUCTURE_TYPES } from "@/types/structure.type";
 
 export const FilterTypeStructure = () => {
   const pathname = usePathname();
@@ -20,14 +13,14 @@ export const FilterTypeStructure = () => {
 
   const urlTypes = searchParams.get("types")?.split(",").filter(Boolean);
   const currentTypes =
-    urlTypes && urlTypes.length > 0 ? urlTypes : ALL_STRUCTURE_TYPES;
+    urlTypes && urlTypes.length > 0 ? urlTypes : ACCEPTED_STRUCTURE_TYPES;
 
-  const isAllChecked = currentTypes.length === ALL_STRUCTURE_TYPES.length;
+  const isAllChecked = currentTypes.length === ACCEPTED_STRUCTURE_TYPES.length;
 
   const updateUrl = (newTypes: string[]) => {
     navigateWithFilter(
       "types",
-      newTypes.length < ALL_STRUCTURE_TYPES.length ? newTypes : [],
+      newTypes.length < ACCEPTED_STRUCTURE_TYPES.length ? newTypes : [],
       { pathname, scroll: false }
     );
   };
@@ -36,7 +29,7 @@ export const FilterTypeStructure = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target.checked) {
-      updateUrl(ALL_STRUCTURE_TYPES);
+      updateUrl(ACCEPTED_STRUCTURE_TYPES);
     } else {
       updateUrl([]);
     }
@@ -60,7 +53,7 @@ export const FilterTypeStructure = () => {
         checked={isAllChecked}
         onChange={handleSelectAllChange}
       />
-      {ALL_STRUCTURE_TYPES.map((structureType) => (
+      {ACCEPTED_STRUCTURE_TYPES.map((structureType) => (
         <FiltersTypesCheckbox
           key={structureType}
           label={structureType}

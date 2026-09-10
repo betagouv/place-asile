@@ -18,7 +18,7 @@ import {
   AjoutIdentificationFormValues,
   ajoutIdentificationSchema,
 } from "@/schemas/forms/ajout/ajoutIdentification.schema";
-import { PublicType, StructureType } from "@/types/structure.type";
+import { ACCEPTED_STRUCTURE_TYPES,PublicType } from "@/types/structure.type";
 
 export default function FormIdentification() {
   const params = useParams();
@@ -127,15 +127,11 @@ export default function FormIdentification() {
                   id="type"
                 >
                   <option value="">Sélectionnez un type</option>
-                  {Object.values(StructureType)
-                    .filter(
-                      (structureType) => structureType !== StructureType.PRAHDA
-                    )
-                    .map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
+                  {ACCEPTED_STRUCTURE_TYPES.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
                 </SelectWithValidation>
 
                 <OperateurAutocompleteRhf />

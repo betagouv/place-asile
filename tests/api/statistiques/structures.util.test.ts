@@ -194,7 +194,7 @@ describe("structures - répartition par type et bâti", () => {
     expect(result.totalPlaces).toBe(100);
     expect(result.totalPlacesAdresse).toBe(150);
     expect(result.structureTypes).not.toContainEqual(
-      expect.objectContaining({ type: StructureType.PRAHDA })
+      expect.objectContaining({ type: "PRAHDA" })
     );
   });
 

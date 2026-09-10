@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import { useStructuresSelection } from "@/app/hooks/useStructuresSelection";
 import { CpomDepartementApiType } from "@/schemas/api/cpom.schema";
 import { FormKind } from "@/types/global";
-import { StructureType } from "@/types/structure.type";
+import { ACCEPTED_STRUCTURE_TYPES } from "@/types/structure.type";
 
 import { StructuresList } from "./StructuresList";
 
@@ -22,13 +22,7 @@ export const FieldSetStructures = ({ formKind }: Props) => {
     departements: departements
       .map((departement) => departement.departement?.numero)
       .join(","),
-    types: [
-      StructureType.HUDA,
-      StructureType.CADA,
-      StructureType.CPH,
-      StructureType.CAES,
-      StructureType.PRAHDA,
-    ].join(","),
+    types: ACCEPTED_STRUCTURE_TYPES.join(","),
   });
 
   if (!structures) {

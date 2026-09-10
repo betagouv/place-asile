@@ -6,6 +6,7 @@ import "dotenv/config";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
 
+import { includedStructureWhere } from "@/app/api/structures/structure.db.type";
 import type { Prisma } from "@/generated/prisma/client";
 import { createPrismaClient } from "@/prisma-client";
 
@@ -166,7 +167,7 @@ async function main() {
     });
 
     const structuresUpdatedCount = await prisma.structure.count({
-      where: { updatedAt: { gte: start, lt: end } },
+      where: { updatedAt: { gte: start, lt: end }, ...includedStructureWhere },
     });
 
     await prisma.monthlyReportingMetric.upsert({

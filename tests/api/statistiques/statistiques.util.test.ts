@@ -363,7 +363,7 @@ describe("parseStatistiquesPerimeterFilters - résolution des filtres scalaires"
     const { types } = parseStatistiquesPerimeterFilters(filters());
     expect(types.has(StructureType.CADA)).toBe(true);
     expect(types.has(StructureType.HUDA)).toBe(true);
-    expect(types.has(StructureType.PRAHDA)).toBe(false);
+    expect(types.has("PRAHDA")).toBe(false);
   });
 
   it("restreint aux types demandés, exclus retirés", () => {

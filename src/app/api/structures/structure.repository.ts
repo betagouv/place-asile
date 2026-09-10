@@ -24,6 +24,7 @@ import {
 } from "../structure-versions/structure-version.repository";
 import { VERSIONED_FIELD_KEYS } from "./structure.constants";
 import {
+  includedStructureWhere,
   StructureDbList,
   StructureDbOperateur,
   structureDetailsInclude,
@@ -35,7 +36,10 @@ import {
 } from "./structure.db.type";
 
 export const findAllStructures = (): Promise<StructureListLight[]> =>
-  prisma.structure.findMany({ select: structureListLightSelect });
+  prisma.structure.findMany({
+    where: includedStructureWhere,
+    select: structureListLightSelect,
+  });
 
 export const findStructureCommunesByIds = (
   versionIds: number[]
@@ -65,9 +69,9 @@ export const findStructuresByIds = (
 
 export const findOneOperateur = async (
   id: number
-): Promise<StructureDbOperateur> => {
-  const structure = await prisma.structure.findUniqueOrThrow({
-    where: { id },
+): Promise<StructureDbOperateur | null> => {
+  const structure = await prisma.structure.findFirst({
+    where: { id, ...includedStructureWhere },
     select: {
       id: true,
       codeBhasile: true,
@@ -75,6 +79,9 @@ export const findOneOperateur = async (
       type: true,
     },
   });
+  if (!structure) {
+    return null;
+  }
   return {
     id: structure.id,
     codeBhasile: structure.codeBhasile,
@@ -101,10 +108,8 @@ export const findValidatedActualisationForm = (
   });
 
 export const findOne = async (id: number) => {
-  const structure = await prisma.structure.findFirstOrThrow({
-    where: {
-      id,
-    },
+  const structure = await prisma.structure.findFirst({
+    where: { id, ...includedStructureWhere },
     include: structureDetailsInclude,
   });
   return structure;

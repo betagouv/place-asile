@@ -3,7 +3,6 @@ import type { StructureDbList } from "@/app/api/structures/structure.db.type";
 import { isStructureInCpom } from "@/app/api/structures/structure.util";
 import { startOfUtcDay } from "@/app/utils/date.util";
 import { getNow } from "@/app/utils/now.util";
-import { EXCLUDED_STRUCTURE_TYPES } from "@/constants";
 import {
   BatiStat,
   StatistiqueApiRead,
@@ -12,7 +11,7 @@ import {
 } from "@/schemas/api/statistique.schema";
 import { Repartition, REPARTITION_DISPLAY_ORDER } from "@/types/adresse.type";
 import {
-  STRUCTURE_TYPES_DISPLAY_ORDER,
+  ACCEPTED_STRUCTURE_TYPES,
   StructureType,
 } from "@/types/structure.type";
 
@@ -209,12 +208,7 @@ const fillStructureTypes = (
       )
       .map((stat) => [stat.type, stat])
   );
-  return STRUCTURE_TYPES_DISPLAY_ORDER.filter(
-    (structureType) =>
-      !EXCLUDED_STRUCTURE_TYPES.includes(
-        structureType as (typeof EXCLUDED_STRUCTURE_TYPES)[number]
-      )
-  ).map((structureType) => ({
+  return ACCEPTED_STRUCTURE_TYPES.map((structureType) => ({
     type: structureType,
     structures: statsByType.get(structureType)?.structures ?? 0,
     places: statsByType.get(structureType)?.places ?? 0,
