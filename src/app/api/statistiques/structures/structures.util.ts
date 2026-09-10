@@ -16,6 +16,10 @@ import {
   StructureType,
 } from "@/types/structure.type";
 
+import {
+  computeYearCompletude,
+  resolveExpectedStructureIds,
+} from "../completude.util";
 import type {
   StatistiqueDbAdresse,
   StatistiqueDbCpomStructure,
@@ -23,6 +27,7 @@ import type {
   StatistiqueDbTypologieValues,
   StatistiquesContext,
   StatistiquesCpomYearContext,
+  StatistiquesStructuresYearContext,
 } from "../statistiques.db.type";
 import {
   computeTotalPlaces,
@@ -294,7 +299,7 @@ const countStructuresByBati = (
   structures.filter((structure) => batiMap.get(structure.id) === bati).length;
 
 const computeByYearStats = (
-  context: StatistiquesCpomYearContext,
+  context: StatistiquesStructuresYearContext,
   batiMap: Map<number, Repartition>
 ): StructuresByYearStat[] =>
   mapTypologieYears<StructuresByYearStat>(
@@ -315,6 +320,11 @@ const computeByYearStats = (
       );
 
       return {
+        completude: computeYearCompletude(
+          context,
+          year,
+          resolveExpectedStructureIds(context, structuresForYear)
+        ),
         totalStructures: structuresWithTypologie.length,
         totalCpoms: countActiveCpoms(
           context.cpomLinks,

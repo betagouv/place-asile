@@ -70,6 +70,33 @@ Les deux sont construits **une seule fois** dans `buildStatistiquesContext` via 
 
 **Avec typologie** (≥1 `StructureTypologie`) : requis pour agrégats places, répartitions type/bâti, contrôle qualité. `structures.totalStructures` = structures actives (avec ou sans typologie).
 
+## Complétude des millésimes
+
+Chaque entrée `byYear` des blocs `structures`, `places` et `finance` porte un objet `completude` :
+
+| Champ           | Contenu                                                                       |
+| --------------- | ----------------------------------------------------------------------------- |
+| `isComplete`    | Toutes les structures attendues ont validé une campagne couvrant l'année      |
+| `reason`        | `SAISIE_EN_COURS`, `SAISIE_INCOMPLETE`, ou `null` si complet                  |
+| `nbAttendues`   | Structures actives sur l'année **et** initialisées (`finalisation-v1` validé) |
+| `nbRenseignees` | Parmi elles, celles à jour sur l'année                                        |
+
+**Driver unique : le formulaire d'actualisation.** Une structure est à jour sur l'année N dès
+qu'elle a validé une campagne `actualisation-M` avec `M >= N` : le tableau par année du
+formulaire couvre l'année de campagne et les années précédentes, donc valider M renseigne
+aussi N. Voir `completude.util.ts`.
+
+**Années historiques.** En dessous de la première année sous responsabilité d'une campagne
+(la plus ancienne campagne déclarée, moins un an), la complétude vaut `true` avec des
+compteurs à zéro : la donnée est antérieure à l'outil, il n'y a rien à réclamer.
+
+**Raison.** `SAISIE_EN_COURS` tant qu'une campagne postérieure ou égale à l'année est ouverte
+(`FormDefinition.deadline`), `SAISIE_INCOMPLETE` ensuite — dans le second cas la donnée ne
+sera plus complétée.
+
+> Pas de complétude sur `activite`, `rmu` et `controleQualite` : ces données arrivent par
+> import de bloc ou par API (DNA, EIG), pas par une saisie attendue structure par structure.
+
 ## `aggregation`
 
 | Valeur    | Effet                |

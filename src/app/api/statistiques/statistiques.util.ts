@@ -819,6 +819,10 @@ export const sliceStatistiquesContext = (
     context.activeStructureIdsNow,
     structureIdsInZone
   ),
+  finalisedStructureIds: intersectStructureIds(
+    context.finalisedStructureIds,
+    structureIdsInZone
+  ),
   activeStructureIdsByPeriod: sliceActiveStructureIdsByPeriod(
     context.activeStructureIdsByPeriod,
     structureIdsInZone
